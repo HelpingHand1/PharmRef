@@ -4,5 +4,7 @@ import { HAP_VAP } from "./hap-vap";
 import { SSTI } from "./ssti";
 import { IAI } from "./iai";
 import { AMR_GN } from "./amr-gram-negative";
+import { BACTEREMIA_ENDOCARDITIS } from "./bacteremia-endocarditis";
+import { CDI } from "./c-difficile";
 
-export const DISEASE_STATES = [UTI, CAP, HAP_VAP, SSTI, IAI, AMR_GN];
+export const DISEASE_STATES = [UTI, CAP, HAP_VAP, SSTI, IAI, AMR_GN, BACTEREMIA_ENDOCARDITIS, CDI];
