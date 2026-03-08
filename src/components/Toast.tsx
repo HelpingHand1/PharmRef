@@ -1,4 +1,3 @@
-import React from "react";
 import { ToastProps } from "../types";
 
 export default function Toast({ toast, S }: ToastProps) {

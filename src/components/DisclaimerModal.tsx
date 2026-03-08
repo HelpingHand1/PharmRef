@@ -1,4 +1,3 @@
-import React from "react";
 import { DisclaimerModalProps } from "../types";
 import { usePersistedState } from "../utils/persistence";
 

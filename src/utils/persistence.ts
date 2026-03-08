@@ -1,27 +1,23 @@
 // ============================================================
 // PERSISTENT STORAGE UTILITY
 // ============================================================
-// Syncs React state to localStorage so favorites, recents,
-// allergies, theme, and renal filter survive page refresh.
-//
-// Usage in App.jsx:
-//   const [favorites, setFavorites] = usePersistedState("pr-favorites", []);
-//   const [theme, setTheme] = usePersistedState("pr-theme", "dark");
-import { useState, useEffect, useCallback } from "react";
+// Sync React state to localStorage so user preferences survive refreshes.
+import type { Dispatch, SetStateAction } from "react";
+import { useEffect, useState } from "react";
 
 const PREFIX = "pharmref_";
 
-function safeGet(key, fallback) {
+function safeGet<T>(key: string, fallback: T): T {
   try {
     const raw = localStorage.getItem(PREFIX + key);
     if (raw === null) return fallback;
-    return JSON.parse(raw);
+    return JSON.parse(raw) as T;
   } catch {
     return fallback;
   }
 }
 
-function safeSet(key, value) {
+function safeSet<T>(key: string, value: T): void {
   try {
     localStorage.setItem(PREFIX + key, JSON.stringify(value));
   } catch {
@@ -29,20 +25,15 @@ function safeSet(key, value) {
   }
 }
 
-/**
- * Drop-in replacement for useState that persists to localStorage.
- * Same API: const [val, setVal] = usePersistedState(key, default)
- */
-export function usePersistedState(key, defaultValue) {
-  const [state, setState] = useState(() => safeGet(key, defaultValue));
+export function usePersistedState<T>(key: string, defaultValue: T) {
+  const [state, setState] = useState<T>(() => safeGet(key, defaultValue));
 
   useEffect(() => {
     safeSet(key, state);
   }, [key, state]);
 
-  // Listen for changes in other tabs
   useEffect(() => {
-    const handler = (e) => {
+    const handler = (e: StorageEvent) => {
       if (e.key === PREFIX + key) {
         setState(safeGet(key, defaultValue));
       }
@@ -51,14 +42,5 @@ export function usePersistedState(key, defaultValue) {
     return () => window.removeEventListener("storage", handler);
   }, [key, defaultValue]);
 
-  return [state, setState];
-}
-
-/**
- * Clear all PharmRef persisted data (for a "reset" button).
- */
-export function clearAllPersistedData() {
-  Object.keys(localStorage)
-    .filter(k => k.startsWith(PREFIX))
-    .forEach(k => localStorage.removeItem(k));
+  return [state, setState] as [T, Dispatch<SetStateAction<T>>];
 }

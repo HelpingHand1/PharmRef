@@ -1,14 +1,10 @@
-import React from "react";
 import { CompareViewProps } from "../types";
-import { aeCard, aeLabel } from "../styles/constants";
 
 export default function CompareView({
   drugs,
   compareItems,
   setCompareItems,
   allMonographs,
-  navigateTo,
-  NAV_STATES,
   ExpandCollapseBar,
   S,
 }: CompareViewProps) {
@@ -47,13 +43,12 @@ export default function CompareView({
           })}
         </div>
         {compareItems.length === 2 && (
-          <div style={{ textAlign: "center", marginTop: "16px" }}>
-            <button
-              onClick={() => {/* parent re-renders with 2 drugs */}}
-              style={{ padding: "10px 24px", background: "#0ea5e9", color: "#fff", border: "none", borderRadius: "8px", fontWeight: 600, cursor: "pointer", fontSize: "14px" }}
+          <div style={{ textAlign: "center", marginTop: "16px", animation: "toast-in 0.3s ease forwards" }}>
+            <div
+              style={{ display: "inline-block", padding: "10px 24px", background: "#0ea5e920", color: "#38bdf8", border: "1px solid #0ea5e9", borderRadius: "8px", fontWeight: 600, fontSize: "14px" }}
             >
-              Compare Selected →
-            </button>
+              Generating Comparison...
+            </div>
           </div>
         )}
       </>
@@ -120,13 +115,13 @@ export default function CompareView({
 
       {/* Attribute rows */}
       {rows.map((r, i) => (
-        <React.Fragment key={i}>
+        <div key={i}>
           <div style={S.compareLabelRow}>{r.label}</div>
           <div className="compare-grid" style={{ ...S.compareGrid, gap: "1px", marginBottom: "2px" }}>
             <div style={S.compareCell}>{r.v1 || "—"}</div>
             <div style={S.compareCell}>{r.v2 || "—"}</div>
           </div>
-        </React.Fragment>
+        </div>
       ))}
 
       {/* Pharmacist Pearls */}

@@ -1,4 +1,3 @@
-import React from "react";
 import { CopyBtnProps } from "../types";
 
 export default function CopyBtn({ text, id, copiedId, onCopy, S }: CopyBtnProps) {

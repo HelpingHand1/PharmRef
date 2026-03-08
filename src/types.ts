@@ -1,5 +1,4 @@
-// src/types.ts
-import React from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 
 export interface DiseaseState {
   id: string;
@@ -51,13 +50,15 @@ export interface DrugMonograph {
   drugClass: string;
   mechanismOfAction: string;
   spectrum: string;
-  dosing?: Record<string, string>;
+  dosing?: Record<string, string | undefined>;
   renalAdjustment: string;
   hepaticAdjustment: string;
   adverseEffects?: {
     common: string;
     serious: string;
     rare?: string;
+    fdaBoxedWarnings?: string;
+    contraindications?: string;
   };
   drugInteractions?: string[];
   monitoring: string;
@@ -65,9 +66,25 @@ export interface DrugMonograph {
   pharmacistPearls?: string[];
 }
 
-export type NavStateKey = "HOME" | "DISEASE_OVERVIEW" | "SUBCATEGORY" | "MONOGRAPH" | "COMPARE";
+export interface AllergyRecord {
+  name: string;
+  severity: string;
+}
 
-export type Styles = Record<string, React.CSSProperties>;
+export interface MonographLookupResult {
+  monograph: DrugMonograph;
+  disease: DiseaseState;
+}
+
+export type NavStateKey =
+  | "home"
+  | "disease_overview"
+  | "subcategory"
+  | "monograph"
+  | "compare"
+  | "audit";
+
+export type Styles = Record<string, any>;
 
 // ==================== COMPONENT PROPS ====================
 
@@ -76,7 +93,7 @@ export interface SectionProps {
   title: string;
   icon?: string;
   accentColor?: string;
-  children: React.ReactNode;
+  children: ReactNode;
   defaultOpen?: boolean;
   expandedSections: Record<string, boolean>;
   toggleSection: (id: string) => void;
@@ -101,7 +118,7 @@ export interface AllergyModalProps {
   show: boolean;
   onClose: () => void;
   theme: "dark" | "light";
-  allergies: Array<{ name: string; severity: string }>;
+  allergies: AllergyRecord[];
   allergyInput: string;
   setAllergyInput: (value: string) => void;
   allergySeverity: string;
@@ -112,24 +129,22 @@ export interface AllergyModalProps {
 
 export interface AllergyWarningProps {
   drugId: string;
-  allergies: Array<{ name: string; severity: string }>;
+  allergies: AllergyRecord[];
   S: Styles;
 }
 
 export interface AuditViewProps {
   diseaseStates: DiseaseState[];
-  findMonograph: (drugId: string) => { monograph: DrugMonograph; disease: DiseaseState } | null;
+  findMonograph: (drugId: string) => MonographLookupResult | null;
   S: Styles;
 }
 
 export interface CompareViewProps {
-  drugs: any[]; // will be refined later if you add CompareItem type
+  drugs: MonographLookupResult[];
   compareItems: string[];
-  setCompareItems: React.Dispatch<React.SetStateAction<string[]>>;
+  setCompareItems: Dispatch<SetStateAction<string[]>>;
   allMonographs: DrugMonograph[];
-  navigateTo: (state: NavStateKey, data?: any) => void;
-  NAV_STATES: any;
-  ExpandCollapseBar: React.FC;
+  ExpandCollapseBar: () => ReactNode;
   S: Styles;
 }
 
@@ -137,8 +152,7 @@ export interface CrossRefBadgesProps {
   drugId: string;
   currentDiseaseId?: string;
   monographXref: Record<string, DiseaseState[]>;
-  navigateTo: (state: NavStateKey, data?: any) => void;
-  NAV_STATES: any;
+  navigateTo: (state: NavStateKey, data?: Partial<MonographLookupResult> & { subcategory?: Subcategory }) => void;
   showToast: (message: string, icon?: string) => void;
   currentDrugName: string;
   S: Styles;
@@ -147,12 +161,11 @@ export interface CrossRefBadgesProps {
 export interface EmpiricTierViewProps {
   tier: EmpiricTier;
   S: Styles;
-  navigateTo: (state: NavStateKey, data?: any) => void;
-  NAV_STATES: any;
-  findMonograph: (drugId: string) => { monograph: DrugMonograph; disease: DiseaseState } | null;
+  navigateTo: (state: NavStateKey, data?: Partial<MonographLookupResult> & { subcategory?: Subcategory }) => void;
+  findMonograph: (drugId: string) => MonographLookupResult | null;
   copiedId: string | null;
   onCopy: (text: string, id: string) => void;
-  allergies: Array<{ name: string; severity: string }>;
+  allergies: AllergyRecord[];
 }
 
 export interface DisclaimerModalProps {

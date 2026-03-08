@@ -1,4 +1,3 @@
-import React from "react";
 import { SectionProps } from "../types";
 
 export default function Section({
@@ -21,7 +20,7 @@ export default function Section({
         style={{
           ...S.sectionHeader,
           ...(isOpen ? { borderBottom: "none", borderRadius: "8px 8px 0 0" } : {}),
-          borderLeftColor: accentColor || S.sectionHeader.border,
+          borderLeftColor: accentColor || S.sectionHeader.borderLeftColor || S.sectionHeader.borderColor,
           borderLeftWidth: accentColor ? "3px" : "1px",
         }}
         onClick={() => toggleSection(id)}

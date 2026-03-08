@@ -1,4 +1,3 @@
-import React from "react";
 import { AllergyWarningProps } from "../types";
 
 // ============================================================
@@ -22,18 +21,26 @@ const ALLERGY_DRUG_MAP: Record<string, string[]> = {
 export function checkAllergyMatch(drugId: string, allergies: Array<{ name: string; severity: string }>) {
   if (!allergies || allergies.length === 0) return null;
   const id = drugId.toLowerCase();
+  
   for (const allergy of allergies) {
-    const key = allergy.name.toLowerCase();
-    if (id.includes(key) || key.includes(id)) return { allergy: allergy.name, type: allergy.severity };
+    const key = allergy.name.toLowerCase().trim(); // Trim whitespace
+    
+    // Safety check: Prevent 1 or 2 letter allergies from flagging everything
+    if (key.length > 2 && (id.includes(key) || key.includes(id))) {
+      return { allergy: allergy.name, type: allergy.severity };
+    }
+    
     const targets = ALLERGY_DRUG_MAP[key] || [];
     if (targets.some(t => id.includes(t) || t.includes(id))) {
-      if ((key === "pcn" || key === "penicillin") && ["cefazolin", "ceftriaxone", "cefepime"].some(c => id.includes(c))) {
+      if ((key === "pcn" || key === "penicillin") && ["cefazolin", "ceftriaxone", "cefepime", "ceftazidime-avibactam", "cefiderocol"].some(c => id.includes(c))) {
         return { allergy: allergy.name, type: "cross-reactivity", note: "~2% cross-reactivity with cephalosporins; <1% with 3rd/4th gen. Consider if anaphylaxis history." };
       }
       return { allergy: allergy.name, type: allergy.severity };
     }
   }
-  if (allergies.some(a => a.name.toLowerCase() === "warfarin")) {
+  
+  // Fix: Use .includes() instead of strict equality for Warfarin
+  if (allergies.some(a => a.name.toLowerCase().includes("warfarin"))) {
     const interactors = ["metronidazole", "tmp-smx", "fluconazole", "ciprofloxacin", "levofloxacin"];
     if (interactors.some(d => id.includes(d))) {
       return { allergy: "Warfarin", type: "interaction", note: "Significant warfarin interaction — monitor INR closely" };
@@ -45,7 +52,7 @@ export function checkAllergyMatch(drugId: string, allergies: Array<{ name: strin
 export default function AllergyWarning({ drugId, allergies, S }: AllergyWarningProps) {
   const match = checkAllergyMatch(drugId, allergies);
   if (!match) return null;
-  const colors = match.type === "anaphylaxis" ? "#ef4444" : match.type === "cross-reactivity" ? "#f59e0b" : match.type === "interaction" ? "#a78bfa" : "#f87171";
+  const colors = match.type === "anaphylaxis" ? "#ef4444" : match.type === "cross-reactivity" ? "#f59e0b" : match.type === "interaction" ? "#a78bfa" : "#fbbf24";
   return (
     <div className="allergy-badge" style={{ ...S.allergyBadge, borderColor: colors + "40", background: colors + "15", color: colors, marginTop: "6px" }}>
       ⚠ {match.type === "interaction" ? "INTERACTION" : "ALLERGY"}: {match.allergy}

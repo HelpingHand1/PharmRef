@@ -1,4 +1,4 @@
-import React from "react";
+import { NAV_STATES } from "../styles/constants";
 import { CrossRefBadgesProps } from "../types";
 
 export default function CrossRefBadges({
@@ -6,7 +6,6 @@ export default function CrossRefBadges({
   currentDiseaseId,
   monographXref,
   navigateTo,
-  NAV_STATES,
   showToast,
   currentDrugName,
   S,

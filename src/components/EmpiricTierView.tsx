@@ -1,4 +1,4 @@
-import React from "react";
+import { NAV_STATES } from "../styles/constants";
 import { EmpiricTierViewProps } from "../types";
 import { getLineStyle } from "../styles/constants";
 import CopyBtn from "./CopyBtn";
@@ -8,7 +8,6 @@ export default function EmpiricTierView({
   tier,
   S,
   navigateTo,
-  NAV_STATES,
   findMonograph,
   copiedId,
   onCopy,

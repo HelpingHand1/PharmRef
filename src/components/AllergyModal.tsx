@@ -1,4 +1,3 @@
-import React from "react";
 import { AllergyModalProps } from "../types";
 
 export default function AllergyModal({

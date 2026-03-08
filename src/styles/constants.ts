@@ -1,14 +1,13 @@
 // ============================================================
 // CONSTANTS & STYLES — PharmRef v3.0
 // ============================================================
-import type { DiseaseState, Subcategory, DrugMonograph, NavStateKey } from "./types";
 export const NAV_STATES = {
   HOME: "home",
   DISEASE_OVERVIEW: "disease_overview",
   SUBCATEGORY: "subcategory",
   MONOGRAPH: "monograph",
   COMPARE: "compare",
-};
+} as const;
 
 // ============================================================
 // THEME SYSTEM
@@ -31,16 +30,12 @@ export const THEMES = {
     textHeading: "#f1f5f9",
     accent: "#38bdf8",
     accentHover: "#7dd3fc",
-    accentBg: "#0ea5e908",
     scrollTrack: "#0a0f1a",
     scrollThumb: "#334155",
     scrollThumbHover: "#475569",
     topBtnBg: "#1e293b",
     topBtnBorder: "#334155",
     sectionHdrHover: "#1e293b",
-    cardHoverBorder: "#0ea5e9",
-    printBg: "#fff",
-    printText: "#111",
   },
   light: {
     name: "light",
@@ -59,16 +54,12 @@ export const THEMES = {
     textHeading: "#0f172a",
     accent: "#0284c7",
     accentHover: "#0369a1",
-    accentBg: "#0284c710",
     scrollTrack: "#f1f5f9",
     scrollThumb: "#cbd5e1",
     scrollThumbHover: "#94a3b8",
     topBtnBg: "#e2e8f0",
     topBtnBorder: "#cbd5e1",
     sectionHdrHover: "#e2e8f0",
-    cardHoverBorder: "#0284c7",
-    printBg: "#fff",
-    printText: "#111",
   },
 };
 
@@ -114,10 +105,6 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
     /* Drug link hover */
     .drug-link:hover { color: var(--pr-accent-hover, #7dd3fc) !important; }
 
-    /* Quick nav pill active */
-    .qnav-pill { transition: all 0.15s ease; }
-    .qnav-pill:hover { background: #1e3a5f !important; color: #38bdf8 !important; border-color: #0ea5e9 !important; }
-
     /* Back-to-top animation */
     .top-btn { transition: opacity 0.2s ease, transform 0.2s ease; }
     .top-btn:hover { transform: translateY(-2px); background: #334155 !important; }
@@ -137,13 +124,6 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
     /* Copy button */
     .copy-btn { transition: all 0.15s ease; }
     .copy-btn:hover { background: #1e3a5f !important; color: #38bdf8 !important; }
-
-    /* Favorite star */
-    .fav-star { transition: all 0.15s ease; cursor: pointer; }
-    .fav-star:hover { transform: scale(1.2); }
-
-    /* Search result keyboard highlight */
-    .search-result-active { border-color: #0ea5e9 !important; box-shadow: 0 0 0 2px #0ea5e940 !important; background: #0ea5e910 !important; }
 
     /* Allergy warning badge */
     @keyframes allergy-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
@@ -179,7 +159,7 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
 // ============================================================
 // DYNAMIC STYLE GENERATOR (theme-aware)
 // ============================================================
-export function makeStyles(theme) {
+export function makeStyles(theme: "dark" | "light"): any {
   const t = THEMES[theme] || THEMES.dark;
   return {
     app: {
@@ -287,15 +267,6 @@ export function makeStyles(theme) {
       border: `1px solid ${t.border}`, cursor: "pointer", marginRight: "4px", marginBottom: "4px",
       transition: "all 0.15s ease",
     },
-    quickNav: {
-      display: "flex", flexWrap: "wrap", gap: "4px", padding: "8px 0", marginBottom: "8px",
-      borderBottom: `1px solid ${t.border}20`,
-    },
-    quickNavPill: {
-      background: t.bg, border: `1px solid ${t.border}`, borderRadius: "6px",
-      padding: "4px 10px", color: t.textMuted, fontSize: "11px", fontWeight: 500,
-      cursor: "pointer", fontFamily: "inherit",
-    },
     // --- NEW: Toast ---
     toast: {
       position: "fixed", bottom: "80px", right: "24px", zIndex: 200,
@@ -309,17 +280,6 @@ export function makeStyles(theme) {
       background: "none", border: `1px solid ${t.border}`, borderRadius: "4px",
       color: t.textMuted, fontSize: "10px", padding: "2px 6px", cursor: "pointer",
       fontFamily: "'IBM Plex Mono', monospace", lineHeight: 1.4, flexShrink: 0,
-    },
-    // --- NEW: Favorites star ---
-    favStar: {
-      background: "none", border: "none", fontSize: "18px", cursor: "pointer", padding: "2px",
-      lineHeight: 1, color: t.textMuted,
-    },
-    // --- NEW: Reading mode toggle ---
-    readingToggle: {
-      background: "none", border: `1px solid ${t.borderAccent}`, borderRadius: "6px",
-      color: t.textMuted, fontSize: "11px", padding: "4px 10px", cursor: "pointer",
-      fontFamily: "inherit", transition: "color 0.15s, border-color 0.15s",
     },
     // --- NEW: Theme toggle ---
     themeToggle: {
@@ -337,10 +297,6 @@ export function makeStyles(theme) {
       padding: "12px 16px", background: t.bgCard, border: `1px solid ${t.border}`,
       borderRadius: "8px", textAlign: "center",
     },
-    compareRow: {
-      display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px",
-      background: t.border, borderRadius: "8px", overflow: "hidden", marginBottom: "2px",
-    },
     compareCell: {
       padding: "10px 14px", background: t.bgCard, fontSize: "13px",
       lineHeight: 1.6, color: t.textSecondary,
@@ -357,41 +313,12 @@ export function makeStyles(theme) {
       padding: "3px 8px", fontSize: "10px", fontWeight: 600, color: "#f87171",
       letterSpacing: "0.3px",
     },
-    // --- NEW: Renal filter bar ---
-    renalFilter: {
-      display: "flex", alignItems: "center", gap: "8px", padding: "8px 12px",
-      background: t.bgCard, border: `1px solid ${t.border}`, borderRadius: "8px",
-      marginBottom: "8px",
-    },
-    renalPill: {
-      background: t.bg, border: `1px solid ${t.border}`, borderRadius: "6px",
-      padding: "3px 10px", color: t.textMuted, fontSize: "11px", fontWeight: 500,
-      cursor: "pointer", fontFamily: "inherit", transition: "all 0.15s",
-    },
-    renalPillActive: {
-      background: "#f59e0b20", border: "1px solid #f59e0b60", color: "#fbbf24",
-    },
-    // --- NEW: Recent strip ---
-    recentStrip: {
-      display: "flex", gap: "8px", overflowX: "auto", padding: "8px 0",
-      marginBottom: "16px", scrollbarWidth: "none",
-    },
-    recentChip: {
-      flexShrink: 0, padding: "6px 14px", background: t.bgCard,
-      border: `1px solid ${t.border}`, borderRadius: "8px",
-      cursor: "pointer", fontSize: "12px", fontWeight: 500, color: t.accent,
-      transition: "border-color 0.15s",
-      whiteSpace: "nowrap",
-    },
     // --- NEW: Header toolbar ---
     headerToolbar: {
       display: "flex", alignItems: "center", gap: "6px", flexShrink: 0,
     },
   };
 }
-
-// Default S export (dark theme)
-export const S = makeStyles("dark");
 
 export const TAG_COLORS = {
   green: { background: "#065f4620", color: "#34d399", border: "1px solid #065f4640" },
@@ -404,7 +331,7 @@ export const TAG_COLORS = {
   emerald: { background: "#064e3b20", color: "#6ee7b7", border: "1px solid #064e3b40" },
 };
 
-export const getLineStyle = (lineName) => {
+export const getLineStyle = (lineName: string) => {
   const l = lineName.toLowerCase();
   if (l.includes("avoid") || l.includes("not recommended")) return TAG_COLORS.red;
   if (l.includes("newer agent") || l.includes("reserve")) return TAG_COLORS.red;
@@ -446,21 +373,19 @@ export const getLineStyle = (lineName) => {
   return TAG_COLORS.blue;
 };
 
-export const aeCard = (color) => ({
+export const aeCard = (color: string) => ({
   padding: "12px 16px", background: `${color}10`,
   border: `1px solid ${color}30`, borderRadius: "8px",
 });
-export const aeLabel = (color) => ({
+export const aeLabel = (color: string) => ({
   fontSize: "11px", fontWeight: 700, letterSpacing: "0.5px",
   textTransform: "uppercase", color, marginBottom: "6px",
 });
 
-export const cardHover = (e, on) => {};
-
 // ============================================================
 // CSS VARIABLE INJECTOR (call on theme change)
 // ============================================================
-export function applyThemeVars(themeName) {
+export function applyThemeVars(themeName: "dark" | "light") {
   const t = THEMES[themeName] || THEMES.dark;
   const root = document.documentElement;
   root.style.setProperty("--pr-scroll-track", t.scrollTrack);
