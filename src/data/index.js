@@ -8,5 +8,6 @@ import { BACTEREMIA_ENDOCARDITIS } from "./bacteremia-endocarditis";
 import { CDI } from "./c-difficile";
 import { BONE_JOINT } from "./bone-joint";
 import { CNS_INFECTIONS } from "./cns-infections";
+import FUNGAL_INFECTIONS from "./fungal-infections";
 
-export const DISEASE_STATES = [UTI, CAP, HAP_VAP, SSTI, IAI, AMR_GN, BACTEREMIA_ENDOCARDITIS, CDI, BONE_JOINT, CNS_INFECTIONS];
+export const DISEASE_STATES = [UTI, CAP, HAP_VAP, SSTI, IAI, AMR_GN, BACTEREMIA_ENDOCARDITIS, CDI, BONE_JOINT, CNS_INFECTIONS, FUNGAL_INFECTIONS];
