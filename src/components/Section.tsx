@@ -1,6 +1,18 @@
 import React from "react";
+import { SectionProps } from "../types";
 
-export default function Section({ id, title, icon, children, defaultOpen, accentColor, expandedSections, toggleSection, readingMode, S }) {
+export default function Section({
+  id,
+  title,
+  icon,
+  accentColor,
+  children,
+  defaultOpen,
+  expandedSections,
+  toggleSection,
+  readingMode,
+  S,
+}: SectionProps) {
   const isOpen = readingMode || (expandedSections[id] ?? defaultOpen ?? false);
   return (
     <div style={{ marginBottom: "4px" }} id={`section-${id}`}>

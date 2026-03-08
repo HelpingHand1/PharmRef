@@ -1,11 +1,18 @@
 import React from "react";
+import { AllergyModalProps } from "../types";
 
 export default function AllergyModal({
-  show, onClose, theme,
-  allergies, allergyInput, setAllergyInput,
-  allergySeverity, setAllergySeverity,
-  addAllergy, removeAllergy,
-}) {
+  show,
+  onClose,
+  theme,
+  allergies,
+  allergyInput,
+  setAllergyInput,
+  allergySeverity,
+  setAllergySeverity,
+  addAllergy,
+  removeAllergy,
+}: AllergyModalProps) {
   if (!show) return null;
   const dark = theme === "dark";
   const bg = dark ? "#1e293b" : "#fff";

@@ -1,16 +1,26 @@
 import React from "react";
+import { EmpiricTierViewProps } from "../types";
 import { getLineStyle } from "../styles/constants";
 import CopyBtn from "./CopyBtn";
 import AllergyWarning from "./AllergyWarning";
 
-export default function EmpiricTierView({ tier, S, navigateTo, NAV_STATES, findMonograph, copiedId, onCopy, allergies }) {
+export default function EmpiricTierView({
+  tier,
+  S,
+  navigateTo,
+  NAV_STATES,
+  findMonograph,
+  copiedId,
+  onCopy,
+  allergies,
+}: EmpiricTierViewProps) {
   return (
     <div style={{ marginBottom: "20px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
         <span style={{ ...S.tag, ...getLineStyle(tier.line) }}>{tier.line}</span>
       </div>
       {tier.options.map((opt, oi) => {
-        const found = findMonograph(opt.drug);
+        const found = findMonograph(opt.drug || "");
         const lineColor = getLineStyle(tier.line).color || "#1e3a5f";
         return (
           <div key={oi} style={{ padding: "12px 16px", background: S.app.background === "#0a0f1a" ? "#0a0f1a" : "#f8fafc", borderRadius: "8px", marginBottom: "8px", borderLeft: "3px solid " + lineColor }}>

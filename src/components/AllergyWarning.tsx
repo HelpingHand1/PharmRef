@@ -1,9 +1,10 @@
 import React from "react";
+import { AllergyWarningProps } from "../types";
 
 // ============================================================
 // ALLERGY KEYWORD DETECTION
 // ============================================================
-const ALLERGY_DRUG_MAP = {
+const ALLERGY_DRUG_MAP: Record<string, string[]> = {
   "pcn": ["amoxicillin", "ampicillin", "ampicillin-sulbactam", "piperacillin-tazobactam", "nafcillin"],
   "penicillin": ["amoxicillin", "ampicillin", "ampicillin-sulbactam", "piperacillin-tazobactam", "nafcillin"],
   "cephalosporin": ["cefazolin", "ceftriaxone", "cefepime", "ceftazidime-avibactam", "cefiderocol"],
@@ -18,7 +19,7 @@ const ALLERGY_DRUG_MAP = {
   "warfarin": [],
 };
 
-export function checkAllergyMatch(drugId, allergies) {
+export function checkAllergyMatch(drugId: string, allergies: Array<{ name: string; severity: string }>) {
   if (!allergies || allergies.length === 0) return null;
   const id = drugId.toLowerCase();
   for (const allergy of allergies) {
@@ -41,7 +42,7 @@ export function checkAllergyMatch(drugId, allergies) {
   return null;
 }
 
-export default function AllergyWarning({ drugId, allergies, S }) {
+export default function AllergyWarning({ drugId, allergies, S }: AllergyWarningProps) {
   const match = checkAllergyMatch(drugId, allergies);
   if (!match) return null;
   const colors = match.type === "anaphylaxis" ? "#ef4444" : match.type === "cross-reactivity" ? "#f59e0b" : match.type === "interaction" ? "#a78bfa" : "#f87171";

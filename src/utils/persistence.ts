@@ -7,7 +7,6 @@
 // Usage in App.jsx:
 //   const [favorites, setFavorites] = usePersistedState("pr-favorites", []);
 //   const [theme, setTheme] = usePersistedState("pr-theme", "dark");
-
 import { useState, useEffect, useCallback } from "react";
 
 const PREFIX = "pharmref_";

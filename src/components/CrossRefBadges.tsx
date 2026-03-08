@@ -1,6 +1,16 @@
 import React from "react";
+import { CrossRefBadgesProps } from "../types";
 
-export default function CrossRefBadges({ drugId, currentDiseaseId, monographXref, navigateTo, NAV_STATES, showToast, currentDrugName, S }) {
+export default function CrossRefBadges({
+  drugId,
+  currentDiseaseId,
+  monographXref,
+  navigateTo,
+  NAV_STATES,
+  showToast,
+  currentDrugName,
+  S,
+}: CrossRefBadgesProps) {
   const refs = monographXref[drugId];
   if (!refs || refs.length <= 1) return null;
   const others = refs.filter(ds => ds.id !== currentDiseaseId);

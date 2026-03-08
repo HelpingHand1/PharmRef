@@ -1,7 +1,17 @@
 import React from "react";
+import { CompareViewProps } from "../types";
 import { aeCard, aeLabel } from "../styles/constants";
 
-export default function CompareView({ drugs, compareItems, setCompareItems, allMonographs, navigateTo, NAV_STATES, ExpandCollapseBar, S }) {
+export default function CompareView({
+  drugs,
+  compareItems,
+  setCompareItems,
+  allMonographs,
+  navigateTo,
+  NAV_STATES,
+  ExpandCollapseBar,
+  S,
+}: CompareViewProps) {
   // Selection screen
   if (drugs.length < 2) {
     return (

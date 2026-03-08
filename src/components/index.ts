@@ -7,3 +7,4 @@ export { default as CompareView } from "./CompareView";
 export { default as EmpiricTierView } from "./EmpiricTierView";
 export { default as CrossRefBadges } from "./CrossRefBadges";
 export { default as AuditView } from "./AuditView";
+export { default as DisclaimerModal } from "./DisclaimerModal";

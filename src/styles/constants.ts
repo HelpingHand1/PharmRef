@@ -1,6 +1,7 @@
 // ============================================================
 // CONSTANTS & STYLES — PharmRef v3.0
 // ============================================================
+import type { DiseaseState, Subcategory, DrugMonograph, NavStateKey } from "./types";
 export const NAV_STATES = {
   HOME: "home",
   DISEASE_OVERVIEW: "disease_overview",

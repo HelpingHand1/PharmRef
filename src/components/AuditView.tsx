@@ -1,6 +1,7 @@
 import React from "react";
+import { AuditViewProps } from "../types";
 
-export default function AuditView({ diseaseStates, findMonograph, S }) {
+export default function AuditView({ diseaseStates, findMonograph, S }: AuditViewProps) {
   const issues = [];
   const requiredDsFields = ["id", "name", "icon", "category", "overview", "subcategories", "drugMonographs"];
   const requiredOverviewFields = ["definition", "epidemiology", "keyGuidelines", "landmarkTrials", "riskFactors"];
