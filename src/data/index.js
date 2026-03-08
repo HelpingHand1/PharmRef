@@ -6,5 +6,7 @@ import { IAI } from "./iai";
 import { AMR_GN } from "./amr-gram-negative";
 import { BACTEREMIA_ENDOCARDITIS } from "./bacteremia-endocarditis";
 import { CDI } from "./c-difficile";
+import { BONE_JOINT } from "./bone-joint";
+import { CNS_INFECTIONS } from "./cns-infections";
 
-export const DISEASE_STATES = [UTI, CAP, HAP_VAP, SSTI, IAI, AMR_GN, BACTEREMIA_ENDOCARDITIS, CDI];
+export const DISEASE_STATES = [UTI, CAP, HAP_VAP, SSTI, IAI, AMR_GN, BACTEREMIA_ENDOCARDITIS, CDI, BONE_JOINT, CNS_INFECTIONS];
