@@ -76,6 +76,32 @@ export interface MonographLookupResult {
   disease: DiseaseState;
 }
 
+export type DrugSearchResult = DrugMonograph & {
+  parentDisease: DiseaseState;
+};
+
+export type OrganismSearchResult = OrganismSpecific & {
+  parentDisease: DiseaseState;
+  parentSubcategory: Subcategory;
+};
+
+export type SubcategorySearchResult = Subcategory & {
+  parentDisease: DiseaseState;
+  matchType: "name" | "pearl" | "empiric";
+};
+
+export interface SearchResult {
+  diseases: DiseaseState[];
+  drugs: DrugSearchResult[];
+  organisms: OrganismSearchResult[];
+  subcategories: SubcategorySearchResult[];
+}
+
+export type RecentView =
+  | { type: "disease"; diseaseId: string; label: string; meta: string; icon: string }
+  | { type: "subcategory"; diseaseId: string; subcategoryId: string; label: string; meta: string; icon: string }
+  | { type: "monograph"; diseaseId: string; monographId: string; label: string; meta: string; icon: string };
+
 export type NavStateKey =
   | "home"
   | "disease_overview"

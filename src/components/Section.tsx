@@ -14,23 +14,39 @@ export default function Section({
 }: SectionProps) {
   const isOpen = readingMode || (expandedSections[id] ?? defaultOpen ?? false);
   return (
-    <div style={{ marginBottom: "4px" }} id={`section-${id}`}>
+    <div style={{ marginBottom: "8px" }} id={`section-${id}`}>
       <div
         className="section-hdr"
         style={{
           ...S.sectionHeader,
-          ...(isOpen ? { borderBottom: "none", borderRadius: "8px 8px 0 0" } : {}),
+          ...(isOpen ? { borderBottom: "none", borderRadius: "16px 16px 0 0" } : {}),
           borderLeftColor: accentColor || S.sectionHeader.borderLeftColor || S.sectionHeader.borderColor,
           borderLeftWidth: accentColor ? "3px" : "1px",
         }}
         onClick={() => toggleSection(id)}
       >
-        <span style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px", fontWeight: 600 }}>
-          {icon && <span style={{ fontSize: "16px" }}>{icon}</span>}
+        <span style={{ display: "flex", alignItems: "center", gap: "12px", fontSize: "14px", fontWeight: 700, color: S.meta?.textHeading || S.monographValue.color }}>
+          {icon && (
+            <span
+              style={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "10px",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "16px",
+                background: S.meta?.accentSurface || "transparent",
+                border: `1px solid ${S.meta?.border || S.sectionHeader.borderColor}`,
+              }}
+            >
+              {icon}
+            </span>
+          )}
           {title}
         </span>
         {!readingMode && (
-          <span style={{ color: "#64748b", fontSize: "18px", transform: isOpen ? "rotate(90deg)" : "none", transition: "transform 0.15s" }}>›</span>
+          <span style={{ color: S.monographLabel.color, fontSize: "18px", transform: isOpen ? "rotate(90deg)" : "none", transition: "transform 0.15s" }}>›</span>
         )}
       </div>
       <div

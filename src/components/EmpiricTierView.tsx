@@ -22,19 +22,32 @@ export default function EmpiricTierView({
         const found = findMonograph(opt.drug || "");
         const lineColor = getLineStyle(tier.line).color || "#1e3a5f";
         return (
-          <div key={oi} style={{ padding: "12px 16px", background: S.app.background === "#0a0f1a" ? "#0a0f1a" : "#f8fafc", borderRadius: "8px", marginBottom: "8px", borderLeft: "3px solid " + lineColor }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
+          <div
+            key={oi}
+            style={{
+              padding: "14px 16px",
+              background: S.card.background,
+              borderRadius: "16px",
+              marginBottom: "10px",
+              border: `1px solid ${S.card.borderColor}`,
+              borderLeft: `4px solid ${lineColor}`,
+              boxShadow: S.meta?.shadowSm,
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px", flexWrap: "wrap" }}>
               {found ? (
-                <button className="drug-link" style={{ ...S.drugLink, fontSize: "14px", fontWeight: 600 }} onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { disease: found.disease, monograph: found.monograph })}>
-                  {opt.regimen.split(" ")[0]} →
+                <button className="drug-link" style={{ ...S.drugLink, fontSize: "15px", fontWeight: 700 }} onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { disease: found.disease, monograph: found.monograph })}>
+                  {found.monograph.name} →
                 </button>
               ) : (
-                <span style={{ fontSize: "14px", fontWeight: 600, color: S.app?.color || "#e2e8f0" }}>{opt.regimen.split(" ")[0]}</span>
+                <span style={{ fontSize: "15px", fontWeight: 700, color: S.meta?.textHeading || S.app?.color || "#e2e8f0" }}>{opt.regimen.split(" ")[0]}</span>
               )}
               <CopyBtn text={opt.regimen} id={`empiric-${oi}-${opt.drug}`} copiedId={copiedId} onCopy={onCopy} S={S} />
             </div>
-            <div style={{ fontSize: "13px", color: S.monographValue?.color || "#94a3b8", fontFamily: "'IBM Plex Mono', monospace", marginBottom: "6px" }}>{opt.regimen}</div>
-            <div style={{ fontSize: "12px", color: S.monographValue?.color || "#cbd5e1", lineHeight: 1.6 }}>{opt.notes}</div>
+            <div style={{ fontSize: "13px", color: S.monographValue?.color || "#94a3b8", fontFamily: "'JetBrains Mono', monospace", marginBottom: "8px", lineHeight: 1.65 }}>
+              {opt.regimen}
+            </div>
+            {opt.notes && <div style={{ fontSize: "13px", color: S.monographValue?.color || "#cbd5e1", lineHeight: 1.65 }}>{opt.notes}</div>}
             <AllergyWarning drugId={opt.drug || opt.regimen.split(" ")[0].toLowerCase()} allergies={allergies} S={S} />
           </div>
         );

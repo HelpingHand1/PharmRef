@@ -123,11 +123,16 @@ export default function AuditView({ diseaseStates, findMonograph, S }: AuditView
 
   return (
     <>
-      <h1 style={{ fontSize: "20px", fontWeight: 700, marginBottom: "4px" }}>🔍 Data Integrity Audit</h1>
-      <p style={{ color: "#64748b", fontSize: "12px", marginBottom: "16px" }}>
-        {diseaseStates.length} disease states · {allDrugIds.size} unique drug monographs · {issues.length} issues found
-      </p>
-      <div style={{ display: "flex", gap: "12px", marginBottom: "16px", flexWrap: "wrap" }}>
+      <section className="page-hero" style={{ ...S.card, cursor: "default", padding: "20px 22px", marginBottom: "18px" }}>
+        <div className="page-hero-copy">
+          <div style={{ ...S.monographLabel, color: S.meta?.accent, marginBottom: "8px" }}>Content Audit</div>
+          <h1 style={{ fontSize: "26px", lineHeight: 1.12, letterSpacing: "-0.04em", margin: 0, color: S.meta?.textHeading }}>Data Integrity Audit</h1>
+          <p style={{ color: S.monographValue?.color || "#64748b", fontSize: "13px", marginTop: "10px", marginBottom: 0, lineHeight: 1.6 }}>
+            {diseaseStates.length} disease states · {allDrugIds.size} unique drug monographs · {issues.length} issues found
+          </p>
+        </div>
+      </section>
+      <div className="quick-facts-grid" style={{ ...S.quickFactsGrid, marginTop: 0, marginBottom: "18px" }}>
         <span style={{ padding: "4px 12px", borderRadius: "9999px", fontSize: "12px", fontWeight: 600, background: "#ef444420", color: "#ef4444", border: "1px solid #ef444440" }}>
           Errors: {errors.length}
         </span>
@@ -139,23 +144,24 @@ export default function AuditView({ diseaseStates, findMonograph, S }: AuditView
         </span>
       </div>
       {issues.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "40px", color: "#34d399", fontSize: "16px", fontWeight: 600 }}>✓ All checks passed</div>
+        <div style={{ ...S.card, cursor: "default", textAlign: "center", padding: "40px", color: "#34d399", fontSize: "16px", fontWeight: 700 }}>✓ All checks passed</div>
       ) : (
         issues.map((issue, index) => (
           <div
             key={`${issue.disease}-${index}`}
             style={{
-              padding: "8px 14px",
-              borderLeft: `3px solid ${severityColor[issue.severity]}`,
+              padding: "12px 14px",
+              borderLeft: `4px solid ${severityColor[issue.severity]}`,
               background: `${severityColor[issue.severity]}08`,
-              marginBottom: "4px",
-              borderRadius: "0 6px 6px 0",
+              marginBottom: "8px",
+              borderRadius: "14px",
+              border: `1px solid ${severityColor[issue.severity]}20`,
             }}
           >
             <span style={{ fontSize: "11px", fontWeight: 700, color: severityColor[issue.severity], textTransform: "uppercase", marginRight: "8px" }}>
               {issue.severity}
             </span>
-            <span style={{ fontSize: "11px", color: "#64748b", marginRight: "8px" }}>[{issue.disease}]</span>
+            <span style={{ fontSize: "11px", color: S.monographLabel?.color || "#64748b", marginRight: "8px" }}>[{issue.disease}]</span>
             <span style={{ fontSize: "12px", color: S.monographValue?.color || "#cbd5e1" }}>{issue.msg}</span>
           </div>
         ))

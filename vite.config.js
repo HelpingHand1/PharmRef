@@ -25,4 +25,15 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    chunkSizeWarningLimit: 900,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('/node_modules/')) return 'vendor'
+          if (id.includes('/src/data/')) return 'disease-data'
+        },
+      },
+    },
+  },
 })

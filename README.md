@@ -1,96 +1,143 @@
-# PharmRef — Pharmacist Clinical Reference Application
+# PharmRef
 
-## Overview
-Single-page React application for rapid clinical decision support at the point of care. Organized by disease state with deep-linked drug monographs, cross-disease badges, and full-text search.
+PharmRef is a TypeScript + React + Vite clinical reference app for antimicrobial decision support. It organizes syndrome-level guidance, organism-specific therapy, and drug monographs into a single PWA-style interface optimized for point-of-care browsing.
 
-## Current Content
-| Disease State | Subcategories | Drug Monographs |
-|---|---|---|
-| Urinary Tract Infections | 5 | Nitrofurantoin, TMP-SMX, Ciprofloxacin, Ceftriaxone, Pip-Tazo, Meropenem |
-| Community-Acquired Pneumonia | 4 | Amoxicillin, Azithromycin, Doxycycline, Levofloxacin |
-| HAP/VAP | 4 | Cefepime, Vancomycin, Linezolid |
-| Skin & Soft Tissue Infections | 4 | Cefazolin, Clindamycin, Daptomycin |
-| Intra-Abdominal Infections | 4 | Metronidazole, Ampicillin-Sulbactam, Ertapenem |
-| AMR Gram-Negative (IDSA 2024) | 6 | Ceftazidime-Avibactam, Meropenem-Vaborbactam, Cefiderocol |
-| Bacteremia & Endocarditis | 5 | Nafcillin, Vancomycin, Daptomycin, Ceftriaxone, Cefazolin |
-| C. difficile Infection | 6 | Fidaxomicin, Vancomycin (Oral), Bezlotoxumab, Metronidazole |
-| Bone & Joint Infections | 4 | Rifampin, Linezolid |
-| CNS Infections | 3 | Ampicillin, Meropenem |
+## Current state
 
-**Totals:** 10 disease states · 45 subcategories · 37 unique drug monographs
+- 11 disease states
+- 49 subcategories
+- 35 unique drug monographs
+- React 18 + Vite 7 + TypeScript 5
+- PWA build via `vite-plugin-pwa`
+- Static disease-content modules under `src/data/*.ts`
 
-## File Structure
-```
-pharmref/
+### Included disease states
+
+1. Urinary Tract Infections
+2. Community-Acquired Pneumonia
+3. Hospital-Acquired & Ventilator-Associated Pneumonia
+4. Skin & Soft Tissue Infections
+5. Intra-Abdominal Infections
+6. AMR Gram-Negative Infections
+7. Bacteremia & Endocarditis
+8. Clostridioides difficile Infection
+9. Bone & Joint Infections
+10. CNS Infections
+11. Fungal Infections
+
+## What the app does
+
+- Hash-based navigation for bookmarkable disease, subcategory, monograph, compare, and audit views
+- Full-text search across disease names, definitions, empiric therapy, organism notes, interactions, and pharmacist pearls
+- Compare view for side-by-side drug monographs
+- Allergy profile with inline allergy/interaction warnings
+- Data audit screen for content completeness and cross-reference gaps
+- Reading mode, theme toggle, toast feedback, copy buttons, and back-to-top behavior
+- Recent-views strip on the home screen for faster return navigation
+- Cross-disease monograph badges when the same drug appears in multiple disease states
+- Responsive layout and print-friendly styles
+
+## Recent QoL and optimization work
+
+- Added package scripts: `dev`, `build`, `preview`, `typecheck`
+- Switched search rendering to deferred input handling so typing stays responsive as the dataset grows
+- Added capped search previews to avoid rendering huge result sets at once
+- Added O(1) disease, subcategory, and monograph lookup maps instead of repeated linear scans
+- Added persisted recent views to reduce navigation friction in a larger catalog
+- Split Vite output into `vendor` and `disease-data` chunks for better caching as content grows
+
+## Project structure
+
+```text
+.
 ├── src/
-│   ├── index.jsx              # Entry point
-│   ├── App.jsx                # UI components, state, navigation, rendering
-│   │
+│   ├── App.tsx
+│   ├── index.tsx
+│   ├── types.ts
+│   ├── components/
+│   │   ├── AllergyModal.tsx
+│   │   ├── AllergyWarning.tsx
+│   │   ├── AuditView.tsx
+│   │   ├── CompareView.tsx
+│   │   ├── CopyBtn.tsx
+│   │   ├── CrossRefBadges.tsx
+│   │   ├── DisclaimerModal.tsx
+│   │   ├── EmpiricTierView.tsx
+│   │   ├── Section.tsx
+│   │   ├── Toast.tsx
+│   │   └── index.ts
 │   ├── data/
-│   │   ├── index.js           # Aggregates all disease states into DISEASE_STATES[]
-│   │   ├── uti.js
-│   │   ├── cap.js
-│   │   ├── hap-vap.js
-│   │   ├── ssti.js
-│   │   ├── iai.js
-│   │   ├── amr-gram-negative.js
-│   │   ├── bacteremia-endocarditis.js
-│   │   ├── c-difficile.js
-│   │   ├── bone-joint.js
-│   │   └── cns-infections.js
-│   │
-│   └── styles/
-│       └── constants.js       # NAV_STATES, S (style object), TAG_COLORS, helpers
-│
-├── pharmref.jsx               # Single-file artifact version (paste into Claude UI)
-├── package.json
-└── README.md
+│   │   ├── index.ts
+│   │   ├── amr-gram-negative.ts
+│   │   ├── bacteremia-endocarditis.ts
+│   │   ├── bone-joint.ts
+│   │   ├── c-difficile.ts
+│   │   ├── cap.ts
+│   │   ├── cns-infections.ts
+│   │   ├── fungal-infections.ts
+│   │   ├── hap-vap.ts
+│   │   ├── iai.ts
+│   │   ├── ssti.ts
+│   │   └── uti.ts
+│   ├── styles/
+│   │   └── constants.ts
+│   └── utils/
+│       └── persistence.ts
+├── pharmref.jsx
+├── vite.config.js
+├── tsconfig.json
+└── package.json
 ```
 
-## UI Features
-- **URL hash navigation** — browser back/forward buttons work, bookmarkable views
-- **Deep search** — indexes drug names, organisms, pearls, empiric therapy, interactions, MOA
-- **Search debouncing** — 150ms debounce for smooth performance across 10 disease states
-- **Pre-built search index** — module-level index for instant results
-- **Keyboard shortcuts** — `/` focuses search, `Esc` clears/blurs
-- **Section quick-nav bar** — clickable section jump pills on subcategory/monograph views
-- **Cross-disease monograph badges** — click to navigate between disease states
-- **Smooth expand/collapse** — CSS transitions for section animations
-- **Expand/collapse all** toggle per view
-- **Back-to-top button** (appears >400px scroll)
-- **Empty section suppression** (detects "N/A" prefix)
-- **Adaptive section titles** (prevention/stewardship → "Interventions & Protocols")
-- **Mobile responsive** — grid/padding/font adjustments for phone-at-bedside use
-- **Print-friendly styles** — `@media print` hides nav, expands all sections
-- **CSS hover/focus states** — custom scrollbar, focus-visible rings, card interactions
-- **Home page grid layout** — 2-column responsive grid for disease state cards
+## Commands
 
-## Cross-Disease Drug Badges
-These drugs appear in multiple disease states and auto-link:
-- Vancomycin: HAP-VAP ↔ Bacteremia
-- Cefazolin: SSTI ↔ Bacteremia
-- Daptomycin: SSTI ↔ Bacteremia
-- Ceftriaxone: UTI ↔ Bacteremia
-- Metronidazole: IAI ↔ CDI ↔ CNS
-- Linezolid: HAP-VAP ↔ Bone/Joint
-- Meropenem: HAP-VAP ↔ CNS
+```bash
+npm run dev
+npm run build
+npm run preview
+npm run typecheck
+```
 
-## How to Add a Disease State
-1. Create `src/data/your-disease.js` — export a single object matching the schema
-2. Add one import + one array entry in `src/data/index.js`
-3. Done. No other files need to change.
+## Adding a new disease state
 
-## Key Clinical References
-- IDSA/ATS CAP Guidelines (2019)
-- IDSA HAP/VAP Guidelines (2016)
-- IDSA SSTI Guidelines (2014)
-- SIS/IDSA IAI Guidelines (2010, updated 2017)
-- IDSA 2024 AMR Gram-Negative Guidance v4.0
-- AHA/ACC 2023 IE Guideline Update
-- IDSA/SHEA 2021 CDI Guidelines
-- IDSA 2015 Vertebral Osteomyelitis Guidelines
-- IDSA 2013 Prosthetic Joint Infection Guidelines
-- IDSA 2004 Bacterial Meningitis Guidelines
-- OVIVA Trial (Li et al., NEJM 2019)
-- POET Trial (Iversen et al., NEJM 2019)
-- MERINO Trial (Harris et al., JAMA 2018)
+1. Create a new `src/data/<disease>.ts` file that exports one `DiseaseState`.
+2. Import it in `src/data/index.ts`.
+3. Add it to the `DISEASE_STATES` array.
+4. Confirm `npm run typecheck` and `npm run build` still pass.
+
+### Content expectations
+
+Each disease module is expected to include:
+
+- Overview definition, epidemiology, risk factors
+- Key guidelines and landmark trials
+- Subcategories with diagnostics and clinical presentation where relevant
+- Empiric therapy tiers with regimen-level detail
+- Organism-specific therapy where applicable
+- Pharmacist pearls
+- Drug monographs with dosing, renal/hepatic notes, adverse effects, monitoring, pregnancy/lactation, and interactions
+
+## Scaling notes for 30+ disease states
+
+The current structure will support 30+ disease states, but the pressure points are content volume and bundle size, not React component complexity.
+
+What is already in place:
+
+- Centralized schema in `src/types.ts`
+- Data modules isolated by disease state
+- Precomputed lookup/search structures in `src/App.tsx`
+- Separate build chunks for app code and disease data
+
+Likely next steps when the catalog grows further:
+
+1. Split disease metadata from full disease content so the home screen can load without eagerly loading every monograph.
+2. Move search indexing into a background worker or prebuilt JSON index if search latency becomes noticeable.
+3. Introduce content validation scripts for duplicate IDs, missing required sections, and cross-link integrity outside the UI audit screen.
+4. Consider route-level or disease-level lazy loading if the data chunk becomes too large for initial load.
+
+## Verification
+
+Current expected checks:
+
+- `npm run typecheck`
+- `npm run build`

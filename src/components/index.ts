@@ -1,6 +1,8 @@
 export { default as Section } from "./Section";
 export { default as Toast } from "./Toast";
 export { default as CopyBtn } from "./CopyBtn";
+export { default as Layout } from "./Layout";
+export { default as ExpandCollapseBar } from "./ExpandCollapseBar";
 export { default as AllergyModal } from "./AllergyModal";
 export { default as AllergyWarning, checkAllergyMatch } from "./AllergyWarning";
 export { default as CompareView } from "./CompareView";

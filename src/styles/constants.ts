@@ -15,51 +15,69 @@ export const NAV_STATES = {
 export const THEMES = {
   dark: {
     name: "dark",
-    bg: "#0a0f1a",
-    bgCard: "#111827",
-    bgSection: "#0d1117",
-    bgHeader: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
-    bgInput: "#0f172a",
-    bgPearl: "#fef3c710",
-    borderPearl: "#fef3c730",
-    border: "#1e293b",
-    borderAccent: "#1e3a5f",
-    text: "#e2e8f0",
-    textSecondary: "#94a3b8",
-    textMuted: "#64748b",
-    textHeading: "#f1f5f9",
-    accent: "#38bdf8",
-    accentHover: "#7dd3fc",
-    scrollTrack: "#0a0f1a",
-    scrollThumb: "#334155",
-    scrollThumbHover: "#475569",
-    topBtnBg: "#1e293b",
-    topBtnBorder: "#334155",
-    sectionHdrHover: "#1e293b",
+    bg: "#0f172a",
+    bgCard: "rgba(15, 23, 42, 0.86)",
+    bgSection: "rgba(15, 23, 42, 0.64)",
+    bgHeader: "linear-gradient(135deg, rgba(8, 15, 31, 0.92) 0%, rgba(15, 23, 42, 0.94) 50%, rgba(12, 74, 110, 0.84) 100%)",
+    bgInput: "rgba(15, 23, 42, 0.88)",
+    bgPearl: "#fde68a12",
+    borderPearl: "#f59e0b3d",
+    border: "#263449",
+    borderAccent: "#36506e",
+    text: "#e5eef8",
+    textSecondary: "#c3d0e0",
+    textMuted: "#8ea1bb",
+    textHeading: "#f8fbff",
+    accent: "#7dd3fc",
+    accentHover: "#bae6fd",
+    accentSurface: "#38bdf814",
+    accentSurfaceStrong: "#38bdf826",
+    heroGlow: "#0ea5e918",
+    scrollTrack: "#0f172a",
+    scrollThumb: "#486581",
+    scrollThumbHover: "#5b7894",
+    topBtnBg: "rgba(15, 23, 42, 0.94)",
+    topBtnBorder: "#36506e",
+    topBtnHoverBg: "#1e334b",
+    sectionHdrHover: "rgba(30, 41, 59, 0.92)",
+    shadowSm: "0 4px 18px rgba(2, 8, 23, 0.22)",
+    shadowMd: "0 14px 34px rgba(2, 8, 23, 0.30)",
+    shadowLg: "0 22px 60px rgba(2, 8, 23, 0.44)",
+    overlay: "rgba(2, 8, 23, 0.58)",
+    codeBg: "rgba(15, 23, 42, 0.72)",
   },
   light: {
     name: "light",
-    bg: "#f8fafc",
-    bgCard: "#ffffff",
-    bgSection: "#f1f5f9",
-    bgHeader: "linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%)",
-    bgInput: "#ffffff",
-    bgPearl: "#fef3c740",
-    borderPearl: "#fde68a80",
-    border: "#e2e8f0",
-    borderAccent: "#94a3b8",
-    text: "#1e293b",
+    bg: "#f3f5f1",
+    bgCard: "rgba(255, 253, 249, 0.92)",
+    bgSection: "rgba(248, 250, 247, 0.92)",
+    bgHeader: "linear-gradient(135deg, rgba(255, 252, 247, 0.98) 0%, rgba(245, 248, 243, 0.97) 58%, rgba(224, 242, 254, 0.94) 100%)",
+    bgInput: "#fffefd",
+    bgPearl: "#fff7db",
+    borderPearl: "#f2cb67",
+    border: "#d7dfd4",
+    borderAccent: "#c6d3dc",
+    text: "#172033",
     textSecondary: "#475569",
-    textMuted: "#94a3b8",
+    textMuted: "#66758c",
     textHeading: "#0f172a",
-    accent: "#0284c7",
-    accentHover: "#0369a1",
-    scrollTrack: "#f1f5f9",
-    scrollThumb: "#cbd5e1",
+    accent: "#0f766e",
+    accentHover: "#115e59",
+    accentSurface: "#0f766e10",
+    accentSurfaceStrong: "#0f766e18",
+    heroGlow: "#38bdf818",
+    scrollTrack: "#eef2f5",
+    scrollThumb: "#c3cdd8",
     scrollThumbHover: "#94a3b8",
-    topBtnBg: "#e2e8f0",
-    topBtnBorder: "#cbd5e1",
-    sectionHdrHover: "#e2e8f0",
+    topBtnBg: "rgba(255, 253, 249, 0.96)",
+    topBtnBorder: "#cbd5df",
+    topBtnHoverBg: "#f1f5f9",
+    sectionHdrHover: "rgba(241, 245, 249, 0.95)",
+    shadowSm: "0 6px 18px rgba(15, 23, 42, 0.06)",
+    shadowMd: "0 16px 34px rgba(15, 23, 42, 0.08)",
+    shadowLg: "0 28px 64px rgba(15, 23, 42, 0.12)",
+    overlay: "rgba(15, 23, 42, 0.42)",
+    codeBg: "#f8fafc",
   },
 };
 
@@ -69,14 +87,22 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
   const style = document.createElement("style");
   style.id = GLOBAL_STYLE_ID;
   style.textContent = `
+    body {
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
     /* Smooth scrollbar — overridden per theme via CSS vars */
-    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
     ::-webkit-scrollbar-track { background: var(--pr-scroll-track, #0a0f1a); }
-    ::-webkit-scrollbar-thumb { background: var(--pr-scroll-thumb, #334155); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb {
+      background: var(--pr-scroll-thumb, #334155);
+      border-radius: 999px;
+      border: 2px solid var(--pr-scroll-track, #0a0f1a);
+    }
     ::-webkit-scrollbar-thumb:hover { background: var(--pr-scroll-thumb-hover, #475569); }
 
     /* Focus ring */
-    *:focus-visible { outline: 2px solid var(--pr-accent, #0ea5e9); outline-offset: 2px; }
+    *:focus-visible { outline: 3px solid var(--pr-accent, #0ea5e9); outline-offset: 2px; }
 
     /* Section content expand/collapse animation */
     .section-content-anim {
@@ -98,22 +124,22 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
     .section-hdr:hover { background: var(--pr-section-hover, #1e293b) !important; }
 
     /* Card hover */
-    .pr-card { transition: border-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease; }
-    .pr-card:hover { border-color: var(--pr-accent, #0ea5e9) !important; box-shadow: 0 0 0 1px var(--pr-accent-glow, #0ea5e920); }
-    .pr-card:active { transform: scale(0.995); }
+    .pr-card { transition: border-color 0.18s ease, transform 0.16s ease, box-shadow 0.18s ease, background 0.18s ease; }
+    .pr-card:hover { border-color: var(--pr-accent, #0ea5e9) !important; box-shadow: var(--pr-card-hover-shadow, 0 20px 50px rgba(15, 23, 42, 0.12)); transform: translateY(-2px); }
+    .pr-card:active { transform: translateY(0); }
 
     /* Drug link hover */
     .drug-link:hover { color: var(--pr-accent-hover, #7dd3fc) !important; }
 
     /* Back-to-top animation */
     .top-btn { transition: opacity 0.2s ease, transform 0.2s ease; }
-    .top-btn:hover { transform: translateY(-2px); background: #334155 !important; }
+    .top-btn:hover { transform: translateY(-2px); background: var(--pr-top-btn-hover, #334155) !important; }
 
     /* Search focus */
     .search-input:focus { border-color: var(--pr-accent, #0ea5e9) !important; box-shadow: 0 0 0 2px var(--pr-accent-glow, #0ea5e920); }
 
     /* Cross-ref pill hover */
-    .xref-pill:hover { background: #0ea5e920 !important; color: #38bdf8 !important; border-color: #0ea5e9 !important; }
+    .xref-pill:hover { background: var(--pr-accent-soft, #0ea5e920) !important; color: var(--pr-accent, #38bdf8) !important; border-color: var(--pr-accent, #0ea5e9) !important; }
 
     /* Toast animation */
     @keyframes toast-in { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
@@ -123,7 +149,7 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
 
     /* Copy button */
     .copy-btn { transition: all 0.15s ease; }
-    .copy-btn:hover { background: #1e3a5f !important; color: #38bdf8 !important; }
+    .copy-btn:hover { background: var(--pr-accent-soft, #1e3a5f) !important; color: var(--pr-accent, #38bdf8) !important; border-color: var(--pr-accent, #0ea5e9) !important; }
 
     /* Allergy warning badge */
     @keyframes allergy-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
@@ -144,13 +170,194 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
       a { text-decoration: underline; }
     }
 
+    /* Tablet responsive */
+    @media (max-width: 900px) {
+      .app-main {
+        padding: 24px 16px 88px !important;
+      }
+
+      .home-hero,
+      .page-hero {
+        padding: 22px !important;
+      }
+
+      .page-hero-body {
+        gap: 14px !important;
+      }
+
+      .results-grid,
+      .home-actions,
+      .home-recent-grid,
+      .home-hero-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .home-hero-copy {
+        max-width: none !important;
+      }
+    }
+
     /* Mobile responsive */
     @media (max-width: 640px) {
-      .home-grid { grid-template-columns: 1fr !important; }
-      .monograph-pills { gap: 4px !important; }
-      .monograph-pills > button { font-size: 11px !important; padding: 4px 8px !important; }
-      .stat-row { gap: 12px !important; }
-      .compare-grid { grid-template-columns: 1fr !important; }
+      .app-header {
+        padding: 14px 12px 12px !important;
+      }
+
+      .header-row {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+      }
+
+      .header-row > button:first-child,
+      .search-wrap,
+      .header-toolbar {
+        width: 100% !important;
+        max-width: none !important;
+      }
+
+      .search-wrap {
+        min-width: 0 !important;
+      }
+
+      .header-toolbar {
+        justify-content: stretch !important;
+      }
+
+      .header-toolbar > button {
+        flex: 1 1 0 !important;
+      }
+
+      .breadcrumbs-row {
+        gap: 6px !important;
+      }
+
+      .app-main {
+        padding: 18px 12px 80px !important;
+      }
+
+      .home-hero,
+      .page-hero {
+        padding: 18px !important;
+        margin-bottom: 18px !important;
+      }
+
+      .home-hero h1,
+      .page-hero h1 {
+        font-size: 26px !important;
+      }
+
+      .home-hero-copy,
+      .page-hero-copy {
+        max-width: none !important;
+      }
+
+      .page-hero-icon {
+        width: 52px !important;
+        height: 52px !important;
+        border-radius: 16px !important;
+        font-size: 24px !important;
+      }
+
+      .section-meta-row {
+        display: grid !important;
+        gap: 6px !important;
+      }
+
+      .expand-bar {
+        justify-content: stretch !important;
+      }
+
+      .expand-bar > button {
+        flex: 1 1 0 !important;
+      }
+
+      .home-grid,
+      .results-grid,
+      .home-actions,
+      .home-recent-grid,
+      .home-hero-grid,
+      .compare-grid,
+      .compare-select-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .disease-card,
+      .result-card,
+      .recent-card,
+      .action-card,
+      .mono-grid-card {
+        padding: 14px 15px !important;
+      }
+
+      .detail-row,
+      .quick-facts-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .detail-row {
+        gap: 6px !important;
+      }
+
+      .disease-card {
+        align-items: flex-start !important;
+      }
+
+      .disease-card-arrow {
+        display: none !important;
+      }
+
+      .monograph-pills {
+        gap: 6px !important;
+      }
+
+      .monograph-pills > button {
+        font-size: 11px !important;
+        padding: 7px 11px !important;
+      }
+
+      .xref-row {
+        display: grid !important;
+        gap: 6px !important;
+      }
+
+      .xref-row > span:first-child {
+        margin-right: 0 !important;
+      }
+
+      .pr-toast {
+        left: 12px !important;
+        right: 12px !important;
+        bottom: 16px !important;
+        max-width: none !important;
+      }
+
+      .modal-panel {
+        padding: 18px !important;
+        border-radius: 18px !important;
+      }
+
+      .allergy-form {
+        grid-template-columns: 1fr !important;
+      }
+
+      .allergy-form > button,
+      .allergy-form > select {
+        width: 100% !important;
+      }
+
+      .modal-panel-sm button {
+        width: 100% !important;
+      }
+
+      .section-hdr {
+        padding: 12px 14px !important;
+      }
+
+      .section-content-anim.expanded {
+        max-height: 80000px;
+      }
     }
   `;
   document.head.appendChild(style);
@@ -162,107 +369,165 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
 export function makeStyles(theme: "dark" | "light"): any {
   const t = THEMES[theme] || THEMES.dark;
   return {
+    meta: {
+      accent: t.accent,
+      accentHover: t.accentHover,
+      accentSurface: t.accentSurface,
+      accentSurfaceStrong: t.accentSurfaceStrong,
+      textHeading: t.textHeading,
+      textMuted: t.textMuted,
+      bgSection: t.bgSection,
+      border: t.border,
+      codeBg: t.codeBg,
+      shadowSm: t.shadowSm,
+      shadowMd: t.shadowMd,
+    },
     app: {
       minHeight: "100vh",
-      background: t.bg,
+      background: `radial-gradient(circle at top left, ${t.accentSurfaceStrong} 0%, transparent 28%), radial-gradient(circle at 85% 8%, ${t.heroGlow} 0%, transparent 22%), ${t.bg}`,
       color: t.text,
-      fontFamily: "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif",
+      fontFamily: "'Manrope', -apple-system, BlinkMacSystemFont, sans-serif",
+      letterSpacing: "-0.01em",
     },
     header: {
       background: t.bgHeader,
       borderBottom: `1px solid ${t.borderAccent}`,
-      padding: "12px 20px",
+      padding: "16px 20px 14px",
       position: "sticky",
       top: 0,
       zIndex: 100,
+      boxShadow: t.shadowSm,
       backdropFilter: "blur(12px)",
       WebkitBackdropFilter: "blur(12px)",
     },
     headerTop: {
       display: "flex", alignItems: "center", justifyContent: "space-between",
-      marginBottom: "8px", gap: "12px", flexWrap: "wrap",
+      marginBottom: "10px", gap: "14px", flexWrap: "wrap",
     },
     logo: {
-      fontSize: "20px", fontWeight: 700, letterSpacing: "-0.5px", color: t.accent,
+      fontSize: "22px", fontWeight: 800, letterSpacing: "-0.04em", color: t.textHeading,
       cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", flexShrink: 0,
       userSelect: "none",
     },
     logoPill: {
-      fontSize: "10px", fontWeight: 600, background: t.accent, color: t.bg,
-      padding: "2px 8px", borderRadius: "9999px", letterSpacing: "0.5px",
+      fontSize: "10px", fontWeight: 700, background: t.accent, color: theme === "dark" ? "#082f49" : "#ecfeff",
+      padding: "4px 10px", borderRadius: "9999px", letterSpacing: "0.08em",
     },
-    searchWrap: { position: "relative", flex: 1, maxWidth: "500px", minWidth: "160px" },
+    searchWrap: { position: "relative", flex: 1, maxWidth: "620px", minWidth: "180px" },
     searchBox: {
-      width: "100%", padding: "9px 36px 9px 38px", background: t.bgInput,
-      border: `1px solid ${t.borderAccent}`, borderRadius: "8px", color: t.text,
-      fontSize: "14px", outline: "none", boxSizing: "border-box",
+      width: "100%", padding: "13px 46px 13px 44px", background: t.bgInput,
+      border: `1px solid ${t.border}`, borderRadius: "14px", color: t.text,
+      fontSize: "15px", outline: "none", boxSizing: "border-box",
       transition: "border-color 0.15s, box-shadow 0.15s",
+      boxShadow: theme === "dark" ? "inset 0 1px 0 rgba(255,255,255,0.03)" : "inset 0 1px 0 rgba(255,255,255,0.9)",
     },
-    searchIcon: { position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: t.textMuted, fontSize: "14px", pointerEvents: "none" },
+    searchIcon: { position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", color: t.textMuted, fontSize: "15px", pointerEvents: "none" },
     clearBtn: {
       position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)",
-      background: "none", border: "none", color: t.textMuted, fontSize: "16px",
-      cursor: "pointer", padding: "2px 6px", lineHeight: 1, borderRadius: "4px",
+      background: t.accentSurface, border: "none", color: t.textMuted, fontSize: "16px",
+      cursor: "pointer", padding: 0, lineHeight: 1, borderRadius: "10px",
+      width: "28px", height: "28px",
     },
     kbdHint: {
       position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)",
-      color: "#475569", fontSize: "11px", fontFamily: "monospace",
-      border: `1px solid ${t.border}`, borderRadius: "4px", padding: "1px 6px",
-      pointerEvents: "none", lineHeight: "18px",
+      color: t.textMuted, fontSize: "11px", fontFamily: "'JetBrains Mono', monospace",
+      border: `1px solid ${t.border}`, borderRadius: "8px", padding: "3px 7px",
+      pointerEvents: "none", lineHeight: 1, background: t.bgSection,
     },
-    breadcrumbs: { display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: t.textMuted, flexWrap: "wrap" },
+    breadcrumbs: { display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", color: t.textMuted, flexWrap: "wrap" },
     breadcrumbLink: { color: t.accent, cursor: "pointer", textDecoration: "none", background: "none", border: "none", font: "inherit", padding: 0 },
-    main: { maxWidth: "900px", margin: "0 auto", padding: "20px 16px 80px" },
+    main: { maxWidth: "1100px", margin: "0 auto", padding: "32px 20px 96px" },
     card: {
-      background: t.bgCard, border: `1px solid ${t.border}`, borderRadius: "10px",
-      padding: "18px", marginBottom: "10px", cursor: "pointer",
+      background: t.bgCard, border: `1px solid ${t.border}`, borderRadius: "18px",
+      padding: "18px", marginBottom: "14px", cursor: "pointer", boxShadow: t.shadowSm,
     },
     sectionHeader: {
       display: "flex", alignItems: "center", justifyContent: "space-between",
-      cursor: "pointer", padding: "12px 16px", background: t.bgCard,
-      border: `1px solid ${t.border}`, borderRadius: "8px", marginBottom: "2px", userSelect: "none",
-      transition: "background 0.1s ease",
+      cursor: "pointer", padding: "14px 18px", background: t.bgCard,
+      border: `1px solid ${t.border}`, borderRadius: "16px", marginBottom: "2px", userSelect: "none",
+      transition: "background 0.1s ease", boxShadow: t.shadowSm,
     },
     sectionContent: {
-      padding: "14px 16px", background: t.bgSection, border: `1px solid ${t.border}`,
-      borderTop: "none", borderRadius: "0 0 8px 8px", marginBottom: "8px",
+      padding: "18px 20px", background: t.bgSection, border: `1px solid ${t.border}`,
+      borderTop: "none", borderRadius: "0 0 16px 16px", marginBottom: "12px",
     },
-    tag: { display: "inline-block", padding: "3px 10px", borderRadius: "9999px", fontSize: "11px", fontWeight: 600, letterSpacing: "0.3px" },
+    tag: { display: "inline-block", padding: "5px 11px", borderRadius: "9999px", fontSize: "11px", fontWeight: 700, letterSpacing: "0.05em" },
     drugLink: {
-      color: t.accent, cursor: "pointer", textDecoration: "underline",
-      textUnderlineOffset: "3px", background: "none", border: "none", font: "inherit", padding: 0,
+      color: t.accent, cursor: "pointer", textDecoration: "none",
+      borderBottom: `1px solid ${t.accent}55`, background: "none", borderTop: "none", borderLeft: "none", borderRight: "none", font: "inherit", padding: 0,
     },
     pearlBox: {
-      background: t.bgPearl, border: `1px solid ${t.borderPearl}`, borderRadius: "8px",
-      padding: "12px 16px", marginBottom: "8px", fontSize: "13px", lineHeight: 1.65, color: "#fde68a",
+      background: t.bgPearl, border: `1px solid ${t.borderPearl}`, borderRadius: "14px",
+      padding: "14px 16px", marginBottom: "10px", fontSize: "14px", lineHeight: 1.7, color: t.textSecondary,
     },
-    monographLabel: { fontSize: "11px", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: t.textMuted, marginBottom: "8px" },
-    monographValue: { fontSize: "14px", lineHeight: 1.7, color: t.textSecondary },
+    monographLabel: { fontSize: "11px", fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: t.textMuted, marginBottom: "8px" },
+    monographValue: { fontSize: "15px", lineHeight: 1.72, color: t.textSecondary },
     interactionItem: {
-      padding: "10px 14px", background: t.bg, borderLeft: "3px solid #f59e0b",
-      marginBottom: "6px", borderRadius: "0 6px 6px 0", fontSize: "13px", lineHeight: 1.6,
+      padding: "12px 14px", background: t.bgCard, borderLeft: "4px solid #f59e0b",
+      marginBottom: "8px", borderRadius: "12px", fontSize: "13px", lineHeight: 1.65, boxShadow: t.shadowSm,
     },
-    aeGrid: { display: "grid", gap: "10px" },
+    aeGrid: { display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" },
+    detailList: { display: "grid", gap: "2px" },
+    detailRow: {
+      display: "grid",
+      gridTemplateColumns: "minmax(150px, 210px) 1fr",
+      gap: "14px",
+      alignItems: "start",
+      padding: "14px 0",
+      borderBottom: `1px solid ${t.border}`,
+    },
+    detailKey: {
+      fontSize: "11px",
+      fontWeight: 800,
+      letterSpacing: "0.12em",
+      textTransform: "uppercase",
+      color: t.textMuted,
+    },
+    detailValue: {
+      fontSize: "13px",
+      lineHeight: 1.7,
+      color: t.textSecondary,
+    },
+    proseCallout: {
+      background: t.bgCard,
+      border: `1px solid ${t.border}`,
+      borderRadius: "16px",
+      padding: "16px 18px",
+      boxShadow: t.shadowSm,
+    },
+    quickFactsGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+      gap: "10px",
+      marginTop: "18px",
+    },
+    quickFactCard: {
+      background: theme === "dark" ? "rgba(15, 23, 42, 0.56)" : "rgba(255, 255, 255, 0.76)",
+      border: `1px solid ${t.border}`,
+      borderRadius: "16px",
+      padding: "14px 16px",
+      boxShadow: t.shadowSm,
+    },
     backBtn: {
-      display: "inline-flex", alignItems: "center", gap: "6px", color: t.accent,
-      background: "none", border: "none", fontSize: "13px", cursor: "pointer",
-      padding: "6px 0", marginBottom: "12px", fontFamily: "inherit",
+      display: "inline-flex", alignItems: "center", gap: "8px", color: t.textSecondary,
+      background: t.bgCard, border: `1px solid ${t.border}`, fontSize: "13px", cursor: "pointer",
+      padding: "9px 14px", marginBottom: "18px", fontFamily: "inherit", borderRadius: "9999px", boxShadow: t.shadowSm,
     },
     expandAllBtn: {
-      background: "none", border: `1px solid ${t.borderAccent}`, borderRadius: "6px",
-      color: t.textMuted, fontSize: "11px", padding: "4px 10px", cursor: "pointer",
+      background: t.bgCard, border: `1px solid ${t.border}`, borderRadius: "9999px",
+      color: t.textSecondary, fontSize: "12px", padding: "7px 12px", cursor: "pointer",
       fontFamily: "inherit", marginRight: "6px",
-      transition: "color 0.15s, border-color 0.15s",
+      transition: "color 0.15s, border-color 0.15s, transform 0.15s",
     },
     topBtn: {
-      position: "fixed", bottom: "24px", right: "24px", width: "40px", height: "40px",
-      borderRadius: "50%", background: t.topBtnBg, border: `1px solid ${t.topBtnBorder}`,
+      position: "fixed", bottom: "24px", right: "24px", width: "48px", height: "48px",
+      borderRadius: "16px", background: t.topBtnBg, border: `1px solid ${t.topBtnBorder}`,
       color: t.textSecondary, fontSize: "18px", cursor: "pointer", display: "flex",
       alignItems: "center", justifyContent: "center", zIndex: 50,
-      boxShadow: "0 4px 12px #0006",
+      boxShadow: t.shadowMd,
     },
     crossRefPill: {
-      display: "inline-block", fontSize: "10px", fontWeight: 600, padding: "2px 8px",
+      display: "inline-block", fontSize: "11px", fontWeight: 700, padding: "5px 10px",
       borderRadius: "9999px", background: t.bgCard, color: t.textSecondary,
       border: `1px solid ${t.border}`, cursor: "pointer", marginRight: "4px", marginBottom: "4px",
       transition: "all 0.15s ease",
@@ -270,21 +535,22 @@ export function makeStyles(theme: "dark" | "light"): any {
     // --- NEW: Toast ---
     toast: {
       position: "fixed", bottom: "80px", right: "24px", zIndex: 200,
-      background: "#1e293b", border: "1px solid #334155", borderRadius: "10px",
-      padding: "10px 16px", color: "#e2e8f0", fontSize: "13px",
-      boxShadow: "0 8px 32px #0008", maxWidth: "320px",
+      background: t.bgCard, border: `1px solid ${t.border}`, borderRadius: "16px",
+      padding: "12px 16px", color: t.text, fontSize: "13px",
+      boxShadow: t.shadowLg, maxWidth: "360px",
       display: "flex", alignItems: "center", gap: "8px",
+      backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)",
     },
     // --- NEW: Copy button ---
     copyBtn: {
-      background: "none", border: `1px solid ${t.border}`, borderRadius: "4px",
-      color: t.textMuted, fontSize: "10px", padding: "2px 6px", cursor: "pointer",
-      fontFamily: "'IBM Plex Mono', monospace", lineHeight: 1.4, flexShrink: 0,
+      background: t.codeBg, border: `1px solid ${t.border}`, borderRadius: "10px",
+      color: t.textMuted, fontSize: "11px", padding: "4px 8px", cursor: "pointer",
+      fontFamily: "'JetBrains Mono', monospace", lineHeight: 1.4, flexShrink: 0,
     },
     // --- NEW: Theme toggle ---
     themeToggle: {
-      background: "none", border: `1px solid ${t.borderAccent}`, borderRadius: "6px",
-      color: t.textMuted, fontSize: "14px", padding: "4px 8px", cursor: "pointer",
+      background: t.bgCard, border: `1px solid ${t.border}`, borderRadius: "12px",
+      color: t.textSecondary, fontSize: "13px", padding: "10px 12px", cursor: "pointer",
       fontFamily: "inherit", transition: "all 0.15s",
       display: "flex", alignItems: "center", justifyContent: "center",
     },
@@ -293,13 +559,13 @@ export function makeStyles(theme: "dark" | "light"): any {
       display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px",
     },
     compareHeader: {
-      fontSize: "16px", fontWeight: 700, color: t.accent, marginBottom: "12px",
+      fontSize: "16px", fontWeight: 700, color: t.textHeading, marginBottom: "12px",
       padding: "12px 16px", background: t.bgCard, border: `1px solid ${t.border}`,
-      borderRadius: "8px", textAlign: "center",
+      borderRadius: "16px", textAlign: "center", boxShadow: t.shadowSm,
     },
     compareCell: {
       padding: "10px 14px", background: t.bgCard, fontSize: "13px",
-      lineHeight: 1.6, color: t.textSecondary,
+      lineHeight: 1.65, color: t.textSecondary, boxShadow: t.shadowSm,
     },
     compareLabelRow: {
       padding: "8px 14px", background: t.bgSection, fontSize: "11px",
@@ -309,26 +575,26 @@ export function makeStyles(theme: "dark" | "light"): any {
     // --- NEW: Allergy badge ---
     allergyBadge: {
       display: "inline-flex", alignItems: "center", gap: "4px",
-      background: "#7f1d1d30", border: "1px solid #f8717140", borderRadius: "6px",
-      padding: "3px 8px", fontSize: "10px", fontWeight: 600, color: "#f87171",
-      letterSpacing: "0.3px",
+      background: "#7f1d1d18", border: "1px solid #f8717140", borderRadius: "9999px",
+      padding: "5px 10px", fontSize: "11px", fontWeight: 700, color: "#f87171",
+      letterSpacing: "0.04em", flexWrap: "wrap",
     },
     // --- NEW: Header toolbar ---
     headerToolbar: {
-      display: "flex", alignItems: "center", gap: "6px", flexShrink: 0,
+      display: "flex", alignItems: "center", gap: "8px", flexShrink: 0,
     },
   };
 }
 
 export const TAG_COLORS = {
-  green: { background: "#065f4620", color: "#34d399", border: "1px solid #065f4640" },
-  yellow: { background: "#92400e20", color: "#fbbf24", border: "1px solid #92400e40" },
-  red: { background: "#7f1d1d20", color: "#f87171", border: "1px solid #7f1d1d40" },
-  blue: { background: "#1e3a5f20", color: "#60a5fa", border: "1px solid #1e3a5f40" },
-  purple: { background: "#4a1d7520", color: "#c084fc", border: "1px solid #4a1d7540" },
-  cyan: { background: "#0e4a5f20", color: "#22d3ee", border: "1px solid #0e4a5f40" },
-  pink: { background: "#7f1d4e20", color: "#f472b6", border: "1px solid #7f1d4e40" },
-  emerald: { background: "#064e3b20", color: "#6ee7b7", border: "1px solid #064e3b40" },
+  green: { background: "#10b98118", color: "#34d399", border: "1px solid #10b98135" },
+  yellow: { background: "#f59e0b18", color: "#fbbf24", border: "1px solid #f59e0b35" },
+  red: { background: "#ef444418", color: "#f87171", border: "1px solid #ef444435" },
+  blue: { background: "#3b82f618", color: "#60a5fa", border: "1px solid #3b82f635" },
+  purple: { background: "#8b5cf618", color: "#c084fc", border: "1px solid #8b5cf635" },
+  cyan: { background: "#06b6d418", color: "#22d3ee", border: "1px solid #06b6d435" },
+  pink: { background: "#ec489918", color: "#f472b6", border: "1px solid #ec489935" },
+  emerald: { background: "#14b8a618", color: "#5eead4", border: "1px solid #14b8a635" },
 };
 
 export const getLineStyle = (lineName: string) => {
@@ -374,11 +640,11 @@ export const getLineStyle = (lineName: string) => {
 };
 
 export const aeCard = (color: string) => ({
-  padding: "12px 16px", background: `${color}10`,
-  border: `1px solid ${color}30`, borderRadius: "8px",
+  padding: "14px 16px", background: `${color}12`,
+  border: `1px solid ${color}30`, borderRadius: "16px",
 });
 export const aeLabel = (color: string) => ({
-  fontSize: "11px", fontWeight: 700, letterSpacing: "0.5px",
+  fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em",
   textTransform: "uppercase", color, marginBottom: "6px",
 });
 
@@ -394,6 +660,9 @@ export function applyThemeVars(themeName: "dark" | "light") {
   root.style.setProperty("--pr-accent", t.accent);
   root.style.setProperty("--pr-accent-hover", t.accentHover);
   root.style.setProperty("--pr-accent-glow", t.accent + "20");
+  root.style.setProperty("--pr-accent-soft", t.accentSurfaceStrong);
   root.style.setProperty("--pr-section-hover", t.sectionHdrHover);
+  root.style.setProperty("--pr-top-btn-hover", t.topBtnHoverBg);
+  root.style.setProperty("--pr-card-hover-shadow", t.shadowLg);
   document.body.style.background = t.bg;
 }
