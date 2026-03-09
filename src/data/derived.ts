@@ -1,6 +1,7 @@
 import type {
   DiseaseState,
   DrugMonograph,
+  DrugSearchResult,
   MonographLookupResult,
   OrganismSpecific,
   Subcategory,
@@ -152,3 +153,37 @@ export const SEARCH_INDEX: SearchEntry[] = (() => {
 export function findMonograph(drugId: string): MonographLookupResult | null {
   return MONOGRAPH_LOOKUP[drugId] ?? null;
 }
+
+export const CLASS_GROUPS: Array<{ label: string; keywords: string[] }> = [
+  { label: "Penicillins",                keywords: ["aminopenicillin", "anti-staphylococcal penicillin", "extended-spectrum penicillin"] },
+  { label: "Cephalosporins",             keywords: ["cephalosporin"] },
+  { label: "Carbapenems",                keywords: ["carbapenem"] },
+  { label: "β-Lactam Combinations",      keywords: ["beta-lactamase inhibitor", "monobactam"] },
+  { label: "Fluoroquinolones",           keywords: ["fluoroquinolone"] },
+  { label: "Aminoglycosides",            keywords: ["aminoglycoside"] },
+  { label: "Glycopeptides",              keywords: ["glycopeptide"] },
+  { label: "Oxazolidinones",             keywords: ["oxazolidinone"] },
+  { label: "Cyclic Lipopeptides",        keywords: ["cyclic lipopeptide"] },
+  { label: "Macrolides & Tetracyclines", keywords: ["macrolide", "tetracycline"] },
+  { label: "Nitroimidazoles",            keywords: ["nitroimidazole"] },
+  { label: "Azoles",                     keywords: ["triazole", "azole"] },
+  { label: "Echinocandins",              keywords: ["echinocandin"] },
+  { label: "Polyenes",                   keywords: ["polyene"] },
+  { label: "Other",                      keywords: [] },
+];
+
+export function getDrugClassGroup(drugClass: string): string {
+  const lower = drugClass.toLowerCase();
+  for (const g of CLASS_GROUPS) {
+    if (g.keywords.length && g.keywords.some((kw) => lower.includes(kw))) return g.label;
+  }
+  return "Other";
+}
+
+export const MONOGRAPHS_BY_CLASS: Record<string, DrugSearchResult[]> = (() => {
+  const map: Record<string, DrugSearchResult[]> = {};
+  ALL_MONOGRAPHS.forEach((m) => {
+    (map[getDrugClassGroup(m.drugClass)] ??= []).push(m);
+  });
+  return map;
+})();

@@ -23,7 +23,6 @@ import SubcategoryPage from "./pages/SubcategoryPage";
 import CalculatorsPage from "./pages/CalculatorsPage";
 import type { ThemeKey } from "./types";
 
-const SEARCH_PREVIEW_LIMIT = 8;
 
 async function copyToClipboard(text: string): Promise<boolean> {
   try {
@@ -304,7 +303,6 @@ export default function PharmRef() {
         <SearchResultsPage
           query={deferredQuery}
           results={searchResults}
-          limit={SEARCH_PREVIEW_LIMIT}
           navigateTo={navigateTo}
           onClearSearch={() => setSearchQuery("")}
           S={S}
@@ -414,6 +412,7 @@ export default function PharmRef() {
           onExpandAll={expandAll}
           readingMode={readingMode}
           S={S}
+          showToast={showToast}
           subcategory={selectedSubcategory}
           toggleSection={toggleSection}
         />

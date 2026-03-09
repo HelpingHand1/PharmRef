@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
 import EmpiricTierView from "../components/EmpiricTierView";
 import Section from "../components/Section";
@@ -23,6 +24,7 @@ interface SubcategoryPageProps {
   onExpandAll: () => void;
   readingMode: boolean;
   S: Styles;
+  showToast: (message: string, icon?: string) => void;
   subcategory: Subcategory;
   toggleSection: (id: string) => void;
 }
@@ -39,9 +41,18 @@ export default function SubcategoryPage({
   onExpandAll,
   readingMode,
   S,
+  showToast,
   subcategory,
   toggleSection,
 }: SubcategoryPageProps) {
+  const handleShare = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      showToast("Link copied to clipboard", "🔗");
+    } catch {
+      showToast("Could not copy link", "⚠");
+    }
+  }, [showToast]);
   const hasOrganisms = (subcategory.organismSpecific?.length ?? 0) > 0;
   const summaryFacts = [
     {
@@ -64,7 +75,29 @@ export default function SubcategoryPage({
         ← {disease.name}
       </button>
 
-      <section className="page-hero" style={{ ...S.card, cursor: "default", padding: "22px 24px", marginBottom: "22px" }}>
+      <section className="page-hero" style={{ ...S.card, cursor: "default", padding: "22px 24px", marginBottom: "22px", position: "relative" }}>
+        <button
+          type="button"
+          className="no-print"
+          title="Copy link to this section"
+          onClick={handleShare}
+          style={{
+            position: "absolute",
+            top: "14px",
+            right: "14px",
+            background: "transparent",
+            border: `1px solid ${S.meta.border}`,
+            borderRadius: "8px",
+            color: S.meta.textMuted,
+            fontSize: "16px",
+            cursor: "pointer",
+            padding: "5px 9px",
+            lineHeight: 1,
+            transition: "background 0.15s, border-color 0.15s, color 0.15s",
+          }}
+        >
+          🔗
+        </button>
         <div className="page-hero-copy">
           <div style={{ ...S.monographLabel, color: S.meta.accent, marginBottom: "8px" }}>{disease.name}</div>
           <h1 style={{ fontSize: "28px", lineHeight: 1.08, letterSpacing: "-0.04em", margin: 0, color: S.meta.textHeading }}>{subcategory.name}</h1>

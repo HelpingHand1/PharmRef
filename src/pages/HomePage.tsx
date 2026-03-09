@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { CLASS_GROUPS, MONOGRAPHS_BY_CLASS } from "../data/derived";
 import { NAV_STATES } from "../styles/constants";
 import type {
   DiseaseState,
@@ -44,6 +46,34 @@ export default function HomePage({
   toggleBookmark,
   totalSubcategories,
 }: HomePageProps) {
+  const [activeClass, setActiveClass] = useState<string | null>(null);
+
+  const classPillBase = { ...S.crossRefPill, fontFamily: "inherit" } as const;
+  const classPillActive = { ...classPillBase, background: S.meta.accentSurface, color: S.meta.accent, borderColor: S.meta.accent } as const;
+
+  const drugPill = (drug: (typeof allMonographs)[number]) => (
+    <button
+      key={drug.id}
+      type="button"
+      className="mono-grid-card"
+      style={{
+        background: S.card.background,
+        border: `1px solid ${S.card.borderColor}`,
+        borderRadius: "9999px",
+        padding: "8px 14px",
+        color: S.meta.accent,
+        fontSize: "12px",
+        fontWeight: 700,
+        cursor: "pointer",
+        fontFamily: "inherit",
+        boxShadow: S.meta.shadowSm,
+      }}
+      onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { disease: drug.parentDisease, monograph: drug })}
+    >
+      {drug.name}
+    </button>
+  );
+
   const stats = [
     { label: "Disease States", value: diseaseStates.length },
     { label: "Subcategories", value: totalSubcategories },
@@ -335,33 +365,42 @@ export default function HomePage({
         ))}
       </div>
 
-      <div style={{ ...S.monographLabel, marginTop: "30px", marginBottom: "10px", fontSize: "12px" }}>
-        All Drug Monographs ({allMonographs.length})
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginTop: "30px", marginBottom: "14px", flexWrap: "wrap" }}>
+        <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>All Drug Monographs ({allMonographs.length})</div>
       </div>
-      <div className="monograph-pills" style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-        {allMonographs.map((drug) => (
+
+      <div style={{ display: "flex", flexWrap: "wrap", marginBottom: "16px" }}>
+        <button type="button" style={activeClass === null ? classPillActive : classPillBase} onClick={() => setActiveClass(null)}>
+          All Classes
+        </button>
+        {CLASS_GROUPS.filter((g) => (MONOGRAPHS_BY_CLASS[g.label] ?? []).length > 0).map((g) => (
           <button
-            key={drug.id}
+            key={g.label}
             type="button"
-            className="mono-grid-card"
-            style={{
-              background: S.card.background,
-              border: `1px solid ${S.card.borderColor}`,
-              borderRadius: "9999px",
-              padding: "8px 14px",
-              color: S.meta.accent,
-              fontSize: "12px",
-              fontWeight: 700,
-              cursor: "pointer",
-              fontFamily: "inherit",
-              boxShadow: S.meta.shadowSm,
-            }}
-            onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { disease: drug.parentDisease, monograph: drug })}
+            style={activeClass === g.label ? classPillActive : classPillBase}
+            onClick={() => setActiveClass(g.label)}
           >
-            {drug.name}
+            {g.label}
           </button>
         ))}
       </div>
+
+      {activeClass !== null ? (
+        <div className="monograph-pills" style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+          {(MONOGRAPHS_BY_CLASS[activeClass] ?? []).map(drugPill)}
+        </div>
+      ) : (
+        <>
+          {CLASS_GROUPS.filter((g) => (MONOGRAPHS_BY_CLASS[g.label] ?? []).length > 0).map((g) => (
+            <div key={g.label} style={{ marginBottom: "20px" }}>
+              <div style={{ ...S.monographLabel, fontSize: "11px", marginBottom: "8px" }}>{g.label}</div>
+              <div className="monograph-pills" style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                {MONOGRAPHS_BY_CLASS[g.label].map(drugPill)}
+              </div>
+            </div>
+          ))}
+        </>
+      )}
     </>
   );
 }

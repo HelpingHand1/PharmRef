@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { AllergyWarningProps } from "../types";
 
 // ============================================================
@@ -169,7 +170,7 @@ export function checkAllergyMatch(drugId: string, allergies: Array<{ name: strin
   return null;
 }
 
-export default function AllergyWarning({ drugId, allergies, S }: AllergyWarningProps) {
+const AllergyWarning = memo(function AllergyWarning({ drugId, allergies, S }: AllergyWarningProps) {
   const match = checkAllergyMatch(drugId, allergies);
   if (!match) return null;
 
@@ -219,4 +220,6 @@ export default function AllergyWarning({ drugId, allergies, S }: AllergyWarningP
       )}
     </div>
   );
-}
+});
+
+export default AllergyWarning;

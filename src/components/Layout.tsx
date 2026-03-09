@@ -181,7 +181,7 @@ export default function Layout({
           lineHeight: 1.6,
         }}
       >
-        PharmRef v2.1.0 &middot; Content updated March 2026 &middot; For educational use only &mdash; verify all clinical decisions against current guidelines
+        PharmRef v2.2.0 &middot; Content updated March 2026 &middot; For educational use only &mdash; verify all clinical decisions against current guidelines
       </footer>
       {showTopBtn && (
         <button

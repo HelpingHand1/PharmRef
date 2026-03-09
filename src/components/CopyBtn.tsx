@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { CopyBtnProps } from "../types";
 
-export default function CopyBtn({ text, id, copiedId, onCopy, S }: CopyBtnProps) {
+const CopyBtn = memo(function CopyBtn({ text, id, copiedId, onCopy, S }: CopyBtnProps) {
   return (
     <button
       className="copy-btn"
@@ -11,4 +12,6 @@ export default function CopyBtn({ text, id, copiedId, onCopy, S }: CopyBtnProps)
       {copiedId === id ? "✓" : "⎘"}
     </button>
   );
-}
+});
+
+export default CopyBtn;

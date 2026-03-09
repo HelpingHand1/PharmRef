@@ -1,7 +1,8 @@
+import { memo } from "react";
 import { NAV_STATES } from "../styles/constants";
 import { CrossRefBadgesProps } from "../types";
 
-export default function CrossRefBadges({
+const CrossRefBadges = memo(function CrossRefBadges({
   drugId,
   currentDiseaseId,
   monographXref,
@@ -28,4 +29,6 @@ export default function CrossRefBadges({
       ))}
     </div>
   );
-}
+});
+
+export default CrossRefBadges;

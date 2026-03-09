@@ -1,10 +1,11 @@
+import { memo } from "react";
 import { NAV_STATES } from "../styles/constants";
 import { EmpiricTierViewProps } from "../types";
 import { getLineStyle } from "../styles/constants";
 import CopyBtn from "./CopyBtn";
 import AllergyWarning from "./AllergyWarning";
 
-export default function EmpiricTierView({
+const EmpiricTierView = memo(function EmpiricTierView({
   tier,
   S,
   navigateTo,
@@ -71,4 +72,6 @@ export default function EmpiricTierView({
       })}
     </div>
   );
-}
+});
+
+export default EmpiricTierView;

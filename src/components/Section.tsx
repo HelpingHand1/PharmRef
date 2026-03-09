@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { SectionProps } from "../types";
 
-export default function Section({
+const Section = memo(function Section({
   id,
   title,
   icon,
@@ -57,4 +58,6 @@ export default function Section({
       </div>
     </div>
   );
-}
+});
+
+export default Section;

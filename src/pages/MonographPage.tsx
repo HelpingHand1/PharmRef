@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import AllergyWarning from "../components/AllergyWarning";
 import CrossRefBadges from "../components/CrossRefBadges";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
@@ -65,6 +66,14 @@ export default function MonographPage({
   const crclActive = crcl !== null;
   const bookmarkId = `monograph:${monograph.id}`;
   const bookmarked = isBookmarked(bookmarkId);
+  const handleShare = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      showToast("Link copied to clipboard", "🔗");
+    } catch {
+      showToast("Could not copy link", "⚠");
+    }
+  }, [showToast]);
   const quickFacts = [
     { label: "Drug Class", value: monograph.drugClass },
     { label: "Brand Names", value: monograph.brandNames || "Generic only" },
@@ -97,6 +106,28 @@ export default function MonographPage({
               : "linear-gradient(135deg, rgba(255, 253, 249, 0.98) 0%, rgba(248, 250, 247, 0.96) 62%, rgba(224, 242, 254, 0.64) 100%)",
         }}
       >
+        <button
+          type="button"
+          className="no-print"
+          title="Copy link to this monograph"
+          onClick={handleShare}
+          style={{
+            position: "absolute",
+            top: "14px",
+            right: "58px",
+            background: "transparent",
+            border: `1px solid ${S.meta.border}`,
+            borderRadius: "8px",
+            color: S.meta.textMuted,
+            fontSize: "16px",
+            cursor: "pointer",
+            padding: "5px 9px",
+            lineHeight: 1,
+            transition: "background 0.15s, border-color 0.15s, color 0.15s",
+          }}
+        >
+          🔗
+        </button>
         <button
           type="button"
           className="no-print"

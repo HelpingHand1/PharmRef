@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { AllergyModalProps } from "../types";
 
 export default function AllergyModal({
@@ -12,6 +13,13 @@ export default function AllergyModal({
   addAllergy,
   removeAllergy,
 }: AllergyModalProps) {
+  useEffect(() => {
+    if (!show) return;
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [show, onClose]);
+
   if (!show) return null;
   const dark = theme === "dark";
   const bg = dark ? "rgba(15, 23, 42, 0.94)" : "rgba(255, 253, 249, 0.98)";

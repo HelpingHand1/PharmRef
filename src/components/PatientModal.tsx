@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { PatientContext, ThemeKey } from "../types";
 
 interface PatientModalProps {
@@ -36,6 +37,13 @@ export default function PatientModal({
   ibw,
   adjbw,
 }: PatientModalProps) {
+  useEffect(() => {
+    if (!show) return;
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [show, onClose]);
+
   if (!show) return null;
 
   const isDark = theme !== "light";
