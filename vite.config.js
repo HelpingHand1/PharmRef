@@ -25,6 +25,14 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    host: true,        // listens on all interfaces — enables phone access on same Wi-Fi
+    port: 5173,
+  },
+  preview: {
+    host: true,        // also enables `npm run preview` on network
+    port: 4173,
+  },
   build: {
     chunkSizeWarningLimit: 900,
     rollupOptions: {

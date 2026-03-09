@@ -10,6 +10,7 @@ function stateToHash(
   monograph: DrugMonograph | null,
 ): string {
   if (navState === "audit") return "#/audit";
+  if (navState === NAV_STATES.CALCULATORS) return "#/calculators";
   if (navState === NAV_STATES.COMPARE) return "#/compare";
   if (navState === NAV_STATES.MONOGRAPH && disease && monograph) return `#/${disease.id}/drug/${monograph.id}`;
   if (navState === NAV_STATES.SUBCATEGORY && disease && subcategory) return `#/${disease.id}/${subcategory.id}`;
@@ -35,6 +36,10 @@ function hashToState(hash: string): {
 
   if (parts[0] === "audit") {
     return { nav: "audit", disease: null, subcategory: null, monograph: null };
+  }
+
+  if (parts[0] === "calculators") {
+    return { nav: NAV_STATES.CALCULATORS, disease: null, subcategory: null, monograph: null };
   }
 
   const disease = DISEASE_BY_ID[parts[0]] ?? null;
@@ -104,7 +109,7 @@ export function useNavigation() {
       startTransition(() => {
         setNavState(state);
 
-        if (state === NAV_STATES.HOME || state === NAV_STATES.COMPARE || state === "audit") {
+        if (state === NAV_STATES.HOME || state === NAV_STATES.COMPARE || state === "audit" || state === NAV_STATES.CALCULATORS) {
           setSelectedDisease(null);
           setSelectedSubcategory(null);
           setSelectedMonograph(null);

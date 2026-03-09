@@ -92,6 +92,47 @@ export default function SubcategoryPage({
         </div>
       </section>
 
+      {subcategory.durationGuidance && (
+        <div
+          style={{
+            background: S.card.background,
+            border: `1px solid ${S.card.borderColor}`,
+            borderLeft: "4px solid #38bdf8",
+            borderRadius: "14px",
+            padding: "14px 18px",
+            marginBottom: "18px",
+            display: "grid",
+            gap: "10px",
+          }}
+        >
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "#38bdf8" }}>
+            ⏱ Treatment Duration Guidance
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap" as const, gap: "14px" }}>
+            <div>
+              <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, color: S.monographValue.color, marginBottom: "2px" }}>Standard</div>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading, fontFamily: "'JetBrains Mono', monospace" }}>{subcategory.durationGuidance.standard}</div>
+            </div>
+            {subcategory.durationGuidance.severe && (
+              <div>
+                <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, color: "#f87171", marginBottom: "2px" }}>Severe / Complicated</div>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: "#f87171", fontFamily: "'JetBrains Mono', monospace" }}>{subcategory.durationGuidance.severe}</div>
+              </div>
+            )}
+          </div>
+          {subcategory.durationGuidance.opatNote && (
+            <div style={{ fontSize: "12px", color: "#0284c7", fontWeight: 600 }}>
+              🏠 OPAT: {subcategory.durationGuidance.opatNote}
+            </div>
+          )}
+          {subcategory.durationGuidance.stewardshipNote && (
+            <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.5 }}>
+              📋 {subcategory.durationGuidance.stewardshipNote}
+            </div>
+          )}
+        </div>
+      )}
+
       <ExpandCollapseBar S={S} onExpand={onExpandAll} onCollapse={onCollapseAll} />
 
       {subcategory.clinicalPresentation && !subcategory.clinicalPresentation.startsWith("N/A") && (

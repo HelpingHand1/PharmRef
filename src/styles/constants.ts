@@ -7,6 +7,7 @@ export const NAV_STATES = {
   SUBCATEGORY: "subcategory",
   MONOGRAPH: "monograph",
   COMPARE: "compare",
+  CALCULATORS: "calculators",
 } as const;
 
 // ============================================================
@@ -45,6 +46,39 @@ export const THEMES = {
     shadowLg: "0 22px 60px rgba(2, 8, 23, 0.44)",
     overlay: "rgba(2, 8, 23, 0.58)",
     codeBg: "rgba(15, 23, 42, 0.72)",
+  },
+  oled: {
+    name: "oled",
+    bg: "#000000",
+    bgCard: "rgba(5, 5, 5, 0.98)",
+    bgSection: "rgba(10, 10, 10, 0.96)",
+    bgHeader: "linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(5, 5, 5, 0.96) 50%, rgba(8, 20, 36, 0.92) 100%)",
+    bgInput: "rgba(8, 8, 8, 0.96)",
+    bgPearl: "#fde68a0d",
+    borderPearl: "#f59e0b28",
+    border: "#1a2538",
+    borderAccent: "#243347",
+    text: "#e5eef8",
+    textSecondary: "#c3d0e0",
+    textMuted: "#7a8fa8",
+    textHeading: "#f8fbff",
+    accent: "#7dd3fc",
+    accentHover: "#bae6fd",
+    accentSurface: "#38bdf80d",
+    accentSurfaceStrong: "#38bdf81a",
+    heroGlow: "#0ea5e910",
+    scrollTrack: "#000000",
+    scrollThumb: "#2d4a66",
+    scrollThumbHover: "#3d5f80",
+    topBtnBg: "rgba(5, 5, 5, 0.98)",
+    topBtnBorder: "#243347",
+    topBtnHoverBg: "#0d1a2b",
+    sectionHdrHover: "rgba(10, 15, 25, 0.96)",
+    shadowSm: "0 4px 18px rgba(0, 0, 0, 0.5)",
+    shadowMd: "0 14px 34px rgba(0, 0, 0, 0.6)",
+    shadowLg: "0 22px 60px rgba(0, 0, 0, 0.7)",
+    overlay: "rgba(0, 0, 0, 0.72)",
+    codeBg: "rgba(5, 5, 5, 0.96)",
   },
   light: {
     name: "light",
@@ -159,6 +193,17 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
     .reading-mode main { max-width: 680px !important; }
     .reading-mode .section-content-anim { max-height: none !important; opacity: 1 !important; overflow: visible !important; }
     .reading-mode .section-hdr { cursor: default !important; }
+
+    /* Reduced motion accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .section-content-anim { transition: none !important; }
+      .pr-card { transition: none !important; }
+      .pr-card:hover { transform: none !important; }
+      .top-btn { transition: none !important; }
+      .pr-toast { animation: none !important; opacity: 1 !important; transform: translateX(0) !important; }
+      .allergy-badge { animation: none !important; }
+      * { scroll-behavior: auto !important; }
+    }
 
     /* Print styles */
     @media print {
@@ -366,7 +411,7 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
 // ============================================================
 // DYNAMIC STYLE GENERATOR (theme-aware)
 // ============================================================
-export function makeStyles(theme: "dark" | "light"): any {
+export function makeStyles(theme: "dark" | "light" | "oled"): any {
   const t = THEMES[theme] || THEMES.dark;
   return {
     meta: {
@@ -583,6 +628,61 @@ export function makeStyles(theme: "dark" | "light"): any {
     headerToolbar: {
       display: "flex", alignItems: "center", gap: "8px", flexShrink: 0,
     },
+    // --- v2.1: Duration guidance callout ---
+    durationCallout: {
+      background: theme !== "light" ? "rgba(6, 182, 212, 0.08)" : "rgba(6, 182, 212, 0.06)",
+      border: "1px solid rgba(6, 182, 212, 0.35)",
+      borderRadius: "16px",
+      padding: "14px 18px",
+      marginBottom: "14px",
+      display: "grid",
+      gap: "10px",
+    },
+    // --- v2.1: PK/PD driver chip ---
+    pkpdChip: {
+      display: "inline-flex", alignItems: "center", gap: "6px",
+      padding: "5px 12px", borderRadius: "9999px", fontSize: "11px", fontWeight: 800,
+      letterSpacing: "0.05em", marginBottom: "14px",
+    },
+    // --- v2.1: IV→PO callout ---
+    ivpoCallout: {
+      background: theme !== "light" ? "rgba(6, 182, 212, 0.06)" : "rgba(6, 182, 212, 0.04)",
+      border: "1px solid rgba(6, 182, 212, 0.28)",
+      borderRadius: "14px",
+      padding: "12px 16px",
+      marginBottom: "10px",
+      fontSize: "13px",
+      lineHeight: 1.65,
+      color: t.textSecondary,
+    },
+    // --- v2.1: Patient context banner ---
+    patientBanner: {
+      borderRadius: "12px",
+      padding: "10px 14px",
+      marginBottom: "14px",
+      fontSize: "13px",
+      fontWeight: 600,
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      flexWrap: "wrap" as const,
+    },
+    // --- v2.1: Calculator card ---
+    calcCard: {
+      background: t.bgCard,
+      border: `1px solid ${t.border}`,
+      borderRadius: "20px",
+      padding: "22px 24px",
+      boxShadow: t.shadowSm,
+    },
+    // --- v2.1: Calculator result ---
+    calcResult: {
+      borderRadius: "14px",
+      padding: "14px 18px",
+      marginTop: "16px",
+      fontSize: "15px",
+      fontWeight: 700,
+    },
   };
 }
 
@@ -651,7 +751,7 @@ export const aeLabel = (color: string) => ({
 // ============================================================
 // CSS VARIABLE INJECTOR (call on theme change)
 // ============================================================
-export function applyThemeVars(themeName: "dark" | "light") {
+export function applyThemeVars(themeName: "dark" | "light" | "oled") {
   const t = THEMES[themeName] || THEMES.dark;
   const root = document.documentElement;
   root.style.setProperty("--pr-scroll-track", t.scrollTrack);

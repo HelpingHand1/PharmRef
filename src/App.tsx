@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { AllergyRecord } from "./types";
 import { DISEASE_STATES } from "./data";
+import { usePatientContext } from "./hooks/usePatientContext";
+import { useBookmarks } from "./hooks/useBookmarks";
 import {
   ALL_MONOGRAPHS,
   MONOGRAPH_XREF,
@@ -18,6 +20,8 @@ import HomePage from "./pages/HomePage";
 import MonographPage from "./pages/MonographPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import SubcategoryPage from "./pages/SubcategoryPage";
+import CalculatorsPage from "./pages/CalculatorsPage";
+import type { ThemeKey } from "./types";
 
 const SEARCH_PREVIEW_LIMIT = 8;
 
@@ -41,7 +45,10 @@ export default function PharmRef() {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
   const [showTopBtn, setShowTopBtn] = useState(false);
-  const [theme, setTheme] = usePersistedState<"dark" | "light">("theme", "light");
+  const [theme, setTheme] = usePersistedState<ThemeKey>("theme", "light");
+  const [showPatientModal, setShowPatientModal] = useState(false);
+  const { patient, setPatient, crcl, ibw, adjbw, isActive: patientActive } = usePatientContext();
+  const { bookmarks, toggleBookmark, isBookmarked } = useBookmarks();
   const [allergies, setAllergies] = usePersistedState<AllergyRecord[]>("allergies", []);
   const [readingMode, setReadingMode] = usePersistedState<boolean>("readingMode", false);
   const [toast, setToast] = useState<{ message: string; icon: string; leaving?: boolean } | null>(null);
@@ -223,6 +230,11 @@ export default function PharmRef() {
       return trail;
     }
 
+    if (navState === NAV_STATES.CALCULATORS) {
+      trail.push({ label: "Calculators" });
+      return trail;
+    }
+
     if (selectedDisease && navState !== NAV_STATES.HOME) {
       trail.push({
         label: selectedDisease.name,
@@ -261,10 +273,20 @@ export default function PharmRef() {
     onAddAllergy: addAllergy,
     onCloseAllergyModal: () => setShowAllergyModal(false),
     onHome: handleHome,
+    onOpenAllergyModal: () => setShowAllergyModal(true),
+    onOpenPatientModal: () => setShowPatientModal(true),
+    showPatientModal,
+    onClosePatientModal: () => setShowPatientModal(false),
+    patient,
+    setPatient,
+    patientActive,
+    crcl,
+    ibw,
+    adjbw,
     onRemoveAllergy: removeAllergy,
     onSearchChange: setSearchQuery,
     onToggleReadingMode: () => setReadingMode((current) => !current),
-    onToggleTheme: () => setTheme(theme === "dark" ? "light" : "dark"),
+    onToggleTheme: () => setTheme(theme === "light" ? "dark" : theme === "dark" ? "oled" : "light"),
     readingMode,
     searchQuery,
     searchRef,
@@ -297,9 +319,13 @@ export default function PharmRef() {
         <HomePage
           allMonographs={ALL_MONOGRAPHS}
           allergyCount={allergies.length}
+          bookmarks={bookmarks}
           diseaseStates={DISEASE_STATES}
+          findMonograph={findMonograph}
+          isBookmarked={isBookmarked}
           navigateTo={navigateTo}
           onOpenAllergyModal={() => setShowAllergyModal(true)}
+          onOpenPatientModal={() => setShowPatientModal(true)}
           onOpenRecent={openRecent}
           onStartCompare={() => {
             setCompareItems([]);
@@ -308,6 +334,7 @@ export default function PharmRef() {
           recentViews={recentViews}
           S={S}
           theme={theme}
+          toggleBookmark={toggleBookmark}
           totalSubcategories={TOTAL_SUBCATEGORIES}
         />
       </Layout>
@@ -339,6 +366,17 @@ export default function PharmRef() {
           ← Home
         </button>
         <AuditView diseaseStates={DISEASE_STATES} findMonograph={findMonograph} S={S} />
+      </Layout>
+    );
+  }
+
+  if (navState === NAV_STATES.CALCULATORS) {
+    return (
+      <Layout {...layoutProps} compact>
+        <button type="button" style={S.backBtn} onClick={() => navigateTo(NAV_STATES.HOME)}>
+          ← Home
+        </button>
+        <CalculatorsPage S={S} theme={theme} patient={patient} crcl={crcl} ibw={ibw} adjbw={adjbw} />
       </Layout>
     );
   }
@@ -387,18 +425,24 @@ export default function PharmRef() {
     return (
       <Layout {...layoutProps} compact>
         <MonographPage
+          adjbw={adjbw}
           allergies={allergies}
+          crcl={crcl}
           disease={selectedDisease}
           expandedSections={expandedSections}
+          ibw={ibw}
+          isBookmarked={isBookmarked}
           monograph={selectedMonograph}
           monographXref={MONOGRAPH_XREF}
           navigateTo={navigateTo}
           onCollapseAll={collapseAll}
           onExpandAll={expandAll}
+          patient={patient}
           readingMode={readingMode}
           S={S}
           showToast={showToast}
           theme={theme}
+          toggleBookmark={toggleBookmark}
           toggleSection={toggleSection}
         />
       </Layout>

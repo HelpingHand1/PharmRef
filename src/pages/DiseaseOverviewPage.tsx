@@ -11,7 +11,7 @@ interface DiseaseOverviewPageProps {
   onExpandAll: () => void;
   readingMode: boolean;
   S: Styles;
-  theme: "dark" | "light";
+  theme: import("../types").ThemeKey;
   toggleSection: (id: string) => void;
 }
 

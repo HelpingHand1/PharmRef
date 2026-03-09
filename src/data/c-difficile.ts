@@ -28,11 +28,15 @@ export const CDI = {
       definition: "First episode of CDI without markers of severity. Non-severe CDI: WBC ≤15,000 AND creatinine <1.5 mg/dL (or <1.5× baseline). Presents with watery diarrhea (≥3 unformed stools in 24h), lower abdominal cramping, and low-grade fever. No hemodynamic instability, no signs of ileus or megacolon.",
       clinicalPresentation: "Watery, non-bloody diarrhea (≥3 unformed stools per 24h) is the hallmark. May have lower abdominal cramping, low-grade fever, mild leukocytosis. Onset typically 5-10 days after antibiotic exposure but can be delayed weeks. Stools may have a distinctive foul odor. NO hemodynamic instability, NO peritoneal signs, NO ileus. Important: CDI is a CLINICAL diagnosis confirmed by testing — do not test asymptomatic patients (asymptomatic colonization is common, especially in hospitalized patients).",
       diagnostics: "Two-step testing algorithm (IDSA/SHEA & ACG recommended): Step 1: GDH antigen + toxin EIA (or NAAT/PCR alone). Step 2: If GDH+/toxin−, perform confirmatory NAAT. Interpretation: GDH+/toxin+ = CDI confirmed (treat). GDH−/toxin− = CDI unlikely (do not treat). GDH+/toxin−/NAAT+ = C. diff present with gene for toxin production, but free toxin not detected — clinical judgment needed (may be colonization vs early disease). CRITICAL: Only test patients with clinically significant diarrhea (≥3 unformed stools/24h). Do NOT test formed stools. Do NOT perform 'test of cure' after treatment — PCR remains positive for weeks after clinical cure.",
+      durationGuidance: {
+        standard: "10 days",
+        stewardshipNote: "IDSA/SHEA 2021: Fidaxomicin preferred over vancomycin to reduce recurrence. Avoid metronidazole for non-severe CDI.",
+      },
       empiricTherapy: [
         {
           line: "Preferred — First-Line (IDSA/SHEA 2021)",
           options: [
-            { drug: "fidaxomicin", regimen: "Fidaxomicin 200mg PO BID × 10 days", notes: "IDSA/SHEA 2021 PREFERRED over vancomycin for initial CDI (conditional recommendation based on EXTEND trial data). Advantage: 50% lower recurrence rate compared to vancomycin for non-NAP1 strains. Mechanism of benefit: narrow-spectrum macrolide that kills C. diff while sparing protective anaerobes (Bacteroides). Allows microbiome recovery. LIMITATION: cost (~$3,000-5,000/course vs ~$50-100 for vancomycin). For non-severe initial CDI, both are effective — the fidaxomicin advantage is primarily in reducing RECURRENCE." },
+            { drug: "fidaxomicin", regimen: "Fidaxomicin 200mg PO BID × 10 days", notes: "IDSA/SHEA 2021 PREFERRED over vancomycin for initial CDI (conditional recommendation based on EXTEND trial data). Advantage: 50% lower recurrence rate compared to vancomycin for non-NAP1 strains. Mechanism of benefit: narrow-spectrum macrolide that kills C. diff while sparing protective anaerobes (Bacteroides). Allows microbiome recovery. LIMITATION: cost (~$3,000-5,000/course vs ~$50-100 for vancomycin). For non-severe initial CDI, both are effective — the fidaxomicin advantage is primarily in reducing RECURRENCE.", evidence: "A-I", evidenceSource: "IDSA/SHEA 2021" },
           ],
         },
         {

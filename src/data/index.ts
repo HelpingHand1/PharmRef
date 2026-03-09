@@ -10,17 +10,25 @@ import { CDI } from "./c-difficile";
 import { BONE_JOINT } from "./bone-joint";
 import { CNS_INFECTIONS } from "./cns-infections";
 import FUNGAL_INFECTIONS from "./fungal-infections";
+import { ADVANCED_AGENTS } from "./advanced-agents";
+import { FEBRILE_NEUTROPENIA } from "./febrile-neutropenia";
+import { DIABETIC_FOOT } from "./diabetic-foot";
+import { SEPSIS } from "./sepsis";
 
 export const DISEASE_STATES: DiseaseState[] = [
-  UTI, 
-  CAP, 
-  HAP_VAP, 
-  SSTI, 
-  IAI, 
-  AMR_GN, 
-  BACTEREMIA_ENDOCARDITIS, 
-  CDI, 
-  BONE_JOINT, 
-  CNS_INFECTIONS, 
-  FUNGAL_INFECTIONS
+  UTI,
+  CAP,
+  HAP_VAP,
+  SSTI,
+  IAI,
+  AMR_GN,
+  BACTEREMIA_ENDOCARDITIS,
+  CDI,
+  BONE_JOINT,
+  CNS_INFECTIONS,
+  FUNGAL_INFECTIONS,
+  ADVANCED_AGENTS,
+  FEBRILE_NEUTROPENIA,
+  DIABETIC_FOOT,
+  SEPSIS,
 ];

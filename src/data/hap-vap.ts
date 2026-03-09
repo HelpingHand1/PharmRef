@@ -29,14 +29,19 @@ export const HAP_VAP = {
         definition: "Hospital-acquired pneumonia (≥48h after admission) in patients WITHOUT risk factors for MDR pathogens and NOT at high risk of mortality. ATS/IDSA 2016 defines MDR risk factors as: IV antibiotic use in prior 90 days AND structural lung disease (bronchiectasis, CF) for Pseudomonas; IV antibiotics in prior 90 days for MRSA; >5 days hospitalization before HAP onset. High mortality risk: requiring ventilatory support for HAP or septic shock.",
         clinicalPresentation: "New or progressive radiographic infiltrate + at least 2 of: fever >38°C, leukocytosis (>10K) or leukopenia (<4K), purulent secretions. Modified Clinical Pulmonary Infection Score (CPIS) can assist but is not validated for diagnosis. ATS/IDSA 2016: clinical criteria alone are sufficient — do NOT require invasive sampling for HAP (unlike VAP).",
         diagnostics: "Non-invasive respiratory sampling (sputum culture). Blood cultures × 2. CXR or CT chest. ATS/IDSA 2016: recommends AGAINST routine invasive sampling (BAL, mini-BAL) for HAP (differs from VAP). Procalcitonin and other biomarkers NOT recommended as sole diagnostic criteria but may assist with de-escalation.",
+        durationGuidance: {
+          standard: "7 days",
+          severe: "14 days (MDR pathogens/poor clinical response)",
+          stewardshipNote: "IDSA/ATS 2016: 7-day duration recommended for most HAP/VAP. De-escalate based on culture and clinical response.",
+        },
         empiricTherapy: [
           {
             line: "First-Line (Monotherapy — Standard Risk)",
             options: [
-              { drug: "pip-tazo-hap", regimen: "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)", notes: "ATS/IDSA 2016 preferred for HAP without MDR risk. Extended infusion standard of care. Covers Enterobacterales, Pseudomonas (empiric), MSSA, and anaerobes." },
-              { drug: "cefepime", regimen: "Cefepime 2g IV q8h (extended infusion over 3-4h)", notes: "Alternative first-line. Covers gram-negatives including most Pseudomonas and AmpC producers (SPACE organisms). NO anaerobic coverage. NO MRSA coverage." },
-              { drug: "levofloxacin", regimen: "Levofloxacin 750mg IV daily", notes: "ATS/IDSA lists as an option. Covers typicals + atypicals. BUT: high rates of FQ resistance in hospital-acquired gram-negatives limit utility. Check local antibiogram before selecting. 100% bioavailability — PO = IV." },
-              { drug: "meropenem-hap", regimen: "Meropenem 1g IV q8h (extended infusion)", notes: "Listed by ATS/IDSA as an option even without MDR risk, but stewardship principles favor reserving carbapenems. Use if high local ESBL prevalence or patient has multiple beta-lactam allergies limiting options." },
+              { drug: "pip-tazo-hap", regimen: "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)", notes: "ATS/IDSA 2016 preferred for HAP without MDR risk. Extended infusion standard of care. Covers Enterobacterales, Pseudomonas (empiric), MSSA, and anaerobes.", evidence: "A-I", evidenceSource: "IDSA/ATS 2016" },
+              { drug: "cefepime", regimen: "Cefepime 2g IV q8h (extended infusion over 3-4h)", notes: "Alternative first-line. Covers gram-negatives including most Pseudomonas and AmpC producers (SPACE organisms). NO anaerobic coverage. NO MRSA coverage.", evidence: "A-I", evidenceSource: "IDSA/ATS 2016" },
+              { drug: "levofloxacin", regimen: "Levofloxacin 750mg IV daily", notes: "ATS/IDSA lists as an option. Covers typicals + atypicals. BUT: high rates of FQ resistance in hospital-acquired gram-negatives limit utility. Check local antibiogram before selecting. 100% bioavailability — PO = IV.", evidence: "B-II", evidenceSource: "IDSA/ATS 2016" },
+              { drug: "meropenem-hap", regimen: "Meropenem 1g IV q8h (extended infusion)", notes: "Listed by ATS/IDSA as an option even without MDR risk, but stewardship principles favor reserving carbapenems. Use if high local ESBL prevalence or patient has multiple beta-lactam allergies limiting options.", evidence: "B-II", evidenceSource: "IDSA/ATS 2016" },
             ],
           },
         ],
@@ -58,21 +63,26 @@ export const HAP_VAP = {
         definition: "HAP in patients with risk factors for MDR pathogens (IV antibiotics in prior 90 days, ≥5 days hospitalization before HAP onset, septic shock, ARDS/ventilatory support requirement, prior MDR colonization) OR at high mortality risk (requiring ventilatory support for HAP, or septic shock). These patients need empiric broadening to cover MRSA and/or Pseudomonas.",
         clinicalPresentation: "Same as standard HAP but with higher acuity. More likely to present with sepsis, respiratory failure, or rapid clinical decline. These patients are often in the ICU or step-down unit.",
         diagnostics: "Same as standard HAP plus: consider broader microbiology (fungal cultures if immunosuppressed, respiratory viral panel). Blood cultures essential. Nasal MRSA PCR swab — negative predictive value ~95% for MRSA pneumonia (de-escalation tool). Consider CT chest if CXR unclear or complications suspected.",
+        durationGuidance: {
+          standard: "7 days",
+          severe: "14 days (MDR pathogens/poor clinical response)",
+          stewardshipNote: "IDSA/ATS 2016: 7-day duration recommended for most HAP/VAP. De-escalate based on culture and clinical response.",
+        },
         empiricTherapy: [
           {
             line: "Empiric — Anti-Pseudomonal Beta-Lactam (choose one)",
             options: [
-              { drug: "pip-tazo-mdr", regimen: "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)", notes: "Preferred anti-pseudomonal backbone. Extended infusion is mandatory at this severity level. Covers gram-negatives, MSSA, anaerobes." },
-              { drug: "cefepime-mdr", regimen: "Cefepime 2g IV q8h (extended infusion)", notes: "Preferred if AmpC producers suspected (Enterobacter, Serratia, Citrobacter). NO anaerobic or MRSA coverage — add metronidazole if aspiration component, add vancomycin if MRSA risk." },
-              { drug: "meropenem-mdr", regimen: "Meropenem 2g IV q8h (extended infusion over 3h)", notes: "Use for ESBL risk, prior MDR gram-negatives, or septic shock with high local resistance. Higher dose (2g) for pneumonia — lung penetration requires higher serum levels. De-escalate aggressively." },
+              { drug: "pip-tazo-mdr", regimen: "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)", notes: "Preferred anti-pseudomonal backbone. Extended infusion is mandatory at this severity level. Covers gram-negatives, MSSA, anaerobes.", evidence: "A-I", evidenceSource: "IDSA/ATS 2016" },
+              { drug: "cefepime-mdr", regimen: "Cefepime 2g IV q8h (extended infusion)", notes: "Preferred if AmpC producers suspected (Enterobacter, Serratia, Citrobacter). NO anaerobic or MRSA coverage — add metronidazole if aspiration component, add vancomycin if MRSA risk.", evidence: "A-I", evidenceSource: "IDSA/ATS 2016" },
+              { drug: "meropenem-mdr", regimen: "Meropenem 2g IV q8h (extended infusion over 3h)", notes: "Use for ESBL risk, prior MDR gram-negatives, or septic shock with high local resistance. Higher dose (2g) for pneumonia — lung penetration requires higher serum levels. De-escalate aggressively.", evidence: "A-I", evidenceSource: "IDSA/ATS 2016" },
               { drug: "imipenem", regimen: "Imipenem-cilastatin 500mg IV q6h", notes: "Alternative carbapenem. Slightly better gram-positive coverage than meropenem. Seizure risk higher than meropenem (especially renal impairment, CNS disease). Requires cilastatin to prevent renal metabolism." },
             ],
           },
           {
             line: "ADD MRSA Coverage (if risk factors present)",
             options: [
-              { drug: "vancomycin", regimen: "Vancomycin IV — AUC/MIC-guided dosing (target AUC 400-600 mg·h/L)", notes: "ATS/IDSA 2016: add MRSA coverage if: IV antibiotics in prior 90 days, unit with >20% MRSA prevalence (or unknown), or prior MRSA colonization/infection. AUC-guided dosing is now standard (2020 vancomycin consensus). Check nasal MRSA swab — if negative, de-escalate within 48-72h." },
-              { drug: "linezolid", regimen: "Linezolid 600mg IV/PO BID", notes: "Alternative to vancomycin. Potential advantages in pneumonia: better lung penetration, 100% oral bioavailability, no renal dosing. ZEPHyR trial showed linezolid non-inferior to vancomycin for MRSA nosocomial pneumonia with some secondary outcome advantages. Risk: myelosuppression (>14 days), serotonin syndrome with SSRIs." },
+              { drug: "vancomycin", regimen: "Vancomycin IV — AUC/MIC-guided dosing (target AUC 400-600 mg·h/L)", notes: "ATS/IDSA 2016: add MRSA coverage if: IV antibiotics in prior 90 days, unit with >20% MRSA prevalence (or unknown), or prior MRSA colonization/infection. AUC-guided dosing is now standard (2020 vancomycin consensus). Check nasal MRSA swab — if negative, de-escalate within 48-72h.", evidence: "A-I", evidenceSource: "IDSA/ATS 2016" },
+              { drug: "linezolid", regimen: "Linezolid 600mg IV/PO BID", notes: "Alternative to vancomycin. Potential advantages in pneumonia: better lung penetration, 100% oral bioavailability, no renal dosing. ZEPHyR trial showed linezolid non-inferior to vancomycin for MRSA nosocomial pneumonia with some secondary outcome advantages. Risk: myelosuppression (>14 days), serotonin syndrome with SSRIs.", evidence: "A-I", evidenceSource: "IDSA/ATS 2016" },
             ],
           },
           {
@@ -107,13 +117,19 @@ export const HAP_VAP = {
         definition: "Pneumonia developing >48 hours after endotracheal intubation. Distinguished from ventilator-associated tracheobronchitis (VAT) which has purulent secretions without new infiltrate. VAP diagnosis is notoriously difficult — no gold standard exists. Clinical criteria have ~70% sensitivity/specificity vs. histopathology.",
         clinicalPresentation: "New or progressive infiltrate on CXR + at least 2 of: fever >38°C, leukocytosis/leukopenia, purulent tracheal secretions, worsening oxygenation (PaO2/FiO2 decline). Portable CXR in ICU is notoriously unreliable — CT chest may be needed for equivocal cases. VAP should be suspected when a ventilated patient develops new fever + purulent secretions + worsening gas exchange.",
         diagnostics: "ATS/IDSA 2016 recommends NON-INVASIVE quantitative cultures (endotracheal aspirate, ETA) over invasive sampling (BAL, mini-BAL) — based on evidence showing no mortality difference. ETA threshold: ≥10⁶ CFU/mL. BAL threshold: ≥10⁴ CFU/mL. Blood cultures × 2 (positive in only ~15% but changes management). ATS/IDSA 2016 recommends AGAINST using biomarkers (PCT, CRP, sTREM-1) ALONE to decide whether to initiate antibiotics for VAP, but PCT may guide DURATION.",
+        durationGuidance: {
+          standard: "7 days",
+          severe: "14 days (P. aeruginosa/non-fermenter MDR)",
+          opatNote: "OPAT not applicable — ICU-level care required",
+          stewardshipNote: "Target procalcitonin-guided de-escalation. 8 days non-inferior to 15 days in TRALI trial.",
+        },
         empiricTherapy: [
           {
             line: "VAP — No MDR Risk Factors (Low-Risk)",
             options: [
-              { drug: "pip-tazo-vap", regimen: "Piperacillin-tazobactam 4.5g IV q6h (extended infusion)", notes: "Monotherapy is appropriate if no MDR risk factors AND unit gram-negative resistance <10% to the chosen agent. Same first-line agents as HAP without MDR risk." },
-              { drug: "cefepime-vap", regimen: "Cefepime 2g IV q8h (extended infusion)", notes: "Good choice for AmpC producers. Extended infusion essential. Neurotoxicity risk in renal impairment — monitor for confusion, myoclonus, seizures (cefepime encephalopathy)." },
-              { drug: "levofloxacin-vap", regimen: "Levofloxacin 750mg IV daily", notes: "Alternative monotherapy. Check local FQ susceptibility — hospital-acquired gram-negatives often have high FQ resistance. May not be reliable in many ICUs." },
+              { drug: "pip-tazo-vap", regimen: "Piperacillin-tazobactam 4.5g IV q6h (extended infusion)", notes: "Monotherapy is appropriate if no MDR risk factors AND unit gram-negative resistance <10% to the chosen agent. Same first-line agents as HAP without MDR risk.", evidence: "A-I", evidenceSource: "IDSA/ATS 2016" },
+              { drug: "cefepime-vap", regimen: "Cefepime 2g IV q8h (extended infusion)", notes: "Good choice for AmpC producers. Extended infusion essential. Neurotoxicity risk in renal impairment — monitor for confusion, myoclonus, seizures (cefepime encephalopathy).", evidence: "A-I", evidenceSource: "IDSA/ATS 2016" },
+              { drug: "levofloxacin-vap", regimen: "Levofloxacin 750mg IV daily", notes: "Alternative monotherapy. Check local FQ susceptibility — hospital-acquired gram-negatives often have high FQ resistance. May not be reliable in many ICUs.", evidence: "B-II", evidenceSource: "IDSA/ATS 2016" },
             ],
           },
           {

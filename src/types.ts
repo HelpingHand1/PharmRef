@@ -25,6 +25,14 @@ export interface Subcategory {
   pearls?: string[];
   empiricTherapy?: EmpiricTier[];
   organismSpecific?: OrganismSpecific[];
+  durationGuidance?: {
+    standard: string;
+    severe?: string;
+    opatNote?: string;
+    stewardshipNote?: string;
+  };
+  /** Alias: some data files use empiricRegimens instead of empiricTherapy */
+  empiricRegimens?: EmpiricTier[];
 }
 
 export interface EmpiricTier {
@@ -33,6 +41,8 @@ export interface EmpiricTier {
     regimen: string;
     notes?: string;
     drug?: string;
+    evidence?: string;
+    evidenceSource?: string;
   }>;
 }
 
@@ -64,6 +74,32 @@ export interface DrugMonograph {
   monitoring: string;
   pregnancyLactation: string;
   pharmacistPearls?: string[];
+  pkpdDriver?: {
+    driver: "Time-dependent (T>MIC)" | "AUC/MIC-dependent" | "Concentration-dependent (Cmax/MIC)";
+    target: string;
+    extendedInfusion?: string;
+  };
+  ivToPoSwitch?: {
+    poBioavailability: string;
+    switchCriteria: string;
+    note?: string;
+  };
+  opatEligibility?: {
+    eligible: "yes" | "conditional" | "no";
+    administration: string;
+    monitoring: string;
+    considerations?: string[];
+  };
+}
+
+export interface PatientContext {
+  weight?: number;
+  height?: number;
+  age?: number;
+  sex?: "male" | "female";
+  scr?: number;
+  dialysis?: "none" | "HD" | "PD" | "CRRT";
+  pregnant?: boolean;
 }
 
 export interface AllergyRecord {
@@ -108,7 +144,10 @@ export type NavStateKey =
   | "subcategory"
   | "monograph"
   | "compare"
-  | "audit";
+  | "audit"
+  | "calculators";
+
+export type ThemeKey = "dark" | "light" | "oled";
 
 export type Styles = Record<string, any>;
 
@@ -143,7 +182,7 @@ export interface CopyBtnProps {
 export interface AllergyModalProps {
   show: boolean;
   onClose: () => void;
-  theme: "dark" | "light";
+  theme: ThemeKey;
   allergies: AllergyRecord[];
   allergyInput: string;
   setAllergyInput: (value: string) => void;

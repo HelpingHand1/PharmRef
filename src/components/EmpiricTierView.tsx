@@ -43,6 +43,23 @@ export default function EmpiricTierView({
                 <span style={{ fontSize: "15px", fontWeight: 700, color: S.meta?.textHeading || S.app?.color || "#e2e8f0" }}>{opt.regimen.split(" ")[0]}</span>
               )}
               <CopyBtn text={opt.regimen} id={`empiric-${oi}-${opt.drug}`} copiedId={copiedId} onCopy={onCopy} S={S} />
+              {opt.evidence && (
+                <span
+                  style={{
+                    fontSize: "10px",
+                    fontWeight: 800,
+                    letterSpacing: "0.06em",
+                    padding: "2px 7px",
+                    borderRadius: "6px",
+                    background: opt.evidence.startsWith("A") ? "rgba(52,211,153,0.15)" : opt.evidence.startsWith("B") ? "rgba(251,191,36,0.15)" : "rgba(148,163,184,0.15)",
+                    color: opt.evidence.startsWith("A") ? "#059669" : opt.evidence.startsWith("B") ? "#d97706" : "#64748b",
+                    border: `1px solid ${opt.evidence.startsWith("A") ? "rgba(52,211,153,0.3)" : opt.evidence.startsWith("B") ? "rgba(251,191,36,0.3)" : "rgba(148,163,184,0.25)"}`,
+                  }}
+                  title={opt.evidenceSource ? `Evidence: ${opt.evidenceSource}` : `Evidence grade: ${opt.evidence}`}
+                >
+                  {opt.evidence}
+                </span>
+              )}
             </div>
             <div style={{ fontSize: "13px", color: S.monographValue?.color || "#94a3b8", fontFamily: "'JetBrains Mono', monospace", marginBottom: "8px", lineHeight: 1.65 }}>
               {opt.regimen}

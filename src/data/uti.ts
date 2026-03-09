@@ -29,21 +29,26 @@ export const UTI = {
         definition: "Acute cystitis in a non-pregnant, pre-menopausal woman with no known urological abnormalities, no recent instrumentation, and no systemic signs of infection.",
         clinicalPresentation: "Dysuria, urinary frequency, urgency, suprapubic pain/discomfort. Absence of fever, flank pain, or systemic symptoms.",
         diagnostics: "Urinalysis (positive LE and/or nitrites) is sufficient. Urine culture NOT routinely required per IDSA guidelines for straightforward presentations. Culture recommended if: recurrent infection, recent antibiotic use, or uncertain diagnosis.",
+        durationGuidance: {
+          standard: "3–5 days (nitrofurantoin/fosfomycin)",
+          severe: "7 days (TMP-SMX/fluoroquinolone)",
+          stewardshipNote: "Shorter courses non-inferior in uncomplicated cystitis. Avoid fluoroquinolones as first-line per IDSA 2011.",
+        },
         empiricTherapy: [
           {
             line: "First-Line",
             options: [
-              { drug: "nitrofurantoin", regimen: "Nitrofurantoin monohydrate/macrocrystals 100mg PO BID × 5 days", notes: "Preferred agent. COMBINE trial supports potential 3-day course. Avoid if CrCl <30 mL/min (though recent data supports use down to ~20). Not effective for anything beyond the bladder." },
-              { drug: "tmp-smx", regimen: "TMP-SMX DS (160/800mg) PO BID × 3 days", notes: "Use only if local resistance <20%. Avoid if used in prior 3 months. Check sulfa allergy. 3-day course is well established." },
-              { drug: "fosfomycin", regimen: "Fosfomycin trometamol 3g PO × 1 dose", notes: "Single-dose convenience. Slightly inferior efficacy vs. multi-day regimens per meta-analyses. Good for adherence-challenged patients. Mix in water, not hot beverages." },
+              { drug: "nitrofurantoin", regimen: "Nitrofurantoin monohydrate/macrocrystals 100mg PO BID × 5 days", notes: "Preferred agent. COMBINE trial supports potential 3-day course. Avoid if CrCl <30 mL/min (though recent data supports use down to ~20). Not effective for anything beyond the bladder.", evidence: "A-I", evidenceSource: "IDSA 2011" },
+              { drug: "tmp-smx", regimen: "TMP-SMX DS (160/800mg) PO BID × 3 days", notes: "Use only if local resistance <20%. Avoid if used in prior 3 months. Check sulfa allergy. 3-day course is well established.", evidence: "A-I", evidenceSource: "IDSA 2011" },
+              { drug: "fosfomycin", regimen: "Fosfomycin trometamol 3g PO × 1 dose", notes: "Single-dose convenience. Slightly inferior efficacy vs. multi-day regimens per meta-analyses. Good for adherence-challenged patients. Mix in water, not hot beverages.", evidence: "A-I", evidenceSource: "IDSA 2011" },
             ],
           },
           {
             line: "Second-Line (use when first-line agents cannot be used)",
             options: [
-              { drug: "amox-clav", regimen: "Amoxicillin-Clavulanate 500/125mg PO BID × 5-7 days", notes: "Inferior efficacy to first-line agents for uncomplicated cystitis. More collateral damage. Reserve when others unavailable." },
-              { drug: "cephalexin", regimen: "Cephalexin 500mg PO BID-QID × 5-7 days", notes: "Reasonable alternative. Better tolerated than amox-clav. Limited guideline support as first choice." },
-              { drug: "cefpodoxime", regimen: "Cefpodoxime 100mg PO BID × 5-7 days", notes: "Third-gen oral cephalosporin option. Broader spectrum than needed for most uncomplicated cases." },
+              { drug: "amox-clav", regimen: "Amoxicillin-Clavulanate 500/125mg PO BID × 5-7 days", notes: "Inferior efficacy to first-line agents for uncomplicated cystitis. More collateral damage. Reserve when others unavailable.", evidence: "B-II", evidenceSource: "IDSA 2011" },
+              { drug: "cephalexin", regimen: "Cephalexin 500mg PO BID-QID × 5-7 days", notes: "Reasonable alternative. Better tolerated than amox-clav. Limited guideline support as first choice.", evidence: "B-II", evidenceSource: "IDSA 2011" },
+              { drug: "cefpodoxime", regimen: "Cefpodoxime 100mg PO BID × 5-7 days", notes: "Third-gen oral cephalosporin option. Broader spectrum than needed for most uncomplicated cases.", evidence: "B-II", evidenceSource: "IDSA 2011" },
             ],
           },
           {
@@ -85,9 +90,9 @@ export const UTI = {
           {
             line: "First-Line — cUTI WITHOUT Sepsis",
             options: [
-              { drug: "ceftriaxone", regimen: "Ceftriaxone 1-2g IV daily (or cefepime 2g IV q8h if AmpC/Pseudomonas concern)", notes: "IDSA 2025 preferred: 3rd/4th-gen cephalosporins. Carbapenems are NOT first-line for non-septic cUTI — this is a key stewardship change. Reserve carbapenems for sepsis or confirmed ESBL." },
-              { drug: "pip-tazo", regimen: "Piperacillin-tazobactam 3.375g IV q6h (or 4.5g q8h extended infusion)", notes: "IDSA 2025 preferred empiric option. Extended infusion (over 4h) optimizes PK/PD. Appropriate when broader coverage desired (Pseudomonas risk)." },
-              { drug: "ciprofloxacin", regimen: "Ciprofloxacin 500mg PO BID or Levofloxacin 750mg PO daily", notes: "IDSA 2025 preferred IF no FQ exposure in past 12 months (Step 2). Advantage: oral administration avoids IV, enables outpatient treatment. AVOID if FQ used in prior 12 months — guideline-specific recommendation." },
+              { drug: "ceftriaxone", regimen: "Ceftriaxone 1-2g IV daily (or cefepime 2g IV q8h if AmpC/Pseudomonas concern)", notes: "IDSA 2025 preferred: 3rd/4th-gen cephalosporins. Carbapenems are NOT first-line for non-septic cUTI — this is a key stewardship change. Reserve carbapenems for sepsis or confirmed ESBL.", evidence: "A-I", evidenceSource: "IDSA 2011" },
+              { drug: "pip-tazo", regimen: "Piperacillin-tazobactam 3.375g IV q6h (or 4.5g q8h extended infusion)", notes: "IDSA 2025 preferred empiric option. Extended infusion (over 4h) optimizes PK/PD. Appropriate when broader coverage desired (Pseudomonas risk).", evidence: "A-I", evidenceSource: "IDSA 2011" },
+              { drug: "ciprofloxacin", regimen: "Ciprofloxacin 500mg PO BID or Levofloxacin 750mg PO daily", notes: "IDSA 2025 preferred IF no FQ exposure in past 12 months (Step 2). Advantage: oral administration avoids IV, enables outpatient treatment. AVOID if FQ used in prior 12 months — guideline-specific recommendation.", evidence: "A-I", evidenceSource: "IDSA 2011" },
             ],
           },
           {
@@ -144,13 +149,19 @@ export const UTI = {
         definition: "Upper urinary tract infection involving the renal parenchyma. NOTE: Per IDSA 2025 reclassification, pyelonephritis WITH fever/systemic signs is now classified as COMPLICATED UTI — see the Complicated UTI section for the 4-step empiric approach, duration, and IV-to-PO switch guidance. This section retains the clinical presentation, organism-specific data, and outpatient management details. Uncomplicated pyelonephritis (non-pregnant, pre-menopausal woman, no systemic toxicity) can still be managed outpatient per IDSA/ESCMID 2011.",
         clinicalPresentation: "Fever (>38°C), flank pain, costovertebral angle (CVA) tenderness, with or without lower urinary tract symptoms. Nausea, vomiting common. May present with sepsis. Per IDSA 2025: the presence of fever makes this a complicated UTI by new classification.",
         diagnostics: "Urine culture REQUIRED. Blood cultures recommended (bacteremia present in 15-30% of cases). CBC, BMP (assess renal function). CT abdomen/pelvis if: no improvement at 48-72h, suspected obstruction, or abscess concern.",
+        durationGuidance: {
+          standard: "7 days (fluoroquinolone IV→PO)",
+          severe: "14 days (complex/bacteremic)",
+          opatNote: "IV→PO switch appropriate once afebrile ≥24h and tolerating oral intake",
+          stewardshipNote: "IDSA 2011 recommends ciprofloxacin 500mg BID × 7d or TMP-SMX × 14d",
+        },
         empiricTherapy: [
           {
             line: "Outpatient (Uncomplicated, Tolerating PO, Not Septic)",
             options: [
-              { drug: "ciprofloxacin", regimen: "Ciprofloxacin 500mg PO BID × 7 days", notes: "IDSA first-line for outpatient pyelo IF local FQ resistance <10%. 7-day course is established." },
-              { drug: "tmp-smx", regimen: "TMP-SMX DS PO BID × 14 days", notes: "Alternative if FQ cannot be used. Requires 14 days (longer than FQ). IDSA recommends a one-time IV dose of ceftriaxone 1g or aminoglycoside with initiation if using TMP-SMX empirically (pending cultures)." },
-              { drug: "ceftriaxone-oral-step", regimen: "Ceftriaxone 1g IV/IM × 1 dose THEN oral step-down (cefpodoxime, TMP-SMX, or FQ per susceptibility)", notes: "Excellent strategy for ED-treat-and-release. The single IV dose provides immediate high tissue levels while you await culture results for definitive oral selection." },
+              { drug: "ciprofloxacin", regimen: "Ciprofloxacin 500mg PO BID × 7 days", notes: "IDSA first-line for outpatient pyelo IF local FQ resistance <10%. 7-day course is established.", evidence: "A-I", evidenceSource: "IDSA 2011" },
+              { drug: "tmp-smx", regimen: "TMP-SMX DS PO BID × 14 days", notes: "Alternative if FQ cannot be used. Requires 14 days (longer than FQ). IDSA recommends a one-time IV dose of ceftriaxone 1g or aminoglycoside with initiation if using TMP-SMX empirically (pending cultures).", evidence: "B-II", evidenceSource: "IDSA 2011" },
+              { drug: "ceftriaxone-oral-step", regimen: "Ceftriaxone 1g IV/IM × 1 dose THEN oral step-down (cefpodoxime, TMP-SMX, or FQ per susceptibility)", notes: "Excellent strategy for ED-treat-and-release. The single IV dose provides immediate high tissue levels while you await culture results for definitive oral selection.", evidence: "B-II", evidenceSource: "IDSA 2011" },
             ],
           },
           {
@@ -186,13 +197,17 @@ export const UTI = {
         definition: "UTI in a patient with an indwelling urethral catheter, suprapubic catheter, or intermittent catheterization within the past 48 hours. Requires BOTH symptoms AND significant bacteriuria (≥10³ CFU/mL). Do NOT treat asymptomatic catheter-associated bacteriuria (CA-ASB).",
         clinicalPresentation: "Fever, rigors, altered mental status, malaise, flank pain, CVA tenderness, acute hematuria, pelvic discomfort. NOTE: Cloudy or malodorous urine ALONE is NOT an indication to treat — this reflects colonization and catheter biofilm, not infection.",
         diagnostics: "Replace catheter BEFORE collecting specimen (biofilm on old catheter = misleading results). Culture from the freshly placed catheter. Blood cultures if systemic signs. ≥10³ CFU/mL is the CAUTI diagnostic threshold (lower than standard UTI).",
+        durationGuidance: {
+          standard: "7–14 days",
+          opatNote: "Remove or replace catheter when possible before starting antimicrobials",
+        },
         empiricTherapy: [
           {
             line: "Empiric (Pending Cultures — Always De-escalate)",
             options: [
-              { drug: "ceftriaxone", regimen: "Ceftriaxone 1-2g IV daily", notes: "Reasonable empiric for non-critically ill. Narrow once cultures return. Always assess for Pseudomonas risk." },
-              { drug: "pip-tazo", regimen: "Piperacillin-tazobactam 4.5g IV q8h (EI over 4h)", notes: "Use if Pseudomonas or MDR risk (prior cultures, healthcare exposure). Extended infusion recommended." },
-              { drug: "ciprofloxacin", regimen: "Ciprofloxacin 500mg PO BID (if can take PO and not critically ill)", notes: "Only oral option with Pseudomonal activity. But FQ resistance is high in catheterized populations — empiric use risky without prior culture data." },
+              { drug: "ceftriaxone", regimen: "Ceftriaxone 1-2g IV daily", notes: "Reasonable empiric for non-critically ill. Narrow once cultures return. Always assess for Pseudomonas risk.", evidence: "A-I", evidenceSource: "IDSA 2011" },
+              { drug: "pip-tazo", regimen: "Piperacillin-tazobactam 4.5g IV q8h (EI over 4h)", notes: "Use if Pseudomonas or MDR risk (prior cultures, healthcare exposure). Extended infusion recommended.", evidence: "B-II", evidenceSource: "IDSA 2011" },
+              { drug: "ciprofloxacin", regimen: "Ciprofloxacin 500mg PO BID (if can take PO and not critically ill)", notes: "Only oral option with Pseudomonal activity. But FQ resistance is high in catheterized populations — empiric use risky without prior culture data.", evidence: "B-II", evidenceSource: "IDSA 2011" },
             ],
           },
           {

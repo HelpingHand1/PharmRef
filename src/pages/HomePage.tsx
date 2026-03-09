@@ -11,22 +11,29 @@ import type {
 
 interface HomePageProps {
   allMonographs: DrugSearchResult[];
+  allergyCount: number;
+  bookmarks: string[];
   diseaseStates: DiseaseState[];
+  findMonograph: (id: string) => MonographLookupResult | null;
+  isBookmarked: (id: string) => boolean;
   navigateTo: (state: NavStateKey, data?: Partial<MonographLookupResult> & { subcategory?: Subcategory }) => void;
   onOpenAllergyModal: () => void;
+  onOpenPatientModal?: () => void;
   onOpenRecent: (recent: RecentView) => void;
   onStartCompare: () => void;
   recentViews: RecentView[];
   S: Styles;
-  theme: "dark" | "light";
+  theme: import("../types").ThemeKey;
+  toggleBookmark: (id: string) => void;
   totalSubcategories: number;
-  allergyCount: number;
 }
 
 export default function HomePage({
   allMonographs,
   allergyCount,
+  bookmarks,
   diseaseStates,
+  findMonograph,
   navigateTo,
   onOpenAllergyModal,
   onOpenRecent,
@@ -34,6 +41,7 @@ export default function HomePage({
   recentViews,
   S,
   theme,
+  toggleBookmark,
   totalSubcategories,
 }: HomePageProps) {
   const stats = [
@@ -56,6 +64,13 @@ export default function HomePage({
       icon: "⚠",
       meta: allergyCount > 0 ? `${allergyCount} active flag${allergyCount === 1 ? "" : "s"}` : "No active flags",
       onClick: onOpenAllergyModal,
+    },
+    {
+      title: "Calculators",
+      detail: "CrCl, IBW/AdjBW, CURB-65, PORT/PSI, Vancomycin AUC, and aminoglycoside dosing.",
+      icon: "🧮",
+      meta: "6 clinical tools",
+      onClick: () => navigateTo(NAV_STATES.CALCULATORS),
     },
     {
       title: "Data Audit",
@@ -197,6 +212,63 @@ export default function HomePage({
                 <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{recent.meta}</div>
               </button>
             ))}
+          </div>
+        </>
+      )}
+
+      {bookmarks.length > 0 && (
+        <>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginBottom: "10px", flexWrap: "wrap" }}>
+            <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "12px" }}>🔖 Bookmarks</div>
+            <div style={{ fontSize: "12px", color: S.monographValue.color }}>{bookmarks.length} saved item{bookmarks.length === 1 ? "" : "s"}</div>
+          </div>
+          <div className="home-recent-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "10px", marginBottom: "28px" }}>
+            {bookmarks.map((id) => {
+              const isDisease = id.startsWith("disease:");
+              const isMonograph = id.startsWith("monograph:");
+              const key = id.replace(/^(disease|monograph):/, "");
+              if (isMonograph) {
+                const found = findMonograph(key);
+                if (!found) return null;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    className="pr-card recent-card"
+                    style={{ ...S.card, marginBottom: 0, textAlign: "left", padding: "14px 16px", display: "flex", flexDirection: "column", gap: "4px" }}
+                    onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { disease: found.disease, monograph: found.monograph })}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                      <div style={{ fontSize: "11px", color: S.meta.accent, fontWeight: 700 }}>💊 MONOGRAPH</div>
+                      <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "#fbbf24", fontSize: "14px", padding: "0 0 0 8px" }} onClick={(e) => { e.stopPropagation(); toggleBookmark(id); }} title="Remove bookmark">🔖</button>
+                    </div>
+                    <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{found.monograph.name}</div>
+                    <div style={{ fontSize: "11px", color: S.monographValue.color }}>{found.disease.name}</div>
+                  </button>
+                );
+              }
+              if (isDisease) {
+                const disease = diseaseStates.find((d) => d.id === key);
+                if (!disease) return null;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    className="pr-card recent-card"
+                    style={{ ...S.card, marginBottom: 0, textAlign: "left", padding: "14px 16px", display: "flex", flexDirection: "column", gap: "4px" }}
+                    onClick={() => navigateTo(NAV_STATES.DISEASE_OVERVIEW, { disease })}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                      <div style={{ fontSize: "11px", color: S.meta.accent, fontWeight: 700 }}>{disease.icon} DISEASE</div>
+                      <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "#fbbf24", fontSize: "14px", padding: "0 0 0 8px" }} onClick={(e) => { e.stopPropagation(); toggleBookmark(id); }} title="Remove bookmark">🔖</button>
+                    </div>
+                    <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{disease.name}</div>
+                    <div style={{ fontSize: "11px", color: S.monographValue.color }}>{disease.subcategories.length} subcategories</div>
+                  </button>
+                );
+              }
+              return null;
+            })}
           </div>
         </>
       )}

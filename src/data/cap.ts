@@ -29,13 +29,18 @@ export const CAP = {
         definition: "CAP in a previously healthy outpatient with no significant comorbidities, no recent antibiotic use (past 90 days), and no risk factors for drug-resistant pathogens. These patients can be safely treated at home with oral monotherapy.",
         clinicalPresentation: "Cough (productive or dry), fever, pleuritic chest pain, dyspnea, tachypnea. Physical exam: focal crackles/rales, dullness to percussion, bronchial breath sounds, egophony. Mild cases may have subtle findings.",
         diagnostics: "Chest X-ray is recommended to confirm diagnosis (ATS/IDSA). Sputum culture and blood cultures NOT recommended for outpatients. No procalcitonin needed. Assessment with CURB-65 or PSI/PORT score to confirm outpatient appropriateness (CURB-65 score 0-1, PSI class I-II).",
+        durationGuidance: {
+          standard: "5 days",
+          severe: "7–10 days (ICU/bacteremic)",
+          stewardshipNote: "IDSA/ATS 2019: 5-day course non-inferior for uncomplicated CAP. Reassess at day 5 using clinical stability criteria.",
+        },
         empiricTherapy: [
           {
             line: "First-Line (Pick ONE — Monotherapy)",
             options: [
-              { drug: "amoxicillin", regimen: "Amoxicillin 1g PO TID × 5 days", notes: "ATS/IDSA 2019 first-line. HIGH-DOSE (1g, not 500mg) targets intermediate-resistant S. pneumoniae. Excellent safety profile. STEP trial supports even 3-day courses if rapid clinical improvement." },
-              { drug: "doxycycline", regimen: "Doxycycline 100mg PO BID × 5 days", notes: "Covers typicals AND atypicals (Mycoplasma, Chlamydophila). Good alternative for penicillin-allergic patients. Avoids azithromycin resistance selection. Well-tolerated." },
-              { drug: "azithromycin", regimen: "Azithromycin 500mg PO day 1, then 250mg daily × 4 days (Z-pack)", notes: "Covers atypicals well. HOWEVER: Rising S. pneumoniae macrolide resistance (~30-40% in US) is a concern. ATS/IDSA 2019 only recommends as monotherapy where local pneumococcal macrolide resistance <25%. QT risk. Many ID physicians now prefer doxycycline over azithromycin." },
+              { drug: "amoxicillin", regimen: "Amoxicillin 1g PO TID × 5 days", notes: "ATS/IDSA 2019 first-line. HIGH-DOSE (1g, not 500mg) targets intermediate-resistant S. pneumoniae. Excellent safety profile. STEP trial supports even 3-day courses if rapid clinical improvement.", evidence: "A-I", evidenceSource: "IDSA/ATS 2019" },
+              { drug: "doxycycline", regimen: "Doxycycline 100mg PO BID × 5 days", notes: "Covers typicals AND atypicals (Mycoplasma, Chlamydophila). Good alternative for penicillin-allergic patients. Avoids azithromycin resistance selection. Well-tolerated.", evidence: "A-I", evidenceSource: "IDSA/ATS 2019" },
+              { drug: "azithromycin", regimen: "Azithromycin 500mg PO day 1, then 250mg daily × 4 days (Z-pack)", notes: "Covers atypicals well. HOWEVER: Rising S. pneumoniae macrolide resistance (~30-40% in US) is a concern. ATS/IDSA 2019 only recommends as monotherapy where local pneumococcal macrolide resistance <25%. QT risk. Many ID physicians now prefer doxycycline over azithromycin.", evidence: "A-I", evidenceSource: "IDSA/ATS 2019" },
             ],
           },
         ],
@@ -61,12 +66,17 @@ export const CAP = {
         definition: "CAP in outpatients with significant comorbidities (COPD, diabetes, chronic heart/liver/renal disease, alcoholism, malignancy, asplenia) OR recent antibiotic use within 90 days. These patients need broader empiric coverage.",
         clinicalPresentation: "Same as above, but comorbidities may blunt typical presentation. Elderly/diabetic patients may present without fever. COPD patients may be difficult to distinguish from AECOPD. Heart failure patients may mimic pneumonia with pulmonary edema.",
         diagnostics: "Chest X-ray recommended. Consider procalcitonin to help differentiate bacterial CAP from viral/AECOPD (PCT >0.25 supports bacterial). Sputum culture not routinely needed for outpatients. Calculate CURB-65/PSI to confirm outpatient safety.",
+        durationGuidance: {
+          standard: "5 days",
+          severe: "7–10 days (ICU/bacteremic)",
+          stewardshipNote: "IDSA/ATS 2019: 5-day course non-inferior for uncomplicated CAP. Reassess at day 5 using clinical stability criteria.",
+        },
         empiricTherapy: [
           {
             line: "First-Line (Combination Therapy)",
             options: [
-              { drug: "amox-clav-combo", regimen: "Amoxicillin-Clavulanate 875/125mg PO BID + Azithromycin 500mg day 1 then 250mg × 4 days", notes: "OR Amox-clav + Doxycycline 100mg BID. The beta-lactam covers S. pneumoniae, H. influenzae (beta-lactamase producers), M. catarrhalis. Macrolide/doxy adds atypical coverage. Duration: 5 days." },
-              { drug: "cephalexin-combo", regimen: "Cephalexin 500mg PO TID (or Cefpodoxime 200mg BID) + Azithromycin or Doxycycline", notes: "Alternative beta-lactam backbone. Cefpodoxime preferred over cephalexin for broader gram-negative coverage." },
+              { drug: "amox-clav-combo", regimen: "Amoxicillin-Clavulanate 875/125mg PO BID + Azithromycin 500mg day 1 then 250mg × 4 days", notes: "OR Amox-clav + Doxycycline 100mg BID. The beta-lactam covers S. pneumoniae, H. influenzae (beta-lactamase producers), M. catarrhalis. Macrolide/doxy adds atypical coverage. Duration: 5 days.", evidence: "A-I", evidenceSource: "IDSA/ATS 2019" },
+              { drug: "cephalexin-combo", regimen: "Cephalexin 500mg PO TID (or Cefpodoxime 200mg BID) + Azithromycin or Doxycycline", notes: "Alternative beta-lactam backbone. Cefpodoxime preferred over cephalexin for broader gram-negative coverage.", evidence: "B-II", evidenceSource: "IDSA/ATS 2019" },
             ],
           },
           {
@@ -97,13 +107,18 @@ export const CAP = {
         definition: "CAP requiring hospital admission but NOT ICU-level care. CURB-65 ≥2 or PSI class III-IV. Patients who are hypoxic, tachypneic, confused, or have significant comorbidity exacerbation warranting admission.",
         clinicalPresentation: "Moderate-severe symptoms: high fever, productive cough, dyspnea, tachypnea (RR ≥22-30), hypoxia (SpO2 <94% on room air), dehydration, confusion (especially elderly). May have multilobar infiltrates on CXR.",
         diagnostics: "Chest X-ray (REQUIRED). Blood cultures × 2 BEFORE antibiotics (ATS/IDSA recommends for inpatients). Sputum culture (if quality specimen obtainable). Procalcitonin (baseline — helps guide de-escalation). Legionella urinary antigen and pneumococcal urinary antigen if severity warrants. Consider respiratory viral panel (especially flu season). Lactate if sepsis suspected.",
+        durationGuidance: {
+          standard: "5 days",
+          severe: "7–10 days (ICU/bacteremic)",
+          stewardshipNote: "IDSA/ATS 2019: 5-day course non-inferior for uncomplicated CAP. Reassess at day 5 using clinical stability criteria.",
+        },
         empiricTherapy: [
           {
             line: "First-Line (Combination — Preferred by ATS/IDSA)",
             options: [
-              { drug: "ceftriaxone", regimen: "Ceftriaxone 1-2g IV daily + Azithromycin 500mg IV/PO daily", notes: "The classic inpatient CAP regimen. Beta-lactam covers typicals; macrolide adds atypical coverage + immunomodulatory effects. ATS/IDSA 2019 preferred combination. Note: CAP-START suggests beta-lactam monotherapy may suffice — but most US institutions still use combination." },
-              { drug: "ampicillin-sulbactam", regimen: "Ampicillin-Sulbactam 3g IV q6h + Azithromycin 500mg IV/PO daily", notes: "Alternative beta-lactam backbone. Better anaerobic coverage than ceftriaxone (relevant if aspiration component suspected). Covers H. influenzae and M. catarrhalis beta-lactamase producers." },
-              { drug: "ceftriaxone-doxy", regimen: "Ceftriaxone 1-2g IV daily + Doxycycline 100mg PO/IV BID", notes: "Doxycycline substitution for macrolide-intolerant patients (QT concern, azithromycin allergy). Equally effective for atypical coverage." },
+              { drug: "ceftriaxone", regimen: "Ceftriaxone 1-2g IV daily + Azithromycin 500mg IV/PO daily", notes: "The classic inpatient CAP regimen. Beta-lactam covers typicals; macrolide adds atypical coverage + immunomodulatory effects. ATS/IDSA 2019 preferred combination. Note: CAP-START suggests beta-lactam monotherapy may suffice — but most US institutions still use combination.", evidence: "A-I", evidenceSource: "IDSA/ATS 2019" },
+              { drug: "ampicillin-sulbactam", regimen: "Ampicillin-Sulbactam 3g IV q6h + Azithromycin 500mg IV/PO daily", notes: "Alternative beta-lactam backbone. Better anaerobic coverage than ceftriaxone (relevant if aspiration component suspected). Covers H. influenzae and M. catarrhalis beta-lactamase producers.", evidence: "A-I", evidenceSource: "IDSA/ATS 2019" },
+              { drug: "ceftriaxone-doxy", regimen: "Ceftriaxone 1-2g IV daily + Doxycycline 100mg PO/IV BID", notes: "Doxycycline substitution for macrolide-intolerant patients (QT concern, azithromycin allergy). Equally effective for atypical coverage.", evidence: "B-II", evidenceSource: "IDSA/ATS 2019" },
             ],
           },
           {
@@ -138,13 +153,18 @@ export const CAP = {
         definition: "CAP requiring ICU admission. ATS/IDSA defines severe CAP by meeting ≥1 major criterion (mechanical ventilation or vasopressor-dependent septic shock) OR ≥3 minor criteria (RR ≥30, PaO2/FiO2 ≤250, multilobar infiltrates, confusion, BUN ≥20, WBC <4000, platelets <100K, hypothermia <36°C, hypotension requiring aggressive fluids).",
         clinicalPresentation: "Respiratory failure, septic shock, multilobar/bilateral infiltrates, rapidly progressive disease. May present with ARDS. High mortality — 20-50% depending on severity and organism.",
         diagnostics: "Full workup: blood cultures × 2, sputum culture (intubated: BAL or mini-BAL preferred), Legionella urinary antigen, pneumococcal urinary antigen, respiratory viral panel (including COVID-19), procalcitonin, lactate, CBC with differential, CMP, ABG. Consider CT chest if CXR unclear or complications suspected (empyema, abscess, PE). Consider bronchoscopy if not improving.",
+        durationGuidance: {
+          standard: "5 days",
+          severe: "7–10 days (ICU/bacteremic)",
+          stewardshipNote: "IDSA/ATS 2019: 5-day course non-inferior for uncomplicated CAP. Reassess at day 5 using clinical stability criteria.",
+        },
         empiricTherapy: [
           {
             line: "First-Line (ALWAYS Combination for Severe CAP)",
             options: [
-              { drug: "ceftriaxone", regimen: "Ceftriaxone 2g IV daily + Azithromycin 500mg IV daily", notes: "ATS/IDSA standard for severe CAP. The macrolide is STRONGLY recommended here (not optional like non-ICU). Macrolide immunomodulatory effect is most impactful in severe/bacteremic disease. Duration: minimum 5 days, typically 7 days." },
-              { drug: "ceftriaxone-fq", regimen: "Ceftriaxone 2g IV daily + Levofloxacin 750mg IV daily", notes: "Alternative combination if macrolide cannot be used (QT prolongation, allergy). Note: combining ceftriaxone + FQ gives broader coverage but loses the macrolide immunomodulatory benefit." },
-              { drug: "amp-sulbactam-combo", regimen: "Ampicillin-sulbactam 3g IV q6h + Azithromycin 500mg IV daily", notes: "Alternative beta-lactam backbone with better anaerobic coverage. Useful if aspiration component suspected in ICU CAP." },
+              { drug: "ceftriaxone", regimen: "Ceftriaxone 2g IV daily + Azithromycin 500mg IV daily", notes: "ATS/IDSA standard for severe CAP. The macrolide is STRONGLY recommended here (not optional like non-ICU). Macrolide immunomodulatory effect is most impactful in severe/bacteremic disease. Duration: minimum 5 days, typically 7 days.", evidence: "A-I", evidenceSource: "IDSA/ATS 2019" },
+              { drug: "ceftriaxone-fq", regimen: "Ceftriaxone 2g IV daily + Levofloxacin 750mg IV daily", notes: "Alternative combination if macrolide cannot be used (QT prolongation, allergy). Note: combining ceftriaxone + FQ gives broader coverage but loses the macrolide immunomodulatory benefit.", evidence: "A-I", evidenceSource: "IDSA/ATS 2019" },
+              { drug: "amp-sulbactam-combo", regimen: "Ampicillin-sulbactam 3g IV q6h + Azithromycin 500mg IV daily", notes: "Alternative beta-lactam backbone with better anaerobic coverage. Useful if aspiration component suspected in ICU CAP.", evidence: "B-II", evidenceSource: "IDSA/ATS 2019" },
             ],
           },
           {
@@ -191,12 +211,17 @@ export const CAP = {
         definition: "Pneumonia resulting from aspiration of oropharyngeal or gastric contents into the lower respiratory tract. Distinguished from aspiration pneumonitis (chemical inflammation without infection). True aspiration pneumonia involves bacterial infection and typically occurs in patients with impaired swallowing, altered consciousness, or impaired cough reflex.",
         clinicalPresentation: "Often insidious onset. Fever, cough, purulent sputum, dyspnea. Classic: dependent lung segments affected (right lower lobe if upright, posterior segments of upper lobes or superior segments of lower lobes if supine). May present with lung abscess or empyema if delayed diagnosis. Risk factors: stroke, dementia, intubation, alcoholism, GERD, poor dentition, procedural sedation.",
         diagnostics: "CXR showing infiltrate in dependent lung segments. Blood cultures if febrile/systemic signs. Sputum culture (often polymicrobial). CT chest if abscess or empyema suspected. Distinguish from aspiration pneumonitis: pneumonitis occurs within hours of witnessed aspiration, is chemical/inflammatory, and typically resolves within 24-48h WITHOUT antibiotics.",
+        durationGuidance: {
+          standard: "5 days",
+          severe: "7–10 days (ICU/bacteremic)",
+          stewardshipNote: "IDSA/ATS 2019: 5-day course non-inferior for uncomplicated CAP. Reassess at day 5 using clinical stability criteria.",
+        },
         empiricTherapy: [
           {
             line: "First-Line (Community-Acquired Aspiration)",
             options: [
-              { drug: "amp-sulbactam-asp", regimen: "Ampicillin-sulbactam 3g IV q6h", notes: "Excellent choice — covers streptococci, oral anaerobes, H. influenzae, and gram-negatives. The gold standard for aspiration pneumonia. Good anaerobic coverage without being overly broad." },
-              { drug: "amox-clav-asp", regimen: "Amoxicillin-clavulanate 875/125mg PO BID (if outpatient/mild)", notes: "Oral equivalent for mild aspiration pneumonia that can be treated outpatient. Same spectrum as IV amp-sulbactam. Duration: 5-7 days." },
+              { drug: "amp-sulbactam-asp", regimen: "Ampicillin-sulbactam 3g IV q6h", notes: "Excellent choice — covers streptococci, oral anaerobes, H. influenzae, and gram-negatives. The gold standard for aspiration pneumonia. Good anaerobic coverage without being overly broad.", evidence: "A-I", evidenceSource: "IDSA/ATS 2019" },
+              { drug: "amox-clav-asp", regimen: "Amoxicillin-clavulanate 875/125mg PO BID (if outpatient/mild)", notes: "Oral equivalent for mild aspiration pneumonia that can be treated outpatient. Same spectrum as IV amp-sulbactam. Duration: 5-7 days.", evidence: "B-II", evidenceSource: "IDSA/ATS 2019" },
             ],
           },
           {
