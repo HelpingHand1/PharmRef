@@ -1,13 +1,17 @@
 {
   "name": "pharmref",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "private": true,
   "description": "Pharmacist Clinical Reference Application",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run generate:catalog-manifest && npm run validate:content && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "prepare:data": "tsc -p tsconfig.validation.json",
+    "generate:catalog-manifest": "npm run prepare:data && node scripts/generate-catalog-manifest.js",
+    "release:check": "npm run typecheck && npm run build && node scripts/verify-release.js",
+    "typecheck": "tsc --noEmit",
+    "validate:content": "npm run prepare:data && node .tmp/validation/scripts/validate-content.js"
   },
   "dependencies": {
     "react": "^18.3.1",

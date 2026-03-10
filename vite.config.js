@@ -2,6 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
+const DISEASE_MODULE_RE = /\/src\/data\/(uti|cap|hap-vap|ssti|iai|amr-gram-negative|bacteremia-endocarditis|c-difficile|bone-joint|cns-infections|fungal-infections|advanced-agents|febrile-neutropenia|diabetic-foot|sepsis)\.ts$/
+
 export default defineConfig({
   plugins: [
     react(),
@@ -39,7 +41,7 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('/node_modules/')) return 'vendor'
-          if (id.includes('/src/data/')) return 'disease-data'
+          if (DISEASE_MODULE_RE.test(id)) return 'disease-data'
         },
       },
     },

@@ -4,6 +4,7 @@ import { EmpiricTierViewProps } from "../types";
 import { getLineStyle } from "../styles/constants";
 import CopyBtn from "./CopyBtn";
 import AllergyWarning from "./AllergyWarning";
+import RegimenPatientWarnings from "./RegimenPatientWarnings";
 
 const EmpiricTierView = memo(function EmpiricTierView({
   tier,
@@ -13,6 +14,8 @@ const EmpiricTierView = memo(function EmpiricTierView({
   copiedId,
   onCopy,
   allergies,
+  patient,
+  crcl,
 }: EmpiricTierViewProps) {
   return (
     <div style={{ marginBottom: "20px" }}>
@@ -66,7 +69,15 @@ const EmpiricTierView = memo(function EmpiricTierView({
               {opt.regimen}
             </div>
             {opt.notes && <div style={{ fontSize: "13px", color: S.monographValue?.color || "#cbd5e1", lineHeight: 1.65 }}>{opt.notes}</div>}
-            <AllergyWarning drugId={opt.drug || opt.regimen.split(" ")[0].toLowerCase()} allergies={allergies} S={S} />
+            <AllergyWarning drugId={`${opt.drug ?? ""} ${opt.regimen}`.trim()} allergies={allergies} S={S} />
+            <RegimenPatientWarnings
+              crcl={crcl}
+              drugId={opt.drug}
+              navigateTo={navigateTo}
+              patient={patient}
+              regimen={opt.regimen}
+              S={S}
+            />
           </div>
         );
       })}

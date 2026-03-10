@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
+import { getConfidenceBadge, getContentFreshness, resolveContentMeta } from "../data/metadata";
 import { NAV_STATES } from "../styles/constants";
-import type { NavStateKey, SearchResult, Styles, Subcategory, MonographLookupResult } from "../types";
+import type { NavigateTo, SearchResult, Styles } from "../types";
 
 type TabLabel = "All" | "Drugs" | "Organisms" | "Syndromes" | "Diseases";
 const ALL_TABS: TabLabel[] = ["All", "Drugs", "Organisms", "Syndromes", "Diseases"];
@@ -31,10 +32,76 @@ export function highlightMatch(text: string, query: string, accentSurface: strin
   );
 }
 
+function badgeStyle(S: Styles, tone: "fresh" | "info" | "warn"): React.CSSProperties {
+  if (tone === "fresh") {
+    return {
+      ...S.crossRefPill,
+      cursor: "default",
+      marginRight: 0,
+      marginBottom: 0,
+      background: "rgba(52,211,153,0.12)",
+      borderColor: "rgba(52,211,153,0.28)",
+      color: "#059669",
+    };
+  }
+
+  if (tone === "info") {
+    return {
+      ...S.crossRefPill,
+      cursor: "default",
+      marginRight: 0,
+      marginBottom: 0,
+      background: "rgba(56,189,248,0.12)",
+      borderColor: "rgba(56,189,248,0.28)",
+      color: "#0284c7",
+    };
+  }
+
+  return {
+    ...S.crossRefPill,
+    cursor: "default",
+    marginRight: 0,
+    marginBottom: 0,
+    background: "rgba(245,158,11,0.12)",
+    borderColor: "rgba(245,158,11,0.28)",
+    color: "#d97706",
+  };
+}
+
+function MetadataBadges({
+  inherited,
+  meta,
+  S,
+}: {
+  inherited: boolean;
+  meta: ReturnType<typeof resolveContentMeta>["meta"];
+  S: Styles;
+}) {
+  if (!meta) return null;
+
+  const freshness = getContentFreshness(meta);
+  const confidence = getConfidenceBadge(meta.confidence);
+
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
+      <span style={badgeStyle(S, confidence.tone)}>{confidence.shortLabel}</span>
+      <span style={badgeStyle(S, freshness.tone)}>{freshness.shortLabel}</span>
+      <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+        {meta.sources.length} source{meta.sources.length === 1 ? "" : "s"}
+      </span>
+      {inherited && (
+        <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+          Inherited metadata
+        </span>
+      )}
+    </div>
+  );
+}
+
 interface SearchResultsPageProps {
   query: string;
   results: SearchResult;
-  navigateTo: (state: NavStateKey, data?: Partial<MonographLookupResult> & { subcategory?: Subcategory }) => void;
+  navigateTo: NavigateTo;
   onClearSearch: () => void;
   S: Styles;
 }
@@ -58,105 +125,129 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
     {
       title: "Drug Monographs",
       items: results.drugs.map((drug) => (
-        <div
-          key={drug.id}
-          className="pr-card result-card"
-          style={{ ...S.card, marginBottom: 0, padding: "18px 20px" }}
-          onClick={() => {
-            onClearSearch();
-            navigateTo(NAV_STATES.MONOGRAPH, { disease: drug.parentDisease, monograph: drug });
-          }}
-        >
-          <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>💊 Drug Monograph</div>
-          <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{hl(drug.name)}</div>
-          <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
-            {drug.brandNames} · {drug.drugClass}
-          </div>
-        </div>
+        (() => {
+          const resolvedMeta = resolveContentMeta(drug, drug.parentDisease);
+          return (
+            <div
+              key={drug.id}
+              className="pr-card result-card"
+              style={{ ...S.card, marginBottom: 0, padding: "18px 20px" }}
+              onClick={() => {
+                onClearSearch();
+                navigateTo(NAV_STATES.MONOGRAPH, { disease: drug.parentDisease, monograph: drug });
+              }}
+            >
+              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>💊 Drug Monograph</div>
+              <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{hl(drug.name)}</div>
+              <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+                {drug.brandNames} · {drug.drugClass}
+              </div>
+              <MetadataBadges inherited={resolvedMeta.inherited} meta={resolvedMeta.meta} S={S} />
+            </div>
+          );
+        })()
       )),
     },
     {
       title: "Organisms",
       items: results.organisms.map((organism, index) => (
-        <div
-          key={`${organism.parentDisease.id}-${organism.parentSubcategory.id}-${index}`}
-          className="pr-card result-card"
-          style={{ ...S.card, marginBottom: 0, padding: "18px 20px" }}
-          onClick={() => {
-            onClearSearch();
-            navigateTo(NAV_STATES.SUBCATEGORY, {
-              disease: organism.parentDisease,
-              subcategory: organism.parentSubcategory,
-            });
-          }}
-        >
-          <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🦠 Organism</div>
-          <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{hl(organism.organism)}</div>
-          <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "4px", lineHeight: 1.55 }}>
-            {organism.parentDisease.name}
-            <span style={{ color: S.meta.accent, margin: "0 5px" }}>›</span>
-            {organism.parentSubcategory.name}
-          </div>
-          {organism.preferred && (
+        (() => {
+          const resolvedMeta = resolveContentMeta(organism.parentSubcategory, organism.parentDisease);
+          return (
             <div
-              style={{
-                fontSize: "12px",
-                color: S.meta.textMuted,
-                marginTop: "5px",
-                fontFamily: "'JetBrains Mono', monospace",
-                lineHeight: 1.4,
+              key={`${organism.parentDisease.id}-${organism.parentSubcategory.id}-${index}`}
+              className="pr-card result-card"
+              style={{ ...S.card, marginBottom: 0, padding: "18px 20px" }}
+              onClick={() => {
+                onClearSearch();
+                navigateTo(NAV_STATES.SUBCATEGORY, {
+                  disease: organism.parentDisease,
+                  subcategory: organism.parentSubcategory,
+                });
               }}
             >
-              Preferred: {organism.preferred.length > 80 ? organism.preferred.slice(0, 77) + "…" : organism.preferred}
+              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🦠 Organism</div>
+              <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{hl(organism.organism)}</div>
+              <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "4px", lineHeight: 1.55 }}>
+                {organism.parentDisease.name}
+                <span style={{ color: S.meta.accent, margin: "0 5px" }}>›</span>
+                {organism.parentSubcategory.name}
+              </div>
+              {organism.preferred && (
+                <div
+                  style={{
+                    fontSize: "12px",
+                    color: S.meta.textMuted,
+                    marginTop: "5px",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    lineHeight: 1.4,
+                  }}
+                >
+                  Preferred: {organism.preferred.length > 80 ? organism.preferred.slice(0, 77) + "…" : organism.preferred}
+                </div>
+              )}
+              <MetadataBadges inherited={resolvedMeta.inherited} meta={resolvedMeta.meta} S={S} />
             </div>
-          )}
-        </div>
+          );
+        })()
       )),
     },
     {
       title: "Subcategories",
       items: results.subcategories.map((subcategory) => (
-        <div
-          key={`${subcategory.parentDisease.id}-${subcategory.id}`}
-          className="pr-card result-card"
-          style={{ ...S.card, marginBottom: 0, padding: "18px 20px" }}
-          onClick={() => {
-            onClearSearch();
-            navigateTo(NAV_STATES.SUBCATEGORY, { disease: subcategory.parentDisease, subcategory });
-          }}
-        >
-          <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>
-            📋{" "}
-            {subcategory.matchType === "name"
-              ? "Matched in title"
-              : subcategory.matchType === "pearl"
-                ? "Matched in pearls"
-                : "Matched in therapy"}
-          </div>
-          <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{hl(subcategory.name)}</div>
-          <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px" }}>
-            {subcategory.parentDisease.name}
-          </div>
-        </div>
+        (() => {
+          const resolvedMeta = resolveContentMeta(subcategory, subcategory.parentDisease);
+          return (
+            <div
+              key={`${subcategory.parentDisease.id}-${subcategory.id}`}
+              className="pr-card result-card"
+              style={{ ...S.card, marginBottom: 0, padding: "18px 20px" }}
+              onClick={() => {
+                onClearSearch();
+                navigateTo(NAV_STATES.SUBCATEGORY, { disease: subcategory.parentDisease, subcategory });
+              }}
+            >
+              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>
+                📋{" "}
+                {subcategory.matchType === "name"
+                  ? "Matched in title"
+                  : subcategory.matchType === "pearl"
+                    ? "Matched in pearls"
+                    : "Matched in therapy"}
+              </div>
+              <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{hl(subcategory.name)}</div>
+              <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px" }}>
+                {subcategory.parentDisease.name}
+              </div>
+              <MetadataBadges inherited={resolvedMeta.inherited} meta={resolvedMeta.meta} S={S} />
+            </div>
+          );
+        })()
       )),
     },
     {
       title: "Disease States",
       items: results.diseases.map((disease) => (
-        <div
-          key={disease.id}
-          className="pr-card result-card"
-          style={{ ...S.card, marginBottom: 0, padding: "18px 20px" }}
-          onClick={() => {
-            onClearSearch();
-            navigateTo(NAV_STATES.DISEASE_OVERVIEW, { disease });
-          }}
-        >
-          <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🔬 Disease State</div>
-          <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>
-            {disease.icon} {hl(disease.name)}
-          </div>
-        </div>
+        (() => {
+          const resolvedMeta = resolveContentMeta(disease);
+          return (
+            <div
+              key={disease.id}
+              className="pr-card result-card"
+              style={{ ...S.card, marginBottom: 0, padding: "18px 20px" }}
+              onClick={() => {
+                onClearSearch();
+                navigateTo(NAV_STATES.DISEASE_OVERVIEW, { disease });
+              }}
+            >
+              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🔬 Disease State</div>
+              <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>
+                {disease.icon} {hl(disease.name)}
+              </div>
+              <MetadataBadges inherited={resolvedMeta.inherited} meta={resolvedMeta.meta} S={S} />
+            </div>
+          );
+        })()
       )),
     },
   ].filter((group) => group.items.length > 0);

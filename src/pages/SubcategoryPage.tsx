@@ -1,13 +1,17 @@
 import { useCallback } from "react";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
+import ContentMetaCard from "../components/ContentMetaCard";
 import EmpiricTierView from "../components/EmpiricTierView";
 import Section from "../components/Section";
 import { NAV_STATES } from "../styles/constants";
+import { resolveContentMeta } from "../data/metadata";
+import { hasAnyPatientSignals } from "../utils/regimenGuidance";
 import type {
   AllergyRecord,
   DiseaseState,
   MonographLookupResult,
-  NavStateKey,
+  NavigateTo,
+  PatientContext,
   Styles,
   Subcategory,
 } from "../types";
@@ -18,11 +22,13 @@ interface SubcategoryPageProps {
   disease: DiseaseState;
   expandedSections: Record<string, boolean>;
   findMonograph: (drugId: string) => MonographLookupResult | null;
-  navigateTo: (state: NavStateKey, data?: Partial<MonographLookupResult> & { subcategory?: Subcategory }) => void;
+  navigateTo: NavigateTo;
   onCollapseAll: () => void;
   onCopy: (text: string, id: string) => void;
   onExpandAll: () => void;
+  patient: PatientContext;
   readingMode: boolean;
+  crcl: number | null;
   S: Styles;
   showToast: (message: string, icon?: string) => void;
   subcategory: Subcategory;
@@ -39,12 +45,16 @@ export default function SubcategoryPage({
   onCollapseAll,
   onCopy,
   onExpandAll,
+  patient,
   readingMode,
+  crcl,
   S,
   showToast,
   subcategory,
   toggleSection,
 }: SubcategoryPageProps) {
+  const { meta: pageMeta, inherited } = resolveContentMeta(subcategory, disease);
+  const hasPatientContext = hasAnyPatientSignals(patient);
   const handleShare = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
@@ -124,6 +134,39 @@ export default function SubcategoryPage({
           </div>
         </div>
       </section>
+
+      <ContentMetaCard
+        inheritedFrom={inherited ? disease.name : undefined}
+        meta={pageMeta}
+        S={S}
+      />
+
+      <div
+        style={{
+          ...S.patientBanner,
+          background: hasPatientContext ? S.meta.accentSurface : S.card.background,
+          border: `1px solid ${hasPatientContext ? `${S.meta.accent}35` : S.card.borderColor}`,
+          color: hasPatientContext ? S.meta.textHeading : S.monographValue.color,
+          justifyContent: "space-between",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+          <span style={{ fontWeight: 800 }}>{hasPatientContext ? "👤 Patient context active" : "👤 Patient context not set"}</span>
+          {hasPatientContext ? (
+            <>
+              {crcl !== null && <span>CrCl {crcl} mL/min</span>}
+              {patient.dialysis && patient.dialysis !== "none" && <span>{patient.dialysis}</span>}
+              {patient.pregnant && <span>Pregnant</span>}
+              {patient.weight && <span>{patient.weight} kg</span>}
+            </>
+          ) : (
+            <span>Add age, sex, weight, and SCr to screen regimen-level renal and pregnancy cautions below.</span>
+          )}
+        </div>
+        <button type="button" style={{ ...S.expandAllBtn, marginRight: 0 }} onClick={() => navigateTo(NAV_STATES.CALCULATORS)}>
+          Open calculators
+        </button>
+      </div>
 
       {subcategory.durationGuidance && (
         <div
@@ -229,6 +272,8 @@ export default function SubcategoryPage({
             copiedId={copiedId}
             onCopy={onCopy}
             allergies={allergies}
+            patient={patient}
+            crcl={crcl}
           />
         ))}
       </Section>

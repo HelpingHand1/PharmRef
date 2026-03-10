@@ -1,0 +1,58 @@
+export const DISEASE_ALIASES: Record<string, string[]> = {
+  uti: ["uti", "cauti", "complicated uti", "c uti", "pyelo", "pyelonephritis"],
+  cap: ["cap", "community acquired pneumonia", "aspiration pneumonia"],
+  "hap-vap": ["hap", "vap", "hospital acquired pneumonia", "ventilator associated pneumonia"],
+  ssti: ["ssti", "absssi", "skin infection", "soft tissue infection"],
+  iai: ["iai", "intra abdominal infection", "intra-abdominal infection", "biliary infection"],
+  "amr-gn": ["esbl", "ampc", "cre", "dtr pa", "dtr-pa", "crab", "steno", "mdr pseudomonas"],
+  "bacteremia-endocarditis": ["sab", "bsi", "bloodstream infection", "endocarditis", "ie"],
+  "c-difficile": ["cdi", "c diff", "cdiff", "clostridioides difficile"],
+  "bone-joint": ["osteomyelitis", "pji", "septic arthritis", "bone infection"],
+  "cns-infections": ["meningitis", "ventriculitis", "brain abscess", "cns infection"],
+  "fungal-infections": ["candidemia", "aspergillosis", "cryptococcal meningitis", "fungal infection"],
+  "advanced-agents": ["advanced agents", "resistant pathogen agents", "novel beta lactam"],
+  "febrile-neutropenia": ["fn", "febrile neutropenia"],
+  "diabetic-foot": ["dfi", "diabetic foot infection"],
+  sepsis: ["sepsis", "septic shock", "qsofa", "sofa"],
+};
+
+export const SUBCATEGORY_ALIASES: Record<string, string[]> = {
+  "complicated-uti": ["cauti", "cuti", "complicated uti"],
+  "cap-icu": ["icu cap", "severe cap"],
+  candidemia: ["candida bloodstream infection"],
+  "cre-management": ["cre", "kpc", "ndm"],
+  "mdr-pseudomonas": ["dtr pa", "dtr-pa", "mdr pseudomonas"],
+  "sab-workup": ["sab", "staph aureus bacteremia"],
+  "prosthetic-valve-ie": ["pve", "prosthetic valve endocarditis"],
+  "gram-negative-bacteremia": ["gn bacteremia", "gram negative bloodstream infection"],
+  "community-bacterial-meningitis": ["bacterial meningitis"],
+  "healthcare-cns": ["ventriculitis", "shunt infection"],
+  "brain-abscess": ["cns abscess"],
+  "low-risk-fn": ["low risk neutropenic fever"],
+  "high-risk-fn": ["high risk neutropenic fever"],
+  "mild-dfi": ["mild diabetic foot infection"],
+  "moderate-dfi": ["moderate diabetic foot infection"],
+  "severe-dfi": ["severe diabetic foot infection"],
+  "dfi-osteomyelitis": ["diabetic foot osteomyelitis"],
+  "sepsis-community": ["community acquired sepsis"],
+  "sepsis-hcap": ["healthcare associated sepsis"],
+};
+
+export const DRUG_ALIASES: Record<string, string[]> = {
+  "tmp-smx": ["bactrim", "septra", "trimethoprim sulfamethoxazole"],
+  "pip-tazo": ["piperacillin tazobactam", "zosyn", "pip tazo"],
+  "amox-clav": ["augmentin", "amoxicillin clavulanate"],
+  vancomycin: ["vanc"],
+  gentamicin: ["gent"],
+  ceftriaxone: ["ctx"],
+  cefepime: ["fepime"],
+  metronidazole: ["flagyl"],
+  fluconazole: ["diflucan"],
+  linezolid: ["zyvox"],
+  daptomycin: ["cubicin"],
+  nitrofurantoin: ["macrobid", "macrodantin"],
+};
+
+export function aliasTextFor(map: Record<string, string[]>, id: string) {
+  return (map[id] ?? []).join(" ");
+}

@@ -1,18 +1,18 @@
 import { useCallback } from "react";
 import AllergyWarning from "../components/AllergyWarning";
+import ContentMetaCard from "../components/ContentMetaCard";
 import CrossRefBadges from "../components/CrossRefBadges";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
 import Section from "../components/Section";
+import { resolveContentMeta } from "../data/metadata";
 import { aeCard, aeLabel, NAV_STATES } from "../styles/constants";
 import type {
   AllergyRecord,
   DiseaseState,
   DrugMonograph,
-  MonographLookupResult,
-  NavStateKey,
+  NavigateTo,
   PatientContext,
   Styles,
-  Subcategory,
   ThemeKey,
 } from "../types";
 
@@ -26,7 +26,7 @@ interface MonographPageProps {
   isBookmarked: (id: string) => boolean;
   monograph: DrugMonograph;
   monographXref: Record<string, DiseaseState[]>;
-  navigateTo: (state: NavStateKey, data?: Partial<MonographLookupResult> & { subcategory?: Subcategory }) => void;
+  navigateTo: NavigateTo;
   onCollapseAll: () => void;
   onExpandAll: () => void;
   patient: PatientContext;
@@ -59,6 +59,7 @@ export default function MonographPage({
   toggleBookmark,
   toggleSection,
 }: MonographPageProps) {
+  const { meta: pageMeta, inherited } = resolveContentMeta(monograph, disease);
   const isDark = theme !== "light";
   const crclColor = crcl === null ? "#8ea1bb" : crcl >= 60 ? "#34d399" : crcl >= 30 ? "#fbbf24" : "#f87171";
   const crclLabel = crcl === null ? "" : crcl >= 60 ? "Normal/Mild" : crcl >= 30 ? "Moderate impairment" : crcl >= 15 ? "Severe impairment" : "Kidney failure";
@@ -252,6 +253,11 @@ export default function MonographPage({
           ))}
         </div>
       </section>
+      <ContentMetaCard
+        inheritedFrom={inherited ? disease.name : undefined}
+        meta={pageMeta}
+        S={S}
+      />
       <ExpandCollapseBar S={S} onExpand={onExpandAll} onCollapse={onCollapseAll} />
 
       <div
@@ -317,6 +323,14 @@ export default function MonographPage({
       </Section>
 
       <Section id="dosing" title="Dosing" icon="📐" accentColor="#a78bfa" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <div className="no-print" style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", marginBottom: "12px" }}>
+          <button type="button" style={{ ...S.expandAllBtn, marginRight: 0 }} onClick={() => navigateTo(NAV_STATES.CALCULATORS)}>
+            Open calculators
+          </button>
+          <span style={{ fontSize: "12px", color: S.monographValue.color }}>
+            Use CrCl, IBW/AdjBW, vancomycin AUC, and aminoglycoside tools to individualize dosing.
+          </span>
+        </div>
         {patientWeightActive && (
           <div style={{ background: isDark ? "rgba(167,139,250,0.08)" : "rgba(167,139,250,0.07)", border: "1px solid rgba(167,139,250,0.28)", borderRadius: "10px", padding: "10px 14px", marginBottom: "12px", display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "center" }}>
             <span style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: "#a78bfa" }}>Patient Weights</span>
@@ -342,6 +356,16 @@ export default function MonographPage({
       </Section>
 
       <Section id="renal" title="Renal Dose Adjustment" icon="🫘" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <div className="no-print" style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", marginBottom: "12px" }}>
+          <button type="button" style={{ ...S.expandAllBtn, marginRight: 0 }} onClick={() => navigateTo(NAV_STATES.CALCULATORS)}>
+            Open calculators
+          </button>
+          {!crclActive && (
+            <span style={{ fontSize: "12px", color: S.monographValue.color }}>
+              Add patient age, sex, weight, and SCr to generate CrCl before finalizing renal dosing.
+            </span>
+          )}
+        </div>
         {crclActive && (
           <div style={{ background: isDark ? "rgba(15,23,42,0.6)" : "rgba(255,253,249,0.9)", border: `1px solid ${crclColor}50`, borderLeft: `3px solid ${crclColor}`, borderRadius: "10px", padding: "10px 14px", marginBottom: "12px", display: "flex", flexWrap: "wrap", gap: "14px", alignItems: "center" }}>
             <span style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: "#f59e0b" }}>Patient Renal Function</span>

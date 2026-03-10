@@ -1,8 +1,7 @@
 import { useCallback, useEffect } from "react";
-import { DISEASE_BY_ID, MONOGRAPH_LOOKUP, SUBCATEGORY_BY_DISEASE_ID } from "../data/derived";
 import { NAV_STATES } from "../styles/constants";
 import { usePersistedState } from "../utils/persistence";
-import type { DiseaseState, DrugMonograph, NavStateKey, RecentView, Subcategory } from "../types";
+import type { DiseaseState, DrugMonograph, NavigateTo, NavStateKey, RecentView, Subcategory } from "../types";
 
 const MAX_RECENTS = 6;
 
@@ -28,7 +27,7 @@ export function useRecentViews(
   selectedDisease: DiseaseState | null,
   selectedSubcategory: Subcategory | null,
   selectedMonograph: DrugMonograph | null,
-  navigateTo: (state: NavStateKey, data?: { disease?: DiseaseState; subcategory?: Subcategory; monograph?: DrugMonograph }) => void,
+  navigateTo: NavigateTo,
 ) {
   const [recentViews, setRecentViews] = usePersistedState<RecentView[]>("recentViews", []);
 
@@ -74,26 +73,23 @@ export function useRecentViews(
 
   const openRecent = useCallback(
     (recent: RecentView) => {
-      const disease = DISEASE_BY_ID[recent.diseaseId];
-      if (!disease) return;
-
       if (recent.type === "disease") {
-        navigateTo(NAV_STATES.DISEASE_OVERVIEW, { disease });
+        navigateTo(NAV_STATES.DISEASE_OVERVIEW, { diseaseId: recent.diseaseId });
         return;
       }
 
       if (recent.type === "subcategory") {
-        const subcategory = SUBCATEGORY_BY_DISEASE_ID[recent.diseaseId]?.[recent.subcategoryId];
-        if (subcategory) {
-          navigateTo(NAV_STATES.SUBCATEGORY, { disease, subcategory });
-        }
+        navigateTo(NAV_STATES.SUBCATEGORY, {
+          diseaseId: recent.diseaseId,
+          subcategoryId: recent.subcategoryId,
+        });
         return;
       }
 
-      const monograph = MONOGRAPH_LOOKUP[recent.monographId]?.monograph;
-      if (monograph) {
-        navigateTo(NAV_STATES.MONOGRAPH, { disease, monograph });
-      }
+      navigateTo(NAV_STATES.MONOGRAPH, {
+        diseaseId: recent.diseaseId,
+        monographId: recent.monographId,
+      });
     },
     [navigateTo],
   );

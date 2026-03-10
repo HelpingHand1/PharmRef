@@ -1,12 +1,13 @@
-import type { DiseaseState, MonographLookupResult, NavStateKey, Styles, Subcategory } from "../types";
+import type { DiseaseState, NavigateTo, Styles } from "../types";
 import { NAV_STATES } from "../styles/constants";
 import Section from "../components/Section";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
+import ContentMetaCard from "../components/ContentMetaCard";
 
 interface DiseaseOverviewPageProps {
   disease: DiseaseState;
   expandedSections: Record<string, boolean>;
-  navigateTo: (state: NavStateKey, data?: Partial<MonographLookupResult> & { subcategory?: Subcategory }) => void;
+  navigateTo: NavigateTo;
   onCollapseAll: () => void;
   onExpandAll: () => void;
   readingMode: boolean;
@@ -96,6 +97,8 @@ export default function DiseaseOverviewPage({
           ))}
         </div>
       </section>
+
+      <ContentMetaCard meta={disease.contentMeta ?? null} S={S} />
 
       <ExpandCollapseBar S={S} onExpand={onExpandAll} onCollapse={onCollapseAll} />
 

@@ -2,7 +2,7 @@
 
 PharmRef is a TypeScript + React + Vite clinical reference app for antimicrobial decision support. It organizes syndrome-level guidance, organism-specific therapy, and drug monographs into a single PWA-style interface optimized for point-of-care browsing.
 
-## Current state (v2.2.0)
+## Current state (v2.3.0)
 
 - 15 disease states
 - 61 subcategories
@@ -10,6 +10,8 @@ PharmRef is a TypeScript + React + Vite clinical reference app for antimicrobial
 - React 18 + Vite 7 + TypeScript 5
 - PWA build via `vite-plugin-pwa`
 - Static disease-content modules under `src/data/*.ts`
+- Structured disease-level review metadata and source tracking
+- Build-time content validation via `npm run validate:content`
 
 ### Included disease states
 
@@ -73,6 +75,7 @@ PharmRef is a TypeScript + React + Vite clinical reference app for antimicrobial
 │   │   └── index.ts
 │   ├── data/
 │   │   ├── index.ts
+│   │   ├── metadata.ts              ← review metadata + source tracking
 │   │   ├── derived.ts               ← search index, lookup maps, class grouping
 │   │   ├── advanced-agents.ts
 │   │   ├── amr-gram-negative.ts
@@ -102,6 +105,9 @@ PharmRef is a TypeScript + React + Vite clinical reference app for antimicrobial
 │   │   └── SubcategoryPage.tsx
 │   └── styles/
 │       └── constants.ts             ← makeStyles(), theme tokens, NAV_STATES
+├── scripts/
+│   └── validate-content.ts          ← build-time content validation
+├── tsconfig.validation.json         ← compile-only config for validation script
 ├── vite.config.js
 ├── tsconfig.json
 └── package.json
@@ -114,6 +120,7 @@ npm run dev          # local dev server (also accessible on LAN for phone testin
 npm run build        # production build
 npm run preview      # serve production build
 npm run typecheck    # tsc --noEmit
+npm run validate:content
 ```
 
 ## Adding a new disease state
@@ -158,10 +165,12 @@ Likely next steps when the catalog grows further:
 2. Move search indexing into a background worker or prebuilt JSON index if search latency becomes noticeable.
 3. Introduce content validation scripts for duplicate IDs, missing required sections, and cross-link integrity outside the UI audit screen.
 4. Consider route-level or disease-level lazy loading if the data chunk exceeds ~1.5 MB gzipped.
+5. Expand review metadata from disease-level inheritance to subcategory- and monograph-specific provenance where it materially changes recommendations.
 
 ## Verification
 
 ```bash
 npm run typecheck   # zero errors expected
+npm run validate:content
 npm run build       # clean build, disease-data chunk ~870 KB raw / ~284 KB gzip
 ```

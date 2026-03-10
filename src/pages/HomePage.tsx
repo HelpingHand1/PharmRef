@@ -1,24 +1,21 @@
-import { useState } from "react";
-import { CLASS_GROUPS, MONOGRAPHS_BY_CLASS } from "../data/derived";
+import { useMemo, useState } from "react";
+import { CLASS_GROUPS, groupMonographsByClass } from "../data/derived";
 import { NAV_STATES } from "../styles/constants";
 import type {
-  DiseaseState,
-  DrugSearchResult,
-  MonographLookupResult,
-  NavStateKey,
+  DiseaseCatalogSummary,
+  MonographCatalogSummary,
+  NavigateTo,
   RecentView,
   Styles,
-  Subcategory,
 } from "../types";
 
 interface HomePageProps {
-  allMonographs: DrugSearchResult[];
+  allMonographs: MonographCatalogSummary[];
   allergyCount: number;
   bookmarks: string[];
-  diseaseStates: DiseaseState[];
-  findMonograph: (id: string) => MonographLookupResult | null;
-  isBookmarked: (id: string) => boolean;
-  navigateTo: (state: NavStateKey, data?: Partial<MonographLookupResult> & { subcategory?: Subcategory }) => void;
+  diseaseStates: DiseaseCatalogSummary[];
+  findMonographSummary: (id: string) => MonographCatalogSummary | null;
+  navigateTo: NavigateTo;
   onOpenAllergyModal: () => void;
   onOpenPatientModal?: () => void;
   onOpenRecent: (recent: RecentView) => void;
@@ -35,7 +32,7 @@ export default function HomePage({
   allergyCount,
   bookmarks,
   diseaseStates,
-  findMonograph,
+  findMonographSummary,
   navigateTo,
   onOpenAllergyModal,
   onOpenRecent,
@@ -47,6 +44,7 @@ export default function HomePage({
   totalSubcategories,
 }: HomePageProps) {
   const [activeClass, setActiveClass] = useState<string | null>(null);
+  const monographsByClass = useMemo(() => groupMonographsByClass(allMonographs), [allMonographs]);
 
   const classPillBase = { ...S.crossRefPill, fontFamily: "inherit" } as const;
   const classPillActive = { ...classPillBase, background: S.meta.accentSurface, color: S.meta.accent, borderColor: S.meta.accent } as const;
@@ -68,7 +66,7 @@ export default function HomePage({
         fontFamily: "inherit",
         boxShadow: S.meta.shadowSm,
       }}
-      onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { disease: drug.parentDisease, monograph: drug })}
+      onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { diseaseId: drug.parentDiseaseId, monographId: drug.id })}
     >
       {drug.name}
     </button>
@@ -258,7 +256,7 @@ export default function HomePage({
               const isMonograph = id.startsWith("monograph:");
               const key = id.replace(/^(disease|monograph):/, "");
               if (isMonograph) {
-                const found = findMonograph(key);
+                const found = findMonographSummary(key);
                 if (!found) return null;
                 return (
                   <button
@@ -266,14 +264,14 @@ export default function HomePage({
                     type="button"
                     className="pr-card recent-card"
                     style={{ ...S.card, marginBottom: 0, textAlign: "left", padding: "14px 16px", display: "flex", flexDirection: "column", gap: "4px" }}
-                    onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { disease: found.disease, monograph: found.monograph })}
+                    onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { diseaseId: found.parentDiseaseId, monographId: found.id })}
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                       <div style={{ fontSize: "11px", color: S.meta.accent, fontWeight: 700 }}>💊 MONOGRAPH</div>
                       <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "#fbbf24", fontSize: "14px", padding: "0 0 0 8px" }} onClick={(e) => { e.stopPropagation(); toggleBookmark(id); }} title="Remove bookmark">🔖</button>
                     </div>
-                    <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{found.monograph.name}</div>
-                    <div style={{ fontSize: "11px", color: S.monographValue.color }}>{found.disease.name}</div>
+                    <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{found.name}</div>
+                    <div style={{ fontSize: "11px", color: S.monographValue.color }}>{found.parentDiseaseName}</div>
                   </button>
                 );
               }
@@ -286,14 +284,14 @@ export default function HomePage({
                     type="button"
                     className="pr-card recent-card"
                     style={{ ...S.card, marginBottom: 0, textAlign: "left", padding: "14px 16px", display: "flex", flexDirection: "column", gap: "4px" }}
-                    onClick={() => navigateTo(NAV_STATES.DISEASE_OVERVIEW, { disease })}
+                    onClick={() => navigateTo(NAV_STATES.DISEASE_OVERVIEW, { diseaseId: disease.id })}
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                       <div style={{ fontSize: "11px", color: S.meta.accent, fontWeight: 700 }}>{disease.icon} DISEASE</div>
                       <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "#fbbf24", fontSize: "14px", padding: "0 0 0 8px" }} onClick={(e) => { e.stopPropagation(); toggleBookmark(id); }} title="Remove bookmark">🔖</button>
                     </div>
                     <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{disease.name}</div>
-                    <div style={{ fontSize: "11px", color: S.monographValue.color }}>{disease.subcategories.length} subcategories</div>
+                    <div style={{ fontSize: "11px", color: S.monographValue.color }}>{disease.subcategoryCount} subcategories</div>
                   </button>
                 );
               }
@@ -313,7 +311,7 @@ export default function HomePage({
             key={disease.id}
             className="pr-card disease-card"
             style={{ ...S.card, display: "flex", alignItems: "center", gap: "16px", marginBottom: 0, padding: "18px 20px" }}
-            onClick={() => navigateTo(NAV_STATES.DISEASE_OVERVIEW, { disease })}
+            onClick={() => navigateTo(NAV_STATES.DISEASE_OVERVIEW, { diseaseId: disease.id })}
           >
             <div
               style={{
@@ -338,10 +336,10 @@ export default function HomePage({
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
                 <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
-                  {disease.subcategories.length} subcategories
+                  {disease.subcategoryCount} subcategories
                 </span>
                 <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
-                  {disease.drugMonographs.length} monographs
+                  {disease.monographCount} monographs
                 </span>
               </div>
             </div>
@@ -373,7 +371,7 @@ export default function HomePage({
         <button type="button" style={activeClass === null ? classPillActive : classPillBase} onClick={() => setActiveClass(null)}>
           All Classes
         </button>
-        {CLASS_GROUPS.filter((g) => (MONOGRAPHS_BY_CLASS[g.label] ?? []).length > 0).map((g) => (
+        {CLASS_GROUPS.filter((g) => (monographsByClass[g.label] ?? []).length > 0).map((g) => (
           <button
             key={g.label}
             type="button"
@@ -387,15 +385,15 @@ export default function HomePage({
 
       {activeClass !== null ? (
         <div className="monograph-pills" style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-          {(MONOGRAPHS_BY_CLASS[activeClass] ?? []).map(drugPill)}
+          {(monographsByClass[activeClass] ?? []).map(drugPill)}
         </div>
       ) : (
         <>
-          {CLASS_GROUPS.filter((g) => (MONOGRAPHS_BY_CLASS[g.label] ?? []).length > 0).map((g) => (
+          {CLASS_GROUPS.filter((g) => (monographsByClass[g.label] ?? []).length > 0).map((g) => (
             <div key={g.label} style={{ marginBottom: "20px" }}>
               <div style={{ ...S.monographLabel, fontSize: "11px", marginBottom: "8px" }}>{g.label}</div>
               <div className="monograph-pills" style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                {MONOGRAPHS_BY_CLASS[g.label].map(drugPill)}
+                {monographsByClass[g.label].map(drugPill)}
               </div>
             </div>
           ))}

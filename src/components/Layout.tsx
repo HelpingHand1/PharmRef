@@ -4,6 +4,7 @@ import AllergyModal from "./AllergyModal";
 import DisclaimerModal from "./DisclaimerModal";
 import PatientModal from "./PatientModal";
 import Toast from "./Toast";
+import { APP_VERSION, CONTENT_REVIEWED_LABEL } from "../version";
 
 type Breadcrumb = {
   label: string;
@@ -181,7 +182,7 @@ export default function Layout({
           lineHeight: 1.6,
         }}
       >
-        PharmRef v2.2.0 &middot; Content updated March 2026 &middot; For educational use only &mdash; verify all clinical decisions against current guidelines
+        PharmRef v{APP_VERSION} &middot; Catalog reviewed {CONTENT_REVIEWED_LABEL} &middot; For educational use only &mdash; verify all clinical decisions against current guidelines
       </footer>
       {showTopBtn && (
         <button

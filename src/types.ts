@@ -1,10 +1,27 @@
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 
+export interface ContentSource {
+  kind: "guideline" | "trial" | "consensus" | "review";
+  label: string;
+  citation: string;
+  url?: string;
+}
+
+export type ContentConfidence = "high" | "moderate" | "emerging";
+
+export interface ContentMeta {
+  lastReviewed: string;
+  confidence: ContentConfidence;
+  guidelineVersion?: string;
+  sources: ContentSource[];
+}
+
 export interface DiseaseState {
   id: string;
   name: string;
   icon: string;
   category: string;
+  contentMeta?: ContentMeta;
   overview: {
     definition: string;
     epidemiology?: string;
@@ -16,9 +33,20 @@ export interface DiseaseState {
   drugMonographs: DrugMonograph[];
 }
 
+export interface DiseaseCatalogSummary {
+  id: string;
+  name: string;
+  icon: string;
+  category: string;
+  subcategoryCount: number;
+  monographCount: number;
+  contentMeta?: ContentMeta;
+}
+
 export interface Subcategory {
   id: string;
   name: string;
+  contentMeta?: ContentMeta;
   definition: string;
   clinicalPresentation?: string;
   diagnostics?: string;
@@ -56,6 +84,7 @@ export interface OrganismSpecific {
 export interface DrugMonograph {
   id: string;
   name: string;
+  contentMeta?: ContentMeta;
   brandNames?: string;
   drugClass: string;
   mechanismOfAction: string;
@@ -90,6 +119,14 @@ export interface DrugMonograph {
     monitoring: string;
     considerations?: string[];
   };
+}
+
+export interface MonographCatalogSummary {
+  id: string;
+  name: string;
+  drugClass: string;
+  parentDiseaseId: string;
+  parentDiseaseName: string;
 }
 
 export interface PatientContext {
@@ -146,6 +183,17 @@ export type NavStateKey =
   | "compare"
   | "audit"
   | "calculators";
+
+export type NavigateToData = {
+  disease?: { id: string } | null;
+  diseaseId?: string | null;
+  subcategory?: { id: string } | null;
+  subcategoryId?: string | null;
+  monograph?: { id: string } | null;
+  monographId?: string | null;
+};
+
+export type NavigateTo = (state: NavStateKey, data?: NavigateToData) => void;
 
 export type ThemeKey = "dark" | "light" | "oled";
 
@@ -208,7 +256,7 @@ export interface CompareViewProps {
   drugs: MonographLookupResult[];
   compareItems: string[];
   setCompareItems: Dispatch<SetStateAction<string[]>>;
-  allMonographs: DrugMonograph[];
+  allMonographs: MonographCatalogSummary[];
   ExpandCollapseBar: () => ReactNode;
   S: Styles;
 }
@@ -217,7 +265,7 @@ export interface CrossRefBadgesProps {
   drugId: string;
   currentDiseaseId?: string;
   monographXref: Record<string, DiseaseState[]>;
-  navigateTo: (state: NavStateKey, data?: Partial<MonographLookupResult> & { subcategory?: Subcategory }) => void;
+  navigateTo: NavigateTo;
   showToast: (message: string, icon?: string) => void;
   currentDrugName: string;
   S: Styles;
@@ -226,11 +274,13 @@ export interface CrossRefBadgesProps {
 export interface EmpiricTierViewProps {
   tier: EmpiricTier;
   S: Styles;
-  navigateTo: (state: NavStateKey, data?: Partial<MonographLookupResult> & { subcategory?: Subcategory }) => void;
+  navigateTo: NavigateTo;
   findMonograph: (drugId: string) => MonographLookupResult | null;
   copiedId: string | null;
   onCopy: (text: string, id: string) => void;
   allergies: AllergyRecord[];
+  patient: PatientContext;
+  crcl: number | null;
 }
 
 export interface DisclaimerModalProps {

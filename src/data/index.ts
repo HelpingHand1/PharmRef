@@ -14,8 +14,9 @@ import { ADVANCED_AGENTS } from "./advanced-agents";
 import { FEBRILE_NEUTROPENIA } from "./febrile-neutropenia";
 import { DIABETIC_FOOT } from "./diabetic-foot";
 import { SEPSIS } from "./sepsis";
+import { attachDiseaseMetadata } from "./metadata";
 
-export const DISEASE_STATES: DiseaseState[] = [
+const RAW_DISEASE_STATES: DiseaseState[] = [
   UTI,
   CAP,
   HAP_VAP,
@@ -32,3 +33,5 @@ export const DISEASE_STATES: DiseaseState[] = [
   DIABETIC_FOOT,
   SEPSIS,
 ];
+
+export const DISEASE_STATES: DiseaseState[] = RAW_DISEASE_STATES.map((disease) => attachDiseaseMetadata(disease));
