@@ -16,12 +16,18 @@ const assetsDir = path.join(distDir, "assets");
 const indexHtmlPath = path.join(distDir, "index.html");
 const swPath = path.join(distDir, "sw.js");
 const webmanifestPath = path.join(distDir, "manifest.webmanifest");
+const icon192Path = path.join(distDir, "pwa-192.png");
+const icon512Path = path.join(distDir, "pwa-512.png");
+const appleTouchIconPath = path.join(distDir, "apple-touch-icon.png");
 const catalogManifestPath = path.join(root, "src", "data", "catalog-manifest.ts");
 
 expect(fs.existsSync(distDir), "dist/ does not exist. Run `npm run build` first.");
 expect(fs.existsSync(indexHtmlPath), "dist/index.html is missing.");
 expect(fs.existsSync(swPath), "dist/sw.js is missing.");
 expect(fs.existsSync(webmanifestPath), "dist/manifest.webmanifest is missing.");
+expect(fs.existsSync(icon192Path), "dist/pwa-192.png is missing.");
+expect(fs.existsSync(icon512Path), "dist/pwa-512.png is missing.");
+expect(fs.existsSync(appleTouchIconPath), "dist/apple-touch-icon.png is missing.");
 expect(fs.existsSync(assetsDir), "dist/assets is missing.");
 expect(fs.existsSync(catalogManifestPath), "src/data/catalog-manifest.ts is missing.");
 
@@ -45,4 +51,5 @@ console.log(`- index chunk: ${indexChunk}`);
 console.log(`- vendor chunk: ${vendorChunk}`);
 console.log(`- lazy disease chunk: ${diseaseChunk}`);
 console.log("- PWA artifacts present");
+console.log("- install icons present");
 console.log("- catalog manifest contains confidence metadata");

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">PharmRef icon</title>
+  <desc id="desc">Rounded square icon with medical cross and capsule</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1726" />
+      <stop offset="55%" stop-color="#12324a" />
+      <stop offset="100%" stop-color="#0f766e" />
+    </linearGradient>
+    <linearGradient id="pill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+  </defs>
+  <rect x="24" y="24" width="464" height="464" rx="112" fill="url(#bg)" />
+  <rect x="234" y="112" width="44" height="208" rx="22" fill="#7dd3fc" />
+  <rect x="152" y="194" width="208" height="44" rx="22" fill="#7dd3fc" />
+  <g transform="translate(132 284) rotate(-28 124 56)">
+    <rect x="20" y="18" width="208" height="76" rx="38" fill="url(#pill)" />
+    <path d="M124 18h66a38 38 0 0 1 0 76h-66z" fill="#f59e0b" />
+    <rect x="119" y="18" width="10" height="76" fill="#0b1726" opacity="0.15" />
+  </g>
+</svg>
