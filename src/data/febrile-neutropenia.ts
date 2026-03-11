@@ -1,3 +1,5 @@
+// Editorial source for the Febrile Neutropenia disease module.
+// Runtime imports use src/data/generated/diseases/febrile-neutropenia.ts.
 // ============================================================
 // FEBRILE NEUTROPENIA
 // ============================================================

@@ -1,3 +1,5 @@
+// Editorial source for the Fungal Infections disease module.
+// Runtime imports use src/data/generated/diseases/fungal-infections.ts.
 // ============================================================
 // FUNGAL INFECTIONS
 // ============================================================
@@ -407,4 +409,5 @@ const FUNGAL_INFECTIONS = {
   ],
 };
 
+export { FUNGAL_INFECTIONS };
 export default FUNGAL_INFECTIONS;

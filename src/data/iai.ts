@@ -1,3 +1,6 @@
+// Editorial source for the generated IAI disease module.
+// Runtime catalog imports use src/data/generated/diseases/iai.ts.
+
 export const IAI = {
     id: "iai",
     name: "Intra-Abdominal Infections",

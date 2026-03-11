@@ -1,3 +1,6 @@
+// Editorial source for the generated SSTI disease module.
+// Runtime catalog imports use src/data/generated/diseases/ssti.ts.
+
 export const SSTI = {
     id: "ssti",
     name: "Skin & Soft Tissue Infections",

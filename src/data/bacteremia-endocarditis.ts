@@ -1,3 +1,6 @@
+// Editorial source for the generated Bacteremia & Endocarditis disease module.
+// Runtime catalog imports use src/data/generated/diseases/bacteremia-endocarditis.ts.
+
 export const BACTEREMIA_ENDOCARDITIS = {
   id: "bacteremia-endocarditis",
   name: "Bacteremia & Endocarditis",

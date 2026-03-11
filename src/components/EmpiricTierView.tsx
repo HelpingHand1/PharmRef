@@ -2,7 +2,7 @@ import { memo } from "react";
 import { NAV_STATES } from "../styles/constants";
 import { EmpiricTierViewProps } from "../types";
 import { getLineStyle } from "../styles/constants";
-import { getSourceLookupHref, resolveEvidenceSourceText } from "../data/source-registry";
+import { getSourceLookupHref, resolveEvidenceSourceText, resolveSourceEntry } from "../data/source-registry";
 import CopyBtn from "./CopyBtn";
 import AllergyWarning from "./AllergyWarning";
 import RegimenPatientWarnings from "./RegimenPatientWarnings";
@@ -24,12 +24,16 @@ const EmpiricTierView = memo(function EmpiricTierView({
         <span style={{ ...S.tag, ...getLineStyle(tier.line) }}>{tier.line}</span>
       </div>
       {tier.options.map((opt, oi) => {
-        const found = findMonograph(opt.drug || "");
+        const found = findMonograph(opt.monographId || "");
         const lineColor = getLineStyle(tier.line).color || "#1e3a5f";
-        const evidenceSources = resolveEvidenceSourceText(opt.evidenceSource);
+        const evidenceSources =
+          opt.evidenceSourceIds?.map((sourceId) => resolveSourceEntry(sourceId)).filter(Boolean) ??
+          resolveEvidenceSourceText(opt.evidenceSource);
+        const optionId = opt.id ?? `empiric-${oi}-${opt.monographId ?? opt.drug ?? "option"}`;
+        const warningReference = opt.monographId ?? opt.drug;
         return (
           <div
-            key={oi}
+            key={optionId}
             style={{
               padding: "14px 16px",
               background: S.card.background,
@@ -48,7 +52,7 @@ const EmpiricTierView = memo(function EmpiricTierView({
               ) : (
                 <span style={{ fontSize: "15px", fontWeight: 700, color: S.meta?.textHeading || S.app?.color || "#e2e8f0" }}>{opt.regimen.split(" ")[0]}</span>
               )}
-              <CopyBtn text={opt.regimen} id={`empiric-${oi}-${opt.drug}`} copiedId={copiedId} onCopy={onCopy} S={S} />
+              <CopyBtn text={opt.regimen} id={optionId} copiedId={copiedId} onCopy={onCopy} S={S} />
               {opt.evidence && (
                 <span
                   style={{
@@ -97,10 +101,10 @@ const EmpiricTierView = memo(function EmpiricTierView({
                 })}
               </div>
             )}
-            <AllergyWarning drugId={`${opt.drug ?? ""} ${opt.regimen}`.trim()} allergies={allergies} S={S} />
+            <AllergyWarning drugId={`${warningReference ?? ""} ${opt.regimen}`.trim()} allergies={allergies} S={S} />
             <RegimenPatientWarnings
               crcl={crcl}
-              drugId={opt.drug}
+              drugId={warningReference}
               navigateTo={navigateTo}
               patient={patient}
               regimen={opt.regimen}

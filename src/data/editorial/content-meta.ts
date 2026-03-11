@@ -1,19 +1,84 @@
-import type { ContentConfidence, ContentMeta, ContentSource } from "../../types";
+import type { ContentConfidence, ContentMeta, ContentReviewEntry, ContentSource } from "../../types";
 import { CONTENT_REVIEWED_ON } from "../../version";
+import { DEFAULT_CONTENT_REVIEWER } from "../review-defaults";
 
-export type ContentMetaSeed = Omit<ContentMeta, "reviewedBy" | "reviewScope"> &
-  Partial<Pick<ContentMeta, "reviewedBy" | "reviewScope">>;
+export type ContentMetaSeed = Omit<ContentMeta, "reviewedBy" | "reviewScope" | "reviewHistory"> &
+  Partial<Pick<ContentMeta, "reviewedBy" | "reviewScope" | "reviewHistory">>;
 
 function buildSource(id: string, citation: string, note?: string): ContentSource {
   return note === undefined ? { id, citation } : { id, citation, note };
 }
 
-function withConfidence(confidence: ContentConfidence, meta: Omit<ContentMetaSeed, "confidence">): ContentMetaSeed {
-  return { confidence, ...meta };
+function review(summary: string, reviewedOn = CONTENT_REVIEWED_ON, reviewedBy = DEFAULT_CONTENT_REVIEWER): ContentReviewEntry {
+  return { reviewedOn, reviewedBy, summary };
+}
+
+const REVIEW_SUMMARIES = {
+  uti: "Reviewed 2025 cUTI reclassification, shorter-course recommendations, and IV-to-PO bacteremic UTI guidance.",
+  cap: "Reviewed outpatient and inpatient CAP regimen selection, STEP short-course data, and severe CAP steroid updates.",
+  "hap-vap": "Reviewed HAP/VAP empiric coverage, resistant gram-negative escalation, and ICU stewardship framing.",
+  ssti: "Reviewed purulent and nonpurulent SSTI pathways, MRSA coverage boundaries, and oral step-down strategy.",
+  iai: "Reviewed source-control-first IAI management, biliary coverage boundaries, and short-course post-control durations.",
+  "amr-gn": "Reviewed IDSA AMR mechanism-based therapy, carbapenem-sparing strategy, and extended-infusion beta-lactam use.",
+  "bacteremia-endocarditis": "Reviewed bloodstream infection duration, endocarditis evaluation, and oral or OPAT transition criteria.",
+  "c-difficile": "Reviewed CDI severity stratification, fidaxomicin preference, and recurrence-prevention escalation.",
+  "bone-joint": "Reviewed osteomyelitis and prosthetic-joint step-down strategy, source control, and OVIVA-aligned oral therapy.",
+  "cns-infections": "Reviewed meningitis and ventriculitis empiric therapy, adjunctive dexamethasone use, and CNS diagnostic priorities.",
+  "fungal-infections": "Reviewed candidiasis and aspergillosis first-line agents, salvage roles, and therapeutic monitoring priorities.",
+  "advanced-agents": "Reviewed reserve-agent positioning for resistant gram-negatives and stewardship boundaries for novel therapies.",
+  "febrile-neutropenia": "Reviewed high-risk febrile neutropenia initial coverage, escalation triggers, and outpatient risk stratification.",
+  "diabetic-foot": "Reviewed diabetic foot severity staging, debridement and perfusion priorities, and osteomyelitis step-down options.",
+  sepsis: "Reviewed early sepsis antimicrobials, resistant-risk stratification, and shorter-course de-escalation evidence.",
+  "amr-gn/esbl-e": "Reviewed ESBL empiric boundaries, carbapenem preference, and oral step-down cautions.",
+  "amr-gn/cre-kpc": "Reviewed KPC-CRE preferred BL/BLI therapy and definitive selection criteria.",
+  "amr-gn/cre-mbl": "Reviewed MBL-CRE salvage strategy, aztreonam combination use, and cefiderocol role.",
+  "amr-gn/dtr-pa": "Reviewed DTR Pseudomonas susceptibility-based escalation and newer beta-lactam positioning.",
+  "amr-gn/crab-steno": "Reviewed CRAB and Stenotrophomonas combination strategies and limited-agent stewardship.",
+  "advanced-agents/cre-management": "Reviewed mechanism-specific CRE agent selection across KPC, OXA, and MBL phenotypes.",
+  "advanced-agents/mdr-pseudomonas": "Reviewed advanced agent positioning for MDR Pseudomonas and susceptibility-guided de-escalation.",
+  "febrile-neutropenia/high-risk-fn": "Reviewed initial anti-pseudomonal coverage and inpatient escalation thresholds for high-risk febrile neutropenia.",
+  "febrile-neutropenia/fn-with-fungal-risk": "Reviewed persistent-fever fungal evaluation triggers, imaging strategy, and empiric mold coverage.",
+  "bacteremia-endocarditis/sab-workup": "Reviewed S. aureus bacteremia bundle elements, repeat-culture timing, and echocardiography triggers.",
+  "bacteremia-endocarditis/native-valve-ie": "Reviewed native-valve endocarditis diagnostic criteria, surgical triggers, and oral step-down boundaries.",
+  "bacteremia-endocarditis/prosthetic-valve-ie": "Reviewed prosthetic-valve endocarditis adjunctive therapy risks and multidisciplinary surgical timing.",
+  "bacteremia-endocarditis/gram-negative-bacteremia": "Reviewed uncomplicated gram-negative bacteremia duration evidence and IV-to-PO transition criteria.",
+  "bacteremia-endocarditis/opat-considerations": "Reviewed OPAT eligibility, monitoring burden, and complications that should block outpatient therapy.",
+  "sepsis/sepsis-community": "Reviewed community-onset sepsis empiric framing and early narrowing after source clarification.",
+  "sepsis/sepsis-hcap": "Reviewed healthcare-exposure resistance risk, broader empiric coverage boundaries, and de-escalation triggers.",
+  "sepsis/septic-shock": "Reviewed septic shock antimicrobial timing, hemodynamic support references, and post-control de-escalation.",
+  "ceftazidime-avibactam": "Reviewed KPC-CRE positioning, definitive-use boundaries, and outcome data for deep-seated infection.",
+  "meropenem-vaborbactam": "Reviewed KPC-CRE efficacy data, definitive-use positioning, and cUTI registration support.",
+  cefiderocol: "Reviewed salvage use in MBL and resistant gram-negative infections and outcome-signal cautions.",
+  "ceftolozane-tazobactam": "Reviewed DTR Pseudomonas positioning, pulmonary data, and exposure-driven dosing considerations.",
+  "imipenem-cilastatin-relebactam": "Reviewed relebactam use in resistant Pseudomonas and KPC-CRE with comparative outcome data.",
+  colistin: "Reviewed nephrotoxicity-limited salvage role and reasons to prefer newer agents when available.",
+  tedizolid: "Reviewed off-label stewardship limits, skin-structure data, and prolonged-use uncertainty.",
+  posaconazole: "Reviewed prophylaxis indications, salvage therapy role, and therapeutic drug monitoring targets.",
+  "liposomal-amphotericin-b": "Reviewed invasive mold and mucormycosis role with renal and electrolyte monitoring priorities.",
+  vancomycin: "Reviewed AUC-guided dosing, bacteremia and endocarditis roles, and nephrotoxicity mitigation.",
+  daptomycin: "Reviewed high-dose SAB and endocarditis use, salvage combinations, and monitoring priorities.",
+  cefazolin: "Reviewed MSSA bacteremia role, inoculum-effect caveats, and beta-lactam comparative outcomes.",
+  nafcillin: "Reviewed anti-staphylococcal penicillin use in deep MSSA infection and OPAT tolerability tradeoffs.",
+  ceftriaxone: "Reviewed streptococcal endocarditis and bloodstream infection role with once-daily OPAT advantages.",
+} as const;
+
+type ReviewSummaryKey = keyof typeof REVIEW_SUMMARIES;
+
+function withConfidence(
+  confidence: ContentConfidence,
+  reviewKey: ReviewSummaryKey,
+  meta: Omit<ContentMetaSeed, "confidence" | "reviewHistory"> & Partial<Pick<ContentMetaSeed, "reviewHistory">>,
+): ContentMetaSeed {
+  const reviewedBy = meta.reviewedBy ?? DEFAULT_CONTENT_REVIEWER;
+  return {
+    confidence,
+    ...meta,
+    reviewHistory: meta.reviewHistory ?? [review(REVIEW_SUMMARIES[reviewKey], meta.lastReviewed, reviewedBy)],
+  };
 }
 
 export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
-  uti: withConfidence("high", {
+  uti: withConfidence("high", "uti", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA 2025 cUTI guidance",
     sources: [
@@ -22,7 +87,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("eau-2024-uti", "European Association of Urology UTI guidance, 2024."),
     ],
   }),
-  cap: withConfidence("high", {
+  cap: withConfidence("high", "cap", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "ATS/IDSA 2019 CAP guidance",
     sources: [
@@ -31,7 +96,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("step-trial", "Three-day versus eight-day amoxicillin strategy for stabilized CAP, NEJM 2023."),
     ],
   }),
-  "hap-vap": withConfidence("moderate", {
+  "hap-vap": withConfidence("moderate", "hap-vap", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "ATS/IDSA 2016 HAP/VAP guidance",
     sources: [
@@ -40,7 +105,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("smart-trial", "Balanced crystalloids versus saline in ICU patients, NEJM 2018."),
     ],
   }),
-  ssti: withConfidence("moderate", {
+  ssti: withConfidence("moderate", "ssti", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA SSTI guidance",
     sources: [
@@ -49,7 +114,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("oviva", "Oral versus intravenous antibiotics for bone and joint and deep infection pathways, NEJM 2019."),
     ],
   }),
-  iai: withConfidence("moderate", {
+  iai: withConfidence("moderate", "iai", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "SIS/IDSA intra-abdominal infection guidance",
     sources: [
@@ -58,7 +123,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("stop-it", "Short-course antimicrobial therapy for source-controlled intra-abdominal infection, NEJM 2015."),
     ],
   }),
-  "amr-gn": withConfidence("high", {
+  "amr-gn": withConfidence("high", "amr-gn", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA 2024 AMR guidance",
     sources: [
@@ -67,7 +132,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("pkpd-stewardship", "Extended-infusion beta-lactam stewardship principles used throughout resistant gram-negative pathways."),
     ],
   }),
-  "bacteremia-endocarditis": withConfidence("high", {
+  "bacteremia-endocarditis": withConfidence("high", "bacteremia-endocarditis", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "AHA/ACC 2023 IE update",
     sources: [
@@ -76,7 +141,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("arrest", "Adjunctive rifampin for Staphylococcus aureus bacteremia, Lancet 2018."),
     ],
   }),
-  "c-difficile": withConfidence("high", {
+  "c-difficile": withConfidence("high", "c-difficile", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA/SHEA CDI guidance",
     sources: [
@@ -85,7 +150,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("fmt-stewardship", "Evidence base for fecal microbiota transplant in multiply recurrent CDI."),
     ],
   }),
-  "bone-joint": withConfidence("moderate", {
+  "bone-joint": withConfidence("moderate", "bone-joint", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "OVIVA-informed bone and joint guidance",
     sources: [
@@ -94,7 +159,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("orthopedic-id-review", "Orthopedic infection source-control and step-down stewardship literature."),
     ],
   }),
-  "cns-infections": withConfidence("moderate", {
+  "cns-infections": withConfidence("moderate", "cns-infections", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA CNS infection guidance",
     sources: [
@@ -103,7 +168,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("dexamethasone-meningitis", "Adjunctive dexamethasone trials informing pneumococcal meningitis care."),
     ],
   }),
-  "fungal-infections": withConfidence("moderate", {
+  "fungal-infections": withConfidence("moderate", "fungal-infections", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA 2016 candidiasis and aspergillosis guidance",
     sources: [
@@ -112,7 +177,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("secure-trial", "Isavuconazole versus voriconazole for invasive aspergillosis, Lancet 2016."),
     ],
   }),
-  "advanced-agents": withConfidence("emerging", {
+  "advanced-agents": withConfidence("emerging", "advanced-agents", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA 2022-2024 resistant pathogen guidance",
     sources: [
@@ -121,7 +186,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("restore-imi", "Imipenem-cilastatin-relebactam versus polymyxin-based therapy."),
     ],
   }),
-  "febrile-neutropenia": withConfidence("moderate", {
+  "febrile-neutropenia": withConfidence("moderate", "febrile-neutropenia", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA febrile neutropenia guidance",
     sources: [
@@ -130,7 +195,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("mascc-cisne", "Risk-stratification tools used for low-risk outpatient decision support."),
     ],
   }),
-  "diabetic-foot": withConfidence("moderate", {
+  "diabetic-foot": withConfidence("moderate", "diabetic-foot", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IWGDF/IDSA diabetic foot guidance",
     sources: [
@@ -139,7 +204,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("source-control-principles", "Surgical debridement and perfusion assessment references used in DFI pathways."),
     ],
   }),
-  sepsis: withConfidence("high", {
+  sepsis: withConfidence("high", "sepsis", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "SSC 2021; IDSA 2024 sepsis antimicrobial guidance",
     sources: [
@@ -151,7 +216,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
 };
 
 export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
-  "amr-gn/esbl-e": withConfidence("high", {
+  "amr-gn/esbl-e": withConfidence("high", "amr-gn/esbl-e", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA 2024 ESBL-E guidance",
     sources: [
@@ -160,7 +225,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("pkpd-stewardship", "Extended-infusion beta-lactam principles applied to ESBL-E severe infection management."),
     ],
   }),
-  "amr-gn/cre-kpc": withConfidence("high", {
+  "amr-gn/cre-kpc": withConfidence("high", "amr-gn/cre-kpc", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA 2024 KPC-CRE guidance",
     sources: [
@@ -169,7 +234,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("reprise", "Ceftazidime-avibactam activity in resistant gram-negative infections, phase 3 data."),
     ],
   }),
-  "amr-gn/cre-mbl": withConfidence("moderate", {
+  "amr-gn/cre-mbl": withConfidence("moderate", "amr-gn/cre-mbl", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA 2024 MBL-CRE guidance",
     sources: [
@@ -178,7 +243,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("credible-cr", "Cefiderocol data in carbapenem-resistant gram-negative infections."),
     ],
   }),
-  "amr-gn/dtr-pa": withConfidence("moderate", {
+  "amr-gn/dtr-pa": withConfidence("moderate", "amr-gn/dtr-pa", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA 2024 DTR Pseudomonas guidance",
     sources: [
@@ -187,7 +252,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("restore-imi", "Imipenem-cilastatin-relebactam versus colistin-based therapy for imipenem-nonsusceptible infections."),
     ],
   }),
-  "amr-gn/crab-steno": withConfidence("emerging", {
+  "amr-gn/crab-steno": withConfidence("emerging", "amr-gn/crab-steno", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA 2024 CRAB/Stenotrophomonas guidance",
     sources: [
@@ -196,7 +261,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("credible-cr", "Cefiderocol resistant gram-negative outcomes including Acinetobacter subgroup concerns."),
     ],
   }),
-  "advanced-agents/cre-management": withConfidence("moderate", {
+  "advanced-agents/cre-management": withConfidence("moderate", "advanced-agents/cre-management", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Advanced CRE agent review 2024",
     sources: [
@@ -205,7 +270,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("reprise", "Ceftazidime-avibactam resistant gram-negative treatment data."),
     ],
   }),
-  "advanced-agents/mdr-pseudomonas": withConfidence("moderate", {
+  "advanced-agents/mdr-pseudomonas": withConfidence("moderate", "advanced-agents/mdr-pseudomonas", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Advanced DTR Pseudomonas agent review 2024",
     sources: [
@@ -214,7 +279,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("restore-imi", "Imipenem-cilastatin-relebactam data for imipenem-resistant Pseudomonas."),
     ],
   }),
-  "febrile-neutropenia/high-risk-fn": withConfidence("high", {
+  "febrile-neutropenia/high-risk-fn": withConfidence("high", "febrile-neutropenia/high-risk-fn", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA/NCCN high-risk FN guidance",
     sources: [
@@ -223,7 +288,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("mascc-cisne", "Risk tools used to separate outpatient from high-risk inpatient care."),
     ],
   }),
-  "febrile-neutropenia/fn-with-fungal-risk": withConfidence("moderate", {
+  "febrile-neutropenia/fn-with-fungal-risk": withConfidence("moderate", "febrile-neutropenia/fn-with-fungal-risk", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Persistent FN fungal-risk guidance",
     sources: [
@@ -232,7 +297,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("galactomannan-ct-strategy", "High-resolution CT and serial biomarker literature in prolonged neutropenia."),
     ],
   }),
-  "bacteremia-endocarditis/sab-workup": withConfidence("high", {
+  "bacteremia-endocarditis/sab-workup": withConfidence("high", "bacteremia-endocarditis/sab-workup", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "SAB workup and IE-screening review 2023",
     sources: [
@@ -241,7 +306,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("sab-bundle-literature", "Management-bundle and echocardiography literature for high-risk S. aureus bacteremia."),
     ],
   }),
-  "bacteremia-endocarditis/native-valve-ie": withConfidence("high", {
+  "bacteremia-endocarditis/native-valve-ie": withConfidence("high", "bacteremia-endocarditis/native-valve-ie", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "AHA/ACC 2023 native-valve IE update",
     sources: [
@@ -250,7 +315,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("endocarditis-surgery-review", "Operative timing and multidisciplinary endocarditis-team literature."),
     ],
   }),
-  "bacteremia-endocarditis/prosthetic-valve-ie": withConfidence("moderate", {
+  "bacteremia-endocarditis/prosthetic-valve-ie": withConfidence("moderate", "bacteremia-endocarditis/prosthetic-valve-ie", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "AHA/ACC 2023 prosthetic-valve IE update",
     sources: [
@@ -259,7 +324,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("rifampin-gentamicin-stewardship", "Evidence reassessment for adjunctive rifampin and aminoglycosides in prosthetic-valve IE."),
     ],
   }),
-  "bacteremia-endocarditis/gram-negative-bacteremia": withConfidence("high", {
+  "bacteremia-endocarditis/gram-negative-bacteremia": withConfidence("high", "bacteremia-endocarditis/gram-negative-bacteremia", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Modern uncomplicated GNB duration review",
     sources: [
@@ -268,7 +333,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("oral-stepdown-bacteremia", "IV-to-oral transition and source-specific duration literature for uncomplicated gram-negative bacteremia."),
     ],
   }),
-  "bacteremia-endocarditis/opat-considerations": withConfidence("moderate", {
+  "bacteremia-endocarditis/opat-considerations": withConfidence("moderate", "bacteremia-endocarditis/opat-considerations", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "OPAT stewardship review 2024",
     sources: [
@@ -277,7 +342,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("opat-stewardship", "Monitoring, line-care, and adverse-event prevention literature for outpatient parenteral therapy."),
     ],
   }),
-  "sepsis/sepsis-community": withConfidence("high", {
+  "sepsis/sepsis-community": withConfidence("high", "sepsis/sepsis-community", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Community-acquired sepsis empiric review 2024",
     sources: [
@@ -286,7 +351,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("clovers", "Fluid strategy data after initial sepsis resuscitation, NEJM 2023."),
     ],
   }),
-  "sepsis/sepsis-hcap": withConfidence("moderate", {
+  "sepsis/sepsis-hcap": withConfidence("moderate", "sepsis/sepsis-hcap", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Healthcare-associated sepsis empiric review 2024",
     sources: [
@@ -295,7 +360,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("amr-risk-stratification", "Mechanism-aware resistant-pathogen coverage principles for healthcare-associated sepsis."),
     ],
   }),
-  "sepsis/septic-shock": withConfidence("high", {
+  "sepsis/septic-shock": withConfidence("high", "sepsis/septic-shock", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "SSC 2021 septic shock guidance",
     sources: [
@@ -307,7 +372,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
 };
 
 export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
-  "ceftazidime-avibactam": withConfidence("moderate", {
+  "ceftazidime-avibactam": withConfidence("moderate", "ceftazidime-avibactam", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "KPC-CRE and resistant Enterobacterales data",
     sources: [
@@ -316,7 +381,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("kpc-observational-outcomes", "Real-world outcomes literature in bloodstream and deep-seated KPC infections."),
     ],
   }),
-  "meropenem-vaborbactam": withConfidence("moderate", {
+  "meropenem-vaborbactam": withConfidence("moderate", "meropenem-vaborbactam", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "KPC-CRE beta-lactam/BLI data",
     sources: [
@@ -325,7 +390,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("tango-i", "Registration data for complicated urinary tract infection."),
     ],
   }),
-  cefiderocol: withConfidence("emerging", {
+  cefiderocol: withConfidence("emerging", "cefiderocol", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Cefiderocol resistant gram-negative evidence review",
     sources: [
@@ -334,7 +399,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("apeks-np", "Nosocomial pneumonia noninferiority data including resistant gram-negative organisms."),
     ],
   }),
-  "ceftolozane-tazobactam": withConfidence("moderate", {
+  "ceftolozane-tazobactam": withConfidence("moderate", "ceftolozane-tazobactam", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "DTR Pseudomonas targeted beta-lactam data",
     sources: [
@@ -343,7 +408,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("aspect-cuti-ciai", "Registration studies informing dosing and exposure targets."),
     ],
   }),
-  "imipenem-cilastatin-relebactam": withConfidence("moderate", {
+  "imipenem-cilastatin-relebactam": withConfidence("moderate", "imipenem-cilastatin-relebactam", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Relebactam resistant Pseudomonas and CRE data",
     sources: [
@@ -352,7 +417,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("restore-imi-2", "Nosocomial pneumonia data for imipenem-cilastatin-relebactam."),
     ],
   }),
-  colistin: withConfidence("emerging", {
+  colistin: withConfidence("emerging", "colistin", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Colistin salvage-use evidence review",
     sources: [
@@ -361,7 +426,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("polymyxin-toxicity", "Nephrotoxicity and PK limitations of polymyxins in critically ill patients."),
     ],
   }),
-  tedizolid: withConfidence("emerging", {
+  tedizolid: withConfidence("emerging", "tedizolid", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Tedizolid stewardship evidence review",
     sources: [
@@ -370,7 +435,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("long-course-tedizolid", "Limited observational data for prolonged use outside labeled indications."),
     ],
   }),
-  posaconazole: withConfidence("moderate", {
+  posaconazole: withConfidence("moderate", "posaconazole", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Posaconazole prophylaxis and salvage-use data",
     sources: [
@@ -379,7 +444,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("therapeutic-drug-monitoring", "Exposure targets and formulation-specific PK guidance."),
     ],
   }),
-  "liposomal-amphotericin-b": withConfidence("moderate", {
+  "liposomal-amphotericin-b": withConfidence("moderate", "liposomal-amphotericin-b", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "L-AmB invasive fungal infection guidance",
     sources: [
@@ -388,7 +453,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("nephrotoxicity-mitigation", "Dose, electrolyte, and renal monitoring literature for lipid amphotericin formulations."),
     ],
   }),
-  vancomycin: withConfidence("high", {
+  vancomycin: withConfidence("high", "vancomycin", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "AUC-guided vancomycin monitoring review",
     sources: [
@@ -397,7 +462,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("auc-stewardship", "Clinical outcomes and nephrotoxicity literature supporting AUC-guided dosing."),
     ],
   }),
-  daptomycin: withConfidence("moderate", {
+  daptomycin: withConfidence("moderate", "daptomycin", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "High-dose daptomycin SAB/IE review",
     sources: [
@@ -406,7 +471,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("combination-salvage-therapy", "Evidence for daptomycin-based salvage approaches in persistent MRSA bacteremia."),
     ],
   }),
-  cefazolin: withConfidence("moderate", {
+  cefazolin: withConfidence("moderate", "cefazolin", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "MSSA bacteremia beta-lactam review",
     sources: [
@@ -415,7 +480,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("cefazolin-inoculum-effect", "Pharmacodynamic and inoculum-effect literature relevant to deep-seated MSSA infection."),
     ],
   }),
-  nafcillin: withConfidence("moderate", {
+  nafcillin: withConfidence("moderate", "nafcillin", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Anti-staphylococcal penicillin review",
     sources: [
@@ -424,7 +489,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("opat-tolerability", "Hepatic, renal, and sodium-load considerations during prolonged anti-staphylococcal penicillin therapy."),
     ],
   }),
-  ceftriaxone: withConfidence("moderate", {
+  ceftriaxone: withConfidence("moderate", "ceftriaxone", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Ceftriaxone endocarditis/OPAT review",
     sources: [

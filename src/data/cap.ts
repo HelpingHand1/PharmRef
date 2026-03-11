@@ -1,3 +1,6 @@
+// Editorial source for the generated CAP disease module.
+// Runtime catalog imports use src/data/generated/diseases/cap.ts.
+
 export const CAP = {
     id: "cap",
     name: "Community-Acquired Pneumonia",

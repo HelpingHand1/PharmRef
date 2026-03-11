@@ -1,3 +1,5 @@
+// Editorial source for the CNS Infections disease module.
+// Runtime imports use src/data/generated/diseases/cns-infections.ts.
 export const CNS_INFECTIONS = {
   id: "cns-infections",
   name: "CNS Infections",

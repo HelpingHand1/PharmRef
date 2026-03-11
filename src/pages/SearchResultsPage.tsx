@@ -1,12 +1,15 @@
 import { useState, type ReactNode } from "react";
+import RegimenEvidencePills from "../components/RegimenEvidencePills";
+import { MONOGRAPH_SUMMARY_BY_ID } from "../data/catalog-manifest";
 import { getConfidenceBadge, getContentFreshness, resolveContentMeta } from "../data/metadata";
 import { NAV_STATES } from "../styles/constants";
 import type { NavigateTo, SearchResult, Styles } from "../types";
 
-type TabLabel = "All" | "Drugs" | "Organisms" | "Syndromes" | "Diseases";
-const ALL_TABS: TabLabel[] = ["All", "Drugs", "Organisms", "Syndromes", "Diseases"];
+type TabLabel = "All" | "Drugs" | "Regimens" | "Organisms" | "Syndromes" | "Diseases";
+const ALL_TABS: TabLabel[] = ["All", "Drugs", "Regimens", "Organisms", "Syndromes", "Diseases"];
 const TAB_GROUPS: Record<string, string> = {
   Drugs: "Drug Monographs",
+  Regimens: "Regimens",
   Organisms: "Organisms",
   Syndromes: "Subcategories",
   Diseases: "Disease States",
@@ -110,7 +113,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
   const [activeTab, setActiveTab] = useState<TabLabel>("All");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
-  const total = results.diseases.length + results.drugs.length + results.organisms.length + results.subcategories.length;
+  const total = results.diseases.length + results.drugs.length + results.regimens.length + results.organisms.length + results.subcategories.length;
   const hl = (text: string) => highlightMatch(text, query, S.meta.accentSurface, S.meta.accent);
 
   const pillBase: React.CSSProperties = { ...S.crossRefPill, fontFamily: "inherit" };
@@ -190,6 +193,45 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
             </div>
           );
         })()
+      )),
+    },
+    {
+      title: "Regimens",
+      items: results.regimens.map((regimen) => (
+        <div
+          key={regimen.id}
+          className="pr-card result-card"
+          style={{ ...S.card, marginBottom: 0, padding: "18px 20px" }}
+          onClick={() => {
+            onClearSearch();
+            navigateTo(NAV_STATES.SUBCATEGORY, {
+              disease: regimen.parentDisease,
+              subcategory: regimen.parentSubcategory,
+            });
+          }}
+        >
+          <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🧪 Empiric Regimen</div>
+          <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading, lineHeight: 1.45 }}>{hl(regimen.regimen)}</div>
+          <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+            {regimen.parentDisease.name}
+            <span style={{ color: S.meta.accent, margin: "0 5px" }}>›</span>
+            {regimen.parentSubcategory.name}
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
+            <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>{regimen.line}</span>
+            {regimen.monographId && MONOGRAPH_SUMMARY_BY_ID[regimen.monographId] && (
+              <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                Linked: {MONOGRAPH_SUMMARY_BY_ID[regimen.monographId].name}
+              </span>
+            )}
+          </div>
+          <RegimenEvidencePills
+            evidence={regimen.evidence}
+            evidenceSource={regimen.evidenceSource}
+            evidenceSourceIds={regimen.evidenceSourceIds}
+            S={S}
+          />
+        </div>
       )),
     },
     {

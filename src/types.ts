@@ -19,6 +19,12 @@ export interface ContentSource {
   note?: string;
 }
 
+export interface ContentReviewEntry {
+  reviewedOn: string;
+  reviewedBy: string;
+  summary: string;
+}
+
 export type ContentConfidence = "high" | "moderate" | "emerging";
 
 export interface ContentMeta {
@@ -28,6 +34,13 @@ export interface ContentMeta {
   confidence: ContentConfidence;
   guidelineVersion?: string;
   sources: ContentSource[];
+  reviewHistory: ContentReviewEntry[];
+}
+
+export interface OverviewEvidenceEntry {
+  name: string;
+  detail: string;
+  sourceIds?: string[];
 }
 
 export interface DiseaseState {
@@ -40,8 +53,8 @@ export interface DiseaseState {
     definition: string;
     epidemiology?: string;
     riskFactors?: string;
-    keyGuidelines: Array<{ name: string; detail: string }>;
-    landmarkTrials: Array<{ name: string; detail: string }>;
+    keyGuidelines: OverviewEvidenceEntry[];
+    landmarkTrials: OverviewEvidenceEntry[];
   };
   subcategories: Subcategory[];
   drugMonographs: DrugMonograph[];
@@ -79,13 +92,19 @@ export interface Subcategory {
 
 export interface EmpiricTier {
   line: string;
-  options: Array<{
-    regimen: string;
-    notes?: string;
-    drug?: string;
-    evidence?: string;
-    evidenceSource?: string;
-  }>;
+  options: EmpiricOption[];
+}
+
+export interface EmpiricOption {
+  id?: string;
+  regimen: string;
+  notes?: string;
+  /** Legacy overloaded field retained for backward compatibility with authored content. */
+  drug?: string;
+  monographId?: string;
+  evidence?: string;
+  evidenceSource?: string;
+  evidenceSourceIds?: string[];
 }
 
 export interface OrganismSpecific {
@@ -143,6 +162,23 @@ export interface MonographCatalogSummary {
   parentDiseaseName: string;
 }
 
+export interface RegimenReference {
+  id: string;
+  diseaseId: string;
+  diseaseName: string;
+  diseaseIcon: string;
+  subcategoryId: string;
+  subcategoryName: string;
+  line: string;
+  regimen: string;
+  notes?: string;
+  drug?: string;
+  monographId?: string;
+  evidence?: string;
+  evidenceSource?: string;
+  evidenceSourceIds?: string[];
+}
+
 export interface PatientContext {
   weight?: number;
   height?: number;
@@ -177,10 +213,16 @@ export type SubcategorySearchResult = Subcategory & {
   matchType: "name" | "pearl" | "empiric";
 };
 
+export type RegimenSearchResult = RegimenReference & {
+  parentDisease: DiseaseState;
+  parentSubcategory: Subcategory;
+};
+
 export interface SearchResult {
   diseases: DiseaseState[];
   drugs: DrugSearchResult[];
   organisms: OrganismSearchResult[];
+  regimens: RegimenSearchResult[];
   subcategories: SubcategorySearchResult[];
 }
 
@@ -263,7 +305,6 @@ export interface AllergyWarningProps {
 
 export interface AuditViewProps {
   diseaseStates: DiseaseState[];
-  findMonograph: (drugId: string) => MonographLookupResult | null;
   S: Styles;
 }
 
@@ -283,6 +324,16 @@ export interface CrossRefBadgesProps {
   navigateTo: NavigateTo;
   showToast: (message: string, icon?: string) => void;
   currentDrugName: string;
+  S: Styles;
+}
+
+export interface RegimenCrossRefsProps {
+  currentDiseaseId?: string;
+  currentDrugName: string;
+  navigateTo: NavigateTo;
+  regimenXref: Record<string, RegimenReference[]>;
+  showToast: (message: string, icon?: string) => void;
+  drugId: string;
   S: Styles;
 }
 

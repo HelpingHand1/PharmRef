@@ -29,6 +29,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "European Association of Urology UTI guidance, 2024."
         }
       ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed 2025 cUTI reclassification, shorter-course recommendations, and IV-to-PO bacteremic UTI guidance."
+        }
+      ],
       "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review"
     }
@@ -56,6 +63,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         {
           "id": "step-trial",
           "citation": "Three-day versus eight-day amoxicillin strategy for stabilized CAP, NEJM 2023."
+        }
+      ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed outpatient and inpatient CAP regimen selection, STEP short-course data, and severe CAP steroid updates."
         }
       ],
       "reviewedBy": "PharmRef editorial review",
@@ -87,6 +101,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Balanced crystalloids versus saline in ICU patients, NEJM 2018."
         }
       ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed HAP/VAP empiric coverage, resistant gram-negative escalation, and ICU stewardship framing."
+        }
+      ],
       "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review"
     }
@@ -114,6 +135,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         {
           "id": "oviva",
           "citation": "Oral versus intravenous antibiotics for bone and joint and deep infection pathways, NEJM 2019."
+        }
+      ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed purulent and nonpurulent SSTI pathways, MRSA coverage boundaries, and oral step-down strategy."
         }
       ],
       "reviewedBy": "PharmRef editorial review",
@@ -145,6 +173,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Short-course antimicrobial therapy for source-controlled intra-abdominal infection, NEJM 2015."
         }
       ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed source-control-first IAI management, biliary coverage boundaries, and short-course post-control durations."
+        }
+      ],
       "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review"
     }
@@ -172,6 +207,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         {
           "id": "pkpd-stewardship",
           "citation": "Extended-infusion beta-lactam stewardship principles used throughout resistant gram-negative pathways."
+        }
+      ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed IDSA AMR mechanism-based therapy, carbapenem-sparing strategy, and extended-infusion beta-lactam use."
         }
       ],
       "reviewedBy": "PharmRef editorial review",
@@ -203,6 +245,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Adjunctive rifampin for Staphylococcus aureus bacteremia, Lancet 2018."
         }
       ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed bloodstream infection duration, endocarditis evaluation, and oral or OPAT transition criteria."
+        }
+      ],
       "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review"
     }
@@ -230,6 +279,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         {
           "id": "fmt-stewardship",
           "citation": "Evidence base for fecal microbiota transplant in multiply recurrent CDI."
+        }
+      ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed CDI severity stratification, fidaxomicin preference, and recurrence-prevention escalation."
         }
       ],
       "reviewedBy": "PharmRef editorial review",
@@ -261,6 +317,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Orthopedic infection source-control and step-down stewardship literature."
         }
       ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed osteomyelitis and prosthetic-joint step-down strategy, source control, and OVIVA-aligned oral therapy."
+        }
+      ],
       "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review"
     }
@@ -288,6 +351,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         {
           "id": "dexamethasone-meningitis",
           "citation": "Adjunctive dexamethasone trials informing pneumococcal meningitis care."
+        }
+      ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed meningitis and ventriculitis empiric therapy, adjunctive dexamethasone use, and CNS diagnostic priorities."
         }
       ],
       "reviewedBy": "PharmRef editorial review",
@@ -319,6 +389,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Isavuconazole versus voriconazole for invasive aspergillosis, Lancet 2016."
         }
       ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed candidiasis and aspergillosis first-line agents, salvage roles, and therapeutic monitoring priorities."
+        }
+      ],
       "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review"
     }
@@ -346,6 +423,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         {
           "id": "restore-imi",
           "citation": "Imipenem-cilastatin-relebactam versus polymyxin-based therapy."
+        }
+      ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed reserve-agent positioning for resistant gram-negatives and stewardship boundaries for novel therapies."
         }
       ],
       "reviewedBy": "PharmRef editorial review",
@@ -377,6 +461,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Risk-stratification tools used for low-risk outpatient decision support."
         }
       ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed high-risk febrile neutropenia initial coverage, escalation triggers, and outpatient risk stratification."
+        }
+      ],
       "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review"
     }
@@ -406,6 +497,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Surgical debridement and perfusion assessment references used in DFI pathways."
         }
       ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed diabetic foot severity staging, debridement and perfusion priorities, and osteomyelitis step-down options."
+        }
+      ],
       "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review"
     }
@@ -433,6 +531,13 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         {
           "id": "balance",
           "citation": "Seven versus fourteen days for bloodstream infection, 2024."
+        }
+      ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-03-09",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed early sepsis antimicrobials, resistant-risk stratification, and shorter-course de-escalation evidence."
         }
       ],
       "reviewedBy": "PharmRef editorial review",

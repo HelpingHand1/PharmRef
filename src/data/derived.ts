@@ -4,8 +4,10 @@ import type {
   DrugSearchResult,
   MonographLookupResult,
   OrganismSpecific,
+  RegimenReference,
   Subcategory,
 } from "../types";
+import { buildRegimenCatalog, type RegimenCatalogData } from "./regimen-catalog";
 import { aliasTextFor, DISEASE_ALIASES, DRUG_ALIASES, SUBCATEGORY_ALIASES } from "./search-aliases";
 
 export type SearchEntry =
@@ -17,19 +19,26 @@ export type SearchEntry =
       text: string;
       matchClassify: (query: string) => "name" | "pearl" | "empiric";
     }
+  | { type: "regimen"; disease: DiseaseState; subcategory: Subcategory; regimen: RegimenReference; text: string }
   | { type: "organism"; disease: DiseaseState; subcategory: Subcategory; organism: OrganismSpecific; text: string }
   | { type: "drug"; disease: DiseaseState; drug: DrugMonograph; text: string };
 
 export interface CatalogDerived {
   allMonographs: Array<DrugMonograph & { parentDisease: DiseaseState }>;
+  allRegimens: RegimenReference[];
   totalSubcategories: number;
   diseaseById: Record<string, DiseaseState>;
   subcategoryByDiseaseId: Record<string, Record<string, Subcategory>>;
   monographLookup: Record<string, MonographLookupResult>;
   monographXref: Record<string, DiseaseState[]>;
+  regimenXref: Record<string, RegimenReference[]>;
   searchIndex: SearchEntry[];
   monographsByClass: Record<string, DrugSearchResult[]>;
   findMonograph: (drugId: string) => MonographLookupResult | null;
+}
+
+function getEmpiricTherapy(subcategory: Subcategory) {
+  return subcategory.empiricTherapy ?? subcategory.empiricRegimens ?? [];
 }
 
 export const CLASS_GROUPS: Array<{ label: string; keywords: string[] }> = [
@@ -67,9 +76,11 @@ export function groupMonographsByClass<T extends { drugClass: string }>(monograp
   return map;
 }
 
-export function buildCatalogDerived(diseases: DiseaseState[]): CatalogDerived {
+export function buildCatalogDerived(diseases: DiseaseState[], regimenCatalog?: RegimenCatalogData): CatalogDerived {
+  const resolvedRegimenCatalog = regimenCatalog ?? buildRegimenCatalog(diseases);
   const seen = new Set<string>();
   const allMonographs: Array<DrugMonograph & { parentDisease: DiseaseState }> = [];
+  const allRegimens = resolvedRegimenCatalog.regimens.slice();
   const diseaseById: Record<string, DiseaseState> = Object.fromEntries(diseases.map((disease) => [disease.id, disease]));
   const subcategoryByDiseaseId: Record<string, Record<string, Subcategory>> = Object.fromEntries(
     diseases.map((disease) => [
@@ -78,6 +89,9 @@ export function buildCatalogDerived(diseases: DiseaseState[]): CatalogDerived {
     ]),
   );
   const monographXref: Record<string, DiseaseState[]> = {};
+  const regimenXref: Record<string, RegimenReference[]> = Object.fromEntries(
+    Object.entries(resolvedRegimenCatalog.xrefByMonographId).map(([monographId, regimens]) => [monographId, regimens.slice()]),
+  );
   const searchIndex: SearchEntry[] = [];
 
   diseases.forEach((disease) => {
@@ -99,7 +113,7 @@ export function buildCatalogDerived(diseases: DiseaseState[]): CatalogDerived {
     disease.subcategories.forEach((subcategory) => {
       const searchTexts = [subcategory.name, subcategory.definition, aliasTextFor(SUBCATEGORY_ALIASES, subcategory.id), ...(subcategory.pearls ?? [])];
 
-      subcategory.empiricTherapy?.forEach((tier) => {
+      getEmpiricTherapy(subcategory).forEach((tier) => {
         searchTexts.push(tier.line);
         tier.options.forEach((option) => {
           searchTexts.push(option.regimen);
@@ -165,6 +179,33 @@ export function buildCatalogDerived(diseases: DiseaseState[]): CatalogDerived {
 
   allMonographs.sort((left, right) => left.name.localeCompare(right.name));
 
+  allRegimens.forEach((regimen) => {
+    const disease = diseaseById[regimen.diseaseId];
+    const subcategory = subcategoryByDiseaseId[regimen.diseaseId]?.[regimen.subcategoryId];
+    if (!disease || !subcategory) return;
+
+    searchIndex.push({
+      type: "regimen",
+      disease,
+      subcategory,
+      regimen,
+      text: [
+        regimen.regimen,
+        regimen.notes,
+        regimen.line,
+        regimen.subcategoryName,
+        regimen.diseaseName,
+        regimen.drug,
+        regimen.monographId,
+        regimen.evidence,
+        regimen.evidenceSource,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase(),
+    });
+  });
+
   const monographLookup: Record<string, MonographLookupResult> = Object.fromEntries(
     allMonographs.map((monograph) => [
       monograph.id,
@@ -179,11 +220,13 @@ export function buildCatalogDerived(diseases: DiseaseState[]): CatalogDerived {
 
   return {
     allMonographs,
+    allRegimens,
     totalSubcategories: diseases.reduce((count, disease) => count + disease.subcategories.length, 0),
     diseaseById,
     subcategoryByDiseaseId,
     monographLookup,
     monographXref,
+    regimenXref,
     searchIndex,
     monographsByClass,
     findMonograph: (drugId: string) => monographLookup[drugId] ?? null,

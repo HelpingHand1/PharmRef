@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "outDir": ".tmp/disease-generation",
+    "rootDir": ".",
+    "noEmit": false
+  },
+  "include": ["src/data/**/*.ts", "src/types.ts", "src/version.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/data/index.ts",
+    "src/data/derived.ts",
+    "src/data/catalog-loader.ts",
+    "src/data/catalog-manifest.ts",
+    "src/data/generated/**/*.ts"
+  ]
+}

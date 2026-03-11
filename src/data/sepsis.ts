@@ -1,3 +1,6 @@
+// Editorial source for the generated Sepsis disease module.
+// Runtime catalog imports use src/data/generated/diseases/sepsis.ts.
+
 // ============================================================
 // SEPSIS & SEPTIC SHOCK
 // ============================================================

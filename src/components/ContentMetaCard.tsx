@@ -20,8 +20,10 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
   if (!meta) return null;
 
   const sources = resolveContentSources(meta);
+  const latestReview = meta.reviewHistory[0] ?? null;
   const sourceCount = sources.length || meta.sources.length;
   const sourceLabel = `${sourceCount} source${sourceCount === 1 ? "" : "s"}`;
+  const reviewHistoryLabel = `${meta.reviewHistory.length} review entr${meta.reviewHistory.length === 1 ? "y" : "ies"}`;
   const confidence = getConfidenceBadge(meta.confidence);
   const freshness = getContentFreshness(meta);
   const toneStyles =
@@ -112,12 +114,17 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
         Reviewed on {formatReviewDate(meta.lastReviewed)} with {confidence.label.toLowerCase()} based on {sourceLabel}.
       </div>
       <div style={{ fontSize: "12px", color: S.monographValue.color, marginBottom: "10px", lineHeight: 1.55 }}>
-        Reviewer: {meta.reviewedBy} · Scope: {meta.reviewScope}
+        Reviewer: {meta.reviewedBy} · Scope: {meta.reviewScope} · {reviewHistoryLabel}
       </div>
+      {latestReview && (
+        <div style={{ fontSize: "12px", color: S.meta.textHeading, marginBottom: "10px", lineHeight: 1.6 }}>
+          Latest change: {latestReview.summary}
+        </div>
+      )}
 
       <details>
         <summary style={{ cursor: "pointer", color: S.meta.textHeading, fontSize: "13px", fontWeight: 700 }}>
-          Evidence base
+          Evidence base and review history
         </summary>
         <div style={{ display: "grid", gap: "8px", marginTop: "10px" }}>
           {sources.map((source) => (
@@ -182,6 +189,33 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
             })()
           ))}
         </div>
+        {meta.reviewHistory.length > 0 && (
+          <div style={{ marginTop: "12px" }}>
+            <div style={{ fontSize: "11px", fontWeight: 800, color: S.meta.accent, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "8px" }}>
+              Review history
+            </div>
+            <div style={{ display: "grid", gap: "8px" }}>
+              {meta.reviewHistory.map((entry, index) => (
+                <div
+                  key={`${entry.reviewedOn}-${entry.reviewedBy}-${index}`}
+                  style={{
+                    border: `1px solid ${S.meta.border}`,
+                    borderRadius: "12px",
+                    padding: "10px 12px",
+                    background: S.card.background,
+                  }}
+                >
+                  <div style={{ fontSize: "12px", fontWeight: 700, color: S.meta.textHeading }}>
+                    {formatReviewDate(entry.reviewedOn)} · {entry.reviewedBy}
+                  </div>
+                  <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "4px", lineHeight: 1.55 }}>
+                    {entry.summary}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </details>
     </section>
   );

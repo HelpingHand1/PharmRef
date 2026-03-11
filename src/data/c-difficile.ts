@@ -1,3 +1,5 @@
+// Editorial source for the C. difficile disease module.
+// Runtime imports use src/data/generated/diseases/c-difficile.ts.
 export const CDI = {
   id: "c-difficile",
   name: "Clostridioides difficile Infection",

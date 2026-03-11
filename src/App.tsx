@@ -10,7 +10,7 @@ import { NAV_STATES, applyThemeVars, makeStyles } from "./styles/constants";
 import { clearPersistedState, usePersistedState } from "./utils/persistence";
 import { WORK_SESSION_PERSISTENCE } from "./utils/persistenceEnvelope";
 import { DISEASE_CATALOG, DISEASE_SUMMARY_BY_ID, MONOGRAPH_CATALOG, MONOGRAPH_SUMMARY_BY_ID } from "./data/catalog-manifest";
-import { loadAllDiseases, loadDisease } from "./data/catalog-loader";
+import { loadAllDiseases, loadDisease, loadRegimenCatalog } from "./data/catalog-loader";
 import { buildCatalogDerived, type CatalogDerived } from "./data/derived";
 import { hasAnyPatientSignals } from "./utils/regimenGuidance";
 import DiseaseOverviewPage from "./pages/DiseaseOverviewPage";
@@ -96,13 +96,13 @@ export default function PharmRef() {
     }
 
     setCatalogStatus("loading");
-    const promise = loadAllDiseases()
-      .then((diseases) => {
+    const promise = Promise.all([loadAllDiseases(), loadRegimenCatalog()])
+      .then(([diseases, regimenCatalog]) => {
         const byId = Object.fromEntries(diseases.map((disease) => [disease.id, disease]));
         loadedDiseasesRef.current = { ...loadedDiseasesRef.current, ...byId };
         setLoadedDiseases((current) => ({ ...current, ...byId }));
 
-        const nextDerived = buildCatalogDerived(diseases);
+        const nextDerived = buildCatalogDerived(diseases, regimenCatalog);
         catalogDerivedRef.current = nextDerived;
         setCatalogDerived(nextDerived);
         setCatalogStatus("ready");
@@ -522,7 +522,7 @@ export default function PharmRef() {
           ← Home
         </button>
         {catalogDerived ? (
-          <AuditView diseaseStates={auditDiseases} findMonograph={catalogDerived.findMonograph} S={S} />
+          <AuditView diseaseStates={auditDiseases} S={S} />
         ) : (
           <p style={{ color: S.monographValue.color, textAlign: "center", padding: "60px 0" }}>
             {catalogStatus === "error" ? "Catalog unavailable." : "Loading content audit…"}
@@ -599,6 +599,7 @@ export default function PharmRef() {
           isBookmarked={isBookmarked}
           monograph={selectedMonograph}
           monographXref={catalogDerived?.monographXref ?? {}}
+          regimenXref={catalogDerived?.regimenXref ?? {}}
           navigateTo={navigateTo}
           onCollapseAll={collapseAll}
           onExpandAll={expandAll}

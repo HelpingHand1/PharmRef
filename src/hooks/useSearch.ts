@@ -31,6 +31,7 @@ export function useSearch(query: string, searchIndex: SearchEntry[] | null) {
     const diseaseMap = new Map<string, { payload: SearchResult["diseases"][number]; score: number }>();
     const drugMap = new Map<string, { payload: SearchResult["drugs"][number]; score: number }>();
     const organismMap = new Map<string, { payload: SearchResult["organisms"][number]; score: number }>();
+    const regimenMap = new Map<string, { payload: SearchResult["regimens"][number]; score: number }>();
     const subcatMap = new Map<string, { payload: SearchResult["subcategories"][number]; score: number }>();
 
     searchIndex.forEach((entry) => {
@@ -97,6 +98,32 @@ export function useSearch(query: string, searchIndex: SearchEntry[] | null) {
         return;
       }
 
+      if (entry.type === "regimen") {
+        const textScore = Math.max(
+          fieldScore(entry.regimen.regimen, 80, q),
+          fieldScore(entry.regimen.notes, 30, q),
+          fieldScore(entry.regimen.line, 25, q),
+          fieldScore(entry.subcategory.name, 25, q),
+          fieldScore(entry.disease.name, 15, q),
+          fieldScore(entry.text, 45, q),
+        );
+        if (textScore === 0) return;
+        const score = textScore + getContentSearchBoost(resolveContentMeta(entry.subcategory, entry.disease).meta);
+        const key = entry.regimen.id;
+        const existing = regimenMap.get(key);
+        if (!existing || score > existing.score) {
+          regimenMap.set(key, {
+            payload: {
+              ...entry.regimen,
+              parentDisease: entry.disease,
+              parentSubcategory: entry.subcategory,
+            },
+            score,
+          });
+        }
+        return;
+      }
+
       // subcategory
       const textScore = Math.max(
         scoreName(entry.subcategory.name, q),
@@ -124,6 +151,7 @@ export function useSearch(query: string, searchIndex: SearchEntry[] | null) {
       diseases: [...diseaseMap.values()].sort((a, b) => b.score - a.score).map((x) => x.payload),
       drugs: [...drugMap.values()].sort((a, b) => b.score - a.score).map((x) => x.payload),
       organisms: [...organismMap.values()].sort((a, b) => b.score - a.score).map((x) => x.payload),
+      regimens: [...regimenMap.values()].sort((a, b) => b.score - a.score).map((x) => x.payload),
       subcategories: [...subcatMap.values()].sort((a, b) => b.score - a.score).map((x) => x.payload),
     };
   }, [deferredQuery, isSearchActive, searchIndex]);

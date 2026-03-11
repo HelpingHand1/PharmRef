@@ -1,3 +1,5 @@
+// Editorial source for the Bone/Joint disease module.
+// Runtime imports use src/data/generated/diseases/bone-joint.ts.
 export const BONE_JOINT = {
   id: "bone-joint",
   name: "Bone & Joint Infections",

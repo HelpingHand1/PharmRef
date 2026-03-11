@@ -1,254 +1,16 @@
-import type { DiseaseState, DrugMonograph, Subcategory } from "../types";
+import { buildContentValidationIssues } from "../data/content-validation";
 import { AuditViewProps } from "../types";
-import {
-  requiresExplicitMonographMeta,
-  requiresExplicitSubcategoryMeta,
-  resolveContentMeta,
-} from "../data/metadata";
-import {
-  getSourceRegistryIssues,
-  resolveEvidenceSourceText,
-  resolveSourceEntry,
-} from "../data/source-registry";
-import { CONTENT_STALE_AFTER_DAYS } from "../version";
 
-type IssueSeverity = "error" | "warn" | "info";
-
-type Issue = {
-  severity: IssueSeverity;
-  disease: string;
-  msg: string;
-};
-
-const REQUIRED_DISEASE_FIELDS: Array<keyof DiseaseState> = ["id", "name", "icon", "category", "overview", "subcategories", "drugMonographs"];
-const REQUIRED_OVERVIEW_FIELDS: Array<keyof DiseaseState["overview"]> = [
-  "definition",
-  "epidemiology",
-  "keyGuidelines",
-  "landmarkTrials",
-  "riskFactors",
-];
-const REQUIRED_SUBCATEGORY_FIELDS: Array<keyof Subcategory> = ["id", "name", "definition", "empiricTherapy"];
-const REQUIRED_MONOGRAPH_FIELDS: Array<keyof DrugMonograph> = [
-  "id",
-  "name",
-  "brandNames",
-  "drugClass",
-  "mechanismOfAction",
-  "spectrum",
-  "dosing",
-  "renalAdjustment",
-  "hepaticAdjustment",
-  "adverseEffects",
-  "drugInteractions",
-  "monitoring",
-  "pregnancyLactation",
-  "pharmacistPearls",
-];
-
-function isMissing(value: unknown): boolean {
-  if (value == null) return true;
-  if (typeof value === "string") return value.trim() === "";
-  if (Array.isArray(value)) return value.length === 0;
-  return false;
-}
-
-function daysOld(value: string | undefined): number | null {
-  if (!value) return null;
-  const parsed = new Date(`${value}T00:00:00`);
-  if (Number.isNaN(parsed.getTime())) return null;
-  return Math.floor((Date.now() - parsed.getTime()) / (1000 * 60 * 60 * 24));
-}
-
-export default function AuditView({ diseaseStates, findMonograph, S }: AuditViewProps) {
-  const issues: Issue[] = [];
-  const allDrugIds = new Set<string>();
-
-  getSourceRegistryIssues().forEach((issue) => {
-    issues.push({ severity: "error", disease: "Source Registry", msg: `${issue.scope}: ${issue.message}` });
-  });
-
-  diseaseStates.forEach((disease) => {
-    REQUIRED_DISEASE_FIELDS.forEach((field) => {
-      if (isMissing(disease[field])) {
-        issues.push({ severity: "error", disease: disease.name || disease.id, msg: `Missing required field: ${field}` });
-      }
-    });
-
-    REQUIRED_OVERVIEW_FIELDS.forEach((field) => {
-      if (isMissing(disease.overview[field])) {
-        issues.push({ severity: "warn", disease: disease.name, msg: `Overview missing: ${field}` });
-      }
-    });
-
-    if (!disease.contentMeta) {
-      issues.push({ severity: "error", disease: disease.name, msg: "Missing disease review metadata" });
-    } else {
-      if (disease.contentMeta.sources.length === 0) {
-        issues.push({ severity: "error", disease: disease.name, msg: "Disease review metadata has no structured sources" });
-      }
-      disease.contentMeta.sources.forEach((source) => {
-        if (!resolveSourceEntry(source.id)) {
-          issues.push({ severity: "error", disease: disease.name, msg: `Disease review metadata references unknown source "${source.id}"` });
-        }
-      });
-      if (!disease.contentMeta.reviewedBy?.trim()) {
-        issues.push({ severity: "error", disease: disease.name, msg: "Disease review metadata is missing reviewer attribution" });
-      }
-      if (!disease.contentMeta.reviewScope?.trim()) {
-        issues.push({ severity: "error", disease: disease.name, msg: "Disease review metadata is missing review scope attribution" });
-      }
-      if (!["high", "moderate", "emerging"].includes(disease.contentMeta.confidence)) {
-        issues.push({ severity: "error", disease: disease.name, msg: "Disease review metadata has invalid confidence" });
-      }
-      const reviewAge = daysOld(disease.contentMeta.lastReviewed);
-      if (reviewAge === null) {
-        issues.push({ severity: "error", disease: disease.name, msg: "Disease review metadata has an invalid review date" });
-      } else if (reviewAge > CONTENT_STALE_AFTER_DAYS) {
-        issues.push({ severity: "warn", disease: disease.name, msg: `Disease review metadata is stale (${reviewAge} days old)` });
-      }
-    }
-
-    if (disease.overview.keyGuidelines.length === 0) {
-      issues.push({ severity: "warn", disease: disease.name, msg: "No key guidelines listed" });
-    }
-    if (disease.overview.landmarkTrials.length === 0) {
-      issues.push({ severity: "warn", disease: disease.name, msg: "No landmark trials listed" });
-    }
-
-    disease.subcategories.forEach((subcategory) => {
-      const resolvedSubcategoryMeta = resolveContentMeta(subcategory, disease).meta;
-      REQUIRED_SUBCATEGORY_FIELDS.forEach((field) => {
-        if (isMissing(subcategory[field])) {
-          issues.push({
-            severity: "error",
-            disease: disease.name,
-            msg: `Subcategory "${subcategory.name || subcategory.id}" missing: ${field}`,
-          });
-        }
-      });
-
-      if (requiresExplicitSubcategoryMeta(disease.id, subcategory.id) && !subcategory.contentMeta) {
-        issues.push({ severity: "error", disease: disease.name, msg: `Priority pathway "${subcategory.name}" is missing explicit review metadata` });
-      }
-
-      if (!resolvedSubcategoryMeta) {
-        issues.push({ severity: "error", disease: disease.name, msg: `Subcategory "${subcategory.name || subcategory.id}" is missing review metadata` });
-      } else {
-        if (!resolvedSubcategoryMeta.sources.length) {
-          issues.push({ severity: "error", disease: disease.name, msg: `Subcategory "${subcategory.name}" has no structured sources` });
-        }
-        resolvedSubcategoryMeta.sources.forEach((source) => {
-          if (!resolveSourceEntry(source.id)) {
-            issues.push({ severity: "error", disease: disease.name, msg: `Subcategory "${subcategory.name}" references unknown source "${source.id}"` });
-          }
-        });
-        if (!resolvedSubcategoryMeta.reviewedBy?.trim()) {
-          issues.push({ severity: "error", disease: disease.name, msg: `Subcategory "${subcategory.name}" is missing reviewer attribution` });
-        }
-        if (!resolvedSubcategoryMeta.reviewScope?.trim()) {
-          issues.push({ severity: "error", disease: disease.name, msg: `Subcategory "${subcategory.name}" is missing review scope attribution` });
-        }
-        if (!["high", "moderate", "emerging"].includes(resolvedSubcategoryMeta.confidence)) {
-          issues.push({ severity: "error", disease: disease.name, msg: `Subcategory "${subcategory.name}" has invalid confidence metadata` });
-        }
-        const reviewAge = daysOld(resolvedSubcategoryMeta.lastReviewed);
-        if (reviewAge === null) {
-          issues.push({ severity: "error", disease: disease.name, msg: `Subcategory "${subcategory.name}" has an invalid review date` });
-        } else if (reviewAge > CONTENT_STALE_AFTER_DAYS) {
-          issues.push({ severity: "warn", disease: disease.name, msg: `Subcategory "${subcategory.name}" metadata is stale (${reviewAge} days old)` });
-        }
-      }
-
-      if (!subcategory.pearls || subcategory.pearls.length === 0) {
-        issues.push({ severity: "info", disease: disease.name, msg: `Subcategory "${subcategory.name}" has no pearls` });
-      }
-
-      subcategory.empiricTherapy?.forEach((tier) => {
-        tier.options.forEach((option) => {
-          if (option.drug && !findMonograph(option.drug)) {
-            issues.push({
-              severity: "warn",
-              disease: disease.name,
-              msg: `Empiric drug "${option.drug}" in "${subcategory.name}" → "${tier.line}" has no matching monograph`,
-            });
-          }
-          if (option.evidence && !option.evidenceSource) {
-            issues.push({
-              severity: "warn",
-              disease: disease.name,
-              msg: `Empiric regimen "${option.regimen}" in "${subcategory.name}" has an evidence grade without a source label`,
-            });
-          }
-          if (option.evidenceSource && resolveEvidenceSourceText(option.evidenceSource).length === 0) {
-            issues.push({
-              severity: "warn",
-              disease: disease.name,
-              msg: `Empiric regimen "${option.regimen}" in "${subcategory.name}" has an unmapped evidence source "${option.evidenceSource}"`,
-            });
-          }
-        });
-      });
-    });
-
-    disease.drugMonographs.forEach((monograph) => {
-      const resolvedMonographMeta = resolveContentMeta(monograph, disease).meta;
-      allDrugIds.add(monograph.id);
-      REQUIRED_MONOGRAPH_FIELDS.forEach((field) => {
-        if (isMissing(monograph[field])) {
-          issues.push({
-            severity: field === "pharmacistPearls" ? "warn" : "error",
-            disease: disease.name,
-            msg: `Monograph "${monograph.name}" missing: ${field}`,
-          });
-        }
-      });
-
-      if (requiresExplicitMonographMeta(monograph.id) && !monograph.contentMeta) {
-        issues.push({ severity: "error", disease: disease.name, msg: `Priority monograph "${monograph.name}" is missing explicit review metadata` });
-      }
-
-      if (!resolvedMonographMeta) {
-        issues.push({ severity: "error", disease: disease.name, msg: `Monograph "${monograph.name}" is missing review metadata` });
-      } else {
-        if (!resolvedMonographMeta.sources.length) {
-          issues.push({ severity: "error", disease: disease.name, msg: `Monograph "${monograph.name}" has no structured sources` });
-        }
-        resolvedMonographMeta.sources.forEach((source) => {
-          if (!resolveSourceEntry(source.id)) {
-            issues.push({ severity: "error", disease: disease.name, msg: `Monograph "${monograph.name}" references unknown source "${source.id}"` });
-          }
-        });
-        if (!resolvedMonographMeta.reviewedBy?.trim()) {
-          issues.push({ severity: "error", disease: disease.name, msg: `Monograph "${monograph.name}" is missing reviewer attribution` });
-        }
-        if (!resolvedMonographMeta.reviewScope?.trim()) {
-          issues.push({ severity: "error", disease: disease.name, msg: `Monograph "${monograph.name}" is missing review scope attribution` });
-        }
-        if (!["high", "moderate", "emerging"].includes(resolvedMonographMeta.confidence)) {
-          issues.push({ severity: "error", disease: disease.name, msg: `Monograph "${monograph.name}" has invalid confidence metadata` });
-        }
-        const reviewAge = daysOld(resolvedMonographMeta.lastReviewed);
-        if (reviewAge === null) {
-          issues.push({ severity: "error", disease: disease.name, msg: `Monograph "${monograph.name}" has an invalid review date` });
-        } else if (reviewAge > CONTENT_STALE_AFTER_DAYS) {
-          issues.push({ severity: "warn", disease: disease.name, msg: `Monograph "${monograph.name}" metadata is stale (${reviewAge} days old)` });
-        }
-      }
-
-      if (!monograph.adverseEffects?.common) {
-        issues.push({ severity: "warn", disease: disease.name, msg: `Monograph "${monograph.name}" missing adverseEffects.common` });
-      }
-      if (!monograph.adverseEffects?.serious) {
-        issues.push({ severity: "warn", disease: disease.name, msg: `Monograph "${monograph.name}" missing adverseEffects.serious` });
-      }
-    });
-  });
+export default function AuditView({ diseaseStates, S }: AuditViewProps) {
+  const issues = buildContentValidationIssues(diseaseStates);
+  const allDrugIds = new Set(
+    diseaseStates.flatMap((disease) => disease.drugMonographs.map((monograph) => monograph.id)),
+  );
 
   const errors = issues.filter((issue) => issue.severity === "error");
   const warnings = issues.filter((issue) => issue.severity === "warn");
   const infos = issues.filter((issue) => issue.severity === "info");
-  const severityColor: Record<IssueSeverity, string> = { error: "#ef4444", warn: "#fbbf24", info: "#60a5fa" };
+  const severityColor = { error: "#ef4444", warn: "#fbbf24", info: "#60a5fa" } as const;
 
   return (
     <>
@@ -277,7 +39,7 @@ export default function AuditView({ diseaseStates, findMonograph, S }: AuditView
       ) : (
         issues.map((issue, index) => (
           <div
-            key={`${issue.disease}-${index}`}
+            key={`${issue.scope}-${index}`}
             style={{
               padding: "12px 14px",
               borderLeft: `4px solid ${severityColor[issue.severity]}`,
@@ -290,8 +52,9 @@ export default function AuditView({ diseaseStates, findMonograph, S }: AuditView
             <span style={{ fontSize: "11px", fontWeight: 700, color: severityColor[issue.severity], textTransform: "uppercase", marginRight: "8px" }}>
               {issue.severity}
             </span>
-            <span style={{ fontSize: "11px", color: S.monographLabel?.color || "#64748b", marginRight: "8px" }}>[{issue.disease}]</span>
-            <span style={{ fontSize: "12px", color: S.monographValue?.color || "#cbd5e1" }}>{issue.msg}</span>
+            <span style={{ fontWeight: 700, color: S.meta.text }}>{issue.disease}</span>
+            <div style={{ fontSize: "13px", marginTop: "4px", color: S.monographValue.color }}>{issue.message}</div>
+            <div style={{ fontSize: "11px", marginTop: "6px", color: S.monographValue.color }}>{issue.scope}</div>
           </div>
         ))
       )}

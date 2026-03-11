@@ -3,6 +3,7 @@ import AllergyWarning from "../components/AllergyWarning";
 import ContentMetaCard from "../components/ContentMetaCard";
 import CrossRefBadges from "../components/CrossRefBadges";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
+import RegimenCrossRefs from "../components/RegimenCrossRefs";
 import Section from "../components/Section";
 import { resolveContentMeta } from "../data/metadata";
 import { aeCard, aeLabel, NAV_STATES } from "../styles/constants";
@@ -12,6 +13,7 @@ import type {
   DrugMonograph,
   NavigateTo,
   PatientContext,
+  RegimenReference,
   Styles,
   ThemeKey,
 } from "../types";
@@ -26,6 +28,7 @@ interface MonographPageProps {
   isBookmarked: (id: string) => boolean;
   monograph: DrugMonograph;
   monographXref: Record<string, DiseaseState[]>;
+  regimenXref: Record<string, RegimenReference[]>;
   navigateTo: NavigateTo;
   onCollapseAll: () => void;
   onExpandAll: () => void;
@@ -48,6 +51,7 @@ export default function MonographPage({
   isBookmarked,
   monograph,
   monographXref,
+  regimenXref,
   navigateTo,
   onCollapseAll,
   onExpandAll,
@@ -256,6 +260,15 @@ export default function MonographPage({
       <ContentMetaCard
         inheritedFrom={inherited ? disease.name : undefined}
         meta={pageMeta}
+        S={S}
+      />
+      <RegimenCrossRefs
+        currentDiseaseId={disease.id}
+        currentDrugName={monograph.name}
+        drugId={monograph.id}
+        navigateTo={navigateTo}
+        regimenXref={regimenXref}
+        showToast={showToast}
         S={S}
       />
       <ExpandCollapseBar S={S} onExpand={onExpandAll} onCollapse={onCollapseAll} />

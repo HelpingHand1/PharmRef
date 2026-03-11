@@ -1,3 +1,6 @@
+// Editorial source for the generated AMR Gram-Negative disease module.
+// Runtime catalog imports use src/data/generated/diseases/amr-gram-negative.ts.
+
 export const AMR_GN = {
     id: "amr-gn",
     name: "AMR Gram-Negative Infections",

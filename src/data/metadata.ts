@@ -7,6 +7,7 @@ import {
   PRIORITY_SUBCATEGORY_META_KEYS,
   SUBCATEGORY_CONTENT_META,
 } from "./generated-content-meta";
+import { DEFAULT_CONTENT_REVIEWER } from "./review-defaults";
 import { resolveContentSource } from "./source-registry";
 import { CONTENT_STALE_AFTER_DAYS } from "../version";
 
@@ -18,8 +19,6 @@ export {
   PRIORITY_SUBCATEGORY_META_KEYS,
   SUBCATEGORY_CONTENT_META,
 } from "./generated-content-meta";
-
-const DEFAULT_REVIEWER = "PharmRef editorial review";
 
 function ageInDays(lastReviewed: string): number | null {
   const parsed = new Date(`${lastReviewed}T00:00:00`);
@@ -102,10 +101,12 @@ export function resolveContentSources(meta: ContentMeta) {
 
 function finalizeContentMeta(seed: ContentMetaSeed | ContentMeta | undefined, reviewScope: string): ContentMeta | undefined {
   if (!seed) return undefined;
+  const reviewedBy = seed.reviewedBy ?? DEFAULT_CONTENT_REVIEWER;
   return {
     ...seed,
-    reviewedBy: seed.reviewedBy ?? DEFAULT_REVIEWER,
+    reviewedBy,
     reviewScope: seed.reviewScope ?? reviewScope,
+    reviewHistory: seed.reviewHistory ?? [],
   };
 }
 

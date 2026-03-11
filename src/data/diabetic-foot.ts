@@ -1,3 +1,5 @@
+// Editorial source for the Diabetic Foot disease module.
+// Runtime imports use src/data/generated/diseases/diabetic-foot.ts.
 import type { DiseaseState } from "../types";
 
 export const DIABETIC_FOOT: DiseaseState = {

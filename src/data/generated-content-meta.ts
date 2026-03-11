@@ -21,6 +21,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "eau-2024-uti",
         "citation": "European Association of Urology UTI guidance, 2024."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed 2025 cUTI reclassification, shorter-course recommendations, and IV-to-PO bacteremic UTI guidance."
+      }
     ]
   },
   "cap": {
@@ -39,6 +46,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "step-trial",
         "citation": "Three-day versus eight-day amoxicillin strategy for stabilized CAP, NEJM 2023."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed outpatient and inpatient CAP regimen selection, STEP short-course data, and severe CAP steroid updates."
       }
     ]
   },
@@ -59,6 +73,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "smart-trial",
         "citation": "Balanced crystalloids versus saline in ICU patients, NEJM 2018."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed HAP/VAP empiric coverage, resistant gram-negative escalation, and ICU stewardship framing."
+      }
     ]
   },
   "ssti": {
@@ -77,6 +98,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "oviva",
         "citation": "Oral versus intravenous antibiotics for bone and joint and deep infection pathways, NEJM 2019."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed purulent and nonpurulent SSTI pathways, MRSA coverage boundaries, and oral step-down strategy."
       }
     ]
   },
@@ -97,6 +125,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "stop-it",
         "citation": "Short-course antimicrobial therapy for source-controlled intra-abdominal infection, NEJM 2015."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed source-control-first IAI management, biliary coverage boundaries, and short-course post-control durations."
+      }
     ]
   },
   "amr-gn": {
@@ -115,6 +150,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "pkpd-stewardship",
         "citation": "Extended-infusion beta-lactam stewardship principles used throughout resistant gram-negative pathways."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed IDSA AMR mechanism-based therapy, carbapenem-sparing strategy, and extended-infusion beta-lactam use."
       }
     ]
   },
@@ -135,6 +177,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "arrest",
         "citation": "Adjunctive rifampin for Staphylococcus aureus bacteremia, Lancet 2018."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed bloodstream infection duration, endocarditis evaluation, and oral or OPAT transition criteria."
+      }
     ]
   },
   "c-difficile": {
@@ -153,6 +202,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "fmt-stewardship",
         "citation": "Evidence base for fecal microbiota transplant in multiply recurrent CDI."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed CDI severity stratification, fidaxomicin preference, and recurrence-prevention escalation."
       }
     ]
   },
@@ -173,6 +229,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "orthopedic-id-review",
         "citation": "Orthopedic infection source-control and step-down stewardship literature."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed osteomyelitis and prosthetic-joint step-down strategy, source control, and OVIVA-aligned oral therapy."
+      }
     ]
   },
   "cns-infections": {
@@ -191,6 +254,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "dexamethasone-meningitis",
         "citation": "Adjunctive dexamethasone trials informing pneumococcal meningitis care."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed meningitis and ventriculitis empiric therapy, adjunctive dexamethasone use, and CNS diagnostic priorities."
       }
     ]
   },
@@ -211,6 +281,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "secure-trial",
         "citation": "Isavuconazole versus voriconazole for invasive aspergillosis, Lancet 2016."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed candidiasis and aspergillosis first-line agents, salvage roles, and therapeutic monitoring priorities."
+      }
     ]
   },
   "advanced-agents": {
@@ -229,6 +306,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "restore-imi",
         "citation": "Imipenem-cilastatin-relebactam versus polymyxin-based therapy."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed reserve-agent positioning for resistant gram-negatives and stewardship boundaries for novel therapies."
       }
     ]
   },
@@ -249,6 +333,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "mascc-cisne",
         "citation": "Risk-stratification tools used for low-risk outpatient decision support."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed high-risk febrile neutropenia initial coverage, escalation triggers, and outpatient risk stratification."
+      }
     ]
   },
   "diabetic-foot": {
@@ -268,6 +359,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "source-control-principles",
         "citation": "Surgical debridement and perfusion assessment references used in DFI pathways."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed diabetic foot severity staging, debridement and perfusion priorities, and osteomyelitis step-down options."
+      }
     ]
   },
   "sepsis": {
@@ -286,6 +384,13 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "balance",
         "citation": "Seven versus fourteen days for bloodstream infection, 2024."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed early sepsis antimicrobials, resistant-risk stratification, and shorter-course de-escalation evidence."
       }
     ]
   }
@@ -309,6 +414,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "pkpd-stewardship",
         "citation": "Extended-infusion beta-lactam principles applied to ESBL-E severe infection management."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed ESBL empiric boundaries, carbapenem preference, and oral step-down cautions."
+      }
     ]
   },
   "amr-gn/cre-kpc": {
@@ -327,6 +439,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "reprise",
         "citation": "Ceftazidime-avibactam activity in resistant gram-negative infections, phase 3 data."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed KPC-CRE preferred BL/BLI therapy and definitive selection criteria."
       }
     ]
   },
@@ -347,6 +466,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "credible-cr",
         "citation": "Cefiderocol data in carbapenem-resistant gram-negative infections."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed MBL-CRE salvage strategy, aztreonam combination use, and cefiderocol role."
+      }
     ]
   },
   "amr-gn/dtr-pa": {
@@ -365,6 +491,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "restore-imi",
         "citation": "Imipenem-cilastatin-relebactam versus colistin-based therapy for imipenem-nonsusceptible infections."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed DTR Pseudomonas susceptibility-based escalation and newer beta-lactam positioning."
       }
     ]
   },
@@ -385,6 +518,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "credible-cr",
         "citation": "Cefiderocol resistant gram-negative outcomes including Acinetobacter subgroup concerns."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed CRAB and Stenotrophomonas combination strategies and limited-agent stewardship."
+      }
     ]
   },
   "advanced-agents/cre-management": {
@@ -403,6 +543,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "reprise",
         "citation": "Ceftazidime-avibactam resistant gram-negative treatment data."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed mechanism-specific CRE agent selection across KPC, OXA, and MBL phenotypes."
       }
     ]
   },
@@ -423,6 +570,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "restore-imi",
         "citation": "Imipenem-cilastatin-relebactam data for imipenem-resistant Pseudomonas."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed advanced agent positioning for MDR Pseudomonas and susceptibility-guided de-escalation."
+      }
     ]
   },
   "febrile-neutropenia/high-risk-fn": {
@@ -441,6 +595,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "mascc-cisne",
         "citation": "Risk tools used to separate outpatient from high-risk inpatient care."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed initial anti-pseudomonal coverage and inpatient escalation thresholds for high-risk febrile neutropenia."
       }
     ]
   },
@@ -461,6 +622,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "galactomannan-ct-strategy",
         "citation": "High-resolution CT and serial biomarker literature in prolonged neutropenia."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed persistent-fever fungal evaluation triggers, imaging strategy, and empiric mold coverage."
+      }
     ]
   },
   "bacteremia-endocarditis/sab-workup": {
@@ -479,6 +647,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "sab-bundle-literature",
         "citation": "Management-bundle and echocardiography literature for high-risk S. aureus bacteremia."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed S. aureus bacteremia bundle elements, repeat-culture timing, and echocardiography triggers."
       }
     ]
   },
@@ -499,6 +674,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "endocarditis-surgery-review",
         "citation": "Operative timing and multidisciplinary endocarditis-team literature."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed native-valve endocarditis diagnostic criteria, surgical triggers, and oral step-down boundaries."
+      }
     ]
   },
   "bacteremia-endocarditis/prosthetic-valve-ie": {
@@ -517,6 +699,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "rifampin-gentamicin-stewardship",
         "citation": "Evidence reassessment for adjunctive rifampin and aminoglycosides in prosthetic-valve IE."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed prosthetic-valve endocarditis adjunctive therapy risks and multidisciplinary surgical timing."
       }
     ]
   },
@@ -537,6 +726,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "oral-stepdown-bacteremia",
         "citation": "IV-to-oral transition and source-specific duration literature for uncomplicated gram-negative bacteremia."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed uncomplicated gram-negative bacteremia duration evidence and IV-to-PO transition criteria."
+      }
     ]
   },
   "bacteremia-endocarditis/opat-considerations": {
@@ -555,6 +751,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "opat-stewardship",
         "citation": "Monitoring, line-care, and adverse-event prevention literature for outpatient parenteral therapy."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed OPAT eligibility, monitoring burden, and complications that should block outpatient therapy."
       }
     ]
   },
@@ -575,6 +778,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "clovers",
         "citation": "Fluid strategy data after initial sepsis resuscitation, NEJM 2023."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed community-onset sepsis empiric framing and early narrowing after source clarification."
+      }
     ]
   },
   "sepsis/sepsis-hcap": {
@@ -594,6 +804,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "amr-risk-stratification",
         "citation": "Mechanism-aware resistant-pathogen coverage principles for healthcare-associated sepsis."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed healthcare-exposure resistance risk, broader empiric coverage boundaries, and de-escalation triggers."
+      }
     ]
   },
   "sepsis/septic-shock": {
@@ -612,6 +829,13 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "balance",
         "citation": "Shorter-course bloodstream infection data informing de-escalation once source control is achieved, 2024."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed septic shock antimicrobial timing, hemodynamic support references, and post-control de-escalation."
       }
     ]
   }
@@ -635,6 +859,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "kpc-observational-outcomes",
         "citation": "Real-world outcomes literature in bloodstream and deep-seated KPC infections."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed KPC-CRE positioning, definitive-use boundaries, and outcome data for deep-seated infection."
+      }
     ]
   },
   "meropenem-vaborbactam": {
@@ -653,6 +884,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "tango-i",
         "citation": "Registration data for complicated urinary tract infection."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed KPC-CRE efficacy data, definitive-use positioning, and cUTI registration support."
       }
     ]
   },
@@ -673,6 +911,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "apeks-np",
         "citation": "Nosocomial pneumonia noninferiority data including resistant gram-negative organisms."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed salvage use in MBL and resistant gram-negative infections and outcome-signal cautions."
+      }
     ]
   },
   "ceftolozane-tazobactam": {
@@ -691,6 +936,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "aspect-cuti-ciai",
         "citation": "Registration studies informing dosing and exposure targets."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed DTR Pseudomonas positioning, pulmonary data, and exposure-driven dosing considerations."
       }
     ]
   },
@@ -711,6 +963,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "restore-imi-2",
         "citation": "Nosocomial pneumonia data for imipenem-cilastatin-relebactam."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed relebactam use in resistant Pseudomonas and KPC-CRE with comparative outcome data."
+      }
     ]
   },
   "colistin": {
@@ -729,6 +988,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "polymyxin-toxicity",
         "citation": "Nephrotoxicity and PK limitations of polymyxins in critically ill patients."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed nephrotoxicity-limited salvage role and reasons to prefer newer agents when available."
       }
     ]
   },
@@ -749,6 +1015,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "long-course-tedizolid",
         "citation": "Limited observational data for prolonged use outside labeled indications."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed off-label stewardship limits, skin-structure data, and prolonged-use uncertainty."
+      }
     ]
   },
   "posaconazole": {
@@ -767,6 +1040,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "therapeutic-drug-monitoring",
         "citation": "Exposure targets and formulation-specific PK guidance."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed prophylaxis indications, salvage therapy role, and therapeutic drug monitoring targets."
       }
     ]
   },
@@ -787,6 +1067,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "nephrotoxicity-mitigation",
         "citation": "Dose, electrolyte, and renal monitoring literature for lipid amphotericin formulations."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed invasive mold and mucormycosis role with renal and electrolyte monitoring priorities."
+      }
     ]
   },
   "vancomycin": {
@@ -805,6 +1092,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "auc-stewardship",
         "citation": "Clinical outcomes and nephrotoxicity literature supporting AUC-guided dosing."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed AUC-guided dosing, bacteremia and endocarditis roles, and nephrotoxicity mitigation."
       }
     ]
   },
@@ -825,6 +1119,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "combination-salvage-therapy",
         "citation": "Evidence for daptomycin-based salvage approaches in persistent MRSA bacteremia."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed high-dose SAB and endocarditis use, salvage combinations, and monitoring priorities."
+      }
     ]
   },
   "cefazolin": {
@@ -843,6 +1144,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "cefazolin-inoculum-effect",
         "citation": "Pharmacodynamic and inoculum-effect literature relevant to deep-seated MSSA infection."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed MSSA bacteremia role, inoculum-effect caveats, and beta-lactam comparative outcomes."
       }
     ]
   },
@@ -863,6 +1171,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "opat-tolerability",
         "citation": "Hepatic, renal, and sodium-load considerations during prolonged anti-staphylococcal penicillin therapy."
       }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed anti-staphylococcal penicillin use in deep MSSA infection and OPAT tolerability tradeoffs."
+      }
     ]
   },
   "ceftriaxone": {
@@ -881,6 +1196,13 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "biliary-urinary-source-bacteremia",
         "citation": "Source-specific stewardship literature supporting ceftriaxone de-escalation when susceptible."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-03-09",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed streptococcal endocarditis and bloodstream infection role with once-daily OPAT advantages."
       }
     ]
   }

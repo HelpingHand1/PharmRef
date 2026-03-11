@@ -1,3 +1,6 @@
+// Editorial source for the generated UTI disease module.
+// Runtime catalog imports use src/data/generated/diseases/uti.ts.
+
 export const UTI = {
     id: "uti",
     name: "Urinary Tract Infections",

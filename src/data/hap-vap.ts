@@ -1,3 +1,6 @@
+// Editorial source for the generated HAP/VAP disease module.
+// Runtime catalog imports use src/data/generated/diseases/hap-vap.ts.
+
 export const HAP_VAP = {
     id: "hap-vap",
     name: "Hospital-Acquired & Ventilator-Associated Pneumonia",

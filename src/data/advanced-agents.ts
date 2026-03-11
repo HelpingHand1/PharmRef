@@ -1,3 +1,5 @@
+// Editorial source for the Advanced Agents disease module.
+// Runtime imports use src/data/generated/diseases/advanced-agents.ts.
 import type { DiseaseState } from "../types";
 export const ADVANCED_AGENTS: DiseaseState = {
   id: "advanced-agents",
