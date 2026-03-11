@@ -1,6 +1,13 @@
 import { useState } from "react";
 import type { ContentMeta, Styles } from "../types";
-import { formatReviewDate, getConfidenceBadge, getContentFreshness, getSourceLookupHref } from "../data/metadata";
+import {
+  formatReviewDate,
+  getConfidenceBadge,
+  getContentFreshness,
+  getSourceLookupHref,
+  resolveContentSources,
+} from "../data/metadata";
+import { getSourceIdentifiers } from "../data/source-registry";
 
 interface ContentMetaCardProps {
   inheritedFrom?: string;
@@ -12,7 +19,9 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
   const [copiedSource, setCopiedSource] = useState<string | null>(null);
   if (!meta) return null;
 
-  const sourceLabel = `${meta.sources.length} source${meta.sources.length === 1 ? "" : "s"}`;
+  const sources = resolveContentSources(meta);
+  const sourceCount = sources.length || meta.sources.length;
+  const sourceLabel = `${sourceCount} source${sourceCount === 1 ? "" : "s"}`;
   const confidence = getConfidenceBadge(meta.confidence);
   const freshness = getContentFreshness(meta);
   const toneStyles =
@@ -102,16 +111,20 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
       <div style={{ fontSize: "12px", color: S.monographValue.color, marginBottom: "10px", lineHeight: 1.55 }}>
         Reviewed on {formatReviewDate(meta.lastReviewed)} with {confidence.label.toLowerCase()} based on {sourceLabel}.
       </div>
+      <div style={{ fontSize: "12px", color: S.monographValue.color, marginBottom: "10px", lineHeight: 1.55 }}>
+        Reviewer: {meta.reviewedBy} · Scope: {meta.reviewScope}
+      </div>
 
       <details>
         <summary style={{ cursor: "pointer", color: S.meta.textHeading, fontSize: "13px", fontWeight: 700 }}>
           Evidence base
         </summary>
         <div style={{ display: "grid", gap: "8px", marginTop: "10px" }}>
-          {meta.sources.map((source) => (
+          {sources.map((source) => (
             (() => {
-              const lookup = getSourceLookupHref(source);
-              const key = `${source.kind}-${source.label}`;
+              const lookup = getSourceLookupHref(source, `${source.label} ${source.citation}`);
+              const key = `${source.id}-${source.citation}`;
+              const identifiers = getSourceIdentifiers(source);
               return (
                 <div
                   key={key}
@@ -127,6 +140,20 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
                   </div>
                   <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading, marginTop: "4px" }}>{source.label}</div>
                   <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "4px", lineHeight: 1.55 }}>{source.citation}</div>
+                  {source.note && (
+                    <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "4px", lineHeight: 1.55 }}>
+                      {source.note}
+                    </div>
+                  )}
+                  {identifiers.length > 0 && (
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "8px" }}>
+                      {identifiers.map((identifier) => (
+                        <span key={identifier} style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                          {identifier}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "10px" }}>
                     <button
                       type="button"

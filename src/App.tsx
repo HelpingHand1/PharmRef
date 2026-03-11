@@ -7,10 +7,12 @@ import { useNavigation } from "./hooks/useNavigation";
 import { useRecentViews } from "./hooks/useRecentViews";
 import { useSearch } from "./hooks/useSearch";
 import { NAV_STATES, applyThemeVars, makeStyles } from "./styles/constants";
-import { usePersistedState } from "./utils/persistence";
+import { clearPersistedState, usePersistedState } from "./utils/persistence";
+import { WORK_SESSION_PERSISTENCE } from "./utils/persistenceEnvelope";
 import { DISEASE_CATALOG, DISEASE_SUMMARY_BY_ID, MONOGRAPH_CATALOG, MONOGRAPH_SUMMARY_BY_ID } from "./data/catalog-manifest";
 import { loadAllDiseases, loadDisease } from "./data/catalog-loader";
 import { buildCatalogDerived, type CatalogDerived } from "./data/derived";
+import { hasAnyPatientSignals } from "./utils/regimenGuidance";
 import DiseaseOverviewPage from "./pages/DiseaseOverviewPage";
 import HomePage from "./pages/HomePage";
 import MonographPage from "./pages/MonographPage";
@@ -42,7 +44,7 @@ export default function PharmRef() {
   const [showPatientModal, setShowPatientModal] = useState(false);
   const { patient, setPatient, crcl, ibw, adjbw, isActive: patientActive } = usePatientContext();
   const { bookmarks, toggleBookmark, isBookmarked } = useBookmarks();
-  const [allergies, setAllergies] = usePersistedState<AllergyRecord[]>("allergies", []);
+  const [allergies, setAllergies] = usePersistedState<AllergyRecord[]>("allergies", [], WORK_SESSION_PERSISTENCE);
   const [readingMode, setReadingMode] = usePersistedState<boolean>("readingMode", false);
   const [toast, setToast] = useState<{ message: string; icon: string; leaving?: boolean } | null>(null);
   const [showAllergyModal, setShowAllergyModal] = useState(false);
@@ -128,6 +130,7 @@ export default function PharmRef() {
   );
 
   const S = useMemo(() => makeStyles(theme), [theme]);
+  const hasWorkSessionData = allergies.length > 0 || hasAnyPatientSignals(patient);
 
   useEffect(() => {
     loadedDiseasesRef.current = loadedDiseases;
@@ -330,6 +333,16 @@ export default function PharmRef() {
     [setAllergies, showToast],
   );
 
+  const clearWorkData = useCallback(() => {
+    clearPersistedState("patientContext", WORK_SESSION_PERSISTENCE);
+    clearPersistedState("allergies", WORK_SESSION_PERSISTENCE);
+    setPatient({});
+    setAllergies([]);
+    setAllergyInput("");
+    setAllergySeverity("mild");
+    showToast("Work session data cleared", "🧹");
+  }, [setAllergies, setPatient, showToast]);
+
   const breadcrumbs = useMemo(() => {
     const trail: Array<{ label: string; action?: () => void }> = [{ label: "PharmRef", action: () => navigateTo(NAV_STATES.HOME) }];
     const diseaseLabel = selectedDisease?.name ?? selectedDiseaseSummary?.name ?? null;
@@ -409,6 +422,7 @@ export default function PharmRef() {
     navState,
     onAddAllergy: addAllergy,
     onCloseAllergyModal: () => setShowAllergyModal(false),
+    onClearWorkData: clearWorkData,
     onHome: handleHome,
     onOpenAllergyModal: () => setShowAllergyModal(true),
     onOpenPatientModal: () => setShowPatientModal(true),
@@ -417,6 +431,7 @@ export default function PharmRef() {
     patient,
     setPatient,
     patientActive,
+    hasWorkSessionData,
     crcl,
     ibw,
     adjbw,

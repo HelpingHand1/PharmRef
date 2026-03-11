@@ -11,6 +11,7 @@ export default function AllergyModal({
   allergySeverity,
   setAllergySeverity,
   addAllergy,
+  onClearWorkData,
   removeAllergy,
 }: AllergyModalProps) {
   useEffect(() => {
@@ -84,6 +85,20 @@ export default function AllergyModal({
         <p style={{ fontSize: "13px", color: muted, marginBottom: "18px", lineHeight: 1.6 }}>
           Add allergies or medications for inline warnings. Flags appear on drug monographs and empiric therapy options.
         </p>
+        <div
+          style={{
+            marginBottom: "16px",
+            padding: "10px 12px",
+            borderRadius: "14px",
+            border: `1px solid ${dark ? "#7dd3fc30" : "#0f766e22"}`,
+            background: dark ? "#7dd3fc12" : "#0f766e0d",
+            color: muted,
+            fontSize: "12px",
+            lineHeight: 1.55,
+          }}
+        >
+          Stored only in this browser session and automatically cleared after 12 hours.
+        </div>
 
         <div className="allergy-form" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) auto auto", gap: "8px", marginBottom: "14px" }}>
           <input
@@ -132,12 +147,20 @@ export default function AllergyModal({
           </div>
         )}
 
-        <button
-          onClick={onClose}
-          style={{ width: "100%", padding: "12px", background: "none", border: `1px solid ${border}`, borderRadius: "14px", color: muted, cursor: "pointer", fontSize: "13px", fontWeight: 600 }}
-        >
-          Done
-        </button>
+        <div style={{ display: "flex", gap: "8px" }}>
+          <button
+            onClick={onClearWorkData}
+            style={{ flex: 1, padding: "12px", background: "none", border: `1px solid ${border}`, borderRadius: "14px", color: muted, cursor: "pointer", fontSize: "13px", fontWeight: 600 }}
+          >
+            Clear Work Data
+          </button>
+          <button
+            onClick={onClose}
+            style={{ flex: 1, padding: "12px", background: "none", border: `1px solid ${border}`, borderRadius: "14px", color: muted, cursor: "pointer", fontSize: "13px", fontWeight: 600 }}
+          >
+            Done
+          </button>
+        </div>
       </div>
     </div>
   );

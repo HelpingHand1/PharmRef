@@ -1,16 +1,30 @@
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 
-export interface ContentSource {
-  kind: "guideline" | "trial" | "consensus" | "review";
+export type EvidenceKind = "guideline" | "trial" | "consensus" | "review";
+
+export interface EvidenceSource {
+  id: string;
+  kind: EvidenceKind;
   label: string;
-  citation: string;
   url?: string;
+  doi?: string;
+  pmid?: string;
+  searchQuery?: string;
+  aliases?: string[];
+}
+
+export interface ContentSource {
+  id: string;
+  citation: string;
+  note?: string;
 }
 
 export type ContentConfidence = "high" | "moderate" | "emerging";
 
 export interface ContentMeta {
   lastReviewed: string;
+  reviewedBy: string;
+  reviewScope: string;
   confidence: ContentConfidence;
   guidelineVersion?: string;
   sources: ContentSource[];
@@ -237,6 +251,7 @@ export interface AllergyModalProps {
   allergySeverity: string;
   setAllergySeverity: (value: string) => void;
   addAllergy: () => void;
+  onClearWorkData: () => void;
   removeAllergy: (name: string) => void;
 }
 

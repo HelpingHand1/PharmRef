@@ -1,6 +1,12 @@
 import { useMemo } from "react";
 import type { PatientContext } from "../types";
+import {
+  calculateAdjustedBodyWeight,
+  calculateCreatinineClearance,
+  calculateIdealBodyWeight,
+} from "../utils/clinicalCalculators";
 import { usePersistedState } from "../utils/persistence";
+import { WORK_SESSION_PERSISTENCE } from "../utils/persistenceEnvelope";
 
 export interface PatientDerived {
   patient: PatientContext;
@@ -12,32 +18,13 @@ export interface PatientDerived {
 }
 
 export function usePatientContext(): PatientDerived {
-  const [patient, setPatient] = usePersistedState<PatientContext>("patientContext", {});
+  const [patient, setPatient] = usePersistedState<PatientContext>("patientContext", {}, WORK_SESSION_PERSISTENCE);
 
-  const crcl = useMemo((): number | null => {
-    const { age, weight, scr, sex } = patient;
-    if (!age || !weight || !scr || !sex || scr <= 0) return null;
-    const sexFactor = sex === "female" ? 0.85 : 1;
-    const raw = ((140 - age) * weight * sexFactor) / (72 * scr);
-    return Math.max(0, Math.round(raw * 10) / 10);
-  }, [patient]);
+  const crcl = useMemo((): number | null => calculateCreatinineClearance(patient), [patient]);
 
-  const ibw = useMemo((): number | null => {
-    const { height, sex } = patient;
-    if (!height || !sex) return null;
-    const heightInches = height / 2.54;
-    const excessInches = heightInches - 60;
-    if (excessInches < -10) return null;
-    const base = sex === "male" ? 50 : 45.5;
-    return Math.max(0, Math.round((base + 2.3 * excessInches) * 10) / 10);
-  }, [patient]);
+  const ibw = useMemo((): number | null => calculateIdealBodyWeight(patient.height, patient.sex), [patient.height, patient.sex]);
 
-  const adjbw = useMemo((): number | null => {
-    const { weight } = patient;
-    if (!ibw || !weight) return null;
-    if (weight <= ibw * 1.3) return null;
-    return Math.round((ibw + 0.4 * (weight - ibw)) * 10) / 10;
-  }, [ibw, patient]);
+  const adjbw = useMemo((): number | null => calculateAdjustedBodyWeight(patient.weight, ibw), [ibw, patient.weight]);
 
   const isActive = Boolean(
     patient.age && patient.weight && patient.scr && patient.sex

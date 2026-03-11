@@ -2,6 +2,7 @@ import { memo } from "react";
 import { NAV_STATES } from "../styles/constants";
 import { EmpiricTierViewProps } from "../types";
 import { getLineStyle } from "../styles/constants";
+import { getSourceLookupHref, resolveEvidenceSourceText } from "../data/source-registry";
 import CopyBtn from "./CopyBtn";
 import AllergyWarning from "./AllergyWarning";
 import RegimenPatientWarnings from "./RegimenPatientWarnings";
@@ -25,6 +26,7 @@ const EmpiricTierView = memo(function EmpiricTierView({
       {tier.options.map((opt, oi) => {
         const found = findMonograph(opt.drug || "");
         const lineColor = getLineStyle(tier.line).color || "#1e3a5f";
+        const evidenceSources = resolveEvidenceSourceText(opt.evidenceSource);
         return (
           <div
             key={oi}
@@ -69,6 +71,32 @@ const EmpiricTierView = memo(function EmpiricTierView({
               {opt.regimen}
             </div>
             {opt.notes && <div style={{ fontSize: "13px", color: S.monographValue?.color || "#cbd5e1", lineHeight: 1.65 }}>{opt.notes}</div>}
+            {opt.evidenceSource && (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "10px" }}>
+                <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                  Source: {opt.evidenceSource}
+                </span>
+                {evidenceSources.map((source) => {
+                  const lookup = getSourceLookupHref(source, opt.evidenceSource);
+                  return (
+                    <a
+                      key={source.id}
+                      href={lookup.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        ...S.crossRefPill,
+                        marginRight: 0,
+                        marginBottom: 0,
+                        textDecoration: "none",
+                      }}
+                    >
+                      {source.label}
+                    </a>
+                  );
+                })}
+              </div>
+            )}
             <AllergyWarning drugId={`${opt.drug ?? ""} ${opt.regimen}`.trim()} allergies={allergies} S={S} />
             <RegimenPatientWarnings
               crcl={crcl}

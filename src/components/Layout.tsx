@@ -21,11 +21,13 @@ interface LayoutProps {
   children: ReactNode;
   compact?: boolean;
   crcl: number | null;
+  hasWorkSessionData: boolean;
   ibw: number | null;
   navState: NavStateKey;
   onAddAllergy: () => void;
   onCloseAllergyModal: () => void;
   onClosePatientModal: () => void;
+  onClearWorkData: () => void;
   onHome: () => void;
   onOpenAllergyModal: () => void;
   onOpenPatientModal: () => void;
@@ -58,11 +60,13 @@ export default function Layout({
   children,
   compact = false,
   crcl,
+  hasWorkSessionData,
   ibw,
   navState,
   onAddAllergy,
   onCloseAllergyModal,
   onClosePatientModal,
+  onClearWorkData,
   onHome,
   onOpenAllergyModal,
   onOpenPatientModal,
@@ -144,6 +148,16 @@ export default function Layout({
                 </span>
               )}
             </button>
+            {hasWorkSessionData && (
+              <button
+                type="button"
+                style={{ ...S.themeToggle, gap: "6px", paddingLeft: "10px", paddingRight: "10px" }}
+                onClick={onClearWorkData}
+                title="Clear work session data"
+              >
+                🧹
+              </button>
+            )}
             <button type="button" style={S.themeToggle} onClick={onToggleReadingMode} title={readingMode ? "Switch to standard view" : "Switch to reading view"}>
               {readingMode ? "≡" : "📖"}
             </button>
@@ -206,6 +220,7 @@ export default function Layout({
         allergySeverity={allergySeverity}
         setAllergySeverity={setAllergySeverity}
         addAllergy={onAddAllergy}
+        onClearWorkData={onClearWorkData}
         removeAllergy={onRemoveAllergy}
       />
       <PatientModal
@@ -217,6 +232,7 @@ export default function Layout({
         crcl={crcl}
         ibw={ibw}
         adjbw={adjbw}
+        onClearWorkData={onClearWorkData}
       />
       <DisclaimerModal S={S} />
     </div>

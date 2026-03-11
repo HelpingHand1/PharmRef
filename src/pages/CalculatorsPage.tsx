@@ -1,5 +1,13 @@
 import { useState } from "react";
 import type { PatientContext, Styles, ThemeKey } from "../types";
+import {
+  calculateCurb65,
+  calculateHartfordAminoglycoside,
+  calculatePsiClass,
+  calculateWeightMetrics,
+  estimateVancomycinRegimen,
+  type PsiInput,
+} from "../utils/clinicalCalculators";
 
 interface CalculatorsPageProps {
   S: Styles;
@@ -79,63 +87,32 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
   const [wWeight, setWWeight] = useState(patient.weight ? String(patient.weight) : "");
   const [wSex, setWSex] = useState<"" | "male" | "female">(patient.sex ?? "");
   const [wResult, setWResult] = useState<{ ibw: number; adjbw: number | null; bsa: number } | null>(
-    globalIbw !== null ? { ibw: globalIbw, adjbw: globalAdjbw, bsa: Math.round(Math.sqrt((patient.height! * patient.weight!) / 3600) * 100) / 100 } : null
+    patient.height && patient.weight && patient.sex
+      ? calculateWeightMetrics(patient.height, patient.weight, patient.sex)
+      : globalIbw !== null && patient.height && patient.weight
+        ? { ibw: globalIbw, adjbw: globalAdjbw, bsa: Math.round(Math.sqrt((patient.height * patient.weight) / 3600) * 100) / 100 }
+        : null,
   );
 
   function calcWeights() {
-    const h = Number(wHeight), w = Number(wWeight);
-    if (!h || !w || !wSex) return;
-    const hIn = h / 2.54;
-    const base = wSex === "male" ? 50 : 45.5;
-    const ibwVal = Math.max(0, Math.round((base + 2.3 * (hIn - 60)) * 10) / 10);
-    const adjbwVal = w > ibwVal * 1.3 ? Math.round((ibwVal + 0.4 * (w - ibwVal)) * 10) / 10 : null;
-    const bsaVal = Math.round(Math.sqrt((h * w) / 3600) * 100) / 100;
-    setWResult({ ibw: ibwVal, adjbw: adjbwVal, bsa: bsaVal });
+    const result = calculateWeightMetrics(Number(wHeight), Number(wWeight), wSex || undefined);
+    if (!result) return;
+    setWResult(result);
   }
 
   // ── CURB-65 ──────────────────────────────────────────────────
   const [curb, setCurb] = useState({ confusion: false, bun: false, rr: false, bp: false, age65: false });
-  const curbScore = Object.values(curb).filter(Boolean).length;
+  const curbResult = calculateCurb65(curb);
+  const curbScore = curbResult.score;
   const curbColor = curbScore <= 1 ? "#34d399" : curbScore === 2 ? "#fbbf24" : "#f87171";
-  const curbRisk = curbScore <= 1 ? "Low risk — outpatient treatment appropriate" : curbScore === 2 ? "Moderate risk — consider inpatient admission" : "High risk — ICU consideration warranted";
-  const curbManagement = curbScore <= 1
-    ? "Consider outpatient therapy with amoxicillin ± azithromycin. Follow up in 24–48h."
-    : curbScore === 2
-    ? "Consider short inpatient stay or hospital-supervised outpatient. IV to PO switch when stable."
-    : "Inpatient required. Consider ICU if score ≥3 with sepsis criteria or hypoxia.";
+  const curbRisk = curbResult.risk;
+  const curbManagement = curbResult.management;
 
   // ── PORT/PSI ─────────────────────────────────────────────────
-  const [psi, setPsi] = useState({ age: "", sex: "" as "" | "male" | "female", nursingHome: false, neoplasm: false, liver: false, chf: false, cerebrovascular: false, renal: false, confusion: false, rr30: false, bp90: false, temp: false, hr125: false, ph735: false, bun30: false, na130: false, glucose250: false, hct30: false, po260: false, pleural: false });
-  function psiField(k: keyof typeof psi, v: boolean | string) { setPsi((p) => ({ ...p, [k]: v })); }
+  const [psi, setPsi] = useState<PsiInput>({ age: "", sex: "" as "" | "male" | "female", nursingHome: false, neoplasm: false, liver: false, chf: false, cerebrovascular: false, renal: false, confusion: false, rr30: false, bp90: false, temp: false, hr125: false, ph735: false, bun30: false, na130: false, glucose250: false, hct30: false, po260: false, pleural: false });
+  function psiField(k: keyof PsiInput, v: boolean | string) { setPsi((p) => ({ ...p, [k]: v })); }
 
-  function calcPsiClass(): { cls: number; mortality: string; setting: string } {
-    const age = Number(psi.age) || 0;
-    let score = psi.sex === "female" ? age - 10 : age;
-    if (psi.nursingHome) score += 10;
-    if (psi.neoplasm) score += 30;
-    if (psi.liver) score += 20;
-    if (psi.chf) score += 10;
-    if (psi.cerebrovascular) score += 10;
-    if (psi.renal) score += 10;
-    if (psi.confusion) score += 20;
-    if (psi.rr30) score += 20;
-    if (psi.bp90) score += 20;
-    if (psi.temp) score += 15;
-    if (psi.hr125) score += 10;
-    if (psi.ph735) score += 30;
-    if (psi.bun30) score += 20;
-    if (psi.na130) score += 20;
-    if (psi.glucose250) score += 10;
-    if (psi.hct30) score += 10;
-    if (psi.po260) score += 10;
-    if (psi.pleural) score += 10;
-    if (score <= 50) return { cls: 1, mortality: "<0.1%", setting: "Outpatient" };
-    if (score <= 70) return { cls: 2, mortality: "0.6%", setting: "Outpatient" };
-    if (score <= 90) return { cls: 3, mortality: "2.8%", setting: "Brief inpatient or outpatient" };
-    if (score <= 130) return { cls: 4, mortality: "8.2%", setting: "Inpatient" };
-    return { cls: 5, mortality: "29.2%", setting: "Inpatient / ICU" };
-  }
-  const psiResult = calcPsiClass();
+  const psiResult = calculatePsiClass(psi);
   const psiColor = psiResult.cls <= 2 ? "#34d399" : psiResult.cls === 3 ? "#fbbf24" : "#f87171";
 
   // ── Vancomycin AUC ───────────────────────────────────────────
@@ -145,17 +122,9 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
   const [vancResult, setVancResult] = useState<{ dose: number; interval: string; auc: string } | null>(null);
 
   function calcVanc() {
-    const cl = Number(vancCrcl), w = Number(vancWeight), mic = Number(vancMic);
-    if (!cl || !w || !mic) return;
-    // VD ~0.7 L/kg, CL_vanc ~ (0.695 × CrCl + 0.05) × 0.06 L/hr/kg
-    const vd = 0.7 * w;
-    const clVanc = (0.695 * cl + 0.05) * 0.06 * w; // L/hr
-    // Target AUC24 = 500 mg·hr/L → TDD = AUC × CL
-    const tdd = Math.round((500 * clVanc) / 250) * 250;
-    const halflife = (vd * 0.693) / clVanc;
-    const interval = halflife < 6 ? "q6h" : halflife < 9 ? "q8h" : halflife < 14 ? "q12h" : halflife < 20 ? "q24h" : "q48h";
-    const aucEstimate = `${Math.round(500 - 60)}–${Math.round(500 + 60)}`;
-    setVancResult({ dose: Math.max(500, Math.min(tdd, 4500)), interval, auc: aucEstimate });
+    const result = estimateVancomycinRegimen(Number(vancCrcl), Number(vancWeight), Number(vancMic));
+    if (!result) return;
+    setVancResult(result);
   }
 
   // ── Aminoglycoside (Hartford) ─────────────────────────────────
@@ -165,15 +134,9 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
   const [agResult, setAgResult] = useState<{ dose: number; interval: string; monitoring: string } | null>(null);
 
   function calcAg() {
-    const cl = Number(agCrcl), w = Number(agWeight);
-    if (!cl || !w) return;
-    const dose = Math.round(7 * w);
-    let interval: string, monitoring: string;
-    if (cl >= 60) { interval = "q24h"; monitoring = "Check level 6–14h post-dose; use Hartford nomogram"; }
-    else if (cl >= 40) { interval = "q36h"; monitoring = "Check level 6–14h post-dose; adjust to nomogram"; }
-    else if (cl >= 20) { interval = "q48h"; monitoring = "Check level 6–14h post-dose; extended interval may not be safe"; }
-    else { interval = "Conventional dosing preferred"; monitoring = "CrCl <20 — consult clinical pharmacokinetics; avoid extended interval"; }
-    setAgResult({ dose, interval, monitoring });
+    const result = calculateHartfordAminoglycoside(Number(agCrcl), Number(agWeight));
+    if (!result) return;
+    setAgResult(result);
   }
 
   function CalcBtn({ onClick }: { onClick: () => void }) {

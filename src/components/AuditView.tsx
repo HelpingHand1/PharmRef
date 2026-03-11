@@ -5,6 +5,11 @@ import {
   requiresExplicitSubcategoryMeta,
   resolveContentMeta,
 } from "../data/metadata";
+import {
+  getSourceRegistryIssues,
+  resolveEvidenceSourceText,
+  resolveSourceEntry,
+} from "../data/source-registry";
 import { CONTENT_STALE_AFTER_DAYS } from "../version";
 
 type IssueSeverity = "error" | "warn" | "info";
@@ -59,6 +64,10 @@ export default function AuditView({ diseaseStates, findMonograph, S }: AuditView
   const issues: Issue[] = [];
   const allDrugIds = new Set<string>();
 
+  getSourceRegistryIssues().forEach((issue) => {
+    issues.push({ severity: "error", disease: "Source Registry", msg: `${issue.scope}: ${issue.message}` });
+  });
+
   diseaseStates.forEach((disease) => {
     REQUIRED_DISEASE_FIELDS.forEach((field) => {
       if (isMissing(disease[field])) {
@@ -77,6 +86,17 @@ export default function AuditView({ diseaseStates, findMonograph, S }: AuditView
     } else {
       if (disease.contentMeta.sources.length === 0) {
         issues.push({ severity: "error", disease: disease.name, msg: "Disease review metadata has no structured sources" });
+      }
+      disease.contentMeta.sources.forEach((source) => {
+        if (!resolveSourceEntry(source.id)) {
+          issues.push({ severity: "error", disease: disease.name, msg: `Disease review metadata references unknown source "${source.id}"` });
+        }
+      });
+      if (!disease.contentMeta.reviewedBy?.trim()) {
+        issues.push({ severity: "error", disease: disease.name, msg: "Disease review metadata is missing reviewer attribution" });
+      }
+      if (!disease.contentMeta.reviewScope?.trim()) {
+        issues.push({ severity: "error", disease: disease.name, msg: "Disease review metadata is missing review scope attribution" });
       }
       if (!["high", "moderate", "emerging"].includes(disease.contentMeta.confidence)) {
         issues.push({ severity: "error", disease: disease.name, msg: "Disease review metadata has invalid confidence" });
@@ -118,6 +138,17 @@ export default function AuditView({ diseaseStates, findMonograph, S }: AuditView
         if (!resolvedSubcategoryMeta.sources.length) {
           issues.push({ severity: "error", disease: disease.name, msg: `Subcategory "${subcategory.name}" has no structured sources` });
         }
+        resolvedSubcategoryMeta.sources.forEach((source) => {
+          if (!resolveSourceEntry(source.id)) {
+            issues.push({ severity: "error", disease: disease.name, msg: `Subcategory "${subcategory.name}" references unknown source "${source.id}"` });
+          }
+        });
+        if (!resolvedSubcategoryMeta.reviewedBy?.trim()) {
+          issues.push({ severity: "error", disease: disease.name, msg: `Subcategory "${subcategory.name}" is missing reviewer attribution` });
+        }
+        if (!resolvedSubcategoryMeta.reviewScope?.trim()) {
+          issues.push({ severity: "error", disease: disease.name, msg: `Subcategory "${subcategory.name}" is missing review scope attribution` });
+        }
         if (!["high", "moderate", "emerging"].includes(resolvedSubcategoryMeta.confidence)) {
           issues.push({ severity: "error", disease: disease.name, msg: `Subcategory "${subcategory.name}" has invalid confidence metadata` });
         }
@@ -135,12 +166,25 @@ export default function AuditView({ diseaseStates, findMonograph, S }: AuditView
 
       subcategory.empiricTherapy?.forEach((tier) => {
         tier.options.forEach((option) => {
-          if (!option.drug) return;
-          if (!findMonograph(option.drug)) {
+          if (option.drug && !findMonograph(option.drug)) {
             issues.push({
               severity: "warn",
               disease: disease.name,
               msg: `Empiric drug "${option.drug}" in "${subcategory.name}" → "${tier.line}" has no matching monograph`,
+            });
+          }
+          if (option.evidence && !option.evidenceSource) {
+            issues.push({
+              severity: "warn",
+              disease: disease.name,
+              msg: `Empiric regimen "${option.regimen}" in "${subcategory.name}" has an evidence grade without a source label`,
+            });
+          }
+          if (option.evidenceSource && resolveEvidenceSourceText(option.evidenceSource).length === 0) {
+            issues.push({
+              severity: "warn",
+              disease: disease.name,
+              msg: `Empiric regimen "${option.regimen}" in "${subcategory.name}" has an unmapped evidence source "${option.evidenceSource}"`,
             });
           }
         });
@@ -169,6 +213,17 @@ export default function AuditView({ diseaseStates, findMonograph, S }: AuditView
       } else {
         if (!resolvedMonographMeta.sources.length) {
           issues.push({ severity: "error", disease: disease.name, msg: `Monograph "${monograph.name}" has no structured sources` });
+        }
+        resolvedMonographMeta.sources.forEach((source) => {
+          if (!resolveSourceEntry(source.id)) {
+            issues.push({ severity: "error", disease: disease.name, msg: `Monograph "${monograph.name}" references unknown source "${source.id}"` });
+          }
+        });
+        if (!resolvedMonographMeta.reviewedBy?.trim()) {
+          issues.push({ severity: "error", disease: disease.name, msg: `Monograph "${monograph.name}" is missing reviewer attribution` });
+        }
+        if (!resolvedMonographMeta.reviewScope?.trim()) {
+          issues.push({ severity: "error", disease: disease.name, msg: `Monograph "${monograph.name}" is missing review scope attribution` });
         }
         if (!["high", "moderate", "emerging"].includes(resolvedMonographMeta.confidence)) {
           issues.push({ severity: "error", disease: disease.name, msg: `Monograph "${monograph.name}" has invalid confidence metadata` });

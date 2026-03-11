@@ -4,6 +4,7 @@ import type { PatientContext, ThemeKey } from "../types";
 interface PatientModalProps {
   show: boolean;
   onClose: () => void;
+  onClearWorkData: () => void;
   theme: ThemeKey;
   patient: PatientContext;
   setPatient: (value: PatientContext | ((prev: PatientContext) => PatientContext)) => void;
@@ -30,6 +31,7 @@ function crclLabel(crcl: number | null): string {
 export default function PatientModal({
   show,
   onClose,
+  onClearWorkData,
   theme,
   patient,
   setPatient,
@@ -130,6 +132,20 @@ export default function PatientModal({
             ✕
           </button>
         </div>
+        <div
+          style={{
+            marginBottom: "18px",
+            padding: "10px 12px",
+            borderRadius: "14px",
+            border: `1px solid ${isDark ? "#7dd3fc30" : "#0f766e22"}`,
+            background: isDark ? "#7dd3fc12" : "#0f766e0d",
+            color: mutedColor,
+            fontSize: "12px",
+            lineHeight: 1.55,
+          }}
+        >
+          Stored only in this browser session and automatically cleared after 12 hours.
+        </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" }}>
           <div style={fieldWrap}>
@@ -211,7 +227,14 @@ export default function PatientModal({
             onClick={clear}
             style={{ background: "none", border: `1px solid ${border}`, borderRadius: "12px", color: mutedColor, fontSize: "13px", padding: "10px 18px", cursor: "pointer", fontFamily: "inherit" }}
           >
-            Clear All
+            Clear Patient
+          </button>
+          <button
+            type="button"
+            onClick={onClearWorkData}
+            style={{ background: "none", border: `1px solid ${border}`, borderRadius: "12px", color: mutedColor, fontSize: "13px", padding: "10px 18px", cursor: "pointer", fontFamily: "inherit" }}
+          >
+            Clear Work Data
           </button>
           <button
             type="button"

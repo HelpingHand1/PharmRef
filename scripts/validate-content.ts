@@ -4,6 +4,11 @@ import {
   requiresExplicitSubcategoryMeta,
   resolveContentMeta,
 } from "../src/data/metadata";
+import {
+  getSourceRegistryIssues,
+  resolveEvidenceSourceText,
+  resolveSourceEntry,
+} from "../src/data/source-registry";
 import type { ContentMeta, DiseaseState } from "../src/types";
 import { CONTENT_STALE_AFTER_DAYS } from "../src/version";
 
@@ -58,16 +63,31 @@ function validateMeta(issues: Issue[], scope: string, meta: ContentMeta | undefi
     addIssue(issues, "error", scope, `Invalid confidence value "${String(meta.confidence)}".`);
   }
 
+  if (!meta.reviewedBy?.trim()) {
+    addIssue(issues, "error", scope, "Missing reviewedBy attribution.");
+  }
+
+  if (!meta.reviewScope?.trim()) {
+    addIssue(issues, "error", scope, "Missing reviewScope attribution.");
+  }
+
   meta.sources.forEach((source, index) => {
-    if (!source.label.trim()) {
-      addIssue(issues, "error", `${scope} source #${index + 1}`, "Missing source label.");
+    if (!source.id.trim()) {
+      addIssue(issues, "error", `${scope} source #${index + 1}`, "Missing source id.");
     }
     if (!source.citation.trim()) {
       addIssue(issues, "error", `${scope} source #${index + 1}`, "Missing source citation.");
     }
-    if (source.url && !isValidHttpsUrl(source.url)) {
-      addIssue(issues, "error", `${scope} source #${index + 1}`, `Invalid source url "${source.url}".`);
+    if (!resolveSourceEntry(source.id)) {
+      addIssue(issues, "error", `${scope} source #${index + 1}`, `Unknown source id "${source.id}".`);
     }
+  });
+
+  const duplicateSourceIds = meta.sources
+    .map((source) => source.id)
+    .filter((sourceId, index, all) => all.indexOf(sourceId) !== index);
+  duplicateSourceIds.forEach((sourceId) => {
+    addIssue(issues, "warn", scope, `Duplicate source id "${sourceId}".`);
   });
 }
 
@@ -97,6 +117,27 @@ function validateDisease(issues: Issue[], disease: DiseaseState) {
     }
 
     validateMeta(issues, `Subcategory ${disease.id}/${subcategory.id}`, meta ?? undefined);
+
+    subcategory.empiricTherapy?.forEach((tier) => {
+      tier.options.forEach((option, optionIndex) => {
+        if (option.evidence && !option.evidenceSource) {
+          addIssue(
+            issues,
+            "warn",
+            `Subcategory ${disease.id}/${subcategory.id} regimen #${optionIndex + 1}`,
+            `Evidence grade "${option.evidence}" is missing a source label.`,
+          );
+        }
+        if (option.evidenceSource && resolveEvidenceSourceText(option.evidenceSource).length === 0) {
+          addIssue(
+            issues,
+            "warn",
+            `Subcategory ${disease.id}/${subcategory.id} regimen #${optionIndex + 1}`,
+            `Evidence source "${option.evidenceSource}" does not resolve to the canonical registry.`,
+          );
+        }
+      });
+    });
   });
 
   disease.drugMonographs.forEach((monograph) => {
@@ -119,6 +160,10 @@ function validateDisease(issues: Issue[], disease: DiseaseState) {
 function main() {
   const issues: Issue[] = [];
   const diseaseIds = new Set<string>();
+
+  getSourceRegistryIssues().forEach((issue) => {
+    addIssue(issues, "error", issue.scope, issue.message);
+  });
 
   DISEASE_STATES.forEach((disease) => {
     if (diseaseIds.has(disease.id)) {

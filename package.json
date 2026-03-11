@@ -8,11 +8,14 @@
     "build": "npm run generate:catalog-manifest && npm run validate:content && vite build",
     "preview": "vite preview",
     "prepare:data": "tsc -p tsconfig.validation.json",
-    "generate:catalog-manifest": "npm run prepare:data && node scripts/generate-catalog-manifest.js",
+    "prepare:content": "npm run generate:content-meta && npm run prepare:data",
+    "generate:content-meta": "npm run prepare:data && node scripts/generate-content-meta.js",
+    "generate:catalog-manifest": "npm run prepare:content && node scripts/generate-catalog-manifest.js",
     "generate:icons": "node scripts/generate-icons.js",
-    "release:check": "npm run typecheck && npm run build && node scripts/verify-release.js",
+    "test:regression": "npm run prepare:content && node --test scripts/tests/*.test.js",
+    "release:check": "npm run typecheck && npm run test:regression && npm run build && node scripts/verify-release.js",
     "typecheck": "tsc --noEmit",
-    "validate:content": "npm run prepare:data && node .tmp/validation/scripts/validate-content.js"
+    "validate:content": "npm run prepare:content && node .tmp/validation/scripts/validate-content.js"
   },
   "dependencies": {
     "react": "^18.3.1",

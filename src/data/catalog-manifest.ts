@@ -17,21 +17,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "IDSA 2025 cUTI guidance",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "IDSA 2025 cUTI",
+          "id": "idsa-2025-cuti",
           "citation": "Infectious Diseases Society of America complicated UTI guidance, 2025."
         },
         {
-          "kind": "guideline",
-          "label": "IDSA/ESCMID 2011",
+          "id": "idsa-escmid-2011-uti",
           "citation": "International Clinical Practice Guidelines for uncomplicated cystitis and pyelonephritis, 2011."
         },
         {
-          "kind": "guideline",
-          "label": "EAU 2024",
+          "id": "eau-2024-uti",
           "citation": "European Association of Urology UTI guidance, 2024."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -47,21 +46,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "ATS/IDSA 2019 CAP guidance",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "ATS/IDSA 2019 CAP",
+          "id": "ats-idsa-2019-cap",
           "citation": "Adult community-acquired pneumonia guideline from ATS and IDSA, 2019."
         },
         {
-          "kind": "trial",
-          "label": "CAPE COD",
+          "id": "cape-cod",
           "citation": "Hydrocortisone for severe CAP, NEJM 2023."
         },
         {
-          "kind": "trial",
-          "label": "STEP",
+          "id": "step-trial",
           "citation": "Three-day versus eight-day amoxicillin strategy for stabilized CAP, NEJM 2023."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -77,21 +75,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "ATS/IDSA 2016 HAP/VAP guidance",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "ATS/IDSA 2016 HAP/VAP",
+          "id": "ats-idsa-2016-hap-vap",
           "citation": "Hospital-acquired and ventilator-associated pneumonia guideline, 2016."
         },
         {
-          "kind": "guideline",
-          "label": "IDSA 2024 AMR guidance",
+          "id": "idsa-2024-amr",
           "citation": "Antimicrobial resistance guidance used for resistant gram-negative escalation decisions, 2024."
         },
         {
-          "kind": "trial",
-          "label": "SMART",
+          "id": "smart-trial",
           "citation": "Balanced crystalloids versus saline in ICU patients, NEJM 2018."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -107,21 +104,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "IDSA SSTI guidance",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "IDSA SSTI",
+          "id": "idsa-2014-ssti",
           "citation": "Skin and soft tissue infection guidance from IDSA."
         },
         {
-          "kind": "guideline",
-          "label": "IDSA 2024 AMR guidance",
+          "id": "idsa-2024-amr",
           "citation": "Resistant organism escalation guidance, 2024."
         },
         {
-          "kind": "trial",
-          "label": "OVIVA",
+          "id": "oviva",
           "citation": "Oral versus intravenous antibiotics for bone and joint and deep infection pathways, NEJM 2019."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -137,21 +133,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "SIS/IDSA intra-abdominal infection guidance",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "SIS/IDSA IAI",
+          "id": "sis-idsa-iai",
           "citation": "Surgical Infection Society and IDSA intra-abdominal infection guidance."
         },
         {
-          "kind": "guideline",
-          "label": "Tokyo Guidelines",
+          "id": "tokyo-guidelines",
           "citation": "Biliary and cholecystitis/cholangitis guidance used for source-control framing."
         },
         {
-          "kind": "trial",
-          "label": "STOP-IT",
+          "id": "stop-it",
           "citation": "Short-course antimicrobial therapy for source-controlled intra-abdominal infection, NEJM 2015."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -167,21 +162,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "IDSA 2024 AMR guidance",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "IDSA 2024 AMR",
+          "id": "idsa-2024-amr",
           "citation": "Guidance for ESBL-E, CRE, DTR Pseudomonas, and resistant Acinetobacter, 2024."
         },
         {
-          "kind": "trial",
-          "label": "MERINO",
+          "id": "merino",
           "citation": "Piperacillin-tazobactam versus meropenem for ESBL bacteremia, JAMA 2018."
         },
         {
-          "kind": "consensus",
-          "label": "PK/PD stewardship",
+          "id": "pkpd-stewardship",
           "citation": "Extended-infusion beta-lactam stewardship principles used throughout resistant gram-negative pathways."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -197,21 +191,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "AHA/ACC 2023 IE update",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "AHA/ACC 2023 IE",
+          "id": "aha-acc-2023-ie",
           "citation": "Infective endocarditis update from AHA/ACC, 2023."
         },
         {
-          "kind": "trial",
-          "label": "POET",
+          "id": "poet",
           "citation": "Partial oral treatment of endocarditis, NEJM 2019."
         },
         {
-          "kind": "trial",
-          "label": "ARREST",
+          "id": "arrest",
           "citation": "Adjunctive rifampin for Staphylococcus aureus bacteremia, Lancet 2018."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -227,21 +220,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "IDSA/SHEA CDI guidance",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "IDSA/SHEA CDI",
+          "id": "idsa-shea-cdi",
           "citation": "Clostridioides difficile infection guideline from IDSA and SHEA."
         },
         {
-          "kind": "trial",
-          "label": "Fidaxomicin trials",
+          "id": "fidaxomicin-trials",
           "citation": "Registration and recurrence-reduction trials informing fidaxomicin preference."
         },
         {
-          "kind": "review",
-          "label": "FMT stewardship",
+          "id": "fmt-stewardship",
           "citation": "Evidence base for fecal microbiota transplant in multiply recurrent CDI."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -257,21 +249,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "OVIVA-informed bone and joint guidance",
       "sources": [
         {
-          "kind": "trial",
-          "label": "OVIVA",
+          "id": "oviva",
           "citation": "Oral versus intravenous antibiotics for bone and joint infection, NEJM 2019."
         },
         {
-          "kind": "guideline",
-          "label": "IDSA PJI/osteomyelitis",
+          "id": "idsa-pji-osteomyelitis",
           "citation": "IDSA guidance relevant to osteomyelitis and prosthetic joint infection pathways."
         },
         {
-          "kind": "review",
-          "label": "Orthopedic ID review",
+          "id": "orthopedic-id-review",
           "citation": "Orthopedic infection source-control and step-down stewardship literature."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -287,21 +278,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "IDSA CNS infection guidance",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "IDSA meningitis/ventriculitis",
+          "id": "idsa-meningitis-ventriculitis",
           "citation": "IDSA guidance for bacterial meningitis and healthcare-associated ventriculitis."
         },
         {
-          "kind": "guideline",
-          "label": "AAN/IDSA encephalitis references",
+          "id": "aan-idsa-encephalitis",
           "citation": "Consensus references used for CNS diagnostic framing and adjunctive therapy."
         },
         {
-          "kind": "trial",
-          "label": "Dexamethasone meningitis data",
+          "id": "dexamethasone-meningitis",
           "citation": "Adjunctive dexamethasone trials informing pneumococcal meningitis care."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -317,21 +307,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "IDSA 2016 candidiasis and aspergillosis guidance",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "IDSA candidiasis",
+          "id": "idsa-candidiasis",
           "citation": "Clinical practice guideline for candidiasis, IDSA 2016."
         },
         {
-          "kind": "guideline",
-          "label": "IDSA aspergillosis",
+          "id": "idsa-aspergillosis",
           "citation": "Diagnosis and management of aspergillosis, IDSA 2016."
         },
         {
-          "kind": "trial",
-          "label": "SECURE",
+          "id": "secure-trial",
           "citation": "Isavuconazole versus voriconazole for invasive aspergillosis, Lancet 2016."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -347,21 +336,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "IDSA 2022-2024 resistant pathogen guidance",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "IDSA AMR guidance",
+          "id": "idsa-2024-amr",
           "citation": "Guidance for CRE, ESBL-E, DTR Pseudomonas, and resistant gram-negatives."
         },
         {
-          "kind": "trial",
-          "label": "ASPECT",
+          "id": "aspect-program",
           "citation": "Ceftolozane-tazobactam registration studies for cUTI and nosocomial pneumonia."
         },
         {
-          "kind": "trial",
-          "label": "RESTORE-IMI",
+          "id": "restore-imi",
           "citation": "Imipenem-cilastatin-relebactam versus polymyxin-based therapy."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -377,21 +365,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "IDSA febrile neutropenia guidance",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "IDSA febrile neutropenia",
+          "id": "idsa-febrile-neutropenia",
           "citation": "Guideline for evaluation and management of febrile neutropenia in cancer patients."
         },
         {
-          "kind": "guideline",
-          "label": "NCCN fever and neutropenia",
+          "id": "nccn-fever-neutropenia",
           "citation": "NCCN references for risk stratification and outpatient eligibility."
         },
         {
-          "kind": "consensus",
-          "label": "MASCC/CISNE",
+          "id": "mascc-cisne",
           "citation": "Risk-stratification tools used for low-risk outpatient decision support."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -407,21 +394,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "IWGDF/IDSA diabetic foot guidance",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "IWGDF/IDSA DFI",
+          "id": "iwgdf-idsa-dfi",
           "citation": "Diabetic foot infection guidance from IWGDF and IDSA."
         },
         {
-          "kind": "review",
-          "label": "Osteomyelitis stewardship",
+          "id": "osteomyelitis-stewardship",
           "citation": "Shorter-course and oral step-down literature for diabetic foot osteomyelitis."
         },
         {
-          "kind": "consensus",
-          "label": "Source-control principles",
+          "id": "source-control-principles",
           "citation": "Surgical debridement and perfusion assessment references used in DFI pathways."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   },
   {
@@ -437,21 +423,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "SSC 2021; IDSA 2024 sepsis antimicrobial guidance",
       "sources": [
         {
-          "kind": "guideline",
-          "label": "SSC 2021",
+          "id": "ssc-2021",
           "citation": "Surviving Sepsis Campaign international guidelines, 2021."
         },
         {
-          "kind": "guideline",
-          "label": "IDSA 2024 sepsis guidance",
+          "id": "idsa-2024-sepsis",
           "citation": "Infectious disease-focused antimicrobial guidance for sepsis, 2024."
         },
         {
-          "kind": "trial",
-          "label": "BALANCE",
+          "id": "balance",
           "citation": "Seven versus fourteen days for bloodstream infection, 2024."
         }
-      ]
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review"
     }
   }
 ];
