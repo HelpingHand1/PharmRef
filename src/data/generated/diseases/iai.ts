@@ -14,41 +14,68 @@ export const IAI: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "IDSA/SIS 2010 — Guidelines for Diagnosis and Management of cIAI (Solomkin et al.)",
-        "detail": "Current definitive US guideline. Key principles: source control within 24h, empiric antibiotics covering enteric gram-negatives + anaerobes ± Enterococcus based on severity. Stratifies by community-acquired (mild-moderate vs high-risk/severe) and healthcare-associated. Recommends AGAINST routine anti-enterococcal or anti-Candidal empiric therapy in community-acquired IAI. Duration: 4-7 days with adequate source control."
+        "detail": "Foundational US cIAI guideline. Established the source-control-first framework, community-vs-healthcare-associated risk stratification, and the core gram-negative plus anaerobic empiric strategy still used today.",
+        "sourceIds": [
+          "idsa-sis-2010-ciai"
+        ]
       },
       {
         "name": "STOP-IT Trial (Sawyer et al., 2015 NEJM)",
-        "detail": "Landmark RCT that changed IAI duration paradigm. 4 days of antibiotics after source control was non-inferior to conventional longer courses (mean ~8 days) for cIAI. Outcome-based stopping (treat until clinical resolution) was NOT superior to fixed 4-day courses. This trial established short-course therapy as the standard. Pharmacist impact: advocate for 4-day courses and antibiotic time-outs."
+        "detail": "Landmark RCT that changed IAI duration paradigm. 4 days of antibiotics after source control was non-inferior to conventional longer courses (mean ~8 days) for cIAI. Outcome-based stopping (treat until clinical resolution) was NOT superior to fixed 4-day courses. This trial established short-course therapy as the standard. Pharmacist impact: advocate for 4-day courses and antibiotic time-outs.",
+        "sourceIds": [
+          "stop-it"
+        ]
       },
       {
-        "name": "SIS/IDSA 2017 Revised Guidelines (Mazuski et al.)",
-        "detail": "Updated guidance emphasizing source control adequacy, short antibiotic courses (4 days), de-escalation based on cultures, and limiting empiric breadth in community-acquired IAI. Reinforced that anti-enterococcal coverage is NOT needed in most community-acquired IAI. Defined risk factors for healthcare-associated IAI requiring broader coverage."
+        "name": "SIS 2017 Revised Guidelines (Mazuski et al.)",
+        "detail": "Refined the post-source-control era: stronger emphasis on 4-day therapy after adequate control, de-escalation, and avoiding unnecessary Enterococcal or anti-Candidal coverage in community-acquired infection.",
+        "sourceIds": [
+          "sis-2017-ciai"
+        ]
       },
       {
         "name": "Tokyo Guidelines 2018 (TG18) — Acute Cholangitis and Cholecystitis",
-        "detail": "International evidence-based guidelines for biliary infections. Severity grading: Grade I (mild — responds to antibiotics), Grade II (moderate — biliary drainage needed), Grade III (severe — organ dysfunction). Guides timing of intervention (cholecystectomy for cholecystitis, ERCP for cholangitis) and antibiotic selection. Key biliary pathogen: E. coli, Klebsiella, Enterococcus."
+        "detail": "International biliary-infection guidance for severity grading, timing of ERCP or cholecystectomy, and antimicrobial selection in cholangitis and complicated cholecystitis.",
+        "sourceIds": [
+          "tokyo-guidelines"
+        ]
       }
     ],
     "landmarkTrials": [
       {
         "name": "STOP-IT (Sawyer et al., 2015 NEJM)",
-        "detail": "518 patients with cIAI and adequate source control randomized to 4 days fixed-duration antibiotics vs outcome-based continuation (stop 2 days after resolution of fever/leukocytosis/ileus). No difference in SSI, recurrent IAI, or death. Fixed 4-day course used 1.5 fewer antibiotic days. Practice-changing: 4 days is sufficient with adequate source control."
+        "detail": "518 patients with cIAI and adequate source control randomized to 4 days fixed-duration antibiotics vs outcome-based continuation (stop 2 days after resolution of fever/leukocytosis/ileus). No difference in SSI, recurrent IAI, or death. Fixed 4-day course used 1.5 fewer antibiotic days. Practice-changing: 4 days is sufficient with adequate source control.",
+        "sourceIds": [
+          "stop-it"
+        ]
       },
       {
         "name": "CIAOW Study (Sartelli et al., 2013)",
-        "detail": "Largest worldwide observational study of cIAI management (68 countries, >4,500 patients). Key finding: inadequate source control was the strongest independent predictor of mortality and treatment failure. Reinforced that NO antibiotic regimen can compensate for inadequate source control — source control is primary, antibiotics are adjunctive."
+        "detail": "Largest worldwide observational study of cIAI management (68 countries, >4,500 patients). Key finding: inadequate source control was the strongest independent predictor of mortality and treatment failure. Reinforced that NO antibiotic regimen can compensate for inadequate source control — source control is primary, antibiotics are adjunctive.",
+        "sourceIds": [
+          "ciaow-study"
+        ]
       },
       {
-        "name": "Montravers et al. (2009) — De-escalation in IAI",
-        "detail": "Showed de-escalation of empiric broad-spectrum therapy in cIAI (based on culture results at 48-72h) was safe and did not increase treatment failure. Supports aggressive culture-directed narrowing."
+        "name": "Montravers et al. (2016) — De-escalation in cIAI",
+        "detail": "Prospective ICU data showed that de-escalation after culture clarification was feasible in complicated intra-abdominal infection without worse outcomes, supporting aggressive narrowing once source control and microbiology are in hand.",
+        "sourceIds": [
+          "montravers-2016-deescalation"
+        ]
       },
       {
         "name": "DURAPOP (Montravers et al., 2018)",
-        "detail": "Randomized trial in postoperative peritonitis: 8 days vs 15 days of antibiotics. No difference in treatment failure. Shorter courses were safe for complicated postoperative IAI with adequate source control. Extended the STOP-IT principle to healthcare-associated IAI."
+        "detail": "Randomized trial in postoperative peritonitis: 8 days vs 15 days of antibiotics. No difference in treatment failure. Shorter courses were safe for complicated postoperative IAI with adequate source control. Extended the STOP-IT principle to healthcare-associated IAI.",
+        "sourceIds": [
+          "durapop"
+        ]
       },
       {
-        "name": "Solomkin et al. (2010) Ertapenem vs Pip-Tazo",
-        "detail": "Multiple trials established ertapenem as non-inferior to pip-tazo for community-acquired cIAI. Advantage: once-daily dosing ideal for OPAT. Limitation: no Pseudomonas or Enterococcus coverage. Cemented ertapenem as a first-line option for mild-moderate community-acquired IAI."
+        "name": "Solomkin et al. (2003) — Ertapenem vs Pip-Tazo",
+        "detail": "Early randomized data showing ertapenem was non-inferior to piperacillin-tazobactam for complicated intra-abdominal infection. Helped establish ertapenem as the once-daily, non-pseudomonal carbapenem option for community-acquired cIAI.",
+        "sourceIds": [
+          "solomkin-2003-ertapenem-piptazo"
+        ]
       }
     ],
     "riskFactors": "Healthcare-associated risk factors (post-operative IAI, prior antibiotics, prior hospitalization, immunosuppression) drive the need for broader empiric therapy. Severity indicators: APACHE II >=15, organ dysfunction, delayed source control (>24h), inability to achieve adequate source control, diffuse peritonitis, malnutrition, advanced age. Risk factors for resistant organisms: prior antibiotics (within 90 days), prior MDR culture, prolonged hospitalization, tertiary peritonitis, healthcare-associated origin."
@@ -171,7 +198,7 @@ export const IAI: DiseaseState = {
               "evidence": "A-I",
               "evidenceSource": "SIS/IDSA 2017",
               "evidenceSourceIds": [
-                "sis-idsa-iai"
+                "sis-2017-ciai"
               ],
               "id": "iai/ca-iai-complicated/first-line-mild-moderate-ciai-apache-15-no-mdr-r/ctx-metro-ciai-1"
             },
@@ -182,7 +209,7 @@ export const IAI: DiseaseState = {
               "evidence": "A-I",
               "evidenceSource": "SIS/IDSA 2017",
               "evidenceSourceIds": [
-                "sis-idsa-iai"
+                "sis-2017-ciai"
               ],
               "id": "iai/ca-iai-complicated/first-line-mild-moderate-ciai-apache-15-no-mdr-r/ertapenem-ciai-2"
             },
@@ -193,7 +220,7 @@ export const IAI: DiseaseState = {
               "evidence": "B-II",
               "evidenceSource": "SIS/IDSA 2017",
               "evidenceSourceIds": [
-                "sis-idsa-iai"
+                "sis-2017-ciai"
               ],
               "id": "iai/ca-iai-complicated/first-line-mild-moderate-ciai-apache-15-no-mdr-r/amp-sulb-ciai-3"
             }
@@ -209,7 +236,7 @@ export const IAI: DiseaseState = {
               "evidence": "A-I",
               "evidenceSource": "SIS/IDSA 2017",
               "evidenceSourceIds": [
-                "sis-idsa-iai"
+                "sis-2017-ciai"
               ],
               "id": "iai/ca-iai-complicated/first-line-high-risk-severe-ciai-apache-15-or-md/pip-tazo-ciai-1"
             },
@@ -220,7 +247,7 @@ export const IAI: DiseaseState = {
               "evidence": "B-II",
               "evidenceSource": "SIS/IDSA 2017",
               "evidenceSourceIds": [
-                "sis-idsa-iai"
+                "sis-2017-ciai"
               ],
               "id": "iai/ca-iai-complicated/first-line-high-risk-severe-ciai-apache-15-or-md/meropenem-ciai-2"
             },
@@ -231,7 +258,7 @@ export const IAI: DiseaseState = {
               "evidence": "B-II",
               "evidenceSource": "SIS/IDSA 2017",
               "evidenceSourceIds": [
-                "sis-idsa-iai"
+                "sis-2017-ciai"
               ],
               "id": "iai/ca-iai-complicated/first-line-high-risk-severe-ciai-apache-15-or-md/cefepime-metro-ciai-3"
             }
@@ -306,7 +333,7 @@ export const IAI: DiseaseState = {
               "evidence": "A-I",
               "evidenceSource": "SIS/IDSA 2017",
               "evidenceSourceIds": [
-                "sis-idsa-iai"
+                "sis-2017-ciai"
               ],
               "id": "iai/ha-iai/empiric-post-operative-healthcare-associated-cia/pip-tazo-ha-iai-1"
             },
@@ -317,7 +344,7 @@ export const IAI: DiseaseState = {
               "evidence": "A-I",
               "evidenceSource": "SIS/IDSA 2017",
               "evidenceSourceIds": [
-                "sis-idsa-iai"
+                "sis-2017-ciai"
               ],
               "id": "iai/ha-iai/empiric-post-operative-healthcare-associated-cia/meropenem-ha-iai-2"
             },
@@ -328,7 +355,7 @@ export const IAI: DiseaseState = {
               "evidence": "B-II",
               "evidenceSource": "SIS/IDSA 2017",
               "evidenceSourceIds": [
-                "sis-idsa-iai"
+                "sis-2017-ciai"
               ],
               "id": "iai/ha-iai/empiric-post-operative-healthcare-associated-cia/cefepime-metro-ha-3"
             }

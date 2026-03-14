@@ -14,41 +14,68 @@ export const CDI: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "IDSA/SHEA 2021 Focused Update",
-        "detail": "THE definitive CDI guideline. Major change from 2017: fidaxomicin is now PREFERRED over oral vancomycin for initial and recurrent CDI episodes (conditional recommendation). This was a significant shift driven by the EXTEND trial showing lower recurrence with fidaxomicin. Also formalized bezlotoxumab for recurrence prevention and updated FMT recommendations."
+        "detail": "THE definitive CDI guideline. Major change from 2017: fidaxomicin is now PREFERRED over oral vancomycin for initial and recurrent CDI episodes (conditional recommendation). This was a significant shift driven by the EXTEND trial showing lower recurrence with fidaxomicin. Also formalized bezlotoxumab for recurrence prevention and updated FMT recommendations.",
+        "sourceIds": [
+          "idsa-shea-2021-cdi"
+        ]
       },
       {
         "name": "ACG 2021 CDI Guidelines",
-        "detail": "American College of Gastroenterology guidelines. Largely concordant with IDSA/SHEA but provides additional detail on diagnosis (two-step testing algorithm), fulminant disease management, and FMT. Stronger recommendation for fidaxomicin as first-line."
+        "detail": "American College of Gastroenterology guidelines. Largely concordant with IDSA/SHEA but provides additional detail on diagnosis (two-step testing algorithm), fulminant disease management, and FMT. Stronger recommendation for fidaxomicin as first-line.",
+        "sourceIds": [
+          "acg-2021-cdi"
+        ]
       },
       {
         "name": "IDSA/SHEA 2017 CDI Guidelines",
-        "detail": "Foundation document. Introduced severity-based treatment stratification: non-severe (oral vancomycin or fidaxomicin), severe (oral vancomycin), fulminant (oral vancomycin + IV metronidazole ± rectal vancomycin). Recommended against metronidazole as first-line (downgraded from 2010 guidelines). The 2021 update superseded parts of this but the severity framework remains intact."
+        "detail": "Foundation document. Introduced severity-based treatment stratification: non-severe (oral vancomycin or fidaxomicin), severe (oral vancomycin), fulminant (oral vancomycin + IV metronidazole ± rectal vancomycin). Recommended against metronidazole as first-line (downgraded from 2010 guidelines). The 2021 update superseded parts of this but the severity framework remains intact.",
+        "sourceIds": [
+          "idsa-shea-2017-cdi"
+        ]
       },
       {
-        "name": "AGA 2022 Fecal Microbiota Transplantation Guideline",
-        "detail": "American Gastroenterological Association clinical practice guideline on FMT. Recommends FMT for patients with ≥3 CDI episodes (including initial + 2 recurrences) who have failed appropriate antibiotic therapy. Discusses donor screening, delivery methods, and safety monitoring."
+        "name": "AGA 2024 Fecal Microbiota-Based Therapies Guideline",
+        "detail": "American Gastroenterological Association clinical practice guideline on fecal microbiota-based therapies. Supports microbiome restoration for multiply recurrent CDI after appropriate antibiotic treatment and updates the evidence base for standardized products and donor-screened FMT.",
+        "sourceIds": [
+          "aga-2024-fmt"
+        ]
       }
     ],
     "landmarkTrials": [
       {
-        "name": "EXTEND Trial (Cornely et al., CID 2012)",
-        "detail": "The trial that changed CDI treatment. RCT of fidaxomicin vs. vancomycin PO for initial and first recurrent CDI. Fidaxomicin was NON-INFERIOR for clinical cure and SUPERIOR for sustained clinical response (lower recurrence: 13% vs 27% for non-NAP1 strains). This established fidaxomicin as the preferred agent, despite its higher cost. Recurrence reduction driven by fidaxomicin's narrow spectrum — it spares Bacteroides (protective anaerobes) while killing C. diff."
+        "name": "EXTEND Trial (Guery et al., Lancet ID 2018)",
+        "detail": "Extended-pulsed fidaxomicin was superior to standard-dose vancomycin for sustained clinical cure in adults aged 60 years and older with CDI. This helped support later guideline preference for fidaxomicin-based strategies when recurrence prevention matters most.",
+        "sourceIds": [
+          "extend-trial"
+        ]
       },
       {
         "name": "MODIFY I/II Trials (Wilcox et al., NEJM 2017)",
-        "detail": "RCTs establishing bezlotoxumab for CDI recurrence prevention. Bezlotoxumab (anti-toxin B monoclonal antibody) given as single IV infusion during CDI antibiotic treatment reduced recurrence from 27% to 17% (MODIFY I) and 26% to 16% (MODIFY II). NNT ~8-10. FDA-approved for CDI recurrence prevention in high-risk patients. Important: bezlotoxumab PREVENTS recurrence — it does not TREAT active CDI. Must be given alongside CDI antibiotics."
+        "detail": "RCTs establishing bezlotoxumab for CDI recurrence prevention. Bezlotoxumab (anti-toxin B monoclonal antibody) given as single IV infusion during CDI antibiotic treatment reduced recurrence from 27% to 17% (MODIFY I) and 26% to 16% (MODIFY II). NNT ~8-10. FDA-approved for CDI recurrence prevention in high-risk patients. Important: bezlotoxumab PREVENTS recurrence — it does not TREAT active CDI. Must be given alongside CDI antibiotics.",
+        "sourceIds": [
+          "modify-trials"
+        ]
       },
       {
-        "name": "PUNCH CD3 Trial (Feuerstadt et al., NEJM 2022)",
-        "detail": "Landmark RCT for fecal microbiota, live-jslm (Rebyota/RBL). First FDA-approved fecal microbiota product. Single rectal administration after completion of CDI antibiotics reduced CDI recurrence at 8 weeks (70.6% success vs 57.5% placebo). Led to FDA approval in November 2022."
+        "name": "PUNCH CD3 Trial (Khanna et al., Drugs 2022)",
+        "detail": "Landmark RCT for fecal microbiota, live-jslm (Rebyota/RBL). First FDA-approved fecal microbiota product. Single rectal administration after completion of CDI antibiotics reduced CDI recurrence at 8 weeks (70.6% success vs 57.5% placebo) and supported FDA approval in November 2022.",
+        "sourceIds": [
+          "punch-cd3"
+        ]
       },
       {
         "name": "ECOSPOR III Trial (Feuerstadt et al., NEJM 2022)",
-        "detail": "RCT for SER-109 (fecal microbiota spores, live-brpk / Vowst). Oral capsule formulation of purified Firmicutes spores. Reduced CDI recurrence at 8 weeks (88% vs 60% placebo). FDA-approved as Vowst in April 2023 — first orally administered fecal microbiota product. Game-changer for recurrent CDI by eliminating the need for colonoscopic or rectal FMT delivery."
+        "detail": "RCT for SER-109 (fecal microbiota spores, live-brpk / Vowst). Oral capsule formulation of purified Firmicutes spores. Reduced CDI recurrence at 8 weeks (88% vs 60% placebo). FDA-approved as Vowst in April 2023 — first orally administered fecal microbiota product. Game-changer for recurrent CDI by eliminating the need for colonoscopic or rectal FMT delivery.",
+        "sourceIds": [
+          "ecospor-iii"
+        ]
       },
       {
-        "name": "Johnson et al., CID 2014 — Vancomycin Taper/Pulse",
-        "detail": "Established the vancomycin taper-and-pulse regimen for recurrent CDI: standard dose × 10-14 days → taper (125mg BID × 7d → 125mg daily × 7d → 125mg q2-3d × 2-4 weeks). The pulse phase targets newly germinating spores. This regimen reduces recurrence to 25-35% for second recurrence (vs 45-65% with standard 10-day course). Remained standard of care until fidaxomicin and FMT products became available."
+        "name": "Sirbu et al. (2017) — Vancomycin Taper/Pulse",
+        "detail": "Retrospective recurrent-CDI data supporting the practical vancomycin taper-and-pulse approach: standard therapy followed by progressively spaced dosing to suppress newly germinating spores. This remained a common recurrent-CDI strategy until fidaxomicin and microbiota-based products became easier to use.",
+        "sourceIds": [
+          "sirbu-2017-vanco-taper"
+        ]
       }
     ],
     "riskFactors": "Major risk factors: (1) ANTIBIOTICS — the single most important risk factor. Highest risk: fluoroquinolones, clindamycin, 3rd/4th-generation cephalosporins, carbapenems. Moderate risk: penicillins, macrolides. Lower risk: TMP-SMX, nitrofurantoin, doxycycline. ANY antibiotic can cause CDI — including antibiotics used to TREAT CDI (paradoxical). (2) Age >65 (risk increases exponentially with age), (3) Hospitalization (exposure to C. diff spores in the environment), (4) PPI use (controversial but epidemiologically associated — gastric acid suppression may facilitate spore germination), (5) Immunosuppression (chemotherapy, organ transplant, IBD on immunomodulators), (6) Prior CDI (strongest risk factor for recurrence), (7) Chronic kidney disease, (8) IBD (both a risk factor for CDI and complicates management — CDI can trigger IBD flares)."
@@ -76,7 +103,7 @@ export const CDI: DiseaseState = {
               "evidenceSource": "IDSA/SHEA 2021",
               "monographId": "fidaxomicin",
               "evidenceSourceIds": [
-                "idsa-shea-cdi"
+                "idsa-shea-2021-cdi"
               ],
               "id": "c-difficile/initial-non-severe/preferred-first-line-idsa-shea-2021/fidaxomicin-1"
             }
@@ -353,7 +380,7 @@ export const CDI: DiseaseState = {
             {
               "drug": "fmt-colonoscopy",
               "regimen": "FMT via colonoscopy — fresh or frozen donor stool",
-              "notes": "Traditional fecal microbiota transplantation performed at specialized centers. Highest single-procedure success rate (~85-90% for recurrent CDI). Delivered via colonoscopy into the cecum/right colon. Requires pre-procedure CDI antibiotic treatment (stop antibiotics 24-48h before FMT). Donor screening is rigorous (FDA requires IND for FMT using non-FDA-approved products). AGA 2022 guidelines recommend FMT for ≥3 total CDI episodes (initial + 2 recurrences).",
+              "notes": "Traditional fecal microbiota transplantation performed at specialized centers. Highest single-procedure success rate (~85-90% for recurrent CDI). Delivered via colonoscopy into the cecum/right colon. Requires pre-procedure CDI antibiotic treatment (stop antibiotics 24-48h before FMT). Donor screening is rigorous (FDA requires IND for FMT using non-FDA-approved products). The AGA 2024 guideline supports microbiota-based therapy for patients with recurrent CDI after appropriate antibiotic treatment.",
               "id": "c-difficile/multiple-recurrences/traditional-fmt-if-fda-approved-products-unavail/fmt-colonoscopy-1"
             },
             {

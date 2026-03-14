@@ -14,45 +14,75 @@ export const UTI: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "IDSA 2025 cUTI Guideline (NEW)",
-        "detail": "First-ever IDSA guideline on complicated UTI. Introduces a 4-step empiric therapy approach (severity → resistance risk factors → patient factors → antibiogram). Supports shorter durations (FQ 5-7d, non-FQ 7d) and early IV-to-PO switch even in bacteremia. Reclassifies cUTI based on systemic symptoms, not anatomy. Endorsed by AUA, ESCMID, ASM, SAEM, SHM, SIDP, AMMI-CA."
+        "detail": "First-ever IDSA guideline on complicated UTI. Introduces a 4-step empiric therapy approach (severity → resistance risk factors → patient factors → antibiogram). Supports shorter durations (FQ 5-7d, non-FQ 7d) and early IV-to-PO switch even in bacteremia. Reclassifies cUTI based on systemic symptoms, not anatomy. Endorsed by AUA, ESCMID, ASM, SAEM, SHM, SIDP, AMMI-CA.",
+        "sourceIds": [
+          "idsa-2025-cuti"
+        ]
       },
       {
         "name": "IDSA/ESCMID 2011",
-        "detail": "International Clinical Practice Guidelines for uncomplicated cystitis and pyelonephritis in women — remains relevant for uncomplicated UTI management"
+        "detail": "International Clinical Practice Guidelines for uncomplicated cystitis and pyelonephritis in women — remains relevant for uncomplicated UTI management",
+        "sourceIds": [
+          "idsa-escmid-2011-uti"
+        ]
       },
       {
         "name": "AUA/CUA/SUFU 2019",
-        "detail": "Recurrent UTI guideline — important for prophylaxis strategies"
+        "detail": "Recurrent UTI guideline — important for prophylaxis strategies",
+        "sourceIds": [
+          "aua-cua-sufu-2019-ruti"
+        ]
       },
       {
         "name": "IDSA 2010 CAUTI",
-        "detail": "Diagnosis, prevention, and treatment of catheter-associated UTI"
+        "detail": "Diagnosis, prevention, and treatment of catheter-associated UTI",
+        "sourceIds": [
+          "idsa-2010-cauti"
+        ]
       },
       {
         "name": "EAU 2024",
-        "detail": "European Association of Urology guidelines — frequently updated, good for emerging resistance data"
+        "detail": "European Association of Urology guidelines — frequently updated, good for emerging resistance data",
+        "sourceIds": [
+          "eau-2024-uti"
+        ]
       }
     ],
     "landmarkTrials": [
       {
         "name": "IDSA 2025 cUTI Guideline",
-        "detail": "First-ever IDSA guideline on complicated UTI. Paradigm shift: reclassifies UTI by symptoms (systemic signs) not anatomy, introduces 4-step empiric approach, endorses 7-day courses even for bacteremic UTI, formalizes IV-to-PO switch in bacteremia, and restricts novel agents to definitive therapy only."
+        "detail": "First-ever IDSA guideline on complicated UTI. Paradigm shift: reclassifies UTI by symptoms (systemic signs) not anatomy, introduces 4-step empiric approach, endorses 7-day courses even for bacteremic UTI, formalizes IV-to-PO switch in bacteremia, and restricts novel agents to definitive therapy only.",
+        "sourceIds": [
+          "idsa-2025-cuti"
+        ]
       },
       {
-        "name": "ALTAR Trial (2018)",
-        "detail": "Demonstrated non-inferiority of antibiotic advice vs. immediate antibiotics for uncomplicated UTI in women. Delayed/back-up prescription is a viable strategy."
+        "name": "ALTAR Trial (Harding et al., 2022)",
+        "detail": "Methenamine hippurate was non-inferior to daily low-dose antibiotic prophylaxis for recurrent UTI prevention in adult women, offering a credible antibiotic-sparing prevention strategy for selected patients.",
+        "sourceIds": [
+          "altar-trial"
+        ]
       },
       {
-        "name": "Pivmecillinam vs TMP-SMX (Nicolle, 2000s)",
-        "detail": "Established pivmecillinam as a viable alternative in regions with high TMP-SMX resistance."
+        "name": "Gupta et al. (2007) — Nitrofurantoin vs TMP-SMX",
+        "detail": "Five days of nitrofurantoin achieved similar clinical cure to three days of TMP-SMX for acute uncomplicated cystitis, supporting nitrofurantoin as a first-line option when TMP-SMX resistance is a concern.",
+        "sourceIds": [
+          "gupta-2007-nitrofurantoin-tmpsmx"
+        ]
       },
       {
-        "name": "Hooton et al. NEJM 2012",
-        "detail": "Ibuprofen vs. fosfomycin for uncomplicated cystitis — showed ~⅔ of women with uncomplicated cystitis resolved with ibuprofen alone, but higher pyelonephritis risk. Does NOT support replacing antibiotics with NSAIDs."
+        "name": "Gágyor et al. (2015) — Ibuprofen vs Fosfomycin",
+        "detail": "Symptom-targeted ibuprofen reduced antibiotic use in uncomplicated cystitis but came with more symptom burden and pyelonephritis risk. Useful for stewardship context, but it does NOT justify routine NSAID-only treatment.",
+        "sourceIds": [
+          "gagyor-2015-ibuprofen-fosfomycin"
+        ]
       },
       {
-        "name": "COMBINE Trial (2023)",
-        "detail": "Nitrofurantoin 3 days vs 5 days for uncomplicated cystitis — 3 days was non-inferior, supporting shorter courses."
+        "name": "Huttner et al. (2018) — Nitrofurantoin vs Fosfomycin",
+        "detail": "Five days of nitrofurantoin produced higher clinical resolution than single-dose fosfomycin for uncomplicated lower UTI, reinforcing nitrofurantoin as the more dependable first-line choice when either agent is available.",
+        "sourceIds": [
+          "huttner-2018-nitrofurantoin-fosfomycin"
+        ]
       }
     ],
     "riskFactors": "Sexual intercourse, spermicide use, prior UTI history, diabetes, urinary catheterization, anatomical abnormalities, post-menopausal status (estrogen depletion), pregnancy, immunosuppression, urinary retention/obstruction."

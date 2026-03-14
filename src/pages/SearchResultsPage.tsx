@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import RegimenEvidencePills from "../components/RegimenEvidencePills";
 import { MONOGRAPH_SUMMARY_BY_ID } from "../data/catalog-manifest";
-import { getConfidenceBadge, getContentFreshness, resolveContentMeta } from "../data/metadata";
+import { getConfidenceBadge, getContentFreshness, getMonographContentKey, getSubcategoryContentKey, resolveContentMeta } from "../data/metadata";
 import { NAV_STATES } from "../styles/constants";
 import type { NavigateTo, SearchResult, Styles } from "../types";
 
@@ -129,7 +129,9 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
       title: "Drug Monographs",
       items: results.drugs.map((drug) => (
         (() => {
-          const resolvedMeta = resolveContentMeta(drug, drug.parentDisease);
+          const resolvedMeta = resolveContentMeta(drug, drug.parentDisease, {
+            contentKey: getMonographContentKey(drug.parentDisease.id, drug.id),
+          });
           return (
             <div
               key={drug.id}
@@ -155,7 +157,9 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
       title: "Organisms",
       items: results.organisms.map((organism, index) => (
         (() => {
-          const resolvedMeta = resolveContentMeta(organism.parentSubcategory, organism.parentDisease);
+          const resolvedMeta = resolveContentMeta(organism.parentSubcategory, organism.parentDisease, {
+            contentKey: getSubcategoryContentKey(organism.parentDisease.id, organism.parentSubcategory.id),
+          });
           return (
             <div
               key={`${organism.parentDisease.id}-${organism.parentSubcategory.id}-${index}`}
@@ -238,7 +242,9 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
       title: "Subcategories",
       items: results.subcategories.map((subcategory) => (
         (() => {
-          const resolvedMeta = resolveContentMeta(subcategory, subcategory.parentDisease);
+          const resolvedMeta = resolveContentMeta(subcategory, subcategory.parentDisease, {
+            contentKey: getSubcategoryContentKey(subcategory.parentDisease.id, subcategory.id),
+          });
           return (
             <div
               key={`${subcategory.parentDisease.id}-${subcategory.id}`}

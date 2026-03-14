@@ -14,49 +14,82 @@ export const DIABETIC_FOOT: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "IDSA/IWGDF 2023 Diabetic Foot Infection Guidelines",
-        "detail": "The most current and comprehensive guideline for DFI management, jointly published by the Infectious Diseases Society of America and the International Working Group on the Diabetic Foot. Key updates from prior versions: (1) Endorsement of shorter antibiotic courses for soft tissue DFI (1-2 weeks mild, 2-3 weeks moderate-severe); (2) Post-resection osteomyelitis antibiotic courses as short as 5 days if clean bone margins confirmed; (3) Strong emphasis on bone biopsy for osteomyelitis diagnosis and culture-directed therapy; (4) MRI as gold-standard imaging for suspected osteomyelitis; (5) Multidisciplinary foot care team recommended as standard of care; (6) OPAT and oral step-down (OVIVA principles) explicitly endorsed for appropriate candidates. Evidence graded A-I through C-III."
+        "detail": "The most current and comprehensive guideline for DFI management, jointly published by the Infectious Diseases Society of America and the International Working Group on the Diabetic Foot. Key updates from prior versions: (1) Endorsement of shorter antibiotic courses for soft tissue DFI (1-2 weeks mild, 2-3 weeks moderate-severe); (2) Post-resection osteomyelitis antibiotic courses as short as 5 days if clean bone margins confirmed; (3) Strong emphasis on bone biopsy for osteomyelitis diagnosis and culture-directed therapy; (4) MRI as gold-standard imaging for suspected osteomyelitis; (5) Multidisciplinary foot care team recommended as standard of care; (6) OPAT and oral step-down (OVIVA principles) explicitly endorsed for appropriate candidates. Evidence graded A-I through C-III.",
+        "sourceIds": [
+          "iwgdf-idsa-dfi"
+        ]
       },
       {
         "name": "IWGDF 2023 Wound Classification Guidelines",
-        "detail": "The IWGDF provides the foundational wound classification system used to stratify DFI severity. The SINBAD score (Site, Ischemia, Neuropathy, Bacterial infection, Area, Depth) and the WIFi classification (Wound, Ischemia, Foot Infection) are recommended for systematic wound assessment. These classifications predict amputation risk, guide surgical decision-making, and inform antibiotic duration. The Wound, Ischemia, and Foot Infection (WIFi) threat level (very low, low, moderate, high) drives the vascular and surgical intervention pathway."
+        "detail": "The IWGDF provides the foundational wound classification system used to stratify DFI severity. The SINBAD score (Site, Ischemia, Neuropathy, Bacterial infection, Area, Depth) and the WIFi classification (Wound, Ischemia, Foot Infection) are recommended for systematic wound assessment. These classifications predict amputation risk, guide surgical decision-making, and inform antibiotic duration. The Wound, Ischemia, and Foot Infection (WIFi) threat level (very low, low, moderate, high) drives the vascular and surgical intervention pathway.",
+        "sourceIds": [
+          "iwgdf-2023-wound-classification"
+        ]
       },
       {
         "name": "Wagner Wound Classification (1981, widely used)",
-        "detail": "The Wagner grading system classifies diabetic foot wounds by depth and tissue involvement: Grade 0 (intact skin, but at risk), Grade 1 (superficial ulcer — dermis only), Grade 2 (deep ulcer — to tendon/capsule/bone without abscess), Grade 3 (deep ulcer with abscess, osteomyelitis, or joint sepsis), Grade 4 (gangrene of part of foot), Grade 5 (gangrene of whole foot). Wagner Grade 3 and above have the highest amputation risk and require aggressive surgical and antibiotic management."
+        "detail": "The Wagner grading system classifies diabetic foot wounds by depth and tissue involvement: Grade 0 (intact skin, but at risk), Grade 1 (superficial ulcer — dermis only), Grade 2 (deep ulcer — to tendon/capsule/bone without abscess), Grade 3 (deep ulcer with abscess, osteomyelitis, or joint sepsis), Grade 4 (gangrene of part of foot), Grade 5 (gangrene of whole foot). Wagner Grade 3 and above have the highest amputation risk and require aggressive surgical and antibiotic management.",
+        "sourceIds": [
+          "wagner-1981"
+        ]
       },
       {
         "name": "University of Texas (UT) Wound Classification System",
-        "detail": "A 2-dimensional classification system combining wound depth (Grades 0-III) with presence/absence of infection (stage A — no infection/ischemia, B — infection only, C — ischemia only, D — infection + ischemia). UT Grade IIID (full-thickness wound + osteomyelitis/joint infection + ischemia) has the highest amputation risk (~90%). The UT system is more predictive of outcomes than the Wagner system and is recommended by IWGDF 2023."
+        "detail": "A 2-dimensional classification system combining wound depth (Grades 0-III) with presence/absence of infection (stage A — no infection/ischemia, B — infection only, C — ischemia only, D — infection + ischemia). UT Grade IIID (full-thickness wound + osteomyelitis/joint infection + ischemia) has the highest amputation risk (~90%). The UT system is more predictive of outcomes than the Wagner system and is recommended by IWGDF 2023.",
+        "sourceIds": [
+          "ut-wound-classification"
+        ]
       },
       {
         "name": "OVIVA Trial (Li et al., NEJM 2019)",
-        "detail": "Landmark RCT demonstrating oral antibiotics are non-inferior to IV antibiotics for bone and joint infections including osteomyelitis. Treatment failure: 14.6% (oral) vs 14.8% (IV). Established the principle of early oral step-down as acceptable for osteomyelitis when appropriate high-bioavailability agents are used. Directly applicable to DFI osteomyelitis management per IDSA/IWGDF 2023."
+        "detail": "Landmark RCT demonstrating oral antibiotics are non-inferior to IV antibiotics for bone and joint infections including osteomyelitis. Treatment failure: 14.6% (oral) vs 14.8% (IV). Established the principle of early oral step-down as acceptable for osteomyelitis when appropriate high-bioavailability agents are used. Directly applicable to DFI osteomyelitis management per IDSA/IWGDF 2023.",
+        "sourceIds": [
+          "oviva"
+        ]
       }
     ],
     "landmarkTrials": [
       {
         "name": "OVIVA Trial (Li et al., NEJM 2019)",
-        "detail": "1,054 patients with bone and joint infections randomized to oral vs. continued IV antibiotics after ≤7 days of IV therapy. Primary outcome (treatment failure at 1 year): 14.6% oral vs 14.8% IV — non-inferior. Oral step-down included fluoroquinolones, linezolid, TMP-SMX, rifampin combinations, and clindamycin. NOT amoxicillin or cephalexin alone. This trial changed the landscape: routine 6-week IV therapy via PICC is no longer required for osteomyelitis, including DFI-related osteomyelitis. Key caveats: the RIGHT oral agents must be selected (high bioavailability + bone penetration)."
+        "detail": "1,054 patients with bone and joint infections randomized to oral vs. continued IV antibiotics after ≤7 days of IV therapy. Primary outcome (treatment failure at 1 year): 14.6% oral vs 14.8% IV — non-inferior. Oral step-down included fluoroquinolones, linezolid, TMP-SMX, rifampin combinations, and clindamycin. NOT amoxicillin or cephalexin alone. This trial changed the landscape: routine 6-week IV therapy via PICC is no longer required for osteomyelitis, including DFI-related osteomyelitis. Key caveats: the RIGHT oral agents must be selected (high bioavailability + bone penetration).",
+        "sourceIds": [
+          "oviva"
+        ]
       },
       {
         "name": "Ertapenem vs Pip-Tazo for DFI — Lipsky et al. (2005, Clin Infect Dis)",
-        "detail": "Multicenter RCT of ertapenem (1g IV once daily) vs. piperacillin-tazobactam (3.375g IV q6h) for moderate-severe DFI. Clinical success rates were equivalent (~75% per arm). Ertapenem's once-daily dosing was associated with fewer complications and was deemed more convenient for OPAT. Established ertapenem as a first-line option for moderate DFI and OPAT step-down (with caveats — no Pseudomonas or MRSA coverage)."
+        "detail": "Multicenter RCT of ertapenem (1g IV once daily) vs. piperacillin-tazobactam (3.375g IV q6h) for moderate-severe DFI. Clinical success rates were equivalent (~75% per arm). Ertapenem's once-daily dosing was associated with fewer complications and was deemed more convenient for OPAT. Established ertapenem as a first-line option for moderate DFI and OPAT step-down (with caveats — no Pseudomonas or MRSA coverage).",
+        "sourceIds": [
+          "lipsky-2005-ertapenem-dfi"
+        ]
       },
       {
         "name": "IDSA Post-Op Osteomyelitis Duration Study — Ha Van et al. (2003)",
-        "detail": "Prospective cohort showing that for DFI osteomyelitis with complete surgical resection of all infected bone (confirmed histologically), a median antibiotic course of only 5-7 days post-operatively was associated with >90% remission at 1 year. This landmark observation shifted practice dramatically — adequate surgical resection substantially reduces antibiotic duration requirements. Endorsed by IDSA/IWGDF 2023."
+        "detail": "Prospective cohort showing that for DFI osteomyelitis with complete surgical resection of all infected bone (confirmed histologically), a median antibiotic course of only 5-7 days post-operatively was associated with >90% remission at 1 year. This landmark observation shifted practice dramatically — adequate surgical resection substantially reduces antibiotic duration requirements. Endorsed by IDSA/IWGDF 2023.",
+        "sourceIds": [
+          "ha-van-2003-postop-osteomyelitis"
+        ]
       },
       {
         "name": "Probe-to-Bone Test — Lavery et al. Validation Cohort",
-        "detail": "In patients with high pre-test probability (clinic population with DFI), the probe-to-bone (PTB) test has PPV of 89% for osteomyelitis. In patients with lower pre-test probability (ED population), PPV drops to ~53%. Sensitivity 66%, specificity 85% overall. The PTB test is recommended by IDSA/IWGDF 2023 as the primary bedside screening tool for DFI osteomyelitis. Takes 30 seconds. Positive PTB in a patient with a chronic DFU should prompt MRI and bone biopsy."
+        "detail": "In patients with high pre-test probability (clinic population with DFI), the probe-to-bone (PTB) test has PPV of 89% for osteomyelitis. In patients with lower pre-test probability (ED population), PPV drops to ~53%. Sensitivity 66%, specificity 85% overall. The PTB test is recommended by IDSA/IWGDF 2023 as the primary bedside screening tool for DFI osteomyelitis. Takes 30 seconds. Positive PTB in a patient with a chronic DFU should prompt MRI and bone biopsy.",
+        "sourceIds": [
+          "lavery-probe-to-bone"
+        ]
       },
       {
         "name": "Conservative vs Surgical Management of DFI Osteomyelitis — Lazaro-Martinez et al. (2014)",
-        "detail": "RCT comparing primary surgical resection vs. medical-only antibiotic treatment for DFI forefoot osteomyelitis. Surgical group: 78% remission at 1 year. Medical group: 68% remission. Both acceptable; surgical group had shorter antibiotic duration (4 vs. 15 weeks). The study validated the medical-only approach as legitimate for selected patients — not every DFI osteomyelitis requires amputation. Patient selection (adequate vascularity, non-MDR organism, compliant patient) is critical."
+        "detail": "RCT comparing primary surgical resection vs. medical-only antibiotic treatment for DFI forefoot osteomyelitis. Surgical group: 78% remission at 1 year. Medical group: 68% remission. Both acceptable; surgical group had shorter antibiotic duration (4 vs. 15 weeks). The study validated the medical-only approach as legitimate for selected patients — not every DFI osteomyelitis requires amputation. Patient selection (adequate vascularity, non-MDR organism, compliant patient) is critical.",
+        "sourceIds": [
+          "lazaro-martinez-2014-dfi-osteomyelitis"
+        ]
       },
       {
         "name": "IDSA 2023 Duration Analysis — Soft Tissue DFI",
-        "detail": "IDSA/IWGDF 2023 conducted systematic review of antibiotic duration for soft tissue DFI. Conclusion: 1-2 weeks for mild DFI (5-7 days often sufficient) and 2-3 weeks for moderate-severe soft tissue DFI are adequate when infection has clinically resolved. Longer courses do not improve outcomes and increase adverse events. The key concept: treat the INFECTION, not the WOUND — antibiotics should stop when infection signs resolve, not when the ulcer heals."
+        "detail": "IDSA/IWGDF 2023 conducted systematic review of antibiotic duration for soft tissue DFI. Conclusion: 1-2 weeks for mild DFI (5-7 days often sufficient) and 2-3 weeks for moderate-severe soft tissue DFI are adequate when infection has clinically resolved. Longer courses do not improve outcomes and increase adverse events. The key concept: treat the INFECTION, not the WOUND — antibiotics should stop when infection signs resolve, not when the ulcer heals.",
+        "sourceIds": [
+          "iwgdf-idsa-dfi"
+        ]
       }
     ],
     "riskFactors": "HOST FACTORS: Diabetes mellitus (particularly poorly controlled, HbA1c >9%), peripheral neuropathy (loss of protective sensation — the ulcer goes unfelt), peripheral arterial disease (ABI <0.9 — ischemia impairs healing and antibiotic delivery), retinopathy and nephropathy (markers of microvascular disease), obesity (BMI >30), immunosuppression (steroids, transplant medications, HIV), ESRD/dialysis (impaired immune response + altered drug pharmacokinetics), prior foot ulcer or amputation (scar tissue, altered biomechanics). INFECTION RISK FACTORS: Wound chronicity (>30 days — increased biofilm, polymicrobial flora), wound depth (penetrating to fascia/tendon/bone), wound size (>2cm), prior antibiotic exposure (predisposes to MDR organisms), prior hospitalization (healthcare-associated flora — MRSA, MDR gram-negatives), prior MRSA colonization or infection, living in a nursing facility, prior osteomyelitis. MRSA-SPECIFIC RISK FACTORS: Prior MRSA infection/colonization, hospitalization or nursing home residence within 90 days, local MRSA prevalence >30%, injection drug use, contact with MRSA-colonized individual, prior MRSA-positive wound culture. PSEUDOMONAS-SPECIFIC RISK FACTORS: Macerated or water-exposed wounds (swimming, soaking, hydrotherapy), warm/tropical climates, prior fluoroquinolone exposure, prior Pseudomonas infection, recent hospitalization (particularly ICU), immunocompromised state. ANAEROBIC/POLYMICROBIAL RISK FACTORS: Necrotic tissue, fetid odor, gas in soft tissue on imaging, chronic deep wound, prior broad-spectrum antibiotic exposure."

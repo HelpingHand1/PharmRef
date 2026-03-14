@@ -14,33 +14,54 @@ export const CNS_INFECTIONS: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "IDSA 2004 Bacterial Meningitis Guidelines",
-        "detail": "Foundation document for meningitis management. Established empiric regimens by age group, adjunctive dexamethasone for pneumococcal meningitis, and pathogen-specific therapy. Despite age, remains the most cited meningitis guideline. Key updates have been incorporated via expert consensus rather than formal guideline revision."
+        "detail": "Foundation document for meningitis management. Established empiric regimens by age group, adjunctive dexamethasone for pneumococcal meningitis, and pathogen-specific therapy. Despite age, remains the most cited meningitis guideline. Key updates have been incorporated via expert consensus rather than formal guideline revision.",
+        "sourceIds": [
+          "idsa-2004-bacterial-meningitis"
+        ]
       },
       {
         "name": "IDSA 2017 Healthcare-Associated Ventriculitis/Meningitis",
-        "detail": "Guidelines for post-neurosurgical, post-traumatic, and device-related CNS infections. Covers external ventricular drain (EVD) infections, VP shunt infections, and post-craniotomy meningitis. Emphasizes intraventricular antibiotic administration for difficult-to-treat pathogens."
+        "detail": "Guidelines for post-neurosurgical, post-traumatic, and device-related CNS infections. Covers external ventricular drain (EVD) infections, VP shunt infections, and post-craniotomy meningitis. Emphasizes intraventricular antibiotic administration for difficult-to-treat pathogens.",
+        "sourceIds": [
+          "idsa-2017-ventriculitis-meningitis"
+        ]
       },
       {
         "name": "ESCMID 2016 Community-Acquired Bacterial Meningitis",
-        "detail": "European guidelines with updated evidence review. Stronger emphasis on adjunctive dexamethasone, updated duration recommendations, and management of complications (cerebral edema, hydrocephalus, vasculitis)."
+        "detail": "European guidelines with updated evidence review. Stronger emphasis on adjunctive dexamethasone, updated duration recommendations, and management of complications (cerebral edema, hydrocephalus, vasculitis).",
+        "sourceIds": [
+          "escmid-2016-bacterial-meningitis"
+        ]
       },
       {
-        "name": "AAN/IDSA 2008 Brain Abscess Practice Parameters",
-        "detail": "Guidance on diagnosis (ring-enhancing lesion on contrast CT/MRI), aspiration vs. excision criteria, and empiric antibiotic regimens based on suspected source (dental → anaerobes + Streptococci; otogenic → Pseudomonas + anaerobes; hematogenous → S. aureus + mixed)."
+        "name": "ESCMID 2017 Bacterial Brain Abscess Update",
+        "detail": "Focused review of bacterial brain abscess diagnosis and management in immunocompetent adults. Supports MRI with diffusion-weighted imaging, early aspiration or drainage when feasible, and source-directed empiric regimens based on contiguous, hematogenous, or post-neurosurgical origin.",
+        "sourceIds": [
+          "escmid-2017-brain-abscess-update"
+        ]
       }
     ],
     "landmarkTrials": [
       {
         "name": "de Gans & van de Beek, NEJM 2002 — Dexamethasone in Meningitis",
-        "detail": "Landmark RCT: adjunctive dexamethasone (10mg IV q6h × 4 days) started BEFORE or WITH the first dose of antibiotics reduced mortality and neurologic sequelae in adults with bacterial meningitis, particularly PNEUMOCOCCAL meningitis (mortality 14% vs 34%). This trial established dexamethasone as standard of care. KEY: dexamethasone must be given BEFORE or simultaneous with the first antibiotic dose — giving it hours later provides no benefit."
+        "detail": "Landmark RCT: adjunctive dexamethasone (10mg IV q6h × 4 days) started BEFORE or WITH the first dose of antibiotics reduced mortality and neurologic sequelae in adults with bacterial meningitis, particularly PNEUMOCOCCAL meningitis (mortality 14% vs 34%). This trial established dexamethasone as standard of care. KEY: dexamethasone must be given BEFORE or simultaneous with the first antibiotic dose — giving it hours later provides no benefit.",
+        "sourceIds": [
+          "dexamethasone-meningitis"
+        ]
       },
       {
         "name": "van de Beek et al., NEJM 2006 — Meningitis Clinical Features",
-        "detail": "Large prospective cohort defining the clinical spectrum of community-acquired bacterial meningitis. The classic triad (fever + neck stiffness + altered mental status) was present in only 44% of patients, but 95% had at least 2 of 4 symptoms (headache, fever, neck stiffness, altered consciousness). Established that absence of ALL classic features essentially rules out bacterial meningitis."
+        "detail": "Large prospective cohort defining the clinical spectrum of community-acquired bacterial meningitis. The classic triad (fever + neck stiffness + altered mental status) was present in only 44% of patients, but 95% had at least 2 of 4 symptoms (headache, fever, neck stiffness, altered consciousness). Established that absence of ALL classic features essentially rules out bacterial meningitis.",
+        "sourceIds": [
+          "van-de-beek-2006-meningitis"
+        ]
       },
       {
         "name": "Brouwer et al., Cochrane 2015 — Dexamethasone Meta-analysis",
-        "detail": "Cochrane systematic review confirming dexamethasone benefit in high-income countries for S. pneumoniae meningitis. No significant benefit demonstrated for meningococcal or other etiologies, and no benefit in low-income settings (possibly due to later presentation and HIV co-infection). Reinforced that the dexamethasone benefit is primarily for pneumococcal meningitis."
+        "detail": "Cochrane systematic review confirming dexamethasone benefit in high-income countries for S. pneumoniae meningitis. No significant benefit demonstrated for meningococcal or other etiologies, and no benefit in low-income settings (possibly due to later presentation and HIV co-infection). Reinforced that the dexamethasone benefit is primarily for pneumococcal meningitis.",
+        "sourceIds": [
+          "brouwer-2015-dexamethasone"
+        ]
       }
     ],
     "riskFactors": "Bacterial meningitis: age extremes (neonates, >50 years), asplenia/complement deficiency (N. meningitidis, S. pneumoniae), CSF leaks (basilar skull fractures, post-neurosurgical), cochlear implants (S. pneumoniae), immunosuppression (HIV, transplant, chronic steroids → Listeria, Cryptococcus), crowded living (military barracks, dormitories → N. meningitidis). Brain abscess: contiguous infection (chronic sinusitis, otitis media, dental abscess), hematogenous spread (endocarditis, pulmonary AVM in hereditary hemorrhagic telangiectasia, IDU), penetrating trauma, recent neurosurgery, immunosuppression (Toxoplasma in HIV, Nocardia in transplant, Aspergillus in neutropenia)."

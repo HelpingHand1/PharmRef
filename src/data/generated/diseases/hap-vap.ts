@@ -14,45 +14,76 @@ export const HAP_VAP: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "ATS/IDSA 2016 HAP/VAP Guidelines",
-        "detail": "Current definitive US guideline. Eliminated HCAP category. Emphasizes local antibiogram-driven empiric therapy, de-escalation, 7-day treatment courses, and avoiding unnecessary broad-spectrum coverage. Recommends AGAINST routine biomarkers (PCT, CRP, sTREM-1) for VAP diagnosis."
+        "detail": "Current definitive US guideline. Eliminated HCAP category. Emphasizes local antibiogram-driven empiric therapy, de-escalation, 7-day treatment courses, and avoiding unnecessary broad-spectrum coverage. Recommends AGAINST routine biomarkers (PCT, CRP, sTREM-1) for VAP diagnosis.",
+        "sourceIds": [
+          "ats-idsa-2016-hap-vap"
+        ]
       },
       {
         "name": "ERS/ESICM/ESCMID/ALAT 2017",
-        "detail": "European/Latin American guidelines. More emphasis on risk stratification for MDR pathogens and biomarker-guided duration. Endorses PCT-guided de-escalation more strongly than ATS/IDSA."
+        "detail": "European/Latin American guidelines. More emphasis on risk stratification for MDR pathogens and biomarker-guided duration. Endorses PCT-guided de-escalation more strongly than ATS/IDSA.",
+        "sourceIds": [
+          "ers-esicm-escmid-alat-2017-hap-vap"
+        ]
       },
       {
         "name": "Surviving Sepsis Campaign 2021",
-        "detail": "Relevant for HAP/VAP with sepsis — 1-hour antibiotic administration, source control, de-escalation within 48-72h of culture results."
+        "detail": "Relevant for HAP/VAP with sepsis — 1-hour antibiotic administration, source control, de-escalation within 48-72h of culture results.",
+        "sourceIds": [
+          "ssc-2021"
+        ]
       },
       {
         "name": "SHEA/IDSA/APIC Practice Recommendation 2022",
-        "detail": "VAP prevention bundle: head-of-bed elevation, daily sedation vacation + SBT, oral care with chlorhexidine (note: some institutions moving away from CHG oral care due to mortality signal in meta-analyses), subglottic secretion drainage, stress ulcer prophylaxis, DVT prophylaxis."
+        "detail": "VAP prevention bundle: head-of-bed elevation, daily sedation vacation + SBT, oral care with chlorhexidine (note: some institutions moving away from CHG oral care due to mortality signal in meta-analyses), subglottic secretion drainage, stress ulcer prophylaxis, DVT prophylaxis.",
+        "sourceIds": [
+          "shea-idsa-apic-2022-vap-prevention"
+        ]
       }
     ],
     "landmarkTrials": [
       {
-        "name": "IDAT Trial (2015, JAMA)",
-        "detail": "Antibiotic de-escalation in VAP: De-escalation was non-inferior to continuation of broad-spectrum therapy in clinical cure. However, de-escalation group had MORE superinfections (paradoxical finding, possibly due to selection of resistant organisms). Trial challenged the assumption that de-escalation is always beneficial, but consensus still supports it."
+        "name": "Leone et al. (2014) — De-escalation vs Continuation in Severe Sepsis",
+        "detail": "ICU stewardship RCT frequently cited in HAP/VAP de-escalation discussions. De-escalation did not improve mortality or ICU length of stay and was associated with more superinfections and antibiotic days. Pneumonia was common in the trial population, but the study was not limited to VAP, so it informs caution rather than overturning de-escalation as a stewardship principle.",
+        "sourceIds": [
+          "leone-2014-deescalation"
+        ]
       },
       {
-        "name": "PTC Trial (Bouadma 2010, Lancet)",
-        "detail": "Procalcitonin-guided antibiotic discontinuation in ICU respiratory infections reduced antibiotic exposure by ~3 days without affecting mortality. Supports PCT-guided de-escalation, though ATS/IDSA 2016 did not strongly endorse this for VAP specifically."
+        "name": "PRORATA Trial (Bouadma et al., Lancet 2010)",
+        "detail": "Procalcitonin-guided antibiotic discontinuation in ICU respiratory infections reduced antibiotic exposure by roughly 2-3 days without worsening mortality. Supports biomarker-guided stewardship, though ATS/IDSA 2016 stopped short of strongly endorsing this approach for VAP specifically.",
+        "sourceIds": [
+          "ptc-bouadma-2010"
+        ]
       },
       {
         "name": "Chastre et al. (2003, JAMA)",
-        "detail": "Landmark trial comparing 8 vs 15 days of antibiotics for VAP. 8 days was non-inferior for most pathogens EXCEPT non-fermenting GNRs (Pseudomonas, Acinetobacter) where relapse was higher with 8 days. Established 7-day courses as standard and flagged non-fermenters as an exception."
+        "detail": "Landmark trial comparing 8 vs 15 days of antibiotics for VAP. 8 days was non-inferior for most pathogens EXCEPT non-fermenting GNRs (Pseudomonas, Acinetobacter) where relapse was higher with 8 days. Established 7-day courses as standard and flagged non-fermenters as an exception.",
+        "sourceIds": [
+          "chastre-2003-vap"
+        ]
       },
       {
         "name": "PROSEVA Trial (2013, NEJM)",
-        "detail": "Prone positioning in severe ARDS reduced mortality (16% vs 32.8%). While not a HAP-specific trial, relevant because many HAP/VAP patients develop ARDS and proning affects drug distribution and PK."
+        "detail": "Prone positioning in severe ARDS reduced mortality (16% vs 32.8%). While not a HAP-specific trial, relevant because many HAP/VAP patients develop ARDS and proning affects drug distribution and PK.",
+        "sourceIds": [
+          "proseva"
+        ]
       },
       {
-        "name": "VAPORIZE Trial (2024)",
-        "detail": "Inhaled amikacin + IV antibiotics vs IV antibiotics alone for VAP. Inhaled aminoglycosides did NOT improve clinical outcomes despite achieving higher lung concentrations. Challenged the practice of adjunctive inhaled antibiotics for VAP."
+        "name": "INHALE Trial (Niederman et al., 2020 Lancet ID)",
+        "detail": "Phase 3 trial of adjunctive inhaled amikacin added to IV standard-of-care antibiotics in mechanically ventilated patients with gram-negative pneumonia. Despite higher local drug delivery, inhaled amikacin did NOT improve survival or overall clinical outcomes, arguing against routine adjunctive inhaled aminoglycosides for HAP/VAP.",
+        "sourceIds": [
+          "inhale-trial"
+        ]
       },
       {
-        "name": "MerINO-2 / ACORN (2023-2024)",
-        "detail": "Ongoing and recent trials examining pip-tazo vs carbapenems for ESBL bacteremia (relevant to HAP-source bacteremia). Evolving evidence on whether pip-tazo can be used for ESBL infections in certain contexts."
+        "name": "MerINO-2 / ACORN (2021-2023)",
+        "detail": "These ICU-adjacent beta-lactam trials inform empiric pneumonia stewardship rather than serving as HAP-specific efficacy trials. MERINO-2 showed more microbiological failures with pip-tazo than meropenem in AmpC bloodstream infection, while ACORN clarified cefepime vs pip-tazo toxicity tradeoffs in acutely ill adults. Together they reinforce caution with broad anti-pseudomonal beta-lactam selection when bacteremia or resistance mechanisms are in play.",
+        "sourceIds": [
+          "merino-2",
+          "acorn"
+        ]
       }
     ],
     "riskFactors": "Prolonged mechanical ventilation (>5-7 days), prior antibiotic use (strongest MDR risk factor), prolonged hospitalization, ARDS, supine positioning, reintubation, enteral feeding, immunosuppression, chronic lung disease (COPD, bronchiectasis), witnessed aspiration, prior MDR colonization, high local MDR prevalence on the unit's antibiogram."

@@ -14,45 +14,75 @@ export const AMR_GN: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "IDSA 2024 AMR Guidance v4.0 (Tamma et al., CID 2024)",
-        "detail": "Fourth iteration of the living guidance document. Panel of 6 ID specialists. Key updates from v3.0 (2023): sulbactam-durlobactam added as preferred for CRAB, high-dose amp-sulb downgraded to alternative for CRAB, MBL prevalence increasing in US acknowledged, cefepime MIC 4-8 concern for AmpC-E removed, ceftolozane-tazobactam acknowledged as likely effective for ESBL-E but reserved for DTR-PA. Current as of December 31, 2023. Updated annually at idsociety.org/practice-guideline/amr-guidance/."
+        "detail": "Fourth iteration of the living guidance document. Panel of 6 ID specialists. Key updates from v3.0 (2023): sulbactam-durlobactam added as preferred for CRAB, high-dose amp-sulb downgraded to alternative for CRAB, MBL prevalence increasing in US acknowledged, cefepime MIC 4-8 concern for AmpC-E removed, ceftolozane-tazobactam acknowledged as likely effective for ESBL-E but reserved for DTR-PA. Current as of December 31, 2023. Updated annually at idsociety.org/practice-guideline/amr-guidance/.",
+        "sourceIds": [
+          "idsa-2024-amr"
+        ]
       },
       {
         "name": "MERINO Trial (Harris et al., JAMA 2018)",
-        "detail": "Landmark RCT: pip-tazo vs meropenem for ESBL-E bloodstream infections. 30-day mortality 12.3% (pip-tazo) vs 3.7% (meropenem). Pip-tazo FAILED non-inferiority. Established carbapenems as standard of care for serious ESBL-E infections. Even on reanalysis restricting to pip-tazo MIC <=16, risk difference still favored meropenem (9% vs 4%). Practice-changing: do NOT use pip-tazo for serious ESBL-E infections."
+        "detail": "Landmark RCT: pip-tazo vs meropenem for ESBL-E bloodstream infections. 30-day mortality 12.3% (pip-tazo) vs 3.7% (meropenem). Pip-tazo FAILED non-inferiority. Established carbapenems as standard of care for serious ESBL-E infections. Even on reanalysis restricting to pip-tazo MIC <=16, risk difference still favored meropenem (9% vs 4%). Practice-changing: do NOT use pip-tazo for serious ESBL-E infections.",
+        "sourceIds": [
+          "merino"
+        ]
       },
       {
         "name": "CLSI Breakpoint Updates (2022-2024)",
-        "detail": "Pip-tazo Enterobacterales breakpoints lowered (2022): susceptible <=8/4, susceptible dose-dependent 16. Aminoglycoside breakpoints revised (2023). Ceftazidime breakpoints for S. maltophilia removed (2024). Broth disk elution method endorsed for testing ceftazidime-avibactam/aztreonam combination against MBL-producers and S. maltophilia."
+        "detail": "Pip-tazo Enterobacterales breakpoints lowered (2022): susceptible <=8/4, susceptible dose-dependent 16. Aminoglycoside breakpoints revised (2023). Ceftazidime breakpoints for S. maltophilia removed (2024). Broth disk elution method endorsed for testing ceftazidime-avibactam/aztreonam combination against MBL-producers and S. maltophilia.",
+        "sourceIds": [
+          "clsi-breakpoint-updates"
+        ]
       },
       {
         "name": "CDC Antibiotic Resistance Threats Report (2019)",
-        "detail": "Classified resistance threats by urgency. URGENT: CRE, CRAB, C. auris. SERIOUS: ESBL-E, DTR P. aeruginosa, S. maltophilia (not formally classified but covered in IDSA guidance). Guides national stewardship priorities and funding allocation."
+        "detail": "Classified resistance threats by urgency. URGENT: CRE, CRAB, C. auris. SERIOUS: ESBL-E, DTR P. aeruginosa, S. maltophilia (not formally classified but covered in IDSA guidance). Guides national stewardship priorities and funding allocation.",
+        "sourceIds": [
+          "cdc-amr-threats-2019"
+        ]
       }
     ],
     "landmarkTrials": [
       {
         "name": "MERINO (Harris et al., 2018 JAMA)",
-        "detail": "391 patients with ceftriaxone-non-susceptible E. coli/K. pneumoniae BSI (87% confirmed ESBL). Pip-tazo 4.5g q6h vs meropenem 1g q8h (both standard infusion). 30-day mortality: 12.3% vs 3.7%. Pip-tazo failed non-inferiority. Cemented carbapenems as preferred for serious ESBL-E. Key nuance: standard infusion was used — extended infusion pip-tazo was NOT tested."
+        "detail": "391 patients with ceftriaxone-non-susceptible E. coli/K. pneumoniae BSI (87% confirmed ESBL). Pip-tazo 4.5g q6h vs meropenem 1g q8h (both standard infusion). 30-day mortality: 12.3% vs 3.7%. Pip-tazo failed non-inferiority. Cemented carbapenems as preferred for serious ESBL-E. Key nuance: standard infusion was used — extended infusion pip-tazo was NOT tested.",
+        "sourceIds": [
+          "merino"
+        ]
       },
       {
         "name": "TANGO II (Wunderink et al., 2018 CID)",
-        "detail": "Meropenem-vaborbactam vs best available therapy (BAT, often polymyxin-based) for CRE infections. Clinical cure 59% vs 26%. 28-day mortality 16% vs 33%. Demonstrated superiority of novel BL-BLI agents over polymyxin-based regimens for CRE."
+        "detail": "Meropenem-vaborbactam vs best available therapy (BAT, often polymyxin-based) for CRE infections. Clinical cure 59% vs 26%. 28-day mortality 16% vs 33%. Demonstrated superiority of novel BL-BLI agents over polymyxin-based regimens for CRE.",
+        "sourceIds": [
+          "tango-ii"
+        ]
       },
       {
         "name": "TANGO III / CREDIBLE-CR (Bassetti et al., 2021 Lancet ID)",
-        "detail": "Cefiderocol vs BAT for carbapenem-resistant infections (CRE, CRAB, DTR-PA). All-cause mortality numerically higher with cefiderocol in CRAB subgroup, raising caution about cefiderocol monotherapy for CRAB. Supported cefiderocol use for CRE and DTR-PA but led to recommendation for combination therapy for CRAB."
+        "detail": "Cefiderocol vs BAT for carbapenem-resistant infections (CRE, CRAB, DTR-PA). All-cause mortality numerically higher with cefiderocol in CRAB subgroup, raising caution about cefiderocol monotherapy for CRAB. Supported cefiderocol use for CRE and DTR-PA but led to recommendation for combination therapy for CRAB.",
+        "sourceIds": [
+          "credible-cr"
+        ]
       },
       {
         "name": "RESTORE-IMI 1 (Motsch et al., 2020 CID)",
-        "detail": "Imipenem-cilastatin-relebactam vs imipenem + colistin for imipenem-non-susceptible infections. Favorable response 71% vs 40%. Supported imipenem-relebactam for CRE and DTR-PA with lower toxicity than colistin-based regimens."
+        "detail": "Imipenem-cilastatin-relebactam vs imipenem + colistin for imipenem-non-susceptible infections. Favorable response 71% vs 40%. Supported imipenem-relebactam for CRE and DTR-PA with lower toxicity than colistin-based regimens.",
+        "sourceIds": [
+          "restore-imi-1"
+        ]
       },
       {
         "name": "ATTACK Trial (Kaye et al., 2023 Lancet ID)",
-        "detail": "Sulbactam-durlobactam + imipenem-cilastatin vs colistin + imipenem-cilastatin for CRAB. 28-day mortality 19% vs 32%. Led to FDA approval of sulbactam-durlobactam (Xacduro) and its addition as preferred agent for CRAB in 2024 guidance update."
+        "detail": "Sulbactam-durlobactam + imipenem-cilastatin vs colistin + imipenem-cilastatin for CRAB. 28-day mortality 19% vs 32%. Led to FDA approval of sulbactam-durlobactam (Xacduro) and its addition as preferred agent for CRAB in 2024 guidance update.",
+        "sourceIds": [
+          "attack"
+        ]
       },
       {
         "name": "Observational: Ceftazidime-avibactam + Aztreonam for MBL (Falcone et al., 2021)",
-        "detail": "102 patients with MBL-producing Enterobacterales BSI. Ceftazidime-avibactam + aztreonam vs other regimens. 30-day mortality 19% vs 44%. Established caz-avi + aztreonam as preferred treatment for MBL-CRE pending FDA-approved aztreonam-avibactam."
+        "detail": "102 patients with MBL-producing Enterobacterales BSI. Ceftazidime-avibactam + aztreonam vs other regimens. 30-day mortality 19% vs 44%. Established caz-avi + aztreonam as preferred treatment for MBL-CRE pending FDA-approved aztreonam-avibactam.",
+        "sourceIds": [
+          "falcone-2021-caz-avi-aztreonam"
+        ]
       }
     ],
     "riskFactors": "Risk factors for AMR gram-negatives: prior antibiotic exposure (especially FQs, cephalosporins) within 90 days, prior MDR culture within 12 months, recent hospitalization (>48h in past 90 days), residence in long-term care facility, international travel (especially South/Southeast Asia for ESBL/NDM), presence of indwelling devices (urinary catheters, central lines), immunosuppression, recurrent UTIs, prior organ transplant, chronic wounds, ICU stay, mechanical ventilation (for DTR-PA, CRAB)."

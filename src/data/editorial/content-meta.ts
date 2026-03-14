@@ -2,8 +2,10 @@ import type { ContentConfidence, ContentMeta, ContentReviewEntry, ContentSource 
 import { CONTENT_REVIEWED_ON } from "../../version";
 import { DEFAULT_CONTENT_REVIEWER } from "../review-defaults";
 
-export type ContentMetaSeed = Omit<ContentMeta, "reviewedBy" | "reviewScope" | "reviewHistory"> &
-  Partial<Pick<ContentMeta, "reviewedBy" | "reviewScope" | "reviewHistory">>;
+export type ContentMetaSeed = Omit<ContentMeta, "reviewedBy" | "reviewScope" | "reviewHistory" | "governance"> &
+  Partial<Pick<ContentMeta, "reviewedBy" | "reviewScope" | "reviewHistory">> & {
+    owner?: string;
+  };
 
 function buildSource(id: string, citation: string, note?: string): ContentSource {
   return note === undefined ? { id, citation } : { id, citation, note };
@@ -93,7 +95,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     sources: [
       buildSource("ats-idsa-2019-cap", "Adult community-acquired pneumonia guideline from ATS and IDSA, 2019."),
       buildSource("cape-cod", "Hydrocortisone for severe CAP, NEJM 2023."),
-      buildSource("step-trial", "Three-day versus eight-day amoxicillin strategy for stabilized CAP, NEJM 2023."),
+      buildSource("el-moussaoui-2006-short-course-cap", "Three-day versus eight-day amoxicillin strategy after early clinical stability in adult CAP, BMJ 2006."),
     ],
   }),
   "hap-vap": withConfidence("moderate", "hap-vap", {
@@ -118,7 +120,8 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "SIS/IDSA intra-abdominal infection guidance",
     sources: [
-      buildSource("sis-idsa-iai", "Surgical Infection Society and IDSA intra-abdominal infection guidance."),
+      buildSource("idsa-sis-2010-ciai", "IDSA/SIS 2010 guideline for diagnosis and management of complicated intra-abdominal infection."),
+      buildSource("sis-2017-ciai", "Surgical Infection Society 2017 revised guidance for intra-abdominal infection."),
       buildSource("tokyo-guidelines", "Biliary and cholecystitis/cholangitis guidance used for source-control framing."),
       buildSource("stop-it", "Short-course antimicrobial therapy for source-controlled intra-abdominal infection, NEJM 2015."),
     ],
@@ -134,9 +137,10 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   }),
   "bacteremia-endocarditis": withConfidence("high", "bacteremia-endocarditis", {
     lastReviewed: CONTENT_REVIEWED_ON,
-    guidelineVersion: "AHA/ACC 2023 IE update",
+    guidelineVersion: "ESC 2023 + AHA 2015 IE guidance",
     sources: [
-      buildSource("aha-acc-2023-ie", "Infective endocarditis update from AHA/ACC, 2023."),
+      buildSource("esc-2023-ie", "Current European infective endocarditis guideline update, 2023."),
+      buildSource("aha-2015-ie", "Foundational AHA scientific statement for adult infective endocarditis, 2015."),
       buildSource("poet", "Partial oral treatment of endocarditis, NEJM 2019."),
       buildSource("arrest", "Adjunctive rifampin for Staphylococcus aureus bacteremia, Lancet 2018."),
     ],
@@ -155,7 +159,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     guidelineVersion: "OVIVA-informed bone and joint guidance",
     sources: [
       buildSource("oviva", "Oral versus intravenous antibiotics for bone and joint infection, NEJM 2019."),
-      buildSource("idsa-pji-osteomyelitis", "IDSA guidance relevant to osteomyelitis and prosthetic joint infection pathways."),
+      buildSource("idsa-2013-pji", "IDSA prosthetic joint infection guideline used for surgical strategy and hardware retention decisions."),
       buildSource("orthopedic-id-review", "Orthopedic infection source-control and step-down stewardship literature."),
     ],
   }),
@@ -163,8 +167,9 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA CNS infection guidance",
     sources: [
-      buildSource("idsa-meningitis-ventriculitis", "IDSA guidance for bacterial meningitis and healthcare-associated ventriculitis."),
-      buildSource("aan-idsa-encephalitis", "Consensus references used for CNS diagnostic framing and adjunctive therapy."),
+      buildSource("idsa-2004-bacterial-meningitis", "IDSA bacterial meningitis guideline for community-acquired disease."),
+      buildSource("idsa-2017-ventriculitis-meningitis", "IDSA healthcare-associated ventriculitis and meningitis guideline."),
+      buildSource("idsa-2008-encephalitis", "IDSA encephalitis guideline used for diagnostic framing and early empiric antiviral therapy."),
       buildSource("dexamethasone-meningitis", "Adjunctive dexamethasone trials informing pneumococcal meningitis care."),
     ],
   }),
@@ -182,7 +187,8 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     guidelineVersion: "IDSA 2022-2024 resistant pathogen guidance",
     sources: [
       buildSource("idsa-2024-amr", "Guidance for CRE, ESBL-E, DTR Pseudomonas, and resistant gram-negatives."),
-      buildSource("aspect-program", "Ceftolozane-tazobactam registration studies for cUTI and nosocomial pneumonia."),
+      buildSource("aspect-cuti-ciai", "Ceftolozane-tazobactam cUTI and cIAI registration data."),
+      buildSource("aspect-np", "Ceftolozane-tazobactam nosocomial pneumonia phase 3 data."),
       buildSource("restore-imi", "Imipenem-cilastatin-relebactam versus polymyxin-based therapy."),
     ],
   }),
@@ -192,7 +198,8 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     sources: [
       buildSource("idsa-febrile-neutropenia", "Guideline for evaluation and management of febrile neutropenia in cancer patients."),
       buildSource("nccn-fever-neutropenia", "NCCN references for risk stratification and outpatient eligibility."),
-      buildSource("mascc-cisne", "Risk-stratification tools used for low-risk outpatient decision support."),
+      buildSource("mascc-risk-index", "MASCC risk index used for outpatient eligibility and early disposition."),
+      buildSource("cisne-score", "CISNE score used to refine low-risk classification in clinically stable solid-tumor outpatients."),
     ],
   }),
   "diabetic-foot": withConfidence("moderate", "diabetic-foot", {
@@ -200,16 +207,16 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     guidelineVersion: "IWGDF/IDSA diabetic foot guidance",
     sources: [
       buildSource("iwgdf-idsa-dfi", "Diabetic foot infection guidance from IWGDF and IDSA."),
-      buildSource("osteomyelitis-stewardship", "Shorter-course and oral step-down literature for diabetic foot osteomyelitis."),
-      buildSource("source-control-principles", "Surgical debridement and perfusion assessment references used in DFI pathways."),
+      buildSource("lazaro-martinez-2014-dfi-osteomyelitis", "Probe-to-bone and imaging-supported management strategy for suspected diabetic foot osteomyelitis."),
+      buildSource("iwgdf-2023-wound-classification", "Wound classification and perfusion framing used to guide source control, limb threat staging, and debridement urgency."),
     ],
   }),
   sepsis: withConfidence("high", "sepsis", {
     lastReviewed: CONTENT_REVIEWED_ON,
-    guidelineVersion: "SSC 2021; IDSA 2024 sepsis antimicrobial guidance",
+    guidelineVersion: "SSC 2021 + Sepsis-3 + BALANCE 2024",
     sources: [
       buildSource("ssc-2021", "Surviving Sepsis Campaign international guidelines, 2021."),
-      buildSource("idsa-2024-sepsis", "Infectious disease-focused antimicrobial guidance for sepsis, 2024."),
+      buildSource("sepsis-3", "Consensus definitions and diagnostic framework for sepsis and septic shock, JAMA 2016."),
       buildSource("balance", "Seven versus fourteen days for bloodstream infection, 2024."),
     ],
   }),
@@ -239,7 +246,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     guidelineVersion: "IDSA 2024 MBL-CRE guidance",
     sources: [
       buildSource("idsa-2024-amr", "Aztreonam plus avibactam-based strategy and cefiderocol considerations for MBL producers, 2024."),
-      buildSource("aztreonam-avibactam-evidence", "Observational and mechanistic literature supporting aztreonam plus ceftazidime-avibactam for NDM/VIM/IMP producers."),
+      buildSource("falcone-2021-caz-avi-aztreonam", "Clinical outcomes supporting ceftazidime-avibactam plus aztreonam for MBL-producing Enterobacterales."),
       buildSource("credible-cr", "Cefiderocol data in carbapenem-resistant gram-negative infections."),
     ],
   }),
@@ -285,7 +292,8 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     sources: [
       buildSource("idsa-febrile-neutropenia", "High-risk inpatient febrile neutropenia management and initial anti-pseudomonal coverage."),
       buildSource("nccn-fever-neutropenia", "Risk-based escalation and antifungal trigger guidance."),
-      buildSource("mascc-cisne", "Risk tools used to separate outpatient from high-risk inpatient care."),
+      buildSource("mascc-risk-index", "MASCC risk index used to identify patients who should not be managed as low risk."),
+      buildSource("cisne-score", "CISNE score used to avoid outpatient classification in clinically stable but higher-risk solid-tumor patients."),
     ],
   }),
   "febrile-neutropenia/fn-with-fungal-risk": withConfidence("moderate", "febrile-neutropenia/fn-with-fungal-risk", {
@@ -299,27 +307,27 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   }),
   "bacteremia-endocarditis/sab-workup": withConfidence("high", "bacteremia-endocarditis/sab-workup", {
     lastReviewed: CONTENT_REVIEWED_ON,
-    guidelineVersion: "SAB workup and IE-screening review 2023",
+    guidelineVersion: "SAB workup and IE-screening review",
     sources: [
-      buildSource("aha-acc-2023-ie", "Imaging, blood culture clearance, and infective endocarditis workup standards relevant to S. aureus bacteremia."),
+      buildSource("aha-2015-ie", "Imaging, blood culture clearance, and infective endocarditis workup standards relevant to S. aureus bacteremia."),
       buildSource("arrest", "Adjunctive rifampin trial reinforcing the need for disciplined SAB management and source control, Lancet 2018."),
-      buildSource("sab-bundle-literature", "Management-bundle and echocardiography literature for high-risk S. aureus bacteremia."),
+      buildSource("holland-2014-sab-review", "Diagnostic workup, complication screening, and management standards for S. aureus bacteremia."),
     ],
   }),
   "bacteremia-endocarditis/native-valve-ie": withConfidence("high", "bacteremia-endocarditis/native-valve-ie", {
     lastReviewed: CONTENT_REVIEWED_ON,
-    guidelineVersion: "AHA/ACC 2023 native-valve IE update",
+    guidelineVersion: "ESC 2023 / AHA 2015 native-valve IE guidance",
     sources: [
-      buildSource("aha-acc-2023-ie", "Current diagnostic and treatment recommendations for native-valve infective endocarditis."),
+      buildSource("esc-2023-ie", "Current diagnostic and treatment recommendations for native-valve infective endocarditis."),
       buildSource("poet", "Partial oral treatment strategy in stabilized left-sided infective endocarditis, NEJM 2019."),
-      buildSource("endocarditis-surgery-review", "Operative timing and multidisciplinary endocarditis-team literature."),
+      buildSource("kang-2012-early-surgery", "Randomized data supporting early surgery in selected left-sided infective endocarditis."),
     ],
   }),
   "bacteremia-endocarditis/prosthetic-valve-ie": withConfidence("moderate", "bacteremia-endocarditis/prosthetic-valve-ie", {
     lastReviewed: CONTENT_REVIEWED_ON,
-    guidelineVersion: "AHA/ACC 2023 prosthetic-valve IE update",
+    guidelineVersion: "ESC 2023 / AHA 2015 prosthetic-valve IE guidance",
     sources: [
-      buildSource("aha-acc-2023-ie", "Guidance for prosthetic-valve endocarditis, surgery triggers, and organism-directed therapy."),
+      buildSource("esc-2023-ie", "Guidance for prosthetic-valve endocarditis, surgery triggers, and organism-directed therapy."),
       buildSource("prosthetic-valve-ie-literature", "Observational evidence and surgical literature for prosthetic-valve endocarditis."),
       buildSource("rifampin-gentamicin-stewardship", "Evidence reassessment for adjunctive rifampin and aminoglycosides in prosthetic-valve IE."),
     ],
@@ -337,27 +345,27 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "OPAT stewardship review 2024",
     sources: [
-      buildSource("aha-acc-2023-ie", "Outpatient treatment considerations and follow-up needs for stabilized endocarditis and bacteremia."),
+      buildSource("esc-2023-ie", "Outpatient treatment considerations and follow-up needs for stabilized endocarditis and bacteremia."),
       buildSource("poet", "Selective oral step-down model for stable endocarditis patients."),
       buildSource("opat-stewardship", "Monitoring, line-care, and adverse-event prevention literature for outpatient parenteral therapy."),
     ],
   }),
   "sepsis/sepsis-community": withConfidence("high", "sepsis/sepsis-community", {
     lastReviewed: CONTENT_REVIEWED_ON,
-    guidelineVersion: "Community-acquired sepsis empiric review 2024",
+    guidelineVersion: "SSC 2021 + community sepsis stewardship review",
     sources: [
       buildSource("ssc-2021", "Early sepsis recognition, antibiotics, and hemodynamic management."),
-      buildSource("idsa-2024-sepsis", "Antimicrobial source-based empiric framing and de-escalation priorities."),
+      buildSource("balance", "Shorter-course bloodstream infection data informing duration once source control is achieved."),
       buildSource("clovers", "Fluid strategy data after initial sepsis resuscitation, NEJM 2023."),
     ],
   }),
   "sepsis/sepsis-hcap": withConfidence("moderate", "sepsis/sepsis-hcap", {
     lastReviewed: CONTENT_REVIEWED_ON,
-    guidelineVersion: "Healthcare-associated sepsis empiric review 2024",
+    guidelineVersion: "SSC 2021 + AMR risk-informed sepsis stewardship",
     sources: [
       buildSource("ssc-2021", "Core septic shock bundle and timing recommendations."),
-      buildSource("idsa-2024-sepsis", "Healthcare exposure, resistant-pathogen risk, and de-escalation framing for sepsis."),
-      buildSource("amr-risk-stratification", "Mechanism-aware resistant-pathogen coverage principles for healthcare-associated sepsis."),
+      buildSource("idsa-2024-amr", "Mechanism-aware resistant-pathogen treatment guidance relevant to healthcare-associated sepsis."),
+      buildSource("cdc-amr-threats-2019", "US resistant-pathogen epidemiology supporting healthcare-associated resistant-gram-negative risk assessment."),
     ],
   }),
   "sepsis/septic-shock": withConfidence("high", "sepsis/septic-shock", {
@@ -440,7 +448,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     guidelineVersion: "Posaconazole prophylaxis and salvage-use data",
     sources: [
       buildSource("idsa-aspergillosis", "Role in prophylaxis and salvage therapy for invasive mold disease."),
-      buildSource("aml-mds-prophylaxis", "Posaconazole prophylaxis superiority in prolonged neutropenia."),
+      buildSource("cornely-2007-posaconazole", "Posaconazole prophylaxis superiority in prolonged neutropenia and AML/MDS induction."),
       buildSource("therapeutic-drug-monitoring", "Exposure targets and formulation-specific PK guidance."),
     ],
   }),
@@ -448,7 +456,8 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "L-AmB invasive fungal infection guidance",
     sources: [
-      buildSource("idsa-candidiasis-aspergillosis", "Core role in invasive candidiasis salvage and mold-active therapy."),
+      buildSource("idsa-candidiasis", "Role in candidemia salvage therapy and invasive Candida infection."),
+      buildSource("idsa-aspergillosis", "Role in mold-active therapy when azoles are not appropriate or not tolerated."),
       buildSource("mucormycosis-guidance", "First-line role in mucormycosis and severe endemic mycoses."),
       buildSource("nephrotoxicity-mitigation", "Dose, electrolyte, and renal monitoring literature for lipid amphotericin formulations."),
     ],
@@ -458,7 +467,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     guidelineVersion: "AUC-guided vancomycin monitoring review",
     sources: [
       buildSource("ashp-idsa-pids-2020-vancomycin", "Consensus guideline for AUC-guided therapeutic monitoring of vancomycin."),
-      buildSource("aha-acc-2023-ie", "Organism-specific roles for vancomycin in endocarditis and bloodstream infection."),
+      buildSource("aha-2015-ie", "Organism-specific roles for vancomycin in endocarditis and bloodstream infection."),
       buildSource("auc-stewardship", "Clinical outcomes and nephrotoxicity literature supporting AUC-guided dosing."),
     ],
   }),
@@ -466,7 +475,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "High-dose daptomycin SAB/IE review",
     sources: [
-      buildSource("aha-acc-2023-ie", "Daptomycin role in right-sided and left-sided staphylococcal endocarditis management."),
+      buildSource("aha-2015-ie", "Daptomycin role in right-sided and left-sided staphylococcal endocarditis management."),
       buildSource("high-dose-daptomycin", "Bacteremia and endocarditis outcomes with high-dose daptomycin strategies."),
       buildSource("combination-salvage-therapy", "Evidence for daptomycin-based salvage approaches in persistent MRSA bacteremia."),
     ],
@@ -475,7 +484,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "MSSA bacteremia beta-lactam review",
     sources: [
-      buildSource("aha-acc-2023-ie", "Cefazolin role in MSSA bacteremia and endocarditis treatment."),
+      buildSource("aha-2015-ie", "Cefazolin role in MSSA bacteremia and endocarditis treatment."),
       buildSource("cefazolin-versus-asp", "Comparative outcomes literature against anti-staphylococcal penicillins in MSSA bacteremia."),
       buildSource("cefazolin-inoculum-effect", "Pharmacodynamic and inoculum-effect literature relevant to deep-seated MSSA infection."),
     ],
@@ -484,7 +493,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Anti-staphylococcal penicillin review",
     sources: [
-      buildSource("aha-acc-2023-ie", "Preferred beta-lactam therapy framework for MSSA endocarditis."),
+      buildSource("aha-2015-ie", "Preferred beta-lactam therapy framework for MSSA endocarditis."),
       buildSource("mssa-bacteremia-literature", "Historical standard-of-care outcomes with nafcillin and oxacillin."),
       buildSource("opat-tolerability", "Hepatic, renal, and sodium-load considerations during prolonged anti-staphylococcal penicillin therapy."),
     ],
@@ -493,7 +502,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "Ceftriaxone endocarditis/OPAT review",
     sources: [
-      buildSource("aha-acc-2023-ie", "Ceftriaxone role in streptococcal endocarditis and select gram-negative bloodstream infections."),
+      buildSource("aha-2015-ie", "Ceftriaxone role in streptococcal endocarditis and select gram-negative bloodstream infections."),
       buildSource("once-daily-opat", "Ceftriaxone suitability for outpatient therapy and simplified administration."),
       buildSource("biliary-urinary-source-bacteremia", "Source-specific stewardship literature supporting ceftriaxone de-escalation when susceptible."),
     ],

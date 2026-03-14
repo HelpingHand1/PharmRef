@@ -14,37 +14,63 @@ export const BONE_JOINT: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "IDSA 2015 Vertebral Osteomyelitis Guidelines",
-        "detail": "THE definitive osteomyelitis guideline. Key recommendations: image-guided biopsy before antibiotics when feasible, 6-week parenteral (or oral with OVIVA caveats) therapy for most vertebral osteomyelitis, CRP trending for treatment response, MRI as gold standard imaging. Emphasizes pathogen-directed therapy over empiric prolonged courses."
+        "detail": "THE definitive osteomyelitis guideline. Key recommendations: image-guided biopsy before antibiotics when feasible, 6-week parenteral (or oral with OVIVA caveats) therapy for most vertebral osteomyelitis, CRP trending for treatment response, MRI as gold standard imaging. Emphasizes pathogen-directed therapy over empiric prolonged courses.",
+        "sourceIds": [
+          "idsa-2015-vertebral-osteomyelitis"
+        ]
       },
       {
         "name": "IDSA 2013 Prosthetic Joint Infection Guidelines",
-        "detail": "Comprehensive PJI management guideline. Defines DAIR (debridement, antibiotics, implant retention) vs. one-stage vs. two-stage exchange criteria. Rifampin for Staphylococcal PJI with retained implants. Duration: 3 months (hip) to 6 months (knee) for two-stage exchange after reimplantation."
+        "detail": "Comprehensive PJI management guideline. Defines DAIR (debridement, antibiotics, implant retention) vs. one-stage vs. two-stage exchange criteria. Rifampin for Staphylococcal PJI with retained implants. Duration: 3 months (hip) to 6 months (knee) for two-stage exchange after reimplantation.",
+        "sourceIds": [
+          "idsa-2013-pji"
+        ]
       },
       {
         "name": "2018 International Consensus Meeting (ICM) on PJI",
-        "detail": "Updated PJI diagnostic criteria: major criteria (sinus tract, two positive cultures of same organism) and minor criteria (elevated serum CRP, elevated serum D-dimer, elevated synovial WBC, elevated synovial alpha-defensin, single positive culture, positive histology). Scoring system for PJI diagnosis."
+        "detail": "Updated PJI diagnostic criteria: major criteria (sinus tract, two positive cultures of same organism) and minor criteria (elevated serum CRP, elevated serum D-dimer, elevated synovial WBC, elevated synovial alpha-defensin, single positive culture, positive histology). Scoring system for PJI diagnosis.",
+        "sourceIds": [
+          "icm-2018-pji"
+        ]
       },
       {
-        "name": "ACR/AAHKS 2023 Management of PJI Guideline",
-        "detail": "Joint rheumatology/orthopedic guideline. Conditional recommendations on DAIR eligibility, antibiotic selection, and when to pursue one-stage vs. two-stage exchange. Aligns with IDSA on rifampin for Staphylococcal PJI."
+        "name": "AAHKS 2023 Chronic PJI Practice Patterns",
+        "detail": "Survey-based AAHKS report describing contemporary surgical preferences for chronic knee PJI, including staged exchange dominance and selective use of DAIR. Useful as a real-world orthopedic companion to IDSA and ICM consensus documents rather than a formal evidence-graded guideline.",
+        "sourceIds": [
+          "aahks-2023-chronic-pji-practice-patterns"
+        ]
       }
     ],
     "landmarkTrials": [
       {
         "name": "OVIVA Trial (Li et al., NEJM 2019)",
-        "detail": "PARADIGM-SHIFTING RCT: Oral Versus Intravenous Antibiotics for Bone and Joint Infection. 1,054 patients with bone/joint infections (osteomyelitis, septic arthritis, PJI, fracture-related infections) randomized to continued IV vs. oral step-down after ≤7 days of IV therapy. Oral was NON-INFERIOR (treatment failure 14.6% vs 14.8%). Changed practice: oral step-down is now acceptable for MOST bone/joint infections when using agents with excellent oral bioavailability and bone penetration. Key caveats: must use the RIGHT oral agents (fluoroquinolones, rifampin combinations, linezolid, TMP-SMX — NOT amoxicillin or cephalexin monotherapy for bone infections)."
+        "detail": "PARADIGM-SHIFTING RCT: Oral Versus Intravenous Antibiotics for Bone and Joint Infection. 1,054 patients with bone/joint infections (osteomyelitis, septic arthritis, PJI, fracture-related infections) randomized to continued IV vs. oral step-down after ≤7 days of IV therapy. Oral was NON-INFERIOR (treatment failure 14.6% vs 14.8%). Changed practice: oral step-down is now acceptable for MOST bone/joint infections when using agents with excellent oral bioavailability and bone penetration. Key caveats: must use the RIGHT oral agents (fluoroquinolones, rifampin combinations, linezolid, TMP-SMX — NOT amoxicillin or cephalexin monotherapy for bone infections).",
+        "sourceIds": [
+          "oviva"
+        ]
       },
       {
         "name": "DATIPO Trial (Wouthuyzen-Bakker et al., 2021)",
-        "detail": "RCT evaluating 6 vs 12 weeks of antibiotics after DAIR for PJI. Results suggest 6 weeks may be sufficient for selected PJI cases treated with DAIR, though practice remains variable. Supports the trend toward shorter courses when surgical source control is adequate."
+        "detail": "RCT evaluating 6 vs 12 weeks of antibiotics after DAIR for PJI. Results suggest 6 weeks may be sufficient for selected PJI cases treated with DAIR, though practice remains variable. Supports the trend toward shorter courses when surgical source control is adequate.",
+        "sourceIds": [
+          "datipo"
+        ]
       },
       {
         "name": "Zimmerli et al., NEJM 1998 — Rifampin for Staphylococcal PJI",
-        "detail": "Seminal RCT establishing rifampin + ciprofloxacin for Staphylococcal PJI with retained implants. Rifampin combination had 100% cure vs. 58% without rifampin. Established the principle that rifampin is ESSENTIAL for biofilm infections on prosthetic material. Every Staphylococcal PJI management plan should include rifampin (with an appropriate companion drug)."
+        "detail": "Seminal RCT establishing rifampin + ciprofloxacin for Staphylococcal PJI with retained implants. Rifampin combination had 100% cure vs. 58% without rifampin. Established the principle that rifampin is ESSENTIAL for biofilm infections on prosthetic material. Every Staphylococcal PJI management plan should include rifampin (with an appropriate companion drug).",
+        "sourceIds": [
+          "zimmerli-1998-rifampin-pji"
+        ]
       },
       {
         "name": "IDSA POET-like oral step-down extrapolation",
-        "detail": "While POET was an endocarditis trial, its principles of oral step-down after initial IV stabilization have been adopted alongside OVIVA for bone/joint infections. The combined message: prolonged IV therapy via PICC is not always necessary, and high-dose oral regimens with bone-penetrating agents are a viable alternative."
+        "detail": "While POET was an endocarditis trial, its principles of oral step-down after initial IV stabilization have been adopted alongside OVIVA for bone/joint infections. The combined message: prolonged IV therapy via PICC is not always necessary, and high-dose oral regimens with bone-penetrating agents are a viable alternative.",
+        "sourceIds": [
+          "poet",
+          "oviva",
+          "orthopedic-id-review"
+        ]
       }
     ],
     "riskFactors": "Osteomyelitis: hematogenous seeding from bacteremia (vertebral osteomyelitis in adults, long-bone metaphysis in children), contiguous spread from soft tissue infection (diabetic foot, decubitus ulcers, post-surgical), trauma/open fractures, vascular insufficiency (diabetic/PVD). Septic arthritis: pre-existing joint disease (RA, OA, gout — damaged joints are vulnerable), recent joint surgery/injection, prosthetic joints, bacteremia from any source, immunosuppression (diabetes, cirrhosis, ESRD, rheumatologic immunosuppressants), IDU, skin breakdown overlying joints. PJI: revision arthroplasty (3-5x risk vs. primary), prior PJI, obesity (BMI >40), diabetes, RA, immunosuppression, prolonged operative time, superficial surgical site infection."

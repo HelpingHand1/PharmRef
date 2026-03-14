@@ -1,6 +1,6 @@
 import { useDeferredValue, useMemo } from "react";
 import type { SearchEntry } from "../data/derived";
-import { getContentSearchBoost, resolveContentMeta } from "../data/metadata";
+import { getContentSearchBoost, getMonographContentKey, getSubcategoryContentKey, resolveContentMeta } from "../data/metadata";
 import type { SearchResult } from "../types";
 
 function scoreName(name: string, q: string): number {
@@ -64,7 +64,11 @@ export function useSearch(query: string, searchIndex: SearchEntry[] | null) {
           arrayScore(entry.drug.drugInteractions, 10, q),
         );
         if (textScore === 0) return;
-        const score = textScore + getContentSearchBoost(resolveContentMeta(entry.drug, entry.disease).meta);
+        const score = textScore + getContentSearchBoost(
+          resolveContentMeta(entry.drug, entry.disease, {
+            contentKey: getMonographContentKey(entry.disease.id, entry.drug.id),
+          }).meta,
+        );
         const key = entry.drug.id;
         const existing = drugMap.get(key);
         if (!existing || score > existing.score) {
@@ -82,7 +86,11 @@ export function useSearch(query: string, searchIndex: SearchEntry[] | null) {
           fieldScore(entry.text, 25, q),
         );
         if (textScore === 0) return;
-        const score = textScore + getContentSearchBoost(resolveContentMeta(entry.subcategory, entry.disease).meta);
+        const score = textScore + getContentSearchBoost(
+          resolveContentMeta(entry.subcategory, entry.disease, {
+            contentKey: getSubcategoryContentKey(entry.disease.id, entry.subcategory.id),
+          }).meta,
+        );
         const key = `${entry.disease.id}:${entry.subcategory.id}:${entry.organism.organism}`;
         const existing = organismMap.get(key);
         if (!existing || score > existing.score) {
@@ -108,7 +116,11 @@ export function useSearch(query: string, searchIndex: SearchEntry[] | null) {
           fieldScore(entry.text, 45, q),
         );
         if (textScore === 0) return;
-        const score = textScore + getContentSearchBoost(resolveContentMeta(entry.subcategory, entry.disease).meta);
+        const score = textScore + getContentSearchBoost(
+          resolveContentMeta(entry.subcategory, entry.disease, {
+            contentKey: getSubcategoryContentKey(entry.disease.id, entry.subcategory.id),
+          }).meta,
+        );
         const key = entry.regimen.id;
         const existing = regimenMap.get(key);
         if (!existing || score > existing.score) {
@@ -132,7 +144,11 @@ export function useSearch(query: string, searchIndex: SearchEntry[] | null) {
         fieldScore(entry.text, 25, q),
       );
       if (textScore === 0) return;
-      const score = textScore + getContentSearchBoost(resolveContentMeta(entry.subcategory, entry.disease).meta);
+      const score = textScore + getContentSearchBoost(
+        resolveContentMeta(entry.subcategory, entry.disease, {
+          contentKey: getSubcategoryContentKey(entry.disease.id, entry.subcategory.id),
+        }).meta,
+      );
       const key = `${entry.disease.id}:${entry.subcategory.id}`;
       const existing = subcatMap.get(key);
       if (!existing || score > existing.score) {

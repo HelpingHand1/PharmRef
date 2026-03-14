@@ -1,6 +1,11 @@
 import type { ContentMeta, DiseaseState, DrugMonograph, OverviewEvidenceEntry, Subcategory } from "../types";
 import { CONTENT_STALE_AFTER_DAYS } from "../version";
 import {
+  computeDiseaseOverviewFingerprint,
+  getMonographContentKey,
+  getSubcategoryContentKey,
+  computeMonographFingerprint,
+  computeSubcategoryFingerprint,
   requiresExplicitMonographMeta,
   requiresExplicitSubcategoryMeta,
   resolveContentMeta,
@@ -8,6 +13,7 @@ import {
 import { resolveOverviewEntrySources } from "./overview-evidence";
 import {
   getSourceRegistryIssues,
+  OVERVIEW_DISALLOWED_SOURCE_IDS,
   resolveEvidenceSourceText,
   resolveSourceEntry,
 } from "./source-registry";
@@ -112,6 +118,7 @@ function validateMeta(
   disease: string,
   scope: string,
   meta: ContentMeta | undefined,
+  expectedBodyVersion?: string,
 ) {
   if (!meta) {
     addIssue(issues, "error", disease, scope, "Missing contentMeta.");
@@ -145,6 +152,22 @@ function validateMeta(
 
   if (!hasValidReviewHistory(meta)) {
     addIssue(issues, "error", disease, scope, "Missing valid structured reviewHistory entries.");
+  }
+
+  if (!meta.governance?.owner?.trim()) {
+    addIssue(issues, "error", disease, scope, "Missing content owner attribution.");
+  }
+
+  if (!meta.governance?.approvedBodyVersion?.trim()) {
+    addIssue(issues, "error", disease, scope, "Missing approved body version.");
+  } else if (expectedBodyVersion && meta.governance.approvedBodyVersion !== expectedBodyVersion) {
+    addIssue(
+      issues,
+      "error",
+      disease,
+      scope,
+      `Approved body version "${meta.governance.approvedBodyVersion}" does not match current content version "${expectedBodyVersion}". Run \`npm run approve:content\` after review.`,
+    );
   }
 
   meta.sources.forEach((source, index) => {
@@ -182,17 +205,44 @@ function validateOverviewEntries(
       addIssue(issues, "error", disease.name, scope, `Missing ${label} detail.`);
     }
     entry.sourceIds?.forEach((sourceId) => {
-      if (!resolveSourceEntry(sourceId)) {
+      const source = resolveSourceEntry(sourceId);
+      if (!source) {
         addIssue(issues, "error", disease.name, scope, `Unknown ${label} source id "${sourceId}".`);
+      } else if (OVERVIEW_DISALLOWED_SOURCE_IDS.has(sourceId)) {
+        addIssue(
+          issues,
+          "error",
+          disease.name,
+          scope,
+          `${label} source id "${sourceId}" is too generic for overview evidence.`,
+        );
+      } else if (!source.url && !source.pmid && !source.doi) {
+        addIssue(
+          issues,
+          "error",
+          disease.name,
+          scope,
+          `${label} source id "${sourceId}" does not yet have a verified PMID, DOI, or direct URL.`,
+        );
       }
     });
-    if (!entry.sourceIds?.length && resolveOverviewEntrySources(entry).length === 0) {
+    if (!entry.sourceIds?.length) {
       addIssue(
         issues,
-        "info",
+        "error",
         disease.name,
         scope,
-        `${label} is not yet linked to a canonical source id.`,
+        `${label} is missing explicit structured source ids.`,
+      );
+      return;
+    }
+    if (resolveOverviewEntrySources(entry).length === 0) {
+      addIssue(
+        issues,
+        "error",
+        disease.name,
+        scope,
+        `${label} source ids do not resolve to canonical sources.`,
       );
     }
   });
@@ -206,7 +256,9 @@ function validateSubcategory(
   optionIds: Set<string>,
 ) {
   const subcategoryScope = `Subcategory ${disease.id}/${subcategory.id}`;
-  const resolvedMeta = resolveContentMeta(subcategory, disease).meta;
+  const resolvedMeta = resolveContentMeta(subcategory, disease, {
+    contentKey: getSubcategoryContentKey(disease.id, subcategory.id),
+  }).meta;
 
   REQUIRED_SUBCATEGORY_FIELDS.forEach((field) => {
     if (isMissing(subcategory[field])) {
@@ -218,7 +270,13 @@ function validateSubcategory(
     addIssue(issues, "error", disease.name, subcategoryScope, "Priority pathway is missing explicit review metadata.");
   }
 
-  validateMeta(issues, disease.name, subcategoryScope, resolvedMeta ?? undefined);
+  validateMeta(
+    issues,
+    disease.name,
+    subcategoryScope,
+    resolvedMeta ?? undefined,
+    computeSubcategoryFingerprint(subcategory),
+  );
 
   const tiers = getEmpiricTherapy(subcategory);
   if (tiers.length === 0) {
@@ -307,7 +365,9 @@ function validateMonograph(
   monograph: DrugMonograph,
 ) {
   const monographScope = `Monograph ${disease.id}/${monograph.id}`;
-  const resolvedMeta = resolveContentMeta(monograph, disease).meta;
+  const resolvedMeta = resolveContentMeta(monograph, disease, {
+    contentKey: getMonographContentKey(disease.id, monograph.id),
+  }).meta;
 
   REQUIRED_MONOGRAPH_FIELDS.forEach((field) => {
     if (isMissing(monograph[field])) {
@@ -325,7 +385,13 @@ function validateMonograph(
     addIssue(issues, "error", disease.name, monographScope, "Priority monograph is missing explicit review metadata.");
   }
 
-  validateMeta(issues, disease.name, monographScope, resolvedMeta ?? undefined);
+  validateMeta(
+    issues,
+    disease.name,
+    monographScope,
+    resolvedMeta ?? undefined,
+    computeMonographFingerprint(monograph),
+  );
 
   if (!hasNonEmptyRecordValues(monograph.dosing)) {
     addIssue(issues, "error", disease.name, monographScope, "Dosing block has no populated scenarios.");
@@ -387,7 +453,13 @@ function validateDisease(
     }
   });
 
-  validateMeta(issues, disease.name, diseaseScope, disease.contentMeta);
+  validateMeta(
+    issues,
+    disease.name,
+    diseaseScope,
+    disease.contentMeta,
+    computeDiseaseOverviewFingerprint(disease),
+  );
   validateOverviewEntries(issues, disease, "key guideline", disease.overview.keyGuidelines);
   validateOverviewEntries(issues, disease, "landmark trial", disease.overview.landmarkTrials);
 

@@ -13,3 +13,15 @@ test("content validation passes without clinical-body errors or warnings", () =>
     issues.map((issue) => `${issue.severity.toUpperCase()} [${issue.scope}] ${issue.message}`).join("\n"),
   );
 });
+
+test("overview evidence sources all have release-valid direct locators", () => {
+  const issues = buildContentValidationIssues(DISEASE_STATES).filter((issue) =>
+    issue.message.includes("does not yet have a verified PMID, DOI, or direct URL"),
+  );
+
+  assert.equal(
+    issues.length,
+    0,
+    issues.map((issue) => `${issue.severity.toUpperCase()} [${issue.scope}] ${issue.message}`).join("\n"),
+  );
+});

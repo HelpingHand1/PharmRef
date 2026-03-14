@@ -27,6 +27,11 @@ export interface ContentReviewEntry {
 
 export type ContentConfidence = "high" | "moderate" | "emerging";
 
+export interface ContentGovernance {
+  owner: string;
+  approvedBodyVersion: string;
+}
+
 export interface ContentMeta {
   lastReviewed: string;
   reviewedBy: string;
@@ -35,6 +40,7 @@ export interface ContentMeta {
   guidelineVersion?: string;
   sources: ContentSource[];
   reviewHistory: ContentReviewEntry[];
+  governance: ContentGovernance;
 }
 
 export interface OverviewEvidenceEntry {

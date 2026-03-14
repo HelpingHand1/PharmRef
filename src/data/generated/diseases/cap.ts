@@ -14,45 +14,75 @@ export const CAP: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "ATS/IDSA 2019 CAP Guidelines",
-        "detail": "Current definitive guideline. Eliminated HCAP category. Emphasizes severity-based treatment, procalcitonin-guided de-escalation, and steroid role in severe CAP. Replaced the 2007 guidelines."
+        "detail": "Current definitive guideline. Eliminated HCAP category. Emphasizes severity-based treatment, procalcitonin-guided de-escalation, and steroid role in severe CAP. Replaced the 2007 guidelines.",
+        "sourceIds": [
+          "ats-idsa-2019-cap"
+        ]
       },
       {
-        "name": "NICE 2023 Pneumonia Update",
-        "detail": "UK guideline — useful perspective on amoxicillin monotherapy and shorter courses. CRB-65 scoring emphasis."
+        "name": "NICE NG138 Pneumonia Antimicrobial Prescribing",
+        "detail": "UK antimicrobial-prescribing guidance with a strong CRB-65 framework and a more conservative view of narrow beta-lactam outpatient therapy.",
+        "sourceIds": [
+          "nice-ng138-pneumonia"
+        ]
       },
       {
         "name": "GOLD 2024 (for AECOPD overlap)",
-        "detail": "Important for distinguishing CAP from acute exacerbation of COPD with pneumonia — treatment differs."
+        "detail": "Important for distinguishing CAP from acute exacerbation of COPD with pneumonia — treatment differs.",
+        "sourceIds": [
+          "gold-2024-aecopd"
+        ]
       },
       {
         "name": "Surviving Sepsis Campaign 2021",
-        "detail": "Relevant for severe CAP with sepsis — 1-hour bundle, lactate-guided resuscitation, vasopressor selection."
+        "detail": "Relevant for severe CAP with sepsis — 1-hour bundle, lactate-guided resuscitation, vasopressor selection.",
+        "sourceIds": [
+          "ssc-2021"
+        ]
       }
     ],
     "landmarkTrials": [
       {
         "name": "CAP-START Trial (2015, NEJM)",
-        "detail": "Dutch RCT comparing beta-lactam monotherapy vs. beta-lactam + macrolide vs. respiratory FQ monotherapy for moderate-severe CAP. Non-inferiority for all three strategies at 90-day mortality. KEY TAKEAWAY: Beta-lactam monotherapy may be sufficient for non-ICU inpatients — challenged the dogma of mandatory macrolide addition."
+        "detail": "Dutch RCT comparing beta-lactam monotherapy vs. beta-lactam + macrolide vs. respiratory FQ monotherapy for moderate-severe CAP. Non-inferiority for all three strategies at 90-day mortality. KEY TAKEAWAY: Beta-lactam monotherapy may be sufficient for non-ICU inpatients — challenged the dogma of mandatory macrolide addition.",
+        "sourceIds": [
+          "cap-start"
+        ]
       },
       {
         "name": "EPIC Study (Jain et al., 2015, NEJM)",
-        "detail": "CDC landmark epidemiologic study of hospitalized CAP in the US. Found a pathogen in only 38% of cases. Rhinovirus and influenza were the most common pathogens overall. S. pneumoniae was the most common bacterial pathogen but detected in only 5%. Changed our understanding of CAP etiology."
+        "detail": "CDC landmark epidemiologic study of hospitalized CAP in the US. Found a pathogen in only 38% of cases. Rhinovirus and influenza were the most common pathogens overall. S. pneumoniae was the most common bacterial pathogen but detected in only 5%. Changed our understanding of CAP etiology.",
+        "sourceIds": [
+          "epic-cap-study"
+        ]
       },
       {
-        "name": "Postma et al. (2015) — Adjunctive Dexamethasone",
-        "detail": "RCT showing dexamethasone 5mg IV × 4 days reduced length of stay by ~1 day in hospitalized CAP. Did NOT reduce mortality. Steroid role remains nuanced — most benefit in severe CAP."
+        "name": "Meijvis et al. (2011, Lancet) — Adjunctive Dexamethasone",
+        "detail": "RCT showing dexamethasone 5mg IV daily for 4 days shortened length of stay in hospitalized adults with CAP without demonstrating a mortality benefit. Supports steroids as an adjunctive, not universal, CAP strategy.",
+        "sourceIds": [
+          "meijvis-2011-dexamethasone-cap"
+        ]
       },
       {
-        "name": "STEP Trial (2023, NEJM)",
-        "detail": "3-day vs. 8-day amoxicillin for CAP in hospitalized patients who achieved clinical stability by day 3. 3 days was non-inferior. Landmark for antibiotic stewardship — shortest validated course for inpatient CAP."
+        "name": "El Moussaoui et al. (2006, BMJ) — 3 vs. 8 Days After Clinical Stability",
+        "detail": "Adults hospitalized with mild-to-moderate CAP who improved after 72 hours of amoxicillin were randomized to stop at day 3 or continue to day 8. Three days was non-inferior after early clinical stability, making this the cleanest adult short-course stewardship trial in CAP.",
+        "sourceIds": [
+          "el-moussaoui-2006-short-course-cap"
+        ]
       },
       {
         "name": "Garin et al. (2014, JAMA IM)",
-        "detail": "Beta-lactam + macrolide vs. beta-lactam alone for hospitalized non-ICU CAP. Combination was NOT superior for non-severe cases. Supports monotherapy approach from CAP-START."
+        "detail": "Beta-lactam + macrolide vs. beta-lactam alone for hospitalized non-ICU CAP. Combination was NOT superior for non-severe cases. Supports monotherapy approach from CAP-START.",
+        "sourceIds": [
+          "garin-2014-cap"
+        ]
       },
       {
         "name": "CAPE COD Trial (2023, NEJM)",
-        "detail": "Hydrocortisone 200mg/day × 4 days then tapered for severe CAP. Significantly reduced 28-day mortality (6.2% vs. 11.9%). Practice-changing for severe/ICU CAP. NNT = 18."
+        "detail": "Hydrocortisone 200mg/day × 4 days then tapered for severe CAP. Significantly reduced 28-day mortality (6.2% vs. 11.9%). Practice-changing for severe/ICU CAP. NNT = 18.",
+        "sourceIds": [
+          "cape-cod"
+        ]
       }
     ],
     "riskFactors": "Age >65, smoking, COPD, asthma, diabetes, heart failure, chronic liver/renal disease, immunosuppression, alcohol use disorder, recent viral URI, poor dental hygiene, dysphagia/aspiration risk, PPI use (controversial but epidemiologically associated)."

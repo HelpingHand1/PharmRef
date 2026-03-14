@@ -668,9 +668,9 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "notes": "Covers MRSA + MSSA + Streptococci + Enterococci + HACEK. Broad empiric regimen for acute IE when organism is unknown. Narrow once cultures return. If hemodynamically unstable, some add gentamicin 1mg/kg IV q8h for the first 3-5 days for synergistic killing (controversial — not routinely recommended due to nephrotoxicity).",
     "drug": "vancomycin-plus-ceftriaxone-empiric",
     "evidence": "A-I",
-    "evidenceSource": "AHA/IDSA 2023",
+    "evidenceSource": "AHA 2015 IE Guideline",
     "evidenceSourceIds": [
-      "aha-acc-2023-ie"
+      "aha-2015-ie"
     ]
   },
   {
@@ -748,9 +748,9 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "drug": "cefazolin",
     "monographId": "cefazolin",
     "evidence": "A-I",
-    "evidenceSource": "AHA/IDSA 2023",
+    "evidenceSource": "AHA 2015 IE Guideline",
     "evidenceSourceIds": [
-      "aha-acc-2023-ie"
+      "aha-2015-ie"
     ]
   },
   {
@@ -765,9 +765,9 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "notes": "Traditional gold standard. Still preferred by some for aortic valve IE or complicated cases. Continuous infusion optimizes time-dependent killing. Major disadvantages: phlebitis, hepatotoxicity (oxacillin), interstitial nephritis (nafcillin), q4h dosing if intermittent.",
     "drug": "nafcillin-oxacillin",
     "evidence": "A-I",
-    "evidenceSource": "AHA/IDSA 2023",
+    "evidenceSource": "AHA 2015 IE Guideline",
     "evidenceSourceIds": [
-      "aha-acc-2023-ie"
+      "aha-2015-ie"
     ]
   },
   {
@@ -980,9 +980,9 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "drug": "daptomycin",
     "monographId": "daptomycin",
     "evidence": "B-II",
-    "evidenceSource": "AHA/IDSA 2023",
+    "evidenceSource": "AHA 2015 IE Guideline",
     "evidenceSourceIds": [
-      "aha-acc-2023-ie"
+      "aha-2015-ie"
     ]
   },
   {
@@ -998,9 +998,9 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "drug": "vancomycin",
     "monographId": "vancomycin",
     "evidence": "A-I",
-    "evidenceSource": "AHA/IDSA 2023",
+    "evidenceSource": "AHA 2015 IE Guideline",
     "evidenceSourceIds": [
-      "aha-acc-2023-ie"
+      "aha-2015-ie"
     ]
   },
   {
@@ -1042,9 +1042,9 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "drug": "cefazolin",
     "monographId": "cefazolin",
     "evidence": "A-I",
-    "evidenceSource": "AHA/IDSA 2023",
+    "evidenceSource": "AHA 2015 IE Guideline",
     "evidenceSourceIds": [
-      "aha-acc-2023-ie"
+      "aha-2015-ie"
     ]
   },
   {
@@ -1059,9 +1059,9 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "notes": "Historical gold standard for MSSA. Still used by some ID physicians who prefer the rapid bactericidal activity and high-dose continuous infusion data. Disadvantages: q4h dosing (impractical for OPAT), significant phlebitis, oxacillin hepatotoxicity, nafcillin-associated interstitial nephritis. Most centers have transitioned to cefazolin. Reserve for cefazolin allergy (severe cephalosporin allergy — rare) or treatment failure on cefazolin (extremely rare).",
     "drug": "nafcillin-oxacillin",
     "evidence": "A-I",
-    "evidenceSource": "AHA/IDSA 2023",
+    "evidenceSource": "AHA 2015 IE Guideline",
     "evidenceSourceIds": [
-      "aha-acc-2023-ie"
+      "aha-2015-ie"
     ]
   },
   {
@@ -1501,7 +1501,7 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "evidence": "A-I",
     "evidenceSource": "IDSA/SHEA 2021",
     "evidenceSourceIds": [
-      "idsa-shea-cdi"
+      "idsa-shea-2021-cdi"
     ]
   },
   {
@@ -1649,7 +1649,7 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Multiple Recurrences (≥2nd Recurrence)",
     "line": "Traditional FMT (If FDA-Approved Products Unavailable)",
     "regimen": "FMT via colonoscopy — fresh or frozen donor stool",
-    "notes": "Traditional fecal microbiota transplantation performed at specialized centers. Highest single-procedure success rate (~85-90% for recurrent CDI). Delivered via colonoscopy into the cecum/right colon. Requires pre-procedure CDI antibiotic treatment (stop antibiotics 24-48h before FMT). Donor screening is rigorous (FDA requires IND for FMT using non-FDA-approved products). AGA 2022 guidelines recommend FMT for ≥3 total CDI episodes (initial + 2 recurrences).",
+    "notes": "Traditional fecal microbiota transplantation performed at specialized centers. Highest single-procedure success rate (~85-90% for recurrent CDI). Delivered via colonoscopy into the cecum/right colon. Requires pre-procedure CDI antibiotic treatment (stop antibiotics 24-48h before FMT). Donor screening is rigorous (FDA requires IND for FMT using non-FDA-approved products). The AGA 2024 guideline supports microbiota-based therapy for patients with recurrent CDI after appropriate antibiotic treatment.",
     "drug": "fmt-colonoscopy"
   },
   {
@@ -4044,7 +4044,7 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "evidence": "B-II",
     "evidenceSource": "SIS/IDSA 2017",
     "evidenceSourceIds": [
-      "sis-idsa-iai"
+      "sis-2017-ciai"
     ]
   },
   {
@@ -4061,7 +4061,7 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "evidence": "B-II",
     "evidenceSource": "SIS/IDSA 2017",
     "evidenceSourceIds": [
-      "sis-idsa-iai"
+      "sis-2017-ciai"
     ]
   },
   {
@@ -4078,7 +4078,7 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "evidence": "A-I",
     "evidenceSource": "SIS/IDSA 2017",
     "evidenceSourceIds": [
-      "sis-idsa-iai"
+      "sis-2017-ciai"
     ]
   },
   {
@@ -4095,7 +4095,7 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "evidence": "B-II",
     "evidenceSource": "SIS/IDSA 2017",
     "evidenceSourceIds": [
-      "sis-idsa-iai"
+      "sis-2017-ciai"
     ]
   },
   {
@@ -4112,7 +4112,7 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "evidence": "A-I",
     "evidenceSource": "SIS/IDSA 2017",
     "evidenceSourceIds": [
-      "sis-idsa-iai"
+      "sis-2017-ciai"
     ]
   },
   {
@@ -4129,7 +4129,7 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "evidence": "A-I",
     "evidenceSource": "SIS/IDSA 2017",
     "evidenceSourceIds": [
-      "sis-idsa-iai"
+      "sis-2017-ciai"
     ]
   },
   {
@@ -4170,7 +4170,7 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "evidence": "B-II",
     "evidenceSource": "SIS/IDSA 2017",
     "evidenceSourceIds": [
-      "sis-idsa-iai"
+      "sis-2017-ciai"
     ]
   },
   {
@@ -4187,7 +4187,7 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "evidence": "A-I",
     "evidenceSource": "SIS/IDSA 2017",
     "evidenceSourceIds": [
-      "sis-idsa-iai"
+      "sis-2017-ciai"
     ]
   },
   {
@@ -4204,7 +4204,7 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "evidence": "A-I",
     "evidenceSource": "SIS/IDSA 2017",
     "evidenceSourceIds": [
-      "sis-idsa-iai"
+      "sis-2017-ciai"
     ]
   },
   {
@@ -4403,13 +4403,13 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     ]
   },
   {
-    "id": "sepsis/sepsis-hcap/first-line-empiric-hcap-mrsa-gram-negative-cover/vancomycin-meropenem-2",
+    "id": "sepsis/sepsis-hcap/first-line-empiric-healthcare-associated-sepsis-/vancomycin-meropenem-2",
     "diseaseId": "sepsis",
     "diseaseName": "Sepsis & Septic Shock",
     "diseaseIcon": "🔴",
     "subcategoryId": "sepsis-hcap",
     "subcategoryName": "Healthcare-Associated Sepsis",
-    "line": "First-Line Empiric HCAP (MRSA + Gram-Negative Coverage)",
+    "line": "First-Line Empiric Healthcare-Associated Sepsis Coverage (MRSA + Gram-Negative)",
     "regimen": "Vancomycin IV (AUC-guided) + Meropenem 2g IV q8h over 3h (extended infusion)",
     "notes": "Preferred over pip-tazo combination when: prior ESBL isolate from patient, recent hospitalization in high-ESBL facility, abdominal source with high inoculum risk, immunocompromised, or local ESBL prevalence >20% in healthcare settings. Extended 3h infusion maximizes T>MIC for higher-MIC organisms (MIC 2–8 mg/L range).",
     "drug": "vancomycin-meropenem",
@@ -4421,21 +4421,21 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     ]
   },
   {
-    "id": "sepsis/sepsis-hcap/first-line-empiric-hcap-mrsa-gram-negative-cover/vancomycin-piptazo-1",
+    "id": "sepsis/sepsis-hcap/first-line-empiric-healthcare-associated-sepsis-/vancomycin-piptazo-1",
     "diseaseId": "sepsis",
     "diseaseName": "Sepsis & Septic Shock",
     "diseaseIcon": "🔴",
     "subcategoryId": "sepsis-hcap",
     "subcategoryName": "Healthcare-Associated Sepsis",
-    "line": "First-Line Empiric HCAP (MRSA + Gram-Negative Coverage)",
+    "line": "First-Line Empiric Healthcare-Associated Sepsis Coverage (MRSA + Gram-Negative)",
     "regimen": "Vancomycin IV (AUC-guided) + Piperacillin-Tazobactam 4.5g IV q8h extended infusion",
-    "notes": "Standard empiric combination for HCAP without prior MDR isolates. Covers MRSA (vancomycin) + gram-negative including Pseudomonas (pip-tazo). De-escalate vancomycin if MRSA not identified at 48–72h. Switch from pip-tazo to meropenem if ESBL found in blood cultures (MERINO trial).",
+    "notes": "Standard empiric combination for healthcare-associated sepsis without prior MDR isolates. Covers MRSA (vancomycin) plus gram-negative pathogens including Pseudomonas (pip-tazo). De-escalate vancomycin if MRSA is not identified at 48–72 hours. Switch from pip-tazo to meropenem if ESBL is found in blood cultures (MERINO trial).",
     "drug": "vancomycin-piptazo",
     "evidence": "B-II",
-    "evidenceSource": "SSC 2021; IDSA HCAP guidance",
+    "evidenceSource": "SSC 2021; ATS/IDSA 2016 HAP/VAP",
     "evidenceSourceIds": [
       "ssc-2021",
-      "idsa-hcap-guidance"
+      "ats-idsa-2016-hap-vap"
     ]
   },
   {
@@ -4447,7 +4447,7 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Healthcare-Associated Sepsis",
     "line": "Suspected Candida Sepsis — High-Risk Patients",
     "regimen": "Micafungin 100mg IV q24h (first-line) OR Caspofungin 70mg IV ×1 then 50mg IV q24h",
-    "notes": "Add empiric antifungal when multiple Candida risk factors present in HCAP: TPN dependence + broad-spectrum abx ≥5 days + septic shock without source, multi-site Candida colonization (≥2 non-contiguous sites), recent abdominal surgery with GI perforation, solid organ transplant. Fluconazole acceptable only for hemodynamically stable patients with no prior azole exposure and low-risk for resistant Candida.",
+    "notes": "Add empiric antifungal when multiple Candida risk factors are present in healthcare-associated sepsis: TPN dependence, broad-spectrum antibiotics for at least 5 days, septic shock without source, multi-site Candida colonization (at least 2 non-contiguous sites), recent abdominal surgery with GI perforation, or solid organ transplant. Fluconazole is acceptable only for hemodynamically stable patients with no prior azole exposure and low risk for resistant Candida.",
     "drug": "micafungin-hcap",
     "evidence": "B-II",
     "evidenceSource": "SSC 2021; IDSA Candidiasis Guidelines 2016",
@@ -6169,9 +6169,9 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "drug": "daptomycin",
       "monographId": "daptomycin",
       "evidence": "B-II",
-      "evidenceSource": "AHA/IDSA 2023",
+      "evidenceSource": "AHA 2015 IE Guideline",
       "evidenceSourceIds": [
-        "aha-acc-2023-ie"
+        "aha-2015-ie"
       ]
     },
     {
@@ -6246,9 +6246,9 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "drug": "vancomycin",
       "monographId": "vancomycin",
       "evidence": "A-I",
-      "evidenceSource": "AHA/IDSA 2023",
+      "evidenceSource": "AHA 2015 IE Guideline",
       "evidenceSourceIds": [
-        "aha-acc-2023-ie"
+        "aha-2015-ie"
       ]
     },
     {
@@ -6368,9 +6368,9 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "drug": "cefazolin",
       "monographId": "cefazolin",
       "evidence": "A-I",
-      "evidenceSource": "AHA/IDSA 2023",
+      "evidenceSource": "AHA 2015 IE Guideline",
       "evidenceSourceIds": [
-        "aha-acc-2023-ie"
+        "aha-2015-ie"
       ]
     },
     {
@@ -6399,9 +6399,9 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "drug": "cefazolin",
       "monographId": "cefazolin",
       "evidence": "A-I",
-      "evidenceSource": "AHA/IDSA 2023",
+      "evidenceSource": "AHA 2015 IE Guideline",
       "evidenceSourceIds": [
-        "aha-acc-2023-ie"
+        "aha-2015-ie"
       ]
     },
     {
@@ -6568,7 +6568,7 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "evidence": "A-I",
       "evidenceSource": "IDSA/SHEA 2021",
       "evidenceSourceIds": [
-        "idsa-shea-cdi"
+        "idsa-shea-2021-cdi"
       ]
     },
     {

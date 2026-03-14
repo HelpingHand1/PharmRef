@@ -14,37 +14,63 @@ export const ADVANCED_AGENTS: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "IDSA 2022 Guidance on Resistant Gram-Negative Infections",
-        "detail": "First IDSA guidance document specifically addressing CRE, ESBL-E, difficult-to-treat Pseudomonas, and carbapenem-resistant Acinetobacter baumannii. Defines preferred and alternative regimens for each resistance phenotype."
+        "detail": "First IDSA guidance document specifically addressing CRE, ESBL-E, difficult-to-treat Pseudomonas, and carbapenem-resistant Acinetobacter baumannii. Defines preferred and alternative regimens for each resistance phenotype.",
+        "sourceIds": [
+          "idsa-2022-amr"
+        ]
       },
       {
         "name": "ASHP/IDSA/SIDP 2020 Vancomycin Monitoring Consensus",
-        "detail": "Updated guidance recommending AUC-guided monitoring over trough-only. Target AUC/MIC 400–600 mg·h/L for S. aureus infections."
+        "detail": "Updated guidance recommending AUC-guided monitoring over trough-only. Target AUC/MIC 400–600 mg·h/L for S. aureus infections.",
+        "sourceIds": [
+          "ashp-idsa-pids-2020-vancomycin"
+        ]
       },
       {
         "name": "IDSA 2016 Candidiasis Guidelines",
-        "detail": "Echinocandin first-line for candidemia. Defines step-down criteria to fluconazole. Liposomal AmB for azole-refractory or CNS disease."
+        "detail": "Echinocandin first-line for candidemia. Defines step-down criteria to fluconazole. Liposomal AmB for azole-refractory or CNS disease.",
+        "sourceIds": [
+          "idsa-candidiasis"
+        ]
       },
       {
-        "name": "ESCMID/ECMM/ERS 2022 Aspergillosis Guidelines",
-        "detail": "Voriconazole/isavuconazole first-line for IA. Posaconazole primary prophylaxis in AML/HSCT."
+        "name": "ESCMID-ECMM-ERS 2017 Aspergillosis Guideline",
+        "detail": "European guidance supporting voriconazole or isavuconazole as preferred therapy for invasive aspergillosis, with posaconazole primary prophylaxis in high-risk hematology patients.",
+        "sourceIds": [
+          "escmid-ecmm-ers-2017-aspergillosis"
+        ]
       }
     ],
     "landmarkTrials": [
       {
         "name": "ASPECT-cUTI / ASPECT-NP Trials (Ceftolozane-Tazobactam)",
-        "detail": "Ceftolozane-tazobactam non-inferior to levofloxacin (cUTI) and meropenem (nosocomial pneumonia) including MDR Pseudomonas aeruginosa. Key enabling trials for FDA approval."
+        "detail": "Ceftolozane-tazobactam demonstrated efficacy across cUTI, cIAI (with metronidazole), and nosocomial pneumonia, including MDR Pseudomonas aeruginosa. These phase 3 programs anchored FDA approval and later resistant-pathogen positioning.",
+        "sourceIds": [
+          "aspect-cuti-ciai",
+          "aspect-np"
+        ]
       },
       {
         "name": "RESTORE-IMI 1 & 2 (Imipenem-Cilastatin-Relebactam)",
-        "detail": "IMI-R superior to colistin + imipenem for CRE and MDR Pseudomonas in both cUTI/IAI and HAP/VAP. Established IC-R as a preferred option over polymyxins."
+        "detail": "IMI-R superior to colistin + imipenem for CRE and MDR Pseudomonas in both cUTI/IAI and HAP/VAP. Established IC-R as a preferred option over polymyxins.",
+        "sourceIds": [
+          "restore-imi-1",
+          "restore-imi-2"
+        ]
       },
       {
-        "name": "ATTAIN 1 & 2 Trials (Tedizolid)",
-        "detail": "Tedizolid 200mg QD × 6 days non-inferior to linezolid 600mg BID × 10 days for ABSSSI including MRSA. Shorter duration, once-daily dosing, potentially better tolerability."
+        "name": "ESTABLISH 1 & 2 Trials (Tedizolid)",
+        "detail": "Tedizolid 200mg QD × 6 days non-inferior to linezolid 600mg BID × 10 days for ABSSSI including MRSA. Shorter duration, once-daily dosing, potentially better tolerability.",
+        "sourceIds": [
+          "establish"
+        ]
       },
       {
         "name": "Hartford Nomogram (Aminoglycosides)",
-        "detail": "Established 7 mg/kg extended-interval dosing for gentamicin/tobramycin. AUC-guided approach reduces nephrotoxicity while maintaining efficacy through concentration-dependent killing."
+        "detail": "Established 7 mg/kg extended-interval dosing for gentamicin/tobramycin. AUC-guided approach reduces nephrotoxicity while maintaining efficacy through concentration-dependent killing.",
+        "sourceIds": [
+          "hartford-nomogram"
+        ]
       }
     ],
     "riskFactors": "Prior antibiotic exposure (especially broad-spectrum), healthcare exposure, ICU admission, immunosuppression, solid organ or stem cell transplant, prolonged hospitalization, invasive devices, prior MDR organism isolation, travel to endemic regions."

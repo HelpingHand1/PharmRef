@@ -5,7 +5,7 @@ import CrossRefBadges from "../components/CrossRefBadges";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
 import RegimenCrossRefs from "../components/RegimenCrossRefs";
 import Section from "../components/Section";
-import { resolveContentMeta } from "../data/metadata";
+import { getMonographContentKey, resolveContentMeta } from "../data/metadata";
 import { aeCard, aeLabel, NAV_STATES } from "../styles/constants";
 import type {
   AllergyRecord,
@@ -63,7 +63,9 @@ export default function MonographPage({
   toggleBookmark,
   toggleSection,
 }: MonographPageProps) {
-  const { meta: pageMeta, inherited } = resolveContentMeta(monograph, disease);
+  const { meta: pageMeta, inherited } = resolveContentMeta(monograph, disease, {
+    contentKey: getMonographContentKey(disease.id, monograph.id),
+  });
   const isDark = theme !== "light";
   const crclColor = crcl === null ? "#8ea1bb" : crcl >= 60 ? "#34d399" : crcl >= 30 ? "#fbbf24" : "#f87171";
   const crclLabel = crcl === null ? "" : crcl >= 60 ? "Normal/Mild" : crcl >= 30 ? "Moderate impairment" : crcl >= 15 ? "Severe impairment" : "Kidney failure";

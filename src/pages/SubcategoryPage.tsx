@@ -4,7 +4,7 @@ import ContentMetaCard from "../components/ContentMetaCard";
 import EmpiricTierView from "../components/EmpiricTierView";
 import Section from "../components/Section";
 import { NAV_STATES } from "../styles/constants";
-import { resolveContentMeta } from "../data/metadata";
+import { getSubcategoryContentKey, resolveContentMeta } from "../data/metadata";
 import { hasAnyPatientSignals } from "../utils/regimenGuidance";
 import type {
   AllergyRecord,
@@ -53,7 +53,9 @@ export default function SubcategoryPage({
   subcategory,
   toggleSection,
 }: SubcategoryPageProps) {
-  const { meta: pageMeta, inherited } = resolveContentMeta(subcategory, disease);
+  const { meta: pageMeta, inherited } = resolveContentMeta(subcategory, disease, {
+    contentKey: getSubcategoryContentKey(disease.id, subcategory.id),
+  });
   const hasPatientContext = hasAnyPatientSignals(patient);
   const handleShare = useCallback(async () => {
     try {

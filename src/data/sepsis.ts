@@ -5,7 +5,7 @@
 // SEPSIS & SEPTIC SHOCK
 // ============================================================
 // Sources: Surviving Sepsis Campaign 2021 International Guidelines,
-// IDSA 2024 Sepsis Guidance, SCCM/ESICM Sepsis-3 Definitions (Singer et al. JAMA 2016),
+// Sepsis-3 Definitions (Singer et al. JAMA 2016), IDSA 2024 AMR Guidance,
 // BALANCE Trial 2024, MERINO Trial 2018, SMART Trial 2018
 // ============================================================
 
@@ -26,21 +26,25 @@ export const SEPSIS: DiseaseState = {
         name: "Surviving Sepsis Campaign (SSC) 2021 International Guidelines",
         detail:
           "The SSC 2021 is the global standard of care for sepsis/septic shock. Key antimicrobial recommendations: (1) Administer broad-spectrum antibiotics within 1 hour of septic shock or sepsis with organ dysfunction; within 3 hours of sepsis without shock. (2) Obtain blood cultures (≥2 sets) BEFORE antibiotics if possible without delaying >45 minutes. (3) Empiric combination gram-positive (MRSA) coverage for septic shock without clear source. (4) Procalcitonin-guided de-escalation — target PCT decline >80% from peak or PCT <0.5 ng/mL for antibiotic discontinuation. (5) Do NOT use dual gram-negative coverage once organism identified (no synergy benefit for bacteremia, adds toxicity). (6) Source control within 6–12 hours (drainage, debridement, catheter removal). (7) Fluid resuscitation: 30 mL/kg IV balanced crystalloid for MAP <65 or lactate ≥4 mmol/L within 3 hours. (8) Norepinephrine first-line vasopressor (MAP target ≥65 mmHg). (9) Hydrocortisone 200 mg/day IV for vasopressor-refractory septic shock. (10) Balanced crystalloids (LR, Plasma-Lyte) preferred over 0.9% NS.",
+        sourceIds: ["ssc-2021"],
       },
       {
         name: "Sepsis-3 Task Force (Singer et al., JAMA 2016)",
         detail:
           "Landmark consensus paper retiring SIRS criteria for sepsis diagnosis (SIRS is too non-specific — occurs in surgery, burns, pancreatitis). Introduced SOFA score as the operational criterion for organ dysfunction (≥2 point increase). Validated qSOFA (RR ≥22, altered mentation, SBP ≤100 — 2/3 = screen positive) as a rapid bedside tool outside the ICU. Established Septic Shock as requiring BOTH vasopressors for MAP ≥65 mmHg AND lactate >2 mmol/L (mortality >40%). Retired 'severe sepsis' as a separate category. This paradigm shift changed ICU admission criteria and antibiotic initiation thresholds globally.",
+        sourceIds: ["sepsis-3"],
       },
       {
-        name: "IDSA 2024 Sepsis Antimicrobial Guidance",
+        name: "IDSA 2024 AMR Guidance",
         detail:
-          "IDSA 2024 infectious disease-specific guidance: (1) Antibiogram-guided empiric selection based on local susceptibility patterns. (2) 7-day antibiotic courses for most sepsis with source control (supported by BALANCE trial 2024). (3) PCT-guided discontinuation. (4) Strongly against routine empiric antifungals without specific Candida risk factors (TPN, prolonged broad-spectrum abx, multi-site Candida colonization, immunocompromised, GI perforation). (5) For high-risk MRSA sepsis (prior MRSA, HD, IVDU, healthcare contact), add vancomycin or daptomycin empirically. (6) ESBL bacteremia: carbapenems are standard — pip-tazo has failed non-inferiority (MERINO trial). (7) De-escalate at 48–72h based on culture results and clinical trajectory.",
+          "Not a sepsis guideline, but directly relevant when septic patients have resistant-pathogen risk. Provides mechanism-aware treatment direction for ESBL-E, CRE, DTR Pseudomonas, and resistant Acinetobacter, and reinforces culture-driven de-escalation once the organism is defined.",
+        sourceIds: ["idsa-2024-amr"],
       },
       {
         name: "BALANCE Trial 2024 — 7 vs. 14 Days for Non-Endocarditis Bacteremia",
         detail:
           "Landmark RCT (n=3,608 patients) comparing 7-day vs. 14-day antibiotic courses for bacteremia (excluding endocarditis). 90-day mortality was non-inferior in the 7-day group (14.5% vs. 16.1%). The 7-day course was associated with fewer adverse events, lower C. difficile incidence, and reduced costs. Exceptions where longer therapy may be warranted: S. aureus bacteremia with metastatic foci, endocarditis, immunocompromised patients. This trial strongly supports 7-day antibiotic courses for most bacteremia-associated sepsis when source is controlled and clinical improvement is evident.",
+        sourceIds: ["balance"],
       },
     ],
     landmarkTrials: [
@@ -48,26 +52,31 @@ export const SEPSIS: DiseaseState = {
         name: "MERINO Trial (Paul et al., JAMA 2018) — Pip-Tazo vs. Meropenem for ESBL Bacteremia",
         detail:
           "391 patients with E. coli or Klebsiella bacteremia (predominantly ESBL-producing) treated with piperacillin-tazobactam vs. meropenem. 30-day mortality: 12.3% (pip-tazo) vs. 3.7% (meropenem) — pip-tazo FAILED non-inferiority. The 'Eagle/inoculum effect' causes pip-tazo MIC to rise dramatically at high bacterial densities. MERINO definitively established: carbapenems (meropenem/ertapenem) — NOT pip-tazo — are the definitive treatment for ESBL-producing Enterobacterales bacteremia, regardless of in vitro susceptibility.",
+        sourceIds: ["merino"],
       },
       {
         name: "ARISE, ProCESS, ProMISe Trials (2014–2015) — EGDT vs. Standard Care",
         detail:
           "Three RCTs (ARISE n=1,600, ProCESS n=1,341, ProMISe n=1,260) failed to show benefit of the Rivers EGDT protocol (targeting CVP 8-12, ScvO2 ≥70%, MAP ≥65, UO ≥0.5 mL/kg/hr) over standard care. 90-day mortality was similar (~18–24% across all arms). EGDT required more blood transfusions, dobutamine, and resources without benefit. These trials validated protocolized standard care — early antibiotics + fluid resuscitation + vasopressors — as sufficient, and effectively retired the Rivers protocol.",
+        sourceIds: ["arise", "process", "promise"],
       },
       {
         name: "SMART Trial (Semler et al., NEJM 2018) — Balanced Crystalloids vs. Normal Saline",
         detail:
           "15,802 ICU patients randomized to balanced crystalloids (LR or Plasma-Lyte) vs. 0.9% NS. Primary outcome MAKE-30 (death, new RRT, or persistent creatinine elevation): 14.3% balanced vs. 15.4% NS (OR 0.90, p=0.04). Sepsis patients had greater benefit. Excess NS causes hyperchloremic metabolic acidosis and may worsen renal outcomes. SSC 2021 recommends balanced crystalloids over NS; NS remains acceptable when balanced crystalloids unavailable.",
+        sourceIds: ["smart-trial"],
       },
       {
         name: "ANDROMEDA-SHOCK Trial (Hernandez et al., JAMA 2019) — CRT vs. Lactate-Guided Resuscitation",
         detail:
           "424 septic shock patients randomized to capillary refill time (CRT)-guided vs. serum lactate-guided resuscitation. CRT-guided group trended toward lower 28-day mortality (34.9% vs. 43.4%, p=0.06), received less fluid, shorter vasopressor duration. Established peripheral perfusion assessment (CRT ≤3 seconds) as a valid complementary resuscitation endpoint to lactate clearance.",
+        sourceIds: ["andromeda-shock"],
       },
       {
         name: "ADRENAL Trial (Venkatesh et al., NEJM 2018) — Hydrocortisone in Septic Shock",
         detail:
           "3,800 ventilated patients with septic shock randomized to hydrocortisone 200mg/day vs. placebo. 90-day mortality: 27.9% hydrocortisone vs. 28.8% placebo (p=0.50 — no significant difference). BUT: hydrocortisone significantly reduced vasopressor duration, ICU LOS, and time to shock resolution. SSC 2021 still recommends low-dose corticosteroids for vasopressor-refractory septic shock based on physiological rationale and shock-resolution benefit.",
+        sourceIds: ["adrenal"],
       },
     ],
     riskFactors:
@@ -171,9 +180,9 @@ export const SEPSIS: DiseaseState = {
       definition:
         "Sepsis arising ≥48–72h after hospital admission OR in patients with significant healthcare exposure within the prior 90 days: hospitalization ≥2 days, hemodialysis, home IV therapy, nursing home/LTAC residence, outpatient wound care, or prior surgery. Risk for MRSA, ESBL-producing Enterobacterales, Pseudomonas aeruginosa, Acinetobacter baumannii, VRE, and Candida spp. is substantially elevated vs. community-acquired sepsis. Empiric therapy must be broader, with rapid de-escalation upon culture results.",
       clinicalPresentation:
-        "Clinical presentation similar to community-acquired sepsis but often more subtle in elderly/immunocompromised patients. Key clues for HCAP: patient with indwelling catheter (CLABSI, CAUTI), recent ventilation (VAP — new fever + purulent secretions + infiltrate in ventilated patient), post-operative fever (SSI — wound erythema, drainage), C. diff (watery diarrhea in patient on broad-spectrum abx). CLABSI features: fever/rigors temporally related to catheter flush, erythema at catheter insertion site, multiple positive blood cultures (peripheral + central), quantitative blood cultures with colony count 3× higher from central vs. peripheral. Consider catheter removal for S. aureus bacteremia — high risk for metastatic seeding (osteomyelitis, endocarditis).",
+        "Clinical presentation similar to community-acquired sepsis but often more subtle in elderly or immunocompromised patients. Key clues for healthcare-associated sources: patient with indwelling catheter (CLABSI, CAUTI), recent ventilation (VAP — new fever + purulent secretions + infiltrate in ventilated patient), post-operative fever (SSI — wound erythema, drainage), or C. diff (watery diarrhea in a patient on broad-spectrum antibiotics). CLABSI features: fever or rigors temporally related to catheter flush, erythema at catheter insertion site, multiple positive blood cultures (peripheral + central), and quantitative blood cultures with colony count 3x higher from central vs peripheral. Consider catheter removal for S. aureus bacteremia because of high risk for metastatic seeding (osteomyelitis, endocarditis).",
       diagnostics:
-        "CULTURES: Blood cultures ×2 (peripheral + from each vascular access device if CLABSI suspected — quantitative if available). Catheter tip culture (if removed). Urine culture (UA + C&S). Wound culture (deep swab or aspirate — not superficial swab). Tracheal aspirate or BAL for VAP. LABS: Same as community-acquired + procalcitonin. MDR SCREENING: If MDR risk, obtain rectal swab for CRE PCR (KPC, NDM) and MRSA nasal swab — results in 24–48h guide modification. IMAGING: CT chest/abdomen/pelvis with IV contrast for undifferentiated HCAP source. ECHOCARDIOGRAM: Transthoracic (or TEE) for S. aureus bacteremia — rule out endocarditis, which changes duration (4–6 weeks) and management.",
+        "CULTURES: Blood cultures ×2 (peripheral + from each vascular access device if CLABSI suspected — quantitative if available). Catheter tip culture if removed. Urine culture (UA + C&S). Wound culture (deep swab or aspirate, not superficial swab). Tracheal aspirate or BAL for VAP. LABS: Same as community-acquired + procalcitonin. MDR SCREENING: If MDR risk, obtain rectal swab for CRE PCR (KPC, NDM) and MRSA nasal swab — results in 24–48 hours can guide modification. IMAGING: CT chest, abdomen, or pelvis with IV contrast for an undifferentiated healthcare-associated source. ECHOCARDIOGRAM: Transthoracic (or TEE) for S. aureus bacteremia to rule out endocarditis, which changes duration (4–6 weeks) and management.",
       durationGuidance: {
         standard: "7–14 days based on source, organism, and clinical response",
         severe:
@@ -185,15 +194,15 @@ export const SEPSIS: DiseaseState = {
       },
       empiricTherapy: [
         {
-          line: "First-Line Empiric HCAP (MRSA + Gram-Negative Coverage)",
+          line: "First-Line Empiric Healthcare-Associated Sepsis Coverage (MRSA + Gram-Negative)",
           options: [
             {
               drug: "vancomycin-piptazo",
               regimen: "Vancomycin IV (AUC-guided) + Piperacillin-Tazobactam 4.5g IV q8h extended infusion",
               notes:
-                "Standard empiric combination for HCAP without prior MDR isolates. Covers MRSA (vancomycin) + gram-negative including Pseudomonas (pip-tazo). De-escalate vancomycin if MRSA not identified at 48–72h. Switch from pip-tazo to meropenem if ESBL found in blood cultures (MERINO trial).",
+                "Standard empiric combination for healthcare-associated sepsis without prior MDR isolates. Covers MRSA (vancomycin) plus gram-negative pathogens including Pseudomonas (pip-tazo). De-escalate vancomycin if MRSA is not identified at 48–72 hours. Switch from pip-tazo to meropenem if ESBL is found in blood cultures (MERINO trial).",
               evidence: "B-II",
-              evidenceSource: "SSC 2021; IDSA HCAP guidance",
+              evidenceSource: "SSC 2021; ATS/IDSA 2016 HAP/VAP",
             },
             {
               drug: "vancomycin-meropenem",
@@ -225,7 +234,7 @@ export const SEPSIS: DiseaseState = {
               drug: "micafungin-hcap",
               regimen: "Micafungin 100mg IV q24h (first-line) OR Caspofungin 70mg IV ×1 then 50mg IV q24h",
               notes:
-                "Add empiric antifungal when multiple Candida risk factors present in HCAP: TPN dependence + broad-spectrum abx ≥5 days + septic shock without source, multi-site Candida colonization (≥2 non-contiguous sites), recent abdominal surgery with GI perforation, solid organ transplant. Fluconazole acceptable only for hemodynamically stable patients with no prior azole exposure and low-risk for resistant Candida.",
+                "Add empiric antifungal when multiple Candida risk factors are present in healthcare-associated sepsis: TPN dependence, broad-spectrum antibiotics for at least 5 days, septic shock without source, multi-site Candida colonization (at least 2 non-contiguous sites), recent abdominal surgery with GI perforation, or solid organ transplant. Fluconazole is acceptable only for hemodynamically stable patients with no prior azole exposure and low risk for resistant Candida.",
               evidence: "B-II",
               evidenceSource: "SSC 2021; IDSA Candidiasis Guidelines 2016",
             },

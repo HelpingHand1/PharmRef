@@ -37,7 +37,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "0686bd80"
+      }
     }
   },
   {
@@ -61,8 +65,8 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Hydrocortisone for severe CAP, NEJM 2023."
         },
         {
-          "id": "step-trial",
-          "citation": "Three-day versus eight-day amoxicillin strategy for stabilized CAP, NEJM 2023."
+          "id": "el-moussaoui-2006-short-course-cap",
+          "citation": "Three-day versus eight-day amoxicillin strategy after early clinical stability in adult CAP, BMJ 2006."
         }
       ],
       "reviewHistory": [
@@ -73,7 +77,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "a0e2b5b4"
+      }
     }
   },
   {
@@ -109,7 +117,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "afce7228"
+      }
     }
   },
   {
@@ -145,7 +157,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "1f543a5e"
+      }
     }
   },
   {
@@ -161,8 +177,12 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "SIS/IDSA intra-abdominal infection guidance",
       "sources": [
         {
-          "id": "sis-idsa-iai",
-          "citation": "Surgical Infection Society and IDSA intra-abdominal infection guidance."
+          "id": "idsa-sis-2010-ciai",
+          "citation": "IDSA/SIS 2010 guideline for diagnosis and management of complicated intra-abdominal infection."
+        },
+        {
+          "id": "sis-2017-ciai",
+          "citation": "Surgical Infection Society 2017 revised guidance for intra-abdominal infection."
         },
         {
           "id": "tokyo-guidelines",
@@ -181,7 +201,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "7473d77a"
+      }
     }
   },
   {
@@ -217,24 +241,32 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "839cd9b5"
+      }
     }
   },
   {
     "id": "bacteremia-endocarditis",
     "name": "Bacteremia & Endocarditis",
     "icon": "🩸",
-    "category": "Infectious Disease — AHA/IDSA Guidelines",
+    "category": "Infectious Disease — AHA/ESC Guidance",
     "subcategoryCount": 5,
     "monographCount": 5,
     "contentMeta": {
       "confidence": "high",
       "lastReviewed": "2026-03-09",
-      "guidelineVersion": "AHA/ACC 2023 IE update",
+      "guidelineVersion": "ESC 2023 + AHA 2015 IE guidance",
       "sources": [
         {
-          "id": "aha-acc-2023-ie",
-          "citation": "Infective endocarditis update from AHA/ACC, 2023."
+          "id": "esc-2023-ie",
+          "citation": "Current European infective endocarditis guideline update, 2023."
+        },
+        {
+          "id": "aha-2015-ie",
+          "citation": "Foundational AHA scientific statement for adult infective endocarditis, 2015."
         },
         {
           "id": "poet",
@@ -253,7 +285,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "b8fce25d"
+      }
     }
   },
   {
@@ -289,7 +325,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "f1cb706e"
+      }
     }
   },
   {
@@ -309,8 +349,8 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Oral versus intravenous antibiotics for bone and joint infection, NEJM 2019."
         },
         {
-          "id": "idsa-pji-osteomyelitis",
-          "citation": "IDSA guidance relevant to osteomyelitis and prosthetic joint infection pathways."
+          "id": "idsa-2013-pji",
+          "citation": "IDSA prosthetic joint infection guideline used for surgical strategy and hardware retention decisions."
         },
         {
           "id": "orthopedic-id-review",
@@ -325,7 +365,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "f975f540"
+      }
     }
   },
   {
@@ -341,12 +385,16 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       "guidelineVersion": "IDSA CNS infection guidance",
       "sources": [
         {
-          "id": "idsa-meningitis-ventriculitis",
-          "citation": "IDSA guidance for bacterial meningitis and healthcare-associated ventriculitis."
+          "id": "idsa-2004-bacterial-meningitis",
+          "citation": "IDSA bacterial meningitis guideline for community-acquired disease."
         },
         {
-          "id": "aan-idsa-encephalitis",
-          "citation": "Consensus references used for CNS diagnostic framing and adjunctive therapy."
+          "id": "idsa-2017-ventriculitis-meningitis",
+          "citation": "IDSA healthcare-associated ventriculitis and meningitis guideline."
+        },
+        {
+          "id": "idsa-2008-encephalitis",
+          "citation": "IDSA encephalitis guideline used for diagnostic framing and early empiric antiviral therapy."
         },
         {
           "id": "dexamethasone-meningitis",
@@ -361,7 +409,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "15d02b75"
+      }
     }
   },
   {
@@ -397,7 +449,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "d114a7a8"
+      }
     }
   },
   {
@@ -417,8 +473,12 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Guidance for CRE, ESBL-E, DTR Pseudomonas, and resistant gram-negatives."
         },
         {
-          "id": "aspect-program",
-          "citation": "Ceftolozane-tazobactam registration studies for cUTI and nosocomial pneumonia."
+          "id": "aspect-cuti-ciai",
+          "citation": "Ceftolozane-tazobactam cUTI and cIAI registration data."
+        },
+        {
+          "id": "aspect-np",
+          "citation": "Ceftolozane-tazobactam nosocomial pneumonia phase 3 data."
         },
         {
           "id": "restore-imi",
@@ -433,7 +493,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "75ed9261"
+      }
     }
   },
   {
@@ -457,8 +521,12 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "NCCN references for risk stratification and outpatient eligibility."
         },
         {
-          "id": "mascc-cisne",
-          "citation": "Risk-stratification tools used for low-risk outpatient decision support."
+          "id": "mascc-risk-index",
+          "citation": "MASCC risk index used for outpatient eligibility and early disposition."
+        },
+        {
+          "id": "cisne-score",
+          "citation": "CISNE score used to refine low-risk classification in clinically stable solid-tumor outpatients."
         }
       ],
       "reviewHistory": [
@@ -469,7 +537,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "a5889938"
+      }
     }
   },
   {
@@ -489,12 +561,12 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Diabetic foot infection guidance from IWGDF and IDSA."
         },
         {
-          "id": "osteomyelitis-stewardship",
-          "citation": "Shorter-course and oral step-down literature for diabetic foot osteomyelitis."
+          "id": "lazaro-martinez-2014-dfi-osteomyelitis",
+          "citation": "Probe-to-bone and imaging-supported management strategy for suspected diabetic foot osteomyelitis."
         },
         {
-          "id": "source-control-principles",
-          "citation": "Surgical debridement and perfusion assessment references used in DFI pathways."
+          "id": "iwgdf-2023-wound-classification",
+          "citation": "Wound classification and perfusion framing used to guide source control, limb threat staging, and debridement urgency."
         }
       ],
       "reviewHistory": [
@@ -505,7 +577,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "be6561f9"
+      }
     }
   },
   {
@@ -518,15 +594,15 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "contentMeta": {
       "confidence": "high",
       "lastReviewed": "2026-03-09",
-      "guidelineVersion": "SSC 2021; IDSA 2024 sepsis antimicrobial guidance",
+      "guidelineVersion": "SSC 2021 + Sepsis-3 + BALANCE 2024",
       "sources": [
         {
           "id": "ssc-2021",
           "citation": "Surviving Sepsis Campaign international guidelines, 2021."
         },
         {
-          "id": "idsa-2024-sepsis",
-          "citation": "Infectious disease-focused antimicrobial guidance for sepsis, 2024."
+          "id": "sepsis-3",
+          "citation": "Consensus definitions and diagnostic framework for sepsis and septic shock, JAMA 2016."
         },
         {
           "id": "balance",
@@ -541,7 +617,11 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         }
       ],
       "reviewedBy": "PharmRef editorial review",
-      "reviewScope": "Disease overview review"
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "301ffb35"
+      }
     }
   }
 ];

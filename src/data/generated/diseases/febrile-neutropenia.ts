@@ -14,57 +14,96 @@ export const FEBRILE_NEUTROPENIA: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "IDSA 2010 Febrile Neutropenia Guideline",
-        "detail": "The foundational US practice guideline for clinical assessment and antimicrobial management of FN. Key recommendations: (1) Risk stratification with MASCC score to identify low-risk patients eligible for outpatient oral therapy. (2) Antipseudomonal beta-lactam monotherapy (cefepime, piperacillin-tazobactam, or meropenem) as empiric first-line for high-risk FN. (3) Vancomycin NOT recommended routinely as empiric therapy — add only for specific indications. (4) Empiric antifungal therapy for persistent fever after 4–7 days of antibiotics. (5) Quinolone prophylaxis for high-risk patients with expected neutropenia >7 days. Despite being from 2010, this guideline remains the primary US reference."
+        "detail": "The foundational US practice guideline for clinical assessment and antimicrobial management of FN. Key recommendations: (1) Risk stratification with MASCC score to identify low-risk patients eligible for outpatient oral therapy. (2) Antipseudomonal beta-lactam monotherapy (cefepime, piperacillin-tazobactam, or meropenem) as empiric first-line for high-risk FN. (3) Vancomycin NOT recommended routinely as empiric therapy — add only for specific indications. (4) Empiric antifungal therapy for persistent fever after 4–7 days of antibiotics. (5) Quinolone prophylaxis for high-risk patients with expected neutropenia >7 days. Despite being from 2010, this guideline remains the primary US reference.",
+        "sourceIds": [
+          "idsa-febrile-neutropenia"
+        ]
       },
       {
         "name": "NCCN 2024 Prevention and Treatment of Cancer-Related Infections",
-        "detail": "Comprehensive, annually updated guideline covering FN management, prophylaxis, and G-CSF use. NCCN 2024 updates include: refined risk stratification incorporating CISNE score for solid tumor patients, strengthened recommendations for posaconazole prophylaxis in AML/MDS patients, expanded OPAT criteria for low-risk FN, updated G-CSF primary prophylaxis thresholds (≥20% febrile neutropenia risk), and guidance on Clostridioides difficile prevention in patients receiving FQ prophylaxis. NCCN categorizes evidence as: Category 1 (high-level evidence + uniform NCCN consensus), Category 2A (lower-level evidence + uniform NCCN consensus), Category 2B (lower-level evidence + non-uniform NCCN consensus)."
+        "detail": "Comprehensive, annually updated guideline covering FN management, prophylaxis, and G-CSF use. NCCN 2024 updates include: refined risk stratification incorporating CISNE score for solid tumor patients, strengthened recommendations for posaconazole prophylaxis in AML/MDS patients, expanded OPAT criteria for low-risk FN, updated G-CSF primary prophylaxis thresholds (≥20% febrile neutropenia risk), and guidance on Clostridioides difficile prevention in patients receiving FQ prophylaxis. NCCN categorizes evidence as: Category 1 (high-level evidence + uniform NCCN consensus), Category 2A (lower-level evidence + uniform NCCN consensus), Category 2B (lower-level evidence + non-uniform NCCN consensus).",
+        "sourceIds": [
+          "nccn-fever-neutropenia"
+        ]
       },
       {
         "name": "MASCC Risk Index (Multinational Association for Supportive Care in Cancer)",
-        "detail": "The MASCC score is the most validated risk stratification tool for FN. Maximum score = 26. Low risk = score ≥21 (associated with serious medical complication rate <10% and mortality <1%). High risk = score <21. Scoring variables: burden of illness (no or mild symptoms = 5, moderate symptoms = 3, severe symptoms = 0), no hypotension (5 points), no COPD (4 points), solid tumor or no prior fungal infection in hematologic malignancy (4 points), outpatient status at onset of fever (3 points), no dehydration (3 points), age <60 years (2 points). Low-risk patients (score ≥21) are candidates for oral step-down therapy and outpatient management after a period of IV observation and clinical assessment."
+        "detail": "The MASCC score is the most validated risk stratification tool for FN. Maximum score = 26. Low risk = score ≥21 (associated with serious medical complication rate <10% and mortality <1%). High risk = score <21. Scoring variables: burden of illness (no or mild symptoms = 5, moderate symptoms = 3, severe symptoms = 0), no hypotension (5 points), no COPD (4 points), solid tumor or no prior fungal infection in hematologic malignancy (4 points), outpatient status at onset of fever (3 points), no dehydration (3 points), age <60 years (2 points). Low-risk patients (score ≥21) are candidates for oral step-down therapy and outpatient management after a period of IV observation and clinical assessment.",
+        "sourceIds": [
+          "mascc-risk-index"
+        ]
       },
       {
         "name": "CISNE Score (Clinical Index of Stable Febrile Neutropenia)",
-        "detail": "An alternative risk stratification tool specifically validated in solid tumor outpatients with FN who clinically appear stable. CISNE scoring: ECOG PS ≥2 (2 points), stress-induced hyperglycemia (2 points), COPD (1 point), cardiovascular disease history (1 point), NCI mucositis grade ≥2 (1 point), monocytes <200/μL (1 point). CISNE 0 = very low risk (complication rate ~1.1%); CISNE 1–2 = low-intermediate risk (~6%); CISNE ≥3 = high risk (~36%). CISNE is complementary to MASCC — a patient can score low-risk on MASCC but high-risk on CISNE. NCCN 2024 recommends using CISNE in addition to MASCC for solid tumor patients."
+        "detail": "An alternative risk stratification tool specifically validated in solid tumor outpatients with FN who clinically appear stable. CISNE scoring: ECOG PS ≥2 (2 points), stress-induced hyperglycemia (2 points), COPD (1 point), cardiovascular disease history (1 point), NCI mucositis grade ≥2 (1 point), monocytes <200/μL (1 point). CISNE 0 = very low risk (complication rate ~1.1%); CISNE 1–2 = low-intermediate risk (~6%); CISNE ≥3 = high risk (~36%). CISNE is complementary to MASCC — a patient can score low-risk on MASCC but high-risk on CISNE. NCCN 2024 recommends using CISNE in addition to MASCC for solid tumor patients.",
+        "sourceIds": [
+          "cisne-score"
+        ]
       },
       {
-        "name": "ASCO G-CSF Guideline 2015 (Updated 2024)",
-        "detail": "Guidelines for G-CSF primary prophylaxis. Primary prophylaxis recommended when risk of FN is ≥20% based on patient, disease, and regimen-specific factors. Secondary prophylaxis (after a prior FN episode) recommended to maintain dose intensity when dose reduction is not acceptable. G-CSF shortens duration of neutropenia, reduces FN incidence by ~50%, and decreases infection-related mortality. Preferred agents: filgrastim (G-CSF), pegfilgrastim (pegylated G-CSF, preferred for most outpatient regimens due to single-dose convenience). Sargramostim (GM-CSF) is less commonly used."
+        "name": "ASCO WBC Growth Factor Guideline Update (2015)",
+        "detail": "Foundational ASCO guidance for G-CSF prophylaxis. Primary prophylaxis is recommended when regimen-level FN risk is ≥20% or when intermediate-risk regimens are paired with important patient-specific risk factors. Secondary prophylaxis is recommended when preserving dose intensity matters and prior FN would otherwise force treatment compromise. Filgrastim and pegfilgrastim remain the core supportive-care agents.",
+        "sourceIds": [
+          "asco-2015-gcsf"
+        ]
       }
     ],
     "landmarkTrials": [
       {
-        "name": "EMPIRICUS Trial (Legrand et al., JAMA 2016)",
-        "detail": "RCT of micafungin vs. placebo for empiric antifungal therapy in non-neutropenic ICU patients with suspected IFI. While not exclusively a FN trial, demonstrated that empiric antifungal therapy without diagnostic evidence did NOT improve 28-day survival and increased unnecessary antifungal exposure. This has tempered enthusiasm for purely empiric (versus pre-emptive) antifungal strategies in some settings. Reinforces the value of diagnostic-driven (pre-emptive) antifungal approaches using biomarkers (galactomannan, beta-D-glucan) over reflexive empiric use."
+        "name": "Cordonnier et al. (2009) — Empirical vs Preemptive Antifungal Therapy",
+        "detail": "Randomized high-risk FN trial comparing the traditional empirical-antifungal strategy with a preemptive strategy triggered by imaging, galactomannan, or other fungal evidence. Preemptive therapy reduced antifungal exposure and costs but led to more probable/proven IFI, reinforcing why many high-risk hematology patients still receive empirical mold-active treatment after persistent fever rather than waiting for clearer fungal signals.",
+        "sourceIds": [
+          "cordonnier-2009-empirical-vs-preemptive"
+        ]
       },
       {
-        "name": "Bow et al. (NEJM 1998) — Fluconazole vs Amphotericin B Empiric Antifungal",
-        "detail": "Landmark RCT establishing fluconazole as equivalent to amphotericin B deoxycholate for empiric antifungal therapy in neutropenic patients with persistent fever. This trial was pivotal in moving the field away from routine empiric amphotericin B and validating azole-based empiric strategies. However, fluconazole lacks Aspergillus and mold coverage, limiting its use to low-risk patients without mold-specific risk factors."
+        "name": "Winston et al. (2000, J Infect Dis) — Fluconazole vs Amphotericin B Empiric Antifungal",
+        "detail": "Randomized trial showing fluconazole could be an alternative to amphotericin B deoxycholate for selected neutropenic patients with persistent fever, with better tolerability but important mold-coverage limitations. The trial helped move practice away from reflexive conventional amphotericin B, but its applicability is narrow because fluconazole does not cover Aspergillus or other molds that dominate high-risk prolonged-neutropenia scenarios.",
+        "sourceIds": [
+          "winston-2000-empiric-antifungal"
+        ]
       },
       {
         "name": "Walsh et al. (NEJM 1999) — Liposomal Amphotericin B vs Conventional AmB for Empiric Antifungal",
-        "detail": "RCT demonstrating that liposomal amphotericin B (AmBisome 3 mg/kg/day) was equivalent in efficacy to conventional amphotericin B for empiric antifungal therapy in neutropenic patients with persistent fever, with significantly less nephrotoxicity (19% vs 34% infusion reactions, 19% vs 34% creatinine doubling). Established liposomal formulations as preferred when amphotericin B is needed. However, this was pre-echinocandin era."
+        "detail": "RCT demonstrating that liposomal amphotericin B (AmBisome 3 mg/kg/day) was equivalent in efficacy to conventional amphotericin B for empiric antifungal therapy in neutropenic patients with persistent fever, with significantly less nephrotoxicity (19% vs 34% infusion reactions, 19% vs 34% creatinine doubling). Established liposomal formulations as preferred when amphotericin B is needed. However, this was pre-echinocandin era.",
+        "sourceIds": [
+          "walsh-1999-lamb-vs-amb"
+        ]
       },
       {
         "name": "Walsh et al. (NEJM 2004) — Caspofungin vs Liposomal Amphotericin B for Empiric Antifungal",
-        "detail": "RCT demonstrating caspofungin was non-inferior to liposomal amphotericin B for empiric antifungal therapy in FN patients. Caspofungin had better overall success (33.9% vs 33.7%) with significantly better tolerability. This trial, combined with the micafungin data, established echinocandins as an alternative to liposomal amphotericin B for empiric antifungal therapy in FN, particularly when Candida is more likely than Aspergillus."
+        "detail": "RCT demonstrating caspofungin was non-inferior to liposomal amphotericin B for empiric antifungal therapy in FN patients. Caspofungin had better overall success (33.9% vs 33.7%) with significantly better tolerability. This trial, combined with the micafungin data, established echinocandins as an alternative to liposomal amphotericin B for empiric antifungal therapy in FN, particularly when Candida is more likely than Aspergillus.",
+        "sourceIds": [
+          "walsh-2004-caspofungin"
+        ]
       },
       {
         "name": "Freifeld et al. (NEJM 1999) — Oral vs IV Antibiotics for Low-Risk FN",
-        "detail": "RCT (IDSA-sponsored) of ciprofloxacin + amoxicillin-clavulanate PO vs ceftriaxone + amikacin IV for low-risk FN. Oral combination was equally effective (success rates 71% vs 67%, p=NS) with similar safety. This trial established the evidence base for oral outpatient management of low-risk FN and directly informed the IDSA 2010 guideline recommendation for ciprofloxacin + amoxicillin-clavulanate as first-line oral therapy for low-risk patients."
+        "detail": "RCT (IDSA-sponsored) of ciprofloxacin + amoxicillin-clavulanate PO vs ceftriaxone + amikacin IV for low-risk FN. Oral combination was equally effective (success rates 71% vs 67%, p=NS) with similar safety. This trial established the evidence base for oral outpatient management of low-risk FN and directly informed the IDSA 2010 guideline recommendation for ciprofloxacin + amoxicillin-clavulanate as first-line oral therapy for low-risk patients.",
+        "sourceIds": [
+          "freifeld-1999-low-risk-fn"
+        ]
       },
       {
-        "name": "Kern et al. (NEJM 1999) — Oral Moxifloxacin Monotherapy for Low-Risk FN",
-        "detail": "European RCT demonstrating that oral moxifloxacin monotherapy was equivalent to IV ceftriaxone + amikacin for low-risk FN. Supported the concept of oral monotherapy as an alternative for selected low-risk patients, though ciprofloxacin + amoxicillin-clavulanate combination remains the IDSA guideline recommendation."
+        "name": "Kern et al. (NEJM 1999) — Oral vs IV Empirical Therapy",
+        "detail": "EORTC multicenter RCT showing that hospitalized low-risk febrile neutropenic patients treated with oral ciprofloxacin plus amoxicillin-clavulanate had outcomes equivalent to IV ceftriaxone plus amikacin. This reinforced the oral-combination strategy for carefully selected low-risk FN and complemented the contemporaneous Freifeld trial.",
+        "sourceIds": [
+          "kern-1999-low-risk-fn"
+        ]
       },
       {
         "name": "GIMEMA/EORTC — Antifungal Prophylaxis Trials (Cornely et al., NEJM 2007)",
-        "detail": "Landmark RCT establishing posaconazole superiority over fluconazole/itraconazole for antifungal prophylaxis in AML/MDS patients receiving remission induction or salvage chemotherapy. Posaconazole reduced IFI (2% vs 8%, p<0.001), invasive aspergillosis (1% vs 7%, p<0.001), and IFI-related mortality (1% vs 4%, p=0.046). This trial directly led to posaconazole becoming the preferred prophylactic antifungal for high-risk AML/MDS patients in IDSA, NCCN, and ECIL guidelines."
+        "detail": "Landmark RCT establishing posaconazole superiority over fluconazole/itraconazole for antifungal prophylaxis in AML/MDS patients receiving remission induction or salvage chemotherapy. Posaconazole reduced IFI (2% vs 8%, p<0.001), invasive aspergillosis (1% vs 7%, p<0.001), and IFI-related mortality (1% vs 4%, p=0.046). This trial directly led to posaconazole becoming the preferred prophylactic antifungal for high-risk AML/MDS patients in IDSA, NCCN, and ECIL guidelines.",
+        "sourceIds": [
+          "cornely-2007-posaconazole"
+        ]
       },
       {
         "name": "Wingard et al. (Blood 2010) — Voriconazole vs Fluconazole Prophylaxis in Allogeneic HSCT",
-        "detail": "RCT in allogeneic HSCT recipients. Voriconazole reduced invasive aspergillosis vs. fluconazole (1.5% vs 3%, p=0.02) and improved 180-day fungal infection-free survival. However, no significant difference in overall survival and more adverse events (hepatotoxicity, visual disturbances) with voriconazole. Established voriconazole as an effective option for HSCT prophylaxis, with the choice between voriconazole and fluconazole depending on individual risk factors for Aspergillus vs Candida."
+        "detail": "RCT in allogeneic HSCT recipients. Voriconazole reduced invasive aspergillosis vs. fluconazole (1.5% vs 3%, p=0.02) and improved 180-day fungal infection-free survival. However, no significant difference in overall survival and more adverse events (hepatotoxicity, visual disturbances) with voriconazole. Established voriconazole as an effective option for HSCT prophylaxis, with the choice between voriconazole and fluconazole depending on individual risk factors for Aspergillus vs Candida.",
+        "sourceIds": [
+          "wingard-2010-voriconazole"
+        ]
       }
     ],
     "riskFactors": "Host factors increasing FN risk and severity: Type of malignancy (AML/ALL highest risk, lymphoma/multiple myeloma intermediate, solid tumors variable), chemotherapy regimen intensity and myelosuppressive potential, duration of expected neutropenia (>7 days = prolonged = high risk), age >65, ECOG performance status ≥2, mucositis severity (NCI grade ≥2 = viridans streptococcal risk + oral route contraindicated), comorbidities (COPD, cardiac disease, diabetes), prior FN or fungal infection, indwelling central venous catheters (gram-positive bacteremia risk), prior antibiotic/antifungal exposure (resistance selection), malnutrition and poor functional status. Regimen-specific risk: CHOP → ~10–15% FN; R-CHOP → 15–20%; Docetaxel-containing → 20–40%; AML induction (7+3) → >80%; ICE, ESHAP → >20%; high-dose cyclophosphamide + stem cell mobilization → high risk. Patient-specific risk modifiers: Hepatic or renal dysfunction impairs antibiotic clearance; prior antibiotic prophylaxis with fluoroquinolones may select for resistant organisms."

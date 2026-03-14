@@ -44,8 +44,8 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Hydrocortisone for severe CAP, NEJM 2023."
       },
       {
-        "id": "step-trial",
-        "citation": "Three-day versus eight-day amoxicillin strategy for stabilized CAP, NEJM 2023."
+        "id": "el-moussaoui-2006-short-course-cap",
+        "citation": "Three-day versus eight-day amoxicillin strategy after early clinical stability in adult CAP, BMJ 2006."
       }
     ],
     "reviewHistory": [
@@ -114,8 +114,12 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "SIS/IDSA intra-abdominal infection guidance",
     "sources": [
       {
-        "id": "sis-idsa-iai",
-        "citation": "Surgical Infection Society and IDSA intra-abdominal infection guidance."
+        "id": "idsa-sis-2010-ciai",
+        "citation": "IDSA/SIS 2010 guideline for diagnosis and management of complicated intra-abdominal infection."
+      },
+      {
+        "id": "sis-2017-ciai",
+        "citation": "Surgical Infection Society 2017 revised guidance for intra-abdominal infection."
       },
       {
         "id": "tokyo-guidelines",
@@ -163,11 +167,15 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   "bacteremia-endocarditis": {
     "confidence": "high",
     "lastReviewed": "2026-03-09",
-    "guidelineVersion": "AHA/ACC 2023 IE update",
+    "guidelineVersion": "ESC 2023 + AHA 2015 IE guidance",
     "sources": [
       {
-        "id": "aha-acc-2023-ie",
-        "citation": "Infective endocarditis update from AHA/ACC, 2023."
+        "id": "esc-2023-ie",
+        "citation": "Current European infective endocarditis guideline update, 2023."
+      },
+      {
+        "id": "aha-2015-ie",
+        "citation": "Foundational AHA scientific statement for adult infective endocarditis, 2015."
       },
       {
         "id": "poet",
@@ -222,8 +230,8 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Oral versus intravenous antibiotics for bone and joint infection, NEJM 2019."
       },
       {
-        "id": "idsa-pji-osteomyelitis",
-        "citation": "IDSA guidance relevant to osteomyelitis and prosthetic joint infection pathways."
+        "id": "idsa-2013-pji",
+        "citation": "IDSA prosthetic joint infection guideline used for surgical strategy and hardware retention decisions."
       },
       {
         "id": "orthopedic-id-review",
@@ -244,12 +252,16 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "IDSA CNS infection guidance",
     "sources": [
       {
-        "id": "idsa-meningitis-ventriculitis",
-        "citation": "IDSA guidance for bacterial meningitis and healthcare-associated ventriculitis."
+        "id": "idsa-2004-bacterial-meningitis",
+        "citation": "IDSA bacterial meningitis guideline for community-acquired disease."
       },
       {
-        "id": "aan-idsa-encephalitis",
-        "citation": "Consensus references used for CNS diagnostic framing and adjunctive therapy."
+        "id": "idsa-2017-ventriculitis-meningitis",
+        "citation": "IDSA healthcare-associated ventriculitis and meningitis guideline."
+      },
+      {
+        "id": "idsa-2008-encephalitis",
+        "citation": "IDSA encephalitis guideline used for diagnostic framing and early empiric antiviral therapy."
       },
       {
         "id": "dexamethasone-meningitis",
@@ -300,8 +312,12 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Guidance for CRE, ESBL-E, DTR Pseudomonas, and resistant gram-negatives."
       },
       {
-        "id": "aspect-program",
-        "citation": "Ceftolozane-tazobactam registration studies for cUTI and nosocomial pneumonia."
+        "id": "aspect-cuti-ciai",
+        "citation": "Ceftolozane-tazobactam cUTI and cIAI registration data."
+      },
+      {
+        "id": "aspect-np",
+        "citation": "Ceftolozane-tazobactam nosocomial pneumonia phase 3 data."
       },
       {
         "id": "restore-imi",
@@ -330,8 +346,12 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "NCCN references for risk stratification and outpatient eligibility."
       },
       {
-        "id": "mascc-cisne",
-        "citation": "Risk-stratification tools used for low-risk outpatient decision support."
+        "id": "mascc-risk-index",
+        "citation": "MASCC risk index used for outpatient eligibility and early disposition."
+      },
+      {
+        "id": "cisne-score",
+        "citation": "CISNE score used to refine low-risk classification in clinically stable solid-tumor outpatients."
       }
     ],
     "reviewHistory": [
@@ -352,12 +372,12 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Diabetic foot infection guidance from IWGDF and IDSA."
       },
       {
-        "id": "osteomyelitis-stewardship",
-        "citation": "Shorter-course and oral step-down literature for diabetic foot osteomyelitis."
+        "id": "lazaro-martinez-2014-dfi-osteomyelitis",
+        "citation": "Probe-to-bone and imaging-supported management strategy for suspected diabetic foot osteomyelitis."
       },
       {
-        "id": "source-control-principles",
-        "citation": "Surgical debridement and perfusion assessment references used in DFI pathways."
+        "id": "iwgdf-2023-wound-classification",
+        "citation": "Wound classification and perfusion framing used to guide source control, limb threat staging, and debridement urgency."
       }
     ],
     "reviewHistory": [
@@ -371,15 +391,15 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   "sepsis": {
     "confidence": "high",
     "lastReviewed": "2026-03-09",
-    "guidelineVersion": "SSC 2021; IDSA 2024 sepsis antimicrobial guidance",
+    "guidelineVersion": "SSC 2021 + Sepsis-3 + BALANCE 2024",
     "sources": [
       {
         "id": "ssc-2021",
         "citation": "Surviving Sepsis Campaign international guidelines, 2021."
       },
       {
-        "id": "idsa-2024-sepsis",
-        "citation": "Infectious disease-focused antimicrobial guidance for sepsis, 2024."
+        "id": "sepsis-3",
+        "citation": "Consensus definitions and diagnostic framework for sepsis and septic shock, JAMA 2016."
       },
       {
         "id": "balance",
@@ -459,8 +479,8 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Aztreonam plus avibactam-based strategy and cefiderocol considerations for MBL producers, 2024."
       },
       {
-        "id": "aztreonam-avibactam-evidence",
-        "citation": "Observational and mechanistic literature supporting aztreonam plus ceftazidime-avibactam for NDM/VIM/IMP producers."
+        "id": "falcone-2021-caz-avi-aztreonam",
+        "citation": "Clinical outcomes supporting ceftazidime-avibactam plus aztreonam for MBL-producing Enterobacterales."
       },
       {
         "id": "credible-cr",
@@ -593,8 +613,12 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Risk-based escalation and antifungal trigger guidance."
       },
       {
-        "id": "mascc-cisne",
-        "citation": "Risk tools used to separate outpatient from high-risk inpatient care."
+        "id": "mascc-risk-index",
+        "citation": "MASCC risk index used to identify patients who should not be managed as low risk."
+      },
+      {
+        "id": "cisne-score",
+        "citation": "CISNE score used to avoid outpatient classification in clinically stable but higher-risk solid-tumor patients."
       }
     ],
     "reviewHistory": [
@@ -634,10 +658,10 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   "bacteremia-endocarditis/sab-workup": {
     "confidence": "high",
     "lastReviewed": "2026-03-09",
-    "guidelineVersion": "SAB workup and IE-screening review 2023",
+    "guidelineVersion": "SAB workup and IE-screening review",
     "sources": [
       {
-        "id": "aha-acc-2023-ie",
+        "id": "aha-2015-ie",
         "citation": "Imaging, blood culture clearance, and infective endocarditis workup standards relevant to S. aureus bacteremia."
       },
       {
@@ -645,8 +669,8 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Adjunctive rifampin trial reinforcing the need for disciplined SAB management and source control, Lancet 2018."
       },
       {
-        "id": "sab-bundle-literature",
-        "citation": "Management-bundle and echocardiography literature for high-risk S. aureus bacteremia."
+        "id": "holland-2014-sab-review",
+        "citation": "Diagnostic workup, complication screening, and management standards for S. aureus bacteremia."
       }
     ],
     "reviewHistory": [
@@ -660,10 +684,10 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   "bacteremia-endocarditis/native-valve-ie": {
     "confidence": "high",
     "lastReviewed": "2026-03-09",
-    "guidelineVersion": "AHA/ACC 2023 native-valve IE update",
+    "guidelineVersion": "ESC 2023 / AHA 2015 native-valve IE guidance",
     "sources": [
       {
-        "id": "aha-acc-2023-ie",
+        "id": "esc-2023-ie",
         "citation": "Current diagnostic and treatment recommendations for native-valve infective endocarditis."
       },
       {
@@ -671,8 +695,8 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Partial oral treatment strategy in stabilized left-sided infective endocarditis, NEJM 2019."
       },
       {
-        "id": "endocarditis-surgery-review",
-        "citation": "Operative timing and multidisciplinary endocarditis-team literature."
+        "id": "kang-2012-early-surgery",
+        "citation": "Randomized data supporting early surgery in selected left-sided infective endocarditis."
       }
     ],
     "reviewHistory": [
@@ -686,10 +710,10 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   "bacteremia-endocarditis/prosthetic-valve-ie": {
     "confidence": "moderate",
     "lastReviewed": "2026-03-09",
-    "guidelineVersion": "AHA/ACC 2023 prosthetic-valve IE update",
+    "guidelineVersion": "ESC 2023 / AHA 2015 prosthetic-valve IE guidance",
     "sources": [
       {
-        "id": "aha-acc-2023-ie",
+        "id": "esc-2023-ie",
         "citation": "Guidance for prosthetic-valve endocarditis, surgery triggers, and organism-directed therapy."
       },
       {
@@ -741,7 +765,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "OPAT stewardship review 2024",
     "sources": [
       {
-        "id": "aha-acc-2023-ie",
+        "id": "esc-2023-ie",
         "citation": "Outpatient treatment considerations and follow-up needs for stabilized endocarditis and bacteremia."
       },
       {
@@ -764,15 +788,15 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   "sepsis/sepsis-community": {
     "confidence": "high",
     "lastReviewed": "2026-03-09",
-    "guidelineVersion": "Community-acquired sepsis empiric review 2024",
+    "guidelineVersion": "SSC 2021 + community sepsis stewardship review",
     "sources": [
       {
         "id": "ssc-2021",
         "citation": "Early sepsis recognition, antibiotics, and hemodynamic management."
       },
       {
-        "id": "idsa-2024-sepsis",
-        "citation": "Antimicrobial source-based empiric framing and de-escalation priorities."
+        "id": "balance",
+        "citation": "Shorter-course bloodstream infection data informing duration once source control is achieved."
       },
       {
         "id": "clovers",
@@ -790,19 +814,19 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   "sepsis/sepsis-hcap": {
     "confidence": "moderate",
     "lastReviewed": "2026-03-09",
-    "guidelineVersion": "Healthcare-associated sepsis empiric review 2024",
+    "guidelineVersion": "SSC 2021 + AMR risk-informed sepsis stewardship",
     "sources": [
       {
         "id": "ssc-2021",
         "citation": "Core septic shock bundle and timing recommendations."
       },
       {
-        "id": "idsa-2024-sepsis",
-        "citation": "Healthcare exposure, resistant-pathogen risk, and de-escalation framing for sepsis."
+        "id": "idsa-2024-amr",
+        "citation": "Mechanism-aware resistant-pathogen treatment guidance relevant to healthcare-associated sepsis."
       },
       {
-        "id": "amr-risk-stratification",
-        "citation": "Mechanism-aware resistant-pathogen coverage principles for healthcare-associated sepsis."
+        "id": "cdc-amr-threats-2019",
+        "citation": "US resistant-pathogen epidemiology supporting healthcare-associated resistant-gram-negative risk assessment."
       }
     ],
     "reviewHistory": [
@@ -1034,8 +1058,8 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Role in prophylaxis and salvage therapy for invasive mold disease."
       },
       {
-        "id": "aml-mds-prophylaxis",
-        "citation": "Posaconazole prophylaxis superiority in prolonged neutropenia."
+        "id": "cornely-2007-posaconazole",
+        "citation": "Posaconazole prophylaxis superiority in prolonged neutropenia and AML/MDS induction."
       },
       {
         "id": "therapeutic-drug-monitoring",
@@ -1056,8 +1080,12 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "L-AmB invasive fungal infection guidance",
     "sources": [
       {
-        "id": "idsa-candidiasis-aspergillosis",
-        "citation": "Core role in invasive candidiasis salvage and mold-active therapy."
+        "id": "idsa-candidiasis",
+        "citation": "Role in candidemia salvage therapy and invasive Candida infection."
+      },
+      {
+        "id": "idsa-aspergillosis",
+        "citation": "Role in mold-active therapy when azoles are not appropriate or not tolerated."
       },
       {
         "id": "mucormycosis-guidance",
@@ -1086,7 +1114,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Consensus guideline for AUC-guided therapeutic monitoring of vancomycin."
       },
       {
-        "id": "aha-acc-2023-ie",
+        "id": "aha-2015-ie",
         "citation": "Organism-specific roles for vancomycin in endocarditis and bloodstream infection."
       },
       {
@@ -1108,7 +1136,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "High-dose daptomycin SAB/IE review",
     "sources": [
       {
-        "id": "aha-acc-2023-ie",
+        "id": "aha-2015-ie",
         "citation": "Daptomycin role in right-sided and left-sided staphylococcal endocarditis management."
       },
       {
@@ -1134,7 +1162,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "MSSA bacteremia beta-lactam review",
     "sources": [
       {
-        "id": "aha-acc-2023-ie",
+        "id": "aha-2015-ie",
         "citation": "Cefazolin role in MSSA bacteremia and endocarditis treatment."
       },
       {
@@ -1160,7 +1188,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "Anti-staphylococcal penicillin review",
     "sources": [
       {
-        "id": "aha-acc-2023-ie",
+        "id": "aha-2015-ie",
         "citation": "Preferred beta-lactam therapy framework for MSSA endocarditis."
       },
       {
@@ -1186,7 +1214,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "Ceftriaxone endocarditis/OPAT review",
     "sources": [
       {
-        "id": "aha-acc-2023-ie",
+        "id": "aha-2015-ie",
         "citation": "Ceftriaxone role in streptococcal endocarditis and select gram-negative bloodstream infections."
       },
       {

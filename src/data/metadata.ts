@@ -1,17 +1,23 @@
 import type { ContentConfidence, ContentMeta, DiseaseState } from "../types";
 import type { ContentMetaSeed } from "./editorial/content-meta";
 import {
+  getMonographContentKey,
+  getSubcategoryContentKey,
+} from "./content-fingerprint";
+import {
   DISEASE_CONTENT_META,
   MONOGRAPH_CONTENT_META,
   PRIORITY_MONOGRAPH_META_KEYS,
   PRIORITY_SUBCATEGORY_META_KEYS,
   SUBCATEGORY_CONTENT_META,
 } from "./generated-content-meta";
+import { resolveApprovedBodyVersion, resolveContentOwner } from "./content-governance";
 import { DEFAULT_CONTENT_REVIEWER } from "./review-defaults";
 import { resolveContentSource } from "./source-registry";
 import { CONTENT_STALE_AFTER_DAYS } from "../version";
 
 export { getSourceHref, getSourceLookupHref } from "./source-registry";
+export { formatApprovedBodyVersion } from "./content-governance";
 export {
   DISEASE_CONTENT_META,
   MONOGRAPH_CONTENT_META,
@@ -99,26 +105,54 @@ export function resolveContentSources(meta: ContentMeta) {
     .filter((source): source is NonNullable<typeof source> => source !== null);
 }
 
-function finalizeContentMeta(seed: ContentMetaSeed | ContentMeta | undefined, reviewScope: string): ContentMeta | undefined {
+function finalizeContentMeta(
+  seed: ContentMetaSeed | ContentMeta | undefined,
+  reviewScope: string,
+  contentKey: string,
+): ContentMeta | undefined {
   if (!seed) return undefined;
   const reviewedBy = seed.reviewedBy ?? DEFAULT_CONTENT_REVIEWER;
+  const { owner, governance, ...rest } = seed as ContentMetaSeed & Partial<ContentMeta>;
+  const resolvedOwner = resolveContentOwner({ owner, reviewedBy });
   return {
-    ...seed,
+    ...rest,
     reviewedBy,
-    reviewScope: seed.reviewScope ?? reviewScope,
-    reviewHistory: seed.reviewHistory ?? [],
+    reviewScope: rest.reviewScope ?? reviewScope,
+    reviewHistory: rest.reviewHistory ?? [],
+    governance: {
+      owner: governance?.owner ?? resolvedOwner,
+      approvedBodyVersion: governance?.approvedBodyVersion ?? resolveApprovedBodyVersion(contentKey),
+    },
   };
 }
 
 type ContentCarrier = { contentMeta?: ContentMeta | null };
 
-export function resolveContentMeta(primary?: ContentCarrier | null, fallback?: ContentCarrier | null) {
+function withResolvedApprovalVersion(meta: ContentMeta, contentKey?: string) {
+  if (!contentKey) return meta;
+  const approvedBodyVersion = resolveApprovedBodyVersion(contentKey) || meta.governance.approvedBodyVersion;
+  if (approvedBodyVersion === meta.governance.approvedBodyVersion) return meta;
+
+  return {
+    ...meta,
+    governance: {
+      ...meta.governance,
+      approvedBodyVersion,
+    },
+  };
+}
+
+export function resolveContentMeta(
+  primary?: ContentCarrier | null,
+  fallback?: ContentCarrier | null,
+  options?: { contentKey?: string },
+) {
   if (primary?.contentMeta) {
-    return { meta: primary.contentMeta, inherited: false };
+    return { meta: withResolvedApprovalVersion(primary.contentMeta, options?.contentKey), inherited: false };
   }
 
   if (fallback?.contentMeta) {
-    return { meta: fallback.contentMeta, inherited: true };
+    return { meta: withResolvedApprovalVersion(fallback.contentMeta, options?.contentKey), inherited: true };
   }
 
   return { meta: null, inherited: false };
@@ -133,7 +167,11 @@ export function requiresExplicitMonographMeta(monographId: string) {
 }
 
 export function attachDiseaseMetadata<T extends DiseaseState>(disease: T): T {
-  const diseaseMeta = finalizeContentMeta(disease.contentMeta ?? DISEASE_CONTENT_META[disease.id], "Disease overview review");
+  const diseaseMeta = finalizeContentMeta(
+    disease.contentMeta ?? DISEASE_CONTENT_META[disease.id],
+    "Disease overview review",
+    disease.id,
+  );
 
   return {
     ...disease,
@@ -143,6 +181,7 @@ export function attachDiseaseMetadata<T extends DiseaseState>(disease: T): T {
       contentMeta: finalizeContentMeta(
         subcategory.contentMeta ?? SUBCATEGORY_CONTENT_META[`${disease.id}/${subcategory.id}`],
         "Pathway review",
+        getSubcategoryContentKey(disease.id, subcategory.id),
       ),
     })),
     drugMonographs: disease.drugMonographs.map((monograph) => ({
@@ -150,7 +189,16 @@ export function attachDiseaseMetadata<T extends DiseaseState>(disease: T): T {
       contentMeta: finalizeContentMeta(
         monograph.contentMeta ?? MONOGRAPH_CONTENT_META[monograph.id],
         "Drug monograph review",
+        getMonographContentKey(disease.id, monograph.id),
       ),
     })),
   };
 }
+
+export {
+  computeDiseaseOverviewFingerprint,
+  getMonographContentKey,
+  getSubcategoryContentKey,
+  computeMonographFingerprint,
+  computeSubcategoryFingerprint,
+} from "./content-fingerprint";

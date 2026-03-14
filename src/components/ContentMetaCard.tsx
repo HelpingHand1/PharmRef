@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { ContentMeta, Styles } from "../types";
 import {
+  formatApprovedBodyVersion,
   formatReviewDate,
   getConfidenceBadge,
   getContentFreshness,
@@ -114,7 +115,10 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
         Reviewed on {formatReviewDate(meta.lastReviewed)} with {confidence.label.toLowerCase()} based on {sourceLabel}.
       </div>
       <div style={{ fontSize: "12px", color: S.monographValue.color, marginBottom: "10px", lineHeight: 1.55 }}>
-        Reviewer: {meta.reviewedBy} · Scope: {meta.reviewScope} · {reviewHistoryLabel}
+        Reviewer: {meta.reviewedBy} · Owner: {meta.governance.owner} · Scope: {meta.reviewScope} · {reviewHistoryLabel}
+      </div>
+      <div style={{ fontSize: "12px", color: S.monographValue.color, marginBottom: "10px", lineHeight: 1.55 }}>
+        Approved body version: {formatApprovedBodyVersion(meta.governance.approvedBodyVersion)}
       </div>
       {latestReview && (
         <div style={{ fontSize: "12px", color: S.meta.textHeading, marginBottom: "10px", lineHeight: 1.6 }}>

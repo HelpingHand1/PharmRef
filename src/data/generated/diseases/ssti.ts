@@ -14,45 +14,75 @@ export const SSTI: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "IDSA 2014 SSTI Guidelines (Practice Guidelines for the Diagnosis and Management of SSTIs)",
-        "detail": "Current definitive US guideline. Key framework: purulent vs non-purulent classification. Emphasizes I&D as primary therapy for purulent SSTIs, oral antibiotics for mild-moderate, IV for severe. Defines mild (no systemic signs), moderate (systemic signs), and severe (failed oral therapy, immunocompromised, signs of deep infection/necrotizing). Recommends AGAINST antibiotics for uncomplicated abscesses after adequate I&D in mild disease."
+        "detail": "Current definitive US guideline. Key framework: purulent vs non-purulent classification. Emphasizes I&D as primary therapy for purulent SSTIs, oral antibiotics for mild-moderate, IV for severe. Defines mild (no systemic signs), moderate (systemic signs), and severe (failed oral therapy, immunocompromised, signs of deep infection/necrotizing). Recommends AGAINST antibiotics for uncomplicated abscesses after adequate I&D in mild disease.",
+        "sourceIds": [
+          "idsa-2014-ssti"
+        ]
       },
       {
         "name": "IDSA 2023 Diabetic Foot Infection Guidelines (Update)",
-        "detail": "Updated DFI guidance emphasizing wound classification (IDSA/IWGDF severity), probe-to-bone test, MRI for osteomyelitis, and culture-directed therapy. Shorter antibiotic courses endorsed (1-2 weeks soft tissue, 4-6 weeks osteomyelitis). Stresses multidisciplinary approach: ID, surgery, vascular, podiatry, wound care."
+        "detail": "Updated DFI guidance emphasizing wound classification (IDSA/IWGDF severity), probe-to-bone test, MRI for osteomyelitis, and culture-directed therapy. Shorter antibiotic courses endorsed (1-2 weeks soft tissue, 4-6 weeks osteomyelitis). Stresses multidisciplinary approach: ID, surgery, vascular, podiatry, wound care.",
+        "sourceIds": [
+          "iwgdf-idsa-dfi"
+        ]
       },
       {
         "name": "IDSA 2011 MRSA Guidelines",
-        "detail": "Comprehensive MRSA management including SSTIs. Recommends I&D alone for uncomplicated abscesses; TMP-SMX or doxycycline for outpatient MRSA SSTI; vancomycin, daptomycin, linezolid, or clindamycin for severe MRSA SSTI. Still widely referenced despite age."
+        "detail": "Comprehensive MRSA management including SSTIs. Recommends I&D alone for uncomplicated abscesses; TMP-SMX or doxycycline for outpatient MRSA SSTI; vancomycin, daptomycin, linezolid, or clindamycin for severe MRSA SSTI. Still widely referenced despite age.",
+        "sourceIds": [
+          "idsa-2011-mrsa"
+        ]
       },
       {
         "name": "Surviving Sepsis Campaign 2021",
-        "detail": "Relevant for necrotizing fasciitis with sepsis — 1-hour antibiotic bundle, aggressive resuscitation, emergent surgical source control."
+        "detail": "Relevant for necrotizing fasciitis with sepsis — 1-hour antibiotic bundle, aggressive resuscitation, emergent surgical source control.",
+        "sourceIds": [
+          "ssc-2021"
+        ]
       }
     ],
     "landmarkTrials": [
       {
         "name": "Talan et al. (2016, NEJM) — TMP-SMX for Abscess After I&D",
-        "detail": "Landmark RCT: TMP-SMX added to I&D for uncomplicated abscess improved cure rates (80.5% vs 73.6%) and reduced new abscesses and skin infections at 1 month. Changed practice — previously many guidelines said I&D alone was sufficient for uncomplicated abscess. Supports adding oral antibiotics after I&D for most purulent SSTIs."
+        "detail": "Landmark RCT: TMP-SMX added to I&D for uncomplicated abscess improved cure rates (80.5% vs 73.6%) and reduced new abscesses and skin infections at 1 month. Changed practice — previously many guidelines said I&D alone was sufficient for uncomplicated abscess. Supports adding oral antibiotics after I&D for most purulent SSTIs.",
+        "sourceIds": [
+          "talan-2016-abscess"
+        ]
       },
       {
-        "name": "ESTABLISH-1 & ESTABLISH-2 (Moran et al., 2017, NEJM)",
-        "detail": "Clindamycin vs TMP-SMX for uncomplicated SSTI (abscess + cellulitis). Both were equivalent for cure rates (~83%). TMP-SMX had fewer adverse effects than clindamycin. Established TMP-SMX and clindamycin as equivalent first-line oral MRSA options."
+        "name": "Miller et al. (2015, NEJM) — Clindamycin vs TMP-SMX",
+        "detail": "For uncomplicated skin infections including abscesses and cellulitis, clindamycin and TMP-SMX produced similar cure rates. This helped establish either agent as a reasonable outpatient MRSA-active option when oral antibiotics are indicated.",
+        "sourceIds": [
+          "miller-2015-ssti"
+        ]
       },
       {
-        "name": "Daum et al. (2017, NEJM) — Clindamycin vs TMP-SMX in Children",
-        "detail": "Pediatric SSTI trial. Clindamycin and TMP-SMX were equivalent in children with uncomplicated SSTIs. TMP-SMX preferred by many due to fewer GI side effects and lower C. diff risk."
+        "name": "Daum et al. (2017, NEJM) — Antibiotics for Smaller Abscesses",
+        "detail": "After I&D of smaller abscesses, both clindamycin and TMP-SMX improved cure rates versus placebo. The trial reinforced that adjunctive antibiotics can matter even for relatively small purulent infections, especially in MRSA-prevalent settings.",
+        "sourceIds": [
+          "daum-2017-ssti"
+        ]
       },
       {
-        "name": "SOLO I & II (Dalbavancin, 2014-2015, NEJM)",
-        "detail": "Dalbavancin (long-acting lipoglycopeptide) single IV dose or 2-dose regimen was non-inferior to vancomycin followed by linezolid for ABSSSI. Demonstrated feasibility of single-dose SSTI treatment — relevant for patients with adherence challenges, IVDU, or OPAT candidates."
+        "name": "DISCOVER 1 & 2 (Dalbavancin, 2014, NEJM)",
+        "detail": "Dalbavancin (long-acting lipoglycopeptide) given as a once-weekly 2-dose regimen was non-inferior to vancomycin followed by linezolid for ABSSSI. The key impact was proving that long-acting gram-positive therapy can support outpatient management when adherence or OPAT logistics are difficult.",
+        "sourceIds": [
+          "discover-1-2-dalbavancin"
+        ]
       },
       {
         "name": "Eron Classification (2003)",
-        "detail": "Foundational severity classification for SSTIs: Class 1 (afebrile, healthy), Class 2 (febrile OR comorbid), Class 3 (toxic/septic OR limb-threatening), Class 4 (necrotizing/sepsis). Guides disposition: Class 1 = outpatient, Class 2 = outpatient or observation, Class 3 = inpatient IV, Class 4 = ICU + surgery."
+        "detail": "Foundational severity classification for SSTIs: Class 1 (afebrile, healthy), Class 2 (febrile OR comorbid), Class 3 (toxic/septic OR limb-threatening), Class 4 (necrotizing/sepsis). Guides disposition: Class 1 = outpatient, Class 2 = outpatient or observation, Class 3 = inpatient IV, Class 4 = ICU + surgery.",
+        "sourceIds": [
+          "eron-2003-ssti"
+        ]
       },
       {
         "name": "Wong et al. LRINEC Score (2004)",
-        "detail": "Laboratory Risk Indicator for Necrotizing Fasciitis. Scoring system (WBC, hemoglobin, sodium, glucose, creatinine, CRP) to identify necrotizing fasciitis. Score >=6 has PPV of 92%. Useful screening tool but should NOT delay surgical exploration if clinical suspicion is high — sensitivity is imperfect and false negatives kill."
+        "detail": "Laboratory Risk Indicator for Necrotizing Fasciitis. Scoring system (WBC, hemoglobin, sodium, glucose, creatinine, CRP) to identify necrotizing fasciitis. Score >=6 has PPV of 92%. Useful screening tool but should NOT delay surgical exploration if clinical suspicion is high — sensitivity is imperfect and false negatives kill.",
+        "sourceIds": [
+          "lrinec-wong-2004"
+        ]
       }
     ],
     "riskFactors": "Skin breaks (trauma, surgical wounds, injection drug use, dermatitis, tinea pedis), obesity, diabetes mellitus, peripheral vascular disease, lymphedema, chronic venous insufficiency, immunosuppression (HIV, transplant, steroids), prior SSTI/cellulitis (recurrence rate 20-40%), prior MRSA colonization/infection, household MRSA contacts, crowded living conditions (shelters, prisons), recent hospitalization, chronic wounds."

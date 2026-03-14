@@ -7,56 +7,84 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
   "id": "bacteremia-endocarditis",
   "name": "Bacteremia & Endocarditis",
   "icon": "🩸",
-  "category": "Infectious Disease — AHA/IDSA Guidelines",
+  "category": "Infectious Disease — AHA/ESC Guidance",
   "overview": {
     "definition": "Bacteremia is the presence of viable bacteria in the bloodstream, confirmed by positive blood cultures. Infective endocarditis (IE) is infection of the endocardial surface of the heart, most commonly involving cardiac valves. These conditions exist on a spectrum: all endocarditis causes bacteremia, but not all bacteremia causes endocarditis. The clinical challenge is determining which bacteremic patients have endocarditis, because this distinction fundamentally changes duration of therapy, need for surgery, and prognosis.",
     "epidemiology": "S. aureus bacteremia (SAB) is the most clinically significant bloodstream infection in developed countries — incidence 20-50 per 100,000 person-years, 30-day mortality 20-30%. IE incidence is 3-10 per 100,000 person-years and rising, driven by healthcare-associated infections, injection drug use (IDU), and prosthetic valves. IDU-associated right-sided IE has surged with the opioid epidemic. Mortality for IE remains 15-30% despite modern therapy. Enterococcal bacteremia is the second most common healthcare-associated BSI and often signals an intra-abdominal or urinary source.",
     "keyGuidelines": [
       {
-        "name": "AHA/ACC 2023 IE Guideline Update",
-        "detail": "Major revision of the 2015 AHA IE guideline. Key changes: expanded surgical indications, formal endorsement of early surgery for high-risk features, updated Duke criteria modifications, and strengthened recommendations for ID and cardiothoracic surgery consultation within 24h of IE diagnosis."
+        "name": "ESC 2023 IE Guidelines",
+        "detail": "Current major international update. Incorporates the 2023 Duke-ISCVID diagnostic framework, stronger multimodality imaging recommendations, earlier endocarditis-team involvement, and a more explicit surgical-referral pathway for high-risk disease.",
+        "sourceIds": [
+          "esc-2023-ie"
+        ]
       },
       {
         "name": "AHA 2015 IE Guideline",
-        "detail": "Foundation document for IE management. Defines modified Duke criteria, empiric and pathogen-directed regimens, surgical indications, and follow-up. Remains the most comprehensive single reference for IE."
+        "detail": "Foundation document for IE management. Defines modified Duke criteria, empiric and pathogen-directed regimens, surgical indications, and follow-up. Remains the most comprehensive single reference for IE.",
+        "sourceIds": [
+          "aha-2015-ie"
+        ]
       },
       {
-        "name": "IDSA SAB Bundle Recommendations",
-        "detail": "Informal but widely adopted 'SAB bundle': (1) Follow-up blood cultures q24-48h until clearance, (2) Echocardiography (TTE ± TEE), (3) ID consultation, (4) Source identification and control, (5) Appropriate antibiotic selection and duration. Adherence to the full bundle reduces mortality by 40-50% in observational studies."
+        "name": "SAB Bundle Literature",
+        "detail": "The modern Staphylococcus aureus bacteremia bundle is a synthesized practice framework rather than a single guideline: repeat cultures to document clearance, echocardiography when risk is meaningful, early source control, ID involvement, and duration tied to complicated vs uncomplicated disease.",
+        "sourceIds": [
+          "fowler-2003-complicated-sab",
+          "sullenberger-2005-tee-sab",
+          "holland-2014-sab-review"
+        ]
       },
       {
         "name": "IDSA 2024 AMR Guidance v4.0",
-        "detail": "Relevant for MRSA bacteremia treatment (vancomycin AUC-guided dosing, daptomycin as alternative), VRE bacteremia (daptomycin ± ampicillin synergy), and resistant gram-negative bacteremia."
-      },
-      {
-        "name": "ESC 2023 IE Guidelines",
-        "detail": "European perspective. Emphasizes multimodality imaging (PET/CT for prosthetic valve IE), earlier surgical referral, and endocarditis team approach. Largely concordant with AHA but more aggressive on imaging."
+        "detail": "Relevant for MRSA bacteremia treatment (vancomycin AUC-guided dosing, daptomycin as alternative), VRE bacteremia (daptomycin ± ampicillin synergy), and resistant gram-negative bacteremia.",
+        "sourceIds": [
+          "idsa-2024-amr"
+        ]
       }
     ],
     "landmarkTrials": [
       {
         "name": "POET Trial (Iversen et al., NEJM 2019)",
-        "detail": "Paradigm-shifting RCT: Partial Oral Treatment of Endocarditis. 400 patients with left-sided IE (S. aureus, Streptococci, E. faecalis, CoNS) randomized to continued IV vs. switch to oral therapy after ≥10 days IV + clinical stability. Oral switch was NON-INFERIOR (composite of all-cause mortality, unplanned cardiac surgery, embolic events, relapse). Changed practice: oral step-down is now acceptable for SELECTED patients. Key caveats — excluded prosthetic valves <1 year, severe valve dysfunction, large vegetations, and aortic root abscess. Used HIGH-DOSE oral regimens (e.g., amoxicillin 1g q6h + rifampin, or other dual-oral combos)."
+        "detail": "Paradigm-shifting RCT: Partial Oral Treatment of Endocarditis. 400 patients with left-sided IE (S. aureus, Streptococci, E. faecalis, CoNS) randomized to continued IV vs. switch to oral therapy after ≥10 days IV + clinical stability. Oral switch was NON-INFERIOR (composite of all-cause mortality, unplanned cardiac surgery, embolic events, relapse). Changed practice: oral step-down is now acceptable for SELECTED patients. Key caveats — excluded prosthetic valves <1 year, severe valve dysfunction, large vegetations, and aortic root abscess. Used HIGH-DOSE oral regimens (e.g., amoxicillin 1g q6h + rifampin, or other dual-oral combos).",
+        "sourceIds": [
+          "poet"
+        ]
       },
       {
         "name": "ARREST Trial (Thwaites et al., Lancet 2018)",
-        "detail": "Adjunctive Rifampicin for S. aureus Bacteremia. RCT of 758 patients — adding rifampicin to standard SAB therapy did NOT improve outcomes (bacteremia duration, mortality, treatment failure). Ended the long-standing debate about routine rifampicin in SAB. Reserve rifampicin for prosthetic material infections (PJI, prosthetic valve IE) where biofilm is a specific concern, not routine SAB."
+        "detail": "Adjunctive Rifampicin for S. aureus Bacteremia. RCT of 758 patients — adding rifampicin to standard SAB therapy did NOT improve outcomes (bacteremia duration, mortality, treatment failure). Ended the long-standing debate about routine rifampicin in SAB. Reserve rifampicin for prosthetic material infections (PJI, prosthetic valve IE) where biofilm is a specific concern, not routine SAB.",
+        "sourceIds": [
+          "arrest"
+        ]
       },
       {
-        "name": "CAMERA2 Trial (Tong et al., NEJM 2020)",
-        "detail": "Combination Antibiotics for MRSA. RCT of vancomycin vs. vancomycin + anti-staphylococcal beta-lactam (flucloxacillin or cefazolin) for MRSA bacteremia. Trial stopped early for SAFETY — combination arm had significantly more AKI (23% vs 6%) without mortality benefit. Do NOT routinely add beta-lactams to vancomycin for MRSA bacteremia — despite in vitro synergy, the clinical data does not support it."
+        "name": "CAMERA2 Trial (Tong et al., JAMA 2020)",
+        "detail": "Combination Antibiotics for MRSA. RCT of vancomycin vs. vancomycin + anti-staphylococcal beta-lactam (flucloxacillin or cefazolin) for MRSA bacteremia. Trial stopped early for SAFETY — combination arm had significantly more AKI (23% vs 6%) without mortality benefit. Do NOT routinely add beta-lactams to vancomycin for MRSA bacteremia — despite in vitro synergy, the clinical data does not support it.",
+        "sourceIds": [
+          "camera2"
+        ]
       },
       {
-        "name": "Fowler et al., JAMA 2003 — TEE in SAB",
-        "detail": "Demonstrated that TEE identifies IE in 25% of SAB patients with negative TTE. Established that TEE should be performed in all patients with SAB at high risk for IE (prosthetic valves, implantable devices, persistent bacteremia, no identified source, IDU). Changed standard of care for SAB workup."
+        "name": "Fowler et al. (2003) — Clinical Identifiers of Complicated SAB",
+        "detail": "Defined early risk features for complicated S. aureus bacteremia, especially persistent positive follow-up cultures and a non-removable focus. That work helped anchor the now-standard distinction between uncomplicated and complicated SAB.",
+        "sourceIds": [
+          "fowler-2003-complicated-sab"
+        ]
       },
       {
-        "name": "Holland et al., JAMA 2014 — Short vs Long Course SAB",
-        "detail": "Observational data establishing that uncomplicated SAB (no endocarditis, no metastatic infection, line-related source, clearance within 72h) can be treated for 14 days, while complicated SAB requires 4-6 weeks. Defines the 'uncomplicated SAB' criteria that remain in use today."
+        "name": "Holland et al. (2014, JAMA) — Clinical Management of SAB",
+        "detail": "High-yield review synthesizing the practical rules that still drive SAB care: repeat cultures, echocardiography when appropriate, source control, and 14-day vs 4-6 week duration decisions based on uncomplicated vs complicated disease.",
+        "sourceIds": [
+          "holland-2014-sab-review"
+        ]
       },
       {
         "name": "Kang et al., NEJM 2012 — Early Surgery in IE",
-        "detail": "RCT of early surgery (within 48h) vs. conventional treatment for left-sided IE with large vegetations and severe valve dysfunction. Early surgery reduced composite of death and embolic events. Strengthened the case for prompt surgical referral."
+        "detail": "RCT of early surgery (within 48h) vs. conventional treatment for left-sided IE with large vegetations and severe valve dysfunction. Early surgery reduced composite of death and embolic events. Strengthened the case for prompt surgical referral.",
+        "sourceIds": [
+          "kang-2012-early-surgery"
+        ]
       }
     ],
     "riskFactors": "Endocarditis risk factors: Prosthetic heart valves (highest risk — 1-4% annual incidence), prior IE (recurrence risk 5-10%), IDU (right-sided predominance — tricuspid valve), structural heart disease (bicuspid aortic valve, mitral valve prolapse with regurgitation, degenerative valve disease), intracardiac devices (pacemakers, defibrillators), healthcare-associated bacteremia (central lines, HD catheters — rising proportion of IE cases). General bacteremia risk: Central venous catheters (CLABSI), immunosuppression, chronic comorbidities (diabetes, cirrhosis, ESRD on HD, malignancy), recent surgery/procedures, injection drug use, prolonged hospitalization."
@@ -72,7 +100,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         "standard": "14 days from first negative blood culture (uncomplicated MSSA/MRSA)",
         "severe": "28–42 days (complicated/endocarditis)",
         "opatNote": "OPAT appropriate for uncomplicated Staph aureus bacteremia after initial IV stabilization × 14d",
-        "stewardshipNote": "AHA/IDSA 2023: Repeat blood cultures at 48–72h. Echocardiography for Staph aureus bacteremia."
+        "stewardshipNote": "AHA 2015 IE guidance plus SAB bundle literature: repeat blood cultures at 48–72h and obtain echocardiography for Staph aureus bacteremia."
       },
       "empiricTherapy": [
         {
@@ -83,10 +111,10 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "regimen": "Vancomycin IV (AUC/MIC target 400-600)",
               "notes": "Empiric first-line for SAB until MSSA vs MRSA is determined. AUC-guided dosing is now the standard (2020 consensus) — replaces trough-based dosing. Typical loading dose: 25-30 mg/kg (actual body weight), then maintenance guided by AUC. CRITICAL: once susceptibilities return, de-escalate MSSA to cefazolin/nafcillin immediately — vancomycin is INFERIOR to beta-lactams for MSSA (slower bacteremia clearance, higher mortality in some studies).",
               "evidence": "A-I",
-              "evidenceSource": "AHA/IDSA 2023",
+              "evidenceSource": "AHA 2015 IE Guideline",
               "monographId": "vancomycin",
               "evidenceSourceIds": [
-                "aha-acc-2023-ie"
+                "aha-2015-ie"
               ],
               "id": "bacteremia-endocarditis/sab-workup/empiric-pending-susceptibilities/vancomycin-1"
             },
@@ -95,10 +123,10 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "regimen": "Daptomycin 6-10 mg/kg IV once daily",
               "notes": "Alternative empiric agent when vancomycin cannot be used (allergy, intolerance, renal toxicity). Use ≥8 mg/kg for suspected endocarditis or complicated infections. Rapidly bactericidal. CONTRAINDICATED in pneumonia (surfactant inactivation). If MSSA returns, still de-escalate to beta-lactam.",
               "evidence": "B-II",
-              "evidenceSource": "AHA/IDSA 2023",
+              "evidenceSource": "AHA 2015 IE Guideline",
               "monographId": "daptomycin",
               "evidenceSourceIds": [
-                "aha-acc-2023-ie"
+                "aha-2015-ie"
               ],
               "id": "bacteremia-endocarditis/sab-workup/empiric-pending-susceptibilities/daptomycin-2"
             }
@@ -112,10 +140,10 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "regimen": "Cefazolin 2g IV q8h",
               "notes": "PREFERRED agent for MSSA bacteremia and MSSA IE (native valve). Multiple observational studies and meta-analyses show non-inferiority or superiority to nafcillin/oxacillin with fewer adverse effects (less nephrotoxicity, less hepatotoxicity, less phlebitis). Q8h dosing is practical for OPAT. Duration: 14 days for uncomplicated SAB, 4-6 weeks for IE or complicated SAB.",
               "evidence": "A-I",
-              "evidenceSource": "AHA/IDSA 2023",
+              "evidenceSource": "AHA 2015 IE Guideline",
               "monographId": "cefazolin",
               "evidenceSourceIds": [
-                "aha-acc-2023-ie"
+                "aha-2015-ie"
               ],
               "id": "bacteremia-endocarditis/sab-workup/mssa-definitive-therapy/cefazolin-1"
             },
@@ -124,9 +152,9 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "regimen": "Nafcillin or Oxacillin 2g IV q4h",
               "notes": "Historical gold standard for MSSA. Still used by some ID physicians who prefer the rapid bactericidal activity and high-dose continuous infusion data. Disadvantages: q4h dosing (impractical for OPAT), significant phlebitis, oxacillin hepatotoxicity, nafcillin-associated interstitial nephritis. Most centers have transitioned to cefazolin. Reserve for cefazolin allergy (severe cephalosporin allergy — rare) or treatment failure on cefazolin (extremely rare).",
               "evidence": "A-I",
-              "evidenceSource": "AHA/IDSA 2023",
+              "evidenceSource": "AHA 2015 IE Guideline",
               "evidenceSourceIds": [
-                "aha-acc-2023-ie"
+                "aha-2015-ie"
               ],
               "id": "bacteremia-endocarditis/sab-workup/mssa-definitive-therapy/nafcillin-oxacillin-2"
             }
@@ -220,9 +248,9 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "regimen": "Vancomycin IV (AUC-guided) + Ceftriaxone 2g IV q12h",
               "notes": "Covers MRSA + MSSA + Streptococci + Enterococci + HACEK. Broad empiric regimen for acute IE when organism is unknown. Narrow once cultures return. If hemodynamically unstable, some add gentamicin 1mg/kg IV q8h for the first 3-5 days for synergistic killing (controversial — not routinely recommended due to nephrotoxicity).",
               "evidence": "A-I",
-              "evidenceSource": "AHA/IDSA 2023",
+              "evidenceSource": "AHA 2015 IE Guideline",
               "evidenceSourceIds": [
-                "aha-acc-2023-ie"
+                "aha-2015-ie"
               ],
               "id": "bacteremia-endocarditis/native-valve-ie/empiric-native-valve-pending-cultures/vancomycin-plus-ceftriaxone-empiric-1"
             }
@@ -236,10 +264,10 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "regimen": "Cefazolin 2g IV q8h × 6 weeks",
               "notes": "Preferred over nafcillin/oxacillin based on safety profile and practical advantages (q8h dosing enables OPAT). Non-inferior to nafcillin in multiple observational studies. AHA 2015 lists nafcillin/oxacillin as first-line but most ID pharmacists and many ID physicians have shifted to cefazolin.",
               "evidence": "A-I",
-              "evidenceSource": "AHA/IDSA 2023",
+              "evidenceSource": "AHA 2015 IE Guideline",
               "monographId": "cefazolin",
               "evidenceSourceIds": [
-                "aha-acc-2023-ie"
+                "aha-2015-ie"
               ],
               "id": "bacteremia-endocarditis/native-valve-ie/mssa-native-valve-ie/cefazolin-1"
             },
@@ -248,9 +276,9 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "regimen": "Nafcillin or Oxacillin 12g/day IV continuous infusion or 2g IV q4h × 6 weeks",
               "notes": "Traditional gold standard. Still preferred by some for aortic valve IE or complicated cases. Continuous infusion optimizes time-dependent killing. Major disadvantages: phlebitis, hepatotoxicity (oxacillin), interstitial nephritis (nafcillin), q4h dosing if intermittent.",
               "evidence": "A-I",
-              "evidenceSource": "AHA/IDSA 2023",
+              "evidenceSource": "AHA 2015 IE Guideline",
               "evidenceSourceIds": [
-                "aha-acc-2023-ie"
+                "aha-2015-ie"
               ],
               "id": "bacteremia-endocarditis/native-valve-ie/mssa-native-valve-ie/nafcillin-oxacillin-2"
             }

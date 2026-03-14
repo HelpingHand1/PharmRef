@@ -14,33 +14,54 @@ export const FUNGAL_INFECTIONS: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "IDSA 2016 Clinical Practice Guideline for the Management of Candidiasis",
-        "detail": "Comprehensive guideline covering candidemia, chronic disseminated candidiasis, and organ-specific invasive candidiasis. KEY CHANGES from prior: echinocandins elevated to first-line for candidemia in all patients (previously fluconazole preferred in non-critically ill). Fluconazole de-escalation encouraged once species and susceptibility confirmed. Strong recommendation for ophthalmologic exam in all candidemia patients. CVC removal recommended within 24–48 hours when feasible."
+        "detail": "Comprehensive guideline covering candidemia, chronic disseminated candidiasis, and organ-specific invasive candidiasis. KEY CHANGES from prior: echinocandins elevated to first-line for candidemia in all patients (previously fluconazole preferred in non-critically ill). Fluconazole de-escalation encouraged once species and susceptibility confirmed. Strong recommendation for ophthalmologic exam in all candidemia patients. CVC removal recommended within 24–48 hours when feasible.",
+        "sourceIds": [
+          "idsa-candidiasis"
+        ]
       },
       {
         "name": "IDSA 2016 Practice Guidelines for Diagnosis and Management of Aspergillosis",
-        "detail": "Guidelines for invasive pulmonary aspergillosis, chronic pulmonary aspergillosis, and allergic forms. Voriconazole remains first-line for invasive aspergillosis. Isavuconazole non-inferior per SECURE trial. Combination therapy (voriconazole + echinocandin) may benefit some patients per subgroup analysis of the voriconazole-anidulafungin combination study. Therapeutic drug monitoring for voriconazole strongly recommended (trough 1–5.5 mcg/mL)."
+        "detail": "Guidelines for invasive pulmonary aspergillosis, chronic pulmonary aspergillosis, and allergic forms. Voriconazole remains first-line for invasive aspergillosis. Isavuconazole non-inferior per SECURE trial. Combination therapy (voriconazole + echinocandin) may benefit some patients per subgroup analysis of the voriconazole-anidulafungin combination study. Therapeutic drug monitoring for voriconazole strongly recommended (trough 1–5.5 mcg/mL).",
+        "sourceIds": [
+          "idsa-aspergillosis"
+        ]
       },
       {
-        "name": "ESCMID 2022 Guideline for the Diagnosis and Management of Candida Diseases",
-        "detail": "European guideline incorporating newer data on echinocandin resistance, C. auris management, biofilm-related infections, and step-down strategies. Affirms echinocandin first-line. Adds guidance on rezafungin (new long-acting echinocandin) and ibrexafungerp. Emphasizes antifungal stewardship and de-escalation."
+        "name": "ESCMID 2012 Candida Guideline (Non-neutropenic Adults)",
+        "detail": "European candidiasis guidance reinforcing echinocandin-first therapy for candidemia, early catheter removal, daily blood cultures to clearance, and fundoscopy/echo-based metastatic workup. Useful supporting guidance alongside IDSA, though it predates newer agents and C. auris-specific recommendations.",
+        "sourceIds": [
+          "escmid-2012-candida"
+        ]
       }
     ],
     "landmarkTrials": [
       {
         "name": "Reboli et al., NEJM 2007 — Anidulafungin vs Fluconazole for Candidemia",
-        "detail": "Landmark RCT (ROCKER study) establishing echinocandin superiority over fluconazole for candidemia. Anidulafungin had higher global response rate (75.6% vs 60.2%, p=0.01) at end of IV therapy. This trial, combined with similar micafungin and caspofungin data, was the primary evidence driving echinocandins to first-line status in the 2016 IDSA guidelines. Mortality trended lower with anidulafungin but did not reach statistical significance."
+        "detail": "Landmark RCT (ROCKER study) establishing echinocandin superiority over fluconazole for candidemia. Anidulafungin had higher global response rate (75.6% vs 60.2%, p=0.01) at end of IV therapy. This trial, combined with similar micafungin and caspofungin data, was the primary evidence driving echinocandins to first-line status in the 2016 IDSA guidelines. Mortality trended lower with anidulafungin but did not reach statistical significance.",
+        "sourceIds": [
+          "reboli-2007-anidulafungin"
+        ]
       },
       {
         "name": "Herbrecht et al., NEJM 2002 — Voriconazole vs Amphotericin B for Invasive Aspergillosis",
-        "detail": "Pivotal RCT establishing voriconazole as first-line for invasive aspergillosis. Voriconazole had significantly better response rates (52.8% vs 31.6%) and survival (70.8% vs 57.9% at 12 weeks) compared to amphotericin B deoxycholate. Also demonstrated better tolerability. This trial fundamentally changed aspergillosis treatment from amphotericin B to voriconazole as standard of care."
+        "detail": "Pivotal RCT establishing voriconazole as first-line for invasive aspergillosis. Voriconazole had significantly better response rates (52.8% vs 31.6%) and survival (70.8% vs 57.9% at 12 weeks) compared to amphotericin B deoxycholate. Also demonstrated better tolerability. This trial fundamentally changed aspergillosis treatment from amphotericin B to voriconazole as standard of care.",
+        "sourceIds": [
+          "herbrecht-2002-voriconazole"
+        ]
       },
       {
         "name": "Maertens et al., Lancet 2016 — SECURE Trial: Isavuconazole for Invasive Aspergillosis/Mucormycosis",
-        "detail": "Pivotal non-inferiority trial comparing isavuconazole to voriconazole for primary treatment of invasive aspergillosis. Isavuconazole was non-inferior (overall mortality 18.6% vs 20.2%). KEY ADVANTAGES of isavuconazole: no QTc prolongation (actually shortens QTc), no hepatotoxicity signal, no visual disturbances, IV formulation without cyclodextrin (safe in renal impairment), and predictable pharmacokinetics allowing less frequent TDM."
+        "detail": "Pivotal non-inferiority trial comparing isavuconazole to voriconazole for primary treatment of invasive aspergillosis. Isavuconazole was non-inferior (overall mortality 18.6% vs 20.2%). KEY ADVANTAGES of isavuconazole: no QTc prolongation (actually shortens QTc), no hepatotoxicity signal, no visual disturbances, IV formulation without cyclodextrin (safe in renal impairment), and predictable pharmacokinetics allowing less frequent TDM.",
+        "sourceIds": [
+          "secure-trial"
+        ]
       },
       {
         "name": "Marr et al., Ann Intern Med 2015 — Voriconazole + Anidulafungin Combination vs Voriconazole Monotherapy",
-        "detail": "RCT examining combination antifungal therapy for invasive aspergillosis. Primary endpoint (6-week mortality) showed a trend favoring combination (19.3% vs 27.5%, p=0.087) that did not reach significance. POST-HOC subgroup analysis: patients with galactomannan-proven IA had significant mortality benefit with combination (15.7% vs 27.3%). This trial is the basis for considering combination therapy in select high-risk patients, though not universally recommended."
+        "detail": "RCT examining combination antifungal therapy for invasive aspergillosis. Primary endpoint (6-week mortality) showed a trend favoring combination (19.3% vs 27.5%, p=0.087) that did not reach significance. POST-HOC subgroup analysis: patients with galactomannan-proven IA had significant mortality benefit with combination (15.7% vs 27.3%). This trial is the basis for considering combination therapy in select high-risk patients, though not universally recommended.",
+        "sourceIds": [
+          "marr-2015-voriconazole-anidulafungin"
+        ]
       }
     ],
     "riskFactors": "Candidemia: Central venous catheters (strongest modifiable risk factor), broad-spectrum antibiotics (especially anti-anaerobic agents), ICU stay >3 days, TPN, recent abdominal surgery (especially GI anastomotic leak), neutropenia, immunosuppression (steroids, chemotherapy), renal failure requiring dialysis, Candida colonization at multiple sites (colonization index), prior fluconazole exposure (selects for resistant species). Invasive aspergillosis: Prolonged neutropenia (>10 days ANC <500), allogeneic HSCT (especially with GVHD requiring steroids), solid organ transplant (lung transplant highest risk), hematologic malignancy (AML induction, MDS), chronic high-dose corticosteroids (≥20mg prednisone ≥3 weeks), inherited or acquired immunodeficiency (CGD, AIDS with CD4 <100), novel immunotherapies (ibrutinib, ruxolitinib — impair macrophage/neutrophil function)."
