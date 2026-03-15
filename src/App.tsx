@@ -173,12 +173,23 @@ export default function PharmRef() {
       if (event.key === "Escape" && document.activeElement === searchRef.current) {
         searchRef.current?.blur();
         setSearchQuery("");
+        return;
+      }
+
+      if (
+        event.key === "Escape" &&
+        !["INPUT", "TEXTAREA", "SELECT"].includes(activeTag ?? "") &&
+        navState !== NAV_STATES.HOME &&
+        !document.querySelector(".modal-overlay")
+      ) {
+        navigateTo(NAV_STATES.HOME);
+        setSearchQuery("");
       }
     };
 
     window.addEventListener("keydown", handleShortcut);
     return () => window.removeEventListener("keydown", handleShortcut);
-  }, []);
+  }, [navState, navigateTo]);
 
   useEffect(() => {
     const handleScroll = () => setShowTopBtn(window.scrollY > 400);
@@ -334,6 +345,7 @@ export default function PharmRef() {
   );
 
   const clearWorkData = useCallback(() => {
+    if (!window.confirm("Clear all patient and allergy data from this session?")) return;
     clearPersistedState("patientContext", WORK_SESSION_PERSISTENCE);
     clearPersistedState("allergies", WORK_SESSION_PERSISTENCE);
     setPatient({});
@@ -462,9 +474,9 @@ export default function PharmRef() {
             S={S}
           />
         ) : (
-          <p style={{ color: S.monographValue.color, textAlign: "center", padding: "60px 0" }}>
-            {catalogStatus === "error" ? "Search catalog unavailable." : "Loading search index…"}
-          </p>
+          <div style={{ color: S.monographValue.color, textAlign: "center", padding: "60px 0", display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
+            {catalogStatus === "error" ? "Search catalog unavailable." : <><span className="pr-spinner" />Loading search index…</>}
+          </div>
         )}
       </Layout>
     );
@@ -524,9 +536,9 @@ export default function PharmRef() {
         {catalogDerived ? (
           <AuditView diseaseStates={auditDiseases} S={S} />
         ) : (
-          <p style={{ color: S.monographValue.color, textAlign: "center", padding: "60px 0" }}>
-            {catalogStatus === "error" ? "Catalog unavailable." : "Loading content audit…"}
-          </p>
+          <div style={{ color: S.monographValue.color, textAlign: "center", padding: "60px 0", display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
+            {catalogStatus === "error" ? "Catalog unavailable." : <><span className="pr-spinner" />Loading content audit…</>}
+          </div>
         )}
       </Layout>
     );
@@ -617,9 +629,10 @@ export default function PharmRef() {
 
   return (
     <Layout {...layoutProps}>
-      <p style={{ color: S.monographValue.color, textAlign: "center", padding: "60px 0" }}>
+      <div style={{ color: S.monographValue.color, textAlign: "center", padding: "60px 0", display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
+        <span className="pr-spinner" />
         {selectedDiseaseSummary ? `Loading ${selectedDiseaseSummary.name}…` : "Loading…"}
-      </p>
+      </div>
     </Layout>
   );
 }

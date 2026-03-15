@@ -92,6 +92,7 @@ export function useNavigation() {
       setSelectedDiseaseId(next.diseaseId);
       setSelectedSubcategoryId(next.subcategoryId);
       setSelectedMonographId(next.monographId);
+      window.scrollTo({ top: 0, behavior: "auto" });
     };
 
     applyHash();

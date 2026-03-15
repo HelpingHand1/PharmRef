@@ -244,6 +244,24 @@ export default function HomePage({
         </>
       )}
 
+      {bookmarks.length === 0 && (
+        <div
+          style={{
+            ...S.card,
+            cursor: "default",
+            padding: "20px 22px",
+            marginBottom: "28px",
+            textAlign: "center",
+            borderStyle: "dashed",
+          }}
+        >
+          <div style={{ fontSize: "22px", marginBottom: "8px", opacity: 0.5 }}>🔖</div>
+          <p style={{ color: S.monographValue.color, margin: 0, fontSize: "13px", lineHeight: 1.6 }}>
+            No bookmarks yet — tap the bookmark icon on any monograph to save it here for quick access.
+          </p>
+        </div>
+      )}
+
       {bookmarks.length > 0 && (
         <>
           <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginBottom: "10px", flexWrap: "wrap" }}>
@@ -310,8 +328,11 @@ export default function HomePage({
           <div
             key={disease.id}
             className="pr-card disease-card"
+            role="button"
+            tabIndex={0}
             style={{ ...S.card, display: "flex", alignItems: "center", gap: "16px", marginBottom: 0, padding: "18px 20px" }}
             onClick={() => navigateTo(NAV_STATES.DISEASE_OVERVIEW, { diseaseId: disease.id })}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); navigateTo(NAV_STATES.DISEASE_OVERVIEW, { diseaseId: disease.id }); } }}
           >
             <div
               style={{

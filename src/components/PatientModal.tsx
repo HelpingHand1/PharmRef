@@ -97,6 +97,7 @@ export default function PatientModal({
 
   return (
     <div
+      className="modal-overlay"
       style={{
         position: "fixed", inset: 0, zIndex: 300,
         background: isDark ? "rgba(2, 8, 23, 0.65)" : "rgba(15, 23, 42, 0.42)",
@@ -107,6 +108,9 @@ export default function PatientModal({
     >
       <div
         className="modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="patient-modal-title"
         style={{
           background: bg, border: `1px solid ${border}`, borderRadius: "24px",
           padding: "24px", maxWidth: "520px", width: "100%",
@@ -117,7 +121,7 @@ export default function PatientModal({
       >
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
           <div>
-            <h2 style={{ fontSize: "20px", fontWeight: 800, color: headingColor, margin: 0, letterSpacing: "-0.03em" }}>
+            <h2 id="patient-modal-title" style={{ fontSize: "20px", fontWeight: 800, color: headingColor, margin: 0, letterSpacing: "-0.03em" }}>
               👤 Patient Context
             </h2>
             <p style={{ fontSize: "12px", color: mutedColor, margin: "4px 0 0", lineHeight: 1.5 }}>

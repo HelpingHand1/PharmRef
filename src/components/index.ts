@@ -1,3 +1,4 @@
+export { default as ErrorBoundary } from "./ErrorBoundary";
 export { default as Section } from "./Section";
 export { default as Toast } from "./Toast";
 export { default as CopyBtn } from "./CopyBtn";

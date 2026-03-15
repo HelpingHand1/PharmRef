@@ -302,6 +302,14 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
 
   const visibleTabs = ALL_TABS.filter((tab) => tab === "All" || groups.some((g) => g.title === TAB_GROUPS[tab]));
   const filteredGroups = activeTab === "All" ? groups : groups.filter((g) => g.title === TAB_GROUPS[activeTab]);
+  const tabCounts: Record<string, number> = {
+    All: total,
+    Drugs: results.drugs.length,
+    Regimens: results.regimens.length,
+    Organisms: results.organisms.length,
+    Syndromes: results.subcategories.length,
+    Diseases: results.diseases.length,
+  };
 
   return (
     <>
@@ -321,7 +329,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
         <div style={{ display: "flex", flexWrap: "wrap", marginBottom: "20px" }}>
           {visibleTabs.map((tab) => (
             <button key={tab} style={activeTab === tab ? pillActive : pillBase} onClick={() => setActiveTab(tab)}>
-              {tab}
+              {tab} ({tabCounts[tab]})
             </button>
           ))}
         </div>

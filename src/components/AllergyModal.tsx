@@ -50,6 +50,9 @@ export default function AllergyModal({
     >
       <div
         className="modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="allergy-modal-title"
         style={{
           background: bg,
           border: `1px solid ${border}`,
@@ -78,7 +81,7 @@ export default function AllergyModal({
             ⚠
           </div>
           <div>
-            <h3 style={{ fontSize: "18px", fontWeight: 800, margin: 0, color: heading }}>Allergy & Interaction Profile</h3>
+            <h3 id="allergy-modal-title" style={{ fontSize: "18px", fontWeight: 800, margin: 0, color: heading }}>Allergy & Interaction Profile</h3>
             <p style={{ fontSize: "12px", color: muted, margin: "4px 0 0" }}>Inline safety flags across monographs and therapy recommendations.</p>
           </div>
         </div>

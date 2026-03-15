@@ -114,7 +114,7 @@ export default function Layout({
               placeholder="Search drugs, organisms, syndromes, pearls..."
             />
             {searchQuery ? (
-              <button type="button" style={S.clearBtn} onClick={() => onSearchChange("")} title="Clear search">
+              <button type="button" style={S.clearBtn} onClick={() => onSearchChange("")} title="Clear search" aria-label="Clear search">
                 ✕
               </button>
             ) : (
@@ -127,6 +127,7 @@ export default function Layout({
               style={{ ...S.themeToggle, position: "relative", gap: "6px", paddingLeft: "10px", paddingRight: "10px" }}
               onClick={onOpenAllergyModal}
               title={allergyCount > 0 ? `${allergyCount} allergy flag${allergyCount === 1 ? "" : "s"} active` : "Manage allergy profile"}
+              aria-label={allergyCount > 0 ? `${allergyCount} allergy flag${allergyCount === 1 ? "" : "s"} active` : "Manage allergy profile"}
             >
               ⚠
               {allergyCount > 0 && (
@@ -140,6 +141,7 @@ export default function Layout({
               style={{ ...S.themeToggle, position: "relative", gap: "6px", paddingLeft: "10px", paddingRight: "10px" }}
               onClick={onOpenPatientModal}
               title={patientActive ? `Patient active · CrCl: ${crcl} mL/min` : "Set patient context"}
+              aria-label={patientActive ? `Patient active, CrCl ${crcl} mL per min` : "Set patient context"}
             >
               👤
               {patientActive && (
@@ -154,14 +156,15 @@ export default function Layout({
                 style={{ ...S.themeToggle, gap: "6px", paddingLeft: "10px", paddingRight: "10px" }}
                 onClick={onClearWorkData}
                 title="Clear work session data"
+                aria-label="Clear work session data"
               >
                 🧹
               </button>
             )}
-            <button type="button" style={S.themeToggle} onClick={onToggleReadingMode} title={readingMode ? "Switch to standard view" : "Switch to reading view"}>
+            <button type="button" style={S.themeToggle} onClick={onToggleReadingMode} title={readingMode ? "Switch to standard view" : "Switch to reading view"} aria-label={readingMode ? "Switch to standard view" : "Switch to reading view"}>
               {readingMode ? "≡" : "📖"}
             </button>
-            <button type="button" style={S.themeToggle} onClick={onToggleTheme} title={themeTitle}>
+            <button type="button" style={S.themeToggle} onClick={onToggleTheme} title={themeTitle} aria-label={themeTitle}>
               {themeIcon}
             </button>
           </div>
@@ -205,6 +208,7 @@ export default function Layout({
           style={S.topBtn}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           title="Back to top"
+          aria-label="Back to top"
         >
           ↑
         </button>

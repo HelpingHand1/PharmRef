@@ -12,7 +12,7 @@ export default function DisclaimerModal({ S }: DisclaimerModalProps) {
       display: "flex", alignItems: "center", justifyContent: "center", padding: "20px",
       backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
     }}>
-      <div className="modal-panel modal-panel-sm" style={{
+      <div className="modal-panel modal-panel-sm" role="dialog" aria-modal="true" aria-labelledby="disclaimer-modal-title" style={{
         background: S.card?.background || "#1e293b",
         border: `1px solid ${S.card?.borderColor || "#334155"}`,
         borderRadius: "22px",
@@ -22,7 +22,7 @@ export default function DisclaimerModal({ S }: DisclaimerModalProps) {
         boxShadow: "0 28px 70px rgba(15, 23, 42, 0.18)",
       }}>
         <div style={{ fontSize: "30px", marginBottom: "14px" }}>⚠️</div>
-        <h2 style={{ color: "#fbbf24", fontSize: "20px", marginBottom: "12px", letterSpacing: "-0.03em" }}>
+        <h2 id="disclaimer-modal-title" style={{ color: "#fbbf24", fontSize: "20px", marginBottom: "12px", letterSpacing: "-0.03em" }}>
           Clinical Disclaimer
         </h2>
         <p style={{ color: S.monographValue?.color || "#cbd5e1", lineHeight: 1.7, marginBottom: "22px", fontSize: "14px" }}>
