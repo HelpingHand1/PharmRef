@@ -1,5 +1,5 @@
 import { NAV_STATES } from "../styles/constants";
-import type { NavigateTo, PatientContext, Styles } from "../types";
+import type { InteractionAction, NavigateTo, PatientContext, RegimenPlan, Styles } from "../types";
 import { getRegimenPatientWarnings } from "../utils/regimenGuidance";
 
 interface RegimenPatientWarningsProps {
@@ -7,7 +7,9 @@ interface RegimenPatientWarningsProps {
   drugId?: string;
   navigateTo: NavigateTo;
   patient: PatientContext;
+  plan?: RegimenPlan;
   regimen: string;
+  interactionActions?: InteractionAction[];
   S: Styles;
 }
 
@@ -22,10 +24,12 @@ export default function RegimenPatientWarnings({
   drugId,
   navigateTo,
   patient,
+  plan,
   regimen,
+  interactionActions,
   S,
 }: RegimenPatientWarningsProps) {
-  const warnings = getRegimenPatientWarnings(regimen, drugId, patient, crcl);
+  const warnings = getRegimenPatientWarnings(regimen, drugId, patient, crcl, plan, interactionActions);
 
   if (warnings.length === 0) return null;
 

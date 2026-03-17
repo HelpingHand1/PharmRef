@@ -16,6 +16,16 @@ interface ContentMetaCardProps {
   S: Styles;
 }
 
+function pillToneStyles(tone: "fresh" | "info" | "warn") {
+  if (tone === "fresh") {
+    return { background: "rgba(52,211,153,0.12)", borderColor: "rgba(52,211,153,0.28)", color: "#059669" };
+  }
+  if (tone === "info") {
+    return { background: "rgba(56,189,248,0.12)", borderColor: "rgba(56,189,248,0.28)", color: "#0284c7" };
+  }
+  return { background: "rgba(245,158,11,0.12)", borderColor: "rgba(245,158,11,0.28)", color: "#d97706" };
+}
+
 export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaCardProps) {
   const [copiedSource, setCopiedSource] = useState<string | null>(null);
   if (!meta) return null;
@@ -27,18 +37,11 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
   const reviewHistoryLabel = `${meta.reviewHistory.length} review entr${meta.reviewHistory.length === 1 ? "y" : "ies"}`;
   const confidence = getConfidenceBadge(meta.confidence);
   const freshness = getContentFreshness(meta);
-  const toneStyles =
-    freshness.tone === "fresh"
-      ? { background: "rgba(52,211,153,0.12)", borderColor: "rgba(52,211,153,0.28)", color: "#059669" }
-      : freshness.tone === "info"
-        ? { background: "rgba(56,189,248,0.12)", borderColor: "rgba(56,189,248,0.28)", color: "#0284c7" }
-        : { background: "rgba(245,158,11,0.12)", borderColor: "rgba(245,158,11,0.28)", color: "#d97706" };
-  const confidenceStyles =
-    confidence.tone === "fresh"
-      ? { background: "rgba(52,211,153,0.12)", borderColor: "rgba(52,211,153,0.28)", color: "#059669" }
-      : confidence.tone === "info"
-        ? { background: "rgba(56,189,248,0.12)", borderColor: "rgba(56,189,248,0.28)", color: "#0284c7" }
-        : { background: "rgba(245,158,11,0.12)", borderColor: "rgba(245,158,11,0.28)", color: "#d97706" };
+  const toneStyles = pillToneStyles(freshness.tone);
+  const confidenceStyles = pillToneStyles(confidence.tone);
+  const whatChanged = meta.whatChanged ?? [];
+  const sectionConfidence = meta.sectionConfidence ?? [];
+  const guidelineDisagreements = meta.guidelineDisagreements ?? [];
 
   const copyCitation = async (citation: string, key: string) => {
     try {
@@ -111,6 +114,23 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
         </div>
       )}
 
+      {freshness.tone === "warn" && (
+        <div
+          style={{
+            marginBottom: "10px",
+            padding: "10px 12px",
+            borderRadius: "12px",
+            background: "rgba(245,158,11,0.08)",
+            border: "1px solid rgba(245,158,11,0.25)",
+            color: "#b45309",
+            fontSize: "12px",
+            lineHeight: 1.55,
+          }}
+        >
+          This section is past the freshness threshold. Reconfirm newer guidance, labeling, and local restriction logic before using it for edge-case decisions.
+        </div>
+      )}
+
       <div style={{ fontSize: "12px", color: S.monographValue.color, marginBottom: "10px", lineHeight: 1.55 }}>
         Reviewed on {formatReviewDate(meta.lastReviewed)} with {confidence.label.toLowerCase()} based on {sourceLabel}.
       </div>
@@ -123,6 +143,53 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
       {latestReview && (
         <div style={{ fontSize: "12px", color: S.meta.textHeading, marginBottom: "10px", lineHeight: 1.6 }}>
           Latest change: {latestReview.summary}
+        </div>
+      )}
+
+      {whatChanged.length > 0 && (
+        <div style={{ marginBottom: "10px" }}>
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent, marginBottom: "6px" }}>
+            What changed
+          </div>
+          <div style={{ display: "grid", gap: "4px" }}>
+            {whatChanged.map((item) => (
+              <div key={item} style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}>
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {sectionConfidence.length > 0 && (
+        <div style={{ marginBottom: "10px" }}>
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent, marginBottom: "8px" }}>
+            Section confidence
+          </div>
+          <div style={{ display: "grid", gap: "8px" }}>
+            {sectionConfidence.map((entry) => {
+              const badge = getConfidenceBadge(entry.confidence);
+              return (
+                <div key={`${entry.section}-${entry.confidence}`} style={{ display: "grid", gap: "4px" }}>
+                  <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
+                    <div style={{ fontSize: "12px", fontWeight: 700, color: S.meta.textHeading }}>{entry.section}</div>
+                    <span
+                      style={{
+                        ...S.crossRefPill,
+                        cursor: "default",
+                        marginRight: 0,
+                        marginBottom: 0,
+                        ...pillToneStyles(badge.tone),
+                      }}
+                    >
+                      {badge.shortLabel}
+                    </span>
+                  </div>
+                  <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}>{entry.rationale}</div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
 
@@ -193,6 +260,37 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
             })()
           ))}
         </div>
+        {guidelineDisagreements.length > 0 && (
+          <div style={{ marginTop: "12px" }}>
+            <div style={{ fontSize: "11px", fontWeight: 800, color: S.meta.accent, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "8px" }}>
+              Guideline disagreements
+            </div>
+            <div style={{ display: "grid", gap: "8px" }}>
+              {guidelineDisagreements.map((entry) => (
+                <div
+                  key={entry.topic}
+                  style={{
+                    border: `1px solid ${S.meta.border}`,
+                    borderRadius: "12px",
+                    padding: "10px 12px",
+                    background: S.card.background,
+                  }}
+                >
+                  <div style={{ fontSize: "12px", fontWeight: 700, color: S.meta.textHeading }}>{entry.topic}</div>
+                  <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+                    <strong>Position A:</strong> {entry.guidanceA}
+                  </div>
+                  <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "4px", lineHeight: 1.55 }}>
+                    <strong>Position B:</strong> {entry.guidanceB}
+                  </div>
+                  <div style={{ fontSize: "12px", color: S.meta.textHeading, marginTop: "6px", lineHeight: 1.55 }}>
+                    <strong>Pharmacist takeaway:</strong> {entry.pharmacistTakeaway}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         {meta.reviewHistory.length > 0 && (
           <div style={{ marginTop: "12px" }}>
             <div style={{ fontSize: "11px", fontWeight: 800, color: S.meta.accent, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "8px" }}>

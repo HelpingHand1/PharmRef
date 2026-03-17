@@ -51,6 +51,7 @@ const REVIEW_SUMMARIES = {
   "ceftazidime-avibactam": "Reviewed KPC-CRE positioning, definitive-use boundaries, and outcome data for deep-seated infection.",
   "meropenem-vaborbactam": "Reviewed KPC-CRE efficacy data, definitive-use positioning, and cUTI registration support.",
   cefiderocol: "Reviewed salvage use in MBL and resistant gram-negative infections and outcome-signal cautions.",
+  aztreonam: "Reviewed aztreonam use in MBL pairing strategies, allergy-driven selection, and key spectrum gaps.",
   "ceftolozane-tazobactam": "Reviewed DTR Pseudomonas positioning, pulmonary data, and exposure-driven dosing considerations.",
   "imipenem-cilastatin-relebactam": "Reviewed relebactam use in resistant Pseudomonas and KPC-CRE with comparative outcome data.",
   colistin: "Reviewed nephrotoxicity-limited salvage role and reasons to prefer newer agents when available.",
@@ -240,6 +241,30 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("tango-ii", "Meropenem-vaborbactam versus best available therapy for CRE infections, 2018."),
       buildSource("reprise", "Ceftazidime-avibactam activity in resistant gram-negative infections, phase 3 data."),
     ],
+    whatChanged: [
+      "Added rapid-diagnostic steps tying KPC confirmation directly to reserve-agent selection.",
+      "Added breakpoint interpretation notes for ceftazidime-avibactam and meropenem-vaborbactam.",
+    ],
+    sectionConfidence: [
+      {
+        section: "Preferred therapy sequencing",
+        confidence: "high",
+        rationale: "IDSA 2024 and comparative KPC data consistently support novel beta-lactam/BLI therapy over polymyxin-era regimens.",
+      },
+      {
+        section: "Resistance emergence comparisons",
+        confidence: "moderate",
+        rationale: "The signal favoring meropenem-vaborbactam over ceftazidime-avibactam is real but driven mostly by observational datasets.",
+      },
+    ],
+    guidelineDisagreements: [
+      {
+        topic: "First-choice KPC agent when all are susceptible",
+        guidanceA: "IDSA 2024 slightly favors meropenem-vaborbactam over ceftazidime-avibactam and imipenem-cilastatin-relebactam.",
+        guidanceB: "Many institutions operationally treat the three agents as near-equivalent and default to whichever reaches the patient fastest.",
+        pharmacistTakeaway: "Do not delay active therapy over a ranking nuance; start an active KPC agent promptly, then refine once logistics and prior exposure are reviewed.",
+      },
+    ],
   }),
   "amr-gn/cre-mbl": withConfidence("moderate", "amr-gn/cre-mbl", {
     lastReviewed: CONTENT_REVIEWED_ON,
@@ -248,6 +273,30 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("idsa-2024-amr", "Aztreonam plus avibactam-based strategy and cefiderocol considerations for MBL producers, 2024."),
       buildSource("falcone-2021-caz-avi-aztreonam", "Clinical outcomes supporting ceftazidime-avibactam plus aztreonam for MBL-producing Enterobacterales."),
       buildSource("credible-cr", "Cefiderocol data in carbapenem-resistant gram-negative infections."),
+    ],
+    whatChanged: [
+      "Added rapid-diagnostic actions for MBL confirmation and combo-testing workflow.",
+      "Added explicit warning that aztreonam monotherapy remains unreliable despite apparent in vitro activity.",
+    ],
+    sectionConfidence: [
+      {
+        section: "Ceftazidime-avibactam plus aztreonam strategy",
+        confidence: "moderate",
+        rationale: "Supported by strong mechanistic logic and growing observational data, but still lacks large randomized trials.",
+      },
+      {
+        section: "Cefiderocol fallback or bridge role",
+        confidence: "moderate",
+        rationale: "Useful and guideline-endorsed, though resistance emergence and limited phenotype-specific trial data keep certainty below high.",
+      },
+    ],
+    guidelineDisagreements: [
+      {
+        topic: "Preferred first-line option for serious MBL-CRE",
+        guidanceA: "IDSA 2024 lists ceftazidime-avibactam plus aztreonam and cefiderocol as preferred options.",
+        guidanceB: "Many stewardship programs operationally favor ceftazidime-avibactam plus aztreonam first when synchronized co-administration is feasible.",
+        pharmacistTakeaway: "Use the combo-first approach when your lab and infusion workflow can support it; cefiderocol remains an important alternative when they cannot.",
+      },
     ],
   }),
   "amr-gn/dtr-pa": withConfidence("moderate", "amr-gn/dtr-pa", {
@@ -258,6 +307,30 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("aspect-np", "Ceftolozane-tazobactam for nosocomial pneumonia including resistant Pseudomonas."),
       buildSource("restore-imi", "Imipenem-cilastatin-relebactam versus colistin-based therapy for imipenem-nonsusceptible infections."),
     ],
+    whatChanged: [
+      "Added rapid-diagnostic actions separating MBL-positive DTR Pseudomonas from the broader reserve-beta-lactam group.",
+      "Added dose-interpretation callouts clarifying when the pneumonia exposure should be used.",
+    ],
+    sectionConfidence: [
+      {
+        section: "Use of traditional extended-infusion beta-lactams before reserve agents",
+        confidence: "high",
+        rationale: "This hierarchy is stable across IDSA guidance and stewardship practice.",
+      },
+      {
+        section: "Novel-agent sequencing within true DTR Pseudomonas",
+        confidence: "moderate",
+        rationale: "Local mechanism prevalence drives a meaningful part of the ranking, so portability across institutions is limited.",
+      },
+    ],
+    guidelineDisagreements: [
+      {
+        topic: "Ceftolozane-tazobactam versus ceftazidime-avibactam as the default reserve beta-lactam",
+        guidanceA: "IDSA 2024 treats several newer agents as acceptable depending on susceptibility and mechanism.",
+        guidanceB: "Many hospitals still promote one as a local first-look agent based on their novel-antibiogram data.",
+        pharmacistTakeaway: "Trust local susceptibility data over generic brand familiarity when both drugs are active.",
+      },
+    ],
   }),
   "amr-gn/crab-steno": withConfidence("emerging", "amr-gn/crab-steno", {
     lastReviewed: CONTENT_REVIEWED_ON,
@@ -266,6 +339,30 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("idsa-2024-amr", "Guidance for CRAB and Stenotrophomonas with emphasis on combination therapy and selective use of newer agents, 2024."),
       buildSource("attack", "Sulbactam-durlobactam versus colistin for Acinetobacter baumannii-calcoaceticus complex infection, 2023."),
       buildSource("credible-cr", "Cefiderocol resistant gram-negative outcomes including Acinetobacter subgroup concerns."),
+    ],
+    whatChanged: [
+      "Added explicit breakpoint warnings for Stenotrophomonas ceftazidime reporting and CRAB susceptibility workflow.",
+      "Added intrinsic-resistance callouts clarifying why carbapenems should come off once Stenotrophomonas is the target.",
+    ],
+    sectionConfidence: [
+      {
+        section: "Sulbactam-durlobactam as preferred CRAB therapy",
+        confidence: "moderate",
+        rationale: "The signal is strong and practice-changing, but the evidence base is still much smaller than for common syndromes.",
+      },
+      {
+        section: "Combination framing for severe Stenotrophomonas infection",
+        confidence: "emerging",
+        rationale: "Most recommendations are mechanistic and observational rather than trial-driven.",
+      },
+    ],
+    guidelineDisagreements: [
+      {
+        topic: "How aggressively to combine cefiderocol in CRAB",
+        guidanceA: "IDSA 2024 discourages cefiderocol monotherapy and favors combination framing for CRAB.",
+        guidanceB: "Some clinicians still individualize toward monotherapy late in therapy if cultures clear and no second active agent remains.",
+        pharmacistTakeaway: "Start with combination thinking for CRAB and only simplify with specialist review after clear clinical improvement.",
+      },
     ],
   }),
   "advanced-agents/cre-management": withConfidence("moderate", "advanced-agents/cre-management", {
@@ -276,6 +373,22 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("tango-ii", "Meropenem-vaborbactam comparative data in CRE infections."),
       buildSource("reprise", "Ceftazidime-avibactam resistant gram-negative treatment data."),
     ],
+    whatChanged: [
+      "Added mechanism-based rapid-diagnostic cues and a phenotype coverage matrix.",
+      "Added explicit breakpoint guidance reinforcing MIC and carbapenemase-driven interpretation.",
+    ],
+    sectionConfidence: [
+      {
+        section: "Mechanism-specific CRE agent selection",
+        confidence: "high",
+        rationale: "This is now the dominant organizing principle across modern CRE guidance.",
+      },
+      {
+        section: "Salvage sequencing once first-choice novel agents fail",
+        confidence: "moderate",
+        rationale: "Evidence remains limited and often center-specific after first-line options are exhausted.",
+      },
+    ],
   }),
   "advanced-agents/mdr-pseudomonas": withConfidence("moderate", "advanced-agents/mdr-pseudomonas", {
     lastReviewed: CONTENT_REVIEWED_ON,
@@ -284,6 +397,22 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("idsa-2024-amr", "Mechanism-aware DTR Pseudomonas escalation strategy."),
       buildSource("aspect-np", "Ceftolozane-tazobactam pulmonary efficacy data."),
       buildSource("restore-imi", "Imipenem-cilastatin-relebactam data for imipenem-resistant Pseudomonas."),
+    ],
+    whatChanged: [
+      "Added rapid-diagnostic actions separating MBL-positive isolates from the broader reserve-agent bucket.",
+      "Added susceptibility-matrix language that makes local antibiogram differences explicit.",
+    ],
+    sectionConfidence: [
+      {
+        section: "Reserve-beta-lactam role in true DTR Pseudomonas",
+        confidence: "moderate",
+        rationale: "The category is well supported, but head-to-head sequencing is still heavily shaped by local susceptibility patterns.",
+      },
+      {
+        section: "Polymyxin fallback role",
+        confidence: "high",
+        rationale: "There is broad agreement that toxicity and poorer outcomes push polymyxins into late salvage status.",
+      },
     ],
   }),
   "febrile-neutropenia/high-risk-fn": withConfidence("high", "febrile-neutropenia/high-risk-fn", {
@@ -388,6 +517,30 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("reprise", "Phase 3 ceftazidime-avibactam data in ceftazidime-resistant gram-negative infections."),
       buildSource("kpc-observational-outcomes", "Real-world outcomes literature in bloodstream and deep-seated KPC infections."),
     ],
+    whatChanged: [
+      "Added rapid-diagnostic direction for KPC/OXA-48 use versus mandatory aztreonam pairing in MBL infections.",
+      "Added susceptibility notes around resistance emergence and repeat-culture triggers.",
+    ],
+    sectionConfidence: [
+      {
+        section: "KPC and OXA-48 activity",
+        confidence: "high",
+        rationale: "Supported by guideline consensus and extensive clinical use.",
+      },
+      {
+        section: "Resistance-emergence management",
+        confidence: "moderate",
+        rationale: "Well described, but the best rescue sequence after failure still depends on repeat susceptibility patterns.",
+      },
+    ],
+    guidelineDisagreements: [
+      {
+        topic: "How early to reserve ceftazidime-avibactam for narrower indications",
+        guidanceA: "Some stewardship programs reserve it aggressively because of resistance-emergence concerns.",
+        guidanceB: "Others use it broadly for any susceptible KPC or OXA-48 isolate because bedside familiarity is high.",
+        pharmacistTakeaway: "Use it confidently when mechanism and susceptibility support it, but keep prior exposure and local preservation goals visible.",
+      },
+    ],
   }),
   "meropenem-vaborbactam": withConfidence("moderate", "meropenem-vaborbactam", {
     lastReviewed: CONTENT_REVIEWED_ON,
@@ -396,6 +549,22 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("idsa-2024-amr", "Preferred KPC-producing CRE therapy when susceptible."),
       buildSource("tango-ii", "Comparative meropenem-vaborbactam outcomes versus best available therapy for CRE infections."),
       buildSource("tango-i", "Registration data for complicated urinary tract infection."),
+    ],
+    whatChanged: [
+      "Added KPC-focused rapid-diagnostic guidance and explicit noncoverage warnings for OXA-48 and MBL phenotypes.",
+      "Added infusion and breakpoint interpretation notes tied to the KPC-specific role of vaborbactam.",
+    ],
+    sectionConfidence: [
+      {
+        section: "KPC-CRE preferred role",
+        confidence: "high",
+        rationale: "Supported by guideline preference and relatively strong comparative data.",
+      },
+      {
+        section: "Use beyond KPC",
+        confidence: "moderate",
+        rationale: "Theoretical activity does not translate into dependable clinical positioning outside KPC-driven infection.",
+      },
     ],
   }),
   cefiderocol: withConfidence("emerging", "cefiderocol", {
@@ -406,6 +575,55 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("credible-cr", "Pathogen-specific outcomes and mortality signal discussion in CR infections."),
       buildSource("apeks-np", "Nosocomial pneumonia noninferiority data including resistant gram-negative organisms."),
     ],
+    whatChanged: [
+      "Added rapid-diagnostic cues for MBL rescue use and CRAB combination framing.",
+      "Added ARC dosing and prolonged-infusion interpretation notes.",
+    ],
+    sectionConfidence: [
+      {
+        section: "Role in MBL-producing Enterobacterales",
+        confidence: "moderate",
+        rationale: "Guideline support is solid, but trial data remain smaller than for more established syndromes.",
+      },
+      {
+        section: "Role in CRAB",
+        confidence: "emerging",
+        rationale: "CREDIBLE-CR created enough uncertainty that clinicians still individualize heavily around this phenotype.",
+      },
+    ],
+    guidelineDisagreements: [
+      {
+        topic: "How early cefiderocol should be used in CRAB",
+        guidanceA: "Some experts hold cefiderocol for later salvage because of the mortality signal.",
+        guidanceB: "Others use it earlier in combination when few active agents are available.",
+        pharmacistTakeaway: "Use combination framing, document why alternatives are inadequate, and reassess quickly with repeat cultures.",
+      },
+    ],
+  }),
+  aztreonam: withConfidence("moderate", "aztreonam", {
+    lastReviewed: CONTENT_REVIEWED_ON,
+    guidelineVersion: "Aztreonam MBL-pairing and allergy-use review",
+    sources: [
+      buildSource("idsa-2024-amr", "Mechanism-aware aztreonam pairing for MBL-producing gram-negative infection."),
+      buildSource("falcone-2021-caz-avi-aztreonam", "Clinical outcomes supporting ceftazidime-avibactam plus aztreonam."),
+      buildSource("clsi-breakpoint-updates", "Breakpoint and combo-testing updates relevant to aztreonam-based MBL strategies."),
+    ],
+    whatChanged: [
+      "Added rapid-diagnostic direction for aztreonam use inside avibactam-containing MBL regimens.",
+      "Added explicit spectrum-gap and ceftazidime side-chain interpretation notes.",
+    ],
+    sectionConfidence: [
+      {
+        section: "Role in MBL combination therapy",
+        confidence: "moderate",
+        rationale: "Mechanistically strong and increasingly supported, but still not backed by large randomized trials.",
+      },
+      {
+        section: "Allergy-driven use as a stand-alone beta-lactam",
+        confidence: "high",
+        rationale: "The gram-negative-only allergy niche is well established and stable.",
+      },
+    ],
   }),
   "ceftolozane-tazobactam": withConfidence("moderate", "ceftolozane-tazobactam", {
     lastReviewed: CONTENT_REVIEWED_ON,
@@ -415,6 +633,22 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("aspect-np", "Phase 3 HAP/VAP data with resistant Pseudomonas representation."),
       buildSource("aspect-cuti-ciai", "Registration studies informing dosing and exposure targets."),
     ],
+    whatChanged: [
+      "Added rapid-diagnostic triggers for MBL exclusion before use.",
+      "Added dose-interpretation language separating serious-infection exposure from the smaller cUTI/cIAI regimen.",
+    ],
+    sectionConfidence: [
+      {
+        section: "Role in non-MBL DTR Pseudomonas",
+        confidence: "high",
+        rationale: "This is a stable and guideline-concordant use case.",
+      },
+      {
+        section: "Use in non-Pseudomonas resistant phenotypes",
+        confidence: "moderate",
+        rationale: "The drug can be active in some ESBL settings, but stewardship generally discourages spending it there.",
+      },
+    ],
   }),
   "imipenem-cilastatin-relebactam": withConfidence("moderate", "imipenem-cilastatin-relebactam", {
     lastReviewed: CONTENT_REVIEWED_ON,
@@ -423,6 +657,22 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("idsa-2024-amr", "Mechanism-based use in select KPC and DTR Pseudomonas isolates."),
       buildSource("restore-imi", "Comparative outcomes versus colistin-based therapy in imipenem-nonsusceptible infections."),
       buildSource("restore-imi-2", "Nosocomial pneumonia data for imipenem-cilastatin-relebactam."),
+    ],
+    whatChanged: [
+      "Added rapid-diagnostic positioning for KPC-CRE and non-MBL DTR Pseudomonas.",
+      "Added mechanism-based noncoverage warnings for OXA-48 and MBL phenotypes.",
+    ],
+    sectionConfidence: [
+      {
+        section: "Use in DTR Pseudomonas",
+        confidence: "moderate",
+        rationale: "Good supportive data exist, but local susceptibility patterns still shape the real-world ranking against other reserve agents.",
+      },
+      {
+        section: "Use in KPC-CRE",
+        confidence: "moderate",
+        rationale: "A valid option, though it is usually not the first ranked KPC agent when meropenem-vaborbactam or ceftazidime-avibactam are available.",
+      },
     ],
   }),
   colistin: withConfidence("emerging", "colistin", {
@@ -530,6 +780,7 @@ export const PRIORITY_SUBCATEGORY_META_KEYS = [
 ] as const;
 
 export const PRIORITY_MONOGRAPH_META_KEYS = [
+  "aztreonam",
   "ceftazidime-avibactam",
   "meropenem-vaborbactam",
   "cefiderocol",

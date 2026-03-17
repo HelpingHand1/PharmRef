@@ -175,7 +175,43 @@ export const IAI: DiseaseState = {
         "UNCOMPLICATED DIVERTICULITIS MAY NOT NEED ANTIBIOTICS AT ALL: DIABOLO (2017, Lancet) and AVOD trials showed no difference in outcomes for uncomplicated diverticulitis treated with vs. without antibiotics. AGA 2021 conditionally recommends against routine antibiotics for immunocompetent patients with uncomplicated diverticulitis. This is a major paradigm shift — discuss with the surgical team and advocate for guideline-concordant care.",
         "Single-dose prophylaxis for appendectomy/cholecystectomy: If the organ is not perforated and there's no spillage, a single pre-operative antibiotic dose is all that's needed. Post-operative antibiotics for uncomplicated appendectomy or cholecystectomy are unnecessary and represent antibiotic overuse. Stewardship opportunity: review post-op orders and discontinue if not indicated.",
         "Ceftriaxone biliary excretion: Ceftriaxone is unique among cephalosporins — ~40% is excreted unchanged in bile, achieving biliary concentrations 20-150× serum levels. This makes it particularly effective for biliary infections. Caveat: ceftriaxone can form biliary sludge/pseudolithiasis (calcium-ceftriaxone precipitate) — usually reversible but avoid in patients with active biliary obstruction."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Differentiate confined-organ infection from true complicated IAI and capture any recent antibiotics or resistant-organism history before empiric therapy."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Peritonitis, sepsis physiology, hypotension, or inability to control the source quickly means this is no longer an uncomplicated pathway."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Recent healthcare exposure, prior ESBL history, and prolonged pre-hospital antibiotics are the main reasons to broaden beyond routine community regimens."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Source control remains the defining intervention even in 'uncomplicated' cases: appendectomy, cholecystectomy, or drainage decisions drive antibiotic success."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "Once the source is controlled, narrow rapidly and avoid prolonged post-operative antibiotics when contamination never became true cIAI."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Use PO completion only after GI function returns, source control is complete, and the clinical course truly supports ongoing antibiotics."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Lack of response should trigger source-control review first, not automatic escalation to a broader carbapenem."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Surgical input is essential whenever the diagnosis or adequacy of source control is uncertain."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Tie duration to the time source control becomes adequate; many uncomplicated sources need very little or no post-control antibiotics."
+      }
     },
     {
       "id": "ca-iai-complicated",
@@ -309,7 +345,43 @@ export const IAI: DiseaseState = {
         "Ertapenem is NOT meropenem: Ertapenem is the narrowest carbapenem. It does NOT cover Pseudomonas or Acinetobacter (unlike meropenem/imipenem/doripenem). This is an ADVANTAGE for community-acquired IAI: carbapenem-level anaerobic + Enterobacterales coverage without the Pseudomonal selection pressure. Using meropenem when ertapenem would suffice is carbapenem misuse.",
         "Ceftriaxone has NO anaerobic coverage: This is the most common empiric error in IAI management. A surgeon orders 'ceftriaxone for peritonitis' — this leaves Bacteroides completely uncovered. ALWAYS pair ceftriaxone with metronidazole for any IAI. If you see ceftriaxone monotherapy for IAI, intervene immediately.",
         "FQ resistance in E. coli is rising: Ciprofloxacin/levofloxacin resistance in E. coli has reached 20-30% in many communities. The cipro + metronidazole regimen for IAI is becoming less reliable. Ceftriaxone + metronidazole or amoxicillin-clavulanate are more reliable empiric oral/IV options. Check local antibiogram before prescribing FQ-based IAI regimens."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Get cultures when operative or drain specimens will be available, assess severity early, and image for perforation, abscess, or diffuse peritonitis."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Shock, diffuse peritonitis, rising lactate, or inability to achieve rapid source control marks a higher-mortality cIAI course."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Recent hospitalization, prior ESBL infection, repeated abdominal procedures, or prolonged antibiotic exposure are the main reasons to broaden empiric coverage."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Drainage, resection, or definitive operative control is the main treatment milestone; antibiotics do not rescue uncontrolled contamination."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "Once source control is achieved and cultures result, narrow aggressively and stop unnecessary enterococcal, anti-pseudomonal, or antifungal coverage."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Transition to PO only after source control is secure, ileus is resolving, and the chosen oral regimen clearly covers the recovered organisms."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Persistent fever or ileus should trigger repeat imaging and source-control reassessment before simply extending therapy."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Early surgery plus ID is high-yield when resistant organisms, persistent bacteremia, or tertiary peritonitis features appear."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "STOP-IT logic applies: count from adequate source control and avoid continuing therapy simply because labs have not normalized completely."
+      }
     },
     {
       "id": "ha-iai",
@@ -332,6 +404,35 @@ export const IAI: DiseaseState = {
               "notes": "Standard empiric regimen for healthcare-associated IAI. Pip-tazo covers Pseudomonas, Enterobacterales, anaerobes, Enterococcus faecalis. Add vancomycin for VRE (E. faecium) and MRSA coverage in high-risk patients. De-escalate aggressively at 48-72h based on cultures.",
               "evidence": "A-I",
               "evidenceSource": "SIS/IDSA 2017",
+              "plan": {
+                "regimen": "Pip-tazo 4.5g IV q6h (extended infusion) + Vancomycin IV",
+                "indication": "Healthcare-associated intra-abdominal infection",
+                "site": "Intra-abdominal",
+                "role": "preferred",
+                "rationale": "Default postoperative cIAI regimen when resistant gram-negative, Enterococcal, and anaerobic coverage are all needed while cultures are pending.",
+                "pathogenFocus": [
+                  "Pseudomonas",
+                  "Enterobacterales",
+                  "Anaerobes",
+                  "Enterococcus and MRSA add-on via vancomycin when needed"
+                ],
+                "riskFactorTriggers": [
+                  "Postoperative leak or peritonitis",
+                  "Healthcare-associated abdominal infection",
+                  "Need broad anaerobic and antipseudomonal coverage"
+                ],
+                "avoidIf": [
+                  "Strong ESBL history favors meropenem",
+                  "Vancomycin can exit if cultures do not support MRSA or resistant Enterococcus"
+                ],
+                "renalFlags": [
+                  "Both agents need kidney-based reassessment and exposure review"
+                ],
+                "linkedMonographIds": [
+                  "pip-tazo",
+                  "vancomycin"
+                ]
+              },
               "evidenceSourceIds": [
                 "sis-2017-ciai"
               ],
@@ -343,6 +444,33 @@ export const IAI: DiseaseState = {
               "notes": "For patients with ESBL risk, prior resistant organisms, or severe sepsis/septic shock. Meropenem covers ESBL, AmpC, Pseudomonas, anaerobes. Vancomycin for VRE/MRSA. THIS is the appropriate use of meropenem — healthcare-associated cIAI with MDR risk, not routine community-acquired IAI.",
               "evidence": "A-I",
               "evidenceSource": "SIS/IDSA 2017",
+              "plan": {
+                "regimen": "Meropenem 1g IV q8h (extended infusion) + Vancomycin IV",
+                "indication": "Healthcare-associated intra-abdominal infection with ESBL risk",
+                "site": "Intra-abdominal",
+                "role": "preferred",
+                "rationale": "Carbapenem-based cIAI plan when ESBL pressure, prior resistant cultures, or shock makes pip-tazo unreliable.",
+                "pathogenFocus": [
+                  "ESBL Enterobacterales",
+                  "Pseudomonas",
+                  "Anaerobes"
+                ],
+                "riskFactorTriggers": [
+                  "Prior ESBL or MDR gram-negative isolate",
+                  "Septic shock",
+                  "Failure or unsuitability of pip-tazo-based empiric therapy"
+                ],
+                "avoidIf": [
+                  "Operative cultures support a narrower beta-lactam exit"
+                ],
+                "renalFlags": [
+                  "Extended infusion and renal replacement dosing both matter"
+                ],
+                "linkedMonographIds": [
+                  "meropenem",
+                  "vancomycin"
+                ]
+              },
               "evidenceSourceIds": [
                 "sis-2017-ciai"
               ],
@@ -354,6 +482,34 @@ export const IAI: DiseaseState = {
               "notes": "Alternative triple therapy. Cefepime for anti-pseudomonal + AmpC stability; metronidazole for anaerobes; vancomycin for VRE/MRSA. More components but allows carbapenem-sparing approach when ESBL risk is not high.",
               "evidence": "B-II",
               "evidenceSource": "SIS/IDSA 2017",
+              "plan": {
+                "regimen": "Cefepime 2g IV q8h (extended infusion) + Metronidazole 500mg IV q8h + Vancomycin IV",
+                "indication": "Healthcare-associated intra-abdominal infection",
+                "site": "Intra-abdominal",
+                "role": "alternative",
+                "rationale": "Carbapenem-sparing triple regimen when AmpC-stable gram-negative coverage is desired but ESBL risk is not dominant.",
+                "pathogenFocus": [
+                  "AmpC-risk Enterobacterales",
+                  "Pseudomonas",
+                  "Anaerobes"
+                ],
+                "riskFactorTriggers": [
+                  "Need cefepime over pip-tazo for prior Enterobacter or Citrobacter history",
+                  "Avoiding routine carbapenem use"
+                ],
+                "avoidIf": [
+                  "ESBL pressure is high",
+                  "Anaerobe partner is omitted"
+                ],
+                "renalFlags": [
+                  "Cefepime neurotoxicity risk rises quickly in renal dysfunction"
+                ],
+                "linkedMonographIds": [
+                  "cefepime",
+                  "metronidazole",
+                  "vancomycin"
+                ]
+              },
               "evidenceSourceIds": [
                 "sis-2017-ciai"
               ],
@@ -368,6 +524,31 @@ export const IAI: DiseaseState = {
               "drug": "fluconazole-iai",
               "regimen": "Fluconazole 400mg IV/PO daily (loading 800mg day 1) — or — Micafungin 100mg IV daily",
               "notes": "Candida peritonitis risk factors: upper GI perforation (especially with acid suppression), recurrent GI surgery, anastomotic leak, immunosuppression, prolonged antibiotics, TPN, Candida in peritoneal cultures. IDSA 2010: empiric antifungal NOT routine — add when risk factors present or yeast seen on Gram stain. Fluconazole for susceptible Candida albicans; echinocandin (micafungin, caspofungin) for C. glabrata/C. krusei or critically ill. Source control is critical for Candida peritonitis.",
+              "plan": {
+                "regimen": "Fluconazole 400mg IV/PO daily (loading 800mg day 1) or Micafungin 100mg IV daily",
+                "indication": "Candida-risk postoperative IAI",
+                "site": "Intra-abdominal",
+                "role": "adjunct",
+                "rationale": "Adjunctive antifungal coverage only when sterile abdominal cultures, Gram stain, or host factors make Candida peritonitis credible.",
+                "pathogenFocus": [
+                  "Candida albicans",
+                  "Candida glabrata and other non-albicans species with echinocandin option"
+                ],
+                "riskFactorTriggers": [
+                  "Anastomotic leak",
+                  "Upper GI perforation",
+                  "TPN",
+                  "Recurrent surgery",
+                  "Yeast seen on Gram stain or sterile-site culture"
+                ],
+                "avoidIf": [
+                  "Routine community IAI without Candida risk factors"
+                ],
+                "linkedMonographIds": [
+                  "fluconazole",
+                  "micafungin"
+                ]
+              },
               "id": "iai/ha-iai/add-antifungal-if-candida-risk-factors/fluconazole-iai-1"
             }
           ]
@@ -415,6 +596,100 @@ export const IAI: DiseaseState = {
         "Tertiary peritonitis is the most challenging IAI scenario: Defined as persistent/recurrent peritonitis after adequate treatment of secondary peritonitis. Organisms shift to low-virulence, highly resistant pathogens (VRE, Pseudomonas, Candida, CoNS). Mortality 30-60%. Often reflects persistent source control failure rather than antibiotic failure. Surgical re-exploration and optimized source control are more important than escalating antibiotics.",
         "Candida in peritoneal cultures matters: Unlike Candida in urine or respiratory cultures (usually colonization), Candida isolated from peritoneal fluid obtained surgically or via drain IS pathogenic and requires treatment. Risk factors: upper GI perforation, recurrent surgery, TPN, broad-spectrum antibiotics. Always speciate Candida — treatment differs significantly by species.",
         "De-escalation is a pharmacist responsibility: Healthcare-associated IAI requires broad empiric therapy, but MUST be narrowed at 48-72h based on cultures. This is where pharmacists add the most value: reviewing culture results, recommending targeted narrowing (meropenem → ertapenem if no Pseudomonas; vancomycin → discontinue if no MRSA/VRE), and ensuring the STOP-IT 4-day timeline is followed."
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Capture operative history, recent antibiotics, drain output, prior resistant organisms, and repeat imaging early because post-operative leaks behave differently from community IAI."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Shock, anastomotic leak, fungemia concern, or recurrent abscess after prior source control should trigger ICU-level urgency."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Prior broad-spectrum exposure, prolonged hospitalization, prior ESBL or Pseudomonas, and recent abdominal surgery are the key empiric resistance gates."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Leak control, drain revision, washout, or re-operation is often the decisive intervention in healthcare-associated IAI."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "At 48-72 hours, use culture results to remove redundant anti-pseudomonal, anti-enterococcal, and empiric antifungal therapy whenever the anatomy and microbiology allow."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Oral completion is uncommon until the leak is controlled and GI function is reliable; do not force early PO in a still-unstable postoperative abdomen."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Failure means persistent leak, wrong source, drain malfunction, or resistant pathogen until proven otherwise."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Surgery is mandatory, and ID input is strongly favored when MDR gram-negatives, Candida, or prolonged open-abdomen courses are involved."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count from the moment adequate post-operative source control is re-established, not from the first ineffective empiric dose."
+      },
+      "rapidDiagnostics": [
+        {
+          "trigger": "Operative or drain cultures show ESBL-producing Enterobacterales or prior cultures suggest them",
+          "action": "Move from cefepime- or pip-tazo-based therapy to meropenem when the isolate history or current microbiology makes those agents unreliable.",
+          "rationale": "Postoperative and healthcare-associated IAI fails most often from resistant gram-negatives plus inadequate source control."
+        },
+        {
+          "trigger": "Candida grows from blood or from a normally sterile abdominal specimen in a high-risk postoperative patient",
+          "action": "Add antifungal therapy while reassessing drainage adequacy and ongoing leak control.",
+          "rationale": "Yeast in a sterile abdominal context can represent a true intra-abdominal candidiasis signal, unlike routine surface colonization."
+        }
+      ],
+      "breakpointNotes": [
+        {
+          "marker": "Anaerobe coverage",
+          "interpretation": "Cefepime or ceftriaxone without metronidazole leaves a major gap in intra-abdominal source control regimens.",
+          "action": "Do not let a gram-negative susceptibility report obscure the anaerobic part of the syndrome."
+        },
+        {
+          "marker": "Culture finalization after source control",
+          "interpretation": "Once operative cultures are known and source control is adequate, prolonged 'just in case' double coverage is usually not justified.",
+          "action": "Use the culture set to simplify quickly instead of finishing the original broadest regimen."
+        }
+      ],
+      "intrinsicResistance": [
+        {
+          "organism": "Enterococcus species",
+          "resistance": "Cephalosporins are intrinsically inactive against Enterococcus.",
+          "implication": "If biliary infection, postoperative infection, or immunocompromise makes Enterococcus credible, choose a regimen that actually covers it."
+        },
+        {
+          "organism": "Pseudomonas aeruginosa",
+          "resistance": "Ertapenem is not an antipseudomonal carbapenem.",
+          "implication": "Reserve ertapenem for community-type IAI patterns rather than hospital-acquired or postoperative leaks with pseudomonal risk."
+        }
+      ],
+      "coverageMatrix": [
+        {
+          "label": "Mixed Enterobacterales plus anaerobes",
+          "status": "preferred",
+          "detail": "Pip-tazo or cefepime plus metronidazole remain core empiric options when resistance risk is moderate and source control is in progress."
+        },
+        {
+          "label": "ESBL-heavy healthcare IAI",
+          "status": "conditional",
+          "detail": "Meropenem is the cleaner definitive anchor once resistant Enterobacterales are identified or strongly suspected."
+        },
+        {
+          "label": "Enterococcus-prone biliary or postoperative infection",
+          "status": "conditional",
+          "detail": "Use amp-sulbactam, pip-tazo, or another enterococcal-active strategy when the syndrome truly warrants it."
+        },
+        {
+          "label": "Empiric Candida coverage in routine community IAI",
+          "status": "avoid",
+          "detail": "Do not add antifungals routinely unless the host and microbiology context make invasive candidiasis plausible."
+        }
       ]
     },
     {
@@ -508,7 +783,43 @@ export const IAI: DiseaseState = {
         "Ceftriaxone biliary sludge: Ceftriaxone forms calcium-ceftriaxone precipitate in bile (biliary pseudolithiasis). Usually asymptomatic and reversible after stopping the drug. However, avoid ceftriaxone in patients with complete biliary obstruction or patients on high-calcium infusions (neonates on calcium-containing IV solutions — CONTRAINDICATED). In adults with biliary stents and adequate flow, ceftriaxone is generally safe.",
         "Blood culture yield in cholangitis is HIGH: Unlike cellulitis (2-5%), cholangitis has bacteremia rates of 30-50%. Always obtain blood cultures before antibiotics. Positive blood cultures guide duration (minimum 7-14 days for Enterobacterales bacteremia) and may reveal organisms not seen in bile cultures.",
         "Percutaneous cholecystostomy tube: For patients too ill for cholecystectomy (Grade III cholecystitis, poor surgical candidates), IR-guided percutaneous cholecystostomy provides biliary decompression. Antibiotics + percutaneous drainage is the bridge strategy. Pharmacists should anticipate prolonged antibiotic courses in these patients since definitive source control is delayed."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Grade severity, obtain cultures when biliary drainage is planned, and define whether cholangitis or complicated cholecystitis is the active syndrome."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Hypotension, altered mentation, rising bilirubin/lactate, or organ dysfunction should trigger urgent drainage planning under the Tokyo severity framework."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Prior ERCP/stenting, recent antibiotics, prior biliary isolates, and repeated healthcare exposure are the main reasons to expand empiric breadth."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "ERCP, cholecystostomy, or surgery is the antibiotic partner that changes outcomes in biliary infection."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "After drainage and cultures, simplify quickly and avoid leaving anti-pseudomonal or enterococcal coverage in place just because the patient presented sick."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Switch to PO once drainage is successful, bilirubin and fever are improving, and a susceptible oral option is available."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Persistent cholestasis or fever should prompt repeat imaging and drain patency review rather than automatic regimen escalation."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "GI/interventional and surgery involvement is often the main time-sensitive decision; ID helps when resistant organisms or candidal concerns appear."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count from successful drainage plus the first active regimen; drainage timing matters more than the calendar day of admission."
+      }
     }
   ],
   "drugMonographs": [
@@ -551,6 +862,106 @@ export const IAI: DiseaseState = {
         "Metronidazole has EXCELLENT CNS penetration: It crosses the blood-brain barrier effectively, achieving CSF levels 40-100% of serum. This makes it the drug of choice for the anaerobic component of brain abscess therapy (usually combined with ceftriaxone for the aerobic component). Very few antibiotics penetrate the CNS this well.",
         "C. diff treatment hierarchy: Metronidazole has been DEMOTED from first-line C. diff treatment. IDSA/SHEA 2021 guidelines: vancomycin PO or fidaxomicin PO are preferred over metronidazole for all C. diff episodes. Metronidazole is now reserved for initial non-severe C. diff when vancomycin/fidaxomicin are not accessible. Oral vancomycin 125mg QID is the standard.",
         "The alcohol interaction is real but the risk window is debated: The traditional teaching is to avoid alcohol for 48-72h after metronidazole. Some pharmacology references suggest the disulfiram-like reaction may be less consistent than previously thought. Regardless, it's best practice to counsel patients to avoid alcohol during treatment and for at least 48h after. The consequences of the reaction (severe vomiting, cardiovascular effects) are significant enough that the counsel is justified."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Intra-abdominal or pelvic anaerobic infection",
+          "regimen": "500 mg IV/PO q8h",
+          "notes": "Use it as the anaerobic partner rather than as monotherapy for mixed infections."
+        },
+        {
+          "label": "Brain abscess anaerobic coverage",
+          "regimen": "500 mg IV/PO q8h",
+          "notes": "Strong CNS penetration is the reason it remains a brain-abscess staple when anaerobes matter."
+        },
+        {
+          "label": "Fulminant CDI adjunct",
+          "regimen": "500 mg IV q8h",
+          "notes": "Its remaining CDI role is adjunctive systemic therapy when ileus limits luminal drug delivery."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Standard dosing usually works, but give the next dose after dialysis if sessions are long or daily because metronidazole and metabolites are dialyzable."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Most CRRT patients can remain on standard q8h therapy, with neurotoxicity vigilance taking priority over aggressive dose escalation."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Severe hepatic impairment",
+          "guidance": "Accumulation and neurotoxicity become more likely, so longer courses need slower dosing or closer symptom review."
+        },
+        {
+          "population": "Alcohol use disorder or prolonged therapy",
+          "guidance": "Counsel hard on alcohol avoidance and monitor for cumulative neuropathy rather than treating metronidazole as a benign long-course drug."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target is used; the clinical target is effective anaerobe control without cumulative neuropathy.",
+        "sampling": "No drug levels are standard. Use neurologic review and hepatic function instead.",
+        "adjustment": "If prolonged therapy causes numbness, ataxia, or encephalopathy, stop or switch rather than trying to salvage the course."
+      },
+      "administration": {
+        "infusion": "IV doses are typically infused over 30-60 minutes.",
+        "oralAbsorption": "Oral bioavailability is essentially complete, so PO and IV systemic exposure are effectively interchangeable.",
+        "note": "Metronidazole is one of the easiest stewardship wins for early IV-to-PO conversion."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "Near-complete oral bioavailability with IV-equivalent systemic exposure.",
+        "switchCriteria": "Convert to PO as soon as the gut works because IV metronidazole rarely adds value once absorption is reliable.",
+        "note": "The common mistake is leaving it IV out of habit instead of because the patient needs it."
+      },
+      "opatEligibility": {
+        "eligible": "no",
+        "administration": "Prefer oral continuation over OPAT because IV metronidazole offers little advantage once enteral absorption is intact.",
+        "monitoring": "If prolonged therapy is needed, follow neurologic symptoms and hepatic function rather than arranging unnecessary infusion logistics.",
+        "considerations": [
+          "One of the highest-yield avoidable OPAT drugs because oral absorption is so strong."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "INR can climb quickly through CYP2C9 inhibition.",
+          "management": "Reduce warfarin or monitor INR closely rather than discovering the interaction through bleeding.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Alcohol or disulfiram",
+          "effect": "Can cause severe nausea, flushing, and neuropsychiatric toxicity.",
+          "management": "Counsel patients to avoid alcohol during therapy and for 48-72 hours after the last dose.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Anaerobic partner in mixed intra-abdominal infection",
+          "role": "Metronidazole lets the partner beta-lactam focus on gram-negatives while preserving explicit anaerobe coverage.",
+          "notes": "It should not be mistaken for broad monotherapy."
+        },
+        {
+          "scenario": "IV-to-PO conversion opportunity",
+          "role": "Because oral absorption is so strong, continuing IV metronidazole after GI recovery is usually a pure stewardship miss.",
+          "notes": "Use this as a standard rounds checkpoint."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Peritoneal fluid / abscess",
+          "detail": "Excellent anaerobic abscess and peritoneal penetration is why metronidazole remains the classic anaerobe partner in intra-abdominal infection."
+        },
+        {
+          "site": "CSF",
+          "detail": "Strong CNS penetration makes it useful when abdominal anaerobic infection overlaps with brain abscess risk."
+        },
+        {
+          "site": "Oral vs IV systemic exposure",
+          "detail": "Oral bioavailability is essentially complete, so IV metronidazole rarely adds tissue penetration that the oral route cannot provide once gut absorption is reliable."
+        }
       ]
     },
     {
@@ -591,6 +1002,102 @@ export const IAI: DiseaseState = {
         "Q6h dosing is a compliance barrier: The q6h IV dosing schedule makes amp-sulbactam less convenient than alternatives like ertapenem (daily) or ceftriaxone (daily). For OPAT, this is a significant disadvantage. If transitioning to outpatient therapy, consider switching to an agent with less frequent dosing rather than continuing amp-sulb via home infusion q6h.",
         "The Enterococcal advantage: Amp-sulb is one of the few first-line IAI agents with intrinsic Enterococcus faecalis coverage (via the ampicillin component). For biliary IAI or situations where Enterococcal coverage is specifically desired, amp-sulb provides this without adding a separate agent. Pip-tazo also covers E. faecalis but through a different mechanism.",
         "Do NOT use for ESBL infections: Sulbactam does NOT effectively inhibit ESBLs (CTX-M, TEM variants, SHV variants). Isolates reported as 'ampicillin-sulbactam resistant' but 'pip-tazo susceptible' reflect the different beta-lactamase inhibitor profiles. For suspected or confirmed ESBL: use carbapenems."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Aspiration pneumonia or mixed oral-flora infection",
+          "regimen": "3 g IV q6h",
+          "notes": "Best used when oral anaerobes, streptococci, and MSSA are the real drivers rather than resistant hospital gram-negatives."
+        },
+        {
+          "label": "Biliary infection or lower-risk community intra-abdominal infection",
+          "regimen": "3 g IV q6h",
+          "notes": "Only keep it definitive when local Enterobacterales susceptibility still supports the choice."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Use renally adjusted dosing with post-hemodialysis redosing because both accumulation and missed supplements can cause avoidable harm."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Many CRRT patients still need q6-8h exposure, especially when the syndrome is severe and source control is still evolving."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "High Enterobacterales burden or prior ESBL history",
+          "guidance": "Do not stretch ampicillin-sulbactam into definitive therapy when the patient or prior cultures point toward resistant gram-negatives."
+        },
+        {
+          "population": "Fluid-sensitive patients",
+          "guidance": "The q6h sodium and line-access burden matters more during prolonged therapy, so move to a simpler definitive regimen once cultures allow it."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; success depends on source selection, interval optimization, and prompt narrowing once cultures return.",
+        "sampling": "No drug levels are standard. Follow renal function, WBC trend, and whether the clinical syndrome still justifies this spectrum.",
+        "adjustment": "If the patient is not improving, reassess source control and resistance risk before reflexively adding more anaerobic or gram-positive coverage."
+      },
+      "administration": {
+        "infusion": "Intermittent infusion over 30 minutes is standard, though extended infusion can be used in selected critically ill patients.",
+        "compatibility": "Separate from aminoglycosides when feasible because beta-lactam and aminoglycoside co-mingling in lines can be problematic.",
+        "note": "There is no oral equivalent; discharge planning should focus on amoxicillin-clavulanate or another targeted oral option when appropriate."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral ampicillin-sulbactam formulation exists.",
+        "switchCriteria": "Leave IV ampicillin-sulbactam once the patient is clinically improving and an active oral option such as amoxicillin-clavulanate or a culture-directed alternative is available.",
+        "note": "Do not keep q6h IV therapy on the discharge plan just because aspiration coverage was useful on day 1."
+      },
+      "opatEligibility": {
+        "eligible": "conditional",
+        "administration": "OPAT is possible, but q6h dosing or continuous-infusion logistics are more cumbersome than ceftriaxone- or ertapenem-based plans.",
+        "monitoring": "Weekly CBC and renal function are the minimum; confirm that the syndrome still needs this mixed-flora spectrum before building home infusion around it.",
+        "considerations": [
+          "Reasonable when aspiration, oral flora, or biliary infection truly remain the ongoing target.",
+          "Poor OPAT anchor once resistant Enterobacterales become the dominant concern."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Probenecid",
+          "effect": "Raises ampicillin and sulbactam exposure by reducing renal tubular secretion.",
+          "management": "Avoid the combination rather than trying to use probenecid to rescue underdosing.",
+          "severity": "monitor"
+        },
+        {
+          "interactingAgent": "Allopurinol",
+          "effect": "May increase the frequency of aminopenicillin-associated rash and confuse whether the patient has a true allergy.",
+          "management": "If a rash appears, document the context carefully before labeling the patient penicillin-allergic.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Aspiration and oral-flora driven infection",
+          "role": "Ampicillin-sulbactam is a focused alternative to broader antipseudomonal therapy when aspiration biology is the real story.",
+          "notes": "Its value falls quickly when resistant hospital gram-negatives take over the differential."
+        },
+        {
+          "scenario": "De-escalation away from pip-tazo or carbapenems",
+          "role": "A strong narrowing option when cultures and syndrome confirm it still covers the true pathogens.",
+          "notes": "Do not use it as a comfort blanket when ESBL or AmpC risk remains unresolved."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Biliary tract",
+          "detail": "Useful biliary penetration supports cholecystitis and cholangitis pathways when local resistance still allows ampicillin-sulbactam to be active."
+        },
+        {
+          "site": "Peritoneal fluid / soft tissue",
+          "detail": "Provides workable intra-abdominal soft-tissue exposure for community-type polymicrobial infection when source control is prompt."
+        },
+        {
+          "site": "CSF",
+          "detail": "Central nervous system penetration is limited outside inflamed meninges, so it is not a meningitis substitute."
+        }
       ]
     },
     {
@@ -629,6 +1136,102 @@ export const IAI: DiseaseState = {
         "ESBL coverage WITHOUT Pseudomonal selection: For confirmed ESBL infections where Pseudomonas is not a concern (community-acquired IAI, UTI), ertapenem is the preferred carbapenem. It achieves the same ESBL killing as meropenem without the ecological cost. This is a cornerstone of carbapenem stewardship: use ertapenem for non-Pseudomonal ESBL, reserve meropenem for when you NEED Pseudomonal coverage.",
         "Colorectal surgical prophylaxis: Ertapenem 1g IV is FDA-approved for colorectal surgical prophylaxis. Studies showed superior SSI prevention compared to cefotetan. The once-daily dosing eliminates the need for intra-operative redosing. However, some stewardship programs discourage routine carbapenem prophylaxis due to resistance concerns — institutional guidelines vary.",
         "Valproic acid interaction applies to ALL carbapenems: The VPA-carbapenem interaction is pharmacological, not just a meropenem issue. Ertapenem reduces VPA levels just as dramatically (60-100% reduction). Even short courses of ertapenem with VPA risk breakthrough seizures. The solution is always the same: switch VPA to levetiracetam before starting the carbapenem."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "ESBL complicated UTI or intra-abdominal infection",
+          "regimen": "1 g IV q24h",
+          "notes": "Use once Pseudomonas and Acinetobacter no longer need to be in the frame."
+        },
+        {
+          "label": "Stable ESBL bloodstream infection step-down bridge",
+          "regimen": "1 g IV q24h",
+          "notes": "High-value carbapenem option when cultures define Enterobacterales and the patient no longer needs a broader ICU carbapenem."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Give the renally adjusted regimen after hemodialysis because the once-daily convenience disappears quickly if HD timing is ignored."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT may still require 500 mg to 1 g daily depending on effluent and residual renal function; do not assume standard ESRD dosing fits CRRT."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Hypoalbuminemia or critical illness",
+          "guidance": "Low albumin increases free ertapenem clearance and can erode once-daily exposure, so critically ill hypoalbuminemic patients may still need a different carbapenem."
+        },
+        {
+          "population": "Obesity",
+          "guidance": "Severe obesity can justify closer review of exposure or alternative carbapenem selection when the MIC is not comfortably low."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target, but the practical goal is reliable once-daily exposure above the MIC for the full interval.",
+        "sampling": "No drug levels are standard. Review albumin, renal trajectory, and clinical response when once-daily dosing seems too optimistic.",
+        "adjustment": "If bacteremia or source control is lagging in a hypoalbuminemic ICU patient, switch agents rather than pretending ertapenem is interchangeable with meropenem."
+      },
+      "administration": {
+        "infusion": "Typically infused over 30 minutes once daily.",
+        "stability": "Its once-daily schedule is one reason it performs well in OPAT and skilled-nursing workflows.",
+        "note": "Ertapenem is the operationally simple carbapenem, not the broadest carbapenem."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral formulation exists, so step-down means switching to a different active oral drug.",
+        "switchCriteria": "Transition off ertapenem when the patient is stable and susceptibilities support an oral agent such as TMP-SMX or a fluoroquinolone.",
+        "note": "If no active oral option exists, ertapenem often remains the discharge bridge because of its once-daily schedule."
+      },
+      "opatEligibility": {
+        "eligible": "yes",
+        "administration": "Once-daily IV dosing makes ertapenem one of the most OPAT-friendly broad beta-lactams.",
+        "monitoring": "Weekly CBC and renal function are standard, with closer review if seizures, severe renal dysfunction, or prolonged therapy are concerns.",
+        "considerations": [
+          "Excellent option for stable ESBL infection when Pseudomonas coverage is no longer needed.",
+          "Do not use it if the definitive pathogen still requires antipseudomonal coverage."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Valproic acid",
+          "effect": "Carbapenems can rapidly lower valproate exposure and precipitate breakthrough seizures.",
+          "management": "Use a non-interacting antiepileptic for the full carbapenem course rather than trying to out-dose the interaction.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Probenecid",
+          "effect": "Raises ertapenem levels by reducing renal secretion without creating a meaningful stewardship advantage.",
+          "management": "Avoid routine combination use.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Definitive ESBL therapy with low Pseudomonas risk",
+          "role": "Ertapenem is a practical carbapenem de-escalation target once cultures define susceptible Enterobacterales.",
+          "notes": "That is especially valuable when the patient is nearing discharge."
+        },
+        {
+          "scenario": "Once-daily outpatient bridge",
+          "role": "One of the highest-yield OPAT carbapenems because it preserves reliable ESBL coverage without q8h logistics.",
+          "notes": "It should leave the regimen if an active oral option becomes available."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Peritoneal fluid / biliary tract",
+          "detail": "Good peritoneal and biliary exposure supports once-daily treatment of community-acquired intra-abdominal infection when Pseudomonas is not a concern."
+        },
+        {
+          "site": "Urine",
+          "detail": "Strong urinary exposure is an added advantage when intra-abdominal and urinary source questions overlap."
+        },
+        {
+          "site": "CSF",
+          "detail": "CNS penetration is not dependable enough to make ertapenem a routine meningitis carbapenem."
+        }
       ]
     }
   ]

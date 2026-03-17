@@ -3,10 +3,23 @@ import AllergyWarning from "../components/AllergyWarning";
 import ContentMetaCard from "../components/ContentMetaCard";
 import CrossRefBadges from "../components/CrossRefBadges";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
+import InstitutionAntibiogramCards from "../components/InstitutionAntibiogramCards";
+import MicrobiologyCards from "../components/MicrobiologyCards";
+import MonographPatientGuidance from "../components/MonographPatientGuidance";
 import RegimenCrossRefs from "../components/RegimenCrossRefs";
 import Section from "../components/Section";
+import TransitionReadinessPanel from "../components/TransitionReadinessPanel";
+import TrustSurfaceBanner from "../components/TrustSurfaceBanner";
+import {
+  INSTITUTION_PROFILE,
+  getInstitutionDrugAntibiogram,
+  getInstitutionDrugPolicy,
+} from "../data/institution-profile";
+import { hasMicrobiologyContent } from "../data/microbiology";
 import { getMonographContentKey, resolveContentMeta } from "../data/metadata";
 import { aeCard, aeLabel, NAV_STATES } from "../styles/constants";
+import { hasAnyPatientSignals } from "../utils/regimenGuidance";
+import { getMonographTransitionReadiness } from "../utils/patientTransitionReadiness";
 import type {
   AllergyRecord,
   DiseaseState,
@@ -32,6 +45,7 @@ interface MonographPageProps {
   navigateTo: NavigateTo;
   onCollapseAll: () => void;
   onExpandAll: () => void;
+  onOpenPatientModal: () => void;
   patient: PatientContext;
   readingMode: boolean;
   S: Styles;
@@ -39,6 +53,30 @@ interface MonographPageProps {
   theme: ThemeKey;
   toggleBookmark: (id: string) => void;
   toggleSection: (id: string) => void;
+}
+
+function renderStructuredItems(
+  items: Array<{ label: string; detail: string; note?: string }>,
+  S: Styles,
+) {
+  return items.map((item) => (
+    <div
+      key={`${item.label}-${item.detail}`}
+      style={{
+        padding: "14px 16px",
+        background: S.card.background,
+        borderRadius: "14px",
+        border: `1px solid ${S.card.borderColor}`,
+        boxShadow: S.meta.shadowSm,
+      }}
+    >
+      <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent, marginBottom: "8px" }}>
+        {item.label}
+      </div>
+      <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>{item.detail}</div>
+      {item.note ? <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{item.note}</div> : null}
+    </div>
+  ));
 }
 
 export default function MonographPage({
@@ -55,6 +93,7 @@ export default function MonographPage({
   navigateTo,
   onCollapseAll,
   onExpandAll,
+  onOpenPatientModal,
   patient,
   readingMode,
   S,
@@ -67,12 +106,25 @@ export default function MonographPage({
     contentKey: getMonographContentKey(disease.id, monograph.id),
   });
   const isDark = theme !== "light";
+  const hasPatientContext = hasAnyPatientSignals(patient);
   const crclColor = crcl === null ? "#8ea1bb" : crcl >= 60 ? "#34d399" : crcl >= 30 ? "#fbbf24" : "#f87171";
   const crclLabel = crcl === null ? "" : crcl >= 60 ? "Normal/Mild" : crcl >= 30 ? "Moderate impairment" : crcl >= 15 ? "Severe impairment" : "Kidney failure";
   const patientWeightActive = Boolean(patient.weight);
   const crclActive = crcl !== null;
   const bookmarkId = `monograph:${monograph.id}`;
   const bookmarked = isBookmarked(bookmarkId);
+  const institutionDrugPolicy = getInstitutionDrugPolicy(monograph.id, INSTITUTION_PROFILE);
+  const institutionDrugAntibiogram = getInstitutionDrugAntibiogram(monograph.id, INSTITUTION_PROFILE);
+  const hasMicrobiology = hasMicrobiologyContent(monograph);
+  const transitionReadiness = getMonographTransitionReadiness(monograph, patient);
+  const penetrationEntries =
+    monograph.penetration ??
+    Object.entries(monograph.tissuePenetration ?? {})
+      .filter(([, value]) => Boolean(value))
+      .map(([site, detail]) => ({
+        site,
+        detail: detail ?? "",
+      }));
   const handleShare = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
@@ -259,11 +311,92 @@ export default function MonographPage({
           ))}
         </div>
       </section>
+      <TrustSurfaceBanner
+        meta={pageMeta}
+        S={S}
+      />
       <ContentMetaCard
         inheritedFrom={inherited ? disease.name : undefined}
         meta={pageMeta}
         S={S}
       />
+      <MonographPatientGuidance
+        adjbw={adjbw}
+        crcl={crcl}
+        ibw={ibw}
+        monograph={monograph}
+        navigateTo={navigateTo}
+        onOpenPatientModal={onOpenPatientModal}
+        patient={patient}
+        S={S}
+      />
+      {hasPatientContext && transitionReadiness.some((item) => item.status !== "not_applicable") && (
+        <TransitionReadinessPanel
+          items={transitionReadiness}
+          subtitle="This uses the current patient context plus the structured IV-to-PO and OPAT blocks on this monograph."
+          title="Transition Readiness"
+          S={S}
+        />
+      )}
+      {institutionDrugPolicy && INSTITUTION_PROFILE && (
+        <section
+          style={{
+            background: S.card.background,
+            border: `1px solid ${S.card.borderColor}`,
+            borderLeft: "4px solid #0284c7",
+            borderRadius: "16px",
+            padding: "14px 16px",
+            marginBottom: "18px",
+            boxShadow: S.meta.shadowSm,
+          }}
+        >
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#0284c7", marginBottom: "8px" }}>
+            🏥 Local formulary lens · {INSTITUTION_PROFILE.name}
+          </div>
+          {institutionDrugPolicy.restriction ? (
+            <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>
+              <strong>Restriction:</strong> {institutionDrugPolicy.restriction}
+            </div>
+          ) : null}
+          {institutionDrugPolicy.approval ? (
+            <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+              {institutionDrugPolicy.approval}
+            </div>
+          ) : null}
+          {institutionDrugPolicy.preferredContexts?.length ? (
+            <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "8px", lineHeight: 1.55 }}>
+              Preferred local contexts: {institutionDrugPolicy.preferredContexts.join(" · ")}
+            </div>
+          ) : null}
+          {institutionDrugPolicy.notes?.length ? (
+            <div style={{ display: "grid", gap: "4px", marginTop: "8px" }}>
+              {institutionDrugPolicy.notes.map((note) => (
+                <div key={note} style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}>
+                  {note}
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </section>
+      )}
+      {institutionDrugAntibiogram.length > 0 && INSTITUTION_PROFILE && (
+        <section
+          style={{
+            background: S.card.background,
+            border: `1px solid ${S.card.borderColor}`,
+            borderLeft: "4px solid #059669",
+            borderRadius: "16px",
+            padding: "14px 16px",
+            marginBottom: "18px",
+            boxShadow: S.meta.shadowSm,
+          }}
+        >
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#059669", marginBottom: "8px" }}>
+            📈 Local antibiogram overlay · {INSTITUTION_PROFILE.name}
+          </div>
+          <InstitutionAntibiogramCards entries={institutionDrugAntibiogram} S={S} />
+        </section>
+      )}
       <RegimenCrossRefs
         currentDiseaseId={disease.id}
         currentDrugName={monograph.name}
@@ -288,12 +421,21 @@ export default function MonographPage({
           { id: "moa", label: "Mechanism" },
           { id: "spectrum", label: "Spectrum" },
           { id: "dosing", label: "Dosing" },
+          ...(monograph.dosingByIndication?.length ? [{ id: "dosing-by-indication", label: "Indication Dosing" }] : []),
           { id: "renal", label: "Renal" },
+          ...(monograph.renalReplacement?.length ? [{ id: "rrt", label: "HD / CRRT" }] : []),
           { id: "hepatic", label: "Hepatic" },
+          ...(monograph.specialPopulations?.length ? [{ id: "special-pop", label: "Special Pops" }] : []),
           { id: "ae", label: "Adverse Effects" },
           { id: "interactions", label: "Interactions" },
           { id: "monitoring", label: "Monitoring" },
+          ...(monograph.therapeuticDrugMonitoring ? [{ id: "tdm", label: "TDM" }] : []),
           { id: "pregnancy", label: "Pregnancy" },
+          ...(monograph.administration ? [{ id: "administration", label: "Administration" }] : []),
+          ...(hasMicrobiology ? [{ id: "microbiology", label: "Microbiology" }] : []),
+          ...(penetrationEntries.length ? [{ id: "penetration", label: "Penetration" }] : []),
+          ...(monograph.interactionActions?.length ? [{ id: "interaction-actions", label: "Actionable DDI" }] : []),
+          ...(monograph.stewardshipUseCases?.length ? [{ id: "stewardship", label: "Stewardship" }] : []),
           { id: "pharm-pearls", label: "Pearls" },
           ...(monograph.ivToPoSwitch || monograph.opatEligibility ? [{ id: "opat-ipo", label: "IV→PO / OPAT" }] : []),
         ].map(({ id, label }) => (
@@ -370,6 +512,21 @@ export default function MonographPage({
         )}
       </Section>
 
+      {monograph.dosingByIndication?.length ? (
+        <Section id="dosing-by-indication" title="Indication-Specific Dosing" icon="🎯" accentColor="#8b5cf6" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+          <div style={{ display: "grid", gap: "10px" }}>
+            {renderStructuredItems(
+              monograph.dosingByIndication.map((entry) => ({
+                label: entry.label,
+                detail: entry.regimen,
+                note: entry.notes,
+              })),
+              S,
+            )}
+          </div>
+        </Section>
+      ) : null}
+
       <Section id="renal" title="Renal Dose Adjustment" icon="🫘" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
         <div className="no-print" style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", marginBottom: "12px" }}>
           <button type="button" style={{ ...S.expandAllBtn, marginRight: 0 }} onClick={() => navigateTo(NAV_STATES.CALCULATORS)}>
@@ -396,11 +553,39 @@ export default function MonographPage({
         </div>
       </Section>
 
+      {monograph.renalReplacement?.length ? (
+        <Section id="rrt" title="HD / PD / CRRT" icon="🩺" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+          <div style={{ display: "grid", gap: "10px" }}>
+            {renderStructuredItems(
+              monograph.renalReplacement.map((entry) => ({
+                label: entry.modality,
+                detail: entry.guidance,
+              })),
+              S,
+            )}
+          </div>
+        </Section>
+      ) : null}
+
       <Section id="hepatic" title="Hepatic Dose Adjustment" icon="🫁" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
         <div style={S.proseCallout}>
           <p style={{ ...S.monographValue, margin: 0 }}>{monograph.hepaticAdjustment}</p>
         </div>
       </Section>
+
+      {monograph.specialPopulations?.length ? (
+        <Section id="special-pop" title="Special Populations" icon="👥" accentColor="#38bdf8" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+          <div style={{ display: "grid", gap: "10px" }}>
+            {renderStructuredItems(
+              monograph.specialPopulations.map((entry) => ({
+                label: entry.population,
+                detail: entry.guidance,
+              })),
+              S,
+            )}
+          </div>
+        </Section>
+      ) : null}
 
       <Section id="ae" title="Adverse Effects" icon="⚠" accentColor="#ef4444" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
         {monograph.adverseEffects && (
@@ -455,11 +640,101 @@ export default function MonographPage({
         </div>
       </Section>
 
+      {monograph.therapeuticDrugMonitoring ? (
+        <Section id="tdm" title="Therapeutic Drug Monitoring" icon="📈" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+          <div style={{ display: "grid", gap: "10px" }}>
+            {renderStructuredItems(
+              [
+                { label: "Target", detail: monograph.therapeuticDrugMonitoring.target },
+                { label: "Sampling", detail: monograph.therapeuticDrugMonitoring.sampling },
+                { label: "Adjustment", detail: monograph.therapeuticDrugMonitoring.adjustment },
+                ...(monograph.therapeuticDrugMonitoring.pearls?.length
+                  ? [{ label: "Pearls", detail: monograph.therapeuticDrugMonitoring.pearls.join(" · ") }]
+                  : []),
+              ],
+              S,
+            )}
+          </div>
+        </Section>
+      ) : null}
+
       <Section id="pregnancy" title="Pregnancy & Lactation" icon="🤰" accentColor="#ec4899" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
         <div style={S.proseCallout}>
           <p style={{ ...S.monographValue, margin: 0 }}>{monograph.pregnancyLactation}</p>
         </div>
       </Section>
+
+      {monograph.administration ? (
+        <Section id="administration" title="Administration" icon="💉" accentColor="#34d399" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+          <div style={{ display: "grid", gap: "10px" }}>
+            {renderStructuredItems(
+              [
+                ...(monograph.administration.infusion ? [{ label: "Infusion", detail: monograph.administration.infusion }] : []),
+                ...(monograph.administration.compatibility ? [{ label: "Compatibility", detail: monograph.administration.compatibility }] : []),
+                ...(monograph.administration.stability ? [{ label: "Stability", detail: monograph.administration.stability }] : []),
+                ...(monograph.administration.oralAbsorption ? [{ label: "Oral absorption", detail: monograph.administration.oralAbsorption }] : []),
+                ...(monograph.administration.note ? [{ label: "Operational note", detail: monograph.administration.note }] : []),
+              ],
+              S,
+            )}
+          </div>
+        </Section>
+      ) : null}
+
+      {hasMicrobiology ? (
+        <Section id="microbiology" title="Microbiology Intelligence" icon="🧫" accentColor="#a855f7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+          <MicrobiologyCards
+            rapidDiagnostics={monograph.rapidDiagnostics}
+            breakpointNotes={monograph.breakpointNotes}
+            intrinsicResistance={monograph.intrinsicResistance}
+            coverageMatrix={monograph.coverageMatrix}
+            S={S}
+          />
+        </Section>
+      ) : null}
+
+      {penetrationEntries.length ? (
+        <Section id="penetration" title="Tissue Penetration" icon="🧬" accentColor="#a78bfa" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+          <div style={{ display: "grid", gap: "10px" }}>
+            {renderStructuredItems(
+              penetrationEntries.map((entry) => ({
+                label: entry.site,
+                detail: entry.detail,
+              })),
+              S,
+            )}
+          </div>
+        </Section>
+      ) : null}
+
+      {monograph.interactionActions?.length ? (
+        <Section id="interaction-actions" title="Actionable Interaction Management" icon="🔗" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+          <div style={{ display: "grid", gap: "10px" }}>
+            {renderStructuredItems(
+              monograph.interactionActions.map((entry) => ({
+                label: `${entry.interactingAgent}${entry.severity ? ` · ${entry.severity}` : ""}`,
+                detail: `${entry.effect} ${entry.management}`,
+              })),
+              S,
+            )}
+          </div>
+        </Section>
+      ) : null}
+
+      {monograph.stewardshipUseCases?.length ? (
+        <Section id="stewardship" title="Stewardship Use Cases" icon="🧭" accentColor="#34d399" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+          <div style={{ display: "grid", gap: "10px" }}>
+            {renderStructuredItems(
+              monograph.stewardshipUseCases.map((entry) => ({
+                label: entry.scenario,
+                detail: entry.role,
+                note: entry.notes,
+              })),
+              S,
+            )}
+          </div>
+        </Section>
+      ) : null}
 
       <Section id="pharm-pearls" title="Pharmacist Pearls" icon="💡" accentColor="#fbbf24" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
         {monograph.pharmacistPearls?.map((pearl, index) => (

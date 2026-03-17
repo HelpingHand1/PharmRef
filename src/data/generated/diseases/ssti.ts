@@ -213,7 +213,43 @@ export const SSTI: DiseaseState = {
         "Cephalexin BID vs QID: Pharmacokinetically, cephalexin 1000mg BID achieves comparable T>MIC to 500mg QID for susceptible Streptococci and MSSA (MIC <=2). BID dosing dramatically improves adherence. Many ID pharmacists now recommend the BID regimen as default.",
         "Outpatient parenteral antibiotic therapy (OPAT) with cefazolin: Cefazolin has the longest half-life of first-gen cephalosporins (~2h). Can be given as 2g IV q8h in a clinic setting or via home infusion. For cellulitis failing oral therapy but not requiring admission, OPAT cefazolin is an excellent step-up before hospitalization.",
         "Elevation is therapeutic: Lower extremity cellulitis improves significantly with leg elevation above the heart. This reduces edema, improves lymphatic drainage, and accelerates resolution. It is an actual therapeutic intervention, not just comfort care."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "This is primarily a clinical diagnosis; culture the blood or tissue only when systemic toxicity, immunocompromise, unusual exposure, or treatment failure makes it actionable."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Rapid progression, hypotension, bullae, pain out of proportion, or marked leukocytosis should force a necrotizing-infection screen rather than routine cellulitis treatment."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "MRSA history, penetrating trauma, purulence, injection-drug use, or prior antibiotics are the main reasons to move beyond streptococcal-first therapy."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Mark the borders, elevate the limb, address tinea or wounds, and look for occult abscess or foreign body if cellulitis is not behaving as expected."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "If cultures are negative and the patient is improving, stay narrow and stop unnecessary MRSA coverage early."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Switch to oral beta-lactam therapy once fever resolves, erythema stops expanding, and the patient can absorb reliably."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Failure at 48-72 hours should trigger search for abscess, necrotizing disease, noninfectious mimic, or resistant pathogen rather than reflexively adding more antibiotics."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Surgery consult for deep infection concern; ID input when recurrent MDR disease or immunocompromise complicates the picture."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count from the first active regimen after any drainable focus is addressed; uncomplicated improvement often needs only a short course."
+      }
     },
     {
       "id": "purulent-ssti",
@@ -345,7 +381,43 @@ export const SSTI: DiseaseState = {
         "Recurrent abscesses: If a patient has recurrent MRSA SSTIs, address decolonization: mupirocin 2% nasal ointment BID × 5 days + chlorhexidine body washes × 5 days, repeated monthly × 3 months. Decolonize household contacts simultaneously. Bleach baths (1/4 cup bleach per bathtub) 2× weekly can reduce recurrence. Environmental cleaning of high-touch surfaces.",
         "D-test for clindamycin: If the isolate is erythromycin-resistant and clindamycin-susceptible, the lab MUST perform a D-test to check for inducible clindamycin resistance (erm gene). If D-test positive: clindamycin will fail clinically despite in vitro susceptibility. If D-test negative: clindamycin is safe to use. Check your lab's reporting — some automatically report D-test results, others require you to request it.",
         "Point-of-care ultrasound changes management: Studies show POCUS changes the diagnosis in 50% of cases where the clinician is unsure if there's a drainable collection. A patient labeled as 'cellulitis' may actually have an abscess that needs I&D. Advocate for ultrasound when the exam is equivocal."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Incision and drainage plus culture is the central diagnostic step; antibiotics are adjunctive, not the primary intervention, for many abscesses."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Extensive surrounding cellulitis, systemic toxicity, immunocompromise, or failure of bedside drainage turns a simple abscess into a more aggressive management problem."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Community MRSA is common, but prior resistant isolates, recent antibiotics, and healthcare exposure still matter when choosing adjunctive antibiotics."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Adequate drainage is the treatment milestone; repeat drainage or packing review matters more than stacking more oral MRSA agents."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "If culture data identify MSSA or streptococci and the patient is improving, step down from empiric MRSA-heavy therapy quickly."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Use oral MRSA-active therapy after drainage when systemic signs are improving and there is no deep tissue concern."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "If the abscess persists, think inadequate drainage, new loculations, retained foreign body, or hidradenitis rather than automatic antibiotic failure."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Surgery, wound care, or ID consultation is appropriate for recurrent abscesses, large deep collections, perirectal disease, or immunocompromise."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count from the first active therapy after effective drainage; repeating drainage does not automatically mean restarting a full new antibiotic course."
+      }
     },
     {
       "id": "necrotizing-ssti",
@@ -441,7 +513,43 @@ export const SSTI: DiseaseState = {
         "LRINEC score limitations: While the LRINEC score (>=6 = concern for NSTI) is a useful screening tool, it has important limitations: sensitivity is only 60-80% in validation studies, meaning 20-40% of true NSTI cases will be missed. A negative LRINEC score should NEVER be used to rule out NSTI if clinical suspicion is present. The score was designed to raise suspicion, not to exclude the diagnosis. When in doubt, explore surgically.",
         "Fournier's gangrene is a true emergency: Necrotizing fasciitis of the perineum and genitalia. Often occurs in diabetics. Polymicrobial (Type I). Mortality 20-40%. Requires emergent wide debridement that may include orchiectomy, penectomy, or colostomy for source control. Broad-spectrum coverage from the start. Delay = death.",
         "Post-NSTI recovery: Patients who survive often require extensive reconstruction (skin grafts, flaps), prolonged rehabilitation, and psychological support. Wound VAC therapy is commonly used between debridements. Pharmacists contribute to long-term antibiotic management, pain control (often chronic), and metabolic optimization (nutrition, glucose control)."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Do not wait for perfect imaging or culture data before acting; obtain blood cultures and operative/tissue cultures, but surgery is the decisive diagnostic step."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Pain out of proportion, bullae, crepitus, shock, rapidly progressive erythema, or skin anesthesia should be treated as necrotizing infection until proven otherwise."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Healthcare exposure, water/trauma exposures, liver disease, neutropenia, and polymicrobial abdominal/perineal sources change empiric breadth and toxin-suppression decisions."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Immediate operative debridement is non-negotiable and usually repeated; antibiotics only support source control here."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "After the first operative cultures return, remove unneeded agents quickly but keep coverage broad enough for any unresolved operative concern."
+      },
+      "ivToPoPlan": {
+        "status": "not_applicable",
+        "summary": "These infections are not candidates for early oral step-down while active debridement and hemodynamic stabilization are ongoing."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Any ongoing instability should trigger repeat debridement and ICU reassessment before antibiotic escalation alone."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Surgery is mandatory; involve ICU, ID, and often vascular/plastics depending on anatomy and debridement needs."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count from the last major debridement plus the first clearly active regimen once source control is finally achieved."
+      }
     },
     {
       "id": "diabetic-foot",
@@ -548,7 +656,43 @@ export const SSTI: DiseaseState = {
         "Vascular assessment is NON-NEGOTIABLE: No amount of antibiotics will cure a DFI in an ischemic limb. Check ABI (ankle-brachial index), toe pressures, or transcutaneous oxygen. If vascular disease is present, revascularization is essential for healing. The multidisciplinary team (vascular surgery, podiatry, wound care) is as important as the antibiotic selection.",
         "Osteomyelitis bone biopsy: When feasible, obtain before starting antibiotics. Bone culture + histology is the gold standard for diagnosing osteomyelitis and guiding targeted therapy. Empiric therapy without a pathogen-directed approach leads to unnecessarily broad 6-week courses. A bone biopsy that identifies MSSA means 6 weeks of cefazolin, not 6 weeks of vancomycin + meropenem.",
         "Ertapenem for OPAT: Ertapenem 1g IV once daily is an excellent OPAT option for moderate DFI (after initial inpatient stabilization). Covers Streptococci, MSSA, Enterobacterales, and anaerobes. The once-daily dosing makes home infusion practical. Does NOT cover Pseudomonas or MRSA — ensure cultures don't show these before switching."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Define soft tissue versus bone involvement, obtain deep cultures when possible, and assess perfusion and wound depth before finalizing antibiotics."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Limb-threatening ischemia, systemic toxicity, rapidly advancing infection, or concern for necrosis moves this out of a routine SSTI pathway."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Recent antibiotics, prior resistant isolates, chronic wounds, recurrent hospital exposure, and prior amputation or osteomyelitis strongly affect empiric breadth."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Debridement, off-loading, vascular evaluation, and drainage are often more important than broader antibiotics for diabetic foot recovery."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "At 48-72 hours, narrow to the cultured pathogen set and stop unnecessary Pseudomonas or MRSA coverage if the wound history and cultures do not support it."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Transition to oral therapy after debridement/source control, improving soft tissue findings, and confirmation that the oral agent has reliable activity for the actual depth of infection."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Failure should trigger repeat debridement review, vascular reassessment, and osteomyelitis imaging rather than simple antibiotic broadening."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Podiatry, vascular surgery, wound care, and ID are high-yield partners when perfusion, bone involvement, or recurrent resistant organisms complicate the case."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Tie duration to infection depth and source control: superficial soft-tissue improvement stops earlier than osteomyelitis after incomplete debridement."
+      }
     }
   ],
   "drugMonographs": [
@@ -589,6 +733,102 @@ export const SSTI: DiseaseState = {
         "Probenecid trick for OPAT: Adding probenecid 1g PO BID to cefazolin extends the effective half-life, potentially allowing q12h dosing for less serious infections. This is used at some OPAT programs to reduce nursing visits. Evidence is limited to PK studies — discuss with your ID team before implementing.",
         "Cefazolin vs. nafcillin/oxacillin comparison: Cefazolin advantages — q8h dosing (vs q4h), less phlebitis, no hepatotoxicity (vs oxacillin), less interstitial nephritis, easier dose adjustment in renal impairment, suitable for OPAT. Nafcillin advantages — does not require renal adjustment (hepatically cleared), potentially faster bactericidal activity (debated). For nearly all MSSA infections, cefazolin is the preferred agent.",
         "Low C. diff risk: Among parenteral antibiotics, cefazolin has one of the LOWEST rates of C. difficile infection. Narrower spectrum = less disruption of colonic flora. This is clinically meaningful compared to broad-spectrum alternatives like pip-tazo or meropenem."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "MSSA bacteremia or endocarditis",
+          "regimen": "2 g IV q8h",
+          "notes": "Definitive MSSA therapy should stay at full-dose q8h exposure unless renal replacement or obesity demands something more individualized."
+        },
+        {
+          "label": "Serious SSTI or osteoarticular infection",
+          "regimen": "2 g IV q8h",
+          "notes": "Use the same full-dose regimen for deep MSSA skin, bone, and joint disease because once-daily convenience is not worth underexposure."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Post-hemodialysis high-dose scheduling is common because cefazolin's dialysis removal is clinically meaningful and missed redosing is a frequent OPAT failure point."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Many CRRT patients still need aggressive 2 g q12h-style dosing for deep MSSA infection, especially when bacteremia or bone infection is active."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Obesity",
+          "guidance": "Severe obesity may need 2 g q6h-style exposure or higher surgical-prophylaxis doses to preserve MSSA target attainment."
+        },
+        {
+          "population": "Reported penicillin allergy",
+          "guidance": "Because cefazolin's side chain is distinct, many patients with a penicillin allergy label can still receive it safely and should not be pushed to vancomycin by default."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target is used; success depends on maintaining aggressive scheduled dosing and not defaulting to vancomycin for MSSA.",
+        "sampling": "No drug levels are standard. Follow renal function and clinical clearance instead.",
+        "adjustment": "If bacteremia persists, look for source-control issues, inoculum effect concerns, or the wrong organism before blaming cefazolin exposure alone."
+      },
+      "administration": {
+        "infusion": "Usually infused over about 30 minutes; some programs use IV push or elastomeric workflows once compatibility and concentration are standardized.",
+        "stability": "Cefazolin is OPAT-friendly in many compounding programs, which is part of why it outperforms nafcillin operationally.",
+        "note": "Use the MSSA-first mindset: cefazolin is a definitive drug, not just a temporary bridge."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral cefazolin formulation exists, so oral completion requires switching to a different active agent rather than converting the same drug.",
+        "switchCriteria": "Consider oral exit only when the syndrome supports it, source control is complete, and another high-bioavailability active oral option exists.",
+        "note": "Many MSSA bacteremia and endocarditis cases remain IV for the full definitive course."
+      },
+      "opatEligibility": {
+        "eligible": "yes",
+        "administration": "Q8h dosing or structured post-HD regimens make cefazolin a common and highly effective OPAT agent for MSSA.",
+        "monitoring": "Weekly CBC and renal function are typical in prolonged courses, with extra review if a probenecid-assisted schedule is being attempted.",
+        "considerations": [
+          "Excellent OPAT option for MSSA bacteremia, osteomyelitis, and endocarditis when home infusion logistics can handle the schedule.",
+          "Prefer cefazolin over vancomycin for MSSA whenever allergy history does not truly exclude it."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Probenecid",
+          "effect": "Can prolong cefazolin exposure and is sometimes used intentionally in OPAT programs.",
+          "management": "Only use the combination intentionally with a documented plan rather than incidentally.",
+          "severity": "monitor"
+        },
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "INR can drift upward during longer courses.",
+          "management": "Monitor INR more closely when cefazolin is added or stopped in anticoagulated patients.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Definitive MSSA therapy",
+          "role": "Cefazolin should replace vancomycin promptly once MSSA is confirmed unless a true allergy or CNS edge case blocks it.",
+          "notes": "That de-escalation is one of the highest-value stewardship moves on inpatient ID rounds."
+        },
+        {
+          "scenario": "OPAT for MSSA bone, skin, or bloodstream infection",
+          "role": "Operational simplicity and low collateral damage make cefazolin a workhorse outpatient IV agent.",
+          "notes": "Its convenience should not tempt use against AmpC or other cefazolin-resistant phenotypes."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Skin / soft tissue",
+          "detail": "Reliable soft-tissue exposure makes cefazolin a core IV option for MSSA cellulitis and deep streptococcal infection."
+        },
+        {
+          "site": "Bone / joint",
+          "detail": "Bone penetration is good enough for MSSA osteoarticular disease, especially once bacteremia clears and source control is in place."
+        },
+        {
+          "site": "CSF",
+          "detail": "Central nervous system penetration is poor at standard dosing, so cefazolin should not be assumed to substitute for nafcillin or ceftriaxone in meningitis."
+        }
       ]
     },
     {
@@ -628,6 +868,102 @@ export const SSTI: DiseaseState = {
         "Rising MRSA resistance: CA-MRSA clindamycin susceptibility has been declining. In some US communities, 15-25% of MRSA is now clindamycin-resistant. This limits clindamycin's utility as an empiric MRSA agent. Always check local antibiogram data. TMP-SMX and doxycycline have more consistently maintained MRSA activity (>95% susceptibility in most areas).",
         "C. diff risk is real but contextual: Clindamycin carries one of the highest C. diff risks among oral antibiotics. However, this must be balanced against its unique toxin-suppressing properties. For life-threatening NSTI or toxic shock, the benefit of clindamycin far outweighs the C. diff risk. For routine uncomplicated SSTI where TMP-SMX or doxycycline would work, prefer those lower-risk agents.",
         "Oral bioavailability is ~90%: Clindamycin PO achieves serum levels approaching IV. For step-down therapy, the oral route is highly effective. This makes clindamycin an excellent OPAT-avoidance option for bone/joint infections and deep SSTIs."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Skin and soft tissue infection",
+          "regimen": "300-450 mg PO q6-8h or 600-900 mg IV q8h",
+          "notes": "Use only when organism fit and local resistance support clindamycin as a real option."
+        },
+        {
+          "label": "Toxin suppression adjunct",
+          "regimen": "600-900 mg IV q8h",
+          "notes": "Keep the adjunctive course short and syndrome-specific when used for toxin suppression."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No renal dose adjustment is generally needed, which helps when renal dysfunction narrows other options."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Standard dosing usually remains appropriate because renal elimination is not the main driver."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "High CDI risk or recent C. difficile history",
+          "guidance": "Be more selective because clindamycin is one of the classic high-collateral-damage antibiotics."
+        },
+        {
+          "population": "MRSA isolates with inducible resistance risk",
+          "guidance": "Require D-test confirmation before trusting clindamycin for staphylococcal infection."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; susceptibility fit and collateral-damage awareness matter more than levels.",
+        "sampling": "No drug levels are standard. Follow GI tolerance, stool pattern, and clinical response.",
+        "adjustment": "If the patient develops diarrhea or the microbiology becomes less convincing, switch rather than forcing clindamycin through the whole course."
+      },
+      "administration": {
+        "infusion": "IV clindamycin is commonly infused over 30-60 minutes depending on dose.",
+        "oralAbsorption": "Oral bioavailability is good enough that IV-to-PO transition is usually simple once the patient can swallow and absorb.",
+        "note": "The main barrier is not bioavailability; it is whether clindamycin is still the right drug."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "Good oral bioavailability with a reliable IV-to-PO transition.",
+        "switchCriteria": "Switch to PO once the patient is improving, can absorb, and the organism remains a credible clindamycin target.",
+        "note": "Do not continue it just because oral absorption is easy if a lower-CDI-risk option is available."
+      },
+      "opatEligibility": {
+        "eligible": "conditional",
+        "administration": "IV OPAT is possible, but oral completion is usually preferred because the oral route works well.",
+        "monitoring": "Monitor for diarrhea, rash, and whether susceptibility still supports therapy.",
+        "considerations": [
+          "Prefer oral continuation over home IV infusion whenever possible.",
+          "Keep courses as short as the syndrome allows because CDI risk accumulates with exposure."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Neuromuscular blocking agents",
+          "effect": "Can enhance neuromuscular blockade and complicate critical-care management.",
+          "management": "Use caution in ventilated or perioperative patients.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "INR can rise during therapy through gut-flora disruption and illness effects.",
+          "management": "Increase INR monitoring if the combination is used.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Short-course toxin suppression or organism-directed SSTI treatment",
+          "role": "Useful in selected cases where ribosomal inhibition or oral step-down matters.",
+          "notes": "Its stewardship downside is the CDI signal, so use it deliberately and briefly."
+        },
+        {
+          "scenario": "Avoiding unnecessary prolonged broad-spectrum IV therapy",
+          "role": "Can help shorten line days when the organism and syndrome clearly fit oral clindamycin.",
+          "notes": "Do not use it reflexively when beta-lactams remain better options."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Skin / abscess",
+          "detail": "Excellent soft-tissue and abscess penetration supports use in toxin-mediated SSTI and oral continuation when the organism is susceptible."
+        },
+        {
+          "site": "Bone / joint",
+          "detail": "Bone exposure is among clindamycin's main strengths and helps explain its long history in osteomyelitis pathways."
+        },
+        {
+          "site": "CSF",
+          "detail": "CSF penetration is poor, so its tissue profile should not tempt CNS use outside very unusual specialist scenarios."
+        }
       ]
     },
     {
@@ -664,6 +1000,100 @@ export const SSTI: DiseaseState = {
         "Daptomycin for MRSA with vancomycin MIC creep: When MRSA has vancomycin MIC = 2, achieving AUC 400-600 requires dangerously high vancomycin doses with significant nephrotoxicity risk. Daptomycin is the preferred alternative for non-pulmonary MRSA infections with elevated vancomycin MICs. This is an increasingly common clinical scenario.",
         "Eosinophilic pneumonia: Rare (<1%) but can mimic treatment failure or new infection. Patient on daptomycin develops fever, dyspnea, new infiltrates — instinct is to broaden antibiotics. CHECK eosinophil count on CBC differential. If elevated eosinophils + new infiltrates on daptomycin = eosinophilic pneumonia until proven otherwise. Treatment: stop daptomycin, consider steroids. Symptoms resolve rapidly.",
         "Daptomycin is one of few BACTERICIDAL options for VRE: Unlike linezolid (bacteriostatic for enterococci), daptomycin is bactericidal against VRE. For VRE endocarditis or bacteremia where bactericidal activity matters, daptomycin at 8-12 mg/kg is preferred. Often combined with ampicillin or ceftaroline for synergy in difficult VRE infections."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Complicated SSTI",
+          "regimen": "4 mg/kg IV q24h",
+          "notes": "Use the labeled dose only for true skin/soft-tissue infection; it is usually too low for endovascular or bone disease."
+        },
+        {
+          "label": "MRSA bacteremia, endocarditis, or osteomyelitis",
+          "regimen": "8-10 mg/kg IV q24h",
+          "notes": "Higher-dose therapy is the modern inpatient standard for serious MRSA disease and many OPAT programs."
+        },
+        {
+          "label": "Serious VRE infection",
+          "regimen": "10-12 mg/kg IV q24h",
+          "notes": "Use the upper end when bactericidal activity matters and susceptibility is not generous."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Post-HD dosing is standard because dialysis meaningfully changes exposure and the missed supplemental dose can derail bacteremia therapy."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT often needs high-dose daily or near-daily scheduling rather than the labeled q48h approach when serious bloodstream infection is active."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Obesity",
+          "guidance": "Use actual body weight for initial dosing, then reassess CK trend and clinical response rather than arbitrarily capping serious-infection doses."
+        },
+        {
+          "population": "Concurrent statin therapy or baseline myopathy risk",
+          "guidance": "Hold statins whenever possible and treat rising CK or new muscle symptoms as a real toxicity signal, not a lab nuisance."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum concentration target is used; weekly CK surveillance is the practical monitoring anchor.",
+        "sampling": "Obtain baseline CK and repeat at least weekly, with earlier checks if symptoms, renal shifts, or statin exposure increase risk.",
+        "adjustment": "If CK climbs or bacteremia persists, adjust the regimen based on toxicity or microbiology rather than using trough-like serum levels."
+      },
+      "administration": {
+        "infusion": "Many programs infuse over 30 minutes; selected lower doses can also be delivered as IV push when local standards allow.",
+        "note": "Once-daily dosing is one of daptomycin's biggest OPAT strengths, but it does not rescue the drug from its hard lung contraindication."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral formulation exists.",
+        "switchCriteria": "Daptomycin is not an IV-to-PO conversion drug; transition means switching to a different active oral agent only when the syndrome allows it.",
+        "note": "Do not keep daptomycin solely because the home schedule is easy if an effective oral alternative exists."
+      },
+      "opatEligibility": {
+        "eligible": "yes",
+        "administration": "Once-daily IV dosing makes daptomycin one of the most practical OPAT agents for serious gram-positive infection.",
+        "monitoring": "Weekly CK and renal function are the minimum outpatient monitoring set, with faster follow-up if statins or symptoms complicate the course.",
+        "considerations": [
+          "Excellent OPAT option for MRSA bacteremia, osteomyelitis, and selected VRE infection.",
+          "Never use it when pneumonia is the unresolved source question."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Statins",
+          "effect": "Additive myopathy risk can drive CK elevation and rhabdomyolysis.",
+          "management": "Hold the statin for the daptomycin course whenever feasible.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "MRSA bacteremia or osteomyelitis with kidney injury risk",
+          "role": "Daptomycin is a strong vancomycin alternative when bactericidal gram-positive therapy is needed outside the lung.",
+          "notes": "Its once-daily schedule also simplifies OPAT planning."
+        },
+        {
+          "scenario": "Need for a bactericidal VRE regimen",
+          "role": "High-dose daptomycin is one of the few bactericidal options when linezolid's bacteriostatic profile is a limitation.",
+          "notes": "Dose intensity matters more than convenience in these infections."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Bloodstream / endovascular space",
+          "detail": "High serum exposure supports bacteremia and right-sided endovascular infection treatment when rapid MRSA killing is needed."
+        },
+        {
+          "site": "Bone / joint",
+          "detail": "Useful bone and biofilm-adjacent exposure supports osteoarticular MRSA treatment, especially in OPAT settings."
+        },
+        {
+          "site": "Lung",
+          "detail": "Daptomycin is inactivated by pulmonary surfactant and should never be used for pneumonia regardless of in vitro susceptibility."
+        }
       ]
     }
   ]

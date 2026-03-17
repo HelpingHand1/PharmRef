@@ -1,7 +1,12 @@
 // Editorial source for the generated HAP/VAP disease module.
 // Runtime catalog imports use src/data/generated/diseases/hap-vap.ts.
 
-export const HAP_VAP = {
+import type { DiseaseState, DrugMonograph, Subcategory } from "../types";
+import { PIP_TAZO_EXECUTION_ENHANCEMENTS } from "./execution-monograph-content";
+import { getEmpiricOptionEnhancementsForDisease } from "./regimen-plan-content";
+import { enhanceDisease, enhanceDiseaseEmpiricOptions, mergeEnhancementMaps, notApplicable, ready } from "./stewardship-content";
+
+const HAP_VAP_BASE: DiseaseState = {
     id: "hap-vap",
     name: "Hospital-Acquired & Ventilator-Associated Pneumonia",
     icon: "🏥",
@@ -412,3 +417,373 @@ export const HAP_VAP = {
       },
     ],
 };
+
+const HAP_VAP_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "hap-no-mdr": {
+    diagnosticWorkup: ready("Send respiratory sampling and blood cultures before the first dose when feasible, but do not delay therapy for unstable patients.", [
+      "Use sputum or tracheal aspirate for HAP; reserve bronchoscopy for diagnostic uncertainty or poor secretion yield.",
+      "Review the most recent chest imaging and oxygen trend before broadening therapy.",
+      "Capture recent antibiotic exposure and any prior MRSA or Pseudomonas microbiology before picking empiric coverage.",
+    ]),
+    severitySignals: ready("Escalate to the high-mortality pathway if the patient needs ventilatory support for HAP, has septic shock, or is rapidly worsening on oxygen/pressor support."),
+    mdroRiskFactors: ready("Recent IV antibiotics, hospital stay longer than 5 days, structural lung disease, or prior MRSA/Pseudomonas isolation are the key gates that invalidate the 'no MDR risk' path."),
+    sourceControl: ready("Look for parapneumonic effusion, empyema, aspiration source, mucus plugging, or infected hardware that requires drainage or removal."),
+    deEscalation: ready("At 48-72 hours, collapse to the narrowest single active agent and stop unnecessary MRSA or anti-pseudomonal coverage if cultures and clinical response do not support it.", [
+      "Use MRSA nares PCR as a de-escalation tool, not as a reason to start anti-MRSA therapy by itself.",
+    ]),
+    ivToPoPlan: ready("Most HAP episodes complete IV therapy, but oral step-down is reasonable only after afebrile stability, improving oxygen needs, a functioning GI tract, and a susceptible high-bioavailability oral option."),
+    failureEscalation: ready("If the patient is not improving by 24-48 hours, reassess the diagnosis, drug exposure, dosing strategy, penetration, and resistance rather than just stacking more agents."),
+    consultTriggers: ready("Escalate to ID or pulmonary/critical care if there is septic shock, necrotizing disease, empyema, persistent bacteremia, or a resistant gram-negative isolate."),
+    durationAnchor: ready("Count 7 days from the first clearly active regimen after source control is addressed; extend only for slow response, uncontrolled source, or difficult non-fermenters."),
+  },
+  "hap-mdr-risk": {
+    diagnosticWorkup: ready("Obtain high-quality respiratory cultures, blood cultures, and recent microbiology before broad empiric therapy whenever possible.", [
+      "Document prior IV antibiotics in the last 90 days and any prior ESBL, MRSA, or resistant Pseudomonas isolates.",
+      "Tie the initial regimen to the unit antibiogram instead of using a generic broadest-spectrum bundle.",
+    ]),
+    severitySignals: ready("Shock, rapid oxygen escalation, ARDS physiology, or concurrent bacteremia means dosing, infusion strategy, and culture follow-up must be aggressive from hour 1."),
+    mdroRiskFactors: ready("This pathway is for recent IV antibiotic exposure, prolonged hospitalization, structural lung disease, or prior resistant respiratory isolates; use those risk gates to justify every extra agent."),
+    sourceControl: ready("Actively search for pleural collections, aspiration events, obstructing mucus burden, or colonized devices that keep cultures positive despite antibiotics."),
+    deEscalation: ready("Review cultures, MRSA nares PCR, and clinical response at 48-72 hours with an explicit stop/narrow plan for each broad agent.", [
+      "If MRSA screening is negative and no post-influenza necrotizing phenotype is present, stop empiric anti-MRSA therapy unless cultures prove MRSA.",
+      "If a traditional anti-pseudomonal beta-lactam remains active, step down from carbapenem pressure the same day susceptibilities finalize.",
+    ]),
+    ivToPoPlan: ready("True MDR HAP usually remains IV, but transition only after hemodynamic recovery, improving secretion burden, and confirmation that the oral option reliably covers the isolate/site."),
+    failureEscalation: ready("Failure should trigger repeat imaging, resistant-phenotype review, inhaled therapy reconsideration only in salvage scenarios, and verification that extended-infusion beta-lactams are being delivered correctly."),
+    consultTriggers: ready("ID consultation is strongly preferred for CRE, resistant Pseudomonas, bacteremia, or any case where novel beta-lactam-beta-lactamase inhibitors are being considered."),
+    durationAnchor: ready("Default to 7 days from the first active regimen, then individualize only when source control is incomplete or cultures show difficult non-fermenters with a slow clinical response."),
+  },
+  vap: {
+    diagnosticWorkup: ready("Collect tracheal aspirate or BAL before antibiotics whenever feasible and pair it with blood cultures plus ventilator/oxygen trend review.", [
+      "Confirm new infiltrate plus purulent secretions or worsening oxygenation rather than treating fever alone.",
+      "Document recent antibiotic exposure, colonization history, and days on the ventilator before choosing double gram-negative coverage.",
+    ]),
+    severitySignals: ready("New vasopressor need, rising FiO2/PEEP, or concurrent ARDS makes this a high-mortality pathway and supports maximal PK/PD optimization from the first dose."),
+    mdroRiskFactors: ready("Prior IV antibiotics, septic shock, late-onset VAP, or prior resistant respiratory isolates are the main triggers for broader empiric gram-negative coverage and MRSA therapy."),
+    sourceControl: ready("Treat secretion burden, aspiration source, pleural infection, and unnecessary lines/tubes as part of VAP management rather than purely a respiratory culture problem."),
+    deEscalation: ready("Within 48-72 hours, narrow to the single best active regimen, stop redundant double gram-negative coverage, and use culture data plus MRSA screening to remove unnecessary agents."),
+    ivToPoPlan: ready("Most VAP treatment remains IV until extubation and clear clinical recovery; oral completion is reserved for rare cases with a stable patient and a highly reliable oral option."),
+    failureEscalation: ready("If FiO2, secretions, or fever remain unimproved, reassess for wrong diagnosis, ARDS, inadequate source control, resistant organisms, or underdosed beta-lactam exposure."),
+    consultTriggers: ready("Consult ID or pulmonary/critical care for septic shock, inhaled-adjunct decisions, resistant gram-negatives, necrotizing disease, or persistent bacteremia."),
+    durationAnchor: ready("Count 7 days from the first active therapy with improving ventilator parameters; extend only when response is clearly delayed or the pathogen/source justifies it."),
+  },
+  "vap-prevention": {
+    diagnosticWorkup: ready("Prevention work starts with daily review of ventilator days, reintubations, oral-care reliability, sedation interruptions, and aspiration risk."),
+    severitySignals: ready("Treat rising FiO2/PEEP, purulent secretions, new fever, or hemodynamic decline as a signal to leave the prevention pathway and evaluate for true VAP."),
+    mdroRiskFactors: ready("Every unnecessary anti-pseudomonal or anti-MRSA day increases downstream MDR pressure if VAP later develops, so prevention is also antibiotic stewardship."),
+    sourceControl: ready("Head-of-bed elevation, secretion drainage, early mobilization, delirium minimization, and device removal are the practical source-control moves in prevention work."),
+    deEscalation: ready("Avoid prophylactic antibiotics and review stress-ulcer prophylaxis, sedation, and other VAP-bundle deviations every day to reduce future antibiotic exposure."),
+    ivToPoPlan: notApplicable("This pathway is preventive rather than treatment-focused, so IV-to-PO planning is not the main stewardship question."),
+    failureEscalation: ready("If prevention bundle adherence slips or VAP rates rise, escalate to ICU, respiratory therapy, and infection-prevention review rather than adding prophylactic antibiotics."),
+    consultTriggers: ready("Escalate to infection prevention or ICU leadership for cluster signals, repeated reintubations, or persistent bundle non-adherence."),
+    durationAnchor: notApplicable("There is no treatment-duration clock in a prevention pathway."),
+  },
+};
+
+const HAP_VAP_MICROBIOLOGY_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "hap-mdr-risk": {
+    rapidDiagnostics: [
+      {
+        trigger: "MRSA nares PCR is negative and respiratory cultures do not support MRSA",
+        action: "Stop vancomycin or linezolid at the first 48-72 hour review unless another MRSA syndrome is active.",
+        rationale: "The negative predictive value of nares screening is strongest when paired with clinical improvement and the absence of culture evidence.",
+      },
+      {
+        trigger: "Respiratory culture, PCR, or prior isolate history suggests ESBL or AmpC Enterobacterales",
+        action: "Move from cefepime or pip-tazo toward meropenem only when the microbiology or prior history truly supports it.",
+        rationale: "Mechanism-aware escalation is more reliable than keeping everyone on a carbapenem just because the patient is ill.",
+      },
+    ],
+    breakpointNotes: [
+      {
+        marker: "Unit antibiogram threshold",
+        interpretation: "If more than 10% of relevant gram-negative isolates are resistant to the planned monotherapy agent, ATS/IDSA supports broader empiric coverage.",
+        action: "Tie the initial HAP regimen to the actual ICU or unit antibiogram rather than hospital-wide averages.",
+      },
+      {
+        marker: "Cefepime or meropenem susceptibility in severe pneumonia",
+        interpretation: "A susceptible report is only clinically meaningful if the full high-dose extended-infusion exposure is used in critically ill patients.",
+        action: "Fix infusion strategy and interval before assuming the organism requires another class.",
+      },
+    ],
+    intrinsicResistance: [
+      {
+        organism: "Stenotrophomonas maltophilia",
+        resistance: "Carbapenems and many routine HAP beta-lactams are unreliable because of the organism's intrinsic L1 and L2 beta-lactamases.",
+        implication: "If Stenotrophomonas is the true pathogen, leave the routine HAP pathway and use a targeted resistant-pathogen strategy.",
+      },
+      {
+        organism: "Acinetobacter baumannii",
+        resistance: "Standard cefepime or pip-tazo-based HAP pathways are often not dependable once carbapenem resistance is present.",
+        implication: "Do not keep recycling routine anti-pseudomonal agents when the culture phenotype points toward CRAB.",
+      },
+    ],
+    coverageMatrix: [
+      {
+        label: "Susceptible nosocomial Enterobacterales and Pseudomonas",
+        status: "preferred",
+        detail: "Cefepime or pip-tazo remain frontline anchors when local susceptibility and prior cultures support them.",
+      },
+      {
+        label: "ESBL or high-AmpC risk",
+        status: "conditional",
+        detail: "Meropenem becomes the cleaner anchor when the phenotype or prior isolate history makes cefepime or pip-tazo unreliable.",
+      },
+      {
+        label: "MRSA",
+        status: "conditional",
+        detail: "Use vancomycin or linezolid only while the risk is credible, then remove it quickly when MRSA screening and cultures are unsupportive.",
+      },
+      {
+        label: "Stenotrophomonas or CRAB",
+        status: "avoid",
+        detail: "Routine HAP broad-spectrum bundles should not be treated as definitive therapy for these resistant organisms.",
+      },
+    ],
+  },
+};
+
+const HAP_VAP_MONOGRAPH_ENHANCEMENTS: Record<string, Partial<DrugMonograph>> = {
+  "pip-tazo": {
+    ...PIP_TAZO_EXECUTION_ENHANCEMENTS,
+    penetration: [
+      {
+        site: "Lung / epithelial lining fluid",
+        detail: "Pulmonary penetration is adequate for nosocomial pneumonia when high-dose extended infusion is used consistently.",
+      },
+      {
+        site: "Urine / intra-abdominal fluid",
+        detail: "Strong urinary and peritoneal exposure make it useful when pneumonia overlaps with urinary or abdominal source uncertainty early in sepsis care.",
+      },
+      {
+        site: "CSF",
+        detail: "Central nervous system penetration is poor, so pip-tazo should not be treated as a meningitis beta-lactam.",
+      },
+    ],
+  },
+  cefepime: {
+    dosingByIndication: [
+      {
+        label: "HAP / VAP",
+        regimen: "2 g IV q8h as 3- to 4-hour extended infusion",
+        notes: "Use the 2 g q8h regimen when targeting Pseudomonas or critically ill patients.",
+      },
+      {
+        label: "Febrile neutropenia / severe sepsis",
+        regimen: "2 g IV q8h",
+        notes: "Extended infusion is preferred whenever operationally feasible.",
+      },
+    ],
+    renalReplacement: [
+      { modality: "HD", guidance: "Give after hemodialysis with aggressive post-HD redosing; cefepime neurotoxicity risk rises quickly when HD dosing is late or missed." },
+      { modality: "CRRT", guidance: "Most high-effluent CRRT patients still need near-full antipseudomonal exposure, often 2 g q8-12h with extended infusion depending on effluent rate and filter downtime." },
+    ],
+    specialPopulations: [
+      { population: "Augmented renal clearance", guidance: "ARC can underdose cefepime in shock, trauma, and young ICU patients; favor 2 g q8h extended infusion and reassess if cultures stay positive." },
+      { population: "Neurotoxicity-prone patients", guidance: "Elderly patients, renal impairment, and pre-existing CNS disease need daily mental-status review because encephalopathy/myoclonus can be the first toxicity signal." },
+    ],
+    therapeuticDrugMonitoring: {
+      target: "No routine serum target, but aim to keep free drug above the MIC for the full dosing interval in severe gram-negative pneumonia or shock.",
+      sampling: "Use beta-lactam TDM if available in persistently bacteremic patients, CRRT, ARC, or isolates with MICs near the breakpoint.",
+      adjustment: "Escalate infusion duration or dosing frequency before adding a second beta-lactam when PK failure is the likely problem.",
+      pearls: ["Daily renal reassessment is the easiest way to prevent both underexposure and cefepime neurotoxicity."],
+    },
+    administration: {
+      infusion: "Extended infusion over 3-4 hours is preferred for pneumonia, neutropenia, and resistant Pseudomonas risk.",
+      compatibility: "Avoid Y-site co-administration with strongly incompatible agents and separate from aminoglycosides when possible in limited-line patients.",
+      stability: "If pre-mixed for extended infusion, follow local room-temperature and refrigerated stability limits closely because degraded bags silently compromise exposure.",
+      note: "Operationally, cefepime works best when the extended-infusion default is built into order sets rather than requested ad hoc.",
+    },
+    ivToPoSwitch: {
+      poBioavailability: "No oral cefepime formulation exists.",
+      switchCriteria: "Leave cefepime once cultures support a narrower IV agent or an active oral option and the patient is clinically stable.",
+      note: "Do not anchor discharge planning to cefepime if a simpler definitive drug now fits the microbiology.",
+    },
+    opatEligibility: {
+      eligible: "conditional",
+      administration: "OPAT is feasible through q8h pump or continuous-infusion programs, but logistics are heavier than once-daily beta-lactams.",
+      monitoring: "Weekly CBC and renal function are minimum expectations, with closer review for neurotoxicity symptoms or renal drift.",
+      considerations: [
+        "Reasonable when susceptible Pseudomonas or neutropenic infection still needs cefepime and no oral exit exists.",
+        "Keep the extended-infusion strategy if the home program can support it.",
+      ],
+    },
+    penetration: [
+      { site: "Lung / ELF", detail: "Adequate pulmonary penetration when high-dose extended infusion is used; standard 30-minute infusion is less reliable against borderline Pseudomonas MICs." },
+      { site: "Urine", detail: "Very high urinary exposure makes cefepime a reliable IV step for complicated UTI when susceptible." },
+    ],
+    interactionActions: [
+      { interactingAgent: "Other neurotoxic or sedating ICU medications", effect: "Can blur recognition of cefepime neurotoxicity.", management: "If encephalopathy develops, review renal function and stop/switch cefepime rather than only treating presumed delirium.", severity: "monitor" },
+    ],
+    stewardshipUseCases: [
+      { scenario: "Empiric nosocomial pneumonia with Pseudomonas risk but no dominant ESBL history", role: "Cefepime is often the best carbapenem-sparing anchor when local susceptibility supports it.", notes: "Pair with MRSA coverage only when MRSA risk is real, then remove it quickly if screening/cultures are negative." },
+      { scenario: "Culture-finalized susceptible Pseudomonas", role: "Prefer cefepime over a carbapenem when the isolate and patient response allow it.", notes: "Keep the extended-infusion strategy even after de-escalation." },
+    ],
+  },
+  vancomycin: {
+    dosingByIndication: [
+      { label: "Serious MRSA pneumonia", regimen: "Loading dose 20-25 mg/kg actual body weight, then AUC-guided maintenance dosing", notes: "Avoid trough-only dosing when AUC monitoring is available." },
+      { label: "Bacteremia / endocarditis bridge", regimen: "15-20 mg/kg IV q8-12h with early AUC follow-up", notes: "Use higher initial exposure only when the clinical syndrome justifies it and renal function allows." },
+    ],
+    renalReplacement: [
+      { modality: "HD", guidance: "Use post-HD redosing with pre-HD or post-HD levels per local protocol; missed supplemental dosing is a common cause of failure." },
+      { modality: "CRRT", guidance: "CRRT often needs scheduled q12-24h dosing plus repeated AUC/level review because filter changes and downtime rapidly alter clearance." },
+    ],
+    specialPopulations: [
+      { population: "Obesity", guidance: "Use actual body weight for loading and early AUC assessment; obese patients are prone to both underloading and nephrotoxicity if empiric maintenance is too aggressive." },
+      { population: "Augmented renal clearance", guidance: "ARC can make standard q12h dosing fail quickly in young ICU patients; expect shorter intervals and earlier repeat levels." },
+    ],
+    therapeuticDrugMonitoring: {
+      target: "AUC/MIC 400-600 for serious MRSA infection when MIC is assumed to be 1 mg/L.",
+      sampling: "Obtain levels early after the first maintenance doses or use Bayesian software if available; repeat with renal shifts, CRRT changes, or persistent bacteremia.",
+      adjustment: "Adjust total daily exposure, not just troughs; renal toxicity risk rises meaningfully once AUC exceeds 600.",
+      pearls: [
+        "Pneumonia and bacteremia need tighter early follow-up than uncomplicated skin infection.",
+        "A negative MRSA nares PCR is a de-escalation tool, not a dose-adjustment tool.",
+      ],
+    },
+    administration: {
+      infusion: "Infuse each gram over at least 1 hour and slow further for prior infusion reactions; load promptly in shock.",
+      compatibility: "Dedicated line or careful compatibility review is helpful because ICU patients often receive multiple concurrent infusions.",
+      stability: "Premixed bags are operationally convenient, but prolonged hang times still count toward missed-dose exposure in severe MRSA disease.",
+      note: "Link the first level to the dosing plan before the first maintenance interval so the team is not guessing on day 2.",
+    },
+    ivToPoSwitch: {
+      poBioavailability: "No oral vancomycin formulation provides systemic MRSA treatment; oral vancomycin is only for CDI.",
+      switchCriteria: "Switch to another active oral MRSA agent only when the syndrome allows it and bacteremia or deep-seated infection is no longer dictating IV therapy.",
+      note: "For invasive MRSA disease, the real transition question is often vancomycin versus linezolid, not IV versus PO vancomycin.",
+    },
+    opatEligibility: {
+      eligible: "yes",
+      administration: "Vancomycin is a common OPAT drug when reliable infusion support and AUC or level-based monitoring are available.",
+      monitoring: "Renal function and vancomycin levels need early follow-up and then ongoing review throughout therapy.",
+      considerations: [
+        "Best for patients with stable renal function and a clear monitoring plan.",
+        "Consider linezolid or another option when the main barrier is simply avoiding long-term IV access.",
+      ],
+    },
+    penetration: [
+      { site: "Lung", detail: "Pulmonary penetration is variable, which is one reason linezolid is often favored for proven MRSA pneumonia when AKI risk is high." },
+      { site: "Bloodstream", detail: "Reliable bloodstream exposure when AUC targets are achieved; persistent bacteremia should trigger source-control review rather than dose escalation alone." },
+    ],
+    interactionActions: [
+      { interactingAgent: "Piperacillin-tazobactam", effect: "Combination is associated with higher AKI signal than vancomycin plus cefepime in many cohorts.", management: "Reassess daily whether the beta-lactam can narrow or whether linezolid would better fit MRSA pneumonia.", severity: "major" },
+      { interactingAgent: "Loop diuretics / other nephrotoxins", effect: "Raises AKI risk and complicates AUC interpretation.", management: "Track daily renal trends and remove avoidable nephrotoxins early.", severity: "monitor" },
+    ],
+    stewardshipUseCases: [
+      { scenario: "Empiric MRSA coverage in HAP/VAP or septic shock", role: "Use vancomycin only while MRSA risk is credible and stop quickly when screening/cultures argue against MRSA.", notes: "Do not continue it solely because the patient is still critically ill." },
+      { scenario: "Proven MRSA bacteremia or endocarditis", role: "Remain on a PK-guided MRSA-active regimen while blood cultures and source control are being tracked.", notes: "Persistent bacteremia should prompt source review and susceptibility/alternative-agent discussion." },
+    ],
+  },
+  linezolid: {
+    dosingByIndication: [
+      { label: "MRSA pneumonia", regimen: "600 mg IV/PO q12h", notes: "PO and IV exposures are effectively equivalent, making oral continuation easy once the patient stabilizes." },
+      { label: "Salvage or toxin-suppression scenarios", regimen: "600 mg IV/PO q12h", notes: "Use when ribosomal inhibition is desirable and serotonin/toxicity monitoring is manageable." },
+    ],
+    renalReplacement: [
+      { modality: "HD", guidance: "Standard dosing usually works, but prolonged therapy with renal failure raises metabolite exposure and thrombocytopenia risk." },
+      { modality: "CRRT", guidance: "Many CRRT patients remain adequately exposed with 600 mg q12h, but consider TDM or closer toxicity review in prolonged courses." },
+    ],
+    specialPopulations: [
+      { population: "Myelosuppression risk", guidance: "Baseline thrombocytopenia, prolonged therapy, renal dysfunction, and concurrent marrow suppressants justify more frequent CBC review." },
+      { population: "Obesity or unusually high Vd states", guidance: "Standard 600 mg q12h is common, but severe obesity or ECMO/CRRT may merit ID or TDM discussion if response is lagging." },
+    ],
+    therapeuticDrugMonitoring: {
+      target: "Routine TDM is not universal, but some centers aim for troughs that balance efficacy with thrombocytopenia risk during prolonged therapy.",
+      sampling: "Consider serum level monitoring in prolonged courses, renal dysfunction, ECMO/CRRT, or unexplained toxicity/failure if your program offers it.",
+      adjustment: "If platelets are falling or serotonin toxicity risk is high, reassess the need for linezolid rather than reflexively pushing through a long course.",
+    },
+    administration: {
+      infusion: "IV linezolid typically runs over 30-120 minutes; switch to PO early whenever the gut works.",
+      oralAbsorption: "Near-complete oral bioavailability makes IV-to-PO transition straightforward once hemodynamics and absorption are reliable.",
+      note: "One of linezolid's biggest stewardship advantages is removing unnecessary IV therapy without losing exposure.",
+    },
+    ivToPoSwitch: {
+      poBioavailability: "Near-complete oral bioavailability with essentially IV-equivalent exposure.",
+      switchCriteria: "Change from IV to PO as soon as the patient can absorb oral medication and no GI barrier remains.",
+      note: "This is one of the cleanest IV-to-PO conversions in the entire catalog.",
+    },
+    opatEligibility: {
+      eligible: "conditional",
+      administration: "IV OPAT is possible, but oral linezolid is usually the preferred outpatient route because bioavailability is so high.",
+      monitoring: "CBC and toxicity review still matter whether the patient is taking PO or receiving IV therapy.",
+      considerations: [
+        "Prefer oral completion over home IV infusion whenever the gut works.",
+        "Reserve IV OPAT for patients who temporarily cannot absorb oral therapy.",
+      ],
+    },
+    penetration: [
+      { site: "Lung", detail: "Excellent epithelial lining fluid penetration is a major reason many clinicians prefer it for proven MRSA pneumonia." },
+      { site: "Bone / soft tissue", detail: "Useful tissue penetration supports oral continuation in selected deep gram-positive infections when toxicity is being monitored." },
+    ],
+    interactionActions: [
+      { interactingAgent: "SSRIs, SNRIs, tramadol, serotonergic agents", effect: "Risk of serotonin toxicity increases, especially in critically ill patients receiving multiple serotonergic medications.", management: "Perform a medication review before the first dose and monitor closely rather than automatically abandoning linezolid when it is the best agent.", severity: "major" },
+    ],
+    stewardshipUseCases: [
+      { scenario: "Proven MRSA pneumonia with kidney injury risk", role: "Linezolid is often the cleaner anti-MRSA option when vancomycin exposure is likely to worsen AKI.", notes: "Reassess daily if the diagnosis evolves away from MRSA." },
+      { scenario: "Early IV-to-PO transition for gram-positive pulmonary infection", role: "The oral formulation helps shorten central-line days and discharge delays without sacrificing exposure.", notes: "Pair this advantage with CBC monitoring if the course will be prolonged." },
+    ],
+  },
+  meropenem: {
+    dosingByIndication: [
+      { label: "HAP / VAP or septic shock", regimen: "2 g IV q8h as 3-hour extended infusion", notes: "Use the full antipseudomonal exposure when MICs may be borderline or ARC is likely." },
+      { label: "ESBL bacteremia or severe intra-abdominal infection", regimen: "1-2 g IV q8h as extended infusion", notes: "Match the upper end of dosing to inoculum, source control, and severity." },
+      { label: "Meningitis / CNS infection", regimen: "2 g IV q8h as standard infusion", notes: "Need high peak CSF exposure rather than the usual extended-infusion non-CNS strategy." },
+    ],
+    renalReplacement: [
+      { modality: "HD", guidance: "Dose after HD with supplemental coverage and avoid missing post-dialysis doses because exposure falls quickly." },
+      { modality: "CRRT", guidance: "High-effluent CRRT commonly still needs 1-2 g q8h with extended infusion; effluent rate and downtime matter more than the label default." },
+    ],
+    specialPopulations: [
+      { population: "Augmented renal clearance", guidance: "ARC is common in young trauma, sepsis, and neurocritical care patients; full-dose q8h extended infusion is often required to keep T>MIC." },
+      { population: "Obesity", guidance: "Severe obesity increases Vd and can justify full antipseudomonal dosing with extended infusion even when serum creatinine looks normal." },
+    ],
+    therapeuticDrugMonitoring: {
+      target: "Aim for sustained concentrations above the organism MIC throughout the dosing interval in severe gram-negative infection.",
+      sampling: "Use beta-lactam TDM if available in CRRT, ARC, persistent bacteremia, CNS infection, or isolates with meropenem MICs near the breakpoint.",
+      adjustment: "Before adding a second broad gram-negative agent, confirm that infusion time, interval, and renal replacement exposure are adequate.",
+      pearls: ["Extended infusion is the operational default for non-CNS severe infection; standard short infusion is the exception, not the rule."],
+    },
+    administration: {
+      infusion: "Standard stewardship default is 3-hour extended infusion for severe non-CNS infections; use standard infusion for meningitis when high peak exposure matters most.",
+      compatibility: "Do not share the same IV line simultaneously with aminoglycosides because of physical incompatibility.",
+      stability: "Protect the extended-infusion workflow by using local stability limits and timely bag replacement; a delayed bag is equivalent to missed PK/PD opportunity.",
+      note: "Meropenem works best when ordering, compounding, and nursing workflows are all built around extended infusion instead of one-off exceptions.",
+    },
+    ivToPoSwitch: {
+      poBioavailability: "No oral formulation exists, so step-down requires switching to another active class.",
+      switchCriteria: "Leave meropenem once susceptibilities and clinical stability support a narrower IV agent or a reliable oral option.",
+      note: "If the only discharge plan is q8h meropenem, reassess whether ertapenem, ceftriaxone, TMP-SMX, or a fluoroquinolone can safely replace it.",
+    },
+    opatEligibility: {
+      eligible: "conditional",
+      administration: "OPAT is feasible through q8h extended-infusion or elastomeric programs, but it is more operationally demanding than once-daily alternatives.",
+      monitoring: "Weekly CBC and renal function are standard, with tighter review when CRRT transitions, seizures, or unstable renal function are concerns.",
+      considerations: [
+        "Reasonable when no active oral option exists and broad gram-negative coverage still truly belongs on discharge.",
+        "Move to ertapenem or a narrower active drug as soon as the microbiology allows it.",
+      ],
+    },
+    penetration: [
+      { site: "Lung / ELF", detail: "Reliable lung exposure improves when extended infusion is used, especially against higher-MIC Pseudomonas." },
+      { site: "CSF", detail: "Meropenem can reach therapeutic CSF levels with inflamed meninges, but meningitis dosing needs high peaks and should not be casually converted to the standard EI pneumonia strategy." },
+      { site: "Urine / abdominal source", detail: "Strong urinary and peritoneal exposure supports its role in ESBL bacteremia, complicated UTI, and severe intra-abdominal infection." },
+    ],
+    interactionActions: [
+      { interactingAgent: "Valproic acid", effect: "Carbapenems can collapse valproate exposure within 24 hours.", management: "Switch to a non-interacting antiepileptic such as levetiracetam for the full carbapenem course; do not try to rescue with larger valproate doses.", severity: "major" },
+    ],
+    stewardshipUseCases: [
+      { scenario: "Empiric shock with dominant ESBL risk", role: "Meropenem is the right bridge while cultures define the phenotype and source control is happening.", notes: "That does not obligate the team to keep it once a narrower active beta-lactam is available." },
+      { scenario: "Culture-finalized susceptible Pseudomonas or Enterobacterales", role: "De-escalate off meropenem the same day a narrower active agent is confirmed whenever the patient is clinically stable enough.", notes: "Document the carbapenem exit plan in the 48-hour timeout note." },
+    ],
+  },
+};
+
+export const HAP_VAP: DiseaseState = enhanceDiseaseEmpiricOptions(
+  enhanceDisease(
+    HAP_VAP_BASE,
+    mergeEnhancementMaps(HAP_VAP_WORKFLOW_ENHANCEMENTS, HAP_VAP_MICROBIOLOGY_ENHANCEMENTS),
+    HAP_VAP_MONOGRAPH_ENHANCEMENTS,
+  ),
+  getEmpiricOptionEnhancementsForDisease("hap-vap"),
+);

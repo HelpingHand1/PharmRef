@@ -9,9 +9,11 @@
 // ECIL 2017/2021 Antifungal Prophylaxis Recommendations
 // ============================================================
 
-import type { DiseaseState } from "../types";
+import type { DiseaseState, Subcategory } from "../types";
+import { getEmpiricOptionEnhancementsForDisease } from "./regimen-plan-content";
+import { enhanceDisease, enhanceDiseaseEmpiricOptions, mergeEnhancementMaps, notApplicable, ready } from "./stewardship-content";
 
-export const FEBRILE_NEUTROPENIA: DiseaseState = {
+const FEBRILE_NEUTROPENIA_BASE: DiseaseState = {
   id: "febrile-neutropenia",
   name: "Febrile Neutropenia",
   icon: "🩻",
@@ -525,3 +527,110 @@ export const FEBRILE_NEUTROPENIA: DiseaseState = {
   ],
   drugMonographs: [],
 } as const;
+
+const FEBRILE_NEUTROPENIA_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "low-risk-fn": {
+    diagnosticWorkup: ready("Document MASCC/CISNE logic, obtain cultures before antibiotics when feasible, and confirm that mucositis, GI absorption, and social follow-up truly support outpatient oral treatment."),
+    severitySignals: ready("Any hypotension, organ dysfunction, pneumonia, abdominal pain, severe mucositis, or unstable comorbidity removes the patient from a low-risk FN pathway."),
+    mdroRiskFactors: ready("Recent fluoroquinolone prophylaxis, prior ESBL or Pseudomonas, resistant gram-positive colonization, and prolonged recent admissions should push therapy away from routine outpatient oral regimens."),
+    sourceControl: ready("Inspect lines, oral mucosa, skin, perirectal area, and the GI tract early because the physical source may be subtle in neutropenia."),
+    deEscalation: ready("If cultures stay negative and the patient remains clinically stable, avoid escalating solely because fever persists through the first neutropenic day or two."),
+    ivToPoPlan: ready("This pathway is already designed for oral therapy when absorption is reliable; switch to inpatient IV therapy promptly if mucositis, vomiting, or instability develops."),
+    failureEscalation: ready("Escalate quickly for recurrent fever, culture growth, worsening mucositis, or any hint that outpatient follow-up will not be reliable."),
+    consultTriggers: ready("Oncology and ID input are appropriate when prophylaxis failure or resistant-organism history undermines standard low-risk assumptions."),
+    durationAnchor: ready("Tie duration to documented infection when found; for culture-negative FN, stop according to recovery and institutional oncologic protocols rather than arbitrary long courses."),
+  },
+  "high-risk-fn": {
+    diagnosticWorkup: ready("Blood cultures from every lumen plus peripheral blood, baseline labs, focused imaging, and review of prophylaxis history should happen immediately alongside first-dose IV therapy."),
+    severitySignals: ready("Hypotension, pneumonia, abdominal pain/typhlitis, altered mentation, or expected prolonged neutropenia define this as a high-risk pathway from the start."),
+    mdroRiskFactors: ready("Prior fluoroquinolone prophylaxis, prior ESBL or resistant Pseudomonas, recent broad-spectrum exposure, and long inpatient oncology courses are the critical empiric resistance gates."),
+    sourceControl: ready("Inspect lines, mucositis, perirectal disease, abdominal catastrophe, and pulmonary sources early; neutropenic sepsis can look source-poor until you look hard."),
+    deEscalation: ready("At 48-72 hours, narrow only when cultures and clinical course genuinely support it, but do not leave empiric vancomycin or carbapenem coverage in place without an ongoing reason."),
+    ivToPoPlan: ready("PO completion is rare until hemodynamics stabilize, GI absorption is reliable, and the recovered organism/site clearly fits an oral agent."),
+    failureEscalation: ready("Persistent fever requires re-exam, repeat imaging, fungal risk review, and line/source reassessment instead of endless broad-spectrum stacking."),
+    consultTriggers: ready("ID is high yield in prolonged fever, prior resistant-organism history, suspected typhlitis, invasive fungal concern, or unclear de-escalation timing."),
+    durationAnchor: ready("Duration should follow the documented infection plus neutrophil recovery logic of the syndrome; avoid carrying empiric broad IV therapy far beyond what the source actually requires."),
+  },
+  "fn-with-fungal-risk": {
+    diagnosticWorkup: ready("Review neutropenia duration, mold-active prophylaxis, chest/sinus imaging, galactomannan or beta-D-glucan context, and any pulmonary or hepatosplenic clues before declaring breakthrough fungal disease."),
+    severitySignals: ready("Hypoxia, pleuritic chest pain, hemoptysis, hypotension, or disseminated lesions mean the fungal workup and treatment decisions need to accelerate immediately."),
+    mdroRiskFactors: ready("Prior azole prophylaxis, prior mold infection, prolonged neutropenia, and repeated broad-spectrum exposure are the key risk signals that shape empiric antifungal choice."),
+    sourceControl: ready("Line removal, drainage of focal collections, and tissue diagnosis when safe can be crucial because microbiology is often difficult in invasive fungal disease."),
+    deEscalation: ready("Reassess every 48-72 hours whether the patient still fits empiric antifungal criteria or can move back to prophylaxis, especially when imaging and biomarkers stay unconvincing."),
+    ivToPoPlan: ready("Transition to oral mold-active therapy only after the patient is stable, absorption is dependable, and the chosen agent fits the breakthrough/prophylaxis history."),
+    failureEscalation: ready("Failure should trigger repeat imaging, drug-level review, prophylaxis exposure review, and biopsy/source discussion rather than blind antifungal layering."),
+    consultTriggers: ready("ID plus oncology are essential here, and pulmonary/interventional teams may be needed for bronchoscopy or tissue diagnosis."),
+    durationAnchor: notApplicable("Empiric fungal therapy duration is individualized to the documented syndrome, response, and neutrophil recovery rather than a simple short-course anchor."),
+  },
+};
+
+const FEBRILE_NEUTROPENIA_MICROBIOLOGY_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "high-risk-fn": {
+    rapidDiagnostics: [
+      {
+        trigger: "Blood culture or rapid molecular result shows resistant gram-negative risk such as ESBL or prior CRE history",
+        action: "Escalate from cefepime or pip-tazo to a carbapenem or phenotype-directed reserve agent without waiting for another fever day.",
+        rationale: "In high-risk FN, resistant gram-negative delay is the microbiology failure most likely to become catastrophic quickly.",
+      },
+      {
+        trigger: "No line, skin, pneumonia, or hemodynamic indication for MRSA coverage emerges after initial cultures",
+        action: "Stop empiric vancomycin early instead of carrying it through the entire neutropenic episode.",
+        rationale: "Routine vancomycin continuation adds nephrotoxicity and line burden without improving most high-risk FN outcomes.",
+      },
+    ],
+    breakpointNotes: [
+      {
+        marker: "Cefepime susceptibility in neutropenic sepsis",
+        interpretation: "The result assumes full-dose 2 g q8h exposure, ideally with optimized infusion timing in unstable patients.",
+        action: "If fever or bacteremia persists, check whether the PK strategy failed before concluding the organism needs another class.",
+      },
+      {
+        marker: "Persistent fever without microbiologic growth",
+        interpretation: "Ongoing fever alone does not prove resistant bacteria and should not automatically trigger endless antibacterial broadening.",
+        action: "Reassess for fungal disease, mucositis, typhlitis, line issues, or a nonbacterial driver at the 4-7 day mark.",
+      },
+    ],
+    intrinsicResistance: [
+      {
+        organism: "Enterococcus species",
+        resistance: "Cefepime and other cephalosporins are intrinsically inactive against Enterococcus.",
+        implication: "If the line, abdomen, or urinary tract strongly suggests Enterococcal infection, pick a regimen that actually covers it.",
+      },
+      {
+        organism: "Bacteroides fragilis group",
+        resistance: "Cefepime lacks reliable anaerobic coverage.",
+        implication: "Add metronidazole or choose another backbone when typhlitis, perirectal infection, or another anaerobic source is suspected.",
+      },
+    ],
+    coverageMatrix: [
+      {
+        label: "Usual high-risk FN gram-negative pathogens including Pseudomonas",
+        status: "preferred",
+        detail: "Cefepime, pip-tazo, or meropenem remain the frontline anchors while cultures are pending.",
+      },
+      {
+        label: "MRSA or resistant gram-positive line infection",
+        status: "conditional",
+        detail: "Vancomycin is an add-on for specific indications rather than a default companion drug for every high-risk FN patient.",
+      },
+      {
+        label: "ESBL or major resistant gram-negative history",
+        status: "conditional",
+        detail: "Meropenem becomes the cleaner anchor when prior microbiology makes cefepime or pip-tazo unsafe.",
+      },
+      {
+        label: "Early empiric antifungal therapy on day 1",
+        status: "avoid",
+        detail: "Reserve antifungal escalation for persistent fever, prolonged neutropenia, or host and imaging signals that make invasive fungal disease credible.",
+      },
+    ],
+  },
+};
+
+export const FEBRILE_NEUTROPENIA: DiseaseState = enhanceDiseaseEmpiricOptions(
+  enhanceDisease(
+    FEBRILE_NEUTROPENIA_BASE,
+    mergeEnhancementMaps(FEBRILE_NEUTROPENIA_WORKFLOW_ENHANCEMENTS, FEBRILE_NEUTROPENIA_MICROBIOLOGY_ENHANCEMENTS),
+  ),
+  getEmpiricOptionEnhancementsForDisease("febrile-neutropenia"),
+);

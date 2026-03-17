@@ -1,7 +1,10 @@
 // Editorial source for the Advanced Agents disease module.
 // Runtime imports use src/data/generated/diseases/advanced-agents.ts.
 import type { DiseaseState } from "../types";
-export const ADVANCED_AGENTS: DiseaseState = {
+import { ADVANCED_AGENTS_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
+import { enhanceDisease } from "./stewardship-content";
+
+const ADVANCED_AGENTS_BASE: DiseaseState = {
   id: "advanced-agents",
   name: "Advanced & Resistant Pathogen Agents",
   icon: "🛡",
@@ -76,6 +79,64 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "Any infection type: UTI, bacteremia, pneumonia, IAI. Suspect in patients with prior carbapenem exposure, healthcare contact in endemic regions, or prior MDR organism colonization.",
       diagnostics:
         "Culture and susceptibility testing essential. Carbapenemase PCR panel (KPC, NDM, OXA-48, VIM, IMP) guides therapy. MIC testing required — not just S/I/R breakpoints. Check ceftazidime-avibactam and meropenem-vaborbactam susceptibility. Consult ID and clinical pharmacy for complex cases.",
+      rapidDiagnostics: [
+        {
+          trigger: "Carbapenemase testing identifies KPC",
+          action: "Prioritize ceftazidime-avibactam or meropenem-vaborbactam and de-escalate away from polymyxin-based salvage if it was started empirically.",
+          rationale: "Mechanism-specific therapy consistently outperforms older toxicity-heavy fallback regimens.",
+        },
+        {
+          trigger: "Carbapenemase testing identifies NDM, VIM, or IMP",
+          action: "Do not continue any stand-alone beta-lactam/BLI product; move to ceftazidime-avibactam plus aztreonam or cefiderocol.",
+          rationale: "MBL-producing CRE is the main place where a paired regimen changes whether aztreonam is viable.",
+        },
+      ],
+      breakpointNotes: [
+        {
+          marker: "MIC-based interpretation",
+          interpretation: "CRE therapy selection should be based on organism-specific MICs and carbapenemase mechanism, not on zone diameters or the generic 'CRE' label alone.",
+          action: "Ask the lab for carbapenemase clarification and MIC details before finalizing definitive therapy.",
+        },
+        {
+          marker: "Ceftazidime-avibactam coverage gap",
+          interpretation: "A susceptible ceftazidime-avibactam result is compatible with KPC or OXA-48, but not with stand-alone MBL activity.",
+          action: "If an MBL is present, pair aztreonam or abandon the drug for a different anchor.",
+        },
+      ],
+      intrinsicResistance: [
+        {
+          organism: "Proteus, Morganella, Providencia",
+          resistance: "These genera retain intrinsic polymyxin limitations even when they also acquire carbapenemases.",
+          implication: "Do not build salvage CRE regimens around colistin for these organisms.",
+        },
+        {
+          organism: "MBL-producing Enterobacterales",
+          resistance: "Stand-alone avibactam, vaborbactam, and relebactam combinations remain functionally inactive against the metallo-beta-lactamase itself.",
+          implication: "This is the main place where mechanism testing changes therapy immediately.",
+        },
+      ],
+      coverageMatrix: [
+        {
+          label: "KPC-CRE",
+          status: "preferred",
+          detail: "Ceftazidime-avibactam or meropenem-vaborbactam are the primary anchors; imipenem-cilastatin-relebactam is another option when susceptible.",
+        },
+        {
+          label: "OXA-48-like CRE",
+          status: "active",
+          detail: "Ceftazidime-avibactam is usually the cleanest fit; meropenem-vaborbactam does not reliably solve this mechanism.",
+        },
+        {
+          label: "NDM, VIM, or IMP",
+          status: "conditional",
+          detail: "Use ceftazidime-avibactam plus aztreonam or cefiderocol rather than any stand-alone BL/BLI product.",
+        },
+        {
+          label: "Colistin monotherapy",
+          status: "avoid",
+          detail: "Reserve only for last-line salvage when better targeted options truly do not exist.",
+        },
+      ],
       durationGuidance: {
         standard: "7–14 days (source and severity dependent)",
         severe: "14 days (bacteremia) — repeat blood cultures at 48h",
@@ -145,6 +206,64 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "VAP, HAP, bacteremia, complicated UTI, wound infections. ICU patients, CF patients, prior antibiotic exposure at high risk.",
       diagnostics:
         "Full susceptibility panel required. Test ceftolozane-tazobactam, imipenem-cilastatin-relebactam, ceftazidime-avibactam. CF patients require special testing (agar dilution).",
+      rapidDiagnostics: [
+        {
+          trigger: "Traditional anti-pseudomonal beta-lactams all report non-susceptible",
+          action: "Use the novel anti-pseudomonal panel and prior-exposure history to choose ceftolozane-tazobactam or imipenem-cilastatin-relebactam rather than defaulting to colistin.",
+          rationale: "Most modern DTR Pseudomonas cases can now avoid polymyxin toxicity if susceptibility testing is available.",
+        },
+        {
+          trigger: "MBL signal or carbapenemase PCR suggests VIM or IMP",
+          action: "Treat ceftolozane-tazobactam and ceftazidime-avibactam as unreliable and pivot toward cefiderocol-centered therapy.",
+          rationale: "MBL-producing Pseudomonas is a distinct subgroup with a much smaller active-agent shortlist.",
+        },
+      ],
+      breakpointNotes: [
+        {
+          marker: "Ceftolozane-tazobactam dosing",
+          interpretation: "The pneumonia or serious-infection dose is 3 g q8h; lower cUTI/cIAI dosing is insufficient for invasive DTR Pseudomonas.",
+          action: "Do not reuse the smaller dose in bacteremia or pneumonia because it undercuts the advantage of the drug.",
+        },
+        {
+          marker: "Traditional beta-lactam still susceptible",
+          interpretation: "If cefepime, meropenem, or piperacillin-tazobactam remains susceptible, optimized extended-infusion use still outranks a reflex jump to a reserve agent.",
+          action: "Verify whether the case is truly DTR before spending a newer beta-lactam.",
+        },
+      ],
+      intrinsicResistance: [
+        {
+          organism: "Pseudomonas aeruginosa",
+          resistance: "Baseline low permeability and inducible AmpC make borderline exposures fail and select resistance quickly.",
+          implication: "PK/PD optimization is not optional when treating MDR or DTR isolates.",
+        },
+        {
+          organism: "MBL-producing Pseudomonas",
+          resistance: "Ceftolozane-tazobactam and ceftazidime-avibactam lose activity despite the broad DTR label.",
+          implication: "Mechanism-aware escalation remains essential even after the phenotype is called resistant.",
+        },
+      ],
+      coverageMatrix: [
+        {
+          label: "No MBL detected",
+          status: "preferred",
+          detail: "Ceftolozane-tazobactam or imipenem-cilastatin-relebactam are common first-look agents when susceptible.",
+        },
+        {
+          label: "MBL detected",
+          status: "avoid",
+          detail: "Do not rely on ceftolozane-tazobactam or ceftazidime-avibactam as the primary anchor.",
+        },
+        {
+          label: "Traditional cefepime or meropenem still active",
+          status: "active",
+          detail: "Use high-dose extended infusion of the active traditional agent before escalating.",
+        },
+        {
+          label: "Polymyxin fallback",
+          status: "conditional",
+          detail: "Keep as salvage only when novel-agent susceptibility or access is absent.",
+        },
+      ],
       durationGuidance: {
         standard: "7 days (HAP/VAP per IDSA/ATS 2016)",
         severe: "14 days (bacteremia, inadequate source control)",
@@ -280,6 +399,64 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "Renal function (primary elimination). CBC, LFTs for prolonged courses. C. diff monitoring for diarrhea.",
       pregnancyLactation:
         "Category B. No teratogenicity in animal studies. Limited human data. Use only if benefit outweighs risk. Minimal excretion in breast milk.",
+      rapidDiagnostics: [
+        {
+          trigger: "NDM, VIM, or IMP is confirmed",
+          action: "Pair aztreonam with an avibactam-containing regimen such as ceftazidime-avibactam rather than using aztreonam alone.",
+          rationale: "Aztreonam survives the MBL, but co-produced serine beta-lactamases usually still need to be blocked.",
+        },
+        {
+          trigger: "Severe beta-lactam allergy requires a gram-negative-only option",
+          action: "Aztreonam remains useful, but verify whether gram-positive or anaerobic add-on coverage is also needed.",
+          rationale: "Its allergy advantage can obscure the fact that it leaves obvious spectrum gaps.",
+        },
+      ],
+      breakpointNotes: [
+        {
+          marker: "Aztreonam susceptibility in MBL producers",
+          interpretation: "Aztreonam alone can look active in vitro while still failing clinically if co-produced ESBL or AmpC enzymes are present.",
+          action: "Treat aztreonam monotherapy as unreliable in serious MBL infection unless a paired avibactam strategy is in place.",
+        },
+        {
+          marker: "Ceftazidime side-chain cross-reactivity",
+          interpretation: "The ring system is unique, but the shared R1 side chain means immediate ceftazidime allergy still matters.",
+          action: "Do not assume aztreonam is universally safe in all cephalosporin-allergic patients.",
+        },
+      ],
+      intrinsicResistance: [
+        {
+          organism: "Gram-positive organisms and anaerobes",
+          resistance: "Aztreonam has no clinically useful activity against these groups.",
+          implication: "Always assess whether companion coverage is required.",
+        },
+        {
+          organism: "Stenotrophomonas maltophilia",
+          resistance: "Aztreonam alone is not dependable because the organism's L2 beta-lactamase can still hydrolyze it unless avibactam is present.",
+          implication: "Keep aztreonam inside a mechanism-aware combination rather than using it as monotherapy.",
+        },
+      ],
+      coverageMatrix: [
+        {
+          label: "MBL-CRE with avibactam partner",
+          status: "conditional",
+          detail: "A high-value component of ceftazidime-avibactam plus aztreonam strategies.",
+        },
+        {
+          label: "Aerobic gram-negative infection with severe penicillin allergy",
+          status: "active",
+          detail: "Often the cleanest beta-lactam option if the pathogen is susceptible.",
+        },
+        {
+          label: "Gram-positive or anaerobic infection",
+          status: "avoid",
+          detail: "No dependable coverage.",
+        },
+        {
+          label: "Aztreonam monotherapy for MBL infection",
+          status: "avoid",
+          detail: "Do not rely on it without an avibactam-containing partner.",
+        },
+      ],
       ivToPoSwitch: {
         poBioavailability: "Poor oral bioavailability — no oral formulation available",
         switchCriteria: "Not applicable — IV/IM only (parenteral) or inhaled (Cayston) for CF",
@@ -340,6 +517,64 @@ export const ADVANCED_AGENTS: DiseaseState = {
         extendedInfusion:
           "Consider extended infusion (1h standard; 3h for higher MIC targets or severe infections) — increases fT>MIC",
       },
+      rapidDiagnostics: [
+        {
+          trigger: "True DTR Pseudomonas is confirmed without an MBL signal",
+          action: "Ceftolozane-tazobactam becomes a frontline option, especially when local susceptibility favors it over ceftazidime-avibactam.",
+          rationale: "It is one of the most Pseudomonas-focused reserve beta-lactams in the toolkit.",
+        },
+        {
+          trigger: "VIM or IMP is detected",
+          action: "Move away from ceftolozane-tazobactam because the drug does not solve metallo-beta-lactamase-mediated resistance.",
+          rationale: "A resistant phenotype alone can obscure the specific mechanism that closes this option.",
+        },
+      ],
+      breakpointNotes: [
+        {
+          marker: "Dose selection by syndrome",
+          interpretation: "The 3 g q8h exposure is the serious-infection or pulmonary dose; 1.5 g q8h is the smaller cUTI/cIAI dose.",
+          action: "Do not use the smaller dose for bacteremia or pneumonia just because the isolate is urinary in origin.",
+        },
+        {
+          marker: "Extended infusion for higher MIC isolates",
+          interpretation: "Longer infusion materially improves target attainment when the Pseudomonas MIC is creeping upward.",
+          action: "Coordinate with pharmacy rather than defaulting to a short infusion out of habit.",
+        },
+      ],
+      intrinsicResistance: [
+        {
+          organism: "MBL-producing gram-negatives",
+          resistance: "Tazobactam does not inhibit NDM, VIM, or IMP.",
+          implication: "Do not use ceftolozane-tazobactam when an MBL is established.",
+        },
+        {
+          organism: "CRAB and most CRE phenotypes",
+          resistance: "The drug is not a dependable rescue option for Acinetobacter or carbapenemase-producing Enterobacterales.",
+          implication: "Keep it focused on resistant Pseudomonas rather than 'broad MDR' use.",
+        },
+      ],
+      coverageMatrix: [
+        {
+          label: "DTR Pseudomonas without MBL",
+          status: "preferred",
+          detail: "A frontline reserve agent when susceptibility and site support it.",
+        },
+        {
+          label: "ESBL-E without Pseudomonas need",
+          status: "conditional",
+          detail: "Can be active, but stewardship usually prefers preserving the drug for resistant Pseudomonas.",
+        },
+        {
+          label: "MBL-producing isolates",
+          status: "avoid",
+          detail: "No dependable activity against NDM, VIM, or IMP.",
+        },
+        {
+          label: "CRE or CRAB",
+          status: "inactive",
+          detail: "Not the right reserve beta-lactam for these phenotypes.",
+        },
+      ],
       opatEligibility: {
         eligible: "conditional",
         administration: "IV q8h via PICC/port — requires infusion pump for extended-infusion protocol",
@@ -396,6 +631,64 @@ export const ADVANCED_AGENTS: DiseaseState = {
         target: "fT>MIC ≥40% (static), ≥80% (bactericidal) — free drug time above MIC",
         extendedInfusion: "Extended infusion over 3h improves target attainment — 0.5g component infused over 3h",
       },
+      rapidDiagnostics: [
+        {
+          trigger: "KPC-producing Enterobacterales is confirmed and the isolate is susceptible",
+          action: "Imipenem-cilastatin-relebactam is a reasonable definitive option, especially if ceftazidime-avibactam or meropenem-vaborbactam are unavailable or recently used.",
+          rationale: "Relebactam restores imipenem activity for KPC and AmpC-driven resistance but not for MBL or OXA-48.",
+        },
+        {
+          trigger: "DTR Pseudomonas is confirmed without MBL",
+          action: "Use imipenem-cilastatin-relebactam as a targeted reserve anti-pseudomonal option when susceptibility and seizure risk permit.",
+          rationale: "Its role is strongest in imipenem-nonsusceptible Pseudomonas and selected KPC isolates.",
+        },
+      ],
+      breakpointNotes: [
+        {
+          marker: "Mechanism dependence",
+          interpretation: "A favorable result only makes sense if the resistance driver is KPC or AmpC rather than OXA-48 or an MBL.",
+          action: "Keep carbapenemase testing connected to every susceptibility interpretation.",
+        },
+        {
+          marker: "Exposure strategy",
+          interpretation: "The product is labeled as a 30-minute infusion, but extended infusion can improve target attainment in difficult isolates.",
+          action: "If the MIC is borderline and the patient is critically ill, discuss the infusion strategy with stewardship or ID.",
+        },
+      ],
+      intrinsicResistance: [
+        {
+          organism: "MBL-producing Enterobacterales or Pseudomonas",
+          resistance: "Relebactam does not inhibit NDM, VIM, or IMP.",
+          implication: "Do not expect rescue activity when an MBL is present.",
+        },
+        {
+          organism: "OXA-48-like CRE and Stenotrophomonas",
+          resistance: "Activity is unreliable or absent because relebactam does not fix those core mechanisms.",
+          implication: "Choose a more mechanism-specific agent instead.",
+        },
+      ],
+      coverageMatrix: [
+        {
+          label: "KPC-CRE",
+          status: "active",
+          detail: "A viable definitive option when susceptible, though often ranked behind meropenem-vaborbactam or ceftazidime-avibactam.",
+        },
+        {
+          label: "DTR Pseudomonas without MBL",
+          status: "preferred",
+          detail: "An important reserve anti-pseudomonal option when local susceptibility supports it.",
+        },
+        {
+          label: "OXA-48-like or MBL CRE",
+          status: "avoid",
+          detail: "Do not rely on relebactam to rescue these mechanisms.",
+        },
+        {
+          label: "Stenotrophomonas",
+          status: "inactive",
+          detail: "No dependable role.",
+        },
+      ],
       opatEligibility: {
         eligible: "conditional",
         administration: "IV q6h — requires daily nursing or patient education for q6h pump administration",
@@ -683,3 +976,9 @@ export const ADVANCED_AGENTS: DiseaseState = {
     },
   ],
 };
+
+export const ADVANCED_AGENTS: DiseaseState = enhanceDisease(
+  ADVANCED_AGENTS_BASE,
+  {},
+  ADVANCED_AGENTS_MONOGRAPH_ENHANCEMENTS,
+);

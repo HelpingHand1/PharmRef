@@ -9,9 +9,11 @@
 // BALANCE Trial 2024, MERINO Trial 2018, SMART Trial 2018
 // ============================================================
 
-import type { DiseaseState } from "../types";
+import type { DiseaseState, Subcategory } from "../types";
+import { getEmpiricOptionEnhancementsForDisease } from "./regimen-plan-content";
+import { enhanceDisease, enhanceDiseaseEmpiricOptions, mergeEnhancementMaps, ready } from "./stewardship-content";
 
-export const SEPSIS: DiseaseState = {
+const SEPSIS_BASE: DiseaseState = {
   id: "sepsis",
   name: "Sepsis & Septic Shock",
   icon: "🔴",
@@ -307,3 +309,110 @@ export const SEPSIS: DiseaseState = {
   ],
   drugMonographs: [],
 };
+
+const SEPSIS_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "sepsis-community": {
+    diagnosticWorkup: ready("Obtain cultures before antibiotics when feasible, identify the likely source fast, and pair the first-dose plan with lactate, organ dysfunction, and bedside source clues."),
+    severitySignals: ready("Hypotension, rising lactate, altered mentation, oliguria, or rapidly worsening respiratory failure move this pathway toward shock-level urgency immediately."),
+    mdroRiskFactors: ready("Recent hospitalization, prior resistant isolates, recent IV antibiotics, immunocompromise, and chronic devices are the main gates that justify broader-than-standard community coverage."),
+    sourceControl: ready("Line removal, drainage, debridement, urinary decompression, and biliary or abdominal intervention are often the antimicrobial multiplier in sepsis care."),
+    deEscalation: ready("At 48-72 hours, document the source, culture result, and active narrowing plan; broad empiric therapy without a timeout should be treated as a defect, not a default."),
+    ivToPoPlan: ready("Switch to PO only after hemodynamic recovery, source control, improving organ function, and confirmation of a highly reliable oral option for the confirmed source."),
+    failureEscalation: ready("Persistent instability should trigger re-search for source, resistant organism, or underdosed extended-infusion beta-lactam exposure before simply adding more drugs."),
+    consultTriggers: ready("Escalate to source-specific specialists early and involve ID when bacteremia, resistant pathogens, or unclear source threatens appropriate narrowing."),
+    durationAnchor: ready("Count from the first active regimen after source control is underway; bacteremia or ICU location alone should not dictate unnecessarily long courses."),
+  },
+  "sepsis-hcap": {
+    diagnosticWorkup: ready("Review prior microbiology, recent antibiotics, devices, and healthcare exposures immediately because these drive empiric coverage more than syndrome labels."),
+    severitySignals: ready("Shock, escalating vasopressor need, severe hypoxemia, or rapidly worsening organ dysfunction requires maximal PK/PD optimization from the first dose."),
+    mdroRiskFactors: ready("This pathway exists for recent healthcare exposure, resistant-organism history, and device-heavy patients; use those factors to justify each additional empiric agent."),
+    sourceControl: ready("Catheters, urinary obstruction, pressure injuries, post-operative collections, and ventilator-associated sources all need active source-control planning alongside antibiotics."),
+    deEscalation: ready("Use cultures, MRSA screening, and source clarification at 48-72 hours to drop redundant MRSA or anti-pseudomonal therapy quickly."),
+    ivToPoPlan: ready("PO completion is reasonable only once organ dysfunction is recovering, source control is stable, and an oral agent truly fits the confirmed pathogen/site."),
+    failureEscalation: ready("Failure should prompt resistant-phenotype review, repeat cultures, dose/exposure review, and a fresh source-control search."),
+    consultTriggers: ready("ID involvement is high yield whenever resistant gram-negatives, fungemia concern, or unresolved source-control questions remain."),
+    durationAnchor: ready("Tie duration to the confirmed source plus timing of source control rather than the initial intensity of shock alone."),
+  },
+  "septic-shock": {
+    diagnosticWorkup: ready("Culture first if it does not delay therapy, but antibiotic administration within the first hour and simultaneous source identification are the dominant priorities."),
+    severitySignals: ready("This pathway is already the highest-severity state: vasopressors, lactate elevation despite fluids, and progressive organ failure should trigger full shock-dose thinking and ICU coordination."),
+    mdroRiskFactors: ready("Prior resistant isolates, recent broad-spectrum exposure, prolonged healthcare contact, and source-specific MDR risk should shape the initial regimen before the second dose is due."),
+    sourceControl: ready("The first day shock question is always: what needs to be drained, removed, debrided, or decompressed in the next 6-12 hours?"),
+    deEscalation: ready("Even in shock, broad therapy needs a hard 48-hour timeout with culture review, source confirmation, and carbapenem/MRSA exit criteria documented."),
+    ivToPoPlan: ready("Do not force early PO in ongoing shock; transition only after vasopressor liberation, organ recovery, and a clearly suitable oral agent for the proven source."),
+    failureEscalation: ready("Persisting shock should trigger repeat cultures, source re-imaging, PK/PD review, and resistant-pathogen escalation only when the source and exposures justify it."),
+    consultTriggers: ready("ID plus source-specific procedural teams are early partners here, not late rescue calls."),
+    durationAnchor: ready("Once shock is controlled and source control is achieved, return to source-specific shortest-effective durations rather than automatically extending therapy because the presentation was dramatic."),
+  },
+};
+
+const SEPSIS_MICROBIOLOGY_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "septic-shock": {
+    rapidDiagnostics: [
+      {
+        trigger: "Rapid blood culture identification or source culture reveals ESBL, KPC, NDM, or another resistant gram-negative signal",
+        action: "Narrow or escalate to the mechanism-appropriate beta-lactam immediately rather than waiting for the final susceptibility panel.",
+        rationale: "In shock, the biggest microbiology win is shortening time spent on the wrong broad-spectrum regimen.",
+      },
+      {
+        trigger: "MRSA screening and early culture data are negative for MRSA",
+        action: "Remove empiric vancomycin promptly once the shock source and cultures point elsewhere.",
+        rationale: "Septic shock often leads teams to keep anti-MRSA therapy simply because the patient was initially unstable.",
+      },
+    ],
+    breakpointNotes: [
+      {
+        marker: "Beta-lactam susceptibility in shock",
+        interpretation: "A susceptible report still depends on full septic-shock exposure, especially high-dose extended infusion for borderline gram-negative isolates.",
+        action: "Correct infusion strategy and dosing before concluding that broader combination therapy is required.",
+      },
+      {
+        marker: "Colonization or screening data",
+        interpretation: "Positive surveillance cultures alone do not prove the current septic source or justify indefinite broad-spectrum continuation.",
+        action: "Re-anchor the regimen to source cultures and the evolving bedside picture during the 48-hour timeout.",
+      },
+    ],
+    intrinsicResistance: [
+      {
+        organism: "Enterococcus species",
+        resistance: "Cephalosporins are intrinsically inactive against Enterococcus.",
+        implication: "If the likely source is biliary, abdominal, or urinary with Enterococcal concern, do not assume ceftriaxone-based therapy is adequate.",
+      },
+      {
+        organism: "Pseudomonas aeruginosa",
+        resistance: "Ceftriaxone and ertapenem are not dependable antipseudomonal options in septic shock.",
+        implication: "Use cefepime, pip-tazo, or meropenem only when the source and exposure history justify that level of gram-negative breadth.",
+      },
+    ],
+    coverageMatrix: [
+      {
+        label: "Usual community urinary or abdominal gram-negatives",
+        status: "active",
+        detail: "Ceftriaxone-based or pip-tazo-based shock regimens remain appropriate when resistance risk is low and the source is clear.",
+      },
+      {
+        label: "MRSA risk",
+        status: "conditional",
+        detail: "Use vancomycin only while skin, line, pneumonia, or prior-culture data make MRSA credible.",
+      },
+      {
+        label: "ESBL or major healthcare resistance risk",
+        status: "conditional",
+        detail: "Meropenem becomes the cleaner anchor when resistant Enterobacterales are plausible.",
+      },
+      {
+        label: "Empiric Candida coverage",
+        status: "avoid",
+        detail: "Do not add antifungals routinely unless the source, TPN, prior colonization burden, or host factors make invasive candidiasis credible.",
+      },
+    ],
+  },
+};
+
+export const SEPSIS: DiseaseState = enhanceDiseaseEmpiricOptions(
+  enhanceDisease(
+    SEPSIS_BASE,
+    mergeEnhancementMaps(SEPSIS_WORKFLOW_ENHANCEMENTS, SEPSIS_MICROBIOLOGY_ENHANCEMENTS),
+  ),
+  getEmpiricOptionEnhancementsForDisease("sepsis"),
+);

@@ -4,6 +4,7 @@ import AllergyModal from "./AllergyModal";
 import DisclaimerModal from "./DisclaimerModal";
 import PatientModal from "./PatientModal";
 import Toast from "./Toast";
+import { hasAnyPatientSignals } from "../utils/regimenGuidance";
 import { APP_VERSION, CONTENT_REVIEWED_LABEL } from "../version";
 
 type Breadcrumb = {
@@ -90,6 +91,7 @@ export default function Layout({
 }: LayoutProps) {
   const allergyCount = allergies.length;
   const crclColor = crcl === null ? "#8ea1bb" : crcl >= 60 ? "#34d399" : crcl >= 30 ? "#fbbf24" : "#f87171";
+  const patientSignalsActive = patientActive || hasAnyPatientSignals(patient);
   const themeIcon = theme === "light" ? "🌙" : theme === "oled" ? "⬛" : "☀";
   const themeTitle = theme === "light" ? "Switch to dark mode" : theme === "oled" ? "Switch to light mode" : "Switch to OLED mode";
   return (
@@ -103,12 +105,12 @@ export default function Layout({
           <button type="button" style={{ ...S.logo, background: "none", border: "none", fontFamily: "inherit" }} onClick={onHome}>
             <span>⚕</span> PharmRef <span style={S.logoPill}>Rx</span>
           </button>
-          <div style={S.searchWrap} className="search-wrap">
+          <div style={{ ...S.searchWrap, ...(compact ? { maxWidth: "320px" } : {}) }} className="search-wrap">
             <span style={S.searchIcon}>⌕</span>
             <input
               ref={searchRef}
               className="search-input"
-              style={{ ...S.searchBox, ...(compact ? { maxWidth: "320px" } : {}) }}
+              style={S.searchBox}
               value={searchQuery}
               onChange={(event) => onSearchChange(event.target.value)}
               placeholder="Search drugs, organisms, syndromes, pearls..."
@@ -140,13 +142,24 @@ export default function Layout({
               type="button"
               style={{ ...S.themeToggle, position: "relative", gap: "6px", paddingLeft: "10px", paddingRight: "10px" }}
               onClick={onOpenPatientModal}
-              title={patientActive ? `Patient active · CrCl: ${crcl} mL/min` : "Set patient context"}
-              aria-label={patientActive ? `Patient active, CrCl ${crcl} mL per min` : "Set patient context"}
+              title={patientSignalsActive ? (crcl !== null ? `Patient active · CrCl: ${crcl} mL/min` : "Patient context active") : "Set patient context"}
+              aria-label={patientSignalsActive ? (crcl !== null ? `Patient active, CrCl ${crcl} mL per min` : "Patient context active") : "Set patient context"}
             >
               👤
-              {patientActive && (
-                <span style={{ background: crclColor, color: "#000", borderRadius: "9999px", fontSize: "10px", fontWeight: 800, padding: "1px 6px", lineHeight: 1.4, whiteSpace: "nowrap" }}>
-                  {crcl} mL/min
+              {patientSignalsActive && (
+                <span
+                  style={{
+                    background: crcl !== null ? crclColor : "#38bdf8",
+                    color: "#000",
+                    borderRadius: "9999px",
+                    fontSize: "10px",
+                    fontWeight: 800,
+                    padding: "1px 6px",
+                    lineHeight: 1.4,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {crcl !== null ? `${crcl} mL/min` : "Active"}
                 </span>
               )}
             </button>

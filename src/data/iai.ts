@@ -1,7 +1,12 @@
 // Editorial source for the generated IAI disease module.
 // Runtime catalog imports use src/data/generated/diseases/iai.ts.
 
-export const IAI = {
+import type { DiseaseState, Subcategory } from "../types";
+import { IAI_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
+import { getEmpiricOptionEnhancementsForDisease } from "./regimen-plan-content";
+import { enhanceDisease, enhanceDiseaseEmpiricOptions, mergeEnhancementMaps, ready } from "./stewardship-content";
+
+const IAI_BASE: DiseaseState = {
     id: "iai",
     name: "Intra-Abdominal Infections",
     icon: "🫁",
@@ -332,3 +337,122 @@ export const IAI = {
       },
     ],
 };
+
+const IAI_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "ca-iai-uncomplicated": {
+    diagnosticWorkup: ready("Differentiate confined-organ infection from true complicated IAI and capture any recent antibiotics or resistant-organism history before empiric therapy."),
+    severitySignals: ready("Peritonitis, sepsis physiology, hypotension, or inability to control the source quickly means this is no longer an uncomplicated pathway."),
+    mdroRiskFactors: ready("Recent healthcare exposure, prior ESBL history, and prolonged pre-hospital antibiotics are the main reasons to broaden beyond routine community regimens."),
+    sourceControl: ready("Source control remains the defining intervention even in 'uncomplicated' cases: appendectomy, cholecystectomy, or drainage decisions drive antibiotic success."),
+    deEscalation: ready("Once the source is controlled, narrow rapidly and avoid prolonged post-operative antibiotics when contamination never became true cIAI."),
+    ivToPoPlan: ready("Use PO completion only after GI function returns, source control is complete, and the clinical course truly supports ongoing antibiotics."),
+    failureEscalation: ready("Lack of response should trigger source-control review first, not automatic escalation to a broader carbapenem."),
+    consultTriggers: ready("Surgical input is essential whenever the diagnosis or adequacy of source control is uncertain."),
+    durationAnchor: ready("Tie duration to the time source control becomes adequate; many uncomplicated sources need very little or no post-control antibiotics."),
+  },
+  "ca-iai-complicated": {
+    diagnosticWorkup: ready("Get cultures when operative or drain specimens will be available, assess severity early, and image for perforation, abscess, or diffuse peritonitis."),
+    severitySignals: ready("Shock, diffuse peritonitis, rising lactate, or inability to achieve rapid source control marks a higher-mortality cIAI course."),
+    mdroRiskFactors: ready("Recent hospitalization, prior ESBL infection, repeated abdominal procedures, or prolonged antibiotic exposure are the main reasons to broaden empiric coverage."),
+    sourceControl: ready("Drainage, resection, or definitive operative control is the main treatment milestone; antibiotics do not rescue uncontrolled contamination."),
+    deEscalation: ready("Once source control is achieved and cultures result, narrow aggressively and stop unnecessary enterococcal, anti-pseudomonal, or antifungal coverage."),
+    ivToPoPlan: ready("Transition to PO only after source control is secure, ileus is resolving, and the chosen oral regimen clearly covers the recovered organisms."),
+    failureEscalation: ready("Persistent fever or ileus should trigger repeat imaging and source-control reassessment before simply extending therapy."),
+    consultTriggers: ready("Early surgery plus ID is high-yield when resistant organisms, persistent bacteremia, or tertiary peritonitis features appear."),
+    durationAnchor: ready("STOP-IT logic applies: count from adequate source control and avoid continuing therapy simply because labs have not normalized completely."),
+  },
+  "ha-iai": {
+    diagnosticWorkup: ready("Capture operative history, recent antibiotics, drain output, prior resistant organisms, and repeat imaging early because post-operative leaks behave differently from community IAI."),
+    severitySignals: ready("Shock, anastomotic leak, fungemia concern, or recurrent abscess after prior source control should trigger ICU-level urgency."),
+    mdroRiskFactors: ready("Prior broad-spectrum exposure, prolonged hospitalization, prior ESBL or Pseudomonas, and recent abdominal surgery are the key empiric resistance gates."),
+    sourceControl: ready("Leak control, drain revision, washout, or re-operation is often the decisive intervention in healthcare-associated IAI."),
+    deEscalation: ready("At 48-72 hours, use culture results to remove redundant anti-pseudomonal, anti-enterococcal, and empiric antifungal therapy whenever the anatomy and microbiology allow."),
+    ivToPoPlan: ready("Oral completion is uncommon until the leak is controlled and GI function is reliable; do not force early PO in a still-unstable postoperative abdomen."),
+    failureEscalation: ready("Failure means persistent leak, wrong source, drain malfunction, or resistant pathogen until proven otherwise."),
+    consultTriggers: ready("Surgery is mandatory, and ID input is strongly favored when MDR gram-negatives, Candida, or prolonged open-abdomen courses are involved."),
+    durationAnchor: ready("Count from the moment adequate post-operative source control is re-established, not from the first ineffective empiric dose."),
+  },
+  "biliary-iai": {
+    diagnosticWorkup: ready("Grade severity, obtain cultures when biliary drainage is planned, and define whether cholangitis or complicated cholecystitis is the active syndrome."),
+    severitySignals: ready("Hypotension, altered mentation, rising bilirubin/lactate, or organ dysfunction should trigger urgent drainage planning under the Tokyo severity framework."),
+    mdroRiskFactors: ready("Prior ERCP/stenting, recent antibiotics, prior biliary isolates, and repeated healthcare exposure are the main reasons to expand empiric breadth."),
+    sourceControl: ready("ERCP, cholecystostomy, or surgery is the antibiotic partner that changes outcomes in biliary infection."),
+    deEscalation: ready("After drainage and cultures, simplify quickly and avoid leaving anti-pseudomonal or enterococcal coverage in place just because the patient presented sick."),
+    ivToPoPlan: ready("Switch to PO once drainage is successful, bilirubin and fever are improving, and a susceptible oral option is available."),
+    failureEscalation: ready("Persistent cholestasis or fever should prompt repeat imaging and drain patency review rather than automatic regimen escalation."),
+    consultTriggers: ready("GI/interventional and surgery involvement is often the main time-sensitive decision; ID helps when resistant organisms or candidal concerns appear."),
+    durationAnchor: ready("Count from successful drainage plus the first active regimen; drainage timing matters more than the calendar day of admission."),
+  },
+};
+
+const IAI_MICROBIOLOGY_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "ha-iai": {
+    rapidDiagnostics: [
+      {
+        trigger: "Operative or drain cultures show ESBL-producing Enterobacterales or prior cultures suggest them",
+        action: "Move from cefepime- or pip-tazo-based therapy to meropenem when the isolate history or current microbiology makes those agents unreliable.",
+        rationale: "Postoperative and healthcare-associated IAI fails most often from resistant gram-negatives plus inadequate source control.",
+      },
+      {
+        trigger: "Candida grows from blood or from a normally sterile abdominal specimen in a high-risk postoperative patient",
+        action: "Add antifungal therapy while reassessing drainage adequacy and ongoing leak control.",
+        rationale: "Yeast in a sterile abdominal context can represent a true intra-abdominal candidiasis signal, unlike routine surface colonization.",
+      },
+    ],
+    breakpointNotes: [
+      {
+        marker: "Anaerobe coverage",
+        interpretation: "Cefepime or ceftriaxone without metronidazole leaves a major gap in intra-abdominal source control regimens.",
+        action: "Do not let a gram-negative susceptibility report obscure the anaerobic part of the syndrome.",
+      },
+      {
+        marker: "Culture finalization after source control",
+        interpretation: "Once operative cultures are known and source control is adequate, prolonged 'just in case' double coverage is usually not justified.",
+        action: "Use the culture set to simplify quickly instead of finishing the original broadest regimen.",
+      },
+    ],
+    intrinsicResistance: [
+      {
+        organism: "Enterococcus species",
+        resistance: "Cephalosporins are intrinsically inactive against Enterococcus.",
+        implication: "If biliary infection, postoperative infection, or immunocompromise makes Enterococcus credible, choose a regimen that actually covers it.",
+      },
+      {
+        organism: "Pseudomonas aeruginosa",
+        resistance: "Ertapenem is not an antipseudomonal carbapenem.",
+        implication: "Reserve ertapenem for community-type IAI patterns rather than hospital-acquired or postoperative leaks with pseudomonal risk.",
+      },
+    ],
+    coverageMatrix: [
+      {
+        label: "Mixed Enterobacterales plus anaerobes",
+        status: "preferred",
+        detail: "Pip-tazo or cefepime plus metronidazole remain core empiric options when resistance risk is moderate and source control is in progress.",
+      },
+      {
+        label: "ESBL-heavy healthcare IAI",
+        status: "conditional",
+        detail: "Meropenem is the cleaner definitive anchor once resistant Enterobacterales are identified or strongly suspected.",
+      },
+      {
+        label: "Enterococcus-prone biliary or postoperative infection",
+        status: "conditional",
+        detail: "Use amp-sulbactam, pip-tazo, or another enterococcal-active strategy when the syndrome truly warrants it.",
+      },
+      {
+        label: "Empiric Candida coverage in routine community IAI",
+        status: "avoid",
+        detail: "Do not add antifungals routinely unless the host and microbiology context make invasive candidiasis plausible.",
+      },
+    ],
+  },
+};
+
+export const IAI: DiseaseState = enhanceDiseaseEmpiricOptions(
+  enhanceDisease(
+    IAI_BASE,
+    mergeEnhancementMaps(IAI_WORKFLOW_ENHANCEMENTS, IAI_MICROBIOLOGY_ENHANCEMENTS),
+    IAI_MONOGRAPH_ENHANCEMENTS,
+  ),
+  getEmpiricOptionEnhancementsForDisease("iai"),
+);

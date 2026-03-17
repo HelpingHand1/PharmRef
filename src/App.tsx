@@ -269,9 +269,42 @@ export default function PharmRef() {
 
   const currentSectionIds = useMemo(() => {
     if (navState === NAV_STATES.DISEASE_OVERVIEW) return ["overview", "guidelines", "trials"];
-    if (navState === NAV_STATES.SUBCATEGORY) return ["presentation", "diagnostics", "empiric", "organism", "pearls"];
+    if (navState === NAV_STATES.SUBCATEGORY) {
+      return [
+        "presentation",
+        "diagnostics",
+        "workflow-diagnostics",
+        "workflow-reassessment",
+        "workflow-transition",
+        "microbiology",
+        "empiric",
+        "organism",
+        "pearls",
+      ];
+    }
     if (navState === NAV_STATES.MONOGRAPH) {
-      return ["moa", "spectrum", "dosing", "renal", "hepatic", "ae", "interactions", "monitoring", "pregnancy", "pharm-pearls"];
+      return [
+        "moa",
+        "spectrum",
+        "dosing",
+        "dosing-by-indication",
+        "renal",
+        "rrt",
+        "hepatic",
+        "special-pop",
+        "ae",
+        "interactions",
+        "monitoring",
+        "tdm",
+        "pregnancy",
+        "administration",
+        "microbiology",
+        "penetration",
+        "interaction-actions",
+        "stewardship",
+        "pharm-pearls",
+        "opat-ipo",
+      ];
     }
     return [];
   }, [navState]);
@@ -520,6 +553,11 @@ export default function PharmRef() {
           compareItems={compareItems}
           setCompareItems={setCompareItems}
           allMonographs={MONOGRAPH_CATALOG}
+          adjbw={adjbw}
+          crcl={crcl}
+          ibw={ibw}
+          patient={patient}
+          regimenXref={catalogDerived?.regimenXref ?? {}}
           ExpandCollapseBar={renderExpandCollapseBar}
           S={S}
         />
@@ -615,6 +653,7 @@ export default function PharmRef() {
           navigateTo={navigateTo}
           onCollapseAll={collapseAll}
           onExpandAll={expandAll}
+          onOpenPatientModal={() => setShowPatientModal(true)}
           patient={patient}
           readingMode={readingMode}
           S={S}

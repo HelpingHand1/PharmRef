@@ -1,7 +1,11 @@
 // Editorial source for the generated SSTI disease module.
 // Runtime catalog imports use src/data/generated/diseases/ssti.ts.
 
-export const SSTI = {
+import type { DiseaseState, Subcategory } from "../types";
+import { SSTI_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
+import { enhanceDisease, mergeEnhancementMaps, notApplicable, ready } from "./stewardship-content";
+
+const SSTI_BASE: DiseaseState = {
     id: "ssti",
     name: "Skin & Soft Tissue Infections",
     icon: "🩹",
@@ -349,3 +353,56 @@ export const SSTI = {
       },
     ],
 };
+
+const SSTI_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "nonpurulent-ssti": {
+    diagnosticWorkup: ready("This is primarily a clinical diagnosis; culture the blood or tissue only when systemic toxicity, immunocompromise, unusual exposure, or treatment failure makes it actionable."),
+    severitySignals: ready("Rapid progression, hypotension, bullae, pain out of proportion, or marked leukocytosis should force a necrotizing-infection screen rather than routine cellulitis treatment."),
+    mdroRiskFactors: ready("MRSA history, penetrating trauma, purulence, injection-drug use, or prior antibiotics are the main reasons to move beyond streptococcal-first therapy."),
+    sourceControl: ready("Mark the borders, elevate the limb, address tinea or wounds, and look for occult abscess or foreign body if cellulitis is not behaving as expected."),
+    deEscalation: ready("If cultures are negative and the patient is improving, stay narrow and stop unnecessary MRSA coverage early."),
+    ivToPoPlan: ready("Switch to oral beta-lactam therapy once fever resolves, erythema stops expanding, and the patient can absorb reliably."),
+    failureEscalation: ready("Failure at 48-72 hours should trigger search for abscess, necrotizing disease, noninfectious mimic, or resistant pathogen rather than reflexively adding more antibiotics."),
+    consultTriggers: ready("Surgery consult for deep infection concern; ID input when recurrent MDR disease or immunocompromise complicates the picture."),
+    durationAnchor: ready("Count from the first active regimen after any drainable focus is addressed; uncomplicated improvement often needs only a short course."),
+  },
+  "purulent-ssti": {
+    diagnosticWorkup: ready("Incision and drainage plus culture is the central diagnostic step; antibiotics are adjunctive, not the primary intervention, for many abscesses."),
+    severitySignals: ready("Extensive surrounding cellulitis, systemic toxicity, immunocompromise, or failure of bedside drainage turns a simple abscess into a more aggressive management problem."),
+    mdroRiskFactors: ready("Community MRSA is common, but prior resistant isolates, recent antibiotics, and healthcare exposure still matter when choosing adjunctive antibiotics."),
+    sourceControl: ready("Adequate drainage is the treatment milestone; repeat drainage or packing review matters more than stacking more oral MRSA agents."),
+    deEscalation: ready("If culture data identify MSSA or streptococci and the patient is improving, step down from empiric MRSA-heavy therapy quickly."),
+    ivToPoPlan: ready("Use oral MRSA-active therapy after drainage when systemic signs are improving and there is no deep tissue concern."),
+    failureEscalation: ready("If the abscess persists, think inadequate drainage, new loculations, retained foreign body, or hidradenitis rather than automatic antibiotic failure."),
+    consultTriggers: ready("Surgery, wound care, or ID consultation is appropriate for recurrent abscesses, large deep collections, perirectal disease, or immunocompromise."),
+    durationAnchor: ready("Count from the first active therapy after effective drainage; repeating drainage does not automatically mean restarting a full new antibiotic course."),
+  },
+  "necrotizing-ssti": {
+    diagnosticWorkup: ready("Do not wait for perfect imaging or culture data before acting; obtain blood cultures and operative/tissue cultures, but surgery is the decisive diagnostic step."),
+    severitySignals: ready("Pain out of proportion, bullae, crepitus, shock, rapidly progressive erythema, or skin anesthesia should be treated as necrotizing infection until proven otherwise."),
+    mdroRiskFactors: ready("Healthcare exposure, water/trauma exposures, liver disease, neutropenia, and polymicrobial abdominal/perineal sources change empiric breadth and toxin-suppression decisions."),
+    sourceControl: ready("Immediate operative debridement is non-negotiable and usually repeated; antibiotics only support source control here."),
+    deEscalation: ready("After the first operative cultures return, remove unneeded agents quickly but keep coverage broad enough for any unresolved operative concern."),
+    ivToPoPlan: notApplicable("These infections are not candidates for early oral step-down while active debridement and hemodynamic stabilization are ongoing."),
+    failureEscalation: ready("Any ongoing instability should trigger repeat debridement and ICU reassessment before antibiotic escalation alone."),
+    consultTriggers: ready("Surgery is mandatory; involve ICU, ID, and often vascular/plastics depending on anatomy and debridement needs."),
+    durationAnchor: ready("Count from the last major debridement plus the first clearly active regimen once source control is finally achieved."),
+  },
+  "diabetic-foot": {
+    diagnosticWorkup: ready("Define soft tissue versus bone involvement, obtain deep cultures when possible, and assess perfusion and wound depth before finalizing antibiotics."),
+    severitySignals: ready("Limb-threatening ischemia, systemic toxicity, rapidly advancing infection, or concern for necrosis moves this out of a routine SSTI pathway."),
+    mdroRiskFactors: ready("Recent antibiotics, prior resistant isolates, chronic wounds, recurrent hospital exposure, and prior amputation or osteomyelitis strongly affect empiric breadth."),
+    sourceControl: ready("Debridement, off-loading, vascular evaluation, and drainage are often more important than broader antibiotics for diabetic foot recovery."),
+    deEscalation: ready("At 48-72 hours, narrow to the cultured pathogen set and stop unnecessary Pseudomonas or MRSA coverage if the wound history and cultures do not support it."),
+    ivToPoPlan: ready("Transition to oral therapy after debridement/source control, improving soft tissue findings, and confirmation that the oral agent has reliable activity for the actual depth of infection."),
+    failureEscalation: ready("Failure should trigger repeat debridement review, vascular reassessment, and osteomyelitis imaging rather than simple antibiotic broadening."),
+    consultTriggers: ready("Podiatry, vascular surgery, wound care, and ID are high-yield partners when perfusion, bone involvement, or recurrent resistant organisms complicate the case."),
+    durationAnchor: ready("Tie duration to infection depth and source control: superficial soft-tissue improvement stops earlier than osteomyelitis after incomplete debridement."),
+  },
+};
+
+export const SSTI: DiseaseState = enhanceDisease(
+  SSTI_BASE,
+  mergeEnhancementMaps(SSTI_WORKFLOW_ENHANCEMENTS),
+  SSTI_MONOGRAPH_ENHANCEMENTS,
+);

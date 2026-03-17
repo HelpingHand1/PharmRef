@@ -627,7 +627,27 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Gram-Negative Bacteremia",
     "line": "Empiric — Community-Acquired, Low Resistance Risk",
     "regimen": "Ceftriaxone 2g IV daily",
-    "notes": "Excellent first-line empiric for community-acquired GN bacteremia from urinary or intra-abdominal source. Covers most community E. coli, Klebsiella, Proteus. Does NOT cover ESBL producers, AmpC producers (Enterobacter, Citrobacter, Serratia), or Pseudomonas. Add metronidazole if intra-abdominal source suspected (anaerobic coverage).",
+    "notes": "Default empiric bloodstream option for urinary or abdominal Enterobacterales when resistance risk is low.",
+    "indication": "Community-acquired gram-negative bacteremia",
+    "site": "Bloodstream",
+    "role": "preferred",
+    "pathogenFocus": [
+      "E. coli",
+      "Klebsiella",
+      "Proteus"
+    ],
+    "riskFactorTriggers": [
+      "Community source",
+      "Low ESBL and Pseudomonas risk"
+    ],
+    "avoidIf": [
+      "ESBL or AmpC history",
+      "Pseudomonas concern",
+      "Need anaerobic coverage without metronidazole partner"
+    ],
+    "linkedMonographIds": [
+      "ceftriaxone"
+    ],
     "drug": "ceftriaxone",
     "monographId": "ceftriaxone"
   },
@@ -640,7 +660,28 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Gram-Negative Bacteremia",
     "line": "Empiric — Healthcare-Associated or MDR Risk Factors",
     "regimen": "Meropenem 1g IV q8h (extended infusion over 3h preferred)",
-    "notes": "Reserve for high suspicion of ESBL or AmpC-producing organisms, or critically ill patients. Definitive therapy for confirmed ESBL bacteremia (per MERINO trial). De-escalate as soon as susceptibilities allow — carbapenem stewardship matters.",
+    "notes": "Definitive-quality empiric choice when ESBL risk or critical illness makes pip-tazo too unreliable.",
+    "indication": "Healthcare-associated gram-negative bacteremia with ESBL risk",
+    "site": "Bloodstream",
+    "role": "preferred",
+    "pathogenFocus": [
+      "ESBL Enterobacterales",
+      "Broad gram-negative bloodstream pathogens"
+    ],
+    "riskFactorTriggers": [
+      "Prior ESBL isolate",
+      "Critical illness",
+      "Rapid diagnostics suggesting resistant Enterobacterales"
+    ],
+    "avoidIf": [
+      "Cultures support ceftriaxone or pip-tazo de-escalation"
+    ],
+    "renalFlags": [
+      "Extended infusion and renal replacement dosing both affect bloodstream exposure"
+    ],
+    "linkedMonographIds": [
+      "meropenem"
+    ],
     "drug": "meropenem",
     "monographId": "meropenem"
   },
@@ -653,7 +694,27 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Gram-Negative Bacteremia",
     "line": "Empiric — Healthcare-Associated or MDR Risk Factors",
     "regimen": "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)",
-    "notes": "Broader empiric coverage including Pseudomonas. Extended infusion optimizes PK/PD for beta-lactams. Consider if recent healthcare exposure, prior resistant organisms, or immunocompromised. MERINO trial reminder: for ESBL bacteremia, pip-tazo was INFERIOR to meropenem (30-day mortality 12.3% vs 3.7%). De-escalate based on susceptibilities.",
+    "notes": "Broader bacteremia anchor when Pseudomonas or healthcare-associated resistance risk is present but carbapenem need is not yet proven.",
+    "indication": "Healthcare-associated gram-negative bacteremia",
+    "site": "Bloodstream",
+    "role": "preferred",
+    "pathogenFocus": [
+      "Pseudomonas",
+      "Healthcare-associated Enterobacterales"
+    ],
+    "riskFactorTriggers": [
+      "Recent healthcare exposure",
+      "Prior resistant organisms short of ESBL certainty"
+    ],
+    "avoidIf": [
+      "ESBL bacteremia is strongly suspected or confirmed"
+    ],
+    "renalFlags": [
+      "Extended infusion plus renal adjustment matter in severe bacteremia"
+    ],
+    "linkedMonographIds": [
+      "pip-tazo"
+    ],
     "drug": "piperacillin-tazobactam"
   },
   {
@@ -976,7 +1037,24 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "S. aureus Bacteremia — Workup & Risk Stratification",
     "line": "Empiric — Pending Susceptibilities",
     "regimen": "Daptomycin 6-10 mg/kg IV once daily",
-    "notes": "Alternative empiric agent when vancomycin cannot be used (allergy, intolerance, renal toxicity). Use ≥8 mg/kg for suspected endocarditis or complicated infections. Rapidly bactericidal. CONTRAINDICATED in pneumonia (surfactant inactivation). If MSSA returns, still de-escalate to beta-lactam.",
+    "notes": "Alternative SAB anchor for allergy, nephrotoxicity, or vancomycin intolerance while awaiting susceptibilities.",
+    "indication": "Empiric S. aureus bacteremia when vancomycin is unsuitable",
+    "site": "Bloodstream",
+    "role": "alternative",
+    "pathogenFocus": [
+      "MSSA",
+      "MRSA"
+    ],
+    "riskFactorTriggers": [
+      "Vancomycin intolerance or nephrotoxicity",
+      "Need rapidly bactericidal non-vancomycin option"
+    ],
+    "avoidIf": [
+      "Concomitant pneumonia is the dominant syndrome"
+    ],
+    "linkedMonographIds": [
+      "daptomycin"
+    ],
     "drug": "daptomycin",
     "monographId": "daptomycin",
     "evidence": "B-II",
@@ -994,7 +1072,29 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "S. aureus Bacteremia — Workup & Risk Stratification",
     "line": "Empiric — Pending Susceptibilities",
     "regimen": "Vancomycin IV (AUC/MIC target 400-600)",
-    "notes": "Empiric first-line for SAB until MSSA vs MRSA is determined. AUC-guided dosing is now the standard (2020 consensus) — replaces trough-based dosing. Typical loading dose: 25-30 mg/kg (actual body weight), then maintenance guided by AUC. CRITICAL: once susceptibilities return, de-escalate MSSA to cefazolin/nafcillin immediately — vancomycin is INFERIOR to beta-lactams for MSSA (slower bacteremia clearance, higher mortality in some studies).",
+    "notes": "Empiric SAB anchor while MSSA versus MRSA is unresolved, with a planned beta-lactam exit if MSSA is confirmed.",
+    "indication": "Empiric S. aureus bacteremia",
+    "site": "Bloodstream",
+    "role": "preferred",
+    "pathogenFocus": [
+      "MSSA",
+      "MRSA"
+    ],
+    "riskFactorTriggers": [
+      "Any initial S. aureus bacteremia before susceptibilities are back"
+    ],
+    "avoidIf": [
+      "MSSA is confirmed and beta-lactams are safe"
+    ],
+    "renalFlags": [
+      "AUC-guided dosing with daily renal trend review"
+    ],
+    "rapidDiagnosticActions": [
+      "Switch to cefazolin or nafcillin the same day MSSA is reported"
+    ],
+    "linkedMonographIds": [
+      "vancomycin"
+    ],
     "drug": "vancomycin",
     "monographId": "vancomycin",
     "evidence": "A-I",
@@ -1012,7 +1112,24 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "S. aureus Bacteremia — Workup & Risk Stratification",
     "line": "MRSA Definitive Therapy",
     "regimen": "Daptomycin 8-10 mg/kg IV once daily",
-    "notes": "Preferred alternative to vancomycin for MRSA bacteremia when: vancomycin MIC ≥2, vancomycin intolerance/nephrotoxicity, persistent bacteremia on vancomycin >3-5 days. Dose at ≥8 mg/kg for bacteremia (6 mg/kg is the IE/bacteremia approved dose but many experts go higher). Monitor CPK weekly. If daptomycin MIC ≥2-4, consider ceftaroline or salvage regimens.",
+    "notes": "Preferred MRSA bacteremia alternative when vancomycin is failing, not tolerated, or unlikely to reach a safe exposure target.",
+    "indication": "MRSA bacteremia",
+    "site": "Bloodstream",
+    "role": "alternative",
+    "pathogenFocus": [
+      "MRSA"
+    ],
+    "riskFactorTriggers": [
+      "Vancomycin MIC >=2",
+      "Persistent bacteremia on vancomycin",
+      "Nephrotoxicity"
+    ],
+    "avoidIf": [
+      "Pneumonia is the dominant active syndrome"
+    ],
+    "linkedMonographIds": [
+      "daptomycin"
+    ],
     "drug": "daptomycin",
     "monographId": "daptomycin"
   },
@@ -1025,7 +1142,26 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "S. aureus Bacteremia — Workup & Risk Stratification",
     "line": "MRSA Definitive Therapy",
     "regimen": "Vancomycin IV (AUC/MIC 400-600)",
-    "notes": "Standard of care for MRSA bacteremia. AUC-guided dosing with Bayesian software is preferred. If vancomycin MIC ≥2 by broth microdilution (≥2 by E-test is less reliable), consider switching to daptomycin — treatment failure risk increases with higher MICs (MIC creep). Do NOT add rifampicin routinely (ARREST trial — no benefit, added toxicity). Duration: 14 days minimum for uncomplicated, 4-6 weeks for IE/complicated.",
+    "notes": "Standard MRSA bacteremia therapy when AUC can be maintained safely and cultures are clearing.",
+    "indication": "MRSA bacteremia",
+    "site": "Bloodstream",
+    "role": "preferred",
+    "pathogenFocus": [
+      "MRSA"
+    ],
+    "riskFactorTriggers": [
+      "MRSA confirmed and vancomycin remains clinically viable"
+    ],
+    "avoidIf": [
+      "Persistent bacteremia",
+      "Vancomycin MIC creep or nephrotoxicity"
+    ],
+    "renalFlags": [
+      "Maintain AUC in range and track renal function closely"
+    ],
+    "linkedMonographIds": [
+      "vancomycin"
+    ],
     "drug": "vancomycin",
     "monographId": "vancomycin"
   },
@@ -1038,7 +1174,25 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "S. aureus Bacteremia — Workup & Risk Stratification",
     "line": "MSSA Definitive Therapy",
     "regimen": "Cefazolin 2g IV q8h",
-    "notes": "PREFERRED agent for MSSA bacteremia and MSSA IE (native valve). Multiple observational studies and meta-analyses show non-inferiority or superiority to nafcillin/oxacillin with fewer adverse effects (less nephrotoxicity, less hepatotoxicity, less phlebitis). Q8h dosing is practical for OPAT. Duration: 14 days for uncomplicated SAB, 4-6 weeks for IE or complicated SAB.",
+    "notes": "Default definitive MSSA bacteremia and endocarditis therapy because it is safer and operationally cleaner than q4h nafcillin for most patients.",
+    "indication": "MSSA bacteremia",
+    "site": "Bloodstream",
+    "role": "preferred",
+    "pathogenFocus": [
+      "MSSA"
+    ],
+    "riskFactorTriggers": [
+      "MSSA confirmed on blood culture susceptibility"
+    ],
+    "avoidIf": [
+      "Severe immediate cephalosporin allergy"
+    ],
+    "renalFlags": [
+      "Renally adjust during prolonged therapy but no TDM is needed"
+    ],
+    "linkedMonographIds": [
+      "cefazolin"
+    ],
     "drug": "cefazolin",
     "monographId": "cefazolin",
     "evidence": "A-I",
@@ -1056,7 +1210,23 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "S. aureus Bacteremia — Workup & Risk Stratification",
     "line": "MSSA Definitive Therapy",
     "regimen": "Nafcillin or Oxacillin 2g IV q4h",
-    "notes": "Historical gold standard for MSSA. Still used by some ID physicians who prefer the rapid bactericidal activity and high-dose continuous infusion data. Disadvantages: q4h dosing (impractical for OPAT), significant phlebitis, oxacillin hepatotoxicity, nafcillin-associated interstitial nephritis. Most centers have transitioned to cefazolin. Reserve for cefazolin allergy (severe cephalosporin allergy — rare) or treatment failure on cefazolin (extremely rare).",
+    "notes": "Traditional definitive MSSA option when a team specifically prefers antistaphylococcal penicillins or cefazolin is unsuitable.",
+    "indication": "MSSA bacteremia",
+    "site": "Bloodstream",
+    "role": "alternative",
+    "pathogenFocus": [
+      "MSSA"
+    ],
+    "riskFactorTriggers": [
+      "MSSA confirmed and cefazolin is not the right fit"
+    ],
+    "avoidIf": [
+      "Practical OPAT constraints",
+      "Significant hepatotoxicity or nephritis history"
+    ],
+    "linkedMonographIds": [
+      "nafcillin"
+    ],
     "drug": "nafcillin-oxacillin",
     "evidence": "A-I",
     "evidenceSource": "AHA 2015 IE Guideline",
@@ -2120,7 +2290,24 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Severe CAP / ICU Admission",
     "line": "Add-On for MRSA Risk Factors",
     "regimen": "Linezolid 600mg IV/PO BID",
-    "notes": "Alternative to vancomycin for MRSA pneumonia. Some data suggests better lung penetration. 100% oral bioavailability. Myelosuppression risk with courses >14 days. Monitor CBC weekly. Serotonin syndrome risk with SSRIs/MAOIs.",
+    "notes": "Alternative anti-MRSA add-on when lung penetration is prioritized or vancomycin toxicity risk is unacceptable.",
+    "indication": "MRSA CAP coverage",
+    "site": "Lung",
+    "role": "alternative",
+    "pathogenFocus": [
+      "MRSA"
+    ],
+    "riskFactorTriggers": [
+      "MRSA risk with high AKI concern",
+      "Need oral continuation without losing exposure"
+    ],
+    "avoidIf": [
+      "Severe thrombocytopenia",
+      "Unmanageable serotonergic interaction risk"
+    ],
+    "linkedMonographIds": [
+      "linezolid"
+    ],
     "drug": "linezolid",
     "monographId": "linezolid"
   },
@@ -2133,7 +2320,33 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Severe CAP / ICU Admission",
     "line": "Add-On for MRSA Risk Factors",
     "regimen": "Vancomycin IV (AUC/MIC-guided dosing, target AUC 400-600)",
-    "notes": "Add if: prior MRSA infection/colonization, IVDU, post-influenza necrotizing pneumonia, cavitation/empyema. Check nasal MRSA swab — if negative, de-escalate within 48h. AUC-guided dosing is now preferred over trough-based (2020 vancomycin consensus guidelines).",
+    "notes": "Temporary anti-MRSA add-on for severe CAP when validated MRSA risk factors are present.",
+    "indication": "MRSA CAP coverage",
+    "site": "Lung",
+    "role": "adjunct",
+    "pathogenFocus": [
+      "MRSA"
+    ],
+    "riskFactorTriggers": [
+      "Prior MRSA infection or colonization",
+      "Post-influenza necrotizing pneumonia concern",
+      "Cavitation or empyema"
+    ],
+    "avoidIf": [
+      "Negative MRSA nares PCR with unsupportive cultures after 48-72 hours"
+    ],
+    "renalFlags": [
+      "Requires AUC-guided dosing and daily renal reassessment"
+    ],
+    "dialysisFlags": [
+      "HD and CRRT dosing need level-guided redosing"
+    ],
+    "rapidDiagnosticActions": [
+      "Remove if MRSA nares PCR is negative and cultures do not support MRSA"
+    ],
+    "linkedMonographIds": [
+      "vancomycin"
+    ],
     "drug": "vancomycin",
     "monographId": "vancomycin"
   },
@@ -2146,7 +2359,31 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Severe CAP / ICU Admission",
     "line": "Add-On for Pseudomonas Risk Factors",
     "regimen": "Cefepime 2g IV q8h (extended infusion)",
-    "notes": "Alternative anti-pseudomonal beta-lactam. Also covers SPACE organisms (AmpC producers) — better than ceftriaxone for Enterobacter, Citrobacter, Serratia.",
+    "notes": "Antipseudomonal beta-lactam that preserves carbapenems and handles AmpC-risk Enterobacterales better than ceftriaxone.",
+    "indication": "Severe CAP with Pseudomonas or AmpC risk",
+    "site": "Lung",
+    "role": "alternative",
+    "pathogenFocus": [
+      "Pseudomonas",
+      "AmpC-risk Enterobacterales"
+    ],
+    "riskFactorTriggers": [
+      "Prior Pseudomonas isolation",
+      "Need antipseudomonal coverage without defaulting to meropenem"
+    ],
+    "avoidIf": [
+      "Prominent aspiration or anaerobic concern without partner coverage",
+      "Cefepime neurotoxicity risk with unstable renal function"
+    ],
+    "renalFlags": [
+      "High-dose extended infusion with close renal and neurotoxicity monitoring"
+    ],
+    "dialysisFlags": [
+      "CRRT often still needs near-full antipseudomonal exposure"
+    ],
+    "linkedMonographIds": [
+      "cefepime"
+    ],
     "drug": "cefepime",
     "monographId": "cefepime"
   },
@@ -2159,7 +2396,35 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Severe CAP / ICU Admission",
     "line": "Add-On for Pseudomonas Risk Factors",
     "regimen": "Meropenem 1-2g IV q8h (extended infusion over 3h)",
-    "notes": "Reserve for severe septic shock, ESBL/MDR risk, or failure of other agents. Always de-escalate aggressively once cultures return. Extended infusion is standard of care in the ICU.",
+    "notes": "Reserve carbapenem anchor for septic shock or credible ESBL and MDR gram-negative risk, then exit quickly once cultures allow.",
+    "indication": "Severe CAP with ESBL or major MDR gram-negative risk",
+    "site": "Lung",
+    "role": "salvage",
+    "pathogenFocus": [
+      "ESBL Enterobacterales",
+      "Pseudomonas",
+      "Anaerobes"
+    ],
+    "riskFactorTriggers": [
+      "Septic shock",
+      "Prior ESBL or MDR gram-negative respiratory isolate",
+      "Failure of narrower antipseudomonal options"
+    ],
+    "avoidIf": [
+      "Cultures support cefepime or pip-tazo susceptibility without ESBL risk"
+    ],
+    "renalFlags": [
+      "Use high-dose extended infusion and adjust for renal replacement exposure"
+    ],
+    "dialysisFlags": [
+      "CRRT commonly still needs q8h extended-infusion dosing"
+    ],
+    "rapidDiagnosticActions": [
+      "De-escalate the same day ESBL or carbapenemase risk is disproven"
+    ],
+    "linkedMonographIds": [
+      "meropenem"
+    ],
     "drug": "meropenem",
     "monographId": "meropenem"
   },
@@ -2172,7 +2437,30 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Severe CAP / ICU Admission",
     "line": "Add-On for Pseudomonas Risk Factors",
     "regimen": "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)",
-    "notes": "Replace ceftriaxone with pip-tazo + azithromycin or FQ. Extended infusion critical for optimizing time above MIC. Consider adding an aminoglycoside or anti-pseudomonal FQ for double coverage in critically ill.",
+    "notes": "Swap in an antipseudomonal beta-lactam when prior isolation or recent IV antibiotics make ceftriaxone too narrow.",
+    "indication": "Severe CAP with Pseudomonas risk",
+    "site": "Lung",
+    "role": "adjunct",
+    "pathogenFocus": [
+      "Pseudomonas",
+      "Nosocomial gram-negatives",
+      "Anaerobes if aspiration overlaps"
+    ],
+    "riskFactorTriggers": [
+      "Prior Pseudomonas isolation",
+      "Recent IV antibiotics",
+      "Structural lung disease with resistant gram-negative history"
+    ],
+    "avoidIf": [
+      "Need ESBL-stable therapy",
+      "Progressive AKI while vancomycin is also running"
+    ],
+    "renalFlags": [
+      "Extended infusion and renal adjustment both matter for target attainment"
+    ],
+    "linkedMonographIds": [
+      "pip-tazo"
+    ],
     "drug": "pip-tazo",
     "monographId": "pip-tazo"
   },
@@ -2209,7 +2497,29 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Severe CAP / ICU Admission",
     "line": "First-Line (ALWAYS Combination for Severe CAP)",
     "regimen": "Ampicillin-sulbactam 3g IV q6h + Azithromycin 500mg IV daily",
-    "notes": "Alternative beta-lactam backbone with better anaerobic coverage. Useful if aspiration component suspected in ICU CAP.",
+    "notes": "Alternative ICU CAP backbone when aspiration or oral anaerobe burden is part of the presentation.",
+    "indication": "Severe CAP with aspiration concern",
+    "site": "Lung",
+    "role": "situational",
+    "pathogenFocus": [
+      "CAP bacteria",
+      "Oral anaerobes",
+      "Atypicals"
+    ],
+    "riskFactorTriggers": [
+      "Severe CAP with clear aspiration component or poor dentition"
+    ],
+    "avoidIf": [
+      "Pseudomonas risk factors",
+      "Recent beta-lactam exposure suggesting resistant gram-negatives"
+    ],
+    "renalFlags": [
+      "Ampicillin-sulbactam requires renal adjustment in kidney dysfunction"
+    ],
+    "linkedMonographIds": [
+      "ampicillin-sulbactam",
+      "azithromycin"
+    ],
     "drug": "amp-sulbactam-combo",
     "evidence": "B-II",
     "evidenceSource": "IDSA/ATS 2019",
@@ -2226,7 +2536,31 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Severe CAP / ICU Admission",
     "line": "First-Line (ALWAYS Combination for Severe CAP)",
     "regimen": "Ceftriaxone 2g IV daily + Azithromycin 500mg IV daily",
-    "notes": "ATS/IDSA standard for severe CAP. The macrolide is STRONGLY recommended here (not optional like non-ICU). Macrolide immunomodulatory effect is most impactful in severe/bacteremic disease. Duration: minimum 5 days, typically 7 days.",
+    "notes": "Default ICU CAP backbone when MRSA and Pseudomonas risk signals are absent but atypical coverage is still needed.",
+    "indication": "Severe CAP",
+    "site": "Lung",
+    "role": "preferred",
+    "pathogenFocus": [
+      "Pneumococcus",
+      "H. influenzae",
+      "Legionella and other atypicals"
+    ],
+    "riskFactorTriggers": [
+      "ICU CAP without prior MRSA or Pseudomonas isolation",
+      "No recent IV antibiotic exposure forcing broader gram-negative coverage"
+    ],
+    "avoidIf": [
+      "Prior MRSA isolation or post-influenza necrotizing concern without MRSA add-on",
+      "Prior Pseudomonas isolation or recent IV antibiotics within 90 days"
+    ],
+    "rapidDiagnosticActions": [
+      "Stop MRSA add-on if nares PCR is negative",
+      "Keep atypical-active therapy if Legionella testing is positive"
+    ],
+    "linkedMonographIds": [
+      "ceftriaxone",
+      "azithromycin"
+    ],
     "drug": "ceftriaxone",
     "monographId": "ceftriaxone",
     "evidence": "A-I",
@@ -2244,7 +2578,29 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Severe CAP / ICU Admission",
     "line": "First-Line (ALWAYS Combination for Severe CAP)",
     "regimen": "Ceftriaxone 2g IV daily + Levofloxacin 750mg IV daily",
-    "notes": "Alternative combination if macrolide cannot be used (QT prolongation, allergy). Note: combining ceftriaxone + FQ gives broader coverage but loses the macrolide immunomodulatory benefit.",
+    "notes": "Macrolide-sparing ICU CAP option when azithromycin is blocked by QT risk, intolerance, or major interaction concerns.",
+    "indication": "Severe CAP",
+    "site": "Lung",
+    "role": "alternative",
+    "pathogenFocus": [
+      "Pneumococcus",
+      "Legionella and other atypicals",
+      "Typical CAP gram-negatives"
+    ],
+    "riskFactorTriggers": [
+      "Need severe CAP combination therapy but macrolide cannot be used"
+    ],
+    "avoidIf": [
+      "Recent fluoroquinolone exposure",
+      "Major QT or tendon toxicity risk"
+    ],
+    "renalFlags": [
+      "Levofloxacin needs renal adjustment as kidney function changes"
+    ],
+    "linkedMonographIds": [
+      "ceftriaxone",
+      "levofloxacin"
+    ],
     "drug": "ceftriaxone-fq",
     "evidence": "A-I",
     "evidenceSource": "IDSA/ATS 2019",
@@ -3042,8 +3398,25 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryId": "high-risk-fn",
     "subcategoryName": "High-Risk Febrile Neutropenia",
     "line": "ADD Metronidazole — For Suspected Anaerobic/Intra-Abdominal Source",
-    "regimen": "Metronidazole 500mg IV q8h (or 1g IV q12h for extended infusion)",
-    "notes": "Add anaerobic coverage when: (1) Typhlitis (neutropenic enterocolitis) — RLQ pain + fever in neutropenic patient; CT-confirmed bowel wall thickening. (2) Perirectal abscess (do NOT perform digital rectal exam — can introduce bacteremia; use imaging). (3) Intra-abdominal source (diverticulitis, appendicitis). (4) Oral/dental source with suspected anaerobic involvement. NOTE: Piperacillin-tazobactam already has anaerobic coverage — metronidazole is redundant and should NOT be added if pip-tazo is the backbone agent. Add metronidazole only when cefepime or meropenem is used as the primary antipseudomonal agent in suspected anaerobic infection.",
+    "regimen": "Metronidazole 500mg IV q8h",
+    "notes": "Add only when cefepime or meropenem needs anaerobic help for typhlitis or perirectal infection; do not duplicate pip-tazo anaerobe coverage.",
+    "indication": "High-risk FN with anaerobic source concern",
+    "site": "Intra-abdominal",
+    "role": "adjunct",
+    "pathogenFocus": [
+      "Bacteroides and other anaerobes"
+    ],
+    "riskFactorTriggers": [
+      "Typhlitis",
+      "Perirectal infection",
+      "Oral anaerobic source"
+    ],
+    "avoidIf": [
+      "Piperacillin-tazobactam is already the backbone"
+    ],
+    "linkedMonographIds": [
+      "metronidazole"
+    ],
     "drug": "metronidazole-fn",
     "evidence": "B-III",
     "evidenceSource": "IDSA 2010",
@@ -3093,8 +3466,34 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryId": "high-risk-fn",
     "subcategoryName": "High-Risk Febrile Neutropenia",
     "line": "ADD Vancomycin — Only If Specific Indications Present (IDSA 2010, A-I)",
-    "regimen": "Vancomycin 25–30 mg/kg IV loading dose (actual body weight, max 3g), then 15–20 mg/kg IV q8–12h (AUC/MIC target 400–600 mcg·h/mL using Bayesian software)",
-    "notes": "IDSA 2010 (A-I): Vancomycin should NOT be routinely added to empiric FN therapy. Evidence shows routine addition of vancomycin does NOT improve outcomes, increases nephrotoxicity risk, and prolongs therapy duration unnecessarily. ADD VANCOMYCIN ONLY FOR THE FOLLOWING INDICATIONS: (1) Clinically apparent catheter-related infection (exit site erythema/discharge, tunneled catheter tenderness, positive blood cultures flagging from catheter before peripheral). (2) Skin or soft tissue infection (cellulitis, wound infection). (3) Hemodynamic instability or suspected septic shock (broader empiric coverage until source identified). (4) Blood cultures positive for gram-positive organisms (add while awaiting species ID and susceptibilities). (5) Suspected mucositis-associated viridans streptococcal sepsis (NCI grade 3–4 mucositis + severe sepsis picture). (6) Known MRSA colonization with new pulmonary infiltrates or bacteremia. REASSESSMENT AT 48–72H: Discontinue vancomycin if no gram-positive pathogen isolated and patient improving (A-II). AUC-GUIDED DOSING: 2020 ASHP/IDSA/SIDP consensus guidelines mandate AUC/MIC 400–600 monitoring over trough-based dosing — use Bayesian software (e.g., InsightRx, Vanderbilt AUC calculator).",
+    "regimen": "Vancomycin 25-30 mg/kg IV loading dose, then AUC/MIC-guided maintenance dosing",
+    "notes": "Reserved FN add-on for catheter, skin and soft tissue, shock, or culture-based gram-positive signals rather than routine default use.",
+    "indication": "High-risk FN with gram-positive or line-risk trigger",
+    "site": "Systemic",
+    "role": "adjunct",
+    "pathogenFocus": [
+      "MRSA",
+      "Resistant viridans streptococci",
+      "Serious catheter-related gram-positive infection"
+    ],
+    "riskFactorTriggers": [
+      "Hemodynamic instability",
+      "Clinically apparent catheter infection",
+      "Skin or soft tissue infection",
+      "Gram-positive blood culture signal"
+    ],
+    "avoidIf": [
+      "No gram-positive indication after 48-72 hours"
+    ],
+    "renalFlags": [
+      "AUC-guided dosing and nephrotoxin review are mandatory"
+    ],
+    "rapidDiagnosticActions": [
+      "Stop early if cultures do not show a target gram-positive pathogen"
+    ],
+    "linkedMonographIds": [
+      "vancomycin"
+    ],
     "drug": "vancomycin-fn",
     "evidence": "A-I",
     "evidenceSource": "IDSA 2010",
@@ -3145,7 +3544,29 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "High-Risk Febrile Neutropenia",
     "line": "Monotherapy — Antipseudomonal Beta-Lactam (IDSA 2010 First-Line, A-I)",
     "regimen": "Cefepime 2g IV q8h",
-    "notes": "IDSA 2010 preferred first-line monotherapy (A-I). Fourth-generation cephalosporin with excellent antipseudomonal activity and broad gram-negative + gram-positive spectrum. Does NOT cover MRSA, Enterococcus, or anaerobes. DOSING NOTE: 2g q8h is the standard for FN; continuous infusion (6g over 24h by elastomeric pump) has pharmacodynamic advantages for organisms with higher MICs. RENAL DOSING: CrCl 30–60 → 1–2g q12h; CrCl 11–29 → 1–2g q24h; HD → 0.5–1g after each HD session. CNS TOXICITY RISK: neurotoxicity (encephalopathy, myoclonus, seizures) at higher exposures — especially in renal failure. Monitor closely in elderly and renally impaired patients. Consider EEG if altered mental status develops on cefepime.",
+    "notes": "Standard first-line high-risk FN monotherapy when shock, abdominal source, or prior ESBL history does not force a broader backbone.",
+    "indication": "High-risk febrile neutropenia",
+    "site": "Systemic",
+    "role": "preferred",
+    "pathogenFocus": [
+      "Pseudomonas",
+      "Common gram-negative FN pathogens",
+      "Viridans streptococci"
+    ],
+    "riskFactorTriggers": [
+      "High-risk FN without dominant abdominal source",
+      "Need frontline antipseudomonal beta-lactam"
+    ],
+    "avoidIf": [
+      "Typhlitis or anaerobic source without added coverage",
+      "Prior ESBL or MDR gram-negative bacteremia"
+    ],
+    "renalFlags": [
+      "Renal adjustment and neurotoxicity monitoring are essential in prolonged therapy"
+    ],
+    "linkedMonographIds": [
+      "cefepime"
+    ],
     "drug": "cefepime",
     "monographId": "cefepime",
     "evidence": "A-I",
@@ -3163,7 +3584,29 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "High-Risk Febrile Neutropenia",
     "line": "Monotherapy — Antipseudomonal Beta-Lactam (IDSA 2010 First-Line, A-I)",
     "regimen": "Meropenem 1g IV q8h (2g IV q8h for Pseudomonas or suspected resistant organisms)",
-    "notes": "IDSA 2010 alternative first-line monotherapy (A-I). Reserve as the broadest coverage option — covers Pseudomonas, ESBL producers, AmpC producers, anaerobes, streptococci. Preferred as empiric first-line in: (1) Patients with prior gram-negative bacteremia due to ESBL-producing organisms, (2) Recent hospitalization in regions with high ESBL prevalence, (3) Clinically unstable or septic shock presentations where broadest coverage is critical, (4) Suspected typhlitis or abdominal source. STEWARDSHIP NOTE: Carbapenems should not be used routinely as first-line when cefepime or pip-tazo are appropriate — carbapenem overuse drives carbapenem-resistant Enterobacterales (CRE) emergence. RENAL DOSING: CrCl 26–50 → 1g q12h; CrCl 10–25 → 500mg q12h; CrCl <10/HD → 500mg q24h.",
+    "notes": "Broadest frontline FN beta-lactam when ESBL history, septic shock, or severe abdominal source makes cefepime or pip-tazo too narrow.",
+    "indication": "High-risk febrile neutropenia",
+    "site": "Systemic",
+    "role": "preferred",
+    "pathogenFocus": [
+      "ESBL Enterobacterales",
+      "Pseudomonas",
+      "Anaerobes"
+    ],
+    "riskFactorTriggers": [
+      "Prior ESBL bacteremia",
+      "Septic shock",
+      "Typhlitis with severe instability"
+    ],
+    "avoidIf": [
+      "Culture history supports cefepime or pip-tazo exit"
+    ],
+    "renalFlags": [
+      "Dose around kidney function and renal replacement from the first day"
+    ],
+    "linkedMonographIds": [
+      "meropenem"
+    ],
     "drug": "meropenem",
     "monographId": "meropenem",
     "evidence": "A-I",
@@ -3180,8 +3623,31 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryId": "high-risk-fn",
     "subcategoryName": "High-Risk Febrile Neutropenia",
     "line": "Monotherapy — Antipseudomonal Beta-Lactam (IDSA 2010 First-Line, A-I)",
-    "regimen": "Piperacillin-Tazobactam 4.5g IV q6h (or 3.375g IV q6h for less severe)",
-    "notes": "IDSA 2010 alternative first-line monotherapy (A-I). Broad-spectrum: antipseudomonal + anaerobic coverage + good gram-positive activity. Particularly advantageous when typhlitis, perirectal infection, or intra-abdominal source is suspected (anaerobic coverage included). Standard dosing: 4.5g IV q6h; extended infusion (3-hour infusion of 3.375g q8h or 4.5g q8h) pharmacodynamically superior for organisms with higher MICs — consider for critically ill patients or when Pseudomonas susceptibility is borderline. RENAL DOSING: CrCl 20–40 → 3.375g q8h; CrCl <20/HD → 2.25g q8h (additional 0.75g after HD). GALACTOMANNAN FALSE POSITIVES: pip-tazo can cause false-positive serum galactomannan — interpret serum GM cautiously in patients on pip-tazo; BAL GM preferred if pulmonary aspergillosis suspected.",
+    "regimen": "Piperacillin-Tazobactam 4.5g IV q6h",
+    "notes": "High-risk FN backbone when typhlitis, perirectal infection, or another anaerobic abdominal source is part of the picture.",
+    "indication": "High-risk febrile neutropenia",
+    "site": "Systemic",
+    "role": "preferred",
+    "pathogenFocus": [
+      "Pseudomonas",
+      "Enterobacterales",
+      "Anaerobes"
+    ],
+    "riskFactorTriggers": [
+      "Abdominal pain or suspected typhlitis",
+      "Perirectal or intra-abdominal source",
+      "Need anaerobic coverage without a second agent"
+    ],
+    "avoidIf": [
+      "Strong ESBL history makes meropenem cleaner",
+      "Unnecessary nephrotoxin stacking with vancomycin"
+    ],
+    "renalFlags": [
+      "Extended infusion and dose adjustment matter in unstable kidney function"
+    ],
+    "linkedMonographIds": [
+      "pip-tazo"
+    ],
     "drug": "piperacillin-tazobactam",
     "evidence": "A-I",
     "evidenceSource": "IDSA 2010",
@@ -3542,7 +4008,22 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "HAP — MDR Risk Factors OR High Mortality Risk",
     "line": "ADD MRSA Coverage (if risk factors present)",
     "regimen": "Linezolid 600mg IV/PO BID",
-    "notes": "Alternative to vancomycin. Potential advantages in pneumonia: better lung penetration, 100% oral bioavailability, no renal dosing. ZEPHyR trial showed linezolid non-inferior to vancomycin for MRSA nosocomial pneumonia with some secondary outcome advantages. Risk: myelosuppression (>14 days), serotonin syndrome with SSRIs.",
+    "notes": "Alternative MRSA pneumonia agent when lung penetration and renal-sparing matter more than bacteremia flexibility.",
+    "indication": "MRSA HAP coverage",
+    "site": "Lung",
+    "role": "alternative",
+    "pathogenFocus": [
+      "MRSA"
+    ],
+    "riskFactorTriggers": [
+      "MRSA risk with kidney injury or vancomycin intolerance"
+    ],
+    "avoidIf": [
+      "Long planned course with thrombocytopenia or high serotonergic interaction burden"
+    ],
+    "linkedMonographIds": [
+      "linezolid"
+    ],
     "drug": "linezolid",
     "monographId": "linezolid",
     "evidence": "A-I",
@@ -3560,7 +4041,33 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "HAP — MDR Risk Factors OR High Mortality Risk",
     "line": "ADD MRSA Coverage (if risk factors present)",
     "regimen": "Vancomycin IV — AUC/MIC-guided dosing (target AUC 400-600 mg·h/L)",
-    "notes": "ATS/IDSA 2016: add MRSA coverage if: IV antibiotics in prior 90 days, unit with >20% MRSA prevalence (or unknown), or prior MRSA colonization/infection. AUC-guided dosing is now standard (2020 vancomycin consensus). Check nasal MRSA swab — if negative, de-escalate within 48-72h.",
+    "notes": "Add-on MRSA therapy only while risk is credible and until nares screening plus cultures allow removal.",
+    "indication": "MRSA HAP coverage",
+    "site": "Lung",
+    "role": "adjunct",
+    "pathogenFocus": [
+      "MRSA"
+    ],
+    "riskFactorTriggers": [
+      "Prior MRSA colonization or infection",
+      "Unit MRSA prevalence above threshold or unknown",
+      "Recent IV antibiotics"
+    ],
+    "avoidIf": [
+      "Negative MRSA nares PCR with no culture support at 48-72 hours"
+    ],
+    "renalFlags": [
+      "AUC-guided dosing with nephrotoxin review every day"
+    ],
+    "dialysisFlags": [
+      "HD and CRRT require protocolized supplemental dosing"
+    ],
+    "rapidDiagnosticActions": [
+      "Use negative nares PCR to stop therapy early"
+    ],
+    "linkedMonographIds": [
+      "vancomycin"
+    ],
     "drug": "vancomycin",
     "monographId": "vancomycin",
     "evidence": "A-I",
@@ -3627,7 +4134,28 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "HAP — MDR Risk Factors OR High Mortality Risk",
     "line": "Empiric — Anti-Pseudomonal Beta-Lactam (choose one)",
     "regimen": "Cefepime 2g IV q8h (extended infusion)",
-    "notes": "Preferred if AmpC producers suspected (Enterobacter, Serratia, Citrobacter). NO anaerobic or MRSA coverage — add metronidazole if aspiration component, add vancomycin if MRSA risk.",
+    "notes": "Carbapenem-sparing antipseudomonal option when AmpC-risk organisms or local susceptibility patterns favor cefepime.",
+    "indication": "HAP with MDR risk",
+    "site": "Lung",
+    "role": "preferred",
+    "pathogenFocus": [
+      "Pseudomonas",
+      "AmpC-risk Enterobacterales"
+    ],
+    "riskFactorTriggers": [
+      "Prior Enterobacter, Citrobacter, or Serratia history",
+      "Need antipseudomonal coverage without automatic anaerobic expansion"
+    ],
+    "avoidIf": [
+      "Strong aspiration component without anaerobic partner",
+      "Neurotoxicity risk with unstable renal function"
+    ],
+    "renalFlags": [
+      "High-dose extended infusion with daily mental-status and creatinine review"
+    ],
+    "linkedMonographIds": [
+      "cefepime"
+    ],
     "drug": "cefepime-mdr",
     "evidence": "A-I",
     "evidenceSource": "IDSA/ATS 2016",
@@ -3656,7 +4184,35 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "HAP — MDR Risk Factors OR High Mortality Risk",
     "line": "Empiric — Anti-Pseudomonal Beta-Lactam (choose one)",
     "regimen": "Meropenem 2g IV q8h (extended infusion over 3h)",
-    "notes": "Use for ESBL risk, prior MDR gram-negatives, or septic shock with high local resistance. Higher dose (2g) for pneumonia — lung penetration requires higher serum levels. De-escalate aggressively.",
+    "notes": "Escalation backbone when ESBL risk, prior MDR isolates, or septic shock makes cefepime or pip-tazo too fragile.",
+    "indication": "HAP with ESBL or major MDR gram-negative risk",
+    "site": "Lung",
+    "role": "preferred",
+    "pathogenFocus": [
+      "ESBL Enterobacterales",
+      "Pseudomonas",
+      "Anaerobes"
+    ],
+    "riskFactorTriggers": [
+      "Prior ESBL or MDR gram-negative isolate",
+      "Septic shock",
+      "Rapid diagnostics suggesting resistant Enterobacterales"
+    ],
+    "avoidIf": [
+      "Cultures and history support a cefepime or pip-tazo exit"
+    ],
+    "renalFlags": [
+      "Maintain high-dose extended infusion and dose-adjust around renal replacement"
+    ],
+    "dialysisFlags": [
+      "CRRT often still needs q8h extended infusion"
+    ],
+    "rapidDiagnosticActions": [
+      "Exit meropenem the same day resistant phenotype is disproven"
+    ],
+    "linkedMonographIds": [
+      "meropenem"
+    ],
     "drug": "meropenem-mdr",
     "evidence": "A-I",
     "evidenceSource": "IDSA/ATS 2016",
@@ -3673,7 +4229,30 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "HAP — MDR Risk Factors OR High Mortality Risk",
     "line": "Empiric — Anti-Pseudomonal Beta-Lactam (choose one)",
     "regimen": "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)",
-    "notes": "Preferred anti-pseudomonal backbone. Extended infusion is mandatory at this severity level. Covers gram-negatives, MSSA, anaerobes.",
+    "notes": "Default antipseudomonal HAP backbone when resistant gram-negative risk is present but ESBL pressure is not dominant.",
+    "indication": "HAP with MDR risk",
+    "site": "Lung",
+    "role": "preferred",
+    "pathogenFocus": [
+      "Pseudomonas",
+      "Nosocomial Enterobacterales",
+      "Anaerobes when aspiration overlaps"
+    ],
+    "riskFactorTriggers": [
+      "Prior IV antibiotics in 90 days",
+      "Late-onset HAP",
+      "Unit-level resistance still acceptable for pip-tazo"
+    ],
+    "avoidIf": [
+      "Strong ESBL history",
+      "Rising AKI signal with concurrent vancomycin"
+    ],
+    "renalFlags": [
+      "Extended infusion and renal adjustment both affect target attainment"
+    ],
+    "linkedMonographIds": [
+      "pip-tazo"
+    ],
     "drug": "pip-tazo-mdr",
     "evidence": "A-I",
     "evidenceSource": "IDSA/ATS 2016",
@@ -4140,8 +4719,29 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryId": "ha-iai",
     "subcategoryName": "Healthcare-Associated & Post-Operative IAI",
     "line": "ADD Antifungal If Candida Risk Factors",
-    "regimen": "Fluconazole 400mg IV/PO daily (loading 800mg day 1) — or — Micafungin 100mg IV daily",
-    "notes": "Candida peritonitis risk factors: upper GI perforation (especially with acid suppression), recurrent GI surgery, anastomotic leak, immunosuppression, prolonged antibiotics, TPN, Candida in peritoneal cultures. IDSA 2010: empiric antifungal NOT routine — add when risk factors present or yeast seen on Gram stain. Fluconazole for susceptible Candida albicans; echinocandin (micafungin, caspofungin) for C. glabrata/C. krusei or critically ill. Source control is critical for Candida peritonitis.",
+    "regimen": "Fluconazole 400mg IV/PO daily (loading 800mg day 1) or Micafungin 100mg IV daily",
+    "notes": "Adjunctive antifungal coverage only when sterile abdominal cultures, Gram stain, or host factors make Candida peritonitis credible.",
+    "indication": "Candida-risk postoperative IAI",
+    "site": "Intra-abdominal",
+    "role": "adjunct",
+    "pathogenFocus": [
+      "Candida albicans",
+      "Candida glabrata and other non-albicans species with echinocandin option"
+    ],
+    "riskFactorTriggers": [
+      "Anastomotic leak",
+      "Upper GI perforation",
+      "TPN",
+      "Recurrent surgery",
+      "Yeast seen on Gram stain or sterile-site culture"
+    ],
+    "avoidIf": [
+      "Routine community IAI without Candida risk factors"
+    ],
+    "linkedMonographIds": [
+      "fluconazole",
+      "micafungin"
+    ],
     "drug": "fluconazole-iai"
   },
   {
@@ -4165,7 +4765,31 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Healthcare-Associated & Post-Operative IAI",
     "line": "Empiric — Post-Operative / Healthcare-Associated cIAI",
     "regimen": "Cefepime 2g IV q8h (extended infusion) + Metronidazole 500mg IV q8h + Vancomycin IV",
-    "notes": "Alternative triple therapy. Cefepime for anti-pseudomonal + AmpC stability; metronidazole for anaerobes; vancomycin for VRE/MRSA. More components but allows carbapenem-sparing approach when ESBL risk is not high.",
+    "notes": "Carbapenem-sparing triple regimen when AmpC-stable gram-negative coverage is desired but ESBL risk is not dominant.",
+    "indication": "Healthcare-associated intra-abdominal infection",
+    "site": "Intra-abdominal",
+    "role": "alternative",
+    "pathogenFocus": [
+      "AmpC-risk Enterobacterales",
+      "Pseudomonas",
+      "Anaerobes"
+    ],
+    "riskFactorTriggers": [
+      "Need cefepime over pip-tazo for prior Enterobacter or Citrobacter history",
+      "Avoiding routine carbapenem use"
+    ],
+    "avoidIf": [
+      "ESBL pressure is high",
+      "Anaerobe partner is omitted"
+    ],
+    "renalFlags": [
+      "Cefepime neurotoxicity risk rises quickly in renal dysfunction"
+    ],
+    "linkedMonographIds": [
+      "cefepime",
+      "metronidazole",
+      "vancomycin"
+    ],
     "drug": "cefepime-metro-ha",
     "evidence": "B-II",
     "evidenceSource": "SIS/IDSA 2017",
@@ -4182,7 +4806,30 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Healthcare-Associated & Post-Operative IAI",
     "line": "Empiric — Post-Operative / Healthcare-Associated cIAI",
     "regimen": "Meropenem 1g IV q8h (extended infusion) + Vancomycin IV",
-    "notes": "For patients with ESBL risk, prior resistant organisms, or severe sepsis/septic shock. Meropenem covers ESBL, AmpC, Pseudomonas, anaerobes. Vancomycin for VRE/MRSA. THIS is the appropriate use of meropenem — healthcare-associated cIAI with MDR risk, not routine community-acquired IAI.",
+    "notes": "Carbapenem-based cIAI plan when ESBL pressure, prior resistant cultures, or shock makes pip-tazo unreliable.",
+    "indication": "Healthcare-associated intra-abdominal infection with ESBL risk",
+    "site": "Intra-abdominal",
+    "role": "preferred",
+    "pathogenFocus": [
+      "ESBL Enterobacterales",
+      "Pseudomonas",
+      "Anaerobes"
+    ],
+    "riskFactorTriggers": [
+      "Prior ESBL or MDR gram-negative isolate",
+      "Septic shock",
+      "Failure or unsuitability of pip-tazo-based empiric therapy"
+    ],
+    "avoidIf": [
+      "Operative cultures support a narrower beta-lactam exit"
+    ],
+    "renalFlags": [
+      "Extended infusion and renal replacement dosing both matter"
+    ],
+    "linkedMonographIds": [
+      "meropenem",
+      "vancomycin"
+    ],
     "drug": "meropenem-ha-iai",
     "evidence": "A-I",
     "evidenceSource": "SIS/IDSA 2017",
@@ -4199,7 +4846,32 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Healthcare-Associated & Post-Operative IAI",
     "line": "Empiric — Post-Operative / Healthcare-Associated cIAI",
     "regimen": "Pip-tazo 4.5g IV q6h (extended infusion) + Vancomycin IV",
-    "notes": "Standard empiric regimen for healthcare-associated IAI. Pip-tazo covers Pseudomonas, Enterobacterales, anaerobes, Enterococcus faecalis. Add vancomycin for VRE (E. faecium) and MRSA coverage in high-risk patients. De-escalate aggressively at 48-72h based on cultures.",
+    "notes": "Default postoperative cIAI regimen when resistant gram-negative, Enterococcal, and anaerobic coverage are all needed while cultures are pending.",
+    "indication": "Healthcare-associated intra-abdominal infection",
+    "site": "Intra-abdominal",
+    "role": "preferred",
+    "pathogenFocus": [
+      "Pseudomonas",
+      "Enterobacterales",
+      "Anaerobes",
+      "Enterococcus and MRSA add-on via vancomycin when needed"
+    ],
+    "riskFactorTriggers": [
+      "Postoperative leak or peritonitis",
+      "Healthcare-associated abdominal infection",
+      "Need broad anaerobic and antipseudomonal coverage"
+    ],
+    "avoidIf": [
+      "Strong ESBL history favors meropenem",
+      "Vancomycin can exit if cultures do not support MRSA or resistant Enterococcus"
+    ],
+    "renalFlags": [
+      "Both agents need kidney-based reassessment and exposure review"
+    ],
+    "linkedMonographIds": [
+      "pip-tazo",
+      "vancomycin"
+    ],
     "drug": "pip-tazo-ha-iai",
     "evidence": "A-I",
     "evidenceSource": "SIS/IDSA 2017",
@@ -4482,8 +5154,41 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryId": "septic-shock",
     "subcategoryName": "Septic Shock",
     "line": "Immediate Broad-Spectrum Empiric — Septic Shock (Within 1 Hour)",
-    "regimen": "Vancomycin IV (AUC-guided, 25–30 mg/kg loading dose) + Meropenem 2g IV q8h over 3h ± Micafungin 100mg IV q24h if Candida risk",
-    "notes": "SSC 2021 recommended combination for septic shock of unclear source or healthcare-associated. Covers MRSA (vanco), ESBL (mero), Pseudomonas (mero), anaerobes (mero). Add micafungin if Candida risk factors present (see criteria above). Administer vancomycin loading dose first (25–30 mg/kg IV over 1–2h) to achieve rapid therapeutic levels. De-escalate within 48–72h based on culture data.",
+    "regimen": "Vancomycin IV + Meropenem 2g IV q8h over 3h ± Micafungin 100mg IV q24h if Candida risk",
+    "notes": "Maximal early shock regimen when the source is unclear or healthcare-associated and both MRSA and resistant gram-negatives remain plausible.",
+    "indication": "Septic shock of unclear source",
+    "site": "Systemic",
+    "role": "preferred",
+    "pathogenFocus": [
+      "MRSA",
+      "ESBL Enterobacterales",
+      "Pseudomonas",
+      "Anaerobes",
+      "Candida when host risk is real"
+    ],
+    "riskFactorTriggers": [
+      "Vasopressor-dependent shock",
+      "Unclear source",
+      "Healthcare exposure or prior resistant isolates"
+    ],
+    "avoidIf": [
+      "Rapid source clarification allows narrower therapy within the first 24-48 hours"
+    ],
+    "renalFlags": [
+      "Vancomycin AUC monitoring and meropenem extended infusion both need active renal reassessment"
+    ],
+    "dialysisFlags": [
+      "HD and CRRT dosing must be protocolized from the start in shock"
+    ],
+    "rapidDiagnosticActions": [
+      "Drop vancomycin quickly if MRSA data are negative",
+      "Drop antifungal coverage if Candida risk and diagnostics do not support it"
+    ],
+    "linkedMonographIds": [
+      "vancomycin",
+      "meropenem",
+      "micafungin"
+    ],
     "drug": "vanco-meropenem",
     "evidence": "A-I",
     "evidenceSource": "SSC 2021",
@@ -5114,7 +5819,29 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Complicated UTI",
     "line": "First-Line — cUTI WITH Sepsis",
     "regimen": "Ceftriaxone 2g IV daily or Cefepime 2g IV q8h",
-    "notes": "IDSA 2025: same preferred classes but carbapenems now INCLUDED as first-line for sepsis (not restricted to ESBL). Priority shifts to ensuring early appropriate therapy — stewardship deferred to definitive phase.",
+    "notes": "First-line sepsis option when resistant phenotype risk is still moderate and early broadening can be refined quickly by cultures.",
+    "indication": "Complicated UTI with sepsis",
+    "site": "Urinary tract",
+    "role": "preferred",
+    "pathogenFocus": [
+      "Enterobacterales",
+      "Cefepime adds Pseudomonas and AmpC coverage"
+    ],
+    "riskFactorTriggers": [
+      "Sepsis without dominant ESBL history",
+      "Need immediate IV therapy before urine and blood cultures finalize"
+    ],
+    "avoidIf": [
+      "Known ESBL or CRE history",
+      "High-risk Pseudomonas only if ceftriaxone is chosen"
+    ],
+    "rapidDiagnosticActions": [
+      "Move from ceftriaxone to cefepime or meropenem if blood culture data show AmpC or ESBL risk"
+    ],
+    "linkedMonographIds": [
+      "ceftriaxone",
+      "cefepime"
+    ],
     "drug": "ceftriaxone-sepsis"
   },
   {
@@ -5126,7 +5853,28 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Complicated UTI",
     "line": "First-Line — cUTI WITH Sepsis",
     "regimen": "Levofloxacin 750mg IV daily",
-    "notes": "FQs remain a preferred class even in sepsis IF no prior FQ exposure in 12 months. 100% bioavailability supports early PO switch once stable.",
+    "notes": "Fluoroquinolone option when recent exposure is absent and high-bioavailability step-down is likely to be useful.",
+    "indication": "Complicated UTI with sepsis",
+    "site": "Urinary tract",
+    "role": "alternative",
+    "pathogenFocus": [
+      "Susceptible Enterobacterales",
+      "Selected Pseudomonas isolates"
+    ],
+    "riskFactorTriggers": [
+      "Need early oral-equivalent option",
+      "No fluoroquinolone exposure in the past 12 months"
+    ],
+    "avoidIf": [
+      "Recent fluoroquinolone use",
+      "High local resistance or major QT and CNS toxicity risk"
+    ],
+    "renalFlags": [
+      "Renally adjust and monitor QT and tendon toxicity"
+    ],
+    "linkedMonographIds": [
+      "levofloxacin"
+    ],
     "drug": "levofloxacin-sepsis"
   },
   {
@@ -5138,7 +5886,34 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Complicated UTI",
     "line": "First-Line — cUTI WITH Sepsis",
     "regimen": "Meropenem 1g IV q8h (extended infusion over 3h)",
-    "notes": "IDSA 2025 includes carbapenems as first-line option for SEPSIS (unlike non-septic cUTI). Use if ESBL risk, prior MDR organisms, or septic shock. Antibiogram step: select agent with ≥90% susceptibility for septic shock, ≥80% for sepsis without shock.",
+    "notes": "Cleanest initial anchor when ESBL risk, prior MDR urine cultures, or septic shock makes cephalosporins and pip-tazo unreliable.",
+    "indication": "Complicated UTI with sepsis",
+    "site": "Urinary tract",
+    "role": "preferred",
+    "pathogenFocus": [
+      "ESBL Enterobacterales",
+      "Broad gram-negative sepsis pathogens"
+    ],
+    "riskFactorTriggers": [
+      "Prior ESBL or MDR urine isolate",
+      "Septic shock",
+      "Carbapenem-sparing options unlikely to be active"
+    ],
+    "avoidIf": [
+      "Cultures and history support ceftriaxone, cefepime, or pip-tazo exit"
+    ],
+    "renalFlags": [
+      "Extended infusion plus renal replacement adjustment are both important"
+    ],
+    "dialysisFlags": [
+      "CRRT often still needs q8h exposure"
+    ],
+    "rapidDiagnosticActions": [
+      "De-escalate once ESBL and carbapenemase risk is excluded"
+    ],
+    "linkedMonographIds": [
+      "meropenem"
+    ],
     "drug": "meropenem",
     "monographId": "meropenem"
   },
@@ -5151,7 +5926,28 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Complicated UTI",
     "line": "First-Line — cUTI WITH Sepsis",
     "regimen": "Piperacillin-tazobactam 4.5g IV q6-8h (extended infusion)",
-    "notes": "Preferred in sepsis. Extended infusion standard of care. Consider if Pseudomonas risk based on prior cultures.",
+    "notes": "Broad urinary-source sepsis option when Pseudomonas or mixed healthcare exposure is plausible.",
+    "indication": "Complicated UTI with sepsis",
+    "site": "Urinary tract",
+    "role": "preferred",
+    "pathogenFocus": [
+      "Pseudomonas",
+      "Healthcare-associated urinary gram-negatives"
+    ],
+    "riskFactorTriggers": [
+      "Catheter-associated sepsis",
+      "Prior healthcare-resistant urinary isolates without clear ESBL history"
+    ],
+    "avoidIf": [
+      "Strong ESBL bacteremia signal",
+      "Need a narrower step-down path as soon as cultures allow"
+    ],
+    "renalFlags": [
+      "Use extended infusion and adjust as renal function changes"
+    ],
+    "linkedMonographIds": [
+      "pip-tazo"
+    ],
     "drug": "pip-tazo-sepsis"
   },
   {
@@ -5162,8 +5958,28 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryId": "complicated-uti",
     "subcategoryName": "Complicated UTI",
     "line": "First-Line — cUTI WITHOUT Sepsis",
-    "regimen": "Ceftriaxone 1-2g IV daily (or cefepime 2g IV q8h if AmpC/Pseudomonas concern)",
-    "notes": "IDSA 2025 preferred: 3rd/4th-gen cephalosporins. Carbapenems are NOT first-line for non-septic cUTI — this is a key stewardship change. Reserve carbapenems for sepsis or confirmed ESBL.",
+    "regimen": "Ceftriaxone 1-2g IV daily",
+    "notes": "Workhorse non-septic cUTI anchor that preserves carbapenems when ESBL risk is not dominant.",
+    "indication": "Complicated UTI without sepsis",
+    "site": "Urinary tract",
+    "role": "preferred",
+    "pathogenFocus": [
+      "Community Enterobacterales"
+    ],
+    "riskFactorTriggers": [
+      "Localized urinary symptoms with systemic signs but no septic shock",
+      "Low ESBL and Pseudomonas concern"
+    ],
+    "avoidIf": [
+      "Prior ESBL or AmpC history",
+      "Pseudomonas or Enterococcus is the likely pathogen"
+    ],
+    "renalFlags": [
+      "Usually no renal adjustment, but reassess if combined therapies add renal toxicity"
+    ],
+    "linkedMonographIds": [
+      "ceftriaxone"
+    ],
     "drug": "ceftriaxone",
     "monographId": "ceftriaxone",
     "evidence": "A-I",
@@ -5181,7 +5997,29 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Complicated UTI",
     "line": "First-Line — cUTI WITHOUT Sepsis",
     "regimen": "Ciprofloxacin 500mg PO BID or Levofloxacin 750mg PO daily",
-    "notes": "IDSA 2025 preferred IF no FQ exposure in past 12 months (Step 2). Advantage: oral administration avoids IV, enables outpatient treatment. AVOID if FQ used in prior 12 months — guideline-specific recommendation.",
+    "notes": "Oral-first strategy when fluoroquinolone exposure is absent and local resistance remains acceptable.",
+    "indication": "Complicated UTI without sepsis",
+    "site": "Urinary tract",
+    "role": "situational",
+    "pathogenFocus": [
+      "Susceptible Enterobacterales",
+      "Selected Pseudomonas isolates"
+    ],
+    "riskFactorTriggers": [
+      "No fluoroquinolone use in the past 12 months",
+      "Able to take and absorb oral therapy"
+    ],
+    "avoidIf": [
+      "Recent fluoroquinolone exposure",
+      "Known resistant isolate or high local fluoroquinolone resistance"
+    ],
+    "renalFlags": [
+      "Adjust dose in kidney dysfunction and monitor QT, tendon, and CNS toxicity"
+    ],
+    "linkedMonographIds": [
+      "ciprofloxacin",
+      "levofloxacin"
+    ],
     "drug": "ciprofloxacin",
     "monographId": "ciprofloxacin",
     "evidence": "A-I",
@@ -5199,7 +6037,28 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryName": "Complicated UTI",
     "line": "First-Line — cUTI WITHOUT Sepsis",
     "regimen": "Piperacillin-tazobactam 3.375g IV q6h (or 4.5g q8h extended infusion)",
-    "notes": "IDSA 2025 preferred empiric option. Extended infusion (over 4h) optimizes PK/PD. Appropriate when broader coverage desired (Pseudomonas risk).",
+    "notes": "Broader beta-lactam choice when urinary-source Pseudomonas or mixed healthcare exposure is plausible without jumping to a carbapenem.",
+    "indication": "Complicated UTI without sepsis",
+    "site": "Urinary tract",
+    "role": "alternative",
+    "pathogenFocus": [
+      "Pseudomonas",
+      "Broader gram-negative cUTI pathogens"
+    ],
+    "riskFactorTriggers": [
+      "Prior Pseudomonas urine culture",
+      "Catheter-associated or healthcare-exposed cUTI"
+    ],
+    "avoidIf": [
+      "Strong ESBL bacteremia concern",
+      "Avoidable nephrotoxin pairing with vancomycin"
+    ],
+    "renalFlags": [
+      "Extended infusion and renal adjustment improve urinary-source PK/PD"
+    ],
+    "linkedMonographIds": [
+      "pip-tazo"
+    ],
     "drug": "pip-tazo",
     "monographId": "pip-tazo",
     "evidence": "A-I",
@@ -5228,8 +6087,26 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "subcategoryId": "complicated-uti",
     "subcategoryName": "Complicated UTI",
     "line": "IV-to-PO Step-Down (IDSA 2025 — Formally Endorsed)",
-    "regimen": "Switch when: clinically improving, able to take oral meds, effective oral option available",
-    "notes": "IDSA 2025 formally endorses early IV-to-PO transition, even in gram-negative bacteremia (conditional recommendation). Oral options: FQs (ciprofloxacin, levofloxacin), TMP-SMX, amox-clav (if susceptible). Effective oral agent must achieve therapeutic levels in urine AND tissue AND be active against the pathogen.",
+    "regimen": "Switch when clinically improving, able to take oral meds, and an effective oral option is available",
+    "notes": "Make oral completion the default exit when bacteremia is clearing, source control is adequate, and the oral agent has real urinary and tissue exposure.",
+    "indication": "Complicated UTI step-down",
+    "site": "Urinary tract",
+    "role": "situational",
+    "riskFactorTriggers": [
+      "Afebrile or clearly improving",
+      "Hemodynamically stable",
+      "TMP-SMX or fluoroquinolone susceptibility confirmed"
+    ],
+    "avoidIf": [
+      "Obstruction remains unrelieved",
+      "No reliable oral option",
+      "Persistent bacteremia or poor absorption"
+    ],
+    "linkedMonographIds": [
+      "ciprofloxacin",
+      "levofloxacin",
+      "tmp-smx"
+    ],
     "drug": "iv-po-switch"
   },
   {
@@ -5553,7 +6430,31 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "Severe CAP / ICU Admission",
       "line": "Add-On for Pseudomonas Risk Factors",
       "regimen": "Cefepime 2g IV q8h (extended infusion)",
-      "notes": "Alternative anti-pseudomonal beta-lactam. Also covers SPACE organisms (AmpC producers) — better than ceftriaxone for Enterobacter, Citrobacter, Serratia.",
+      "notes": "Antipseudomonal beta-lactam that preserves carbapenems and handles AmpC-risk Enterobacterales better than ceftriaxone.",
+      "indication": "Severe CAP with Pseudomonas or AmpC risk",
+      "site": "Lung",
+      "role": "alternative",
+      "pathogenFocus": [
+        "Pseudomonas",
+        "AmpC-risk Enterobacterales"
+      ],
+      "riskFactorTriggers": [
+        "Prior Pseudomonas isolation",
+        "Need antipseudomonal coverage without defaulting to meropenem"
+      ],
+      "avoidIf": [
+        "Prominent aspiration or anaerobic concern without partner coverage",
+        "Cefepime neurotoxicity risk with unstable renal function"
+      ],
+      "renalFlags": [
+        "High-dose extended infusion with close renal and neurotoxicity monitoring"
+      ],
+      "dialysisFlags": [
+        "CRRT often still needs near-full antipseudomonal exposure"
+      ],
+      "linkedMonographIds": [
+        "cefepime"
+      ],
       "drug": "cefepime",
       "monographId": "cefepime"
     },
@@ -5566,13 +6467,73 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "High-Risk Febrile Neutropenia",
       "line": "Monotherapy — Antipseudomonal Beta-Lactam (IDSA 2010 First-Line, A-I)",
       "regimen": "Cefepime 2g IV q8h",
-      "notes": "IDSA 2010 preferred first-line monotherapy (A-I). Fourth-generation cephalosporin with excellent antipseudomonal activity and broad gram-negative + gram-positive spectrum. Does NOT cover MRSA, Enterococcus, or anaerobes. DOSING NOTE: 2g q8h is the standard for FN; continuous infusion (6g over 24h by elastomeric pump) has pharmacodynamic advantages for organisms with higher MICs. RENAL DOSING: CrCl 30–60 → 1–2g q12h; CrCl 11–29 → 1–2g q24h; HD → 0.5–1g after each HD session. CNS TOXICITY RISK: neurotoxicity (encephalopathy, myoclonus, seizures) at higher exposures — especially in renal failure. Monitor closely in elderly and renally impaired patients. Consider EEG if altered mental status develops on cefepime.",
+      "notes": "Standard first-line high-risk FN monotherapy when shock, abdominal source, or prior ESBL history does not force a broader backbone.",
+      "indication": "High-risk febrile neutropenia",
+      "site": "Systemic",
+      "role": "preferred",
+      "pathogenFocus": [
+        "Pseudomonas",
+        "Common gram-negative FN pathogens",
+        "Viridans streptococci"
+      ],
+      "riskFactorTriggers": [
+        "High-risk FN without dominant abdominal source",
+        "Need frontline antipseudomonal beta-lactam"
+      ],
+      "avoidIf": [
+        "Typhlitis or anaerobic source without added coverage",
+        "Prior ESBL or MDR gram-negative bacteremia"
+      ],
+      "renalFlags": [
+        "Renal adjustment and neurotoxicity monitoring are essential in prolonged therapy"
+      ],
+      "linkedMonographIds": [
+        "cefepime"
+      ],
       "drug": "cefepime",
       "monographId": "cefepime",
       "evidence": "A-I",
       "evidenceSource": "IDSA 2010",
       "evidenceSourceIds": [
         "idsa-febrile-neutropenia"
+      ]
+    },
+    {
+      "id": "hap-vap/hap-mdr-risk/empiric-anti-pseudomonal-beta-lactam-choose-one/cefepime-mdr-2",
+      "diseaseId": "hap-vap",
+      "diseaseName": "Hospital-Acquired & Ventilator-Associated Pneumonia",
+      "diseaseIcon": "🏥",
+      "subcategoryId": "hap-mdr-risk",
+      "subcategoryName": "HAP — MDR Risk Factors OR High Mortality Risk",
+      "line": "Empiric — Anti-Pseudomonal Beta-Lactam (choose one)",
+      "regimen": "Cefepime 2g IV q8h (extended infusion)",
+      "notes": "Carbapenem-sparing antipseudomonal option when AmpC-risk organisms or local susceptibility patterns favor cefepime.",
+      "indication": "HAP with MDR risk",
+      "site": "Lung",
+      "role": "preferred",
+      "pathogenFocus": [
+        "Pseudomonas",
+        "AmpC-risk Enterobacterales"
+      ],
+      "riskFactorTriggers": [
+        "Prior Enterobacter, Citrobacter, or Serratia history",
+        "Need antipseudomonal coverage without automatic anaerobic expansion"
+      ],
+      "avoidIf": [
+        "Strong aspiration component without anaerobic partner",
+        "Neurotoxicity risk with unstable renal function"
+      ],
+      "renalFlags": [
+        "High-dose extended infusion with daily mental-status and creatinine review"
+      ],
+      "linkedMonographIds": [
+        "cefepime"
+      ],
+      "drug": "cefepime-mdr",
+      "evidence": "A-I",
+      "evidenceSource": "IDSA/ATS 2016",
+      "evidenceSourceIds": [
+        "ats-idsa-2016-hap-vap"
       ]
     },
     {
@@ -5594,6 +6555,47 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       ]
     },
     {
+      "id": "iai/ha-iai/empiric-post-operative-healthcare-associated-cia/cefepime-metro-ha-3",
+      "diseaseId": "iai",
+      "diseaseName": "Intra-Abdominal Infections",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "ha-iai",
+      "subcategoryName": "Healthcare-Associated & Post-Operative IAI",
+      "line": "Empiric — Post-Operative / Healthcare-Associated cIAI",
+      "regimen": "Cefepime 2g IV q8h (extended infusion) + Metronidazole 500mg IV q8h + Vancomycin IV",
+      "notes": "Carbapenem-sparing triple regimen when AmpC-stable gram-negative coverage is desired but ESBL risk is not dominant.",
+      "indication": "Healthcare-associated intra-abdominal infection",
+      "site": "Intra-abdominal",
+      "role": "alternative",
+      "pathogenFocus": [
+        "AmpC-risk Enterobacterales",
+        "Pseudomonas",
+        "Anaerobes"
+      ],
+      "riskFactorTriggers": [
+        "Need cefepime over pip-tazo for prior Enterobacter or Citrobacter history",
+        "Avoiding routine carbapenem use"
+      ],
+      "avoidIf": [
+        "ESBL pressure is high",
+        "Anaerobe partner is omitted"
+      ],
+      "renalFlags": [
+        "Cefepime neurotoxicity risk rises quickly in renal dysfunction"
+      ],
+      "linkedMonographIds": [
+        "cefepime",
+        "metronidazole",
+        "vancomycin"
+      ],
+      "drug": "cefepime-metro-ha",
+      "evidence": "B-II",
+      "evidenceSource": "SIS/IDSA 2017",
+      "evidenceSourceIds": [
+        "sis-2017-ciai"
+      ]
+    },
+    {
       "id": "sepsis/sepsis-community/first-line-empiric-no-mdr-mrsa-risk-factors/cefepime-3",
       "diseaseId": "sepsis",
       "diseaseName": "Sepsis & Septic Shock",
@@ -5610,6 +6612,40 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "evidenceSourceIds": [
         "ssc-2021"
       ]
+    },
+    {
+      "id": "uti/complicated-uti/first-line-cuti-with-sepsis/ceftriaxone-sepsis-1",
+      "diseaseId": "uti",
+      "diseaseName": "Urinary Tract Infections",
+      "diseaseIcon": "🔬",
+      "subcategoryId": "complicated-uti",
+      "subcategoryName": "Complicated UTI",
+      "line": "First-Line — cUTI WITH Sepsis",
+      "regimen": "Ceftriaxone 2g IV daily or Cefepime 2g IV q8h",
+      "notes": "First-line sepsis option when resistant phenotype risk is still moderate and early broadening can be refined quickly by cultures.",
+      "indication": "Complicated UTI with sepsis",
+      "site": "Urinary tract",
+      "role": "preferred",
+      "pathogenFocus": [
+        "Enterobacterales",
+        "Cefepime adds Pseudomonas and AmpC coverage"
+      ],
+      "riskFactorTriggers": [
+        "Sepsis without dominant ESBL history",
+        "Need immediate IV therapy before urine and blood cultures finalize"
+      ],
+      "avoidIf": [
+        "Known ESBL or CRE history",
+        "High-risk Pseudomonas only if ceftriaxone is chosen"
+      ],
+      "rapidDiagnosticActions": [
+        "Move from ceftriaxone to cefepime or meropenem if blood culture data show AmpC or ESBL risk"
+      ],
+      "linkedMonographIds": [
+        "ceftriaxone",
+        "cefepime"
+      ],
+      "drug": "ceftriaxone-sepsis"
     }
   ],
   "meropenem": [
@@ -5648,7 +6684,28 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "Gram-Negative Bacteremia",
       "line": "Empiric — Healthcare-Associated or MDR Risk Factors",
       "regimen": "Meropenem 1g IV q8h (extended infusion over 3h preferred)",
-      "notes": "Reserve for high suspicion of ESBL or AmpC-producing organisms, or critically ill patients. Definitive therapy for confirmed ESBL bacteremia (per MERINO trial). De-escalate as soon as susceptibilities allow — carbapenem stewardship matters.",
+      "notes": "Definitive-quality empiric choice when ESBL risk or critical illness makes pip-tazo too unreliable.",
+      "indication": "Healthcare-associated gram-negative bacteremia with ESBL risk",
+      "site": "Bloodstream",
+      "role": "preferred",
+      "pathogenFocus": [
+        "ESBL Enterobacterales",
+        "Broad gram-negative bloodstream pathogens"
+      ],
+      "riskFactorTriggers": [
+        "Prior ESBL isolate",
+        "Critical illness",
+        "Rapid diagnostics suggesting resistant Enterobacterales"
+      ],
+      "avoidIf": [
+        "Cultures support ceftriaxone or pip-tazo de-escalation"
+      ],
+      "renalFlags": [
+        "Extended infusion and renal replacement dosing both affect bloodstream exposure"
+      ],
+      "linkedMonographIds": [
+        "meropenem"
+      ],
       "drug": "meropenem",
       "monographId": "meropenem"
     },
@@ -5661,7 +6718,35 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "Severe CAP / ICU Admission",
       "line": "Add-On for Pseudomonas Risk Factors",
       "regimen": "Meropenem 1-2g IV q8h (extended infusion over 3h)",
-      "notes": "Reserve for severe septic shock, ESBL/MDR risk, or failure of other agents. Always de-escalate aggressively once cultures return. Extended infusion is standard of care in the ICU.",
+      "notes": "Reserve carbapenem anchor for septic shock or credible ESBL and MDR gram-negative risk, then exit quickly once cultures allow.",
+      "indication": "Severe CAP with ESBL or major MDR gram-negative risk",
+      "site": "Lung",
+      "role": "salvage",
+      "pathogenFocus": [
+        "ESBL Enterobacterales",
+        "Pseudomonas",
+        "Anaerobes"
+      ],
+      "riskFactorTriggers": [
+        "Septic shock",
+        "Prior ESBL or MDR gram-negative respiratory isolate",
+        "Failure of narrower antipseudomonal options"
+      ],
+      "avoidIf": [
+        "Cultures support cefepime or pip-tazo susceptibility without ESBL risk"
+      ],
+      "renalFlags": [
+        "Use high-dose extended infusion and adjust for renal replacement exposure"
+      ],
+      "dialysisFlags": [
+        "CRRT commonly still needs q8h extended-infusion dosing"
+      ],
+      "rapidDiagnosticActions": [
+        "De-escalate the same day ESBL or carbapenemase risk is disproven"
+      ],
+      "linkedMonographIds": [
+        "meropenem"
+      ],
       "drug": "meropenem",
       "monographId": "meropenem"
     },
@@ -5674,13 +6759,170 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "High-Risk Febrile Neutropenia",
       "line": "Monotherapy — Antipseudomonal Beta-Lactam (IDSA 2010 First-Line, A-I)",
       "regimen": "Meropenem 1g IV q8h (2g IV q8h for Pseudomonas or suspected resistant organisms)",
-      "notes": "IDSA 2010 alternative first-line monotherapy (A-I). Reserve as the broadest coverage option — covers Pseudomonas, ESBL producers, AmpC producers, anaerobes, streptococci. Preferred as empiric first-line in: (1) Patients with prior gram-negative bacteremia due to ESBL-producing organisms, (2) Recent hospitalization in regions with high ESBL prevalence, (3) Clinically unstable or septic shock presentations where broadest coverage is critical, (4) Suspected typhlitis or abdominal source. STEWARDSHIP NOTE: Carbapenems should not be used routinely as first-line when cefepime or pip-tazo are appropriate — carbapenem overuse drives carbapenem-resistant Enterobacterales (CRE) emergence. RENAL DOSING: CrCl 26–50 → 1g q12h; CrCl 10–25 → 500mg q12h; CrCl <10/HD → 500mg q24h.",
+      "notes": "Broadest frontline FN beta-lactam when ESBL history, septic shock, or severe abdominal source makes cefepime or pip-tazo too narrow.",
+      "indication": "High-risk febrile neutropenia",
+      "site": "Systemic",
+      "role": "preferred",
+      "pathogenFocus": [
+        "ESBL Enterobacterales",
+        "Pseudomonas",
+        "Anaerobes"
+      ],
+      "riskFactorTriggers": [
+        "Prior ESBL bacteremia",
+        "Septic shock",
+        "Typhlitis with severe instability"
+      ],
+      "avoidIf": [
+        "Culture history supports cefepime or pip-tazo exit"
+      ],
+      "renalFlags": [
+        "Dose around kidney function and renal replacement from the first day"
+      ],
+      "linkedMonographIds": [
+        "meropenem"
+      ],
       "drug": "meropenem",
       "monographId": "meropenem",
       "evidence": "A-I",
       "evidenceSource": "IDSA 2010",
       "evidenceSourceIds": [
         "idsa-febrile-neutropenia"
+      ]
+    },
+    {
+      "id": "hap-vap/hap-mdr-risk/empiric-anti-pseudomonal-beta-lactam-choose-one/meropenem-mdr-3",
+      "diseaseId": "hap-vap",
+      "diseaseName": "Hospital-Acquired & Ventilator-Associated Pneumonia",
+      "diseaseIcon": "🏥",
+      "subcategoryId": "hap-mdr-risk",
+      "subcategoryName": "HAP — MDR Risk Factors OR High Mortality Risk",
+      "line": "Empiric — Anti-Pseudomonal Beta-Lactam (choose one)",
+      "regimen": "Meropenem 2g IV q8h (extended infusion over 3h)",
+      "notes": "Escalation backbone when ESBL risk, prior MDR isolates, or septic shock makes cefepime or pip-tazo too fragile.",
+      "indication": "HAP with ESBL or major MDR gram-negative risk",
+      "site": "Lung",
+      "role": "preferred",
+      "pathogenFocus": [
+        "ESBL Enterobacterales",
+        "Pseudomonas",
+        "Anaerobes"
+      ],
+      "riskFactorTriggers": [
+        "Prior ESBL or MDR gram-negative isolate",
+        "Septic shock",
+        "Rapid diagnostics suggesting resistant Enterobacterales"
+      ],
+      "avoidIf": [
+        "Cultures and history support a cefepime or pip-tazo exit"
+      ],
+      "renalFlags": [
+        "Maintain high-dose extended infusion and dose-adjust around renal replacement"
+      ],
+      "dialysisFlags": [
+        "CRRT often still needs q8h extended infusion"
+      ],
+      "rapidDiagnosticActions": [
+        "Exit meropenem the same day resistant phenotype is disproven"
+      ],
+      "linkedMonographIds": [
+        "meropenem"
+      ],
+      "drug": "meropenem-mdr",
+      "evidence": "A-I",
+      "evidenceSource": "IDSA/ATS 2016",
+      "evidenceSourceIds": [
+        "ats-idsa-2016-hap-vap"
+      ]
+    },
+    {
+      "id": "iai/ha-iai/empiric-post-operative-healthcare-associated-cia/meropenem-ha-iai-2",
+      "diseaseId": "iai",
+      "diseaseName": "Intra-Abdominal Infections",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "ha-iai",
+      "subcategoryName": "Healthcare-Associated & Post-Operative IAI",
+      "line": "Empiric — Post-Operative / Healthcare-Associated cIAI",
+      "regimen": "Meropenem 1g IV q8h (extended infusion) + Vancomycin IV",
+      "notes": "Carbapenem-based cIAI plan when ESBL pressure, prior resistant cultures, or shock makes pip-tazo unreliable.",
+      "indication": "Healthcare-associated intra-abdominal infection with ESBL risk",
+      "site": "Intra-abdominal",
+      "role": "preferred",
+      "pathogenFocus": [
+        "ESBL Enterobacterales",
+        "Pseudomonas",
+        "Anaerobes"
+      ],
+      "riskFactorTriggers": [
+        "Prior ESBL or MDR gram-negative isolate",
+        "Septic shock",
+        "Failure or unsuitability of pip-tazo-based empiric therapy"
+      ],
+      "avoidIf": [
+        "Operative cultures support a narrower beta-lactam exit"
+      ],
+      "renalFlags": [
+        "Extended infusion and renal replacement dosing both matter"
+      ],
+      "linkedMonographIds": [
+        "meropenem",
+        "vancomycin"
+      ],
+      "drug": "meropenem-ha-iai",
+      "evidence": "A-I",
+      "evidenceSource": "SIS/IDSA 2017",
+      "evidenceSourceIds": [
+        "sis-2017-ciai"
+      ]
+    },
+    {
+      "id": "sepsis/septic-shock/immediate-broad-spectrum-empiric-septic-shock-wi/vanco-meropenem-1",
+      "diseaseId": "sepsis",
+      "diseaseName": "Sepsis & Septic Shock",
+      "diseaseIcon": "🔴",
+      "subcategoryId": "septic-shock",
+      "subcategoryName": "Septic Shock",
+      "line": "Immediate Broad-Spectrum Empiric — Septic Shock (Within 1 Hour)",
+      "regimen": "Vancomycin IV + Meropenem 2g IV q8h over 3h ± Micafungin 100mg IV q24h if Candida risk",
+      "notes": "Maximal early shock regimen when the source is unclear or healthcare-associated and both MRSA and resistant gram-negatives remain plausible.",
+      "indication": "Septic shock of unclear source",
+      "site": "Systemic",
+      "role": "preferred",
+      "pathogenFocus": [
+        "MRSA",
+        "ESBL Enterobacterales",
+        "Pseudomonas",
+        "Anaerobes",
+        "Candida when host risk is real"
+      ],
+      "riskFactorTriggers": [
+        "Vasopressor-dependent shock",
+        "Unclear source",
+        "Healthcare exposure or prior resistant isolates"
+      ],
+      "avoidIf": [
+        "Rapid source clarification allows narrower therapy within the first 24-48 hours"
+      ],
+      "renalFlags": [
+        "Vancomycin AUC monitoring and meropenem extended infusion both need active renal reassessment"
+      ],
+      "dialysisFlags": [
+        "HD and CRRT dosing must be protocolized from the start in shock"
+      ],
+      "rapidDiagnosticActions": [
+        "Drop vancomycin quickly if MRSA data are negative",
+        "Drop antifungal coverage if Candida risk and diagnostics do not support it"
+      ],
+      "linkedMonographIds": [
+        "vancomycin",
+        "meropenem",
+        "micafungin"
+      ],
+      "drug": "vanco-meropenem",
+      "evidence": "A-I",
+      "evidenceSource": "SSC 2021",
+      "evidenceSourceIds": [
+        "ssc-2021"
       ]
     },
     {
@@ -5705,7 +6947,34 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "Complicated UTI",
       "line": "First-Line — cUTI WITH Sepsis",
       "regimen": "Meropenem 1g IV q8h (extended infusion over 3h)",
-      "notes": "IDSA 2025 includes carbapenems as first-line option for SEPSIS (unlike non-septic cUTI). Use if ESBL risk, prior MDR organisms, or septic shock. Antibiogram step: select agent with ≥90% susceptibility for septic shock, ≥80% for sepsis without shock.",
+      "notes": "Cleanest initial anchor when ESBL risk, prior MDR urine cultures, or septic shock makes cephalosporins and pip-tazo unreliable.",
+      "indication": "Complicated UTI with sepsis",
+      "site": "Urinary tract",
+      "role": "preferred",
+      "pathogenFocus": [
+        "ESBL Enterobacterales",
+        "Broad gram-negative sepsis pathogens"
+      ],
+      "riskFactorTriggers": [
+        "Prior ESBL or MDR urine isolate",
+        "Septic shock",
+        "Carbapenem-sparing options unlikely to be active"
+      ],
+      "avoidIf": [
+        "Cultures and history support ceftriaxone, cefepime, or pip-tazo exit"
+      ],
+      "renalFlags": [
+        "Extended infusion plus renal replacement adjustment are both important"
+      ],
+      "dialysisFlags": [
+        "CRRT often still needs q8h exposure"
+      ],
+      "rapidDiagnosticActions": [
+        "De-escalate once ESBL and carbapenemase risk is excluded"
+      ],
+      "linkedMonographIds": [
+        "meropenem"
+      ],
       "drug": "meropenem",
       "monographId": "meropenem"
     }
@@ -5813,6 +7082,36 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "evidenceSourceIds": [
         "idsa-escmid-2011-uti"
       ]
+    },
+    {
+      "id": "uti/complicated-uti/iv-to-po-step-down-idsa-2025-formally-endorsed/iv-po-switch-1",
+      "diseaseId": "uti",
+      "diseaseName": "Urinary Tract Infections",
+      "diseaseIcon": "🔬",
+      "subcategoryId": "complicated-uti",
+      "subcategoryName": "Complicated UTI",
+      "line": "IV-to-PO Step-Down (IDSA 2025 — Formally Endorsed)",
+      "regimen": "Switch when clinically improving, able to take oral meds, and an effective oral option is available",
+      "notes": "Make oral completion the default exit when bacteremia is clearing, source control is adequate, and the oral agent has real urinary and tissue exposure.",
+      "indication": "Complicated UTI step-down",
+      "site": "Urinary tract",
+      "role": "situational",
+      "riskFactorTriggers": [
+        "Afebrile or clearly improving",
+        "Hemodynamically stable",
+        "TMP-SMX or fluoroquinolone susceptibility confirmed"
+      ],
+      "avoidIf": [
+        "Obstruction remains unrelieved",
+        "No reliable oral option",
+        "Persistent bacteremia or poor absorption"
+      ],
+      "linkedMonographIds": [
+        "ciprofloxacin",
+        "levofloxacin",
+        "tmp-smx"
+      ],
+      "drug": "iv-po-switch"
     },
     {
       "id": "uti/uncomplicated-cystitis/first-line/tmp-smx-2",
@@ -5948,7 +7247,29 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "Complicated UTI",
       "line": "First-Line — cUTI WITHOUT Sepsis",
       "regimen": "Ciprofloxacin 500mg PO BID or Levofloxacin 750mg PO daily",
-      "notes": "IDSA 2025 preferred IF no FQ exposure in past 12 months (Step 2). Advantage: oral administration avoids IV, enables outpatient treatment. AVOID if FQ used in prior 12 months — guideline-specific recommendation.",
+      "notes": "Oral-first strategy when fluoroquinolone exposure is absent and local resistance remains acceptable.",
+      "indication": "Complicated UTI without sepsis",
+      "site": "Urinary tract",
+      "role": "situational",
+      "pathogenFocus": [
+        "Susceptible Enterobacterales",
+        "Selected Pseudomonas isolates"
+      ],
+      "riskFactorTriggers": [
+        "No fluoroquinolone use in the past 12 months",
+        "Able to take and absorb oral therapy"
+      ],
+      "avoidIf": [
+        "Recent fluoroquinolone exposure",
+        "Known resistant isolate or high local fluoroquinolone resistance"
+      ],
+      "renalFlags": [
+        "Adjust dose in kidney dysfunction and monitor QT, tendon, and CNS toxicity"
+      ],
+      "linkedMonographIds": [
+        "ciprofloxacin",
+        "levofloxacin"
+      ],
       "drug": "ciprofloxacin",
       "monographId": "ciprofloxacin",
       "evidence": "A-I",
@@ -5956,6 +7277,36 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "evidenceSourceIds": [
         "idsa-escmid-2011-uti"
       ]
+    },
+    {
+      "id": "uti/complicated-uti/iv-to-po-step-down-idsa-2025-formally-endorsed/iv-po-switch-1",
+      "diseaseId": "uti",
+      "diseaseName": "Urinary Tract Infections",
+      "diseaseIcon": "🔬",
+      "subcategoryId": "complicated-uti",
+      "subcategoryName": "Complicated UTI",
+      "line": "IV-to-PO Step-Down (IDSA 2025 — Formally Endorsed)",
+      "regimen": "Switch when clinically improving, able to take oral meds, and an effective oral option is available",
+      "notes": "Make oral completion the default exit when bacteremia is clearing, source control is adequate, and the oral agent has real urinary and tissue exposure.",
+      "indication": "Complicated UTI step-down",
+      "site": "Urinary tract",
+      "role": "situational",
+      "riskFactorTriggers": [
+        "Afebrile or clearly improving",
+        "Hemodynamically stable",
+        "TMP-SMX or fluoroquinolone susceptibility confirmed"
+      ],
+      "avoidIf": [
+        "Obstruction remains unrelieved",
+        "No reliable oral option",
+        "Persistent bacteremia or poor absorption"
+      ],
+      "linkedMonographIds": [
+        "ciprofloxacin",
+        "levofloxacin",
+        "tmp-smx"
+      ],
+      "drug": "iv-po-switch"
     }
   ],
   "ceftriaxone": [
@@ -5968,7 +7319,27 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "Gram-Negative Bacteremia",
       "line": "Empiric — Community-Acquired, Low Resistance Risk",
       "regimen": "Ceftriaxone 2g IV daily",
-      "notes": "Excellent first-line empiric for community-acquired GN bacteremia from urinary or intra-abdominal source. Covers most community E. coli, Klebsiella, Proteus. Does NOT cover ESBL producers, AmpC producers (Enterobacter, Citrobacter, Serratia), or Pseudomonas. Add metronidazole if intra-abdominal source suspected (anaerobic coverage).",
+      "notes": "Default empiric bloodstream option for urinary or abdominal Enterobacterales when resistance risk is low.",
+      "indication": "Community-acquired gram-negative bacteremia",
+      "site": "Bloodstream",
+      "role": "preferred",
+      "pathogenFocus": [
+        "E. coli",
+        "Klebsiella",
+        "Proteus"
+      ],
+      "riskFactorTriggers": [
+        "Community source",
+        "Low ESBL and Pseudomonas risk"
+      ],
+      "avoidIf": [
+        "ESBL or AmpC history",
+        "Pseudomonas concern",
+        "Need anaerobic coverage without metronidazole partner"
+      ],
+      "linkedMonographIds": [
+        "ceftriaxone"
+      ],
       "drug": "ceftriaxone",
       "monographId": "ceftriaxone"
     },
@@ -6051,9 +7422,72 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "Severe CAP / ICU Admission",
       "line": "First-Line (ALWAYS Combination for Severe CAP)",
       "regimen": "Ceftriaxone 2g IV daily + Azithromycin 500mg IV daily",
-      "notes": "ATS/IDSA standard for severe CAP. The macrolide is STRONGLY recommended here (not optional like non-ICU). Macrolide immunomodulatory effect is most impactful in severe/bacteremic disease. Duration: minimum 5 days, typically 7 days.",
+      "notes": "Default ICU CAP backbone when MRSA and Pseudomonas risk signals are absent but atypical coverage is still needed.",
+      "indication": "Severe CAP",
+      "site": "Lung",
+      "role": "preferred",
+      "pathogenFocus": [
+        "Pneumococcus",
+        "H. influenzae",
+        "Legionella and other atypicals"
+      ],
+      "riskFactorTriggers": [
+        "ICU CAP without prior MRSA or Pseudomonas isolation",
+        "No recent IV antibiotic exposure forcing broader gram-negative coverage"
+      ],
+      "avoidIf": [
+        "Prior MRSA isolation or post-influenza necrotizing concern without MRSA add-on",
+        "Prior Pseudomonas isolation or recent IV antibiotics within 90 days"
+      ],
+      "rapidDiagnosticActions": [
+        "Stop MRSA add-on if nares PCR is negative",
+        "Keep atypical-active therapy if Legionella testing is positive"
+      ],
+      "linkedMonographIds": [
+        "ceftriaxone",
+        "azithromycin"
+      ],
       "drug": "ceftriaxone",
       "monographId": "ceftriaxone",
+      "evidence": "A-I",
+      "evidenceSource": "IDSA/ATS 2019",
+      "evidenceSourceIds": [
+        "ats-idsa-2019-cap"
+      ]
+    },
+    {
+      "id": "cap/cap-icu/first-line-always-combination-for-severe-cap/ceftriaxone-fq-2",
+      "diseaseId": "cap",
+      "diseaseName": "Community-Acquired Pneumonia",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "cap-icu",
+      "subcategoryName": "Severe CAP / ICU Admission",
+      "line": "First-Line (ALWAYS Combination for Severe CAP)",
+      "regimen": "Ceftriaxone 2g IV daily + Levofloxacin 750mg IV daily",
+      "notes": "Macrolide-sparing ICU CAP option when azithromycin is blocked by QT risk, intolerance, or major interaction concerns.",
+      "indication": "Severe CAP",
+      "site": "Lung",
+      "role": "alternative",
+      "pathogenFocus": [
+        "Pneumococcus",
+        "Legionella and other atypicals",
+        "Typical CAP gram-negatives"
+      ],
+      "riskFactorTriggers": [
+        "Need severe CAP combination therapy but macrolide cannot be used"
+      ],
+      "avoidIf": [
+        "Recent fluoroquinolone exposure",
+        "Major QT or tendon toxicity risk"
+      ],
+      "renalFlags": [
+        "Levofloxacin needs renal adjustment as kidney function changes"
+      ],
+      "linkedMonographIds": [
+        "ceftriaxone",
+        "levofloxacin"
+      ],
+      "drug": "ceftriaxone-fq",
       "evidence": "A-I",
       "evidenceSource": "IDSA/ATS 2019",
       "evidenceSourceIds": [
@@ -6111,6 +7545,40 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       ]
     },
     {
+      "id": "uti/complicated-uti/first-line-cuti-with-sepsis/ceftriaxone-sepsis-1",
+      "diseaseId": "uti",
+      "diseaseName": "Urinary Tract Infections",
+      "diseaseIcon": "🔬",
+      "subcategoryId": "complicated-uti",
+      "subcategoryName": "Complicated UTI",
+      "line": "First-Line — cUTI WITH Sepsis",
+      "regimen": "Ceftriaxone 2g IV daily or Cefepime 2g IV q8h",
+      "notes": "First-line sepsis option when resistant phenotype risk is still moderate and early broadening can be refined quickly by cultures.",
+      "indication": "Complicated UTI with sepsis",
+      "site": "Urinary tract",
+      "role": "preferred",
+      "pathogenFocus": [
+        "Enterobacterales",
+        "Cefepime adds Pseudomonas and AmpC coverage"
+      ],
+      "riskFactorTriggers": [
+        "Sepsis without dominant ESBL history",
+        "Need immediate IV therapy before urine and blood cultures finalize"
+      ],
+      "avoidIf": [
+        "Known ESBL or CRE history",
+        "High-risk Pseudomonas only if ceftriaxone is chosen"
+      ],
+      "rapidDiagnosticActions": [
+        "Move from ceftriaxone to cefepime or meropenem if blood culture data show AmpC or ESBL risk"
+      ],
+      "linkedMonographIds": [
+        "ceftriaxone",
+        "cefepime"
+      ],
+      "drug": "ceftriaxone-sepsis"
+    },
+    {
       "id": "uti/complicated-uti/first-line-cuti-without-sepsis/ceftriaxone-1",
       "diseaseId": "uti",
       "diseaseName": "Urinary Tract Infections",
@@ -6118,10 +7586,325 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryId": "complicated-uti",
       "subcategoryName": "Complicated UTI",
       "line": "First-Line — cUTI WITHOUT Sepsis",
-      "regimen": "Ceftriaxone 1-2g IV daily (or cefepime 2g IV q8h if AmpC/Pseudomonas concern)",
-      "notes": "IDSA 2025 preferred: 3rd/4th-gen cephalosporins. Carbapenems are NOT first-line for non-septic cUTI — this is a key stewardship change. Reserve carbapenems for sepsis or confirmed ESBL.",
+      "regimen": "Ceftriaxone 1-2g IV daily",
+      "notes": "Workhorse non-septic cUTI anchor that preserves carbapenems when ESBL risk is not dominant.",
+      "indication": "Complicated UTI without sepsis",
+      "site": "Urinary tract",
+      "role": "preferred",
+      "pathogenFocus": [
+        "Community Enterobacterales"
+      ],
+      "riskFactorTriggers": [
+        "Localized urinary symptoms with systemic signs but no septic shock",
+        "Low ESBL and Pseudomonas concern"
+      ],
+      "avoidIf": [
+        "Prior ESBL or AmpC history",
+        "Pseudomonas or Enterococcus is the likely pathogen"
+      ],
+      "renalFlags": [
+        "Usually no renal adjustment, but reassess if combined therapies add renal toxicity"
+      ],
+      "linkedMonographIds": [
+        "ceftriaxone"
+      ],
       "drug": "ceftriaxone",
       "monographId": "ceftriaxone",
+      "evidence": "A-I",
+      "evidenceSource": "IDSA 2011",
+      "evidenceSourceIds": [
+        "idsa-escmid-2011-uti"
+      ]
+    }
+  ],
+  "pip-tazo": [
+    {
+      "id": "bacteremia-endocarditis/gram-negative-bacteremia/empiric-healthcare-associated-or-mdr-risk-factor/piperacillin-tazobactam-1",
+      "diseaseId": "bacteremia-endocarditis",
+      "diseaseName": "Bacteremia & Endocarditis",
+      "diseaseIcon": "🩸",
+      "subcategoryId": "gram-negative-bacteremia",
+      "subcategoryName": "Gram-Negative Bacteremia",
+      "line": "Empiric — Healthcare-Associated or MDR Risk Factors",
+      "regimen": "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)",
+      "notes": "Broader bacteremia anchor when Pseudomonas or healthcare-associated resistance risk is present but carbapenem need is not yet proven.",
+      "indication": "Healthcare-associated gram-negative bacteremia",
+      "site": "Bloodstream",
+      "role": "preferred",
+      "pathogenFocus": [
+        "Pseudomonas",
+        "Healthcare-associated Enterobacterales"
+      ],
+      "riskFactorTriggers": [
+        "Recent healthcare exposure",
+        "Prior resistant organisms short of ESBL certainty"
+      ],
+      "avoidIf": [
+        "ESBL bacteremia is strongly suspected or confirmed"
+      ],
+      "renalFlags": [
+        "Extended infusion plus renal adjustment matter in severe bacteremia"
+      ],
+      "linkedMonographIds": [
+        "pip-tazo"
+      ],
+      "drug": "piperacillin-tazobactam"
+    },
+    {
+      "id": "cap/cap-icu/add-on-for-pseudomonas-risk-factors/pip-tazo-1",
+      "diseaseId": "cap",
+      "diseaseName": "Community-Acquired Pneumonia",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "cap-icu",
+      "subcategoryName": "Severe CAP / ICU Admission",
+      "line": "Add-On for Pseudomonas Risk Factors",
+      "regimen": "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)",
+      "notes": "Swap in an antipseudomonal beta-lactam when prior isolation or recent IV antibiotics make ceftriaxone too narrow.",
+      "indication": "Severe CAP with Pseudomonas risk",
+      "site": "Lung",
+      "role": "adjunct",
+      "pathogenFocus": [
+        "Pseudomonas",
+        "Nosocomial gram-negatives",
+        "Anaerobes if aspiration overlaps"
+      ],
+      "riskFactorTriggers": [
+        "Prior Pseudomonas isolation",
+        "Recent IV antibiotics",
+        "Structural lung disease with resistant gram-negative history"
+      ],
+      "avoidIf": [
+        "Need ESBL-stable therapy",
+        "Progressive AKI while vancomycin is also running"
+      ],
+      "renalFlags": [
+        "Extended infusion and renal adjustment both matter for target attainment"
+      ],
+      "linkedMonographIds": [
+        "pip-tazo"
+      ],
+      "drug": "pip-tazo",
+      "monographId": "pip-tazo"
+    },
+    {
+      "id": "febrile-neutropenia/high-risk-fn/monotherapy-antipseudomonal-beta-lactam-idsa-201/piperacillin-tazobactam-2",
+      "diseaseId": "febrile-neutropenia",
+      "diseaseName": "Febrile Neutropenia",
+      "diseaseIcon": "🩻",
+      "subcategoryId": "high-risk-fn",
+      "subcategoryName": "High-Risk Febrile Neutropenia",
+      "line": "Monotherapy — Antipseudomonal Beta-Lactam (IDSA 2010 First-Line, A-I)",
+      "regimen": "Piperacillin-Tazobactam 4.5g IV q6h",
+      "notes": "High-risk FN backbone when typhlitis, perirectal infection, or another anaerobic abdominal source is part of the picture.",
+      "indication": "High-risk febrile neutropenia",
+      "site": "Systemic",
+      "role": "preferred",
+      "pathogenFocus": [
+        "Pseudomonas",
+        "Enterobacterales",
+        "Anaerobes"
+      ],
+      "riskFactorTriggers": [
+        "Abdominal pain or suspected typhlitis",
+        "Perirectal or intra-abdominal source",
+        "Need anaerobic coverage without a second agent"
+      ],
+      "avoidIf": [
+        "Strong ESBL history makes meropenem cleaner",
+        "Unnecessary nephrotoxin stacking with vancomycin"
+      ],
+      "renalFlags": [
+        "Extended infusion and dose adjustment matter in unstable kidney function"
+      ],
+      "linkedMonographIds": [
+        "pip-tazo"
+      ],
+      "drug": "piperacillin-tazobactam",
+      "evidence": "A-I",
+      "evidenceSource": "IDSA 2010",
+      "evidenceSourceIds": [
+        "idsa-febrile-neutropenia"
+      ]
+    },
+    {
+      "id": "hap-vap/hap-mdr-risk/empiric-anti-pseudomonal-beta-lactam-choose-one/pip-tazo-mdr-1",
+      "diseaseId": "hap-vap",
+      "diseaseName": "Hospital-Acquired & Ventilator-Associated Pneumonia",
+      "diseaseIcon": "🏥",
+      "subcategoryId": "hap-mdr-risk",
+      "subcategoryName": "HAP — MDR Risk Factors OR High Mortality Risk",
+      "line": "Empiric — Anti-Pseudomonal Beta-Lactam (choose one)",
+      "regimen": "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)",
+      "notes": "Default antipseudomonal HAP backbone when resistant gram-negative risk is present but ESBL pressure is not dominant.",
+      "indication": "HAP with MDR risk",
+      "site": "Lung",
+      "role": "preferred",
+      "pathogenFocus": [
+        "Pseudomonas",
+        "Nosocomial Enterobacterales",
+        "Anaerobes when aspiration overlaps"
+      ],
+      "riskFactorTriggers": [
+        "Prior IV antibiotics in 90 days",
+        "Late-onset HAP",
+        "Unit-level resistance still acceptable for pip-tazo"
+      ],
+      "avoidIf": [
+        "Strong ESBL history",
+        "Rising AKI signal with concurrent vancomycin"
+      ],
+      "renalFlags": [
+        "Extended infusion and renal adjustment both affect target attainment"
+      ],
+      "linkedMonographIds": [
+        "pip-tazo"
+      ],
+      "drug": "pip-tazo-mdr",
+      "evidence": "A-I",
+      "evidenceSource": "IDSA/ATS 2016",
+      "evidenceSourceIds": [
+        "ats-idsa-2016-hap-vap"
+      ]
+    },
+    {
+      "id": "iai/ha-iai/empiric-post-operative-healthcare-associated-cia/pip-tazo-ha-iai-1",
+      "diseaseId": "iai",
+      "diseaseName": "Intra-Abdominal Infections",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "ha-iai",
+      "subcategoryName": "Healthcare-Associated & Post-Operative IAI",
+      "line": "Empiric — Post-Operative / Healthcare-Associated cIAI",
+      "regimen": "Pip-tazo 4.5g IV q6h (extended infusion) + Vancomycin IV",
+      "notes": "Default postoperative cIAI regimen when resistant gram-negative, Enterococcal, and anaerobic coverage are all needed while cultures are pending.",
+      "indication": "Healthcare-associated intra-abdominal infection",
+      "site": "Intra-abdominal",
+      "role": "preferred",
+      "pathogenFocus": [
+        "Pseudomonas",
+        "Enterobacterales",
+        "Anaerobes",
+        "Enterococcus and MRSA add-on via vancomycin when needed"
+      ],
+      "riskFactorTriggers": [
+        "Postoperative leak or peritonitis",
+        "Healthcare-associated abdominal infection",
+        "Need broad anaerobic and antipseudomonal coverage"
+      ],
+      "avoidIf": [
+        "Strong ESBL history favors meropenem",
+        "Vancomycin can exit if cultures do not support MRSA or resistant Enterococcus"
+      ],
+      "renalFlags": [
+        "Both agents need kidney-based reassessment and exposure review"
+      ],
+      "linkedMonographIds": [
+        "pip-tazo",
+        "vancomycin"
+      ],
+      "drug": "pip-tazo-ha-iai",
+      "evidence": "A-I",
+      "evidenceSource": "SIS/IDSA 2017",
+      "evidenceSourceIds": [
+        "sis-2017-ciai"
+      ]
+    },
+    {
+      "id": "uti/pyelonephritis/inpatient-complicated-septic-unable-to-tolerate-/pip-tazo-2",
+      "diseaseId": "uti",
+      "diseaseName": "Urinary Tract Infections",
+      "diseaseIcon": "🔬",
+      "subcategoryId": "pyelonephritis",
+      "subcategoryName": "Acute Pyelonephritis",
+      "line": "Inpatient (Complicated, Septic, Unable to Tolerate PO)",
+      "regimen": "Piperacillin-tazobactam 3.375g IV q6h (or 4.5g q8h EI)",
+      "notes": "Use if Pseudomonas risk or healthcare-associated exposure. Extended infusion preferred.",
+      "drug": "pip-tazo",
+      "monographId": "pip-tazo"
+    },
+    {
+      "id": "uti/cauti/empiric-pending-cultures-always-de-escalate/pip-tazo-2",
+      "diseaseId": "uti",
+      "diseaseName": "Urinary Tract Infections",
+      "diseaseIcon": "🔬",
+      "subcategoryId": "cauti",
+      "subcategoryName": "Catheter-Associated UTI (CAUTI)",
+      "line": "Empiric (Pending Cultures — Always De-escalate)",
+      "regimen": "Piperacillin-tazobactam 4.5g IV q8h (EI over 4h)",
+      "notes": "Use if Pseudomonas or MDR risk (prior cultures, healthcare exposure). Extended infusion recommended.",
+      "drug": "pip-tazo",
+      "monographId": "pip-tazo",
+      "evidence": "B-II",
+      "evidenceSource": "IDSA 2011",
+      "evidenceSourceIds": [
+        "idsa-escmid-2011-uti"
+      ]
+    },
+    {
+      "id": "uti/complicated-uti/first-line-cuti-with-sepsis/pip-tazo-sepsis-2",
+      "diseaseId": "uti",
+      "diseaseName": "Urinary Tract Infections",
+      "diseaseIcon": "🔬",
+      "subcategoryId": "complicated-uti",
+      "subcategoryName": "Complicated UTI",
+      "line": "First-Line — cUTI WITH Sepsis",
+      "regimen": "Piperacillin-tazobactam 4.5g IV q6-8h (extended infusion)",
+      "notes": "Broad urinary-source sepsis option when Pseudomonas or mixed healthcare exposure is plausible.",
+      "indication": "Complicated UTI with sepsis",
+      "site": "Urinary tract",
+      "role": "preferred",
+      "pathogenFocus": [
+        "Pseudomonas",
+        "Healthcare-associated urinary gram-negatives"
+      ],
+      "riskFactorTriggers": [
+        "Catheter-associated sepsis",
+        "Prior healthcare-resistant urinary isolates without clear ESBL history"
+      ],
+      "avoidIf": [
+        "Strong ESBL bacteremia signal",
+        "Need a narrower step-down path as soon as cultures allow"
+      ],
+      "renalFlags": [
+        "Use extended infusion and adjust as renal function changes"
+      ],
+      "linkedMonographIds": [
+        "pip-tazo"
+      ],
+      "drug": "pip-tazo-sepsis"
+    },
+    {
+      "id": "uti/complicated-uti/first-line-cuti-without-sepsis/pip-tazo-2",
+      "diseaseId": "uti",
+      "diseaseName": "Urinary Tract Infections",
+      "diseaseIcon": "🔬",
+      "subcategoryId": "complicated-uti",
+      "subcategoryName": "Complicated UTI",
+      "line": "First-Line — cUTI WITHOUT Sepsis",
+      "regimen": "Piperacillin-tazobactam 3.375g IV q6h (or 4.5g q8h extended infusion)",
+      "notes": "Broader beta-lactam choice when urinary-source Pseudomonas or mixed healthcare exposure is plausible without jumping to a carbapenem.",
+      "indication": "Complicated UTI without sepsis",
+      "site": "Urinary tract",
+      "role": "alternative",
+      "pathogenFocus": [
+        "Pseudomonas",
+        "Broader gram-negative cUTI pathogens"
+      ],
+      "riskFactorTriggers": [
+        "Prior Pseudomonas urine culture",
+        "Catheter-associated or healthcare-exposed cUTI"
+      ],
+      "avoidIf": [
+        "Strong ESBL bacteremia concern",
+        "Avoidable nephrotoxin pairing with vancomycin"
+      ],
+      "renalFlags": [
+        "Extended infusion and renal adjustment improve urinary-source PK/PD"
+      ],
+      "linkedMonographIds": [
+        "pip-tazo"
+      ],
+      "drug": "pip-tazo",
+      "monographId": "pip-tazo",
       "evidence": "A-I",
       "evidenceSource": "IDSA 2011",
       "evidenceSourceIds": [
@@ -6165,7 +7948,24 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "S. aureus Bacteremia — Workup & Risk Stratification",
       "line": "Empiric — Pending Susceptibilities",
       "regimen": "Daptomycin 6-10 mg/kg IV once daily",
-      "notes": "Alternative empiric agent when vancomycin cannot be used (allergy, intolerance, renal toxicity). Use ≥8 mg/kg for suspected endocarditis or complicated infections. Rapidly bactericidal. CONTRAINDICATED in pneumonia (surfactant inactivation). If MSSA returns, still de-escalate to beta-lactam.",
+      "notes": "Alternative SAB anchor for allergy, nephrotoxicity, or vancomycin intolerance while awaiting susceptibilities.",
+      "indication": "Empiric S. aureus bacteremia when vancomycin is unsuitable",
+      "site": "Bloodstream",
+      "role": "alternative",
+      "pathogenFocus": [
+        "MSSA",
+        "MRSA"
+      ],
+      "riskFactorTriggers": [
+        "Vancomycin intolerance or nephrotoxicity",
+        "Need rapidly bactericidal non-vancomycin option"
+      ],
+      "avoidIf": [
+        "Concomitant pneumonia is the dominant syndrome"
+      ],
+      "linkedMonographIds": [
+        "daptomycin"
+      ],
       "drug": "daptomycin",
       "monographId": "daptomycin",
       "evidence": "B-II",
@@ -6183,7 +7983,24 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "S. aureus Bacteremia — Workup & Risk Stratification",
       "line": "MRSA Definitive Therapy",
       "regimen": "Daptomycin 8-10 mg/kg IV once daily",
-      "notes": "Preferred alternative to vancomycin for MRSA bacteremia when: vancomycin MIC ≥2, vancomycin intolerance/nephrotoxicity, persistent bacteremia on vancomycin >3-5 days. Dose at ≥8 mg/kg for bacteremia (6 mg/kg is the IE/bacteremia approved dose but many experts go higher). Monitor CPK weekly. If daptomycin MIC ≥2-4, consider ceftaroline or salvage regimens.",
+      "notes": "Preferred MRSA bacteremia alternative when vancomycin is failing, not tolerated, or unlikely to reach a safe exposure target.",
+      "indication": "MRSA bacteremia",
+      "site": "Bloodstream",
+      "role": "alternative",
+      "pathogenFocus": [
+        "MRSA"
+      ],
+      "riskFactorTriggers": [
+        "Vancomycin MIC >=2",
+        "Persistent bacteremia on vancomycin",
+        "Nephrotoxicity"
+      ],
+      "avoidIf": [
+        "Pneumonia is the dominant active syndrome"
+      ],
+      "linkedMonographIds": [
+        "daptomycin"
+      ],
       "drug": "daptomycin",
       "monographId": "daptomycin"
     },
@@ -6242,7 +8059,29 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "S. aureus Bacteremia — Workup & Risk Stratification",
       "line": "Empiric — Pending Susceptibilities",
       "regimen": "Vancomycin IV (AUC/MIC target 400-600)",
-      "notes": "Empiric first-line for SAB until MSSA vs MRSA is determined. AUC-guided dosing is now the standard (2020 consensus) — replaces trough-based dosing. Typical loading dose: 25-30 mg/kg (actual body weight), then maintenance guided by AUC. CRITICAL: once susceptibilities return, de-escalate MSSA to cefazolin/nafcillin immediately — vancomycin is INFERIOR to beta-lactams for MSSA (slower bacteremia clearance, higher mortality in some studies).",
+      "notes": "Empiric SAB anchor while MSSA versus MRSA is unresolved, with a planned beta-lactam exit if MSSA is confirmed.",
+      "indication": "Empiric S. aureus bacteremia",
+      "site": "Bloodstream",
+      "role": "preferred",
+      "pathogenFocus": [
+        "MSSA",
+        "MRSA"
+      ],
+      "riskFactorTriggers": [
+        "Any initial S. aureus bacteremia before susceptibilities are back"
+      ],
+      "avoidIf": [
+        "MSSA is confirmed and beta-lactams are safe"
+      ],
+      "renalFlags": [
+        "AUC-guided dosing with daily renal trend review"
+      ],
+      "rapidDiagnosticActions": [
+        "Switch to cefazolin or nafcillin the same day MSSA is reported"
+      ],
+      "linkedMonographIds": [
+        "vancomycin"
+      ],
       "drug": "vancomycin",
       "monographId": "vancomycin",
       "evidence": "A-I",
@@ -6260,7 +8099,26 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "S. aureus Bacteremia — Workup & Risk Stratification",
       "line": "MRSA Definitive Therapy",
       "regimen": "Vancomycin IV (AUC/MIC 400-600)",
-      "notes": "Standard of care for MRSA bacteremia. AUC-guided dosing with Bayesian software is preferred. If vancomycin MIC ≥2 by broth microdilution (≥2 by E-test is less reliable), consider switching to daptomycin — treatment failure risk increases with higher MICs (MIC creep). Do NOT add rifampicin routinely (ARREST trial — no benefit, added toxicity). Duration: 14 days minimum for uncomplicated, 4-6 weeks for IE/complicated.",
+      "notes": "Standard MRSA bacteremia therapy when AUC can be maintained safely and cultures are clearing.",
+      "indication": "MRSA bacteremia",
+      "site": "Bloodstream",
+      "role": "preferred",
+      "pathogenFocus": [
+        "MRSA"
+      ],
+      "riskFactorTriggers": [
+        "MRSA confirmed and vancomycin remains clinically viable"
+      ],
+      "avoidIf": [
+        "Persistent bacteremia",
+        "Vancomycin MIC creep or nephrotoxicity"
+      ],
+      "renalFlags": [
+        "Maintain AUC in range and track renal function closely"
+      ],
+      "linkedMonographIds": [
+        "vancomycin"
+      ],
       "drug": "vancomycin",
       "monographId": "vancomycin"
     },
@@ -6312,9 +8170,78 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "Severe CAP / ICU Admission",
       "line": "Add-On for MRSA Risk Factors",
       "regimen": "Vancomycin IV (AUC/MIC-guided dosing, target AUC 400-600)",
-      "notes": "Add if: prior MRSA infection/colonization, IVDU, post-influenza necrotizing pneumonia, cavitation/empyema. Check nasal MRSA swab — if negative, de-escalate within 48h. AUC-guided dosing is now preferred over trough-based (2020 vancomycin consensus guidelines).",
+      "notes": "Temporary anti-MRSA add-on for severe CAP when validated MRSA risk factors are present.",
+      "indication": "MRSA CAP coverage",
+      "site": "Lung",
+      "role": "adjunct",
+      "pathogenFocus": [
+        "MRSA"
+      ],
+      "riskFactorTriggers": [
+        "Prior MRSA infection or colonization",
+        "Post-influenza necrotizing pneumonia concern",
+        "Cavitation or empyema"
+      ],
+      "avoidIf": [
+        "Negative MRSA nares PCR with unsupportive cultures after 48-72 hours"
+      ],
+      "renalFlags": [
+        "Requires AUC-guided dosing and daily renal reassessment"
+      ],
+      "dialysisFlags": [
+        "HD and CRRT dosing need level-guided redosing"
+      ],
+      "rapidDiagnosticActions": [
+        "Remove if MRSA nares PCR is negative and cultures do not support MRSA"
+      ],
+      "linkedMonographIds": [
+        "vancomycin"
+      ],
       "drug": "vancomycin",
       "monographId": "vancomycin"
+    },
+    {
+      "id": "febrile-neutropenia/high-risk-fn/add-vancomycin-only-if-specific-indications-pres/vancomycin-fn-1",
+      "diseaseId": "febrile-neutropenia",
+      "diseaseName": "Febrile Neutropenia",
+      "diseaseIcon": "🩻",
+      "subcategoryId": "high-risk-fn",
+      "subcategoryName": "High-Risk Febrile Neutropenia",
+      "line": "ADD Vancomycin — Only If Specific Indications Present (IDSA 2010, A-I)",
+      "regimen": "Vancomycin 25-30 mg/kg IV loading dose, then AUC/MIC-guided maintenance dosing",
+      "notes": "Reserved FN add-on for catheter, skin and soft tissue, shock, or culture-based gram-positive signals rather than routine default use.",
+      "indication": "High-risk FN with gram-positive or line-risk trigger",
+      "site": "Systemic",
+      "role": "adjunct",
+      "pathogenFocus": [
+        "MRSA",
+        "Resistant viridans streptococci",
+        "Serious catheter-related gram-positive infection"
+      ],
+      "riskFactorTriggers": [
+        "Hemodynamic instability",
+        "Clinically apparent catheter infection",
+        "Skin or soft tissue infection",
+        "Gram-positive blood culture signal"
+      ],
+      "avoidIf": [
+        "No gram-positive indication after 48-72 hours"
+      ],
+      "renalFlags": [
+        "AUC-guided dosing and nephrotoxin review are mandatory"
+      ],
+      "rapidDiagnosticActions": [
+        "Stop early if cultures do not show a target gram-positive pathogen"
+      ],
+      "linkedMonographIds": [
+        "vancomycin"
+      ],
+      "drug": "vancomycin-fn",
+      "evidence": "A-I",
+      "evidenceSource": "IDSA 2010",
+      "evidenceSourceIds": [
+        "idsa-febrile-neutropenia"
+      ]
     },
     {
       "id": "hap-vap/hap-mdr-risk/add-mrsa-coverage-if-risk-factors-present/vancomycin-1",
@@ -6325,13 +8252,162 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "HAP — MDR Risk Factors OR High Mortality Risk",
       "line": "ADD MRSA Coverage (if risk factors present)",
       "regimen": "Vancomycin IV — AUC/MIC-guided dosing (target AUC 400-600 mg·h/L)",
-      "notes": "ATS/IDSA 2016: add MRSA coverage if: IV antibiotics in prior 90 days, unit with >20% MRSA prevalence (or unknown), or prior MRSA colonization/infection. AUC-guided dosing is now standard (2020 vancomycin consensus). Check nasal MRSA swab — if negative, de-escalate within 48-72h.",
+      "notes": "Add-on MRSA therapy only while risk is credible and until nares screening plus cultures allow removal.",
+      "indication": "MRSA HAP coverage",
+      "site": "Lung",
+      "role": "adjunct",
+      "pathogenFocus": [
+        "MRSA"
+      ],
+      "riskFactorTriggers": [
+        "Prior MRSA colonization or infection",
+        "Unit MRSA prevalence above threshold or unknown",
+        "Recent IV antibiotics"
+      ],
+      "avoidIf": [
+        "Negative MRSA nares PCR with no culture support at 48-72 hours"
+      ],
+      "renalFlags": [
+        "AUC-guided dosing with nephrotoxin review every day"
+      ],
+      "dialysisFlags": [
+        "HD and CRRT require protocolized supplemental dosing"
+      ],
+      "rapidDiagnosticActions": [
+        "Use negative nares PCR to stop therapy early"
+      ],
+      "linkedMonographIds": [
+        "vancomycin"
+      ],
       "drug": "vancomycin",
       "monographId": "vancomycin",
       "evidence": "A-I",
       "evidenceSource": "IDSA/ATS 2016",
       "evidenceSourceIds": [
         "ats-idsa-2016-hap-vap"
+      ]
+    },
+    {
+      "id": "iai/ha-iai/empiric-post-operative-healthcare-associated-cia/cefepime-metro-ha-3",
+      "diseaseId": "iai",
+      "diseaseName": "Intra-Abdominal Infections",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "ha-iai",
+      "subcategoryName": "Healthcare-Associated & Post-Operative IAI",
+      "line": "Empiric — Post-Operative / Healthcare-Associated cIAI",
+      "regimen": "Cefepime 2g IV q8h (extended infusion) + Metronidazole 500mg IV q8h + Vancomycin IV",
+      "notes": "Carbapenem-sparing triple regimen when AmpC-stable gram-negative coverage is desired but ESBL risk is not dominant.",
+      "indication": "Healthcare-associated intra-abdominal infection",
+      "site": "Intra-abdominal",
+      "role": "alternative",
+      "pathogenFocus": [
+        "AmpC-risk Enterobacterales",
+        "Pseudomonas",
+        "Anaerobes"
+      ],
+      "riskFactorTriggers": [
+        "Need cefepime over pip-tazo for prior Enterobacter or Citrobacter history",
+        "Avoiding routine carbapenem use"
+      ],
+      "avoidIf": [
+        "ESBL pressure is high",
+        "Anaerobe partner is omitted"
+      ],
+      "renalFlags": [
+        "Cefepime neurotoxicity risk rises quickly in renal dysfunction"
+      ],
+      "linkedMonographIds": [
+        "cefepime",
+        "metronidazole",
+        "vancomycin"
+      ],
+      "drug": "cefepime-metro-ha",
+      "evidence": "B-II",
+      "evidenceSource": "SIS/IDSA 2017",
+      "evidenceSourceIds": [
+        "sis-2017-ciai"
+      ]
+    },
+    {
+      "id": "iai/ha-iai/empiric-post-operative-healthcare-associated-cia/meropenem-ha-iai-2",
+      "diseaseId": "iai",
+      "diseaseName": "Intra-Abdominal Infections",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "ha-iai",
+      "subcategoryName": "Healthcare-Associated & Post-Operative IAI",
+      "line": "Empiric — Post-Operative / Healthcare-Associated cIAI",
+      "regimen": "Meropenem 1g IV q8h (extended infusion) + Vancomycin IV",
+      "notes": "Carbapenem-based cIAI plan when ESBL pressure, prior resistant cultures, or shock makes pip-tazo unreliable.",
+      "indication": "Healthcare-associated intra-abdominal infection with ESBL risk",
+      "site": "Intra-abdominal",
+      "role": "preferred",
+      "pathogenFocus": [
+        "ESBL Enterobacterales",
+        "Pseudomonas",
+        "Anaerobes"
+      ],
+      "riskFactorTriggers": [
+        "Prior ESBL or MDR gram-negative isolate",
+        "Septic shock",
+        "Failure or unsuitability of pip-tazo-based empiric therapy"
+      ],
+      "avoidIf": [
+        "Operative cultures support a narrower beta-lactam exit"
+      ],
+      "renalFlags": [
+        "Extended infusion and renal replacement dosing both matter"
+      ],
+      "linkedMonographIds": [
+        "meropenem",
+        "vancomycin"
+      ],
+      "drug": "meropenem-ha-iai",
+      "evidence": "A-I",
+      "evidenceSource": "SIS/IDSA 2017",
+      "evidenceSourceIds": [
+        "sis-2017-ciai"
+      ]
+    },
+    {
+      "id": "iai/ha-iai/empiric-post-operative-healthcare-associated-cia/pip-tazo-ha-iai-1",
+      "diseaseId": "iai",
+      "diseaseName": "Intra-Abdominal Infections",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "ha-iai",
+      "subcategoryName": "Healthcare-Associated & Post-Operative IAI",
+      "line": "Empiric — Post-Operative / Healthcare-Associated cIAI",
+      "regimen": "Pip-tazo 4.5g IV q6h (extended infusion) + Vancomycin IV",
+      "notes": "Default postoperative cIAI regimen when resistant gram-negative, Enterococcal, and anaerobic coverage are all needed while cultures are pending.",
+      "indication": "Healthcare-associated intra-abdominal infection",
+      "site": "Intra-abdominal",
+      "role": "preferred",
+      "pathogenFocus": [
+        "Pseudomonas",
+        "Enterobacterales",
+        "Anaerobes",
+        "Enterococcus and MRSA add-on via vancomycin when needed"
+      ],
+      "riskFactorTriggers": [
+        "Postoperative leak or peritonitis",
+        "Healthcare-associated abdominal infection",
+        "Need broad anaerobic and antipseudomonal coverage"
+      ],
+      "avoidIf": [
+        "Strong ESBL history favors meropenem",
+        "Vancomycin can exit if cultures do not support MRSA or resistant Enterococcus"
+      ],
+      "renalFlags": [
+        "Both agents need kidney-based reassessment and exposure review"
+      ],
+      "linkedMonographIds": [
+        "pip-tazo",
+        "vancomycin"
+      ],
+      "drug": "pip-tazo-ha-iai",
+      "evidence": "A-I",
+      "evidenceSource": "SIS/IDSA 2017",
+      "evidenceSourceIds": [
+        "sis-2017-ciai"
       ]
     },
     {
@@ -6351,6 +8427,56 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "evidenceSourceIds": [
         "ssc-2021",
         "ashp-idsa-pids-2020-vancomycin"
+      ]
+    },
+    {
+      "id": "sepsis/septic-shock/immediate-broad-spectrum-empiric-septic-shock-wi/vanco-meropenem-1",
+      "diseaseId": "sepsis",
+      "diseaseName": "Sepsis & Septic Shock",
+      "diseaseIcon": "🔴",
+      "subcategoryId": "septic-shock",
+      "subcategoryName": "Septic Shock",
+      "line": "Immediate Broad-Spectrum Empiric — Septic Shock (Within 1 Hour)",
+      "regimen": "Vancomycin IV + Meropenem 2g IV q8h over 3h ± Micafungin 100mg IV q24h if Candida risk",
+      "notes": "Maximal early shock regimen when the source is unclear or healthcare-associated and both MRSA and resistant gram-negatives remain plausible.",
+      "indication": "Septic shock of unclear source",
+      "site": "Systemic",
+      "role": "preferred",
+      "pathogenFocus": [
+        "MRSA",
+        "ESBL Enterobacterales",
+        "Pseudomonas",
+        "Anaerobes",
+        "Candida when host risk is real"
+      ],
+      "riskFactorTriggers": [
+        "Vasopressor-dependent shock",
+        "Unclear source",
+        "Healthcare exposure or prior resistant isolates"
+      ],
+      "avoidIf": [
+        "Rapid source clarification allows narrower therapy within the first 24-48 hours"
+      ],
+      "renalFlags": [
+        "Vancomycin AUC monitoring and meropenem extended infusion both need active renal reassessment"
+      ],
+      "dialysisFlags": [
+        "HD and CRRT dosing must be protocolized from the start in shock"
+      ],
+      "rapidDiagnosticActions": [
+        "Drop vancomycin quickly if MRSA data are negative",
+        "Drop antifungal coverage if Candida risk and diagnostics do not support it"
+      ],
+      "linkedMonographIds": [
+        "vancomycin",
+        "meropenem",
+        "micafungin"
+      ],
+      "drug": "vanco-meropenem",
+      "evidence": "A-I",
+      "evidenceSource": "SSC 2021",
+      "evidenceSourceIds": [
+        "ssc-2021"
       ]
     }
   ],
@@ -6395,7 +8521,25 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "S. aureus Bacteremia — Workup & Risk Stratification",
       "line": "MSSA Definitive Therapy",
       "regimen": "Cefazolin 2g IV q8h",
-      "notes": "PREFERRED agent for MSSA bacteremia and MSSA IE (native valve). Multiple observational studies and meta-analyses show non-inferiority or superiority to nafcillin/oxacillin with fewer adverse effects (less nephrotoxicity, less hepatotoxicity, less phlebitis). Q8h dosing is practical for OPAT. Duration: 14 days for uncomplicated SAB, 4-6 weeks for IE or complicated SAB.",
+      "notes": "Default definitive MSSA bacteremia and endocarditis therapy because it is safer and operationally cleaner than q4h nafcillin for most patients.",
+      "indication": "MSSA bacteremia",
+      "site": "Bloodstream",
+      "role": "preferred",
+      "pathogenFocus": [
+        "MSSA"
+      ],
+      "riskFactorTriggers": [
+        "MSSA confirmed on blood culture susceptibility"
+      ],
+      "avoidIf": [
+        "Severe immediate cephalosporin allergy"
+      ],
+      "renalFlags": [
+        "Renally adjust during prolonged therapy but no TDM is needed"
+      ],
+      "linkedMonographIds": [
+        "cefazolin"
+      ],
       "drug": "cefazolin",
       "monographId": "cefazolin",
       "evidence": "A-I",
@@ -6442,6 +8586,41 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "notes": "IDSA 2014 first-line IV for non-purulent cellulitis requiring hospitalization. MSSA + Streptococcal coverage. The simplest, narrowest IV option. No MRSA coverage — add vancomycin only if MRSA risk factors present. Convert to oral cephalexin when improving.",
       "drug": "cefazolin",
       "monographId": "cefazolin"
+    }
+  ],
+  "nafcillin": [
+    {
+      "id": "bacteremia-endocarditis/sab-workup/mssa-definitive-therapy/nafcillin-oxacillin-2",
+      "diseaseId": "bacteremia-endocarditis",
+      "diseaseName": "Bacteremia & Endocarditis",
+      "diseaseIcon": "🩸",
+      "subcategoryId": "sab-workup",
+      "subcategoryName": "S. aureus Bacteremia — Workup & Risk Stratification",
+      "line": "MSSA Definitive Therapy",
+      "regimen": "Nafcillin or Oxacillin 2g IV q4h",
+      "notes": "Traditional definitive MSSA option when a team specifically prefers antistaphylococcal penicillins or cefazolin is unsuitable.",
+      "indication": "MSSA bacteremia",
+      "site": "Bloodstream",
+      "role": "alternative",
+      "pathogenFocus": [
+        "MSSA"
+      ],
+      "riskFactorTriggers": [
+        "MSSA confirmed and cefazolin is not the right fit"
+      ],
+      "avoidIf": [
+        "Practical OPAT constraints",
+        "Significant hepatotoxicity or nephritis history"
+      ],
+      "linkedMonographIds": [
+        "nafcillin"
+      ],
+      "drug": "nafcillin-oxacillin",
+      "evidence": "A-I",
+      "evidenceSource": "AHA 2015 IE Guideline",
+      "evidenceSourceIds": [
+        "aha-2015-ie"
+      ]
     }
   ],
   "bezlotoxumab": [
@@ -6611,6 +8790,81 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "notes": "DOWNGRADED in 2017 guidelines, further de-emphasized in 2021. Inferior to vancomycin for clinical cure (especially for severe CDI) and has higher recurrence rates. IDSA/SHEA 2021: metronidazole should ONLY be used when vancomycin and fidaxomicin are unavailable. Some guidelines allow metronidazole for non-severe INITIAL episode only, but this is increasingly seen as suboptimal. The only remaining role for metronidazole in CDI: IV metronidazole as ADJUNCTIVE therapy in fulminant CDI (reaches colonic tissue via systemic circulation when oral drugs cannot reach the colon due to ileus).",
       "drug": "metronidazole",
       "monographId": "metronidazole"
+    },
+    {
+      "id": "febrile-neutropenia/high-risk-fn/add-metronidazole-for-suspected-anaerobic-intra-/metronidazole-fn-1",
+      "diseaseId": "febrile-neutropenia",
+      "diseaseName": "Febrile Neutropenia",
+      "diseaseIcon": "🩻",
+      "subcategoryId": "high-risk-fn",
+      "subcategoryName": "High-Risk Febrile Neutropenia",
+      "line": "ADD Metronidazole — For Suspected Anaerobic/Intra-Abdominal Source",
+      "regimen": "Metronidazole 500mg IV q8h",
+      "notes": "Add only when cefepime or meropenem needs anaerobic help for typhlitis or perirectal infection; do not duplicate pip-tazo anaerobe coverage.",
+      "indication": "High-risk FN with anaerobic source concern",
+      "site": "Intra-abdominal",
+      "role": "adjunct",
+      "pathogenFocus": [
+        "Bacteroides and other anaerobes"
+      ],
+      "riskFactorTriggers": [
+        "Typhlitis",
+        "Perirectal infection",
+        "Oral anaerobic source"
+      ],
+      "avoidIf": [
+        "Piperacillin-tazobactam is already the backbone"
+      ],
+      "linkedMonographIds": [
+        "metronidazole"
+      ],
+      "drug": "metronidazole-fn",
+      "evidence": "B-III",
+      "evidenceSource": "IDSA 2010",
+      "evidenceSourceIds": [
+        "idsa-febrile-neutropenia"
+      ]
+    },
+    {
+      "id": "iai/ha-iai/empiric-post-operative-healthcare-associated-cia/cefepime-metro-ha-3",
+      "diseaseId": "iai",
+      "diseaseName": "Intra-Abdominal Infections",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "ha-iai",
+      "subcategoryName": "Healthcare-Associated & Post-Operative IAI",
+      "line": "Empiric — Post-Operative / Healthcare-Associated cIAI",
+      "regimen": "Cefepime 2g IV q8h (extended infusion) + Metronidazole 500mg IV q8h + Vancomycin IV",
+      "notes": "Carbapenem-sparing triple regimen when AmpC-stable gram-negative coverage is desired but ESBL risk is not dominant.",
+      "indication": "Healthcare-associated intra-abdominal infection",
+      "site": "Intra-abdominal",
+      "role": "alternative",
+      "pathogenFocus": [
+        "AmpC-risk Enterobacterales",
+        "Pseudomonas",
+        "Anaerobes"
+      ],
+      "riskFactorTriggers": [
+        "Need cefepime over pip-tazo for prior Enterobacter or Citrobacter history",
+        "Avoiding routine carbapenem use"
+      ],
+      "avoidIf": [
+        "ESBL pressure is high",
+        "Anaerobe partner is omitted"
+      ],
+      "renalFlags": [
+        "Cefepime neurotoxicity risk rises quickly in renal dysfunction"
+      ],
+      "linkedMonographIds": [
+        "cefepime",
+        "metronidazole",
+        "vancomycin"
+      ],
+      "drug": "cefepime-metro-ha",
+      "evidence": "B-II",
+      "evidenceSource": "SIS/IDSA 2017",
+      "evidenceSourceIds": [
+        "sis-2017-ciai"
+      ]
     }
   ],
   "clindamycin": [
@@ -6646,6 +8900,45 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "evidenceSourceIds": [
         "ats-idsa-2019-cap"
       ]
+    },
+    {
+      "id": "cap/cap-icu/first-line-always-combination-for-severe-cap/amp-sulbactam-combo-3",
+      "diseaseId": "cap",
+      "diseaseName": "Community-Acquired Pneumonia",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "cap-icu",
+      "subcategoryName": "Severe CAP / ICU Admission",
+      "line": "First-Line (ALWAYS Combination for Severe CAP)",
+      "regimen": "Ampicillin-sulbactam 3g IV q6h + Azithromycin 500mg IV daily",
+      "notes": "Alternative ICU CAP backbone when aspiration or oral anaerobe burden is part of the presentation.",
+      "indication": "Severe CAP with aspiration concern",
+      "site": "Lung",
+      "role": "situational",
+      "pathogenFocus": [
+        "CAP bacteria",
+        "Oral anaerobes",
+        "Atypicals"
+      ],
+      "riskFactorTriggers": [
+        "Severe CAP with clear aspiration component or poor dentition"
+      ],
+      "avoidIf": [
+        "Pseudomonas risk factors",
+        "Recent beta-lactam exposure suggesting resistant gram-negatives"
+      ],
+      "renalFlags": [
+        "Ampicillin-sulbactam requires renal adjustment in kidney dysfunction"
+      ],
+      "linkedMonographIds": [
+        "ampicillin-sulbactam",
+        "azithromycin"
+      ],
+      "drug": "amp-sulbactam-combo",
+      "evidence": "B-II",
+      "evidenceSource": "IDSA/ATS 2019",
+      "evidenceSourceIds": [
+        "ats-idsa-2019-cap"
+      ]
     }
   ],
   "levofloxacin": [
@@ -6676,6 +8969,45 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "monographId": "levofloxacin"
     },
     {
+      "id": "cap/cap-icu/first-line-always-combination-for-severe-cap/ceftriaxone-fq-2",
+      "diseaseId": "cap",
+      "diseaseName": "Community-Acquired Pneumonia",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "cap-icu",
+      "subcategoryName": "Severe CAP / ICU Admission",
+      "line": "First-Line (ALWAYS Combination for Severe CAP)",
+      "regimen": "Ceftriaxone 2g IV daily + Levofloxacin 750mg IV daily",
+      "notes": "Macrolide-sparing ICU CAP option when azithromycin is blocked by QT risk, intolerance, or major interaction concerns.",
+      "indication": "Severe CAP",
+      "site": "Lung",
+      "role": "alternative",
+      "pathogenFocus": [
+        "Pneumococcus",
+        "Legionella and other atypicals",
+        "Typical CAP gram-negatives"
+      ],
+      "riskFactorTriggers": [
+        "Need severe CAP combination therapy but macrolide cannot be used"
+      ],
+      "avoidIf": [
+        "Recent fluoroquinolone exposure",
+        "Major QT or tendon toxicity risk"
+      ],
+      "renalFlags": [
+        "Levofloxacin needs renal adjustment as kidney function changes"
+      ],
+      "linkedMonographIds": [
+        "ceftriaxone",
+        "levofloxacin"
+      ],
+      "drug": "ceftriaxone-fq",
+      "evidence": "A-I",
+      "evidenceSource": "IDSA/ATS 2019",
+      "evidenceSourceIds": [
+        "ats-idsa-2019-cap"
+      ]
+    },
+    {
       "id": "hap-vap/hap-no-mdr/first-line-monotherapy-standard-risk/levofloxacin-3",
       "diseaseId": "hap-vap",
       "diseaseName": "Hospital-Acquired & Ventilator-Associated Pneumonia",
@@ -6692,6 +9024,109 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "evidenceSourceIds": [
         "ats-idsa-2016-hap-vap"
       ]
+    },
+    {
+      "id": "uti/complicated-uti/first-line-cuti-with-sepsis/levofloxacin-sepsis-4",
+      "diseaseId": "uti",
+      "diseaseName": "Urinary Tract Infections",
+      "diseaseIcon": "🔬",
+      "subcategoryId": "complicated-uti",
+      "subcategoryName": "Complicated UTI",
+      "line": "First-Line — cUTI WITH Sepsis",
+      "regimen": "Levofloxacin 750mg IV daily",
+      "notes": "Fluoroquinolone option when recent exposure is absent and high-bioavailability step-down is likely to be useful.",
+      "indication": "Complicated UTI with sepsis",
+      "site": "Urinary tract",
+      "role": "alternative",
+      "pathogenFocus": [
+        "Susceptible Enterobacterales",
+        "Selected Pseudomonas isolates"
+      ],
+      "riskFactorTriggers": [
+        "Need early oral-equivalent option",
+        "No fluoroquinolone exposure in the past 12 months"
+      ],
+      "avoidIf": [
+        "Recent fluoroquinolone use",
+        "High local resistance or major QT and CNS toxicity risk"
+      ],
+      "renalFlags": [
+        "Renally adjust and monitor QT and tendon toxicity"
+      ],
+      "linkedMonographIds": [
+        "levofloxacin"
+      ],
+      "drug": "levofloxacin-sepsis"
+    },
+    {
+      "id": "uti/complicated-uti/first-line-cuti-without-sepsis/ciprofloxacin-3",
+      "diseaseId": "uti",
+      "diseaseName": "Urinary Tract Infections",
+      "diseaseIcon": "🔬",
+      "subcategoryId": "complicated-uti",
+      "subcategoryName": "Complicated UTI",
+      "line": "First-Line — cUTI WITHOUT Sepsis",
+      "regimen": "Ciprofloxacin 500mg PO BID or Levofloxacin 750mg PO daily",
+      "notes": "Oral-first strategy when fluoroquinolone exposure is absent and local resistance remains acceptable.",
+      "indication": "Complicated UTI without sepsis",
+      "site": "Urinary tract",
+      "role": "situational",
+      "pathogenFocus": [
+        "Susceptible Enterobacterales",
+        "Selected Pseudomonas isolates"
+      ],
+      "riskFactorTriggers": [
+        "No fluoroquinolone use in the past 12 months",
+        "Able to take and absorb oral therapy"
+      ],
+      "avoidIf": [
+        "Recent fluoroquinolone exposure",
+        "Known resistant isolate or high local fluoroquinolone resistance"
+      ],
+      "renalFlags": [
+        "Adjust dose in kidney dysfunction and monitor QT, tendon, and CNS toxicity"
+      ],
+      "linkedMonographIds": [
+        "ciprofloxacin",
+        "levofloxacin"
+      ],
+      "drug": "ciprofloxacin",
+      "monographId": "ciprofloxacin",
+      "evidence": "A-I",
+      "evidenceSource": "IDSA 2011",
+      "evidenceSourceIds": [
+        "idsa-escmid-2011-uti"
+      ]
+    },
+    {
+      "id": "uti/complicated-uti/iv-to-po-step-down-idsa-2025-formally-endorsed/iv-po-switch-1",
+      "diseaseId": "uti",
+      "diseaseName": "Urinary Tract Infections",
+      "diseaseIcon": "🔬",
+      "subcategoryId": "complicated-uti",
+      "subcategoryName": "Complicated UTI",
+      "line": "IV-to-PO Step-Down (IDSA 2025 — Formally Endorsed)",
+      "regimen": "Switch when clinically improving, able to take oral meds, and an effective oral option is available",
+      "notes": "Make oral completion the default exit when bacteremia is clearing, source control is adequate, and the oral agent has real urinary and tissue exposure.",
+      "indication": "Complicated UTI step-down",
+      "site": "Urinary tract",
+      "role": "situational",
+      "riskFactorTriggers": [
+        "Afebrile or clearly improving",
+        "Hemodynamically stable",
+        "TMP-SMX or fluoroquinolone susceptibility confirmed"
+      ],
+      "avoidIf": [
+        "Obstruction remains unrelieved",
+        "No reliable oral option",
+        "Persistent bacteremia or poor absorption"
+      ],
+      "linkedMonographIds": [
+        "ciprofloxacin",
+        "levofloxacin",
+        "tmp-smx"
+      ],
+      "drug": "iv-po-switch"
     }
   ],
   "moxifloxacin": [
@@ -6760,6 +9195,87 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "evidenceSourceIds": [
         "ats-idsa-2019-cap"
       ]
+    },
+    {
+      "id": "cap/cap-icu/first-line-always-combination-for-severe-cap/amp-sulbactam-combo-3",
+      "diseaseId": "cap",
+      "diseaseName": "Community-Acquired Pneumonia",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "cap-icu",
+      "subcategoryName": "Severe CAP / ICU Admission",
+      "line": "First-Line (ALWAYS Combination for Severe CAP)",
+      "regimen": "Ampicillin-sulbactam 3g IV q6h + Azithromycin 500mg IV daily",
+      "notes": "Alternative ICU CAP backbone when aspiration or oral anaerobe burden is part of the presentation.",
+      "indication": "Severe CAP with aspiration concern",
+      "site": "Lung",
+      "role": "situational",
+      "pathogenFocus": [
+        "CAP bacteria",
+        "Oral anaerobes",
+        "Atypicals"
+      ],
+      "riskFactorTriggers": [
+        "Severe CAP with clear aspiration component or poor dentition"
+      ],
+      "avoidIf": [
+        "Pseudomonas risk factors",
+        "Recent beta-lactam exposure suggesting resistant gram-negatives"
+      ],
+      "renalFlags": [
+        "Ampicillin-sulbactam requires renal adjustment in kidney dysfunction"
+      ],
+      "linkedMonographIds": [
+        "ampicillin-sulbactam",
+        "azithromycin"
+      ],
+      "drug": "amp-sulbactam-combo",
+      "evidence": "B-II",
+      "evidenceSource": "IDSA/ATS 2019",
+      "evidenceSourceIds": [
+        "ats-idsa-2019-cap"
+      ]
+    },
+    {
+      "id": "cap/cap-icu/first-line-always-combination-for-severe-cap/ceftriaxone-1",
+      "diseaseId": "cap",
+      "diseaseName": "Community-Acquired Pneumonia",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "cap-icu",
+      "subcategoryName": "Severe CAP / ICU Admission",
+      "line": "First-Line (ALWAYS Combination for Severe CAP)",
+      "regimen": "Ceftriaxone 2g IV daily + Azithromycin 500mg IV daily",
+      "notes": "Default ICU CAP backbone when MRSA and Pseudomonas risk signals are absent but atypical coverage is still needed.",
+      "indication": "Severe CAP",
+      "site": "Lung",
+      "role": "preferred",
+      "pathogenFocus": [
+        "Pneumococcus",
+        "H. influenzae",
+        "Legionella and other atypicals"
+      ],
+      "riskFactorTriggers": [
+        "ICU CAP without prior MRSA or Pseudomonas isolation",
+        "No recent IV antibiotic exposure forcing broader gram-negative coverage"
+      ],
+      "avoidIf": [
+        "Prior MRSA isolation or post-influenza necrotizing concern without MRSA add-on",
+        "Prior Pseudomonas isolation or recent IV antibiotics within 90 days"
+      ],
+      "rapidDiagnosticActions": [
+        "Stop MRSA add-on if nares PCR is negative",
+        "Keep atypical-active therapy if Legionella testing is positive"
+      ],
+      "linkedMonographIds": [
+        "ceftriaxone",
+        "azithromycin"
+      ],
+      "drug": "ceftriaxone",
+      "monographId": "ceftriaxone",
+      "evidence": "A-I",
+      "evidenceSource": "IDSA/ATS 2019",
+      "evidenceSourceIds": [
+        "ats-idsa-2019-cap"
+      ]
     }
   ],
   "doxycycline": [
@@ -6792,7 +9308,24 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "Severe CAP / ICU Admission",
       "line": "Add-On for MRSA Risk Factors",
       "regimen": "Linezolid 600mg IV/PO BID",
-      "notes": "Alternative to vancomycin for MRSA pneumonia. Some data suggests better lung penetration. 100% oral bioavailability. Myelosuppression risk with courses >14 days. Monitor CBC weekly. Serotonin syndrome risk with SSRIs/MAOIs.",
+      "notes": "Alternative anti-MRSA add-on when lung penetration is prioritized or vancomycin toxicity risk is unacceptable.",
+      "indication": "MRSA CAP coverage",
+      "site": "Lung",
+      "role": "alternative",
+      "pathogenFocus": [
+        "MRSA"
+      ],
+      "riskFactorTriggers": [
+        "MRSA risk with high AKI concern",
+        "Need oral continuation without losing exposure"
+      ],
+      "avoidIf": [
+        "Severe thrombocytopenia",
+        "Unmanageable serotonergic interaction risk"
+      ],
+      "linkedMonographIds": [
+        "linezolid"
+      ],
       "drug": "linezolid",
       "monographId": "linezolid"
     },
@@ -6805,77 +9338,28 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "subcategoryName": "HAP — MDR Risk Factors OR High Mortality Risk",
       "line": "ADD MRSA Coverage (if risk factors present)",
       "regimen": "Linezolid 600mg IV/PO BID",
-      "notes": "Alternative to vancomycin. Potential advantages in pneumonia: better lung penetration, 100% oral bioavailability, no renal dosing. ZEPHyR trial showed linezolid non-inferior to vancomycin for MRSA nosocomial pneumonia with some secondary outcome advantages. Risk: myelosuppression (>14 days), serotonin syndrome with SSRIs.",
+      "notes": "Alternative MRSA pneumonia agent when lung penetration and renal-sparing matter more than bacteremia flexibility.",
+      "indication": "MRSA HAP coverage",
+      "site": "Lung",
+      "role": "alternative",
+      "pathogenFocus": [
+        "MRSA"
+      ],
+      "riskFactorTriggers": [
+        "MRSA risk with kidney injury or vancomycin intolerance"
+      ],
+      "avoidIf": [
+        "Long planned course with thrombocytopenia or high serotonergic interaction burden"
+      ],
+      "linkedMonographIds": [
+        "linezolid"
+      ],
       "drug": "linezolid",
       "monographId": "linezolid",
       "evidence": "A-I",
       "evidenceSource": "IDSA/ATS 2016",
       "evidenceSourceIds": [
         "ats-idsa-2016-hap-vap"
-      ]
-    }
-  ],
-  "pip-tazo": [
-    {
-      "id": "cap/cap-icu/add-on-for-pseudomonas-risk-factors/pip-tazo-1",
-      "diseaseId": "cap",
-      "diseaseName": "Community-Acquired Pneumonia",
-      "diseaseIcon": "🫁",
-      "subcategoryId": "cap-icu",
-      "subcategoryName": "Severe CAP / ICU Admission",
-      "line": "Add-On for Pseudomonas Risk Factors",
-      "regimen": "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)",
-      "notes": "Replace ceftriaxone with pip-tazo + azithromycin or FQ. Extended infusion critical for optimizing time above MIC. Consider adding an aminoglycoside or anti-pseudomonal FQ for double coverage in critically ill.",
-      "drug": "pip-tazo",
-      "monographId": "pip-tazo"
-    },
-    {
-      "id": "uti/pyelonephritis/inpatient-complicated-septic-unable-to-tolerate-/pip-tazo-2",
-      "diseaseId": "uti",
-      "diseaseName": "Urinary Tract Infections",
-      "diseaseIcon": "🔬",
-      "subcategoryId": "pyelonephritis",
-      "subcategoryName": "Acute Pyelonephritis",
-      "line": "Inpatient (Complicated, Septic, Unable to Tolerate PO)",
-      "regimen": "Piperacillin-tazobactam 3.375g IV q6h (or 4.5g q8h EI)",
-      "notes": "Use if Pseudomonas risk or healthcare-associated exposure. Extended infusion preferred.",
-      "drug": "pip-tazo",
-      "monographId": "pip-tazo"
-    },
-    {
-      "id": "uti/cauti/empiric-pending-cultures-always-de-escalate/pip-tazo-2",
-      "diseaseId": "uti",
-      "diseaseName": "Urinary Tract Infections",
-      "diseaseIcon": "🔬",
-      "subcategoryId": "cauti",
-      "subcategoryName": "Catheter-Associated UTI (CAUTI)",
-      "line": "Empiric (Pending Cultures — Always De-escalate)",
-      "regimen": "Piperacillin-tazobactam 4.5g IV q8h (EI over 4h)",
-      "notes": "Use if Pseudomonas or MDR risk (prior cultures, healthcare exposure). Extended infusion recommended.",
-      "drug": "pip-tazo",
-      "monographId": "pip-tazo",
-      "evidence": "B-II",
-      "evidenceSource": "IDSA 2011",
-      "evidenceSourceIds": [
-        "idsa-escmid-2011-uti"
-      ]
-    },
-    {
-      "id": "uti/complicated-uti/first-line-cuti-without-sepsis/pip-tazo-2",
-      "diseaseId": "uti",
-      "diseaseName": "Urinary Tract Infections",
-      "diseaseIcon": "🔬",
-      "subcategoryId": "complicated-uti",
-      "subcategoryName": "Complicated UTI",
-      "line": "First-Line — cUTI WITHOUT Sepsis",
-      "regimen": "Piperacillin-tazobactam 3.375g IV q6h (or 4.5g q8h extended infusion)",
-      "notes": "IDSA 2025 preferred empiric option. Extended infusion (over 4h) optimizes PK/PD. Appropriate when broader coverage desired (Pseudomonas risk).",
-      "drug": "pip-tazo",
-      "monographId": "pip-tazo",
-      "evidence": "A-I",
-      "evidenceSource": "IDSA 2011",
-      "evidenceSourceIds": [
-        "idsa-escmid-2011-uti"
       ]
     }
   ],
@@ -6970,6 +9454,39 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "notes": "Secondary prophylaxis. Can discontinue once immune reconstitution achieved: CD4 >100 for ≥1 year on ART with suppressed viral load. If CD4 drops below 100 again, restart maintenance fluconazole.",
       "drug": "fluconazole",
       "monographId": "fluconazole"
+    },
+    {
+      "id": "iai/ha-iai/add-antifungal-if-candida-risk-factors/fluconazole-iai-1",
+      "diseaseId": "iai",
+      "diseaseName": "Intra-Abdominal Infections",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "ha-iai",
+      "subcategoryName": "Healthcare-Associated & Post-Operative IAI",
+      "line": "ADD Antifungal If Candida Risk Factors",
+      "regimen": "Fluconazole 400mg IV/PO daily (loading 800mg day 1) or Micafungin 100mg IV daily",
+      "notes": "Adjunctive antifungal coverage only when sterile abdominal cultures, Gram stain, or host factors make Candida peritonitis credible.",
+      "indication": "Candida-risk postoperative IAI",
+      "site": "Intra-abdominal",
+      "role": "adjunct",
+      "pathogenFocus": [
+        "Candida albicans",
+        "Candida glabrata and other non-albicans species with echinocandin option"
+      ],
+      "riskFactorTriggers": [
+        "Anastomotic leak",
+        "Upper GI perforation",
+        "TPN",
+        "Recurrent surgery",
+        "Yeast seen on Gram stain or sterile-site culture"
+      ],
+      "avoidIf": [
+        "Routine community IAI without Candida risk factors"
+      ],
+      "linkedMonographIds": [
+        "fluconazole",
+        "micafungin"
+      ],
+      "drug": "fluconazole-iai"
     }
   ],
   "voriconazole": [
@@ -7041,6 +9558,39 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "monographId": "micafungin"
     },
     {
+      "id": "iai/ha-iai/add-antifungal-if-candida-risk-factors/fluconazole-iai-1",
+      "diseaseId": "iai",
+      "diseaseName": "Intra-Abdominal Infections",
+      "diseaseIcon": "🫁",
+      "subcategoryId": "ha-iai",
+      "subcategoryName": "Healthcare-Associated & Post-Operative IAI",
+      "line": "ADD Antifungal If Candida Risk Factors",
+      "regimen": "Fluconazole 400mg IV/PO daily (loading 800mg day 1) or Micafungin 100mg IV daily",
+      "notes": "Adjunctive antifungal coverage only when sterile abdominal cultures, Gram stain, or host factors make Candida peritonitis credible.",
+      "indication": "Candida-risk postoperative IAI",
+      "site": "Intra-abdominal",
+      "role": "adjunct",
+      "pathogenFocus": [
+        "Candida albicans",
+        "Candida glabrata and other non-albicans species with echinocandin option"
+      ],
+      "riskFactorTriggers": [
+        "Anastomotic leak",
+        "Upper GI perforation",
+        "TPN",
+        "Recurrent surgery",
+        "Yeast seen on Gram stain or sterile-site culture"
+      ],
+      "avoidIf": [
+        "Routine community IAI without Candida risk factors"
+      ],
+      "linkedMonographIds": [
+        "fluconazole",
+        "micafungin"
+      ],
+      "drug": "fluconazole-iai"
+    },
+    {
       "id": "sepsis/sepsis-community/empiric-antifungal-only-if-specific-candida-risk/micafungin-1",
       "diseaseId": "sepsis",
       "diseaseName": "Sepsis & Septic Shock",
@@ -7057,6 +9607,56 @@ export const REGIMEN_XREF_BY_MONOGRAPH_ID: Record<string, RegimenReference[]> = 
       "evidenceSourceIds": [
         "ssc-2021",
         "idsa-candidiasis"
+      ]
+    },
+    {
+      "id": "sepsis/septic-shock/immediate-broad-spectrum-empiric-septic-shock-wi/vanco-meropenem-1",
+      "diseaseId": "sepsis",
+      "diseaseName": "Sepsis & Septic Shock",
+      "diseaseIcon": "🔴",
+      "subcategoryId": "septic-shock",
+      "subcategoryName": "Septic Shock",
+      "line": "Immediate Broad-Spectrum Empiric — Septic Shock (Within 1 Hour)",
+      "regimen": "Vancomycin IV + Meropenem 2g IV q8h over 3h ± Micafungin 100mg IV q24h if Candida risk",
+      "notes": "Maximal early shock regimen when the source is unclear or healthcare-associated and both MRSA and resistant gram-negatives remain plausible.",
+      "indication": "Septic shock of unclear source",
+      "site": "Systemic",
+      "role": "preferred",
+      "pathogenFocus": [
+        "MRSA",
+        "ESBL Enterobacterales",
+        "Pseudomonas",
+        "Anaerobes",
+        "Candida when host risk is real"
+      ],
+      "riskFactorTriggers": [
+        "Vasopressor-dependent shock",
+        "Unclear source",
+        "Healthcare exposure or prior resistant isolates"
+      ],
+      "avoidIf": [
+        "Rapid source clarification allows narrower therapy within the first 24-48 hours"
+      ],
+      "renalFlags": [
+        "Vancomycin AUC monitoring and meropenem extended infusion both need active renal reassessment"
+      ],
+      "dialysisFlags": [
+        "HD and CRRT dosing must be protocolized from the start in shock"
+      ],
+      "rapidDiagnosticActions": [
+        "Drop vancomycin quickly if MRSA data are negative",
+        "Drop antifungal coverage if Candida risk and diagnostics do not support it"
+      ],
+      "linkedMonographIds": [
+        "vancomycin",
+        "meropenem",
+        "micafungin"
+      ],
+      "drug": "vanco-meropenem",
+      "evidence": "A-I",
+      "evidenceSource": "SSC 2021",
+      "evidenceSourceIds": [
+        "ssc-2021"
       ]
     }
   ],

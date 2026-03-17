@@ -105,6 +105,26 @@ export function resolveContentSources(meta: ContentMeta) {
     .filter((source): source is NonNullable<typeof source> => source !== null);
 }
 
+export function flattenContentMetaText(meta?: ContentMeta | null): string[] {
+  if (!meta) return [];
+
+  return [
+    meta.guidelineVersion ?? "",
+    ...meta.sources.flatMap((source) => [source.citation, source.note ?? ""]),
+    ...meta.reviewHistory.flatMap((entry) => [entry.summary]),
+    ...(meta.whatChanged ?? []),
+    ...(meta.sectionConfidence?.flatMap((entry) => [entry.section, entry.confidence, entry.rationale]) ?? []),
+    ...(meta.guidelineDisagreements?.flatMap((entry) => [
+      entry.topic,
+      entry.guidanceA,
+      entry.guidanceB,
+      entry.pharmacistTakeaway,
+    ]) ?? []),
+  ]
+    .map((value) => value.trim())
+    .filter(Boolean);
+}
+
 function finalizeContentMeta(
   seed: ContentMetaSeed | ContentMeta | undefined,
   reviewScope: string,

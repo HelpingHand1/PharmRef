@@ -7,8 +7,11 @@
 // IDSA 2016 Aspergillosis Guidelines, ESCMID 2012 Candida Guidelines,
 // IDSA Antifungal Stewardship Principles
 // ============================================================
+import type { DiseaseState } from "../types";
+import { FUNGAL_INFECTIONS_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
+import { enhanceDisease } from "./stewardship-content";
 
-const FUNGAL_INFECTIONS = {
+const FUNGAL_INFECTIONS_BASE: DiseaseState = {
   id: "fungal-infections",
   name: "Fungal Infections",
   icon: "🍄",
@@ -408,6 +411,12 @@ const FUNGAL_INFECTIONS = {
     },
   ],
 };
+
+const FUNGAL_INFECTIONS: DiseaseState = enhanceDisease(
+  FUNGAL_INFECTIONS_BASE,
+  {},
+  FUNGAL_INFECTIONS_MONOGRAPH_ENHANCEMENTS,
+);
 
 export { FUNGAL_INFECTIONS };
 export default FUNGAL_INFECTIONS;

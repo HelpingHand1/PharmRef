@@ -18,8 +18,14 @@
     "src/types.ts",
     "src/version.ts",
     "src/utils/clinicalCalculators.ts",
+    "src/utils/searchCatalog.ts",
     "src/utils/persistenceEnvelope.ts",
-    "src/utils/regimenGuidance.ts"
+    "src/utils/regimenGuidance.ts",
+    "src/utils/monographPatientGuidance.ts",
+    "src/utils/patientMedicationInteractions.ts",
+    "src/utils/patientFit.ts",
+    "src/utils/patientStewardshipSummary.ts",
+    "src/utils/patientTransitionReadiness.ts"
   ],
   "exclude": [
     "node_modules",

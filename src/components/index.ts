@@ -16,3 +16,4 @@ export { default as AuditView } from "./AuditView";
 export { default as ContentMetaCard } from "./ContentMetaCard";
 export { default as DisclaimerModal } from "./DisclaimerModal";
 export { default as PatientModal } from "./PatientModal";
+export { default as TrustSurfaceBanner } from "./TrustSurfaceBanner";

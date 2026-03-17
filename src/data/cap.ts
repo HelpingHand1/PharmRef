@@ -1,7 +1,12 @@
 // Editorial source for the generated CAP disease module.
 // Runtime catalog imports use src/data/generated/diseases/cap.ts.
 
-export const CAP = {
+import type { DiseaseState, Subcategory } from "../types";
+import { CAP_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
+import { getEmpiricOptionEnhancementsForDisease } from "./regimen-plan-content";
+import { enhanceDisease, enhanceDiseaseEmpiricOptions, mergeEnhancementMaps, notApplicable, ready } from "./stewardship-content";
+
+const CAP_BASE: DiseaseState = {
     id: "cap",
     name: "Community-Acquired Pneumonia",
     icon: "🫁",
@@ -464,3 +469,135 @@ export const CAP = {
       },
     ],
 };
+
+const CAP_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "cap-outpatient-healthy": {
+    diagnosticWorkup: ready("Confirm the syndrome with chest imaging when feasible, but the outpatient workup should stay lean: vitals, severity score, and red-flag review are the core pharmacist inputs."),
+    severitySignals: ready("Hypoxia, hypotension, confusion, multilobar disease, or inability to maintain oral hydration means this is no longer a routine outpatient pathway."),
+    mdroRiskFactors: ready("Recent antibiotics, structural lung disease, post-influenza necrotizing concern, or prior MRSA/Pseudomonas history should move the patient out of simple outpatient monotherapy thinking."),
+    sourceControl: notApplicable("Routine CAP usually does not hinge on procedural source control unless an effusion or aspiration complication appears."),
+    deEscalation: ready("If viral testing is positive and bacterial evidence is weak, resist unnecessarily prolonging antibacterial therapy; if cultures later identify a narrow pathogen, collapse to the single active oral agent."),
+    ivToPoPlan: notApplicable("This pathway is oral-first, so IV-to-PO transition is not the central stewardship question."),
+    failureEscalation: ready("If symptoms worsen or do not improve within 48-72 hours, reassess for wrong diagnosis, resistant pathogen, aspiration, viral illness, or need for admission."),
+    consultTriggers: ready("Escalate for pregnancy, significant immunocompromise, recurrent pneumonia in the same lobe, or suspected unusual pathogens."),
+    durationAnchor: ready("Count duration from the first active antibiotic dose once CAP is established; uncomplicated CAP should not be automatically extended because cough lingers."),
+  },
+  "cap-outpatient-comorbid": {
+    diagnosticWorkup: ready("Document comorbidities, recent antibiotic exposure, and oxygenation carefully because these are the main reasons outpatient therapy fails."),
+    severitySignals: ready("Hypoxia, unstable vitals, inability to take PO, or severe comorbidity decompensation should lower the threshold for ED or inpatient care."),
+    mdroRiskFactors: ready("Recent antibiotics, prior MRSA/Pseudomonas isolation, bronchiectasis, or severe structural lung disease are the main gates that justify broader coverage."),
+    sourceControl: notApplicable("Procedural source control is uncommon unless a pleural complication or aspiration source is identified."),
+    deEscalation: ready("If follow-up testing points to a viral process or a narrow bacterial pathogen, simplify quickly and avoid finishing a broad combination just because it was started in clinic."),
+    ivToPoPlan: notApplicable("This pathway remains oral-first unless the patient deteriorates and needs hospital-level care."),
+    failureEscalation: ready("Failure at 48-72 hours should prompt reassessment for adherence, absorption, resistant pneumococcus, aspiration, pulmonary embolism, or heart-failure mimicry."),
+    consultTriggers: ready("Escalate for severe immunocompromise, recurrent aspiration, or repeated outpatient CAP failures."),
+    durationAnchor: ready("Count from the first active dose and use clinical stability, not complete cough resolution, to stop therapy."),
+  },
+  "cap-inpatient": {
+    diagnosticWorkup: ready("Send blood cultures only when severity warrants them, collect sputum if it will be actionable, and pair the antibiotic plan with a severity score rather than broad inpatient reflexes."),
+    severitySignals: ready("Worsening oxygen requirement, hypotension, rising lactate, or multilobar disease means this patient may actually belong in the ICU/severe CAP pathway."),
+    mdroRiskFactors: ready("MRSA or Pseudomonas risk should be driven by prior isolation or recent healthcare antibiotic exposure, not by old HCAP-era heuristics."),
+    sourceControl: ready("Look for effusion, empyema, aspiration source, or obstructing lesion when the course feels atypical or recovery lags."),
+    deEscalation: ready("At 48-72 hours, narrow to the simplest active regimen, stop MRSA therapy when nares/cultures are not supportive, and do not keep atypical coverage just because it was started on admission."),
+    ivToPoPlan: ready("Switch to PO once the patient is hemodynamically stable, oxygen is improving, the GI tract works, and an active oral regimen is available."),
+    failureEscalation: ready("Failure should trigger repeat imaging, alternative-diagnosis review, aspiration assessment, and resistant-pathogen reconsideration rather than automatic duration extension."),
+    consultTriggers: ready("Escalate for bacteremia, complicated pleural disease, severe immunocompromise, or suspected unusual pathogens."),
+    durationAnchor: ready("Count from the first active regimen once CAP is established; five total days is often enough when the patient reaches clinical stability."),
+  },
+  "cap-icu": {
+    diagnosticWorkup: ready("Obtain cultures, viral testing, urinary antigens when indicated, and early severity markers before antibiotics if feasible, but do not delay first-dose administration in shock."),
+    severitySignals: ready("Shock, invasive or non-invasive ventilatory support, rapidly rising oxygen needs, or severe multilobar disease define this pathway and should push PK/PD optimization from the start."),
+    mdroRiskFactors: ready("Prior MRSA/Pseudomonas isolation and recent IV antibiotics are the major ATS/IDSA gates; avoid reflexive anti-MRSA or anti-pseudomonal therapy without those signals."),
+    sourceControl: ready("Look early for empyema, necrotizing disease, aspiration source, post-obstructive pneumonia, or concomitant bacteremia/endocarditis that changes the course."),
+    deEscalation: ready("Within 48-72 hours, use MRSA nares PCR, respiratory cultures, and hemodynamic recovery to remove unneeded MRSA or anti-pseudomonal coverage aggressively.", [
+      "A negative MRSA nares PCR is specifically valuable here because anti-MRSA continuation is common after the reason for starting it has disappeared.",
+    ]),
+    ivToPoPlan: ready("Transition only after shock resolves, oxygen needs are improving, and a high-bioavailability oral regimen remains fully active; severe CAP often needs a longer IV front-end than ward CAP."),
+    failureEscalation: ready("Persistent instability should trigger review of steroid decisions, viral coinfection, resistant pathogens, source control, and whether the beta-lactam infusion strategy is adequate."),
+    consultTriggers: ready("ID or pulmonary/critical care consultation is appropriate for necrotizing disease, bacteremia, unusual pathogens, or any case that needs broader-than-standard ICU CAP coverage."),
+    durationAnchor: ready("Count from the first active regimen, but still use shortest effective duration once shock resolves and source issues are addressed."),
+  },
+  "aspiration-pneumonia": {
+    diagnosticWorkup: ready("Distinguish aspiration pneumonia from aspiration pneumonitis before committing to antibiotics, then image and culture when severity or complications justify it."),
+    severitySignals: ready("Hypoxia, shock, abscess, empyema, or inability to protect the airway means aspiration is no longer a routine floor-level CAP variant."),
+    mdroRiskFactors: ready("Recent hospitalization, tube feeds, prior MDR gram-negatives, or repeated aspiration with healthcare exposure should broaden thinking beyond simple community oral flora."),
+    sourceControl: ready("Swallow evaluation, airway protection, drainage of empyema or abscess, and correction of the aspiration driver matter as much as antibiotic selection."),
+    deEscalation: ready("Once cultures and imaging clarify the picture, narrow therapy and avoid prolonged anaerobic over-coverage when lung abscess or empyema is not actually present."),
+    ivToPoPlan: ready("Use amoxicillin-clavulanate or another active oral option after the patient can swallow safely and is clinically improving."),
+    failureEscalation: ready("Lack of improvement should trigger search for abscess, empyema, obstructing lesion, or ongoing aspiration rather than simply broadening the regimen indefinitely."),
+    consultTriggers: ready("Speech-language pathology, pulmonary, or surgical consultation is appropriate when recurrent aspiration, empyema, or abscess is present."),
+    durationAnchor: ready("Count from the first active therapy after the aspiration source is addressed as much as possible; longer courses are reserved for abscess or empyema."),
+  },
+};
+
+const CAP_MICROBIOLOGY_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "cap-icu": {
+    rapidDiagnostics: [
+      {
+        trigger: "MRSA nares PCR is negative and respiratory cultures do not support MRSA",
+        action: "Stop vancomycin or linezolid during the 48-72 hour timeout unless another MRSA syndrome is active.",
+        rationale: "Negative nares screening has high negative predictive value for MRSA pneumonia and is a major ICU de-escalation lever.",
+      },
+      {
+        trigger: "Legionella urinary antigen or severe-viral testing returns positive",
+        action: "Preserve targeted atypical or viral-directed therapy and avoid reflexively widening beta-lactam coverage just because the patient is critically ill.",
+        rationale: "Rapid diagnostics often clarify why the patient looked sicker than a routine pneumococcal CAP pathway.",
+      },
+    ],
+    breakpointNotes: [
+      {
+        marker: "MRSA nares screening",
+        interpretation: "Best used as a rule-out tool for continued anti-MRSA therapy in pneumonia rather than a stand-alone rule-in test.",
+        action: "Interpret the result alongside cultures and the 48-72 hour clinical trajectory.",
+      },
+      {
+        marker: "Routine respiratory culture quality",
+        interpretation: "Poor-quality sputum or early no-growth cultures do not prove that broader gram-negative therapy is needed.",
+        action: "Reassess the syndrome and actual exposure history before escalating beyond standard severe CAP therapy.",
+      },
+    ],
+    intrinsicResistance: [
+      {
+        organism: "Legionella, Mycoplasma, and Chlamydophila",
+        resistance: "Standard beta-lactams do not provide reliable activity against these intracellular or cell-wall atypical pathogens.",
+        implication: "Keep azithromycin or a respiratory fluoroquinolone if atypical CAP remains plausible.",
+      },
+      {
+        organism: "Pseudomonas aeruginosa",
+        resistance: "Ceftriaxone and ampicillin-sulbactam are not dependable antipseudomonal options.",
+        implication: "Only move to cefepime, pip-tazo, or meropenem when prior isolation or recent IV antibiotic exposure creates a real risk signal.",
+      },
+    ],
+    coverageMatrix: [
+      {
+        label: "Core severe CAP bacteria",
+        status: "preferred",
+        detail: "Ceftriaxone plus azithromycin or a respiratory fluoroquinolone covers pneumococcus, H. influenzae, MSSA, and atypicals in most ICU CAP.",
+      },
+      {
+        label: "MRSA risk present",
+        status: "conditional",
+        detail: "Add vancomycin or linezolid only when prior MRSA isolation, post-influenza necrosis, or other ATS/IDSA risk signals exist.",
+      },
+      {
+        label: "Pseudomonas risk present",
+        status: "conditional",
+        detail: "Escalate to an antipseudomonal beta-lactam only when prior isolation or recent IV antibiotic exposure supports it.",
+      },
+      {
+        label: "Aspiration without abscess or empyema",
+        status: "active",
+        detail: "Routine heavy anaerobe expansion is usually unnecessary unless imaging or source history shows a true aspiration complication.",
+      },
+    ],
+  },
+};
+
+export const CAP: DiseaseState = enhanceDiseaseEmpiricOptions(
+  enhanceDisease(
+    CAP_BASE,
+    mergeEnhancementMaps(CAP_WORKFLOW_ENHANCEMENTS, CAP_MICROBIOLOGY_ENHANCEMENTS),
+    CAP_MONOGRAPH_ENHANCEMENTS,
+  ),
+  getEmpiricOptionEnhancementsForDisease("cap"),
+);

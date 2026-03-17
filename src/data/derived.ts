@@ -7,8 +7,22 @@ import type {
   RegimenReference,
   Subcategory,
 } from "../types";
+import {
+  getInstitutionDrugSearchText,
+  getInstitutionPathwaySearchText,
+} from "./institution-profile";
 import { buildRegimenCatalog, type RegimenCatalogData } from "./regimen-catalog";
 import { aliasTextFor, DISEASE_ALIASES, DRUG_ALIASES, SUBCATEGORY_ALIASES } from "./search-aliases";
+import {
+  flattenMonographMicrobiologyText,
+  flattenSubcategoryMicrobiologyText,
+} from "./microbiology";
+import { flattenContentMetaText } from "./metadata";
+import {
+  flattenMonographStructuredText,
+  flattenRegimenPlan,
+  flattenSubcategoryStewardshipText,
+} from "./stewardship";
 
 export type SearchEntry =
   | { type: "disease"; disease: DiseaseState; text: string }
@@ -17,7 +31,7 @@ export type SearchEntry =
       disease: DiseaseState;
       subcategory: Subcategory;
       text: string;
-      matchClassify: (query: string) => "name" | "pearl" | "empiric";
+      matchClassify: (query: string) => "name" | "pearl" | "workflow" | "microbiology" | "empiric";
     }
   | { type: "regimen"; disease: DiseaseState; subcategory: Subcategory; regimen: RegimenReference; text: string }
   | { type: "organism"; disease: DiseaseState; subcategory: Subcategory; organism: OrganismSpecific; text: string }
@@ -39,6 +53,18 @@ export interface CatalogDerived {
 
 function getEmpiricTherapy(subcategory: Subcategory) {
   return subcategory.empiricTherapy ?? subcategory.empiricRegimens ?? [];
+}
+
+function workflowQueryMatch(values: string[], query: string) {
+  const lowerQuery = query.toLowerCase();
+  const tokens = lowerQuery
+    .split(/\s+/)
+    .map((token) => token.trim())
+    .filter((token) => token.length > 1 && !["vs", "and", "or", "the", "for", "with", "to"].includes(token));
+  return values.some((value) => {
+    const lowerValue = value.toLowerCase();
+    return lowerValue.includes(lowerQuery) || (tokens.length > 0 && tokens.every((token) => lowerValue.includes(token)));
+  });
 }
 
 export const CLASS_GROUPS: Array<{ label: string; keywords: string[] }> = [
@@ -107,17 +133,31 @@ export function buildCatalogDerived(diseases: DiseaseState[], regimenCatalog?: R
     searchIndex.push({
       type: "disease",
       disease,
-      text: [disease.name, disease.overview.definition, disease.category, aliasTextFor(DISEASE_ALIASES, disease.id)].filter(Boolean).join(" ").toLowerCase(),
+      text: [
+        disease.name,
+        disease.overview.definition,
+        disease.category,
+        aliasTextFor(DISEASE_ALIASES, disease.id),
+        ...flattenContentMetaText(disease.contentMeta),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase(),
     });
 
     disease.subcategories.forEach((subcategory) => {
       const searchTexts = [subcategory.name, subcategory.definition, aliasTextFor(SUBCATEGORY_ALIASES, subcategory.id), ...(subcategory.pearls ?? [])];
+      searchTexts.push(...flattenSubcategoryStewardshipText(subcategory));
+      searchTexts.push(...flattenSubcategoryMicrobiologyText(subcategory));
+      searchTexts.push(...flattenContentMetaText(subcategory.contentMeta));
+      searchTexts.push(...getInstitutionPathwaySearchText(disease.id, subcategory.id));
 
       getEmpiricTherapy(subcategory).forEach((tier) => {
         searchTexts.push(tier.line);
         tier.options.forEach((option) => {
-          searchTexts.push(option.regimen);
-          searchTexts.push(option.notes ?? "");
+          searchTexts.push(option.plan?.regimen ?? option.regimen);
+          searchTexts.push(option.plan?.rationale ?? option.notes ?? "");
+          searchTexts.push(...flattenRegimenPlan(option.plan));
         });
       });
 
@@ -136,6 +176,12 @@ export function buildCatalogDerived(diseases: DiseaseState[], regimenCatalog?: R
           }
           if (subcategory.pearls?.some((pearl) => pearl.toLowerCase().includes(query))) {
             return "pearl";
+          }
+          if (workflowQueryMatch(flattenSubcategoryMicrobiologyText(subcategory), query)) {
+            return "microbiology";
+          }
+          if (workflowQueryMatch(flattenSubcategoryStewardshipText(subcategory), query)) {
+            return "workflow";
           }
           return "empiric";
         },
@@ -169,6 +215,10 @@ export function buildCatalogDerived(diseases: DiseaseState[], regimenCatalog?: R
           aliasTextFor(DRUG_ALIASES, drug.id),
           ...(drug.pharmacistPearls ?? []),
           ...(drug.drugInteractions ?? []),
+          ...flattenMonographStructuredText(drug),
+          ...flattenMonographMicrobiologyText(drug),
+          ...flattenContentMetaText(drug.contentMeta),
+          ...getInstitutionDrugSearchText(drug.id),
         ]
           .filter(Boolean)
           .join(" ")
@@ -193,6 +243,16 @@ export function buildCatalogDerived(diseases: DiseaseState[], regimenCatalog?: R
         regimen.regimen,
         regimen.notes,
         regimen.line,
+        regimen.indication,
+        regimen.site,
+        regimen.role,
+        ...(regimen.pathogenFocus ?? []),
+        ...(regimen.riskFactorTriggers ?? []),
+        ...(regimen.avoidIf ?? []),
+        ...(regimen.renalFlags ?? []),
+        ...(regimen.dialysisFlags ?? []),
+        ...(regimen.rapidDiagnosticActions ?? []),
+        ...(regimen.linkedMonographIds ?? []),
         regimen.subcategoryName,
         regimen.diseaseName,
         regimen.drug,

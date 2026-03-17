@@ -1,4 +1,5 @@
 import type { DiseaseState, RegimenReference, Subcategory } from "../types";
+import { getPreferredRegimenNotes, getPreferredRegimenText } from "./stewardship";
 
 export interface RegimenCatalogData {
   regimens: RegimenReference[];
@@ -14,6 +15,10 @@ function sortRegimenReferences(left: RegimenReference, right: RegimenReference) 
   if (left.subcategoryName !== right.subcategoryName) return left.subcategoryName.localeCompare(right.subcategoryName);
   if (left.line !== right.line) return left.line.localeCompare(right.line);
   return left.regimen.localeCompare(right.regimen);
+}
+
+function getRegimenMonographIds(regimen: RegimenReference) {
+  return [...new Set([regimen.monographId, ...(regimen.linkedMonographIds ?? [])].filter(Boolean))] as string[];
 }
 
 export function buildRegimenCatalog(diseases: DiseaseState[]): RegimenCatalogData {
@@ -33,8 +38,20 @@ export function buildRegimenCatalog(diseases: DiseaseState[]): RegimenCatalogDat
             subcategoryId: subcategory.id,
             subcategoryName: subcategory.name,
             line: tier.line,
-            regimen: option.regimen,
-            ...(option.notes ? { notes: option.notes } : {}),
+            regimen: getPreferredRegimenText(option.regimen, option.plan),
+            ...(getPreferredRegimenNotes(option.notes, option.plan) ? { notes: getPreferredRegimenNotes(option.notes, option.plan) } : {}),
+            ...(option.plan?.indication ? { indication: option.plan.indication } : {}),
+            ...(option.plan?.site ? { site: option.plan.site } : {}),
+            ...(option.plan?.role ? { role: option.plan.role } : {}),
+            ...(option.plan?.pathogenFocus?.length ? { pathogenFocus: option.plan.pathogenFocus } : {}),
+            ...(option.plan?.riskFactorTriggers?.length ? { riskFactorTriggers: option.plan.riskFactorTriggers } : {}),
+            ...(option.plan?.avoidIf?.length ? { avoidIf: option.plan.avoidIf } : {}),
+            ...(option.plan?.renalFlags?.length ? { renalFlags: option.plan.renalFlags } : {}),
+            ...(option.plan?.dialysisFlags?.length ? { dialysisFlags: option.plan.dialysisFlags } : {}),
+            ...(option.plan?.rapidDiagnosticActions?.length
+              ? { rapidDiagnosticActions: option.plan.rapidDiagnosticActions }
+              : {}),
+            ...(option.plan?.linkedMonographIds?.length ? { linkedMonographIds: option.plan.linkedMonographIds } : {}),
             ...(option.drug ? { drug: option.drug } : {}),
             ...(option.monographId ? { monographId: option.monographId } : {}),
             ...(option.evidence ? { evidence: option.evidence } : {}),
@@ -50,8 +67,9 @@ export function buildRegimenCatalog(diseases: DiseaseState[]): RegimenCatalogDat
 
   const xrefByMonographId: Record<string, RegimenReference[]> = {};
   regimens.forEach((regimen) => {
-    if (!regimen.monographId) return;
-    (xrefByMonographId[regimen.monographId] ??= []).push(regimen);
+    getRegimenMonographIds(regimen).forEach((monographId) => {
+      (xrefByMonographId[monographId] ??= []).push(regimen);
+    });
   });
 
   return {

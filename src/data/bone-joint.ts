@@ -1,6 +1,10 @@
+import type { DiseaseState, Subcategory } from "../types";
+import { BONE_JOINT_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
+import { enhanceDisease, mergeEnhancementMaps, ready } from "./stewardship-content";
+
 // Editorial source for the Bone/Joint disease module.
 // Runtime imports use src/data/generated/diseases/bone-joint.ts.
-export const BONE_JOINT = {
+const BONE_JOINT_BASE: DiseaseState = {
   id: "bone-joint",
   name: "Bone & Joint Infections",
   icon: "🦴",
@@ -268,3 +272,56 @@ export const BONE_JOINT = {
     },
   ],
 };
+
+const BONE_JOINT_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "vertebral-osteomyelitis": {
+    diagnosticWorkup: ready("Get blood cultures, MRI, and image-guided biopsy before antibiotics when the patient is stable enough for a culture-first strategy."),
+    severitySignals: ready("Neurologic deficits, epidural abscess, sepsis, hemodynamic instability, or rapidly progressive pain should move this out of a routine biopsy-first pathway."),
+    mdroRiskFactors: ready("Recent healthcare exposure, prior resistant gram-negatives, spinal hardware or procedures, prolonged antibiotics, and injection-drug use increase the odds that empiric therapy will need more than a simple staphylococcal frame."),
+    sourceControl: ready("Drain epidural or paravertebral collections and involve spine surgery or neurosurgery early when instability, abscess burden, or cord compromise is present."),
+    deEscalation: ready("Once blood or biopsy cultures identify the pathogen, collapse quickly to the narrowest bone-active regimen and stop vancomycin or broad gram-negative therapy that is no longer justified."),
+    ivToPoPlan: ready("Oral step-down is appropriate after source control or a stable non-operative plan, falling inflammatory markers, and confirmation that the oral option has reliable bone penetration and full susceptibility support."),
+    failureEscalation: ready("Rising CRP, persistent bacteremia, worsening pain, or new neurologic findings should trigger repeat source-control review, repeat cultures, and reconsideration of occult abscess rather than automatic duration extension."),
+    consultTriggers: ready("ID consultation is high yield for every case, and neurosurgery or spine surgery is urgent when neurologic deficits, instability, or drainable collections are present."),
+    durationAnchor: ready("Count duration from the first clearly active regimen after drainage or debridement when performed; most native vertebral osteomyelitis still targets about 6 total weeks, not 6 weeks of unnecessary IV therapy."),
+  },
+  "septic-arthritis": {
+    diagnosticWorkup: ready("Urgent arthrocentesis before antibiotics, blood cultures, and early imaging for adjacent bone involvement are the core diagnostic moves."),
+    severitySignals: ready("Sepsis, rapid joint destruction, inability to bear weight, prosthetic material, polyarticular disease, or surrounding osteomyelitis should trigger more aggressive drainage and broader initial support."),
+    mdroRiskFactors: ready("Prior MRSA, healthcare exposure, injection-drug use, gram-negative bacteremia risk, and recent joint procedures change empiric breadth while cultures are pending."),
+    sourceControl: ready("Repeated aspiration or operative washout is the milestone that makes antibiotic success possible; persistent purulence is a drainage problem until proven otherwise."),
+    deEscalation: ready("As soon as synovial or blood cultures identify the pathogen, narrow to the simplest active regimen and stop empiric MRSA or gram-negative overlap that no longer fits."),
+    ivToPoPlan: ready("Switch to an active oral regimen once drainage is adequate, fever and joint inflammation are improving, and there is no uncontrolled bacteremia or adjacent osteomyelitis forcing a longer IV front-end."),
+    failureEscalation: ready("Persistent fever, recurrent effusion, or rising inflammatory markers should prompt repeat drainage planning, osteomyelitis reassessment, and culture review rather than reflexively stacking broader antibiotics."),
+    consultTriggers: ready("Orthopedics is usually mandatory, and ID input is valuable for bacteremia, unusual pathogens, prosthetic material, or uncertain oral step-down plans."),
+    durationAnchor: ready("Count from the first active therapy after adequate drainage; extend the clock only when bone involvement, retained hardware, or inadequate source control truly changes the syndrome."),
+  },
+  "prosthetic-joint-infection": {
+    diagnosticWorkup: ready("Obtain deep cultures, synovial studies, and a clear surgical plan before long-course antibiotics whenever the patient is stable enough to avoid culture sterilization."),
+    severitySignals: ready("Bacteremia, sepsis, loosening hardware, sinus tract, poor soft-tissue envelope, or acute postoperative failure should move the team quickly toward a source-control decision."),
+    mdroRiskFactors: ready("Prior resistant staphylococci or gram-negatives, multiple revisions, chronic suppressive antibiotics, prolonged hospital exposure, and prior rifampin exposure materially change definitive therapy planning."),
+    sourceControl: ready("DAIR versus one-stage or two-stage exchange is the central stewardship decision because antibiotic selection, rifampin timing, and treatment duration all depend on the implant strategy."),
+    deEscalation: ready("Once operative cultures finalize, narrow aggressively and only add rifampin after debridement is complete and bloodstream burden is controlled rather than reflexively starting it on day 1."),
+    ivToPoPlan: ready("Many PJI courses can transition to oral therapy after the operative plan is stable, the companion drug is active and tolerated, and adherence plus interaction monitoring are realistic."),
+    failureEscalation: ready("Persistent drainage, positive follow-up cultures, or recurrent inflammation should trigger surgical-plan reassessment and biofilm strategy review instead of endless antibiotic broadening."),
+    consultTriggers: ready("Orthopedics and ID should both stay engaged because retained hardware, rifampin interactions, and suppressive-therapy decisions have non-obvious consequences."),
+    durationAnchor: ready("Tie duration to the operative strategy and the date source control is achieved; retained hardware and staged exchange pathways should not borrow the same clock."),
+  },
+  "diabetic-foot-osteo": {
+    diagnosticWorkup: ready("Use probe-to-bone, MRI when needed, bone biopsy or intraoperative cultures, and a perfusion assessment before committing to a long osteomyelitis plan."),
+    severitySignals: ready("Limb-threatening ischemia, spreading necrosis, systemic toxicity, gangrene, or inability to off-load safely means this is no longer a routine outpatient-compatible foot infection."),
+    mdroRiskFactors: ready("Recent antibiotics, prior resistant isolates, recurrent admissions, chronic wounds, and prior amputations all increase the chance that initial therapy is too broad or too narrow if culture strategy is weak."),
+    sourceControl: ready("Debridement, bone resection, drainage, off-loading, and revascularization often matter more than antibiotic escalation in getting the foot to heal."),
+    deEscalation: ready("Once bone or deep operative cultures identify the pathogen set, stop unnecessary MRSA or anti-pseudomonal coverage quickly and avoid letting superficial swabs drive the plan."),
+    ivToPoPlan: ready("Oral step-down is appropriate after debridement or resection, clinical improvement, and confirmation that the chosen oral regimen reaches bone and matches the true culture results."),
+    failureEscalation: ready("If the wound stalls, re-check perfusion, repeat debridement plans, and re-evaluate for residual osteomyelitis before simply extending or broadening antibiotics."),
+    consultTriggers: ready("Podiatry, vascular surgery, wound care, and ID are all high-yield when ischemia, recurrent resistant pathogens, or uncertain bone margins complicate the case."),
+    durationAnchor: ready("Count duration from the first active regimen after the decisive bone or soft-tissue source-control step: medical management usually needs weeks, while complete resection with clean margins can shorten therapy dramatically."),
+  },
+};
+
+export const BONE_JOINT: DiseaseState = enhanceDisease(
+  BONE_JOINT_BASE,
+  mergeEnhancementMaps(BONE_JOINT_WORKFLOW_ENHANCEMENTS),
+  BONE_JOINT_MONOGRAPH_ENHANCEMENTS,
+);

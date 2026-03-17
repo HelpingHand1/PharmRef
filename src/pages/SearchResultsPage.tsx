@@ -1,6 +1,12 @@
 import { useState, type ReactNode } from "react";
 import RegimenEvidencePills from "../components/RegimenEvidencePills";
 import { MONOGRAPH_SUMMARY_BY_ID } from "../data/catalog-manifest";
+import {
+  buildDiseaseSearchPreview,
+  buildDrugSearchPreview,
+  buildRegimenSearchPreview,
+  buildSubcategorySearchPreview,
+} from "../data/search-presenters";
 import { getConfidenceBadge, getContentFreshness, getMonographContentKey, getSubcategoryContentKey, resolveContentMeta } from "../data/metadata";
 import { NAV_STATES } from "../styles/constants";
 import type { NavigateTo, SearchResult, Styles } from "../types";
@@ -132,6 +138,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
           const resolvedMeta = resolveContentMeta(drug, drug.parentDisease, {
             contentKey: getMonographContentKey(drug.parentDisease.id, drug.id),
           });
+          const preview = buildDrugSearchPreview(drug, query);
           return (
             <div
               key={drug.id}
@@ -147,6 +154,14 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
               <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
                 {drug.brandNames} · {drug.drugClass}
               </div>
+              <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "10px", lineHeight: 1.55 }}>
+                {preview.primary}
+              </div>
+              {preview.secondary && (
+                <div style={{ fontSize: "12px", color: S.meta.textMuted, marginTop: "6px", lineHeight: 1.55 }}>
+                  {preview.secondary}
+                </div>
+              )}
               <MetadataBadges inherited={resolvedMeta.inherited} meta={resolvedMeta.meta} S={S} />
             </div>
           );
@@ -202,40 +217,72 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
     {
       title: "Regimens",
       items: results.regimens.map((regimen) => (
-        <div
-          key={regimen.id}
-          className="pr-card result-card"
-          style={{ ...S.card, marginBottom: 0, padding: "18px 20px" }}
-          onClick={() => {
-            onClearSearch();
-            navigateTo(NAV_STATES.SUBCATEGORY, {
-              disease: regimen.parentDisease,
-              subcategory: regimen.parentSubcategory,
-            });
-          }}
-        >
-          <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🧪 Empiric Regimen</div>
-          <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading, lineHeight: 1.45 }}>{hl(regimen.regimen)}</div>
-          <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
-            {regimen.parentDisease.name}
-            <span style={{ color: S.meta.accent, margin: "0 5px" }}>›</span>
-            {regimen.parentSubcategory.name}
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
-            <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>{regimen.line}</span>
-            {regimen.monographId && MONOGRAPH_SUMMARY_BY_ID[regimen.monographId] && (
-              <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
-                Linked: {MONOGRAPH_SUMMARY_BY_ID[regimen.monographId].name}
-              </span>
-            )}
-          </div>
-          <RegimenEvidencePills
-            evidence={regimen.evidence}
-            evidenceSource={regimen.evidenceSource}
-            evidenceSourceIds={regimen.evidenceSourceIds}
-            S={S}
-          />
-        </div>
+        (() => {
+          const resolvedMeta = resolveContentMeta(regimen.parentSubcategory, regimen.parentDisease, {
+            contentKey: getSubcategoryContentKey(regimen.parentDisease.id, regimen.parentSubcategory.id),
+          });
+          const preview = buildRegimenSearchPreview(regimen, query);
+          const linkedIds = [...new Set(
+            [regimen.monographId, ...(regimen.linkedMonographIds ?? [])].filter(
+              (linkedId): linkedId is string => Boolean(linkedId),
+            ),
+          )];
+          return (
+            <div
+              key={regimen.id}
+              className="pr-card result-card"
+              style={{ ...S.card, marginBottom: 0, padding: "18px 20px" }}
+              onClick={() => {
+                onClearSearch();
+                navigateTo(NAV_STATES.SUBCATEGORY, {
+                  disease: regimen.parentDisease,
+                  subcategory: regimen.parentSubcategory,
+                });
+              }}
+            >
+              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🧪 Empiric Regimen</div>
+              <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading, lineHeight: 1.45 }}>{hl(regimen.regimen)}</div>
+              <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+                {regimen.parentDisease.name}
+                <span style={{ color: S.meta.accent, margin: "0 5px" }}>›</span>
+                {regimen.parentSubcategory.name}
+              </div>
+              <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "10px", lineHeight: 1.55 }}>
+                {preview.primary}
+              </div>
+              {preview.secondary && (
+                <div style={{ fontSize: "12px", color: S.meta.textMuted, marginTop: "6px", lineHeight: 1.55 }}>
+                  {preview.secondary}
+                </div>
+              )}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
+                <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>{regimen.line}</span>
+                {regimen.role && (
+                  <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>{regimen.role}</span>
+                )}
+                {regimen.site && (
+                  <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>{regimen.site}</span>
+                )}
+                {linkedIds.map((linkedId) => {
+                  const summary = MONOGRAPH_SUMMARY_BY_ID[linkedId];
+                  if (!summary) return null;
+                  return (
+                    <span key={`${regimen.id}-${linkedId}`} style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                      Linked: {summary.name}
+                    </span>
+                  );
+                })}
+              </div>
+              <RegimenEvidencePills
+                evidence={regimen.evidence}
+                evidenceSource={regimen.evidenceSource}
+                evidenceSourceIds={regimen.evidenceSourceIds}
+                S={S}
+              />
+              <MetadataBadges inherited={resolvedMeta.inherited} meta={resolvedMeta.meta} S={S} />
+            </div>
+          );
+        })()
       )),
     },
     {
@@ -245,6 +292,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
           const resolvedMeta = resolveContentMeta(subcategory, subcategory.parentDisease, {
             contentKey: getSubcategoryContentKey(subcategory.parentDisease.id, subcategory.id),
           });
+          const preview = buildSubcategorySearchPreview(subcategory, query);
           return (
             <div
               key={`${subcategory.parentDisease.id}-${subcategory.id}`}
@@ -261,12 +309,24 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
                   ? "Matched in title"
                   : subcategory.matchType === "pearl"
                     ? "Matched in pearls"
+                    : subcategory.matchType === "microbiology"
+                      ? "Matched in microbiology"
+                    : subcategory.matchType === "workflow"
+                      ? "Matched in workflow"
                     : "Matched in therapy"}
               </div>
               <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{hl(subcategory.name)}</div>
               <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px" }}>
                 {subcategory.parentDisease.name}
               </div>
+              <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "10px", lineHeight: 1.55 }}>
+                {preview.primary}
+              </div>
+              {preview.secondary && (
+                <div style={{ fontSize: "12px", color: S.meta.textMuted, marginTop: "6px", lineHeight: 1.55 }}>
+                  {preview.secondary}
+                </div>
+              )}
               <MetadataBadges inherited={resolvedMeta.inherited} meta={resolvedMeta.meta} S={S} />
             </div>
           );
@@ -278,6 +338,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
       items: results.diseases.map((disease) => (
         (() => {
           const resolvedMeta = resolveContentMeta(disease);
+          const preview = buildDiseaseSearchPreview(disease, query);
           return (
             <div
               key={disease.id}
@@ -292,6 +353,14 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
               <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>
                 {disease.icon} {hl(disease.name)}
               </div>
+              <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "10px", lineHeight: 1.55 }}>
+                {preview.primary}
+              </div>
+              {preview.secondary && (
+                <div style={{ fontSize: "12px", color: S.meta.textMuted, marginTop: "6px", lineHeight: 1.55 }}>
+                  {preview.secondary}
+                </div>
+              )}
               <MetadataBadges inherited={resolvedMeta.inherited} meta={resolvedMeta.meta} S={S} />
             </div>
           );

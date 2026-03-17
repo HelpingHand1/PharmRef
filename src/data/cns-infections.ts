@@ -1,6 +1,10 @@
 // Editorial source for the CNS Infections disease module.
 // Runtime imports use src/data/generated/diseases/cns-infections.ts.
-export const CNS_INFECTIONS = {
+import type { DiseaseState } from "../types";
+import { CNS_INFECTIONS_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
+import { enhanceDisease } from "./stewardship-content";
+
+const CNS_INFECTIONS_BASE: DiseaseState = {
   id: "cns-infections",
   name: "CNS Infections",
   icon: "🧠",
@@ -236,3 +240,9 @@ export const CNS_INFECTIONS = {
     },
   ],
 };
+
+export const CNS_INFECTIONS: DiseaseState = enhanceDisease(
+  CNS_INFECTIONS_BASE,
+  {},
+  CNS_INFECTIONS_MONOGRAPH_ENHANCEMENTS,
+);

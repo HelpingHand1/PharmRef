@@ -481,6 +481,107 @@ export const FUNGAL_INFECTIONS: DiseaseState = {
         "Fluconazole does NOT cover Aspergillus — this seems obvious but the number of times empiric fluconazole is prescribed for suspected IPA in neutropenic patients is staggering. If you suspect aspergillosis, you need voriconazole, isavuconazole, or amphotericin B.",
         "C. glabrata + fluconazole: The MIC breakpoint is ≤2 (susceptible), 4 (susceptible-dose dependent), ≥8 (resistant). 'Susceptible-dose dependent' means it MAY work at 800 mg/day but there's little clinical data supporting this. Most experts use echinocandin for C. glabrata and avoid fluconazole entirely. Know your institution's antibiogram.",
         "Alopecia occurs with prolonged fluconazole use (>3 months) and is dose-dependent. Patients are often distressed — reassure them it's reversible after discontinuation. It's NOT a reason to stop medically necessary therapy, but they should be warned proactively."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Candidemia step-down",
+          "regimen": "800 mg IV/PO load, then 400 mg IV/PO daily",
+          "notes": "Use after blood-culture clearance and susceptibility confirmation, not as blind first-line therapy for unstable candidemia."
+        },
+        {
+          "label": "Candiduria",
+          "regimen": "200-400 mg IV/PO daily",
+          "notes": "Use only when urinary Candida truly warrants treatment because fluconazole is one of the few antifungals that actually reaches the urine well."
+        },
+        {
+          "label": "Cryptococcal consolidation",
+          "regimen": "400-800 mg PO daily",
+          "notes": "Long-course use makes adherence and drug interaction review as important as the initial prescription."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Give the full scheduled dose after hemodialysis because a substantial fraction is removed during the run."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT often approximates normal renal clearance, so moderate-to-high daily dosing is frequently still needed."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Pregnancy or prolonged high-dose therapy",
+          "guidance": "Avoid chronic high-dose fluconazole in pregnancy when possible and be explicit about fetal risk rather than treating it like a benign all-comers azole."
+        },
+        {
+          "population": "Obesity, CRRT, or unexpectedly resistant Candida",
+          "guidance": "Upper-end dosing and occasional specialist review matter when standard exposure may be too light for the host or MIC."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "Routine serum targets are not usually required because fluconazole PK is predictable.",
+        "sampling": "Consider levels only in unusual high-dose, obesity, or renal replacement scenarios when exposure is uncertain.",
+        "adjustment": "Fix loading doses and renal-replacement dosing before assuming clinical failure is microbiologic."
+      },
+      "administration": {
+        "infusion": "IV and PO doses are generally interchangeable; the IV formulation is usually infused over 1-2 hours depending on dose and concentration.",
+        "oralAbsorption": "High oral bioavailability makes PO therapy clinically equivalent for most stable patients.",
+        "note": "For many patients, the biggest stewardship win is simply remembering the loading dose and converting to PO early."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "High oral bioavailability with near-1:1 IV-to-PO conversion.",
+        "switchCriteria": "Switch to PO once the patient can absorb reliably because IV therapy rarely adds value after stabilization.",
+        "note": "Loading-dose omission hurts more often than delayed PO conversion."
+      },
+      "opatEligibility": {
+        "eligible": "conditional",
+        "administration": "IV fluconazole is feasible in OPAT, but oral continuation should be preferred whenever the gut works.",
+        "monitoring": "Follow liver tests, renal function, and the interaction list rather than defaulting to an infusion plan.",
+        "considerations": [
+          "Excellent oral step-down option for susceptible Candida syndromes.",
+          "One of the few antifungals that reaches the urine well."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "CYP2C9 inhibition can raise INR quickly and meaningfully.",
+          "management": "Reduce warfarin or arrange close INR follow-up when starting fluconazole.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Tacrolimus, cyclosporine, or CYP3A4-sensitive statins",
+          "effect": "Exposure to these drugs can rise enough to cause nephrotoxicity or rhabdomyolysis.",
+          "management": "Adjust doses and monitor levels or switch the interacting medication when feasible.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Susceptibility-confirmed Candida step-down",
+          "role": "Fluconazole is the cleanest oral exit for susceptible candidemia once cultures clear and the patient stabilizes.",
+          "notes": "Do not let its convenience trick the team into using it against intrinsically resistant species."
+        },
+        {
+          "scenario": "Candida urinary tract infection",
+          "role": "Because it reaches the urine well, fluconazole solves a niche that echinocandins do not.",
+          "notes": "Treat candiduria only when the syndrome truly warrants therapy."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "CSF",
+          "detail": "Excellent CSF penetration is one of fluconazole's signature advantages for cryptococcal and selected Candida CNS infection pathways."
+        },
+        {
+          "site": "Urine",
+          "detail": "High urinary concentrations make fluconazole the azole with the clearest role in susceptible Candida urinary tract infection."
+        },
+        {
+          "site": "Eye / vitreous",
+          "detail": "Ocular penetration is good enough to support step-down in susceptible candidemia with ocular involvement once the patient is otherwise stable."
+        }
       ]
     },
     {
@@ -518,6 +619,102 @@ export const FUNGAL_INFECTIONS: DiseaseState = {
         "C. parapsilosis + echinocandin: The higher MICs are real (0.5–2 vs. ≤0.06 for C. albicans), but clinical outcomes data are mixed. The IDSA 2016 guidelines still accept echinocandin for C. parapsilosis but recommend considering fluconazole step-down once species identified. Know your institution's practice pattern.",
         "Micafungin vs. caspofungin in transplant patients: Micafungin is preferred because caspofungin + cyclosporine can cause hepatotoxicity. Micafungin doesn't have this interaction. This is a pharmacist-level nuance that many physicians don't know.",
         "For candidemia, do NOT stop micafungin just because blood cultures are negative. The 14-day clock starts from the first negative culture. If it takes 5 days to clear, total therapy is at minimum 19 days. Premature discontinuation is a common error."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Candidemia or invasive candidiasis",
+          "regimen": "100 mg IV q24h",
+          "notes": "Daily echinocandin default while species identification and source control are developing."
+        },
+        {
+          "label": "Empiric antifungal in high-risk febrile neutropenia or higher-burden infection",
+          "regimen": "100-150 mg IV q24h",
+          "notes": "Use the higher end when obesity, critical illness, or deep-seated disease makes standard exposure less reassuring."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No dose adjustment is required because micafungin is not meaningfully removed by hemodialysis."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Standard daily dosing usually remains appropriate in CRRT, though severe critical illness may justify the higher end of dosing."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Obesity or deep-seated candidiasis",
+          "guidance": "Many clinicians favor 150 mg daily when body size or infection burden makes the standard 100 mg feel marginal."
+        },
+        {
+          "population": "Urinary, CNS, or ocular Candida infection",
+          "guidance": "Micafungin is a poor fit for these sites because exposure, not in vitro susceptibility, is the limiting issue."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; the right site and timely step-down matter more than drug levels.",
+        "sampling": "No drug levels are standard. Reassess species identification, blood-culture clearance, and whether the infection site still fits an echinocandin.",
+        "adjustment": "If candidemia clears and the organism is azole-susceptible, switch to oral fluconazole rather than carrying IV micafungin through the full course."
+      },
+      "administration": {
+        "infusion": "Usually infused once daily over about 1 hour.",
+        "compatibility": "Do not mix in the same bag with other agents unless compatibility is confirmed.",
+        "note": "There is no oral formulation, so discharge planning usually depends on whether step-down to an azole is possible."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral micafungin formulation exists.",
+        "switchCriteria": "Transition to an active oral azole once the patient is clinically stable, blood cultures are clearing, and species/site support step-down.",
+        "note": "If the infection site is urine, eye, or CNS, the step-down agent often needs to change sooner rather than later."
+      },
+      "opatEligibility": {
+        "eligible": "yes",
+        "administration": "Once-daily IV dosing is straightforward for OPAT when oral step-down is not yet possible.",
+        "monitoring": "Weekly CBC and hepatic panel are reasonable, with closer review if candidemia clearance or line access remains uncertain.",
+        "considerations": [
+          "A good short OPAT bridge while awaiting susceptibility-driven azole conversion.",
+          "Poor fit for Candida cystitis, endophthalmitis, or CNS infection."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Sirolimus",
+          "effect": "Micafungin can raise sirolimus exposure and amplify toxicity risk.",
+          "management": "Monitor sirolimus concentrations and adverse effects when starting or stopping micafungin.",
+          "severity": "monitor"
+        },
+        {
+          "interactingAgent": "Nifedipine",
+          "effect": "Exposure can rise and worsen hypotension or edema.",
+          "management": "Monitor blood pressure and consider dose reduction if symptoms emerge.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Frontline candidemia anchor while species are pending",
+          "role": "A clean default echinocandin that buys time for culture clearance and source control.",
+          "notes": "Its stewardship value is highest when it is stepped down promptly once fluconazole susceptibility is known."
+        },
+        {
+          "scenario": "Avoiding unnecessary broad mold-active azoles",
+          "role": "Micafungin limits CYP burden and drug interactions when candidemia, not mold infection, is the problem.",
+          "notes": "Do not overextend it into urine, eye, or CNS disease."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Bloodstream / liver",
+          "detail": "Strong serum and hepatobiliary tissue exposure make micafungin an excellent candidemia and hepatosplenic candidiasis anchor."
+        },
+        {
+          "site": "Urine",
+          "detail": "Urinary concentrations are poor, so echinocandins are not preferred for Candida cystitis when urine is the real source."
+        },
+        {
+          "site": "CSF / eye",
+          "detail": "Penetration into the CNS and vitreous is limited, so step-down to another agent is usually needed when those sites are involved."
+        }
       ]
     },
     {
@@ -559,6 +756,115 @@ export const FUNGAL_INFECTIONS: DiseaseState = {
         "Voriconazole + sunlight = severe phototoxicity and long-term skin cancer risk. Every patient on voriconazole needs SPF 50+ sunscreen, protective clothing, and UV-blocking sunglasses. For transplant patients on chronic voriconazole, annual dermatologic screening is recommended. This is a pharmacist counseling point that is frequently missed.",
         "The voriconazole-sirolimus interaction is CONTRAINDICATED — not 'use with caution,' CONTRAINDICATED. Sirolimus levels increase >10× with voriconazole. If a transplant patient needs voriconazole, the immunosuppression regimen must be converted from sirolimus to an alternative (usually tacrolimus with dose reduction). Coordinate this with the transplant team proactively.",
         "No Mucorales coverage: If the differential includes mucormycosis (e.g., diabetic patient with rhinocerebral disease, post-transplant with lung lesions where aspergillosis vs. mucormycosis unclear), do NOT use voriconazole empirically. Use isavuconazole (covers both) or amphotericin B. Voriconazole may actually be a RISK FACTOR for breakthrough mucormycosis in prophylaxis settings."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Invasive aspergillosis",
+          "regimen": "6 mg/kg IV q12h for 2 doses, then 4 mg/kg IV q12h or 200 mg PO q12h after loading",
+          "notes": "Loading matters because delayed steady state in severe mold disease is not acceptable."
+        },
+        {
+          "label": "CNS or ocular mold infection",
+          "regimen": "Use the same loaded regimen with mandatory trough-guided adjustment",
+          "notes": "These sites are where voriconazole's penetration advantage matters most and where subtherapeutic levels matter quickly."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Prefer PO therapy because the IV vehicle accumulates when renal function is poor; if IV is unavoidable, treat it as a short bridge and convert early."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "PO therapy is still preferred when possible; CRRT can clear some IV vehicle, but it does not remove the need for TDM or early oral conversion."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Hepatic impairment",
+          "guidance": "Keep the loading dose but reduce maintenance exposure and follow levels closely because hepatotoxicity is exposure-related."
+        },
+        {
+          "population": "Transplant patients or CYP2C19 outliers",
+          "guidance": "Expect interaction-heavy care and unpredictable concentrations, especially in poor or ultra-rapid metabolizers."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "Voriconazole trough roughly 1-5.5 mcg/mL, balancing mold efficacy against neurotoxicity and hepatotoxicity.",
+        "sampling": "Check the first trough around day 5 and repeat with dose changes, interacting-drug changes, organ failure shifts, or unexplained toxicity/failure.",
+        "adjustment": "Adjust the maintenance dose, not the loading dose, and do not ignore level trends when liver tests or visual symptoms worsen.",
+        "pearls": [
+          "This is true pharmacist-owned antifungal TDM work, not optional fine-tuning."
+        ]
+      },
+      "administration": {
+        "infusion": "IV dosing usually runs over 1-2 hours.",
+        "oralAbsorption": "Oral bioavailability is excellent, but absorption is best on an empty stomach and PO is preferred over IV when renal function is poor.",
+        "note": "IV voriconazole is often just a bridge until the patient can swallow and the level plan is in place."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "Excellent oral bioavailability with clinically reliable IV-to-PO conversion.",
+        "switchCriteria": "Switch to PO once the patient can absorb and the team can keep up with trough monitoring and interaction management.",
+        "note": "PO is often safer than IV because it avoids the cyclodextrin vehicle burden in renal dysfunction."
+      },
+      "opatEligibility": {
+        "eligible": "conditional",
+        "administration": "OPAT is feasible, but oral therapy with level monitoring is usually the preferred outpatient path.",
+        "monitoring": "Needs a real outpatient plan for troughs, LFTs, visual symptoms, QT context, and interacting drugs.",
+        "considerations": [
+          "Best suited for programs that can support antifungal TDM.",
+          "If mucormycosis remains on the table, voriconazole is the wrong outpatient drug no matter how convenient it is."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Tacrolimus, cyclosporine, or sirolimus",
+          "effect": "Exposure can rise dramatically, with sirolimus representing a near-hard-stop interaction.",
+          "management": "Reduce calcineurin inhibitor doses proactively and avoid sirolimus unless the transplant plan changes first.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Rifampin or other strong enzyme inducers",
+          "effect": "Voriconazole exposure can collapse and make mold therapy fail.",
+          "management": "Treat rifampin as contraindicated and redesign the regimen rather than trying to out-dose the interaction casually.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "QT-prolonging drugs",
+          "effect": "Additive QT risk becomes more relevant once levels run high.",
+          "management": "Review the ECG context and interacting list every time the dose or level changes.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "First-line invasive aspergillosis",
+          "role": "Voriconazole remains the reference oral-capable mold agent when Aspergillus is the target and outpatient continuation is likely.",
+          "notes": "That role depends on real TDM support and interaction management."
+        },
+        {
+          "scenario": "Empiric mold coverage when Mucorales are plausible",
+          "role": "Do not use voriconazole just because it is familiar if mucormycosis is still in the differential.",
+          "notes": "Its convenience does not cover that spectrum gap."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Lung",
+          "detail": "Excellent lung penetration supports its central role in invasive pulmonary aspergillosis."
+        },
+        {
+          "site": "CSF / brain",
+          "detail": "Good CNS penetration is one reason voriconazole is favored over many other mold-active azoles when brain involvement is suspected."
+        },
+        {
+          "site": "Eye / vitreous",
+          "detail": "Ocular penetration is clinically useful in mold or Candida eye disease when susceptibility and toxicity are being monitored closely."
+        },
+        {
+          "site": "Urine",
+          "detail": "Urinary exposure is poor, so voriconazole should not be expected to treat fungal lower-tract urine infection."
+        }
       ]
     },
     {
@@ -601,6 +907,102 @@ export const FUNGAL_INFECTIONS: DiseaseState = {
         "Amphotericin B is the pregnancy antifungal — Category B with decades of human safety data. When a pregnant patient needs treatment for candidemia, cryptococcal meningitis, or any serious fungal infection, amphotericin B is the go-to. Don't hesitate.",
         "For mucormycosis, dose HIGH: 5–10 mg/kg/day. Standard 3 mg/kg dosing used for candidemia and aspergillosis is INADEQUATE for mucormycosis. Combined with surgical debridement, high-dose amphotericin B is the backbone of mucormycosis treatment.",
         "The AMBITION trial's single-dose protocol (10 mg/kg × 1) for cryptococcal meningitis induction is a paradigm shift. One dose of liposomal amphotericin B with oral flucytosine + fluconazole was non-inferior to 7-day amphotericin B. This simplifies logistics enormously, especially in resource-limited settings. Know this protocol."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Cryptococcal, mold, or resistant Candida CNS/deep infection",
+          "regimen": "3-5 mg/kg IV q24h",
+          "notes": "Use the higher end when CNS disease, severe mold infection, or salvage therapy is the reason you chose amphotericin."
+        },
+        {
+          "label": "Mucormycosis",
+          "regimen": "5-10 mg/kg IV q24h",
+          "notes": "High-dose therapy is the rule for mucormycosis, not an exception."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No supplemental dosing is needed because the drug is not meaningfully removed by hemodialysis, but HD does not protect the kidneys from amphotericin toxicity."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Dose is usually unchanged in CRRT; daily renal and electrolyte review matters more than the machine settings."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Pregnancy",
+          "guidance": "Liposomal amphotericin B remains the preferred systemic antifungal for many serious infections in pregnancy."
+        },
+        {
+          "population": "Concurrent nephrotoxins or baseline CKD",
+          "guidance": "Pre-hydration, electrolyte replacement, and daily renal review matter more than nominal dose adjustment because toxicity is exposure-limiting."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; the actionable endpoints are renal stability, potassium and magnesium replacement, and clinical response.",
+        "sampling": "No drug levels are standard. Follow BMP daily, especially creatinine, potassium, magnesium, and bicarbonate.",
+        "adjustment": "If nephrotoxicity becomes limiting, decide whether the pathogen/site allows step-down to a safer azole rather than just stretching the interval."
+      },
+      "administration": {
+        "infusion": "Usually infused over about 2 hours; do not give as IV push.",
+        "compatibility": "Use a dedicated line when possible and avoid mixing with saline-containing solutions in the same bag.",
+        "note": "Pre-hydration and standing electrolyte replacement should be part of the regimen, not optional add-ons."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral amphotericin formulation provides systemic treatment.",
+        "switchCriteria": "Transition only when the pathogen, site, and susceptibility profile support a safer oral azole or other active step-down agent.",
+        "note": "For cryptococcal and mucormycosis pathways, the step-down clock is determined by induction milestones and source control, not by simple clinical improvement."
+      },
+      "opatEligibility": {
+        "eligible": "conditional",
+        "administration": "Outpatient infusion is possible in carefully selected stable patients, but the lab and electrolyte burden is much heavier than with most OPAT drugs.",
+        "monitoring": "At least twice-weekly renal and electrolyte review is often needed even after inpatient stabilization.",
+        "considerations": [
+          "Reasonable only when the patient is clinically stable and the outpatient program can handle frequent lab-driven supplementation.",
+          "Poor fit when ongoing AKI, recurrent rigors, or rapid electrolyte replacement is still occurring."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Other nephrotoxins such as tacrolimus, vancomycin, aminoglycosides, or IV contrast",
+          "effect": "Additive kidney injury can make amphotericin toxicity arrive earlier and more severely.",
+          "management": "Remove avoidable nephrotoxins and increase lab frequency when combination exposure is unavoidable.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Digoxin",
+          "effect": "Amphotericin-driven hypokalemia can potentiate digoxin toxicity.",
+          "management": "Replace potassium aggressively and monitor digoxin effect closely.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Bridge for severe mold, cryptococcal, or resistant Candida infection",
+          "role": "The broad fungicidal fallback when site, resistance, or pregnancy makes azoles or echinocandins inadequate.",
+          "notes": "The stewardship goal is to leave amphotericin as soon as a safer active option becomes appropriate."
+        },
+        {
+          "scenario": "Suspected mucormycosis",
+          "role": "High-dose liposomal amphotericin B is the default anchor while diagnosis and surgical plans are still forming.",
+          "notes": "Do not substitute voriconazole when Mucorales remains on the table."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Reticuloendothelial / deep tissue sites",
+          "detail": "Liposomal amphotericin B distributes broadly into deep tissues and remains a backbone for severe disseminated fungal infection."
+        },
+        {
+          "site": "CSF / brain",
+          "detail": "CNS penetration is not as elegant as fluconazole or voriconazole, but high-dose liposomal amphotericin B is still used for cryptococcal and mold CNS disease because of broad fungicidal activity."
+        },
+        {
+          "site": "Urine",
+          "detail": "Urinary concentrations are limited with the liposomal formulation, so it is not the same urinary antifungal as fluconazole."
+        }
       ]
     }
   ]

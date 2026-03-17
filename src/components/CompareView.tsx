@@ -1,10 +1,110 @@
+import { buildMonographCompareSnapshot } from "../data/compare";
 import { CompareViewProps } from "../types";
+
+function formatStructuredBlock(label: string, value: string | undefined) {
+  if (!value) return null;
+  return `${label}: ${value}`;
+}
+
+function formatMonographPenetration(
+  monograph: CompareViewProps["drugs"][number]["monograph"],
+) {
+  if (monograph.penetration?.length) {
+    return monograph.penetration.map((entry) => `${entry.site}: ${entry.detail}`).join(" | ");
+  }
+
+  if (monograph.tissuePenetration) {
+    return Object.entries(monograph.tissuePenetration)
+      .filter(([, value]) => Boolean(value))
+      .map(([site, detail]) => `${site}: ${detail}`)
+      .join(" | ");
+  }
+
+  return "—";
+}
+
+function formatBreakpointNotes(
+  monograph: CompareViewProps["drugs"][number]["monograph"],
+) {
+  return monograph.breakpointNotes?.map((entry) => `${entry.marker}: ${entry.interpretation}`).join(" | ") || "—";
+}
+
+function formatCoverageMatrix(
+  monograph: CompareViewProps["drugs"][number]["monograph"],
+) {
+  return monograph.coverageMatrix?.map((entry) => `${entry.label} (${entry.status}): ${entry.detail}`).join(" | ") || "—";
+}
+
+function badgeStyles(
+  S: CompareViewProps["S"],
+  tone: "fresh" | "info" | "warn" | "danger" | null,
+) {
+  if (tone === "fresh") {
+    return {
+      ...S.crossRefPill,
+      cursor: "default",
+      marginRight: 0,
+      marginBottom: 0,
+      background: "rgba(52,211,153,0.12)",
+      borderColor: "rgba(52,211,153,0.28)",
+      color: "#059669",
+    };
+  }
+
+  if (tone === "warn") {
+    return {
+      ...S.crossRefPill,
+      cursor: "default",
+      marginRight: 0,
+      marginBottom: 0,
+      background: "rgba(245,158,11,0.12)",
+      borderColor: "rgba(245,158,11,0.28)",
+      color: "#d97706",
+    };
+  }
+
+  if (tone === "danger") {
+    return {
+      ...S.crossRefPill,
+      cursor: "default",
+      marginRight: 0,
+      marginBottom: 0,
+      background: "rgba(239,68,68,0.12)",
+      borderColor: "rgba(239,68,68,0.28)",
+      color: "#dc2626",
+    };
+  }
+
+  if (tone === "info") {
+    return {
+      ...S.crossRefPill,
+      cursor: "default",
+      marginRight: 0,
+      marginBottom: 0,
+      background: "rgba(56,189,248,0.12)",
+      borderColor: "rgba(56,189,248,0.28)",
+      color: "#0284c7",
+    };
+  }
+
+  return {
+    ...S.crossRefPill,
+    cursor: "default",
+    marginRight: 0,
+    marginBottom: 0,
+  };
+}
 
 export default function CompareView({
   drugs,
   compareItems,
   setCompareItems,
   allMonographs,
+  adjbw,
+  crcl,
+  ibw,
+  patient,
+  regimenXref,
   ExpandCollapseBar,
   S,
 }: CompareViewProps) {
@@ -75,9 +175,16 @@ export default function CompareView({
   // Comparison table
   const [d1, d2] = drugs;
   const dm1 = d1.monograph, dm2 = d2.monograph;
+  const snapshot1 = buildMonographCompareSnapshot(d1, regimenXref[dm1.id] ?? [], undefined, patient, crcl, ibw, adjbw);
+  const snapshot2 = buildMonographCompareSnapshot(d2, regimenXref[dm2.id] ?? [], undefined, patient, crcl, ibw, adjbw);
   const rows = [
     { label: "Drug Class", v1: dm1.drugClass, v2: dm2.drugClass },
     { label: "Brand Names", v1: dm1.brandNames, v2: dm2.brandNames },
+    { label: "Content Trust", v1: snapshot1.trustSummary, v2: snapshot2.trustSummary },
+    { label: "Regimen Footprint", v1: snapshot1.regimenFootprintSummary, v2: snapshot2.regimenFootprintSummary },
+    { label: "Patient-Specific Fit", v1: snapshot1.patientFitSummary, v2: snapshot2.patientFitSummary },
+    { label: "Local Stewardship Policy", v1: snapshot1.institutionPolicySummary, v2: snapshot2.institutionPolicySummary },
+    { label: "Local Antibiogram", v1: snapshot1.localAntibiogramSummary, v2: snapshot2.localAntibiogramSummary },
     { label: "Mechanism of Action", v1: dm1.mechanismOfAction, v2: dm2.mechanismOfAction },
     { label: "Spectrum", v1: dm1.spectrum, v2: dm2.spectrum },
     { label: "Renal Adjustment", v1: dm1.renalAdjustment, v2: dm2.renalAdjustment },
@@ -85,6 +192,89 @@ export default function CompareView({
     { label: "Common ADRs", v1: dm1.adverseEffects?.common, v2: dm2.adverseEffects?.common },
     { label: "Serious ADRs", v1: dm1.adverseEffects?.serious, v2: dm2.adverseEffects?.serious },
     { label: "Monitoring", v1: dm1.monitoring, v2: dm2.monitoring },
+    {
+      label: "Therapeutic Drug Monitoring",
+      v1: dm1.therapeuticDrugMonitoring
+        ? [
+            formatStructuredBlock("Target", dm1.therapeuticDrugMonitoring.target),
+            formatStructuredBlock("Sampling", dm1.therapeuticDrugMonitoring.sampling),
+            formatStructuredBlock("Adjustment", dm1.therapeuticDrugMonitoring.adjustment),
+          ]
+            .filter(Boolean)
+            .join(" | ")
+        : "—",
+      v2: dm2.therapeuticDrugMonitoring
+        ? [
+            formatStructuredBlock("Target", dm2.therapeuticDrugMonitoring.target),
+            formatStructuredBlock("Sampling", dm2.therapeuticDrugMonitoring.sampling),
+            formatStructuredBlock("Adjustment", dm2.therapeuticDrugMonitoring.adjustment),
+          ]
+            .filter(Boolean)
+            .join(" | ")
+        : "—",
+    },
+    {
+      label: "Special Populations",
+      v1: dm1.specialPopulations?.map((entry) => `${entry.population}: ${entry.guidance}`).join(" | ") || "—",
+      v2: dm2.specialPopulations?.map((entry) => `${entry.population}: ${entry.guidance}`).join(" | ") || "—",
+    },
+    {
+      label: "Administration",
+      v1: [
+        formatStructuredBlock("Infusion", dm1.administration?.infusion),
+        formatStructuredBlock("Oral", dm1.administration?.oralAbsorption),
+        formatStructuredBlock("Stability", dm1.administration?.stability),
+      ]
+        .filter(Boolean)
+        .join(" | ") || "—",
+      v2: [
+        formatStructuredBlock("Infusion", dm2.administration?.infusion),
+        formatStructuredBlock("Oral", dm2.administration?.oralAbsorption),
+        formatStructuredBlock("Stability", dm2.administration?.stability),
+      ]
+        .filter(Boolean)
+        .join(" | ") || "—",
+    },
+    {
+      label: "Penetration",
+      v1: formatMonographPenetration(dm1),
+      v2: formatMonographPenetration(dm2),
+    },
+    {
+      label: "Breakpoint / MIC Notes",
+      v1: formatBreakpointNotes(dm1),
+      v2: formatBreakpointNotes(dm2),
+    },
+    {
+      label: "Rapid Diagnostic Actions",
+      v1: snapshot1.rapidDiagnosticSummary,
+      v2: snapshot2.rapidDiagnosticSummary,
+    },
+    {
+      label: "Coverage Matrix",
+      v1: formatCoverageMatrix(dm1),
+      v2: formatCoverageMatrix(dm2),
+    },
+    {
+      label: "IV-to-PO / Oral Continuation",
+      v1: snapshot1.ivToPoSummary,
+      v2: snapshot2.ivToPoSummary,
+    },
+    {
+      label: "OPAT Readiness",
+      v1: snapshot1.opatSummary,
+      v2: snapshot2.opatSummary,
+    },
+    {
+      label: "Interaction Actions",
+      v1: snapshot1.interactionSummary,
+      v2: snapshot2.interactionSummary,
+    },
+    {
+      label: "Stewardship Use Cases",
+      v1: dm1.stewardshipUseCases?.map((entry) => `${entry.scenario}: ${entry.role}`).join(" | ") || "—",
+      v2: dm2.stewardshipUseCases?.map((entry) => `${entry.scenario}: ${entry.role}`).join(" | ") || "—",
+    },
     { label: "Pregnancy / Lactation", v1: dm1.pregnancyLactation, v2: dm2.pregnancyLactation },
   ];
 
@@ -115,8 +305,52 @@ export default function CompareView({
 
       {/* Headers */}
       <div className="compare-grid" style={S.compareGrid}>
-        <div style={S.compareHeader}>{dm1.name}</div>
-        <div style={S.compareHeader}>{dm2.name}</div>
+        <div style={S.compareHeader}>
+          <div style={{ fontSize: "18px", fontWeight: 800 }}>{dm1.name}</div>
+          <div style={{ fontSize: "12px", marginTop: "4px", color: S.monographValue.color }}>{d1.disease.name}</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
+            {snapshot1.confidenceBadge && (
+              <span style={badgeStyles(S, snapshot1.confidenceTone)}>{snapshot1.confidenceBadge}</span>
+            )}
+            {snapshot1.freshnessBadge && (
+              <span style={badgeStyles(S, snapshot1.freshnessTone)}>{snapshot1.freshnessBadge}</span>
+            )}
+            {snapshot1.regimenCount > 0 && (
+              <span style={badgeStyles(S, "info")}>
+                {snapshot1.regimenCount} regimen ref{snapshot1.regimenCount === 1 ? "" : "s"}
+              </span>
+            )}
+            {snapshot1.patientFitBadge && (
+              <span style={badgeStyles(S, snapshot1.patientFitTone)}>{snapshot1.patientFitBadge}</span>
+            )}
+            {snapshot1.localBadge && (
+              <span style={badgeStyles(S, snapshot1.localBadgeTone)}>{snapshot1.localBadge}</span>
+            )}
+          </div>
+        </div>
+        <div style={S.compareHeader}>
+          <div style={{ fontSize: "18px", fontWeight: 800 }}>{dm2.name}</div>
+          <div style={{ fontSize: "12px", marginTop: "4px", color: S.monographValue.color }}>{d2.disease.name}</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
+            {snapshot2.confidenceBadge && (
+              <span style={badgeStyles(S, snapshot2.confidenceTone)}>{snapshot2.confidenceBadge}</span>
+            )}
+            {snapshot2.freshnessBadge && (
+              <span style={badgeStyles(S, snapshot2.freshnessTone)}>{snapshot2.freshnessBadge}</span>
+            )}
+            {snapshot2.regimenCount > 0 && (
+              <span style={badgeStyles(S, "info")}>
+                {snapshot2.regimenCount} regimen ref{snapshot2.regimenCount === 1 ? "" : "s"}
+              </span>
+            )}
+            {snapshot2.patientFitBadge && (
+              <span style={badgeStyles(S, snapshot2.patientFitTone)}>{snapshot2.patientFitBadge}</span>
+            )}
+            {snapshot2.localBadge && (
+              <span style={badgeStyles(S, snapshot2.localBadgeTone)}>{snapshot2.localBadge}</span>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Dosing */}
@@ -129,6 +363,16 @@ export default function CompareView({
               <span style={{ fontSize: "12px", fontFamily: "'JetBrains Mono', monospace" }}>{v}</span>
             </div>
           ))}
+          {dm1.dosingByIndication?.length ? (
+            <div style={{ marginTop: "10px" }}>
+              {dm1.dosingByIndication.map((entry) => (
+                <div key={entry.label} style={{ marginBottom: "6px" }}>
+                  <span style={{ fontSize: "11px", fontWeight: 600, color: "#38bdf8" }}>{entry.label}: </span>
+                  <span style={{ fontSize: "12px" }}>{entry.regimen}</span>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
         <div style={S.compareCell}>
           {dm2.dosing && Object.entries(dm2.dosing).map(([k, v]) => (
@@ -137,6 +381,16 @@ export default function CompareView({
               <span style={{ fontSize: "12px", fontFamily: "'JetBrains Mono', monospace" }}>{v}</span>
             </div>
           ))}
+          {dm2.dosingByIndication?.length ? (
+            <div style={{ marginTop: "10px" }}>
+              {dm2.dosingByIndication.map((entry) => (
+                <div key={entry.label} style={{ marginBottom: "6px" }}>
+                  <span style={{ fontSize: "11px", fontWeight: 600, color: "#38bdf8" }}>{entry.label}: </span>
+                  <span style={{ fontSize: "12px" }}>{entry.regimen}</span>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
 

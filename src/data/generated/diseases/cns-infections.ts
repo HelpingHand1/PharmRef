@@ -388,6 +388,101 @@ export const CNS_INFECTIONS: DiseaseState = {
         "LISTERIA COVERAGE = AMPICILLIN: No cephalosporin covers Listeria. If Listeria meningitis is in the differential (age >50, immunocompromised, pregnant, alcoholic), ampicillin MUST be included in the empiric regimen. Omitting it can be fatal.",
         "EBV RASH IS NOT AN ALLERGY: The classic teaching — 70-100% of patients with EBV mononucleosis develop a maculopapular rash when given ampicillin/amoxicillin. This is NOT an IgE-mediated allergy and does NOT predict future penicillin allergy. Do NOT document this as a penicillin allergy. This incorrect allergy documentation deprives patients of beta-lactams for the rest of their lives.",
         "ENTEROCOCCAL IE: AMPICILLIN IS THE BACKBONE: For E. faecalis endocarditis, ampicillin + ceftriaxone (double beta-lactam synergy) is now PREFERRED over ampicillin + gentamicin (avoids aminoglycoside toxicity). Ampicillin's inherent Enterococcal activity makes it irreplaceable in this regimen."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Listeria meningitis",
+          "regimen": "2 g IV q4h",
+          "notes": "Include whenever Listeria is credible because cephalosporins do not solve that gap."
+        },
+        {
+          "label": "Enterococcal endocarditis backbone",
+          "regimen": "2 g IV q4h, often with ceftriaxone",
+          "notes": "Use within a targeted regimen rather than as a generic broad-spectrum beta-lactam."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Use renally adjusted dosing and give after hemodialysis; high-dose meningitis schedules still need careful post-HD planning."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT often still needs aggressive dosing in CNS or endocarditis syndromes because underexposure can be clinically costly."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Older adults, pregnancy, alcoholism, or immunocompromise",
+          "guidance": "These are the classic scenarios where empiric Listeria coverage belongs in the meningitis regimen."
+        },
+        {
+          "population": "History of EBV-associated aminopenicillin rash",
+          "guidance": "Do not convert the classic mononucleosis rash into a permanent beta-lactam allergy label."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; the clinical target is reliable syndrome-specific exposure in CNS or enterococcal disease.",
+        "sampling": "No standard therapeutic drug levels are used. Follow renal function, neurologic status, and culture response.",
+        "adjustment": "If Listeria or Enterococcus remains in the differential, do not de-escalate ampicillin until that specific microbiology question is settled."
+      },
+      "administration": {
+        "infusion": "Frequent IV dosing is standard for serious CNS and endovascular infection.",
+        "note": "The operational burden is high, but the microbiologic niche is irreplaceable in the right syndromes."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "There is no direct oral equivalent for serious CNS or endovascular ampicillin use; oral amoxicillin is only a substitute in selected non-CNS situations.",
+        "switchCriteria": "Reserve oral transition for carefully selected non-CNS syndromes once invasive infection has resolved and the patient can absorb reliably.",
+        "note": "For Listeria meningitis and enterococcal endocarditis, the main decision is duration and partner drug, not IV-to-PO conversion."
+      },
+      "opatEligibility": {
+        "eligible": "conditional",
+        "administration": "Continuous-infusion or frequent-dose OPAT is possible, but line logistics are substantial.",
+        "monitoring": "Weekly CBC and renal function are minimum, with closer follow-up for prolonged CNS or endovascular therapy.",
+        "considerations": [
+          "Reasonable only when the syndrome genuinely still requires ampicillin and the infusion program can support the frequency.",
+          "If amoxicillin can safely replace it, do that instead of building a difficult OPAT plan."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Methotrexate",
+          "effect": "Can reduce methotrexate clearance and increase toxicity risk.",
+          "management": "Avoid when possible or monitor closely for methotrexate toxicity.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "INR may rise through gut-flora disruption and illness effects.",
+          "management": "Increase INR monitoring during therapy transitions.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Empiric or definitive Listeria coverage",
+          "role": "A niche but non-substitutable beta-lactam when the meningitis differential includes Listeria.",
+          "notes": "Its stewardship value is precision, not breadth."
+        },
+        {
+          "scenario": "Targeted Enterococcus therapy",
+          "role": "Useful when Enterococcus is the true pathogen and broader empiric therapy can be retired.",
+          "notes": "Do not keep broader gram-negative therapy on board once ampicillin is the right definitive agent."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "CSF with inflamed meninges",
+          "detail": "Therapeutic CSF penetration during meningeal inflammation is what makes ampicillin essential for Listeria coverage."
+        },
+        {
+          "site": "Bloodstream",
+          "detail": "Good serum exposure supports the bacteremic component of invasive listeriosis while CNS therapy is being delivered."
+        },
+        {
+          "site": "Urine",
+          "detail": "Urinary exposure is strong, but its CNS role depends on meningeal inflammation and high-dose scheduling rather than renal elimination alone."
+        }
       ]
     },
     {
@@ -422,6 +517,20 @@ export const CNS_INFECTIONS: DiseaseState = {
         "VALPROIC ACID: THE HARDEST OF HARD STOPS: Every carbapenem (meropenem, ertapenem, imipenem, doripenem) drastically reduces VPA levels. The interaction is NOT manageable by increasing the VPA dose. Switch the antiepileptic to levetiracetam for the duration of carbapenem therapy. This pharmacist intervention prevents breakthrough seizures.",
         "SEIZURE ADVANTAGE OVER IMIPENEM: Meropenem does NOT antagonize GABA receptors (unlike imipenem). This makes it the preferred carbapenem for all CNS infections and for patients with seizure risk factors (renal impairment, elderly, CNS disease). If a patient seizes on imipenem, switching to meropenem may resolve the issue.",
         "CARBAPENEM STEWARDSHIP: Meropenem is the broadest-spectrum standard antibiotic. Every unnecessary day selects for CRE. De-escalate aggressively when culture data allows. For brain abscess, oral step-down to metronidazole + a fluoroquinolone (or TMP-SMX) after initial IV response is reasonable per OVIVA principles."
+      ],
+      "penetration": [
+        {
+          "site": "CSF with inflamed meninges",
+          "detail": "At 2 g q8h standard infusion, meropenem can achieve therapeutic CSF levels for many susceptible CNS pathogens."
+        },
+        {
+          "site": "Brain / abscess-adjacent tissue",
+          "detail": "Useful brain tissue exposure supports treatment of postoperative or gram-negative brain abscess syndromes when source control is also happening."
+        },
+        {
+          "site": "Lung / abdomen outside CNS",
+          "detail": "Outside meningitis, the same molecule distributes well to lung and intra-abdominal sites, but the preferred infusion strategy changes once CNS penetration becomes the goal."
+        }
       ]
     }
   ]

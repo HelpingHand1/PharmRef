@@ -230,7 +230,43 @@ export const UTI: DiseaseState = {
         "The classic 'cranberry juice prevents UTIs' has weak evidence. PAC-A (proanthocyanidins) at 36mg/day in supplement form has slightly better data but is not a substitute for antibiotics.",
         "Post-menopausal women with recurrent UTI: vaginal estrogen cream is evidence-based prophylaxis (Cochrane review supports). Counsel patients on this.",
         "D-mannose 2g daily has RCT data (Kranjčec 2014) showing similar recurrence prevention to nitrofurantoin prophylaxis. Reasonable to trial."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Use symptoms plus urinalysis as the default diagnostic approach; urine culture is reserved for recurrence, recent antibiotics, or diagnostic uncertainty."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Fever, flank pain, rigors, nausea/vomiting, or systemic instability means the patient no longer belongs in an uncomplicated cystitis pathway."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Recent antibiotics, prior ESBL history, travel-associated resistance exposure, and recurrent MDR UTI are the main reasons to move away from routine first-line oral options."
+      },
+      "sourceControl": {
+        "status": "not_applicable",
+        "summary": "Source control is not usually the main issue in straightforward uncomplicated cystitis."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "If culture data later show resistance or no growth, stop or switch the initial oral regimen rather than automatically extending the course."
+      },
+      "ivToPoPlan": {
+        "status": "not_applicable",
+        "summary": "This pathway is already oral-first, so IV-to-PO transition is not the primary stewardship question."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Persistent symptoms beyond 48-72 hours should trigger repeat history, urine culture review, STI/vaginitis reconsideration, and evaluation for early pyelonephritis or resistant pathogens."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Escalate for pregnancy, recurrent MDR infection, structural urinary tract disease, or repeated failure of first-line oral therapy."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count duration from the first active oral dose; do not restart the clock for mild residual urinary symptoms alone."
+      }
     },
     {
       "id": "complicated-uti",
@@ -259,6 +295,30 @@ export const UTI: DiseaseState = {
               "notes": "IDSA 2025 preferred: 3rd/4th-gen cephalosporins. Carbapenems are NOT first-line for non-septic cUTI — this is a key stewardship change. Reserve carbapenems for sepsis or confirmed ESBL.",
               "evidence": "A-I",
               "evidenceSource": "IDSA 2011",
+              "plan": {
+                "regimen": "Ceftriaxone 1-2g IV daily",
+                "indication": "Complicated UTI without sepsis",
+                "site": "Urinary tract",
+                "role": "preferred",
+                "rationale": "Workhorse non-septic cUTI anchor that preserves carbapenems when ESBL risk is not dominant.",
+                "pathogenFocus": [
+                  "Community Enterobacterales"
+                ],
+                "riskFactorTriggers": [
+                  "Localized urinary symptoms with systemic signs but no septic shock",
+                  "Low ESBL and Pseudomonas concern"
+                ],
+                "avoidIf": [
+                  "Prior ESBL or AmpC history",
+                  "Pseudomonas or Enterococcus is the likely pathogen"
+                ],
+                "renalFlags": [
+                  "Usually no renal adjustment, but reassess if combined therapies add renal toxicity"
+                ],
+                "linkedMonographIds": [
+                  "ceftriaxone"
+                ]
+              },
               "monographId": "ceftriaxone",
               "evidenceSourceIds": [
                 "idsa-escmid-2011-uti"
@@ -271,6 +331,31 @@ export const UTI: DiseaseState = {
               "notes": "IDSA 2025 preferred empiric option. Extended infusion (over 4h) optimizes PK/PD. Appropriate when broader coverage desired (Pseudomonas risk).",
               "evidence": "A-I",
               "evidenceSource": "IDSA 2011",
+              "plan": {
+                "regimen": "Piperacillin-tazobactam 3.375g IV q6h (or 4.5g q8h extended infusion)",
+                "indication": "Complicated UTI without sepsis",
+                "site": "Urinary tract",
+                "role": "alternative",
+                "rationale": "Broader beta-lactam choice when urinary-source Pseudomonas or mixed healthcare exposure is plausible without jumping to a carbapenem.",
+                "pathogenFocus": [
+                  "Pseudomonas",
+                  "Broader gram-negative cUTI pathogens"
+                ],
+                "riskFactorTriggers": [
+                  "Prior Pseudomonas urine culture",
+                  "Catheter-associated or healthcare-exposed cUTI"
+                ],
+                "avoidIf": [
+                  "Strong ESBL bacteremia concern",
+                  "Avoidable nephrotoxin pairing with vancomycin"
+                ],
+                "renalFlags": [
+                  "Extended infusion and renal adjustment improve urinary-source PK/PD"
+                ],
+                "linkedMonographIds": [
+                  "pip-tazo"
+                ]
+              },
               "monographId": "pip-tazo",
               "evidenceSourceIds": [
                 "idsa-escmid-2011-uti"
@@ -283,6 +368,32 @@ export const UTI: DiseaseState = {
               "notes": "IDSA 2025 preferred IF no FQ exposure in past 12 months (Step 2). Advantage: oral administration avoids IV, enables outpatient treatment. AVOID if FQ used in prior 12 months — guideline-specific recommendation.",
               "evidence": "A-I",
               "evidenceSource": "IDSA 2011",
+              "plan": {
+                "regimen": "Ciprofloxacin 500mg PO BID or Levofloxacin 750mg PO daily",
+                "indication": "Complicated UTI without sepsis",
+                "site": "Urinary tract",
+                "role": "situational",
+                "rationale": "Oral-first strategy when fluoroquinolone exposure is absent and local resistance remains acceptable.",
+                "pathogenFocus": [
+                  "Susceptible Enterobacterales",
+                  "Selected Pseudomonas isolates"
+                ],
+                "riskFactorTriggers": [
+                  "No fluoroquinolone use in the past 12 months",
+                  "Able to take and absorb oral therapy"
+                ],
+                "avoidIf": [
+                  "Recent fluoroquinolone exposure",
+                  "Known resistant isolate or high local fluoroquinolone resistance"
+                ],
+                "renalFlags": [
+                  "Adjust dose in kidney dysfunction and monitor QT, tendon, and CNS toxicity"
+                ],
+                "linkedMonographIds": [
+                  "ciprofloxacin",
+                  "levofloxacin"
+                ]
+              },
               "monographId": "ciprofloxacin",
               "evidenceSourceIds": [
                 "idsa-escmid-2011-uti"
@@ -298,18 +409,100 @@ export const UTI: DiseaseState = {
               "drug": "ceftriaxone-sepsis",
               "regimen": "Ceftriaxone 2g IV daily or Cefepime 2g IV q8h",
               "notes": "IDSA 2025: same preferred classes but carbapenems now INCLUDED as first-line for sepsis (not restricted to ESBL). Priority shifts to ensuring early appropriate therapy — stewardship deferred to definitive phase.",
+              "plan": {
+                "regimen": "Ceftriaxone 2g IV daily or Cefepime 2g IV q8h",
+                "indication": "Complicated UTI with sepsis",
+                "site": "Urinary tract",
+                "role": "preferred",
+                "rationale": "First-line sepsis option when resistant phenotype risk is still moderate and early broadening can be refined quickly by cultures.",
+                "pathogenFocus": [
+                  "Enterobacterales",
+                  "Cefepime adds Pseudomonas and AmpC coverage"
+                ],
+                "riskFactorTriggers": [
+                  "Sepsis without dominant ESBL history",
+                  "Need immediate IV therapy before urine and blood cultures finalize"
+                ],
+                "avoidIf": [
+                  "Known ESBL or CRE history",
+                  "High-risk Pseudomonas only if ceftriaxone is chosen"
+                ],
+                "rapidDiagnosticActions": [
+                  "Move from ceftriaxone to cefepime or meropenem if blood culture data show AmpC or ESBL risk"
+                ],
+                "linkedMonographIds": [
+                  "ceftriaxone",
+                  "cefepime"
+                ]
+              },
               "id": "uti/complicated-uti/first-line-cuti-with-sepsis/ceftriaxone-sepsis-1"
             },
             {
               "drug": "pip-tazo-sepsis",
               "regimen": "Piperacillin-tazobactam 4.5g IV q6-8h (extended infusion)",
               "notes": "Preferred in sepsis. Extended infusion standard of care. Consider if Pseudomonas risk based on prior cultures.",
+              "plan": {
+                "regimen": "Piperacillin-tazobactam 4.5g IV q6-8h (extended infusion)",
+                "indication": "Complicated UTI with sepsis",
+                "site": "Urinary tract",
+                "role": "preferred",
+                "rationale": "Broad urinary-source sepsis option when Pseudomonas or mixed healthcare exposure is plausible.",
+                "pathogenFocus": [
+                  "Pseudomonas",
+                  "Healthcare-associated urinary gram-negatives"
+                ],
+                "riskFactorTriggers": [
+                  "Catheter-associated sepsis",
+                  "Prior healthcare-resistant urinary isolates without clear ESBL history"
+                ],
+                "avoidIf": [
+                  "Strong ESBL bacteremia signal",
+                  "Need a narrower step-down path as soon as cultures allow"
+                ],
+                "renalFlags": [
+                  "Use extended infusion and adjust as renal function changes"
+                ],
+                "linkedMonographIds": [
+                  "pip-tazo"
+                ]
+              },
               "id": "uti/complicated-uti/first-line-cuti-with-sepsis/pip-tazo-sepsis-2"
             },
             {
               "drug": "meropenem",
               "regimen": "Meropenem 1g IV q8h (extended infusion over 3h)",
               "notes": "IDSA 2025 includes carbapenems as first-line option for SEPSIS (unlike non-septic cUTI). Use if ESBL risk, prior MDR organisms, or septic shock. Antibiogram step: select agent with ≥90% susceptibility for septic shock, ≥80% for sepsis without shock.",
+              "plan": {
+                "regimen": "Meropenem 1g IV q8h (extended infusion over 3h)",
+                "indication": "Complicated UTI with sepsis",
+                "site": "Urinary tract",
+                "role": "preferred",
+                "rationale": "Cleanest initial anchor when ESBL risk, prior MDR urine cultures, or septic shock makes cephalosporins and pip-tazo unreliable.",
+                "pathogenFocus": [
+                  "ESBL Enterobacterales",
+                  "Broad gram-negative sepsis pathogens"
+                ],
+                "riskFactorTriggers": [
+                  "Prior ESBL or MDR urine isolate",
+                  "Septic shock",
+                  "Carbapenem-sparing options unlikely to be active"
+                ],
+                "avoidIf": [
+                  "Cultures and history support ceftriaxone, cefepime, or pip-tazo exit"
+                ],
+                "renalFlags": [
+                  "Extended infusion plus renal replacement adjustment are both important"
+                ],
+                "dialysisFlags": [
+                  "CRRT often still needs q8h exposure"
+                ],
+                "rapidDiagnosticActions": [
+                  "De-escalate once ESBL and carbapenemase risk is excluded"
+                ],
+                "linkedMonographIds": [
+                  "meropenem"
+                ]
+              },
               "monographId": "meropenem",
               "id": "uti/complicated-uti/first-line-cuti-with-sepsis/meropenem-3"
             },
@@ -317,6 +510,31 @@ export const UTI: DiseaseState = {
               "drug": "levofloxacin-sepsis",
               "regimen": "Levofloxacin 750mg IV daily",
               "notes": "FQs remain a preferred class even in sepsis IF no prior FQ exposure in 12 months. 100% bioavailability supports early PO switch once stable.",
+              "plan": {
+                "regimen": "Levofloxacin 750mg IV daily",
+                "indication": "Complicated UTI with sepsis",
+                "site": "Urinary tract",
+                "role": "alternative",
+                "rationale": "Fluoroquinolone option when recent exposure is absent and high-bioavailability step-down is likely to be useful.",
+                "pathogenFocus": [
+                  "Susceptible Enterobacterales",
+                  "Selected Pseudomonas isolates"
+                ],
+                "riskFactorTriggers": [
+                  "Need early oral-equivalent option",
+                  "No fluoroquinolone exposure in the past 12 months"
+                ],
+                "avoidIf": [
+                  "Recent fluoroquinolone use",
+                  "High local resistance or major QT and CNS toxicity risk"
+                ],
+                "renalFlags": [
+                  "Renally adjust and monitor QT and tendon toxicity"
+                ],
+                "linkedMonographIds": [
+                  "levofloxacin"
+                ]
+              },
               "id": "uti/complicated-uti/first-line-cuti-with-sepsis/levofloxacin-sepsis-4"
             }
           ]
@@ -362,6 +580,28 @@ export const UTI: DiseaseState = {
               "drug": "iv-po-switch",
               "regimen": "Switch when: clinically improving, able to take oral meds, effective oral option available",
               "notes": "IDSA 2025 formally endorses early IV-to-PO transition, even in gram-negative bacteremia (conditional recommendation). Oral options: FQs (ciprofloxacin, levofloxacin), TMP-SMX, amox-clav (if susceptible). Effective oral agent must achieve therapeutic levels in urine AND tissue AND be active against the pathogen.",
+              "plan": {
+                "regimen": "Switch when clinically improving, able to take oral meds, and an effective oral option is available",
+                "indication": "Complicated UTI step-down",
+                "site": "Urinary tract",
+                "role": "situational",
+                "rationale": "Make oral completion the default exit when bacteremia is clearing, source control is adequate, and the oral agent has real urinary and tissue exposure.",
+                "riskFactorTriggers": [
+                  "Afebrile or clearly improving",
+                  "Hemodynamically stable",
+                  "TMP-SMX or fluoroquinolone susceptibility confirmed"
+                ],
+                "avoidIf": [
+                  "Obstruction remains unrelieved",
+                  "No reliable oral option",
+                  "Persistent bacteremia or poor absorption"
+                ],
+                "linkedMonographIds": [
+                  "ciprofloxacin",
+                  "levofloxacin",
+                  "tmp-smx"
+                ]
+              },
               "id": "uti/complicated-uti/iv-to-po-step-down-idsa-2025-formally-endorsed/iv-po-switch-1"
             }
           ]
@@ -403,6 +643,103 @@ export const UTI: DiseaseState = {
         "IV-TO-PO SWITCH IN BACTEREMIA: IDSA 2025 formally endorses oral step-down even in gram-negative bacteremia from UTI source — when clinically improving, afebrile, hemodynamically stable, source controlled, and effective oral option available. This eliminates the 'must complete IV for bacteremia' dogma. Champion this.",
         "ANTIBIOGRAM THRESHOLDS: For septic shock, select an agent with ≥90% susceptibility on the local antibiogram. For sepsis without shock, ≥80% is acceptable. These thresholds are derived from mortality modeling — not arbitrary numbers.",
         "Male UTI nuance: The 2025 guidelines note that men with febrile UTI where prostatitis is suspected may need 10-14 days (the 7-day recommendation may not apply). Always consider prostatitis in febrile male UTI — it changes duration AND agent selection (need prostate-penetrating drugs: FQs, TMP-SMX)."
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Get a urine culture before antibiotics, add blood cultures when systemic symptoms are present, and image early when obstruction, stones, or abscess are on the table.",
+        "bullets": [
+          "Complicated UTI management starts with severity + resistance risk + patient factors + local susceptibility, not anatomy alone."
+        ]
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Sepsis, AKI, hypotension, flank pain with systemic illness, or inability to take PO moves this pathway toward admission and broader empiric coverage."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Prior ESBL or resistant gram-negative isolation, recent hospitalization, recent IV antibiotics, urinary instrumentation, and chronic catheter exposure are the biggest empiric resistance gates."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Relieve obstruction, exchange infected hardware when feasible, and drain collections early because antibiotics alone underperform when the urinary tract is not flowing."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "At 48-72 hours, narrow to the single active regimen that matches the isolate and stop empiric double coverage or anti-pseudomonal therapy when it is no longer justified."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Switch to PO as soon as the patient is hemodynamically improved, able to absorb, and has an active high-bioavailability oral option, even when initial bacteremia was present."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "If fever or leukocytosis persist, look first for obstruction, abscess, prostatitis, untreated source, or the wrong organism rather than reflexively extending the same drug."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Consult urology or ID for obstruction, emphysematous infection, persistent bacteremia, renal abscess, or recurrent resistant gram-negative disease."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count duration from the first active agent after source control is addressed; bacteremia alone does not mandate an automatically longer course."
+      },
+      "rapidDiagnostics": [
+        {
+          "trigger": "Urine or blood culture shows ceftriaxone-nonsusceptible Enterobacterales or the patient has a recent ESBL history",
+          "action": "Use a carbapenem up front for severe infection, then de-escalate to TMP-SMX or a fluoroquinolone only if susceptibility confirms an oral exit.",
+          "rationale": "Early organism and resistance clues matter more than the anatomic label once systemic illness is present."
+        },
+        {
+          "trigger": "Candiduria appears without symptoms or without evidence of invasive infection",
+          "action": "Avoid starting antifungals just because yeast is reported in the urine.",
+          "rationale": "Most candiduria in catheterized or recently antibiotic-exposed adults reflects colonization, not a treatable invasive UTI syndrome."
+        }
+      ],
+      "breakpointNotes": [
+        {
+          "marker": "Nitrofurantoin or fosfomycin susceptibility",
+          "interpretation": "Urinary activity does not translate into reliable renal parenchymal or bloodstream exposure for complicated UTI with systemic features.",
+          "action": "Do not use these agents for pyelonephritis, bacteremic UTI, or septic obstruction even if the isolate tests susceptible."
+        },
+        {
+          "marker": "Oral step-down susceptibility",
+          "interpretation": "A culture result only supports discharge or IV-to-PO transition when the oral option has high bioavailability and the patient is clinically improving.",
+          "action": "Reserve oral beta-lactams for carefully selected lower-tract or step-down scenarios rather than every bacteremic cUTI."
+        }
+      ],
+      "intrinsicResistance": [
+        {
+          "organism": "Proteus, Morganella, and Providencia species",
+          "resistance": "These organisms are intrinsically unreliable targets for nitrofurantoin.",
+          "implication": "Avoid using nitrofurantoin as the fallback oral option when one of these genera is identified."
+        },
+        {
+          "organism": "Pseudomonas aeruginosa and Enterococcus species",
+          "resistance": "Ceftriaxone is not a dependable definitive option for either pathogen.",
+          "implication": "Move to a source-appropriate agent rather than completing therapy on ceftriaxone because the patient initially improved."
+        }
+      ],
+      "coverageMatrix": [
+        {
+          "label": "Susceptible Enterobacterales cUTI",
+          "status": "preferred",
+          "detail": "Ceftriaxone or an active oral TMP-SMX or fluoroquinolone remains the standard path when resistance risk is low."
+        },
+        {
+          "label": "ESBL phenotype",
+          "status": "conditional",
+          "detail": "Meropenem or ertapenem is favored initially, with oral step-down only if a high-bioavailability susceptible option exists."
+        },
+        {
+          "label": "Pseudomonas risk",
+          "status": "conditional",
+          "detail": "Use cefepime, pip-tazo, or a susceptible fluoroquinolone only when the culture history or healthcare exposure supports it."
+        },
+        {
+          "label": "Asymptomatic candiduria",
+          "status": "avoid",
+          "detail": "Do not convert yeast in the urine into a reflex antifungal treatment plan without symptoms or invasive risk."
+        }
       ]
     },
     {
@@ -516,7 +853,46 @@ export const UTI: DiseaseState = {
         "Failure to improve at 48-72h? Get imaging. Think: perinephric abscess (requires drainage), obstruction (requires decompression), or wrong antibiotic (check cultures).",
         "Pregnancy + pyelonephritis = ALWAYS inpatient. Risk of preterm labor and sepsis. Ceftriaxone is preferred. Avoid fluoroquinolones and TMP-SMX (first trimester folate antagonism, third trimester kernicterus risk).",
         "Duration debates: IDSA 2025 now formally endorses shorter courses for cUTI (which includes febrile pyelo): FQ 5-7 days, non-FQ 7 days, even bacteremic UTI 7 days. The old 10-14 day default is no longer guideline-supported. For FQs, 7 days is well-established; for beta-lactams, 7 days is the new target based on the 2025 guideline (very low certainty evidence for non-FQ, but the direction is clear)."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Obtain a urine culture up front and add blood cultures when the patient is febrile, toxic, or being admitted.",
+        "bullets": [
+          "Image early if there is concern for obstruction, stones, abscess, or failure to improve."
+        ]
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Rigors, hypotension, significant nausea/vomiting, pregnancy, or inability to tolerate PO should push this pathway toward inpatient management."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Recent antibiotics, prior ESBL or FQ-resistant isolates, recurrent pyelonephritis, and healthcare exposure should change empiric therapy on day 1."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Rule out obstructing stones or collecting-system obstruction quickly because pyelonephritis with a blocked system is a source-control problem."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "Once susceptibilities return, step down to the narrowest active oral or IV agent and avoid leaving broad-spectrum IV therapy in place just because the patient started very ill."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Transition to PO after defervescence, improving flank pain, and reliable oral intake when the oral agent has proven susceptibility and adequate kidney exposure."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Lack of improvement after 48-72 hours should trigger repeat imaging, source-control review, and evaluation for resistant pathogens or non-urinary diagnoses."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Escalate for obstruction, renal abscess, pregnancy, emphysematous infection, or persistent bacteremia."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count from the first active regimen after any obstructive source is relieved; short-course fluoroquinolone therapy remains appropriate only when the isolate is clearly susceptible."
+      }
     },
     {
       "id": "cauti",
@@ -603,7 +979,43 @@ export const UTI: DiseaseState = {
         "CAUTI prevention bundle: daily assessment of catheter necessity, aseptic insertion, closed drainage, maintain below bladder level. Nurse-driven removal protocols reduce CAUTI rates by 50%+.",
         "Candiduria pearl: Echinocandins (micafungin, caspofungin) do NOT achieve therapeutic urinary concentrations. Only fluconazole and flucytosine reliably treat urinary Candida. Amphotericin B bladder irrigation is a last resort.",
         "Antibiotic stewardship role: Pharmacists should flag treatment of CA-ASB as a stewardship intervention. Many institutions have reduced unnecessary CAUTI treatment by 30-40% with pharmacist-driven protocols."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Do not culture an old catheter blindly; replace or remove it first when possible, then send the urine culture from the new system before antibiotics."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Fever, rigors, hypotension, delirium with bacteremic concern, or upper-tract symptoms move CAUTI into a systemic infection workflow rather than asymptomatic bacteriuria."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Long-term catheterization, recent antibiotics, prior MDR gram-negatives, and frequent healthcare exposure should strongly shape empiric choices."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Catheter removal or exchange is the key source-control intervention and should happen as early as possible."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "At 48-72 hours, narrow to the single active agent and stop therapy entirely if cultures reveal colonization or asymptomatic bacteriuria rather than true CAUTI."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Complete treatment with PO therapy whenever the patient is clinically improving, the catheter issue is addressed, and an active oral agent is available."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Persistent fever after catheter exchange should trigger repeat source review, imaging for obstruction/abscess, and reassessment of whether the urinary tract is truly the driver."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Consult urology or ID for recurrent CAUTI with hardware, obstruction, unusual organisms, or repeated mismatch between symptoms and cultures."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Start counting from the first active dose after catheter exchange/removal when feasible; do not keep treating colonization because the catheter remains in place."
+      }
     }
   ],
   "drugMonographs": [
@@ -640,6 +1052,100 @@ export const UTI: DiseaseState = {
         "The CrCl <30 'contraindication' is being re-evaluated. For a short course of cystitis in an elderly patient with CrCl 20-30, it's often the best option vs. fluoroquinolones. Document your clinical rationale.",
         "Turns urine brown/rust-colored — always counsel patients or they'll call in panicked.",
         "Despite decades of use, resistance rates remain remarkably low (~3-5% for E. coli). This is likely because of its multiple mechanisms — a lesson in antibiotic stewardship."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Uncomplicated cystitis",
+          "regimen": "100 mg PO BID for 5 days",
+          "notes": "Use only for lower-tract disease; do not stretch it into pyelonephritis or bacteremic UTI because the serum and kidney levels are inadequate."
+        },
+        {
+          "label": "Recurrent cystitis prophylaxis",
+          "regimen": "50-100 mg PO at bedtime",
+          "notes": "Reserve for carefully selected recurrent cystitis after behavioral and non-antibiotic options are reviewed."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Avoid for active infection in hemodialysis patients because urinary exposure is unreliable and toxicity risk rises as renal function falls."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Generally avoid in CRRT because the drug is still a bladder-only agent and does not provide dependable systemic or renal-parenchymal treatment."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Borderline renal function or frail older adults",
+          "guidance": "Short cystitis courses may still be reasonable around CrCl 20-30 mL/min when alternatives are poor, but reassess quickly if the syndrome looks deeper than cystitis."
+        },
+        {
+          "population": "Pregnancy near term or G6PD deficiency",
+          "guidance": "Avoid near delivery and use extra caution in G6PD deficiency because hemolysis risk matters more than the usual low-resistance appeal."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; success depends on getting the right syndrome, not chasing plasma levels.",
+        "sampling": "No therapeutic drug levels are used. Reassess symptoms and renal function instead.",
+        "adjustment": "If fever, flank pain, bacteremia, or poor renal function make bladder-only therapy implausible, switch agents rather than extending nitrofurantoin."
+      },
+      "administration": {
+        "oralAbsorption": "Take with food and use the macrocrystal-monohydrate product when possible to improve absorption and reduce nausea.",
+        "note": "Brown or rust-colored urine is expected and should be part of routine counseling."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "PO-only agent; there is no IV formulation to convert from.",
+        "switchCriteria": "Use as oral-first therapy only when the syndrome is clearly uncomplicated cystitis and the patient can absorb oral medication.",
+        "note": "If a patient required IV therapy, they usually need a different oral exit drug rather than nitrofurantoin."
+      },
+      "opatEligibility": {
+        "eligible": "no",
+        "administration": "Nitrofurantoin is an oral discharge drug, not an OPAT drug.",
+        "monitoring": "If symptoms or cultures suggest upper-tract disease, abandon nitrofurantoin instead of trying to manage it as outpatient parenteral therapy avoidance.",
+        "considerations": [
+          "Best framed as an oral stewardship option for cystitis, not as a substitute for IV therapy in systemic infection."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Magnesium-containing antacids",
+          "effect": "Reduce nitrofurantoin absorption and can undermine cystitis treatment.",
+          "management": "Avoid co-administration or separate clearly if the patient insists on using antacids.",
+          "severity": "monitor"
+        },
+        {
+          "interactingAgent": "Probenecid",
+          "effect": "Reduces urinary secretion while increasing systemic exposure and toxicity risk.",
+          "management": "Avoid the combination rather than trying to rescue it with dose changes.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "First-line oral treatment for uncomplicated cystitis",
+          "role": "Low collateral damage and persistently low E. coli resistance make nitrofurantoin a stewardship-friendly bladder agent.",
+          "notes": "Its value disappears once the infection leaves the bladder."
+        },
+        {
+          "scenario": "Escalation pressure toward fluoroquinolones",
+          "role": "Use nitrofurantoin to avoid unnecessary fluoroquinolone exposure when cystitis is truly uncomplicated.",
+          "notes": "Do not use it just to avoid admission when pyelonephritis signs are present."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Urine / bladder lumen",
+          "detail": "Achieves very high urinary concentrations, which is why it works for cystitis despite minimal systemic exposure."
+        },
+        {
+          "site": "Renal parenchyma",
+          "detail": "Kidney tissue exposure is poor, so nitrofurantoin should not be used for pyelonephritis or bacteremic UTI."
+        },
+        {
+          "site": "Prostate",
+          "detail": "Prostatic penetration is unreliable, making it a poor prostatitis option even when the urine isolate appears susceptible."
+        }
       ]
     },
     {
@@ -680,6 +1186,112 @@ export const UTI: DiseaseState = {
         "Sulfa allergy is often over-reported. True IgE-mediated allergy (anaphylaxis) is rare. Rash with sulfonamide antibiotics does NOT necessarily cross-react with non-antibiotic sulfonamides (furosemide, thiazides) — different chemical structures.",
         "Desensitization protocols exist for PJP prophylaxis in HIV patients with sulfa allergy — critical knowledge for pharmacy.",
         "Always check local antibiogram for TMP-SMX resistance before using empirically for UTI. If resistance >20%, it's not appropriate as empiric therapy."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Uncomplicated cystitis",
+          "regimen": "1 DS tablet PO BID for 3 days",
+          "notes": "Only use empirically when local resistance remains acceptable; otherwise wait for susceptibility data."
+        },
+        {
+          "label": "Pyelonephritis or complicated UTI",
+          "regimen": "1 DS tablet PO BID for 7-14 days",
+          "notes": "High oral bioavailability makes it a strong step-down option when Enterobacterales susceptibility is confirmed."
+        },
+        {
+          "label": "Bacterial prostatitis",
+          "regimen": "1 DS tablet PO BID for 4-6 weeks",
+          "notes": "Excellent prostatic penetration is one of TMP-SMX's biggest differentiators in urinary stewardship."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Give the adjusted daily regimen after hemodialysis and monitor potassium and CBC closely because HD does not eliminate the hyperkalemia or marrow risk."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Many CRRT patients still need near-standard q12h dosing, but the potassium, creatinine, and CBC trend should drive interval adjustments more than the nominal filter setting alone."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Patients on ACE inhibitors, ARBs, or spironolactone",
+          "guidance": "The ENaC-blocking trimethoprim effect can produce clinically significant hyperkalemia within 3-5 days, so choose another oral option if the potassium reserve is already narrow."
+        },
+        {
+          "population": "Pregnancy or G6PD deficiency",
+          "guidance": "Avoid in the first trimester and near term when possible, and use extra caution in G6PD deficiency because sulfonamide toxicity matters more than convenience."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum concentration target; the practical targets are stable potassium, acceptable CBC trends, and clinical response.",
+        "sampling": "No drug levels are standard. Recheck BMP and CBC early in longer courses, especially with RAAS blockade or renal dysfunction.",
+        "adjustment": "If creatinine rises, distinguish true AKI from trimethoprim's creatinine-secretion effect before abandoning an otherwise active oral regimen."
+      },
+      "administration": {
+        "oralAbsorption": "High oral bioavailability makes PO therapy clinically equivalent to IV in most stable patients.",
+        "note": "Double-strength tablets simplify outpatient use; use IV only when the gut or swallowing is the barrier."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "High oral bioavailability with near-IV systemic exposure.",
+        "switchCriteria": "Switch from IV to PO once the patient is hemodynamically improving, can absorb, and the organism is confirmed susceptible.",
+        "note": "This is one of the cleaner oral exits for ESBL-susceptible urinary infection when resistance and hyperkalemia risk are acceptable."
+      },
+      "opatEligibility": {
+        "eligible": "conditional",
+        "administration": "IV TMP-SMX is possible, but oral therapy is preferred whenever the GI tract works.",
+        "monitoring": "BMP and CBC should be checked early because outpatient toxicity is more likely to stop therapy than loss of efficacy.",
+        "considerations": [
+          "Prefer oral completion over OPAT for susceptible urinary-source infection.",
+          "Be explicit about potassium and creatinine follow-up before discharge."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "Marked INR elevation can occur quickly through CYP2C9 inhibition and gut-flora effects.",
+          "management": "Choose another agent when feasible or reduce warfarin and check INR within a few days.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "ACE inhibitors, ARBs, or spironolactone",
+          "effect": "Combines with TMP's amiloride-like effect to amplify hyperkalemia risk.",
+          "management": "Check potassium at day 3-5 and reconsider TMP-SMX entirely if the baseline potassium reserve is poor.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Methotrexate",
+          "effect": "Additive folate antagonism can precipitate severe marrow toxicity.",
+          "management": "Avoid the combination whenever possible.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Oral step-down for susceptible Enterobacterales UTI or pyelonephritis",
+          "role": "TMP-SMX is a high-value oral exit when the isolate is susceptible and the patient can tolerate the metabolic tradeoffs.",
+          "notes": "It is especially useful when a carbapenem bridge needs a non-fluoroquinolone oral landing zone."
+        },
+        {
+          "scenario": "Avoiding unnecessary fluoroquinolone use",
+          "role": "When susceptibilities allow, TMP-SMX preserves fluoroquinolone exposure for future higher-risk needs.",
+          "notes": "Do not use it blindly when local resistance is too high for empiric therapy."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Urine / renal parenchyma",
+          "detail": "High urinary and kidney tissue exposure supports use for pyelonephritis and oral step-down in susceptible Enterobacterales infection."
+        },
+        {
+          "site": "Prostate",
+          "detail": "Excellent prostatic penetration is one of TMP-SMX's biggest advantages for bacterial prostatitis."
+        },
+        {
+          "site": "Bone / soft tissue",
+          "detail": "Systemic tissue exposure is good enough to support selected oral step-down plans outside the urinary tract when susceptibility is confirmed."
+        }
       ]
     },
     {
@@ -716,6 +1328,100 @@ export const UTI: DiseaseState = {
         "Can use for E. faecalis UTI (including VRE urinary isolates) — niche but valuable.",
         "Susceptibility testing: Agar dilution is the reference method. Disk diffusion is unreliable for fosfomycin — if your lab uses disk diffusion, interpret with caution.",
         "E. coli resistance to fosfomycin is mediated by chromosomal mutations (not plasmid) — resistance develops slowly and remains low (~1-3%)."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Uncomplicated cystitis",
+          "regimen": "3 g PO x 1 dose",
+          "notes": "Best used as a bladder-only drug for uncomplicated lower-tract infection."
+        },
+        {
+          "label": "Complicated or MDR cystitis off-label",
+          "regimen": "3 g PO every 48-72 hours for 3 doses",
+          "notes": "Use only when susceptibility, site, and local practice support multidose therapy."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Oral fosfomycin can still be used for bladder-only infection in dialysis patients, but do not stretch it into pyelonephritis or bacteremia."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT does not change the fact that oral fosfomycin remains a lower-tract agent rather than a dependable systemic therapy."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "ESBL or highly drug-resistant cystitis",
+          "guidance": "Fosfomycin is valuable when resistance narrows oral options, but only if the syndrome is still truly confined to the bladder."
+        },
+        {
+          "population": "Older adults with vague urinary symptoms",
+          "guidance": "Do not let its convenience turn asymptomatic bacteriuria or non-infectious urinary symptoms into treatment."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; the key question is whether the syndrome still fits a bladder-only drug.",
+        "sampling": "No drug levels are used. Follow symptom response and culture data instead.",
+        "adjustment": "If fever, flank pain, bacteremia, or obstruction enters the picture, move to a different agent rather than adding more fosfomycin doses."
+      },
+      "administration": {
+        "oralAbsorption": "Dissolve the sachet fully in water and take as directed; food can delay absorption modestly but does not change its bladder-focused role.",
+        "note": "There is no IV product in this catalog, so oral use is the entire strategy."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "PO-only agent; there is no IV formulation to convert from.",
+        "switchCriteria": "Use as oral-first therapy only when the syndrome is clearly cystitis and the patient can take oral medication.",
+        "note": "If the patient required IV therapy for systemic infection, fosfomycin is usually not the right oral landing zone."
+      },
+      "opatEligibility": {
+        "eligible": "no",
+        "administration": "Fosfomycin is an outpatient oral cystitis drug, not an OPAT drug.",
+        "monitoring": "Reassess quickly if symptoms suggest upper-tract disease or if the culture reveals a site where fosfomycin is unreliable.",
+        "considerations": [
+          "Best framed as an oral stewardship option for cystitis rather than a way to avoid appropriate IV therapy."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Metoclopramide",
+          "effect": "Can lower oral fosfomycin exposure by speeding GI transit.",
+          "management": "Avoid the combination when possible or separate administration and monitor for treatment failure.",
+          "severity": "monitor"
+        },
+        {
+          "interactingAgent": "Other laxative-heavy bowel regimens",
+          "effect": "Rapid transit may reduce absorption and weaken already site-limited therapy.",
+          "management": "Review bowel-regimen intensity if the cystitis plan depends on fosfomycin.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Oral treatment of uncomplicated or resistant cystitis",
+          "role": "A bladder-focused oral option that can preserve fluoroquinolones and carbapenems when the infection is truly lower tract.",
+          "notes": "Its value drops sharply once the infection is no longer confined to the bladder."
+        },
+        {
+          "scenario": "Avoiding unnecessary broad IV therapy for cystitis",
+          "role": "Useful when the microbiology supports it and oral therapy can safely replace an overly aggressive inpatient plan.",
+          "notes": "Do not use it to talk yourself out of treating pyelonephritis correctly."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Urine / bladder lumen",
+          "detail": "Produces very high urinary concentrations after oral dosing, making it a bladder-focused agent rather than a true systemic antibiotic."
+        },
+        {
+          "site": "Renal parenchyma",
+          "detail": "Kidney tissue exposure is not reliable enough for pyelonephritis, septic obstruction, or bacteremia."
+        },
+        {
+          "site": "Prostate",
+          "detail": "Some prostatic entry exists and supports off-label multidose use in selected cases, but it should not be treated as the default prostatitis workhorse."
+        }
       ]
     },
     {
@@ -759,6 +1465,108 @@ export const UTI: DiseaseState = {
         "For tube feeds: must hold feeds 1-2h before and after cipro administration (cation chelation with formula calcium). This is frequently missed in hospitals.",
         "Achilles tendon rupture risk is real but often over-feared. Absolute risk is ~0.4%. Highest risk: age >60, concurrent steroids, renal impairment, prior tendon issues. Still — always counsel.",
         "Photosensitivity: counsel patients to use SPF 30+ sunscreen. Some patients develop severe phototoxic reactions."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Pyelonephritis or complicated UTI",
+          "regimen": "500 mg PO BID or 400 mg IV q12h",
+          "notes": "Favor culture-confirmed use because fluoroquinolone resistance is too common for blind continuation in many centers."
+        },
+        {
+          "label": "Serious Pseudomonas infection",
+          "regimen": "750 mg PO BID or 400 mg IV q8h",
+          "notes": "Use the upper-end exposure when oral anti-pseudomonal therapy is the reason you chose ciprofloxacin."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Dose after hemodialysis because some removal occurs and the missed post-HD dose is a common reason urinary-source step-down underperforms."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT often supports near-standard IV or PO dosing, but persistent high-effluent clearance or resistant Pseudomonas should prompt dose review rather than casual q24h underdosing."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Older adults, steroid exposure, or aortic aneurysm risk",
+          "guidance": "Tendon, CNS, and vascular toxicity risks are more important than oral convenience in these patients, so use ciprofloxacin only when the microbiology win is real."
+        },
+        {
+          "population": "Enteral feeding or heavy supplement use",
+          "guidance": "Tube feeds, calcium, iron, and antacids can erase the oral exposure advantage unless the timing is managed tightly."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target is used in standard practice; efficacy depends on adequate dose, oral absorption, and susceptibility.",
+        "sampling": "No drug levels are standard. Review QTc, symptom response, and renal function instead.",
+        "adjustment": "If the oral regimen fails, first rule out cation binding, poor absorption, or rising resistance before declaring the class ineffective."
+      },
+      "administration": {
+        "infusion": "IV ciprofloxacin is usually infused over 60 minutes.",
+        "oralAbsorption": "Oral exposure is strong but not foolproof; cation chelation and continuous tube feeds can sharply reduce absorption.",
+        "note": "Separate calcium, iron, magnesium, antacids, and tube feeds aggressively or the oral step-down plan can fail silently."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "High oral bioavailability, though lower and more interaction-sensitive than levofloxacin.",
+        "switchCriteria": "Switch once the patient is improving, can absorb reliably, and the team can control cation/tube-feed timing.",
+        "note": "One of the few oral anti-pseudomonal exits, so protect it for the right susceptible infections."
+      },
+      "opatEligibility": {
+        "eligible": "conditional",
+        "administration": "IV therapy is possible, but oral completion is preferred in most stable patients because the oral formulation is the main stewardship advantage.",
+        "monitoring": "Monitor QTc risk, CNS symptoms, tendon complaints, and whether the patient can actually separate cations and feeds at home.",
+        "considerations": [
+          "Use OPAT only when oral absorption is not dependable.",
+          "Do not use ciprofloxacin as a routine discharge reflex for uncomplicated cystitis."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Calcium, iron, magnesium, antacids, or enteral feeds",
+          "effect": "Chelation can reduce ciprofloxacin absorption enough to create clinical failure.",
+          "management": "Separate oral ciprofloxacin from cations and hold tube feeds around each dose when needed.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Tizanidine",
+          "effect": "Ciprofloxacin can cause severe hypotension and sedation by raising tizanidine exposure dramatically.",
+          "management": "Treat the combination as contraindicated and pick another antibiotic if tizanidine cannot be stopped.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Other QT-prolonging agents",
+          "effect": "Additive QT risk matters more in older, renally impaired, and electrolyte-depleted patients.",
+          "management": "Review ECG and electrolyte context before signing off on oral continuation.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Oral anti-pseudomonal step-down",
+          "role": "Ciprofloxacin is still one of the few true oral anti-pseudomonal exits when the isolate is susceptible.",
+          "notes": "Preserve it for infections where that property changes disposition or line use."
+        },
+        {
+          "scenario": "Complicated UTI discharge planning",
+          "role": "High bioavailability lets ciprofloxacin shorten IV days and avoid PICC placement when resistance, toxicity, and interaction risks are acceptable.",
+          "notes": "Do not repurpose that convenience for pneumonia or low-value cystitis prescribing."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Urine / renal parenchyma",
+          "detail": "Excellent kidney and urinary tract exposure makes ciprofloxacin a strong oral step-down option when susceptibility is confirmed."
+        },
+        {
+          "site": "Prostate",
+          "detail": "Prostatic penetration is excellent, supporting use in bacterial prostatitis when resistance and toxicity tradeoffs are acceptable."
+        },
+        {
+          "site": "Bone / soft tissue",
+          "detail": "High oral bioavailability and tissue distribution also explain its role in selected gram-negative bone and deep-tissue step-down regimens."
+        }
       ]
     },
     {
@@ -798,6 +1606,107 @@ export const UTI: DiseaseState = {
         "AmpC warning: For SPACE organisms (Serratia, Providencia/Pseudomonas, Acinetobacter, Citrobacter freundii, Enterobacter), ceftriaxone can induce AmpC beta-lactamase production, leading to clinical failure even if initial susceptibility testing says 'susceptible.' Switch to cefepime.",
         "Once-daily dosing with a long half-life (~8h) makes it ideal for OPAT (outpatient parenteral antibiotic therapy). Perfect for ED treat-and-release strategies.",
         "Biliary sludge risk: more common with doses >2g/day, courses >14 days, fasting/TPN patients, and children. Usually reversible upon discontinuation. Counsel to stay hydrated."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Complicated UTI or uncomplicated gram-negative bacteremia bridge",
+          "regimen": "1-2 g IV q24h",
+          "notes": "Once-daily dosing is ideal while cultures mature or while arranging a narrower oral exit."
+        },
+        {
+          "label": "Streptococcal or HACEK endovascular infection",
+          "regimen": "2 g IV q24h",
+          "notes": "Use higher-end once-daily exposure for endovascular syndromes where long half-life is a practical advantage."
+        },
+        {
+          "label": "Meningitis",
+          "regimen": "2 g IV q12h",
+          "notes": "Use the q12h meningitis schedule when CNS penetration, not convenience, is the primary goal."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No routine post-HD supplement is needed because ceftriaxone is not meaningfully removed by conventional dialysis."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Many CRRT patients can stay on standard 1-2 g daily dosing, but severe infection or high-effluent settings may justify the full 2 g daily regimen."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Neonates or patients receiving calcium-rich infusions",
+          "guidance": "Avoid co-administration with calcium-containing solutions in neonates and keep adult line practice disciplined to prevent precipitation events."
+        },
+        {
+          "population": "Patients with prolonged fasting, TPN, or long OPAT courses",
+          "guidance": "Biliary sludge and pseudolithiasis become more clinically relevant as duration and dose increase, so unexplained RUQ symptoms deserve attention."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target is used; success depends on syndrome-appropriate dosing and not asking ceftriaxone to cover AmpC, ESBL, or Pseudomonas phenotypes it does not own.",
+        "sampling": "Drug levels are not standard. Reassess cultures, syndrome depth, and bilirubin/LFT trends instead.",
+        "adjustment": "If a patient remains bacteremic or the isolate suggests AmpC, ESBL, or Pseudomonas, change agents rather than trying to rescue ceftriaxone exposure."
+      },
+      "administration": {
+        "infusion": "Usually infused over about 30 minutes; avoid sharing a line with calcium-containing solutions.",
+        "compatibility": "Use normal saline rather than calcium-containing fluids when line compatibility is in question.",
+        "note": "Once-daily dosing is one of ceftriaxone's biggest operational advantages for ED bridge therapy and OPAT."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral ceftriaxone formulation exists, so step-down means switching to a different active oral agent rather than converting the same drug.",
+        "switchCriteria": "Move off ceftriaxone once the patient is stable, source control is handled, and a high-bioavailability susceptible oral option is identified.",
+        "note": "Think of ceftriaxone as a bridge, not as the final answer for every susceptible isolate."
+      },
+      "opatEligibility": {
+        "eligible": "yes",
+        "administration": "Once-daily IV administration makes ceftriaxone one of the easiest OPAT agents to operationalize.",
+        "monitoring": "CBC and liver tests are reasonable on longer courses, with extra attention to biliary symptoms during extended therapy.",
+        "considerations": [
+          "Excellent for susceptible urinary-source bacteremia and streptococcal/HACEK endovascular therapy.",
+          "Not the right OPAT drug for AmpC, ESBL, or Pseudomonas phenotypes."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Calcium-containing IV solutions",
+          "effect": "Physical precipitation can occur, with the highest-risk signal in neonates.",
+          "management": "Never co-infuse in neonates and flush lines carefully in adults.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "INR can drift upward through gut-flora and vitamin K effects during longer courses.",
+          "management": "Monitor INR more closely when starting or stopping ceftriaxone in anticoagulated patients.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Daily IV bridge for susceptible Enterobacterales infection",
+          "role": "Ceftriaxone is a high-value bridge while culture data finalize or while arranging an oral discharge option.",
+          "notes": "Its convenience should not be mistaken for resistance breadth."
+        },
+        {
+          "scenario": "Once-daily OPAT for streptococcal or HACEK disease",
+          "role": "Long half-life and reliable bloodstream exposure make ceftriaxone an operational workhorse when the organism truly fits the drug.",
+          "notes": "Avoid leaving it in place for AmpC-risk organisms just because the schedule is easy."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Urine / renal parenchyma",
+          "detail": "Provides strong bloodstream and renal parenchymal exposure for susceptible complicated UTI and bacteremic urinary-source infection."
+        },
+        {
+          "site": "Biliary tract",
+          "detail": "Very high biliary penetration is clinically useful, but it does not substitute for agents with better prostatic or oral continuation profiles in UTI pathways."
+        },
+        {
+          "site": "Prostate",
+          "detail": "Prostatic penetration is less dependable than fluoroquinolones or TMP-SMX, so ceftriaxone is often a bridge rather than the discharge agent for prostatitis."
+        }
       ]
     },
     {
@@ -837,6 +1746,108 @@ export const UTI: DiseaseState = {
         "Unlike cipro, levo does NOT inhibit CYP1A2. So: tizanidine is safe with levo (CONTRAINDICATED with cipro). Theophylline is safer with levo. Know this distinction — it matters clinically.",
         "Hypoglycemia risk: FDA strengthened warning in 2018. Highest risk in elderly diabetics on sulfonylureas. Some cases resulted in coma. Always check diabetes medication list.",
         "QT prolongation: levo has a stronger QT signal than cipro. Always check the QTc and concomitant meds. If baseline QTc >500ms, avoid."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Pyelonephritis or complicated UTI",
+          "regimen": "750 mg PO/IV daily for 5-7 days",
+          "notes": "Use the high-dose short-course strategy when the isolate is susceptible and the syndrome truly fits fluoroquinolone therapy."
+        },
+        {
+          "label": "CAP or mixed respiratory-urinary coverage",
+          "regimen": "750 mg PO/IV daily",
+          "notes": "Respiratory coverage is the main advantage levofloxacin has over ciprofloxacin when syndromes overlap."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Use the adjusted dose after hemodialysis because although levofloxacin is not fully removed, missed post-HD timing can still undercut exposure."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT often supports q24h dosing, but severe infection and high-effluent clearance may require closer review than the package insert suggests."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Older adults, diabetics, or patients on QT-prolonging drugs",
+          "guidance": "Levofloxacin carries meaningful dysglycemia, QT, tendon, and CNS risk, so the oral convenience should be balanced against those host factors before discharge."
+        },
+        {
+          "population": "Enteral feeding or supplement-heavy regimens",
+          "guidance": "Cation timing still matters even though levofloxacin absorption is excellent on paper."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target is used; clinical success depends on susceptibility, adequate dose, and avoiding preventable absorption failures.",
+        "sampling": "No drug levels are standard. Recheck ECG, glucose trend, renal function, and symptom response instead.",
+        "adjustment": "When toxicity risk starts to outweigh benefit, switch classes rather than trying to finesse prolonged fluoroquinolone use in a poor host."
+      },
+      "administration": {
+        "infusion": "IV levofloxacin is usually infused over at least 60 minutes.",
+        "oralAbsorption": "Near-complete oral absorption makes IV therapy operationally unnecessary once the patient can swallow reliably.",
+        "note": "Separate cations and review QT-active co-medications before signing off on oral discharge plans."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "Near-complete oral bioavailability; PO and IV exposure are effectively equivalent.",
+        "switchCriteria": "Switch to PO as soon as hemodynamics and absorption are reliable because keeping IV levofloxacin rarely adds clinical value.",
+        "note": "Levofloxacin is one of the simplest high-bioavailability discharge exits when the microbiology and safety profile fit."
+      },
+      "opatEligibility": {
+        "eligible": "conditional",
+        "administration": "IV therapy is possible, but oral completion should be the default whenever the GI tract works.",
+        "monitoring": "Review QTc, glucose, tendon symptoms, CNS effects, and cation timing before discharge.",
+        "considerations": [
+          "Prefer oral completion over OPAT in most stable patients.",
+          "Reserve the class for syndromes where its respiratory plus urinary profile truly matters."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Calcium, iron, magnesium, antacids, or enteral feeds",
+          "effect": "Chelation can erase the expected oral equivalence.",
+          "management": "Separate from cations and hold feeds around dosing when needed.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Other QT-prolonging drugs",
+          "effect": "Levofloxacin has a stronger QT signal than ciprofloxacin.",
+          "management": "Check ECG context and electrolyte status before approving discharge therapy.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Insulin or sulfonylureas",
+          "effect": "Class-related dysglycemia can become clinically significant during outpatient therapy.",
+          "management": "Warn the team and patient to monitor glucose more closely early in the course.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "High-bioavailability oral exit for susceptible pyelonephritis",
+          "role": "Levofloxacin can shorten IV exposure and avoid PICC placement when resistance and toxicity tradeoffs are acceptable.",
+          "notes": "Use it deliberately, not automatically, because the ecological and boxed-warning costs are real."
+        },
+        {
+          "scenario": "Single-drug coverage when respiratory and urinary sources overlap",
+          "role": "Its combined respiratory and urinary profile can simplify early transitions when the isolate and patient factors fit.",
+          "notes": "That convenience should not override QT, tendon, or dysglycemia risk."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Urine / renal parenchyma",
+          "detail": "Strong urinary and kidney tissue exposure supports pyelonephritis treatment and oral bacteremic UTI step-down when susceptible."
+        },
+        {
+          "site": "Prostate",
+          "detail": "Good prostatic penetration makes levofloxacin a common oral prostatitis option when safety and resistance concerns are addressed."
+        },
+        {
+          "site": "Lung / epithelial lining fluid",
+          "detail": "The same tissue profile that helps in CAP explains why levofloxacin covers both respiratory and urinary syndromes well when the isolate is susceptible."
+        }
       ]
     }
   ]

@@ -181,7 +181,43 @@ export const CAP: DiseaseState = {
         "Duration: ATS/IDSA recommends minimum 5 days, with the caveat that the patient should be clinically stable for 48-72h before stopping. The STEP trial validates even shorter (3-day) courses for patients who stabilize rapidly.",
         "CURB-65 score: Confusion, Uremia (BUN >19), Respiratory rate ≥30, Blood pressure (SBP <90 or DBP ≤60), Age ≥65. Score 0-1 = outpatient. 2 = consider admission. ≥3 = inpatient. Simple, bedside, no labs needed (CRB-65 drops the U).",
         "Always ask about influenza exposure and symptoms during flu season. If influenza CAP is suspected, add oseltamivir regardless of presentation timing — late treatment still reduces complications in severe cases."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Confirm the syndrome with chest imaging when feasible, but the outpatient workup should stay lean: vitals, severity score, and red-flag review are the core pharmacist inputs."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Hypoxia, hypotension, confusion, multilobar disease, or inability to maintain oral hydration means this is no longer a routine outpatient pathway."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Recent antibiotics, structural lung disease, post-influenza necrotizing concern, or prior MRSA/Pseudomonas history should move the patient out of simple outpatient monotherapy thinking."
+      },
+      "sourceControl": {
+        "status": "not_applicable",
+        "summary": "Routine CAP usually does not hinge on procedural source control unless an effusion or aspiration complication appears."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "If viral testing is positive and bacterial evidence is weak, resist unnecessarily prolonging antibacterial therapy; if cultures later identify a narrow pathogen, collapse to the single active oral agent."
+      },
+      "ivToPoPlan": {
+        "status": "not_applicable",
+        "summary": "This pathway is oral-first, so IV-to-PO transition is not the central stewardship question."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "If symptoms worsen or do not improve within 48-72 hours, reassess for wrong diagnosis, resistant pathogen, aspiration, viral illness, or need for admission."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Escalate for pregnancy, significant immunocompromise, recurrent pneumonia in the same lobe, or suspected unusual pathogens."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count duration from the first active antibiotic dose once CAP is established; uncomplicated CAP should not be automatically extended because cough lingers."
+      }
     },
     {
       "id": "cap-outpatient-comorbid",
@@ -274,7 +310,43 @@ export const CAP: DiseaseState = {
         "Don't forget to vaccinate: PCV20 (Prevnar 20) for all adults ≥65 or at high risk. This is a pharmacist-driven intervention that prevents the disease you're treating.",
         "Procalcitonin <0.25: consider viral etiology or non-infectious cause. Can help you withhold antibiotics or stop them early. Not perfect but a useful stewardship tool.",
         "COPD + CAP: The organism profile shifts — H. influenzae and M. catarrhalis become more common. Amox-clav is a strong choice here because it handles all three common pathogens (pneumococcus, H. flu, Moraxella)."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Document comorbidities, recent antibiotic exposure, and oxygenation carefully because these are the main reasons outpatient therapy fails."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Hypoxia, unstable vitals, inability to take PO, or severe comorbidity decompensation should lower the threshold for ED or inpatient care."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Recent antibiotics, prior MRSA/Pseudomonas isolation, bronchiectasis, or severe structural lung disease are the main gates that justify broader coverage."
+      },
+      "sourceControl": {
+        "status": "not_applicable",
+        "summary": "Procedural source control is uncommon unless a pleural complication or aspiration source is identified."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "If follow-up testing points to a viral process or a narrow bacterial pathogen, simplify quickly and avoid finishing a broad combination just because it was started in clinic."
+      },
+      "ivToPoPlan": {
+        "status": "not_applicable",
+        "summary": "This pathway remains oral-first unless the patient deteriorates and needs hospital-level care."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Failure at 48-72 hours should prompt reassessment for adherence, absorption, resistant pneumococcus, aspiration, pulmonary embolism, or heart-failure mimicry."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Escalate for severe immunocompromise, recurrent aspiration, or repeated outpatient CAP failures."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count from the first active dose and use clinical stability, not complete cough resolution, to stop therapy."
+      }
     },
     {
       "id": "cap-inpatient",
@@ -394,7 +466,43 @@ export const CAP: DiseaseState = {
         "Procalcitonin-guided de-escalation: If PCT <0.25 or drops by >80%, consider stopping antibiotics. Multiple RCTs support this approach for reducing antibiotic duration without increasing mortality. Pharmacists should actively engage with PCT trending.",
         "Blood cultures: ATS/IDSA recommends for all inpatients. Positivity rate is only 5-14%, but when positive, it changes management significantly (organism identification, targeted therapy, ID consult trigger).",
         "Don't forget the vaccinations before discharge: PCV20 and annual influenza vaccine. Pharmacist-driven immunization at discharge is evidence-based and is a CMS quality measure."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Send blood cultures only when severity warrants them, collect sputum if it will be actionable, and pair the antibiotic plan with a severity score rather than broad inpatient reflexes."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Worsening oxygen requirement, hypotension, rising lactate, or multilobar disease means this patient may actually belong in the ICU/severe CAP pathway."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "MRSA or Pseudomonas risk should be driven by prior isolation or recent healthcare antibiotic exposure, not by old HCAP-era heuristics."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Look for effusion, empyema, aspiration source, or obstructing lesion when the course feels atypical or recovery lags."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "At 48-72 hours, narrow to the simplest active regimen, stop MRSA therapy when nares/cultures are not supportive, and do not keep atypical coverage just because it was started on admission."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Switch to PO once the patient is hemodynamically stable, oxygen is improving, the GI tract works, and an active oral regimen is available."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Failure should trigger repeat imaging, alternative-diagnosis review, aspiration assessment, and resistant-pathogen reconsideration rather than automatic duration extension."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Escalate for bacteremia, complicated pleural disease, severe immunocompromise, or suspected unusual pathogens."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count from the first active regimen once CAP is established; five total days is often enough when the patient reaches clinical stability."
+      }
     },
     {
       "id": "cap-icu",
@@ -417,6 +525,34 @@ export const CAP: DiseaseState = {
               "notes": "ATS/IDSA standard for severe CAP. The macrolide is STRONGLY recommended here (not optional like non-ICU). Macrolide immunomodulatory effect is most impactful in severe/bacteremic disease. Duration: minimum 5 days, typically 7 days.",
               "evidence": "A-I",
               "evidenceSource": "IDSA/ATS 2019",
+              "plan": {
+                "regimen": "Ceftriaxone 2g IV daily + Azithromycin 500mg IV daily",
+                "indication": "Severe CAP",
+                "site": "Lung",
+                "role": "preferred",
+                "rationale": "Default ICU CAP backbone when MRSA and Pseudomonas risk signals are absent but atypical coverage is still needed.",
+                "pathogenFocus": [
+                  "Pneumococcus",
+                  "H. influenzae",
+                  "Legionella and other atypicals"
+                ],
+                "riskFactorTriggers": [
+                  "ICU CAP without prior MRSA or Pseudomonas isolation",
+                  "No recent IV antibiotic exposure forcing broader gram-negative coverage"
+                ],
+                "avoidIf": [
+                  "Prior MRSA isolation or post-influenza necrotizing concern without MRSA add-on",
+                  "Prior Pseudomonas isolation or recent IV antibiotics within 90 days"
+                ],
+                "rapidDiagnosticActions": [
+                  "Stop MRSA add-on if nares PCR is negative",
+                  "Keep atypical-active therapy if Legionella testing is positive"
+                ],
+                "linkedMonographIds": [
+                  "ceftriaxone",
+                  "azithromycin"
+                ]
+              },
               "monographId": "ceftriaxone",
               "evidenceSourceIds": [
                 "ats-idsa-2019-cap"
@@ -429,6 +565,32 @@ export const CAP: DiseaseState = {
               "notes": "Alternative combination if macrolide cannot be used (QT prolongation, allergy). Note: combining ceftriaxone + FQ gives broader coverage but loses the macrolide immunomodulatory benefit.",
               "evidence": "A-I",
               "evidenceSource": "IDSA/ATS 2019",
+              "plan": {
+                "regimen": "Ceftriaxone 2g IV daily + Levofloxacin 750mg IV daily",
+                "indication": "Severe CAP",
+                "site": "Lung",
+                "role": "alternative",
+                "rationale": "Macrolide-sparing ICU CAP option when azithromycin is blocked by QT risk, intolerance, or major interaction concerns.",
+                "pathogenFocus": [
+                  "Pneumococcus",
+                  "Legionella and other atypicals",
+                  "Typical CAP gram-negatives"
+                ],
+                "riskFactorTriggers": [
+                  "Need severe CAP combination therapy but macrolide cannot be used"
+                ],
+                "avoidIf": [
+                  "Recent fluoroquinolone exposure",
+                  "Major QT or tendon toxicity risk"
+                ],
+                "renalFlags": [
+                  "Levofloxacin needs renal adjustment as kidney function changes"
+                ],
+                "linkedMonographIds": [
+                  "ceftriaxone",
+                  "levofloxacin"
+                ]
+              },
               "evidenceSourceIds": [
                 "ats-idsa-2019-cap"
               ],
@@ -440,6 +602,32 @@ export const CAP: DiseaseState = {
               "notes": "Alternative beta-lactam backbone with better anaerobic coverage. Useful if aspiration component suspected in ICU CAP.",
               "evidence": "B-II",
               "evidenceSource": "IDSA/ATS 2019",
+              "plan": {
+                "regimen": "Ampicillin-sulbactam 3g IV q6h + Azithromycin 500mg IV daily",
+                "indication": "Severe CAP with aspiration concern",
+                "site": "Lung",
+                "role": "situational",
+                "rationale": "Alternative ICU CAP backbone when aspiration or oral anaerobe burden is part of the presentation.",
+                "pathogenFocus": [
+                  "CAP bacteria",
+                  "Oral anaerobes",
+                  "Atypicals"
+                ],
+                "riskFactorTriggers": [
+                  "Severe CAP with clear aspiration component or poor dentition"
+                ],
+                "avoidIf": [
+                  "Pseudomonas risk factors",
+                  "Recent beta-lactam exposure suggesting resistant gram-negatives"
+                ],
+                "renalFlags": [
+                  "Ampicillin-sulbactam requires renal adjustment in kidney dysfunction"
+                ],
+                "linkedMonographIds": [
+                  "ampicillin-sulbactam",
+                  "azithromycin"
+                ]
+              },
               "evidenceSourceIds": [
                 "ats-idsa-2019-cap"
               ],
@@ -454,6 +642,36 @@ export const CAP: DiseaseState = {
               "drug": "vancomycin",
               "regimen": "Vancomycin IV (AUC/MIC-guided dosing, target AUC 400-600)",
               "notes": "Add if: prior MRSA infection/colonization, IVDU, post-influenza necrotizing pneumonia, cavitation/empyema. Check nasal MRSA swab — if negative, de-escalate within 48h. AUC-guided dosing is now preferred over trough-based (2020 vancomycin consensus guidelines).",
+              "plan": {
+                "regimen": "Vancomycin IV (AUC/MIC-guided dosing, target AUC 400-600)",
+                "indication": "MRSA CAP coverage",
+                "site": "Lung",
+                "role": "adjunct",
+                "rationale": "Temporary anti-MRSA add-on for severe CAP when validated MRSA risk factors are present.",
+                "pathogenFocus": [
+                  "MRSA"
+                ],
+                "riskFactorTriggers": [
+                  "Prior MRSA infection or colonization",
+                  "Post-influenza necrotizing pneumonia concern",
+                  "Cavitation or empyema"
+                ],
+                "avoidIf": [
+                  "Negative MRSA nares PCR with unsupportive cultures after 48-72 hours"
+                ],
+                "renalFlags": [
+                  "Requires AUC-guided dosing and daily renal reassessment"
+                ],
+                "dialysisFlags": [
+                  "HD and CRRT dosing need level-guided redosing"
+                ],
+                "rapidDiagnosticActions": [
+                  "Remove if MRSA nares PCR is negative and cultures do not support MRSA"
+                ],
+                "linkedMonographIds": [
+                  "vancomycin"
+                ]
+              },
               "monographId": "vancomycin",
               "id": "cap/cap-icu/add-on-for-mrsa-risk-factors/vancomycin-1"
             },
@@ -461,6 +679,27 @@ export const CAP: DiseaseState = {
               "drug": "linezolid",
               "regimen": "Linezolid 600mg IV/PO BID",
               "notes": "Alternative to vancomycin for MRSA pneumonia. Some data suggests better lung penetration. 100% oral bioavailability. Myelosuppression risk with courses >14 days. Monitor CBC weekly. Serotonin syndrome risk with SSRIs/MAOIs.",
+              "plan": {
+                "regimen": "Linezolid 600mg IV/PO BID",
+                "indication": "MRSA CAP coverage",
+                "site": "Lung",
+                "role": "alternative",
+                "rationale": "Alternative anti-MRSA add-on when lung penetration is prioritized or vancomycin toxicity risk is unacceptable.",
+                "pathogenFocus": [
+                  "MRSA"
+                ],
+                "riskFactorTriggers": [
+                  "MRSA risk with high AKI concern",
+                  "Need oral continuation without losing exposure"
+                ],
+                "avoidIf": [
+                  "Severe thrombocytopenia",
+                  "Unmanageable serotonergic interaction risk"
+                ],
+                "linkedMonographIds": [
+                  "linezolid"
+                ]
+              },
               "monographId": "linezolid",
               "id": "cap/cap-icu/add-on-for-mrsa-risk-factors/linezolid-2"
             }
@@ -473,6 +712,33 @@ export const CAP: DiseaseState = {
               "drug": "pip-tazo",
               "regimen": "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)",
               "notes": "Replace ceftriaxone with pip-tazo + azithromycin or FQ. Extended infusion critical for optimizing time above MIC. Consider adding an aminoglycoside or anti-pseudomonal FQ for double coverage in critically ill.",
+              "plan": {
+                "regimen": "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)",
+                "indication": "Severe CAP with Pseudomonas risk",
+                "site": "Lung",
+                "role": "adjunct",
+                "rationale": "Swap in an antipseudomonal beta-lactam when prior isolation or recent IV antibiotics make ceftriaxone too narrow.",
+                "pathogenFocus": [
+                  "Pseudomonas",
+                  "Nosocomial gram-negatives",
+                  "Anaerobes if aspiration overlaps"
+                ],
+                "riskFactorTriggers": [
+                  "Prior Pseudomonas isolation",
+                  "Recent IV antibiotics",
+                  "Structural lung disease with resistant gram-negative history"
+                ],
+                "avoidIf": [
+                  "Need ESBL-stable therapy",
+                  "Progressive AKI while vancomycin is also running"
+                ],
+                "renalFlags": [
+                  "Extended infusion and renal adjustment both matter for target attainment"
+                ],
+                "linkedMonographIds": [
+                  "pip-tazo"
+                ]
+              },
               "monographId": "pip-tazo",
               "id": "cap/cap-icu/add-on-for-pseudomonas-risk-factors/pip-tazo-1"
             },
@@ -480,6 +746,34 @@ export const CAP: DiseaseState = {
               "drug": "cefepime",
               "regimen": "Cefepime 2g IV q8h (extended infusion)",
               "notes": "Alternative anti-pseudomonal beta-lactam. Also covers SPACE organisms (AmpC producers) — better than ceftriaxone for Enterobacter, Citrobacter, Serratia.",
+              "plan": {
+                "regimen": "Cefepime 2g IV q8h (extended infusion)",
+                "indication": "Severe CAP with Pseudomonas or AmpC risk",
+                "site": "Lung",
+                "role": "alternative",
+                "rationale": "Antipseudomonal beta-lactam that preserves carbapenems and handles AmpC-risk Enterobacterales better than ceftriaxone.",
+                "pathogenFocus": [
+                  "Pseudomonas",
+                  "AmpC-risk Enterobacterales"
+                ],
+                "riskFactorTriggers": [
+                  "Prior Pseudomonas isolation",
+                  "Need antipseudomonal coverage without defaulting to meropenem"
+                ],
+                "avoidIf": [
+                  "Prominent aspiration or anaerobic concern without partner coverage",
+                  "Cefepime neurotoxicity risk with unstable renal function"
+                ],
+                "renalFlags": [
+                  "High-dose extended infusion with close renal and neurotoxicity monitoring"
+                ],
+                "dialysisFlags": [
+                  "CRRT often still needs near-full antipseudomonal exposure"
+                ],
+                "linkedMonographIds": [
+                  "cefepime"
+                ]
+              },
               "monographId": "cefepime",
               "id": "cap/cap-icu/add-on-for-pseudomonas-risk-factors/cefepime-2"
             },
@@ -487,6 +781,38 @@ export const CAP: DiseaseState = {
               "drug": "meropenem",
               "regimen": "Meropenem 1-2g IV q8h (extended infusion over 3h)",
               "notes": "Reserve for severe septic shock, ESBL/MDR risk, or failure of other agents. Always de-escalate aggressively once cultures return. Extended infusion is standard of care in the ICU.",
+              "plan": {
+                "regimen": "Meropenem 1-2g IV q8h (extended infusion over 3h)",
+                "indication": "Severe CAP with ESBL or major MDR gram-negative risk",
+                "site": "Lung",
+                "role": "salvage",
+                "rationale": "Reserve carbapenem anchor for septic shock or credible ESBL and MDR gram-negative risk, then exit quickly once cultures allow.",
+                "pathogenFocus": [
+                  "ESBL Enterobacterales",
+                  "Pseudomonas",
+                  "Anaerobes"
+                ],
+                "riskFactorTriggers": [
+                  "Septic shock",
+                  "Prior ESBL or MDR gram-negative respiratory isolate",
+                  "Failure of narrower antipseudomonal options"
+                ],
+                "avoidIf": [
+                  "Cultures support cefepime or pip-tazo susceptibility without ESBL risk"
+                ],
+                "renalFlags": [
+                  "Use high-dose extended infusion and adjust for renal replacement exposure"
+                ],
+                "dialysisFlags": [
+                  "CRRT commonly still needs q8h extended-infusion dosing"
+                ],
+                "rapidDiagnosticActions": [
+                  "De-escalate the same day ESBL or carbapenemase risk is disproven"
+                ],
+                "linkedMonographIds": [
+                  "meropenem"
+                ]
+              },
               "monographId": "meropenem",
               "id": "cap/cap-icu/add-on-for-pseudomonas-risk-factors/meropenem-3"
             }
@@ -543,6 +869,103 @@ export const CAP: DiseaseState = {
         "Day 1 matters: In septic shock, every hour of delayed appropriate antibiotics increases mortality by ~7.6% (Kumar et al., 2006). Ensure antibiotics are administered within 1 hour of recognition. This is a pharmacist operational responsibility — have them available, mixed, and ready.",
         "De-escalation is as important as escalation: Once cultures return (48-72h), aggressively narrow therapy. If MRSA swab negative → stop vancomycin. If Pseudomonas cultures negative and no risk factors → step down from pip-tazo to ceftriaxone. Stewardship in the ICU has the biggest impact.",
         "ARDS from CAP: Lung-protective ventilation (6 mL/kg IBW) is the cornerstone. Prone positioning for P/F <150. Neither is a pharmacy intervention directly, but understanding the pathophysiology helps with drug dosing (increased Vd in ARDS, altered PK for many drugs)."
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Obtain cultures, viral testing, urinary antigens when indicated, and early severity markers before antibiotics if feasible, but do not delay first-dose administration in shock."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Shock, invasive or non-invasive ventilatory support, rapidly rising oxygen needs, or severe multilobar disease define this pathway and should push PK/PD optimization from the start."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Prior MRSA/Pseudomonas isolation and recent IV antibiotics are the major ATS/IDSA gates; avoid reflexive anti-MRSA or anti-pseudomonal therapy without those signals."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Look early for empyema, necrotizing disease, aspiration source, post-obstructive pneumonia, or concomitant bacteremia/endocarditis that changes the course."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "Within 48-72 hours, use MRSA nares PCR, respiratory cultures, and hemodynamic recovery to remove unneeded MRSA or anti-pseudomonal coverage aggressively.",
+        "bullets": [
+          "A negative MRSA nares PCR is specifically valuable here because anti-MRSA continuation is common after the reason for starting it has disappeared."
+        ]
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Transition only after shock resolves, oxygen needs are improving, and a high-bioavailability oral regimen remains fully active; severe CAP often needs a longer IV front-end than ward CAP."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Persistent instability should trigger review of steroid decisions, viral coinfection, resistant pathogens, source control, and whether the beta-lactam infusion strategy is adequate."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "ID or pulmonary/critical care consultation is appropriate for necrotizing disease, bacteremia, unusual pathogens, or any case that needs broader-than-standard ICU CAP coverage."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count from the first active regimen, but still use shortest effective duration once shock resolves and source issues are addressed."
+      },
+      "rapidDiagnostics": [
+        {
+          "trigger": "MRSA nares PCR is negative and respiratory cultures do not support MRSA",
+          "action": "Stop vancomycin or linezolid during the 48-72 hour timeout unless another MRSA syndrome is active.",
+          "rationale": "Negative nares screening has high negative predictive value for MRSA pneumonia and is a major ICU de-escalation lever."
+        },
+        {
+          "trigger": "Legionella urinary antigen or severe-viral testing returns positive",
+          "action": "Preserve targeted atypical or viral-directed therapy and avoid reflexively widening beta-lactam coverage just because the patient is critically ill.",
+          "rationale": "Rapid diagnostics often clarify why the patient looked sicker than a routine pneumococcal CAP pathway."
+        }
+      ],
+      "breakpointNotes": [
+        {
+          "marker": "MRSA nares screening",
+          "interpretation": "Best used as a rule-out tool for continued anti-MRSA therapy in pneumonia rather than a stand-alone rule-in test.",
+          "action": "Interpret the result alongside cultures and the 48-72 hour clinical trajectory."
+        },
+        {
+          "marker": "Routine respiratory culture quality",
+          "interpretation": "Poor-quality sputum or early no-growth cultures do not prove that broader gram-negative therapy is needed.",
+          "action": "Reassess the syndrome and actual exposure history before escalating beyond standard severe CAP therapy."
+        }
+      ],
+      "intrinsicResistance": [
+        {
+          "organism": "Legionella, Mycoplasma, and Chlamydophila",
+          "resistance": "Standard beta-lactams do not provide reliable activity against these intracellular or cell-wall atypical pathogens.",
+          "implication": "Keep azithromycin or a respiratory fluoroquinolone if atypical CAP remains plausible."
+        },
+        {
+          "organism": "Pseudomonas aeruginosa",
+          "resistance": "Ceftriaxone and ampicillin-sulbactam are not dependable antipseudomonal options.",
+          "implication": "Only move to cefepime, pip-tazo, or meropenem when prior isolation or recent IV antibiotic exposure creates a real risk signal."
+        }
+      ],
+      "coverageMatrix": [
+        {
+          "label": "Core severe CAP bacteria",
+          "status": "preferred",
+          "detail": "Ceftriaxone plus azithromycin or a respiratory fluoroquinolone covers pneumococcus, H. influenzae, MSSA, and atypicals in most ICU CAP."
+        },
+        {
+          "label": "MRSA risk present",
+          "status": "conditional",
+          "detail": "Add vancomycin or linezolid only when prior MRSA isolation, post-influenza necrosis, or other ATS/IDSA risk signals exist."
+        },
+        {
+          "label": "Pseudomonas risk present",
+          "status": "conditional",
+          "detail": "Escalate to an antipseudomonal beta-lactam only when prior isolation or recent IV antibiotic exposure supports it."
+        },
+        {
+          "label": "Aspiration without abscess or empyema",
+          "status": "active",
+          "detail": "Routine heavy anaerobe expansion is usually unnecessary unless imaging or source history shows a true aspiration complication."
+        }
       ]
     },
     {
@@ -647,7 +1070,43 @@ export const CAP: DiseaseState = {
         "Clindamycin: Once the drug of choice for aspiration pneumonia and lung abscess. Still effective but high C. diff rate (~10-15%) has pushed it to second-line. Amp-sulbactam has comparable efficacy with less C. diff risk.",
         "Poor dentition is the modifiable risk factor that gets overlooked. Dental care reduces aspiration pneumonia risk in elderly and institutionalized patients. Advocate for oral care protocols in your institution — chlorhexidine oral care reduces ventilator-associated pneumonia by ~40%.",
         "Lung abscess duration: Unlike most pneumonias, lung abscess requires extended treatment — typically 3-6 weeks or until radiographic improvement. Patients often need outpatient IV antibiotics (OPAT) or prolonged oral therapy (amox-clav or clindamycin). Plan for this at discharge."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Distinguish aspiration pneumonia from aspiration pneumonitis before committing to antibiotics, then image and culture when severity or complications justify it."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Hypoxia, shock, abscess, empyema, or inability to protect the airway means aspiration is no longer a routine floor-level CAP variant."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Recent hospitalization, tube feeds, prior MDR gram-negatives, or repeated aspiration with healthcare exposure should broaden thinking beyond simple community oral flora."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Swallow evaluation, airway protection, drainage of empyema or abscess, and correction of the aspiration driver matter as much as antibiotic selection."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "Once cultures and imaging clarify the picture, narrow therapy and avoid prolonged anaerobic over-coverage when lung abscess or empyema is not actually present."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Use amoxicillin-clavulanate or another active oral option after the patient can swallow safely and is clinically improving."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Lack of improvement should trigger search for abscess, empyema, obstructing lesion, or ongoing aspiration rather than simply broadening the regimen indefinitely."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Speech-language pathology, pulmonary, or surgical consultation is appropriate when recurrent aspiration, empyema, or abscess is present."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count from the first active therapy after the aspiration source is addressed as much as possible; longer courses are reserved for abscess or empyema."
+      }
     }
   ],
   "drugMonographs": [
@@ -688,6 +1147,96 @@ export const CAP: DiseaseState = {
         "Suspension stability: Reconstituted amoxicillin suspension is stable for 14 days refrigerated. Always label with expiration date. Unused portion should be discarded — patients often save it.",
         "For H. pylori regimens: Amoxicillin is not affected by the clarithromycin resistance that plagues triple therapy. In areas with high clarithromycin resistance, bismuth quadruple therapy (with amoxicillin) is preferred.",
         "Penicillin allergy de-labeling: ~90% of patients labeled 'penicillin-allergic' are NOT truly allergic on testing. Pharmacist-driven penicillin allergy assessment and de-labeling programs improve patient outcomes and reduce broad-spectrum antibiotic use. Champion this."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Susceptible CAP oral therapy or step-down",
+          "regimen": "1 g PO TID",
+          "notes": "Best used for pneumococcal-predominant CAP once atypical coverage and beta-lactamase concerns are out of the way."
+        },
+        {
+          "label": "Streptococcal respiratory infection",
+          "regimen": "500 mg to 1 g PO TID depending on syndrome",
+          "notes": "High-frequency dosing matters more than convenience when you want reliable time above MIC."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Use renally adjusted dosing and give post-hemodialysis when needed; oral use still works well for susceptible respiratory infection if the gut works."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT often supports near-standard oral dosing, but severe infection usually needs an IV beta-lactam until the patient is clearly improving."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "History of EBV-associated aminopenicillin rash",
+          "guidance": "Do not document the classic mononucleosis rash as a lifelong penicillin allergy without better evidence."
+        },
+        {
+          "population": "Aspiration or beta-lactamase-heavy syndromes",
+          "guidance": "Amoxicillin alone is a poor fit when oral anaerobes, H. influenzae beta-lactamase production, or mixed flora are central concerns."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; the meaningful endpoints are correct syndrome selection, adherence, and clinical improvement.",
+        "sampling": "No drug levels are standard. Follow symptoms and renal function instead.",
+        "adjustment": "If oral step-down fails, first ask whether the syndrome needed amoxicillin-clavulanate or a different class rather than just a bigger amoxicillin dose."
+      },
+      "administration": {
+        "oralAbsorption": "Absorption is good and generally reliable, making it a practical oral beta-lactam step-down drug when the pathogen fits.",
+        "note": "TID dosing is operationally less convenient than once-daily options but often worth it when narrow pneumococcal coverage is the goal."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "Good oral bioavailability suitable for IV-to-PO transition in stable patients.",
+        "switchCriteria": "Switch from IV ampicillin or ceftriaxone when the patient is improving, can absorb, and cultures or syndrome support narrow oral therapy.",
+        "note": "This is a narrowing drug, not a rescue drug."
+      },
+      "opatEligibility": {
+        "eligible": "no",
+        "administration": "Amoxicillin is an oral completion drug rather than an OPAT drug.",
+        "monitoring": "No infusion monitoring is needed; focus on adherence, tolerance, and whether the narrow oral spectrum still fits.",
+        "considerations": [
+          "A stewardship-friendly oral exit when susceptible pneumococcus or streptococci are the real targets."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "INR can rise through gut-flora disruption and illness effects.",
+          "management": "Increase INR monitoring during therapy transitions.",
+          "severity": "monitor"
+        },
+        {
+          "interactingAgent": "Allopurinol",
+          "effect": "Can increase the frequency of aminopenicillin-associated rash.",
+          "management": "Document the rash context carefully before labeling the patient penicillin-allergic.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Narrow oral CAP step-down",
+          "role": "A high-value oral beta-lactam when pneumococcus or streptococci are the dominant organisms and broad inpatient therapy can be retired.",
+          "notes": "Its stewardship win is narrowing, not convenience dosing."
+        },
+        {
+          "scenario": "Avoiding unnecessary fluoroquinolone exposure in respiratory infection",
+          "role": "A safer narrow oral alternative when the pathogen does not require atypical or resistant gram-negative coverage.",
+          "notes": "Do not use it if the syndrome still needs beta-lactamase protection."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Lung / bronchial secretions",
+          "detail": "High-dose oral amoxicillin can achieve reliable lung exposure for susceptible pneumococcal CAP, but it does not solve atypical or beta-lactamase mediated gaps by penetration alone."
+        },
+        {
+          "site": "Bloodstream",
+          "detail": "Serum exposure is adequate for susceptible community pathogens, but severe bacteremic pneumonia usually needs inpatient IV beta-lactam therapy rather than oral amoxicillin alone."
+        }
       ]
     },
     {
@@ -729,6 +1278,101 @@ export const CAP: DiseaseState = {
         "Immunomodulatory effects: Beyond antimicrobial activity, azithromycin reduces neutrophilic inflammation, decreases pro-inflammatory cytokines (IL-6, IL-8, TNF-α), and modulates macrophage function. This is why it's used in COPD exacerbation prophylaxis (MACRO trial: azithromycin 250mg daily reduced AECOPD frequency) and CF lung disease. In severe CAP, this immunomodulatory effect may contribute to mortality reduction beyond pathogen coverage.",
         "For chlamydia: CDC 2021 STI guidelines now recommend doxycycline 100mg BID × 7 days OVER azithromycin 1g single dose due to better cure rates. The single-dose azithromycin era for chlamydia is ending.",
         "Storage: azithromycin oral suspension does NOT need refrigeration (stable at room temperature for 10 days). This is a practical counseling point for parents — one less thing in the fridge."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Atypical CAP coverage",
+          "regimen": "500 mg IV/PO daily",
+          "notes": "Often used as the atypical companion rather than the lone severe CAP agent."
+        },
+        {
+          "label": "Legionella-focused combination therapy",
+          "regimen": "500 mg IV/PO daily",
+          "notes": "Use within a broader regimen when severe Legionella or CAP is the concern."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No meaningful dose adjustment is typically needed, which is part of its operational simplicity."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Standard daily dosing usually remains appropriate because renal clearance is not the main determinant."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "QTc prolongation or interacting cardiac drugs",
+          "guidance": "Use more cautiously when baseline QT risk is already high because macrolide convenience is not worth malignant rhythm risk."
+        },
+        {
+          "population": "Liver disease",
+          "guidance": "Hepatic injury is uncommon but relevant enough to reconsider prolonged courses in patients with active cholestatic or hepatic disease."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; tissue penetration and the right syndrome matter more than levels.",
+        "sampling": "No therapeutic drug levels are used. Follow ECG context, symptoms, and liver tests when clinically indicated.",
+        "adjustment": "If the patient is not improving, ask whether the regimen needs a better typical-pathogen backbone rather than more azithromycin exposure."
+      },
+      "administration": {
+        "infusion": "IV azithromycin is commonly infused over about 1 hour.",
+        "oralAbsorption": "Oral therapy is usually reliable enough for continuation once the patient can absorb and no rapid IV-only support is needed.",
+        "note": "Its long tissue half-life makes duration decisions more important than dose stacking."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "Moderate oral bioavailability but reliable clinical oral continuation for respiratory infection.",
+        "switchCriteria": "Switch to PO once the patient can take oral medication and no absorption barrier remains.",
+        "note": "A straightforward IV-to-PO conversion in stable CAP patients."
+      },
+      "opatEligibility": {
+        "eligible": "no",
+        "administration": "Azithromycin is usually finished orally rather than through OPAT.",
+        "monitoring": "Focus on ECG risk and overall regimen fit, not infusion logistics.",
+        "considerations": [
+          "An oral completion drug in most respiratory pathways."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Other QT-prolonging agents",
+          "effect": "Additive QT risk can become clinically important in older or electrolyte-depleted patients.",
+          "management": "Review ECG and electrolyte context before continuing combination therapy.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "INR can rise during macrolide therapy.",
+          "management": "Increase INR monitoring if the combination is unavoidable.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Short-course atypical CAP coverage",
+          "role": "Useful when atypical pathogens or Legionella remain credible and broad fluoroquinolone exposure is unnecessary.",
+          "notes": "Avoid carrying it longer than the syndrome requires."
+        },
+        {
+          "scenario": "Early CAP oral continuation",
+          "role": "Easy oral continuation can shorten IV days when the patient is stabilizing.",
+          "notes": "Do not let macrolide familiarity obscure QT risk or weak stand-alone pneumococcal coverage in severe disease."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Lung / epithelial lining fluid",
+          "detail": "Azithromycin concentrates heavily in respiratory tissue and epithelial lining fluid, which is why short courses can still cover atypical pulmonary pathogens."
+        },
+        {
+          "site": "Intracellular compartment",
+          "detail": "Excellent intracellular entry supports activity against Legionella, Mycoplasma, and Chlamydophila despite modest serum concentrations."
+        },
+        {
+          "site": "Bloodstream",
+          "detail": "Low serum levels are one reason azithromycin should not be the sole agent for severe pneumococcal or bacteremic CAP."
+        }
       ]
     },
     {
@@ -774,6 +1418,101 @@ export const CAP: DiseaseState = {
         "Food interaction nuance: Unlike tetracycline, doxycycline absorption is NOT significantly reduced by food (only ~20% reduction with dairy). You CAN take it with food to reduce nausea — this is a major tolerability advantage. The cation (Ca/Mg/Fe/Al) chelation still applies for supplements/antacids, but a normal meal is fine.",
         "The RMSF exception for children: Doxycycline is the DRUG OF CHOICE for suspected RMSF in ALL ages, including children <8 and pregnant women. The CDC, AAP, and IDSA are unanimous on this. Delayed treatment of RMSF kills. A short course of doxycycline does NOT cause tooth staining. Do not let the pediatric 'tetracycline rule' prevent life-saving treatment.",
         "Macrolide-resistant Mycoplasma: This is the emerging reason doxycycline is gaining favor over azithromycin for outpatient CAP. Macrolide-resistant Mycoplasma (>80% in parts of Asia, ~10-15% in US) is fully susceptible to doxycycline. As resistance rises, doxycycline will become the preferred atypical agent."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "CAP oral therapy or step-down",
+          "regimen": "100 mg IV/PO q12h",
+          "notes": "A useful non-fluoroquinolone oral option for atypical and some typical community pathogens."
+        },
+        {
+          "label": "Skin or MRSA-suspect outpatient infection",
+          "regimen": "100 mg PO q12h",
+          "notes": "Clinical fit depends on the organism and whether streptococcal coverage is also needed."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No dose adjustment is usually needed, which makes doxycycline an attractive oral option in renal dysfunction."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Standard dosing usually remains appropriate because renal elimination is limited."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Pregnancy or young children",
+          "guidance": "Avoid in pregnancy and use carefully in young children unless the syndrome truly warrants it."
+        },
+        {
+          "population": "Patients with pill esophagitis risk",
+          "guidance": "Counsel on taking it with water and remaining upright because adherence fails quickly when esophagitis develops."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; correct organism fit and oral adherence drive success.",
+        "sampling": "No therapeutic drug levels are used. Follow clinical response and tolerability.",
+        "adjustment": "If it fails in CAP, reassess pathogen fit and beta-lactam support rather than chasing higher doxycycline exposure."
+      },
+      "administration": {
+        "infusion": "IV dosing is available, but oral therapy is usually preferred once the gut works.",
+        "oralAbsorption": "High oral bioavailability makes IV-to-PO transition easy if cation interference is avoided.",
+        "note": "Separate from calcium, iron, magnesium, and other polyvalent cations."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "High oral bioavailability with reliable IV-to-PO conversion.",
+        "switchCriteria": "Switch to PO once the patient can absorb and cation timing can be managed.",
+        "note": "One of the easier oral continuation options when renal dysfunction makes other drugs less attractive."
+      },
+      "opatEligibility": {
+        "eligible": "no",
+        "administration": "Doxycycline is usually completed orally rather than through OPAT.",
+        "monitoring": "Focus on adherence, GI tolerance, and cation separation instead of infusion logistics.",
+        "considerations": [
+          "A useful oral off-ramp when the pathogen and syndrome fit."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Calcium, iron, magnesium, antacids, or tube feeds",
+          "effect": "Chelation can lower doxycycline absorption enough to weaken oral therapy.",
+          "management": "Separate from cations and feeds when oral success matters.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "May enhance anticoagulant effect in some patients.",
+          "management": "Increase INR monitoring during therapy changes.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Oral CAP continuation without fluoroquinolones",
+          "role": "A useful oral alternative when atypical coverage still matters and a fluoroquinolone is not desirable.",
+          "notes": "Pair with a beta-lactam when pneumococcal reliability matters."
+        },
+        {
+          "scenario": "Renal-friendly oral therapy",
+          "role": "Helpful when other oral options become awkward in renal dysfunction.",
+          "notes": "Do not ignore cation interactions or pregnancy restrictions."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Lung / intracellular compartment",
+          "detail": "Penetrates respiratory tissue and intracellular spaces well, supporting atypical CAP coverage and oral continuation once the patient stabilizes."
+        },
+        {
+          "site": "Skin / soft tissue",
+          "detail": "Useful soft-tissue exposure helps when CAP overlap with skin MRSA colonization history complicates oral step-down planning."
+        },
+        {
+          "site": "Urine",
+          "detail": "Urinary exposure is not dependable enough to make doxycycline a routine UTI agent even though it performs well in respiratory tissue."
+        }
       ]
     },
     {
@@ -813,6 +1552,101 @@ export const CAP: DiseaseState = {
         "Anaerobic coverage: Moxifloxacin is the ONLY fluoroquinolone with meaningful anaerobic activity. This is why it appears in some aspiration pneumonia regimens and intra-abdominal infection guidelines. However, this moderate anaerobic coverage is not as reliable as metronidazole or amp-sulbactam.",
         "Once-daily dosing with excellent oral bioavailability (~90%) and no food interaction makes moxifloxacin extremely convenient. IV-to-PO conversion is seamless — same dose, same frequency.",
         "In TB treatment: Moxifloxacin has a niche role in drug-resistant TB regimens and in the shortened TB-PRACTECAL and STREAM regimens. If you work in a setting with TB patients, know that moxi is a WHO Group A drug for MDR-TB treatment."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "CAP monotherapy or step-down",
+          "regimen": "400 mg IV/PO daily",
+          "notes": "Use when a respiratory fluoroquinolone is truly warranted and urinary activity is not the deciding issue."
+        },
+        {
+          "label": "Mixed respiratory infection with anaerobic signal",
+          "regimen": "400 mg IV/PO daily",
+          "notes": "Useful when respiratory fit matters more than urinary reach, but do not treat it as your UTI fluoroquinolone."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No renal dose adjustment is generally needed, which simplifies use in patients with reduced kidney function."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Standard daily dosing usually remains appropriate because renal clearance is limited."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "QTc prolongation, aneurysm risk, or significant steroid exposure",
+          "guidance": "Use only when the respiratory benefit is real because fluoroquinolone toxicity risk may outweigh convenience."
+        },
+        {
+          "population": "Patients with a urinary source question",
+          "guidance": "Do not choose moxifloxacin when urinary exposure matters because it is the least urinary-useful fluoroquinolone in this catalog."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; appropriate syndrome selection and toxicity review matter more than levels.",
+        "sampling": "No drug levels are standard. Follow ECG context and adverse-effect burden instead.",
+        "adjustment": "If therapy is failing, ask whether the pathogen or site actually needed a different respiratory backbone rather than more fluoroquinolone exposure."
+      },
+      "administration": {
+        "infusion": "IV moxifloxacin is typically infused over about 1 hour.",
+        "oralAbsorption": "High oral bioavailability makes IV-to-PO conversion straightforward if cation timing is managed.",
+        "note": "The once-daily schedule is convenient, but that is not a reason to ignore fluoroquinolone toxicity tradeoffs."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "High oral bioavailability with easy once-daily oral continuation.",
+        "switchCriteria": "Switch to PO once the patient can absorb and no major cation barrier exists.",
+        "note": "A convenient respiratory step-down drug, but not an all-purpose fluoroquinolone."
+      },
+      "opatEligibility": {
+        "eligible": "conditional",
+        "administration": "IV OPAT is possible, but oral completion is usually preferred because the oral formulation is strong and convenient.",
+        "monitoring": "Monitor QT risk, CNS effects, tendon symptoms, and whether cation separation is realistic at home.",
+        "considerations": [
+          "Prefer oral continuation over home IV infusion whenever the gut works."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Other QT-prolonging agents",
+          "effect": "Additive QT risk can turn a convenient once-daily drug into a high-risk option.",
+          "management": "Review ECG and electrolyte context before continuing combination therapy.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Calcium, iron, magnesium, antacids, or tube feeds",
+          "effect": "Chelation can lower oral exposure.",
+          "management": "Separate oral doses from cations and feeds.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Respiratory fluoroquinolone step-down",
+          "role": "Useful when a once-daily oral respiratory agent is genuinely the best fit.",
+          "notes": "Keep it away from urinary pathways where its site exposure is weaker."
+        },
+        {
+          "scenario": "Avoiding unnecessarily broad IV respiratory therapy",
+          "role": "Can shorten IV days when oral continuation is appropriate.",
+          "notes": "Use selectively because fluoroquinolone collateral damage remains real."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Lung / epithelial lining fluid",
+          "detail": "Excellent lung penetration is the main reason moxifloxacin works as a respiratory fluoroquinolone for CAP."
+        },
+        {
+          "site": "Sinus / respiratory tissue",
+          "detail": "High tissue exposure across the respiratory tract supports monotherapy when atypical and typical CAP pathogens both need coverage."
+        },
+        {
+          "site": "Urine",
+          "detail": "Urinary exposure is weaker than ciprofloxacin or levofloxacin, so moxifloxacin should not be repurposed as the fluoroquinolone of choice for UTI."
+        }
       ]
     },
     {
@@ -853,6 +1687,102 @@ export const CAP: DiseaseState = {
         "q6h dosing: The 6-hour dosing interval is important for time-dependent killing. Do not extend to q8h — you'll fall below the MIC target. This can be a nursing compliance challenge; advocate for consistent timing.",
         "For diabetic foot infections: Amp-sulbactam is an excellent empiric choice — covers streptococci, staphylococci (MSSA), gram-negatives, and anaerobes. Add vancomycin if MRSA risk is present.",
         "Seizure risk: Ampicillin (like all penicillins) can lower seizure threshold, especially at high doses in renal impairment. Adjust dose in renal failure to avoid accumulation. This is more relevant for amp-sulbactam than for piperacillin-tazobactam."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Aspiration pneumonia or mixed oral-flora infection",
+          "regimen": "3 g IV q6h",
+          "notes": "Best used when oral anaerobes, streptococci, and MSSA are the real drivers rather than resistant hospital gram-negatives."
+        },
+        {
+          "label": "Biliary infection or lower-risk community intra-abdominal infection",
+          "regimen": "3 g IV q6h",
+          "notes": "Only keep it definitive when local Enterobacterales susceptibility still supports the choice."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Use renally adjusted dosing with post-hemodialysis redosing because both accumulation and missed supplements can cause avoidable harm."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Many CRRT patients still need q6-8h exposure, especially when the syndrome is severe and source control is still evolving."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "High Enterobacterales burden or prior ESBL history",
+          "guidance": "Do not stretch ampicillin-sulbactam into definitive therapy when the patient or prior cultures point toward resistant gram-negatives."
+        },
+        {
+          "population": "Fluid-sensitive patients",
+          "guidance": "The q6h sodium and line-access burden matters more during prolonged therapy, so move to a simpler definitive regimen once cultures allow it."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; success depends on source selection, interval optimization, and prompt narrowing once cultures return.",
+        "sampling": "No drug levels are standard. Follow renal function, WBC trend, and whether the clinical syndrome still justifies this spectrum.",
+        "adjustment": "If the patient is not improving, reassess source control and resistance risk before reflexively adding more anaerobic or gram-positive coverage."
+      },
+      "administration": {
+        "infusion": "Intermittent infusion over 30 minutes is standard, though extended infusion can be used in selected critically ill patients.",
+        "compatibility": "Separate from aminoglycosides when feasible because beta-lactam and aminoglycoside co-mingling in lines can be problematic.",
+        "note": "There is no oral equivalent; discharge planning should focus on amoxicillin-clavulanate or another targeted oral option when appropriate."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral ampicillin-sulbactam formulation exists.",
+        "switchCriteria": "Leave IV ampicillin-sulbactam once the patient is clinically improving and an active oral option such as amoxicillin-clavulanate or a culture-directed alternative is available.",
+        "note": "Do not keep q6h IV therapy on the discharge plan just because aspiration coverage was useful on day 1."
+      },
+      "opatEligibility": {
+        "eligible": "conditional",
+        "administration": "OPAT is possible, but q6h dosing or continuous-infusion logistics are more cumbersome than ceftriaxone- or ertapenem-based plans.",
+        "monitoring": "Weekly CBC and renal function are the minimum; confirm that the syndrome still needs this mixed-flora spectrum before building home infusion around it.",
+        "considerations": [
+          "Reasonable when aspiration, oral flora, or biliary infection truly remain the ongoing target.",
+          "Poor OPAT anchor once resistant Enterobacterales become the dominant concern."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Probenecid",
+          "effect": "Raises ampicillin and sulbactam exposure by reducing renal tubular secretion.",
+          "management": "Avoid the combination rather than trying to use probenecid to rescue underdosing.",
+          "severity": "monitor"
+        },
+        {
+          "interactingAgent": "Allopurinol",
+          "effect": "May increase the frequency of aminopenicillin-associated rash and confuse whether the patient has a true allergy.",
+          "management": "If a rash appears, document the context carefully before labeling the patient penicillin-allergic.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Aspiration and oral-flora driven infection",
+          "role": "Ampicillin-sulbactam is a focused alternative to broader antipseudomonal therapy when aspiration biology is the real story.",
+          "notes": "Its value falls quickly when resistant hospital gram-negatives take over the differential."
+        },
+        {
+          "scenario": "De-escalation away from pip-tazo or carbapenems",
+          "role": "A strong narrowing option when cultures and syndrome confirm it still covers the true pathogens.",
+          "notes": "Do not use it as a comfort blanket when ESBL or AmpC risk remains unresolved."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Lung / aspiration tissue",
+          "detail": "Provides reliable exposure in aspiration pneumonia and mixed upper-airway inoculation where oral flora and streptococci matter."
+        },
+        {
+          "site": "Pleural / soft tissue",
+          "detail": "Useful thoracic and adjacent soft-tissue penetration supports treatment when aspiration is complicated by empyema or necrotizing change after drainage."
+        },
+        {
+          "site": "CSF",
+          "detail": "Central nervous system penetration is limited outside inflamed meninges, so it should not be treated as a meningitis beta-lactam."
+        }
       ]
     }
   ]

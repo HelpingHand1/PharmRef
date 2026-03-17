@@ -112,6 +112,32 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "notes": "Empiric first-line for SAB until MSSA vs MRSA is determined. AUC-guided dosing is now the standard (2020 consensus) — replaces trough-based dosing. Typical loading dose: 25-30 mg/kg (actual body weight), then maintenance guided by AUC. CRITICAL: once susceptibilities return, de-escalate MSSA to cefazolin/nafcillin immediately — vancomycin is INFERIOR to beta-lactams for MSSA (slower bacteremia clearance, higher mortality in some studies).",
               "evidence": "A-I",
               "evidenceSource": "AHA 2015 IE Guideline",
+              "plan": {
+                "regimen": "Vancomycin IV (AUC/MIC target 400-600)",
+                "indication": "Empiric S. aureus bacteremia",
+                "site": "Bloodstream",
+                "role": "preferred",
+                "rationale": "Empiric SAB anchor while MSSA versus MRSA is unresolved, with a planned beta-lactam exit if MSSA is confirmed.",
+                "pathogenFocus": [
+                  "MSSA",
+                  "MRSA"
+                ],
+                "riskFactorTriggers": [
+                  "Any initial S. aureus bacteremia before susceptibilities are back"
+                ],
+                "avoidIf": [
+                  "MSSA is confirmed and beta-lactams are safe"
+                ],
+                "renalFlags": [
+                  "AUC-guided dosing with daily renal trend review"
+                ],
+                "rapidDiagnosticActions": [
+                  "Switch to cefazolin or nafcillin the same day MSSA is reported"
+                ],
+                "linkedMonographIds": [
+                  "vancomycin"
+                ]
+              },
               "monographId": "vancomycin",
               "evidenceSourceIds": [
                 "aha-2015-ie"
@@ -124,6 +150,27 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "notes": "Alternative empiric agent when vancomycin cannot be used (allergy, intolerance, renal toxicity). Use ≥8 mg/kg for suspected endocarditis or complicated infections. Rapidly bactericidal. CONTRAINDICATED in pneumonia (surfactant inactivation). If MSSA returns, still de-escalate to beta-lactam.",
               "evidence": "B-II",
               "evidenceSource": "AHA 2015 IE Guideline",
+              "plan": {
+                "regimen": "Daptomycin 6-10 mg/kg IV once daily",
+                "indication": "Empiric S. aureus bacteremia when vancomycin is unsuitable",
+                "site": "Bloodstream",
+                "role": "alternative",
+                "rationale": "Alternative SAB anchor for allergy, nephrotoxicity, or vancomycin intolerance while awaiting susceptibilities.",
+                "pathogenFocus": [
+                  "MSSA",
+                  "MRSA"
+                ],
+                "riskFactorTriggers": [
+                  "Vancomycin intolerance or nephrotoxicity",
+                  "Need rapidly bactericidal non-vancomycin option"
+                ],
+                "avoidIf": [
+                  "Concomitant pneumonia is the dominant syndrome"
+                ],
+                "linkedMonographIds": [
+                  "daptomycin"
+                ]
+              },
               "monographId": "daptomycin",
               "evidenceSourceIds": [
                 "aha-2015-ie"
@@ -141,6 +188,28 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "notes": "PREFERRED agent for MSSA bacteremia and MSSA IE (native valve). Multiple observational studies and meta-analyses show non-inferiority or superiority to nafcillin/oxacillin with fewer adverse effects (less nephrotoxicity, less hepatotoxicity, less phlebitis). Q8h dosing is practical for OPAT. Duration: 14 days for uncomplicated SAB, 4-6 weeks for IE or complicated SAB.",
               "evidence": "A-I",
               "evidenceSource": "AHA 2015 IE Guideline",
+              "plan": {
+                "regimen": "Cefazolin 2g IV q8h",
+                "indication": "MSSA bacteremia",
+                "site": "Bloodstream",
+                "role": "preferred",
+                "rationale": "Default definitive MSSA bacteremia and endocarditis therapy because it is safer and operationally cleaner than q4h nafcillin for most patients.",
+                "pathogenFocus": [
+                  "MSSA"
+                ],
+                "riskFactorTriggers": [
+                  "MSSA confirmed on blood culture susceptibility"
+                ],
+                "avoidIf": [
+                  "Severe immediate cephalosporin allergy"
+                ],
+                "renalFlags": [
+                  "Renally adjust during prolonged therapy but no TDM is needed"
+                ],
+                "linkedMonographIds": [
+                  "cefazolin"
+                ]
+              },
               "monographId": "cefazolin",
               "evidenceSourceIds": [
                 "aha-2015-ie"
@@ -153,6 +222,26 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "notes": "Historical gold standard for MSSA. Still used by some ID physicians who prefer the rapid bactericidal activity and high-dose continuous infusion data. Disadvantages: q4h dosing (impractical for OPAT), significant phlebitis, oxacillin hepatotoxicity, nafcillin-associated interstitial nephritis. Most centers have transitioned to cefazolin. Reserve for cefazolin allergy (severe cephalosporin allergy — rare) or treatment failure on cefazolin (extremely rare).",
               "evidence": "A-I",
               "evidenceSource": "AHA 2015 IE Guideline",
+              "plan": {
+                "regimen": "Nafcillin or Oxacillin 2g IV q4h",
+                "indication": "MSSA bacteremia",
+                "site": "Bloodstream",
+                "role": "alternative",
+                "rationale": "Traditional definitive MSSA option when a team specifically prefers antistaphylococcal penicillins or cefazolin is unsuitable.",
+                "pathogenFocus": [
+                  "MSSA"
+                ],
+                "riskFactorTriggers": [
+                  "MSSA confirmed and cefazolin is not the right fit"
+                ],
+                "avoidIf": [
+                  "Practical OPAT constraints",
+                  "Significant hepatotoxicity or nephritis history"
+                ],
+                "linkedMonographIds": [
+                  "nafcillin"
+                ]
+              },
               "evidenceSourceIds": [
                 "aha-2015-ie"
               ],
@@ -167,6 +256,29 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "drug": "vancomycin",
               "regimen": "Vancomycin IV (AUC/MIC 400-600)",
               "notes": "Standard of care for MRSA bacteremia. AUC-guided dosing with Bayesian software is preferred. If vancomycin MIC ≥2 by broth microdilution (≥2 by E-test is less reliable), consider switching to daptomycin — treatment failure risk increases with higher MICs (MIC creep). Do NOT add rifampicin routinely (ARREST trial — no benefit, added toxicity). Duration: 14 days minimum for uncomplicated, 4-6 weeks for IE/complicated.",
+              "plan": {
+                "regimen": "Vancomycin IV (AUC/MIC 400-600)",
+                "indication": "MRSA bacteremia",
+                "site": "Bloodstream",
+                "role": "preferred",
+                "rationale": "Standard MRSA bacteremia therapy when AUC can be maintained safely and cultures are clearing.",
+                "pathogenFocus": [
+                  "MRSA"
+                ],
+                "riskFactorTriggers": [
+                  "MRSA confirmed and vancomycin remains clinically viable"
+                ],
+                "avoidIf": [
+                  "Persistent bacteremia",
+                  "Vancomycin MIC creep or nephrotoxicity"
+                ],
+                "renalFlags": [
+                  "Maintain AUC in range and track renal function closely"
+                ],
+                "linkedMonographIds": [
+                  "vancomycin"
+                ]
+              },
               "monographId": "vancomycin",
               "id": "bacteremia-endocarditis/sab-workup/mrsa-definitive-therapy/vancomycin-1"
             },
@@ -174,6 +286,27 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "drug": "daptomycin",
               "regimen": "Daptomycin 8-10 mg/kg IV once daily",
               "notes": "Preferred alternative to vancomycin for MRSA bacteremia when: vancomycin MIC ≥2, vancomycin intolerance/nephrotoxicity, persistent bacteremia on vancomycin >3-5 days. Dose at ≥8 mg/kg for bacteremia (6 mg/kg is the IE/bacteremia approved dose but many experts go higher). Monitor CPK weekly. If daptomycin MIC ≥2-4, consider ceftaroline or salvage regimens.",
+              "plan": {
+                "regimen": "Daptomycin 8-10 mg/kg IV once daily",
+                "indication": "MRSA bacteremia",
+                "site": "Bloodstream",
+                "role": "alternative",
+                "rationale": "Preferred MRSA bacteremia alternative when vancomycin is failing, not tolerated, or unlikely to reach a safe exposure target.",
+                "pathogenFocus": [
+                  "MRSA"
+                ],
+                "riskFactorTriggers": [
+                  "Vancomycin MIC >=2",
+                  "Persistent bacteremia on vancomycin",
+                  "Nephrotoxicity"
+                ],
+                "avoidIf": [
+                  "Pneumonia is the dominant active syndrome"
+                ],
+                "linkedMonographIds": [
+                  "daptomycin"
+                ]
+              },
               "monographId": "daptomycin",
               "id": "bacteremia-endocarditis/sab-workup/mrsa-definitive-therapy/daptomycin-2"
             }
@@ -226,6 +359,103 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         "ARREST TRIAL SETTLED THE RIFAMPICIN DEBATE: Do NOT add rifampicin to standard SAB therapy. The ARREST trial (758 patients, RCT) showed no benefit and added toxicity/drug interactions. Reserve rifampicin for prosthetic material infections only (prosthetic valve IE, prosthetic joint infections).",
         "CAMERA2 KILLED COMBINATION THERAPY FOR MRSA: Do NOT routinely add a beta-lactam (cefazolin/flucloxacillin) to vancomycin for MRSA bacteremia. CAMERA2 was stopped early for safety — more AKI without mortality benefit. Despite promising in vitro synergy, the clinical data says no.",
         "PERSISTENT BACTEREMIA DEFINITION: Blood cultures still positive at 72+ hours despite appropriate antibiotics AND source control. For S. aureus, persistent BSI should prompt: (1) repeat imaging for occult foci, (2) TEE if not done, (3) consider switching from vancomycin to daptomycin for MRSA, (4) evaluate for endocarditis complications (abscess, fistula)."
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Every Staphylococcus aureus bacteremia needs repeat blood cultures, a source search, and endocarditis screening logic from day 1.",
+        "bullets": [
+          "Track time to culture clearance explicitly rather than assuming one negative set is enough."
+        ]
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Persistent bacteremia, hemodynamic instability, metastatic infection, prosthetic material, or embolic phenomena should be treated as complicated SAB until proven otherwise."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Prior MRSA, recent antibiotics, hemodialysis, injection-drug use, and healthcare exposure mainly determine whether vancomycin or alternative MRSA-active therapy is needed while the phenotype is pending."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Remove infected lines, drain metastatic foci, and inspect for spine, joint, hardware, or endovascular seeding early."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "The highest-value stewardship move in SAB is rapid MSSA de-escalation from vancomycin to cefazolin or nafcillin as soon as susceptibility allows."
+      },
+      "ivToPoPlan": {
+        "status": "not_applicable",
+        "summary": "Routine early oral step-down is not the default in SAB until the patient clearly meets a low-risk, source-controlled framework."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "If cultures stay positive beyond 48-72 hours, assume a source-control or endovascular problem until proven otherwise."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "ID consultation is effectively standard of care for SAB because it improves bundle adherence and outcomes."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Start counting only after the first negative follow-up culture and after any removable source has been controlled."
+      },
+      "rapidDiagnostics": [
+        {
+          "trigger": "Rapid blood culture identification confirms MSSA",
+          "action": "Switch from vancomycin to cefazolin or nafcillin the same day unless a serious beta-lactam contraindication exists.",
+          "rationale": "This is one of the highest-value pharmacist interventions in bloodstream infection because beta-lactams outperform vancomycin for MSSA bacteremia."
+        },
+        {
+          "trigger": "Follow-up blood cultures remain positive 48-72 hours after active therapy begins",
+          "action": "Treat the case as complicated SAB until proven otherwise and intensify the search for endocarditis, removable hardware, or metastatic foci.",
+          "rationale": "Persistent bacteremia is a microbiologic red flag for uncontrolled source rather than a signal to simply keep the same regimen longer."
+        }
+      ],
+      "breakpointNotes": [
+        {
+          "marker": "Single positive blood culture bottle with S. aureus",
+          "interpretation": "S. aureus in blood should be treated as clinically meaningful rather than dismissed as contamination.",
+          "action": "Start the full SAB workup even if the patient initially appears well."
+        },
+        {
+          "marker": "Vancomycin MIC and PK target",
+          "interpretation": "A 'susceptible' MRSA isolate still requires AUC-guided exposure and close source-control review to clear bacteremia reliably.",
+          "action": "Do not confuse in vitro susceptibility with permission to ignore clearance cultures or an early alternative-agent discussion."
+        }
+      ],
+      "intrinsicResistance": [
+        {
+          "organism": "MSSA",
+          "resistance": "Vancomycin is microbiologically active but clinically inferior to antistaphylococcal beta-lactams for bloodstream infection.",
+          "implication": "De-escalate to cefazolin or nafcillin immediately once MSSA is confirmed."
+        },
+        {
+          "organism": "Enterococcus species",
+          "resistance": "Cephalosporins are intrinsically inactive against Enterococcus.",
+          "implication": "If the blood culture ID shifts away from S. aureus toward Enterococcus, leave the SAB pathway and choose enterococcal therapy."
+        }
+      ],
+      "coverageMatrix": [
+        {
+          "label": "Confirmed MSSA bacteremia",
+          "status": "preferred",
+          "detail": "Cefazolin or nafcillin is the definitive path once susceptibilities are known."
+        },
+        {
+          "label": "Confirmed MRSA bacteremia",
+          "status": "active",
+          "detail": "Vancomycin or daptomycin remains appropriate while clearance cultures and source control are tracked closely."
+        },
+        {
+          "label": "Persistent positive cultures after active therapy",
+          "status": "conditional",
+          "detail": "Escalate the workup for endocarditis, deep infection, and removable devices rather than simply extending the same plan."
+        },
+        {
+          "label": "Polymicrobial or non-staphylococcal bloodstream infection",
+          "status": "avoid",
+          "detail": "Do not keep using the SAB algorithm once organism identification shows a different syndrome."
+        }
       ]
     },
     {
@@ -388,7 +618,43 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         "ORAL STEP-DOWN (POET TRIAL): After ≥10 days of IV therapy + clinical stability (afebrile, CRP decreasing, no signs of complications), selected patients with left-sided IE can switch to high-dose oral therapy. Key exclusions: prosthetic valve IE <1 year, aortic root abscess, large vegetations, severe valve dysfunction. Oral regimens must be HIGH-DOSE (e.g., amoxicillin 1g q6h, not standard doses). This is not permission to send everyone home on oral amoxicillin at day 10.",
         "RIGHT-SIDED IE IN IDU: Tricuspid valve IE (predominantly S. aureus) in IDU can often be treated for 2 weeks (if MSSA, no metastatic infection, and vegetation <2cm) — this is a well-established shorter duration. Right-sided IE generally has better prognosis than left-sided. However, the opioid epidemic has complicated this — patients often leave AMA, relapse, and present with recurrent IE.",
         "CULTURE-NEGATIVE ENDOCARDITIS: ~10% of IE cases have negative blood cultures. Causes: prior antibiotics (most common — always try to get cultures BEFORE antibiotics), fastidious organisms (HACEK, Bartonella, Coxiella burnetii, Tropheryma whipplei, Brucella), non-bacterial thrombotic endocarditis (marantic endocarditis in malignancy or antiphospholipid syndrome). Serologies for Bartonella and Coxiella should be sent in all culture-negative IE. 16S rRNA PCR on explanted valve tissue is definitive."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Secure multiple blood culture sets before antibiotics when possible and define Duke-ISCVID plus echo data early."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Heart failure, conduction abnormalities, embolic events, persistent bacteremia, or large/mobile vegetations mark a high-risk native-valve course."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Healthcare exposure, prior MRSA, prosthetic material elsewhere, and prior resistant enterococci or gram-negatives affect empiric therapy while cultures are pending."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Valve surgery, drainage of embolic foci, and device management are the source-control equivalents in endocarditis."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "Once the pathogen and valve anatomy are known, simplify to the most definitive narrow regimen and stop unnecessary combination coverage."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Oral step-down is reserved for carefully selected, stabilized patients who resemble POET-type criteria and still need multidisciplinary agreement."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Persistent fevers or bacteremia should trigger repeat imaging, surgical review, and metastatic focus search before empiric antibiotic escalation."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Endocarditis-team or combined ID/cardiology/cardiac-surgery involvement should happen early, not after the first complication."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count from the first day of documented bloodstream clearance on an active regimen, not from the day the murmur was found."
+      }
     },
     {
       "id": "prosthetic-valve-ie",
@@ -467,7 +733,43 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         "EARLY vs LATE PVE: Early PVE (<12 months) = healthcare-associated organisms (CoNS, S. aureus, gram-negatives, fungi). Late PVE (>12 months) = community-acquired organisms (Streptococci, Enterococci, S. aureus). This distinction guides empiric therapy.",
         "NEW HEART BLOCK = SEPTAL ABSCESS UNTIL PROVEN OTHERWISE: Any new conduction abnormality (PR prolongation, bundle branch block, complete heart block) in PVE suggests the infection has extended into the septum. This is a SURGICAL EMERGENCY — get CT surgery involved immediately.",
         "PET/CT IS A GAME-CHANGER FOR PVE: When TTE/TEE are equivocal (common with prosthetic valves due to acoustic shadowing), FDG-PET/CT can identify perivalvular infection with high specificity. Now a formal Duke major criterion (2023 update). Best used >3 months post-surgery to avoid false positives from post-operative inflammation."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Get repeated blood cultures plus multimodality imaging early because prosthetic material lowers the sensitivity of routine echo alone."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "New heart block, peri-annular extension, decompensated valve function, persistent bacteremia, or embolic events mark urgent prosthetic-valve disease."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Prior healthcare exposure, prior resistant staphylococci or enterococci, and recent valve procedures should strongly shape empiric coverage."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Surgical evaluation is part of initial management because source control may ultimately mean prosthesis replacement, not just antibiotics."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "Once cultures clarify the pathogen, remove unnecessary empiric breadth but keep the prosthetic-material strategy aligned with the confirmed organism."
+      },
+      "ivToPoPlan": {
+        "status": "not_applicable",
+        "summary": "Most prosthetic-valve IE remains an IV, procedure-heavy disease and is not a routine early oral-step-down scenario."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Ongoing bacteremia or worsening conduction/valve function should be treated as evidence that medical therapy alone may be insufficient."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Early cardiac surgery, cardiology, and ID partnership is mandatory because delays change mortality."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Duration starts from culture clearance on an active regimen, but any operative reset or uncontrolled peri-annular infection can effectively restart the treatment clock."
+      }
     },
     {
       "id": "gram-negative-bacteremia",
@@ -483,6 +785,30 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "drug": "ceftriaxone",
               "regimen": "Ceftriaxone 2g IV daily",
               "notes": "Excellent first-line empiric for community-acquired GN bacteremia from urinary or intra-abdominal source. Covers most community E. coli, Klebsiella, Proteus. Does NOT cover ESBL producers, AmpC producers (Enterobacter, Citrobacter, Serratia), or Pseudomonas. Add metronidazole if intra-abdominal source suspected (anaerobic coverage).",
+              "plan": {
+                "regimen": "Ceftriaxone 2g IV daily",
+                "indication": "Community-acquired gram-negative bacteremia",
+                "site": "Bloodstream",
+                "role": "preferred",
+                "rationale": "Default empiric bloodstream option for urinary or abdominal Enterobacterales when resistance risk is low.",
+                "pathogenFocus": [
+                  "E. coli",
+                  "Klebsiella",
+                  "Proteus"
+                ],
+                "riskFactorTriggers": [
+                  "Community source",
+                  "Low ESBL and Pseudomonas risk"
+                ],
+                "avoidIf": [
+                  "ESBL or AmpC history",
+                  "Pseudomonas concern",
+                  "Need anaerobic coverage without metronidazole partner"
+                ],
+                "linkedMonographIds": [
+                  "ceftriaxone"
+                ]
+              },
               "monographId": "ceftriaxone",
               "id": "bacteremia-endocarditis/gram-negative-bacteremia/empiric-community-acquired-low-resistance-risk/ceftriaxone-1"
             }
@@ -495,12 +821,61 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "drug": "piperacillin-tazobactam",
               "regimen": "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)",
               "notes": "Broader empiric coverage including Pseudomonas. Extended infusion optimizes PK/PD for beta-lactams. Consider if recent healthcare exposure, prior resistant organisms, or immunocompromised. MERINO trial reminder: for ESBL bacteremia, pip-tazo was INFERIOR to meropenem (30-day mortality 12.3% vs 3.7%). De-escalate based on susceptibilities.",
+              "plan": {
+                "regimen": "Piperacillin-tazobactam 4.5g IV q6h (extended infusion over 4h)",
+                "indication": "Healthcare-associated gram-negative bacteremia",
+                "site": "Bloodstream",
+                "role": "preferred",
+                "rationale": "Broader bacteremia anchor when Pseudomonas or healthcare-associated resistance risk is present but carbapenem need is not yet proven.",
+                "pathogenFocus": [
+                  "Pseudomonas",
+                  "Healthcare-associated Enterobacterales"
+                ],
+                "riskFactorTriggers": [
+                  "Recent healthcare exposure",
+                  "Prior resistant organisms short of ESBL certainty"
+                ],
+                "avoidIf": [
+                  "ESBL bacteremia is strongly suspected or confirmed"
+                ],
+                "renalFlags": [
+                  "Extended infusion plus renal adjustment matter in severe bacteremia"
+                ],
+                "linkedMonographIds": [
+                  "pip-tazo"
+                ]
+              },
               "id": "bacteremia-endocarditis/gram-negative-bacteremia/empiric-healthcare-associated-or-mdr-risk-factor/piperacillin-tazobactam-1"
             },
             {
               "drug": "meropenem",
               "regimen": "Meropenem 1g IV q8h (extended infusion over 3h preferred)",
               "notes": "Reserve for high suspicion of ESBL or AmpC-producing organisms, or critically ill patients. Definitive therapy for confirmed ESBL bacteremia (per MERINO trial). De-escalate as soon as susceptibilities allow — carbapenem stewardship matters.",
+              "plan": {
+                "regimen": "Meropenem 1g IV q8h (extended infusion over 3h preferred)",
+                "indication": "Healthcare-associated gram-negative bacteremia with ESBL risk",
+                "site": "Bloodstream",
+                "role": "preferred",
+                "rationale": "Definitive-quality empiric choice when ESBL risk or critical illness makes pip-tazo too unreliable.",
+                "pathogenFocus": [
+                  "ESBL Enterobacterales",
+                  "Broad gram-negative bloodstream pathogens"
+                ],
+                "riskFactorTriggers": [
+                  "Prior ESBL isolate",
+                  "Critical illness",
+                  "Rapid diagnostics suggesting resistant Enterobacterales"
+                ],
+                "avoidIf": [
+                  "Cultures support ceftriaxone or pip-tazo de-escalation"
+                ],
+                "renalFlags": [
+                  "Extended infusion and renal replacement dosing both affect bloodstream exposure"
+                ],
+                "linkedMonographIds": [
+                  "meropenem"
+                ]
+              },
               "monographId": "meropenem",
               "id": "bacteremia-endocarditis/gram-negative-bacteremia/empiric-healthcare-associated-or-mdr-risk-factor/meropenem-2"
             }
@@ -555,6 +930,100 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         "SOURCE CONTROL IS THE MOST IMPORTANT INTERVENTION: Antibiotics alone cannot cure bacteremia if the source is undrained. Obstructed kidney → percutaneous nephrostomy. Cholangitis → ERCP. Abscess → drain it. Line infection → pull the line. Always address the source.",
         "IV-TO-ORAL STEP-DOWN IS SAFE: For GN bacteremia from a urinary source, early oral step-down (at 48-72h if clinically improving, afebrile, tolerating PO) is supported by multiple studies and the IDSA 2025 cUTI guideline. Use agents with high oral bioavailability: fluoroquinolones, TMP-SMX. Do not keep patients on unnecessary IV therapy.",
         "FOLLOW-UP BLOOD CULTURES FOR GN BSI: Not as rigidly mandated as for SAB, but recommended for: Pseudomonas, CRE, immunocompromised patients, persistent fever, and when source control is uncertain. Documentation of clearance helps determine duration."
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Identify the source, obtain repeat cultures only when clinically indicated, and confirm whether this is an uncomplicated urinary/intra-abdominal bacteremia or something more complex."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Shock, uncontrolled source, endovascular concern, persistent bacteremia, or severe immunocompromise remove the patient from a routine short-course BSI pathway."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Recent antibiotics, prior ESBL or CRE, healthcare exposure, and device burden are the main determinants of empiric gram-negative breadth."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Remove infected catheters, decompress urinary obstruction, drain abscesses, and control the source early because bacteremia duration follows source control."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "Once susceptibilities finalize, drop to the narrowest active agent and transition off carbapenems or anti-pseudomonal therapy quickly when the organism allows."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Oral step-down is appropriate after hemodynamic recovery, source control, bloodstream clearance when indicated, and confirmation of a reliable high-bioavailability oral option."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Persistent fever or bacteremia should trigger source-control reassessment and resistance review before automatically labeling it a 'long-course bacteremia.'"
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Consult ID for ESBL/CRE, persistent bacteremia, unclear source, or suspected endovascular seeding."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count from the first active regimen after source control is achieved; uncomplicated bacteremic UTI does not need a prolonged reflex course."
+      },
+      "rapidDiagnostics": [
+        {
+          "trigger": "Blood culture panel identifies ESBL, AmpC-risk Enterobacterales, or carbapenemase production",
+          "action": "Move promptly to cefepime, meropenem, or phenotype-specific reserve therapy instead of waiting for the next day's finalized AST.",
+          "rationale": "Early mechanism-aware narrowing is the difference between appropriate stewardship and delayed effective therapy in gram-negative bacteremia."
+        },
+        {
+          "trigger": "Cultures clear quickly and a high-bioavailability oral option is susceptible",
+          "action": "Plan oral step-down early rather than defaulting to a prolonged IV or OPAT course.",
+          "rationale": "Modern gram-negative bacteremia data support shorter courses and oral completion when the source is controlled."
+        }
+      ],
+      "breakpointNotes": [
+        {
+          "marker": "Ceftriaxone nonsusceptibility in Enterobacterales",
+          "interpretation": "This should raise immediate concern for ESBL production and make ceftriaxone a poor definitive choice for serious bacteremia.",
+          "action": "Move to a more reliable agent while mechanism and source details are clarified."
+        },
+        {
+          "marker": "Oral switch susceptibility",
+          "interpretation": "TMP-SMX or a fluoroquinolone supports oral completion only when the isolate is susceptible and the patient is clinically stable.",
+          "action": "Do not interpret a marginal oral option as permission to discharge before source control and clearance are confirmed."
+        }
+      ],
+      "intrinsicResistance": [
+        {
+          "organism": "AmpC-risk Enterobacterales (Enterobacter cloacae, Klebsiella aerogenes, Citrobacter freundii)",
+          "resistance": "Third-generation cephalosporins can select derepressed AmpC production during therapy.",
+          "implication": "Prefer cefepime or a carbapenem for serious bacteremia when this phenotype is in play."
+        },
+        {
+          "organism": "CRE",
+          "resistance": "Standard ceftriaxone, cefepime, or carbapenem monotherapy may be functionally inactive depending on the carbapenemase mechanism.",
+          "implication": "Exit the routine gram-negative bacteremia pathway and use the resistant-phenotype guidance once CRE is identified."
+        }
+      ],
+      "coverageMatrix": [
+        {
+          "label": "Susceptible urinary-source Enterobacterales bacteremia",
+          "status": "preferred",
+          "detail": "Ceftriaxone with early oral TMP-SMX or fluoroquinolone step-down is often enough once the source is controlled."
+        },
+        {
+          "label": "AmpC-risk phenotype",
+          "status": "conditional",
+          "detail": "Cefepime or meropenem is usually safer than third-generation cephalosporins for definitive therapy."
+        },
+        {
+          "label": "ESBL phenotype",
+          "status": "conditional",
+          "detail": "Use a carbapenem initially and step down orally only if a truly active high-bioavailability option exists."
+        },
+        {
+          "label": "CRE phenotype",
+          "status": "avoid",
+          "detail": "Routine bloodstream regimens are no longer adequate once CRE is identified."
+        }
       ]
     },
     {
@@ -626,7 +1095,43 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         "PICC LINE COMPLICATIONS: DVT (2-5% per PICC), CLABSI (0.5-2 per 1000 catheter-days), mechanical complications (occlusion, migration, fracture). Midline catheters have lower DVT risk but shorter dwell time and cannot be used for vesicant drugs. For short courses (<14 days), consider midline over PICC.",
         "OPAT FOR IDU PATIENTS: Active IDU is NOT an absolute contraindication to OPAT, but requires careful risk-benefit discussion and harm reduction approach. Options: (1) Daily observed therapy at infusion center, (2) Long-acting lipoglycopeptides (dalbavancin q2 weeks — emerging data), (3) Oral step-down per POET criteria if applicable, (4) Extended hospitalization with addiction medicine support. A one-size-fits-all approach fails these patients.",
         "ERTAPENEM IS YOUR FRIEND: The only once-daily carbapenem, making it ideal for OPAT when ESBL or complex polymicrobial coverage is needed. Does NOT cover Pseudomonas — always confirm susceptibilities before OPAT discharge."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Before OPAT, confirm the source is controlled, the organism is defined, and the discharge monitoring plan is as explicit as the antibiotic order."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Unstable renal function, unresolved bacteremia, unreliable access, or inability to obtain follow-up labs means OPAT is not yet safe."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Restricted agents, prior resistant organisms, and complex devices increase the need for tighter monitoring and early follow-up after discharge."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "No OPAT plan is safe until the removable source has been handled or a durable management strategy is in place."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "Use OPAT handoff as another stewardship timeout: can the regimen narrow further, move to PO, or shorten based on response and cultures?"
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "The cleanest OPAT intervention is often not IV at all: use POET/OVIVA-style oral completion when the syndrome and organism truly support it."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Any missed labs, worsening symptoms, line complications, or rising inflammatory markers should trigger rapid re-evaluation rather than silent outpatient drift."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "ID, OPAT pharmacy, and the receiving team should all agree on labs, line care, and stop date before discharge."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Anchor duration to the same inpatient rules: active therapy plus source control and culture clearance, not simply 'weeks from discharge.'"
+      }
     }
   ],
   "drugMonographs": [
@@ -663,6 +1168,102 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         "WARFARIN INTERACTION IS UNIQUE: Most antibiotics increase INR by disrupting gut flora vitamin K synthesis. Nafcillin does the OPPOSITE — it induces CYP enzymes and DECREASES INR. This catches many clinicians off guard. Monitor INR closely, and be aware that the effect reverses when nafcillin is stopped (INR may rebound upward).",
         "CONTINUOUS INFUSION FOR ENDOCARDITIS: Nafcillin (and oxacillin) can be administered as continuous infusion (12g in 24h via pump). This maximizes fT>MIC and is preferred by some ID physicians for endocarditis. Practical for OPAT with elastomeric pumps.",
         "NEUTROPENIA ON PROLONGED COURSES: ~5-15% incidence with courses >2 weeks. Mechanism is likely immune-mediated. Reversible upon discontinuation. Monitor CBC weekly. If ANC drops, consider switching to cefazolin (lower neutropenia risk)."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "MSSA bacteremia or endocarditis",
+          "regimen": "2 g IV q4h",
+          "notes": "Use when MSSA is confirmed and frequent dosing is operationally feasible."
+        },
+        {
+          "label": "MSSA CNS infection",
+          "regimen": "2 g IV q4h",
+          "notes": "One of the scenarios where nafcillin still has a practical edge over cefazolin."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Renal failure alone does not usually drive dose reduction, but dialysis patients still need close sodium, volume, and hepatotoxicity review during prolonged courses."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Standard aggressive MSSA dosing is often still used because hepatic clearance dominates, but clinical response and line burden should be reviewed frequently."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Heart failure, cirrhosis, or volume-sensitive patients",
+          "guidance": "The sodium load and q4h administration burden can become the reason cefazolin is operationally safer."
+        },
+        {
+          "population": "Prolonged therapy",
+          "guidance": "Neutropenia, hepatitis, and phlebitis become more relevant after the first week, so lab surveillance matters even when the infection is clearly improving."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; the important endpoints are bacteremia clearance, hepatic safety, and whether the syndrome truly requires nafcillin over cefazolin.",
+        "sampling": "No drug levels are standard. Follow CBC, LFTs, potassium, and culture clearance.",
+        "adjustment": "If toxicity or logistics are getting in the way and the syndrome is not CNS MSSA or an equivalent edge case, move to cefazolin."
+      },
+      "administration": {
+        "infusion": "Often given as intermittent q4h infusions; continuous infusion can be used in selected OPAT programs.",
+        "compatibility": "Dedicated access is often helpful because frequent doses and line irritation complicate shared-line workflows.",
+        "note": "Nafcillin wins on microbiology in some MSSA scenarios, but it rarely wins on operational simplicity."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral equivalent for serious invasive MSSA infection; oral dicloxacillin is not a substitute for endovascular therapy.",
+        "switchCriteria": "Reserve oral step-down for carefully selected non-endovascular syndromes after bacteremia has cleared and source control is complete.",
+        "note": "For MSSA bacteremia or endocarditis, the usual decision is nafcillin versus cefazolin, not IV versus PO."
+      },
+      "opatEligibility": {
+        "eligible": "conditional",
+        "administration": "OPAT is possible through continuous infusion or frequent-dose pump programs, but it is usually less convenient than cefazolin.",
+        "monitoring": "At least weekly CBC, LFTs, BMP, and line review are needed because toxicity and line burden accumulate with longer courses.",
+        "considerations": [
+          "Reasonable only when a real MSSA-specific advantage over cefazolin remains.",
+          "Poor choice when the patient or program cannot reliably support q4h or continuous-infusion logistics."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "Enzyme induction can lower INR and reduce anticoagulant effect during prolonged courses.",
+          "management": "Increase INR monitoring frequency and expect warfarin dose adjustments during and after nafcillin therapy.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Cyclosporine or tacrolimus",
+          "effect": "Nafcillin can lower calcineurin-inhibitor exposure through enzyme induction.",
+          "management": "Monitor troughs closely and coordinate dose changes with the transplant team.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Definitive MSSA bacteremia or endocarditis",
+          "role": "A high-value anti-staphylococcal beta-lactam once MSSA is proven and vancomycin can leave.",
+          "notes": "The main stewardship win is stopping vancomycin quickly, not proving nafcillin is mandatory in every case."
+        },
+        {
+          "scenario": "MSSA CNS infection or other cefazolin-edge cases",
+          "role": "Use when the syndrome truly rewards nafcillin's penetration or historical evidence base.",
+          "notes": "Otherwise cefazolin is often the cleaner definitive option."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Bloodstream / endocardium",
+          "detail": "High serum exposure and rapid MSSA killing make nafcillin a dependable endovascular drug when frequent dosing is operationally feasible."
+        },
+        {
+          "site": "Bone / joint",
+          "detail": "Bone penetration is adequate for MSSA osteoarticular disease, although cefazolin is often operationally easier."
+        },
+        {
+          "site": "CSF",
+          "detail": "With inflamed meninges, CNS penetration is better than cefazolin, which is why nafcillin remains the beta-lactam fallback for MSSA meningitis."
+        }
       ]
     },
     {
@@ -702,6 +1303,20 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         "ORAL VANCOMYCIN ≠ IV VANCOMYCIN: Oral vancomycin is ONLY for C. difficile infection. It is not absorbed systemically — it works locally in the GI tract. IV vancomycin does NOT reach the colonic lumen and is useless for C. diff. These are functionally two different drugs despite sharing a name.",
         "VANCOMYCIN IS INFERIOR TO BETA-LACTAMS FOR MSSA: This cannot be overstated. Vancomycin has slower bactericidal kinetics, achieves lower tissue concentrations, and is associated with higher treatment failure rates for MSSA infections compared to cefazolin or nafcillin. The moment MSSA is confirmed, de-escalate to a beta-lactam. This is arguably the single most impactful antibiotic stewardship intervention in bloodstream infections.",
         "MIC CREEP AND WHEN TO SWITCH: If vancomycin MIC ≥2 (by broth microdilution), treatment failure risk increases substantially. Switch to daptomycin for MRSA bacteremia/IE with MIC ≥2. Note: E-test MICs tend to read 1-2 dilutions higher than broth microdilution — confirm method before making treatment decisions."
+      ],
+      "penetration": [
+        {
+          "site": "Bloodstream / endocardium",
+          "detail": "Endovascular exposure is reliable only when AUC targets are achieved early and source control is moving in parallel."
+        },
+        {
+          "site": "Bone / joint",
+          "detail": "Bone penetration is serviceable but slower than clinicians often expect, so persistent osteoarticular MRSA disease should trigger source review rather than dose escalation alone."
+        },
+        {
+          "site": "CSF",
+          "detail": "Inflamed meninges improve CSF entry, but CNS use still requires higher exposure and close toxicity monitoring."
+        }
       ]
     },
     {
@@ -738,6 +1353,100 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         "DAPTOMYCIN + CEFTAROLINE SYNERGY FOR SALVAGE: For persistent MRSA bacteremia failing vancomycin or even daptomycin alone, the combination of daptomycin + ceftaroline has the best-studied synergy data. Ceftaroline binds PBP2a (MRSA-specific PBP) and enhances daptomycin binding to the cell membrane. Multiple case series show clearance of persistent MRSA BSI with this combination.",
         "DAPTOMYCIN + AMPICILLIN FOR VRE: In E. faecium IE, adding ampicillin (even if the organism is ampicillin-resistant) enhances daptomycin cell membrane binding. This paradoxical synergy is mediated by PBP effects altering membrane structure, not by direct antibacterial activity of ampicillin. Discuss with ID.",
         "IV PUSH IS APPROVED: For doses ≤500mg, daptomycin can be given as a 2-minute IV push. This is convenient for OPAT and reduces infusion time. For doses >500mg, infuse over 30 minutes."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Complicated SSTI",
+          "regimen": "4 mg/kg IV q24h",
+          "notes": "Use the labeled dose only for true skin/soft-tissue infection; it is usually too low for endovascular or bone disease."
+        },
+        {
+          "label": "MRSA bacteremia, endocarditis, or osteomyelitis",
+          "regimen": "8-10 mg/kg IV q24h",
+          "notes": "Higher-dose therapy is the modern inpatient standard for serious MRSA disease and many OPAT programs."
+        },
+        {
+          "label": "Serious VRE infection",
+          "regimen": "10-12 mg/kg IV q24h",
+          "notes": "Use the upper end when bactericidal activity matters and susceptibility is not generous."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Post-HD dosing is standard because dialysis meaningfully changes exposure and the missed supplemental dose can derail bacteremia therapy."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT often needs high-dose daily or near-daily scheduling rather than the labeled q48h approach when serious bloodstream infection is active."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Obesity",
+          "guidance": "Use actual body weight for initial dosing, then reassess CK trend and clinical response rather than arbitrarily capping serious-infection doses."
+        },
+        {
+          "population": "Concurrent statin therapy or baseline myopathy risk",
+          "guidance": "Hold statins whenever possible and treat rising CK or new muscle symptoms as a real toxicity signal, not a lab nuisance."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum concentration target is used; weekly CK surveillance is the practical monitoring anchor.",
+        "sampling": "Obtain baseline CK and repeat at least weekly, with earlier checks if symptoms, renal shifts, or statin exposure increase risk.",
+        "adjustment": "If CK climbs or bacteremia persists, adjust the regimen based on toxicity or microbiology rather than using trough-like serum levels."
+      },
+      "administration": {
+        "infusion": "Many programs infuse over 30 minutes; selected lower doses can also be delivered as IV push when local standards allow.",
+        "note": "Once-daily dosing is one of daptomycin's biggest OPAT strengths, but it does not rescue the drug from its hard lung contraindication."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral formulation exists.",
+        "switchCriteria": "Daptomycin is not an IV-to-PO conversion drug; transition means switching to a different active oral agent only when the syndrome allows it.",
+        "note": "Do not keep daptomycin solely because the home schedule is easy if an effective oral alternative exists."
+      },
+      "opatEligibility": {
+        "eligible": "yes",
+        "administration": "Once-daily IV dosing makes daptomycin one of the most practical OPAT agents for serious gram-positive infection.",
+        "monitoring": "Weekly CK and renal function are the minimum outpatient monitoring set, with faster follow-up if statins or symptoms complicate the course.",
+        "considerations": [
+          "Excellent OPAT option for MRSA bacteremia, osteomyelitis, and selected VRE infection.",
+          "Never use it when pneumonia is the unresolved source question."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Statins",
+          "effect": "Additive myopathy risk can drive CK elevation and rhabdomyolysis.",
+          "management": "Hold the statin for the daptomycin course whenever feasible.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "MRSA bacteremia or osteomyelitis with kidney injury risk",
+          "role": "Daptomycin is a strong vancomycin alternative when bactericidal gram-positive therapy is needed outside the lung.",
+          "notes": "Its once-daily schedule also simplifies OPAT planning."
+        },
+        {
+          "scenario": "Need for a bactericidal VRE regimen",
+          "role": "High-dose daptomycin is one of the few bactericidal options when linezolid's bacteriostatic profile is a limitation.",
+          "notes": "Dose intensity matters more than convenience in these infections."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Bloodstream / endocardial vegetations",
+          "detail": "Strong serum exposure and concentration-dependent killing support MRSA bacteremia and right-sided endocarditis treatment."
+        },
+        {
+          "site": "Bone / joint",
+          "detail": "Useful bone and hardware-adjacent exposure supports osteomyelitis and prosthetic infection pathways when MRSA activity is needed."
+        },
+        {
+          "site": "Lung",
+          "detail": "It remains inactive in the lung because surfactant binds and inactivates the drug."
+        }
       ]
     },
     {
@@ -775,6 +1484,107 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         "BILIARY SLUDGING — A UNIQUE ADVERSE EFFECT: Ceftriaxone forms calcium-ceftriaxone precipitates in bile, causing sludging or pseudolithiasis. Usually asymptomatic but can cause RUQ pain mimicking cholecystitis. Risk increases with prolonged courses (>14 days) and high doses. Reversible upon discontinuation. Warn patients about RUQ symptoms during OPAT.",
         "S. GALLOLYTICUS ENDOCARDITIS = COLONOSCOPY: If you see ceftriaxone prescribed for S. gallolyticus (formerly S. bovis) IE, ensure a colonoscopy is ordered. 25-80% association with colorectal neoplasia. This is a pharmacist intervention that catches a cancer diagnosis.",
         "NO PSEUDOMONAS COVERAGE: Unlike ceftazidime and cefepime, ceftriaxone has NO reliable Pseudomonas activity. Do not use for suspected Pseudomonas infections. If Pseudomonas coverage is needed, use cefepime, pip-tazo, or meropenem."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Complicated UTI or uncomplicated gram-negative bacteremia bridge",
+          "regimen": "1-2 g IV q24h",
+          "notes": "Once-daily dosing is ideal while cultures mature or while arranging a narrower oral exit."
+        },
+        {
+          "label": "Streptococcal or HACEK endovascular infection",
+          "regimen": "2 g IV q24h",
+          "notes": "Use higher-end once-daily exposure for endovascular syndromes where long half-life is a practical advantage."
+        },
+        {
+          "label": "Meningitis",
+          "regimen": "2 g IV q12h",
+          "notes": "Use the q12h meningitis schedule when CNS penetration, not convenience, is the primary goal."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No routine post-HD supplement is needed because ceftriaxone is not meaningfully removed by conventional dialysis."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Many CRRT patients can stay on standard 1-2 g daily dosing, but severe infection or high-effluent settings may justify the full 2 g daily regimen."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Neonates or patients receiving calcium-rich infusions",
+          "guidance": "Avoid co-administration with calcium-containing solutions in neonates and keep adult line practice disciplined to prevent precipitation events."
+        },
+        {
+          "population": "Patients with prolonged fasting, TPN, or long OPAT courses",
+          "guidance": "Biliary sludge and pseudolithiasis become more clinically relevant as duration and dose increase, so unexplained RUQ symptoms deserve attention."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target is used; success depends on syndrome-appropriate dosing and not asking ceftriaxone to cover AmpC, ESBL, or Pseudomonas phenotypes it does not own.",
+        "sampling": "Drug levels are not standard. Reassess cultures, syndrome depth, and bilirubin/LFT trends instead.",
+        "adjustment": "If a patient remains bacteremic or the isolate suggests AmpC, ESBL, or Pseudomonas, change agents rather than trying to rescue ceftriaxone exposure."
+      },
+      "administration": {
+        "infusion": "Usually infused over about 30 minutes; avoid sharing a line with calcium-containing solutions.",
+        "compatibility": "Use normal saline rather than calcium-containing fluids when line compatibility is in question.",
+        "note": "Once-daily dosing is one of ceftriaxone's biggest operational advantages for ED bridge therapy and OPAT."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral ceftriaxone formulation exists, so step-down means switching to a different active oral agent rather than converting the same drug.",
+        "switchCriteria": "Move off ceftriaxone once the patient is stable, source control is handled, and a high-bioavailability susceptible oral option is identified.",
+        "note": "Think of ceftriaxone as a bridge, not as the final answer for every susceptible isolate."
+      },
+      "opatEligibility": {
+        "eligible": "yes",
+        "administration": "Once-daily IV administration makes ceftriaxone one of the easiest OPAT agents to operationalize.",
+        "monitoring": "CBC and liver tests are reasonable on longer courses, with extra attention to biliary symptoms during extended therapy.",
+        "considerations": [
+          "Excellent for susceptible urinary-source bacteremia and streptococcal/HACEK endovascular therapy.",
+          "Not the right OPAT drug for AmpC, ESBL, or Pseudomonas phenotypes."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Calcium-containing IV solutions",
+          "effect": "Physical precipitation can occur, with the highest-risk signal in neonates.",
+          "management": "Never co-infuse in neonates and flush lines carefully in adults.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "INR can drift upward through gut-flora and vitamin K effects during longer courses.",
+          "management": "Monitor INR more closely when starting or stopping ceftriaxone in anticoagulated patients.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Daily IV bridge for susceptible Enterobacterales infection",
+          "role": "Ceftriaxone is a high-value bridge while culture data finalize or while arranging an oral discharge option.",
+          "notes": "Its convenience should not be mistaken for resistance breadth."
+        },
+        {
+          "scenario": "Once-daily OPAT for streptococcal or HACEK disease",
+          "role": "Long half-life and reliable bloodstream exposure make ceftriaxone an operational workhorse when the organism truly fits the drug.",
+          "notes": "Avoid leaving it in place for AmpC-risk organisms just because the schedule is easy."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Bloodstream / urine",
+          "detail": "Reliable serum and urinary exposure make ceftriaxone a common anchor for susceptible Enterobacterales bacteremia and urinary-source bloodstream infection."
+        },
+        {
+          "site": "CSF",
+          "detail": "At meningitis dosing, ceftriaxone reaches therapeutic CSF concentrations and remains a core CNS beta-lactam."
+        },
+        {
+          "site": "Biliary tract",
+          "detail": "Very high biliary penetration is a strength, but it can also complicate interpretation when biliary sludge or pseudocholelithiasis appears during prolonged therapy."
+        }
       ]
     },
     {
@@ -811,6 +1621,102 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         "PENICILLIN ALLERGY AND CEFAZOLIN: Cross-reactivity between penicillin and cefazolin is ~1% (unique R1 side chain). Most patients with 'penicillin allergy' (including urticaria) can safely receive cefazolin. Only true penicillin anaphylaxis should prompt avoidance (or skin testing under allergist). Don't let a vague allergy history deprive patients of the best MSSA drug.",
         "STEWARDSHIP IMPACT — THE MSSA DE-ESCALATION: Switching from vancomycin to cefazolin upon MSSA confirmation is one of the highest-impact stewardship interventions in inpatient medicine. Faster bacteremia clearance, potentially lower mortality, fewer adverse effects, lower cost. Build this into your rounding checklist.",
         "LOW C. DIFF RISK: Narrower spectrum = less disruption of colonic flora = lower C. diff rates compared to pip-tazo, fluoroquinolones, and broad-spectrum cephalosporins. Clinically meaningful advantage."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "MSSA bacteremia or endocarditis",
+          "regimen": "2 g IV q8h",
+          "notes": "Definitive MSSA therapy should stay at full-dose q8h exposure unless renal replacement or obesity demands something more individualized."
+        },
+        {
+          "label": "Serious SSTI or osteoarticular infection",
+          "regimen": "2 g IV q8h",
+          "notes": "Use the same full-dose regimen for deep MSSA skin, bone, and joint disease because once-daily convenience is not worth underexposure."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Post-hemodialysis high-dose scheduling is common because cefazolin's dialysis removal is clinically meaningful and missed redosing is a frequent OPAT failure point."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Many CRRT patients still need aggressive 2 g q12h-style dosing for deep MSSA infection, especially when bacteremia or bone infection is active."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Obesity",
+          "guidance": "Severe obesity may need 2 g q6h-style exposure or higher surgical-prophylaxis doses to preserve MSSA target attainment."
+        },
+        {
+          "population": "Reported penicillin allergy",
+          "guidance": "Because cefazolin's side chain is distinct, many patients with a penicillin allergy label can still receive it safely and should not be pushed to vancomycin by default."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target is used; success depends on maintaining aggressive scheduled dosing and not defaulting to vancomycin for MSSA.",
+        "sampling": "No drug levels are standard. Follow renal function and clinical clearance instead.",
+        "adjustment": "If bacteremia persists, look for source-control issues, inoculum effect concerns, or the wrong organism before blaming cefazolin exposure alone."
+      },
+      "administration": {
+        "infusion": "Usually infused over about 30 minutes; some programs use IV push or elastomeric workflows once compatibility and concentration are standardized.",
+        "stability": "Cefazolin is OPAT-friendly in many compounding programs, which is part of why it outperforms nafcillin operationally.",
+        "note": "Use the MSSA-first mindset: cefazolin is a definitive drug, not just a temporary bridge."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral cefazolin formulation exists, so oral completion requires switching to a different active agent rather than converting the same drug.",
+        "switchCriteria": "Consider oral exit only when the syndrome supports it, source control is complete, and another high-bioavailability active oral option exists.",
+        "note": "Many MSSA bacteremia and endocarditis cases remain IV for the full definitive course."
+      },
+      "opatEligibility": {
+        "eligible": "yes",
+        "administration": "Q8h dosing or structured post-HD regimens make cefazolin a common and highly effective OPAT agent for MSSA.",
+        "monitoring": "Weekly CBC and renal function are typical in prolonged courses, with extra review if a probenecid-assisted schedule is being attempted.",
+        "considerations": [
+          "Excellent OPAT option for MSSA bacteremia, osteomyelitis, and endocarditis when home infusion logistics can handle the schedule.",
+          "Prefer cefazolin over vancomycin for MSSA whenever allergy history does not truly exclude it."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Probenecid",
+          "effect": "Can prolong cefazolin exposure and is sometimes used intentionally in OPAT programs.",
+          "management": "Only use the combination intentionally with a documented plan rather than incidentally.",
+          "severity": "monitor"
+        },
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "INR can drift upward during longer courses.",
+          "management": "Monitor INR more closely when cefazolin is added or stopped in anticoagulated patients.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Definitive MSSA therapy",
+          "role": "Cefazolin should replace vancomycin promptly once MSSA is confirmed unless a true allergy or CNS edge case blocks it.",
+          "notes": "That de-escalation is one of the highest-value stewardship moves on inpatient ID rounds."
+        },
+        {
+          "scenario": "OPAT for MSSA bone, skin, or bloodstream infection",
+          "role": "Operational simplicity and low collateral damage make cefazolin a workhorse outpatient IV agent.",
+          "notes": "Its convenience should not tempt use against AmpC or other cefazolin-resistant phenotypes."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Bloodstream / endocardium",
+          "detail": "High serum exposure supports MSSA bacteremia and endocarditis treatment in most patients with less operational burden than nafcillin."
+        },
+        {
+          "site": "Bone / joint",
+          "detail": "Bone penetration is reliable and makes cefazolin a workhorse for MSSA osteoarticular infection."
+        },
+        {
+          "site": "CSF",
+          "detail": "CSF penetration is limited compared with nafcillin or ceftriaxone, so it is not the usual beta-lactam for MSSA meningitis."
+        }
       ]
     }
   ]

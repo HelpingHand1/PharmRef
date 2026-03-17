@@ -1,5 +1,9 @@
 import { useEffect } from "react";
 import type { PatientContext, ThemeKey } from "../types";
+import {
+  parseActiveMedicationsInput,
+  serializeActiveMedicationsInput,
+} from "../utils/patientMedicationInteractions";
 
 interface PatientModalProps {
   show: boolean;
@@ -125,7 +129,7 @@ export default function PatientModal({
               👤 Patient Context
             </h2>
             <p style={{ fontSize: "12px", color: mutedColor, margin: "4px 0 0", lineHeight: 1.5 }}>
-              Set patient parameters for dynamic dosing context across monographs.
+              Set patient parameters for dynamic dosing, stewardship, and medication-interaction context across monographs.
             </p>
           </div>
           <button
@@ -193,6 +197,270 @@ export default function PatientModal({
             Patient is pregnant
           </label>
         )}
+
+        <div
+          style={{
+            marginBottom: "16px",
+            padding: "14px 16px",
+            borderRadius: "16px",
+            border: `1px solid ${isDark ? "#36506e" : "#cbd5df"}`,
+            background: isDark ? "rgba(15, 23, 42, 0.72)" : "rgba(248, 250, 247, 0.92)",
+          }}
+        >
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: accentColor, marginBottom: "10px" }}>
+            Bedside Execution Flags
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>PO route</label>
+              <select
+                style={selectStyle}
+                value={patient.oralRoute ?? ""}
+                onChange={(e) =>
+                  setPatient((p) => ({
+                    ...p,
+                    oralRoute: (e.target.value as PatientContext["oralRoute"]) || undefined,
+                  }))
+                }
+              >
+                <option value="">Not assessed</option>
+                <option value="adequate">Adequate for PO step-down</option>
+                <option value="limited">Limited or unreliable</option>
+                <option value="none">Unavailable</option>
+              </select>
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>OPAT logistics</label>
+              <select
+                style={selectStyle}
+                value={patient.opatSupport ?? ""}
+                onChange={(e) =>
+                  setPatient((p) => ({
+                    ...p,
+                    opatSupport: (e.target.value as PatientContext["opatSupport"]) || undefined,
+                  }))
+                }
+              >
+                <option value="">Not assessed</option>
+                <option value="adequate">Home infusion and follow-up ready</option>
+                <option value="uncertain">Some logistics still unclear</option>
+                <option value="limited">Not a reliable OPAT setup</option>
+              </select>
+            </div>
+          </div>
+          <div style={{ display: "grid", gap: "8px", marginTop: "12px" }}>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.enteralFeeds ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, enteralFeeds: e.target.checked }))}
+              />
+              Continuous enteral feeds or major cation exposure
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.qtRisk ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, qtRisk: e.target.checked }))}
+              />
+              Baseline QT risk or prolonged QTc
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.serotonergicMeds ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, serotonergicMeds: e.target.checked }))}
+              />
+              Active serotonergic medications
+            </label>
+          </div>
+        </div>
+
+        <div
+          style={{
+            marginBottom: "16px",
+            padding: "14px 16px",
+            borderRadius: "16px",
+            border: `1px solid ${isDark ? "#4c3b2b" : "#ddd6c7"}`,
+            background: isDark ? "rgba(41, 28, 17, 0.42)" : "rgba(255, 247, 237, 0.76)",
+          }}
+        >
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: isDark ? "#fbbf24" : "#b45309", marginBottom: "10px" }}>
+            Stewardship Risk Flags
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>MRSA nares</label>
+              <select
+                style={selectStyle}
+                value={patient.mrsaNares ?? ""}
+                onChange={(e) =>
+                  setPatient((p) => ({
+                    ...p,
+                    mrsaNares: (e.target.value as PatientContext["mrsaNares"]) || undefined,
+                  }))
+                }
+              >
+                <option value="">Not assessed</option>
+                <option value="pending">Pending</option>
+                <option value="positive">Positive</option>
+                <option value="negative">Negative</option>
+              </select>
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Culture status</label>
+              <select
+                style={selectStyle}
+                value={patient.cultureStatus ?? ""}
+                onChange={(e) =>
+                  setPatient((p) => ({
+                    ...p,
+                    cultureStatus: (e.target.value as PatientContext["cultureStatus"]) || undefined,
+                  }))
+                }
+              >
+                <option value="">Not assessed</option>
+                <option value="not_sent">Not sent</option>
+                <option value="pending">Pending</option>
+                <option value="final">Final</option>
+              </select>
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Rapid diagnostic</label>
+              <select
+                style={selectStyle}
+                value={patient.rapidDiagnosticResult ?? ""}
+                onChange={(e) =>
+                  setPatient((p) => ({
+                    ...p,
+                    rapidDiagnosticResult: (e.target.value as PatientContext["rapidDiagnosticResult"]) || undefined,
+                  }))
+                }
+              >
+                <option value="">Not assessed</option>
+                <option value="none">No actionable signal</option>
+                <option value="mrsa">MRSA</option>
+                <option value="mssa">MSSA</option>
+                <option value="esbl">ESBL</option>
+                <option value="kpc">KPC</option>
+                <option value="mbl">MBL</option>
+                <option value="dtr-pseudomonas">DTR Pseudomonas</option>
+              </select>
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Source control</label>
+              <select
+                style={selectStyle}
+                value={patient.sourceControl ?? ""}
+                onChange={(e) =>
+                  setPatient((p) => ({
+                    ...p,
+                    sourceControl: (e.target.value as PatientContext["sourceControl"]) || undefined,
+                  }))
+                }
+              >
+                <option value="">Not assessed</option>
+                <option value="achieved">Achieved</option>
+                <option value="pending">Pending</option>
+                <option value="not_applicable">Not applicable</option>
+              </select>
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "8px", marginTop: "12px" }}>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.recentHospitalization ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, recentHospitalization: e.target.checked }))}
+              />
+              Recent hospitalization, LTAC, or facility exposure
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.recentIvAntibiotics ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, recentIvAntibiotics: e.target.checked }))}
+              />
+              Recent IV or broad-spectrum antibiotics
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.priorMrsa ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, priorMrsa: e.target.checked }))}
+              />
+              Prior MRSA
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.priorEsbl ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, priorEsbl: e.target.checked }))}
+              />
+              Prior ESBL
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.priorCre ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, priorCre: e.target.checked }))}
+              />
+              Prior CRE
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.priorDtrPseudomonas ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, priorDtrPseudomonas: e.target.checked }))}
+              />
+              Prior DTR Pseudomonas
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.bacteremiaConcern ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, bacteremiaConcern: e.target.checked }))}
+              />
+              Bacteremia concern
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.endovascularConcern ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, endovascularConcern: e.target.checked }))}
+              />
+              Endovascular concern
+            </label>
+          </div>
+        </div>
+
+        <div
+          style={{
+            marginBottom: "16px",
+            padding: "14px 16px",
+            borderRadius: "16px",
+            border: `1px solid ${isDark ? "#314764" : "#cbd5df"}`,
+            background: isDark ? "rgba(13, 29, 49, 0.68)" : "rgba(239, 246, 255, 0.72)",
+          }}
+        >
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: isDark ? "#60a5fa" : "#1d4ed8", marginBottom: "10px" }}>
+            Active Medication Profile
+          </div>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.55, marginBottom: "10px" }}>
+            Enter one active medication per line or separate them with commas. This powers patient-specific interaction warnings for warfarin, tacrolimus, valproate, statins, and other high-impact co-medications.
+          </div>
+          <textarea
+            style={{ ...inputStyle, minHeight: "108px", resize: "vertical", lineHeight: 1.5 }}
+            value={serializeActiveMedicationsInput(patient.activeMedications)}
+            onChange={(e) =>
+              setPatient((p) => ({
+                ...p,
+                activeMedications: parseActiveMedicationsInput(e.target.value),
+              }))
+            }
+            placeholder={"warfarin\n tacrolimus\n atorvastatin"}
+          />
+        </div>
 
         {/* Live results panel */}
         {(crcl !== null || ibw !== null) && (

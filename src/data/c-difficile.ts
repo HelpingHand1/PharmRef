@@ -1,6 +1,10 @@
 // Editorial source for the C. difficile disease module.
 // Runtime imports use src/data/generated/diseases/c-difficile.ts.
-export const CDI = {
+import type { DiseaseState } from "../types";
+import { CDI_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
+import { enhanceDisease } from "./stewardship-content";
+
+const CDI_BASE: DiseaseState = {
   id: "c-difficile",
   name: "Clostridioides difficile Infection",
   icon: "🦠",
@@ -389,3 +393,9 @@ export const CDI = {
     },
   ],
 };
+
+export const CDI: DiseaseState = enhanceDisease(
+  CDI_BASE,
+  {},
+  CDI_MONOGRAPH_ENHANCEMENTS,
+);

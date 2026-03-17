@@ -27,6 +27,19 @@ export interface ContentReviewEntry {
 
 export type ContentConfidence = "high" | "moderate" | "emerging";
 
+export interface SectionConfidenceEntry {
+  section: string;
+  confidence: ContentConfidence;
+  rationale: string;
+}
+
+export interface GuidelineDisagreement {
+  topic: string;
+  guidanceA: string;
+  guidanceB: string;
+  pharmacistTakeaway: string;
+}
+
 export interface ContentGovernance {
   owner: string;
   approvedBodyVersion: string;
@@ -40,6 +53,9 @@ export interface ContentMeta {
   guidelineVersion?: string;
   sources: ContentSource[];
   reviewHistory: ContentReviewEntry[];
+  whatChanged?: string[];
+  sectionConfidence?: SectionConfidenceEntry[];
+  guidelineDisagreements?: GuidelineDisagreement[];
   governance: ContentGovernance;
 }
 
@@ -47,6 +63,153 @@ export interface OverviewEvidenceEntry {
   name: string;
   detail: string;
   sourceIds?: string[];
+}
+
+export type StructuredEntryStatus = "ready" | "not_applicable";
+
+export interface WorkflowBlock {
+  status?: StructuredEntryStatus;
+  summary?: string;
+  bullets?: string[];
+}
+
+export interface RapidDiagnosticAction {
+  trigger: string;
+  action: string;
+  rationale?: string;
+}
+
+export interface BreakpointNote {
+  marker: string;
+  interpretation: string;
+  action?: string;
+}
+
+export interface IntrinsicResistanceAlert {
+  organism: string;
+  resistance: string;
+  implication: string;
+}
+
+export interface CoverageMatrixRow {
+  label: string;
+  status: "preferred" | "active" | "conditional" | "inactive" | "avoid";
+  detail: string;
+  note?: string;
+}
+
+export interface RegimenPlan {
+  regimen: string;
+  indication?: string;
+  site?: string;
+  role?: "preferred" | "alternative" | "salvage" | "adjunct" | "situational";
+  rationale?: string;
+  pathogenFocus?: string[];
+  riskFactorTriggers?: string[];
+  avoidIf?: string[];
+  renalFlags?: string[];
+  dialysisFlags?: string[];
+  rapidDiagnosticActions?: string[];
+  linkedMonographIds?: string[];
+}
+
+export interface DosingByIndicationEntry {
+  label: string;
+  regimen: string;
+  notes?: string;
+}
+
+export interface RenalReplacementEntry {
+  modality: "HD" | "PD" | "CRRT" | "SLED" | "ECMO";
+  guidance: string;
+}
+
+export interface SpecialPopulationEntry {
+  population: string;
+  guidance: string;
+}
+
+export interface TherapeuticDrugMonitoring {
+  target: string;
+  sampling: string;
+  adjustment: string;
+  pearls?: string[];
+}
+
+export interface AdministrationGuidance {
+  infusion?: string;
+  compatibility?: string;
+  stability?: string;
+  oralAbsorption?: string;
+  note?: string;
+}
+
+export interface PenetrationEntry {
+  site: string;
+  detail: string;
+}
+
+export interface InteractionAction {
+  interactingAgent: string;
+  effect: string;
+  management: string;
+  severity?: "major" | "moderate" | "monitor";
+}
+
+export interface StewardshipUseCase {
+  scenario: string;
+  role: string;
+  notes?: string;
+}
+
+export interface InstitutionPathwayNote {
+  diseaseId: string;
+  subcategoryId?: string;
+  kind: "antibiogram" | "workflow" | "restriction";
+  title: string;
+  detail: string;
+}
+
+export interface InstitutionOptionPolicy {
+  diseaseId: string;
+  subcategoryId: string;
+  optionId?: string;
+  monographId?: string;
+  regimenIncludes?: string;
+  status: "preferred" | "restricted";
+  detail: string;
+  approval?: string;
+}
+
+export interface InstitutionDrugPolicy {
+  drugId: string;
+  restriction?: string;
+  approval?: string;
+  preferredContexts?: string[];
+  notes?: string[];
+}
+
+export interface InstitutionAntibiogramEntry {
+  diseaseId?: string;
+  subcategoryId?: string;
+  drugId?: string;
+  regimenIncludes?: string;
+  organism: string;
+  sample: string;
+  susceptibility: string;
+  source: string;
+  note?: string;
+  status?: "preferred" | "caution";
+}
+
+export interface InstitutionProfile {
+  id: string;
+  name: string;
+  lastUpdated: string;
+  localNotes?: InstitutionPathwayNote[];
+  optionPolicies?: InstitutionOptionPolicy[];
+  drugPolicies?: InstitutionDrugPolicy[];
+  antibiogram?: InstitutionAntibiogramEntry[];
 }
 
 export interface DiseaseState {
@@ -83,6 +246,19 @@ export interface Subcategory {
   definition: string;
   clinicalPresentation?: string;
   diagnostics?: string;
+  diagnosticWorkup?: WorkflowBlock;
+  severitySignals?: WorkflowBlock;
+  mdroRiskFactors?: WorkflowBlock;
+  sourceControl?: WorkflowBlock;
+  deEscalation?: WorkflowBlock;
+  ivToPoPlan?: WorkflowBlock;
+  failureEscalation?: WorkflowBlock;
+  consultTriggers?: WorkflowBlock;
+  durationAnchor?: WorkflowBlock;
+  rapidDiagnostics?: RapidDiagnosticAction[];
+  breakpointNotes?: BreakpointNote[];
+  intrinsicResistance?: IntrinsicResistanceAlert[];
+  coverageMatrix?: CoverageMatrixRow[];
   pearls?: string[];
   empiricTherapy?: EmpiricTier[];
   organismSpecific?: OrganismSpecific[];
@@ -105,6 +281,7 @@ export interface EmpiricOption {
   id?: string;
   regimen: string;
   notes?: string;
+  plan?: RegimenPlan;
   /** Legacy overloaded field retained for backward compatibility with authored content. */
   drug?: string;
   monographId?: string;
@@ -158,6 +335,26 @@ export interface DrugMonograph {
     monitoring: string;
     considerations?: string[];
   };
+  dosingByIndication?: DosingByIndicationEntry[];
+  renalReplacement?: RenalReplacementEntry[];
+  specialPopulations?: SpecialPopulationEntry[];
+  therapeuticDrugMonitoring?: TherapeuticDrugMonitoring;
+  administration?: AdministrationGuidance;
+  penetration?: PenetrationEntry[];
+  tissuePenetration?: {
+    csf?: string;
+    lung?: string;
+    boneJoint?: string;
+    prostate?: string;
+    urine?: string;
+    notes?: string;
+  };
+  rapidDiagnostics?: RapidDiagnosticAction[];
+  breakpointNotes?: BreakpointNote[];
+  intrinsicResistance?: IntrinsicResistanceAlert[];
+  coverageMatrix?: CoverageMatrixRow[];
+  interactionActions?: InteractionAction[];
+  stewardshipUseCases?: StewardshipUseCase[];
 }
 
 export interface MonographCatalogSummary {
@@ -178,6 +375,16 @@ export interface RegimenReference {
   line: string;
   regimen: string;
   notes?: string;
+  indication?: string;
+  site?: string;
+  role?: RegimenPlan["role"];
+  pathogenFocus?: string[];
+  riskFactorTriggers?: string[];
+  avoidIf?: string[];
+  renalFlags?: string[];
+  dialysisFlags?: string[];
+  rapidDiagnosticActions?: string[];
+  linkedMonographIds?: string[];
   drug?: string;
   monographId?: string;
   evidence?: string;
@@ -193,6 +400,24 @@ export interface PatientContext {
   scr?: number;
   dialysis?: "none" | "HD" | "PD" | "CRRT";
   pregnant?: boolean;
+  oralRoute?: "adequate" | "limited" | "none";
+  enteralFeeds?: boolean;
+  qtRisk?: boolean;
+  serotonergicMeds?: boolean;
+  opatSupport?: "adequate" | "uncertain" | "limited";
+  recentHospitalization?: boolean;
+  recentIvAntibiotics?: boolean;
+  priorMrsa?: boolean;
+  priorEsbl?: boolean;
+  priorCre?: boolean;
+  priorDtrPseudomonas?: boolean;
+  mrsaNares?: "negative" | "positive" | "pending";
+  cultureStatus?: "not_sent" | "pending" | "final";
+  rapidDiagnosticResult?: "none" | "mrsa" | "mssa" | "esbl" | "kpc" | "mbl" | "dtr-pseudomonas";
+  sourceControl?: "achieved" | "pending" | "not_applicable";
+  bacteremiaConcern?: boolean;
+  endovascularConcern?: boolean;
+  activeMedications?: string[];
 }
 
 export interface AllergyRecord {
@@ -216,7 +441,7 @@ export type OrganismSearchResult = OrganismSpecific & {
 
 export type SubcategorySearchResult = Subcategory & {
   parentDisease: DiseaseState;
-  matchType: "name" | "pearl" | "empiric";
+  matchType: "name" | "pearl" | "workflow" | "microbiology" | "empiric";
 };
 
 export type RegimenSearchResult = RegimenReference & {
@@ -319,6 +544,11 @@ export interface CompareViewProps {
   compareItems: string[];
   setCompareItems: Dispatch<SetStateAction<string[]>>;
   allMonographs: MonographCatalogSummary[];
+  adjbw: number | null;
+  crcl: number | null;
+  ibw: number | null;
+  patient: PatientContext;
+  regimenXref: Record<string, RegimenReference[]>;
   ExpandCollapseBar: () => ReactNode;
   S: Styles;
 }
@@ -344,6 +574,8 @@ export interface RegimenCrossRefsProps {
 }
 
 export interface EmpiricTierViewProps {
+  diseaseId: string;
+  subcategoryId: string;
   tier: EmpiricTier;
   S: Styles;
   navigateTo: NavigateTo;

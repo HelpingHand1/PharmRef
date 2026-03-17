@@ -188,7 +188,43 @@ export const BONE_JOINT: DiseaseState = {
         "CRP IS YOUR BEST FRIEND FOR TRENDING: CRP responds faster than ESR and correlates with treatment response. Trend CRP q1-2 weeks. A falling CRP = things are working. A plateau or rise = re-evaluate everything (source control, pathogen, antibiotic choice). ESR takes weeks to months to normalize — less useful for real-time decisions.",
         "EPIDURAL ABSCESS IS THE FEARED COMPLICATION: 15-20% of vertebral osteomyelitis cases have concurrent epidural abscess. Any new neurologic deficit (weakness, sensory changes, bowel/bladder dysfunction) = emergent MRI and neurosurgical consultation. Delayed diagnosis leads to irreversible paraplegia. ALWAYS ask about neurologic symptoms in SAB patients with back pain.",
         "DO NOT REPEAT MRI ROUTINELY: MRI findings in osteomyelitis lag behind clinical improvement by weeks to months. A patient who is clinically improving with falling CRP does not need a repeat MRI at 6 weeks — it will still look bad and cause unnecessary concern. Repeat MRI only for: clinical worsening, new neurologic deficits, or failure to respond to appropriate therapy."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Get blood cultures, MRI, and image-guided biopsy before antibiotics when the patient is stable enough for a culture-first strategy."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Neurologic deficits, epidural abscess, sepsis, hemodynamic instability, or rapidly progressive pain should move this out of a routine biopsy-first pathway."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Recent healthcare exposure, prior resistant gram-negatives, spinal hardware or procedures, prolonged antibiotics, and injection-drug use increase the odds that empiric therapy will need more than a simple staphylococcal frame."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Drain epidural or paravertebral collections and involve spine surgery or neurosurgery early when instability, abscess burden, or cord compromise is present."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "Once blood or biopsy cultures identify the pathogen, collapse quickly to the narrowest bone-active regimen and stop vancomycin or broad gram-negative therapy that is no longer justified."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Oral step-down is appropriate after source control or a stable non-operative plan, falling inflammatory markers, and confirmation that the oral option has reliable bone penetration and full susceptibility support."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Rising CRP, persistent bacteremia, worsening pain, or new neurologic findings should trigger repeat source-control review, repeat cultures, and reconsideration of occult abscess rather than automatic duration extension."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "ID consultation is high yield for every case, and neurosurgery or spine surgery is urgent when neurologic deficits, instability, or drainable collections are present."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count duration from the first clearly active regimen after drainage or debridement when performed; most native vertebral osteomyelitis still targets about 6 total weeks, not 6 weeks of unnecessary IV therapy."
+      }
     },
     {
       "id": "septic-arthritis",
@@ -277,7 +313,43 @@ export const BONE_JOINT: DiseaseState = {
         "CRYSTALS DON'T EXCLUDE INFECTION: Finding urate or CPPD crystals in synovial fluid does NOT rule out concurrent septic arthritis. Up to 5% of septic joints have concurrent crystal disease. If the clinical picture suggests infection (fever, very high WBC count, immunocompromised), treat for BOTH and let cultures guide final management.",
         "HIP SEPTIC ARTHRITIS = SURGICAL EMERGENCY: The hip joint is deep, difficult to aspirate adequately at bedside, and highly susceptible to avascular necrosis from increased intra-articular pressure. Most orthopedic surgeons prefer operative drainage for hip septic arthritis rather than serial bedside aspiration.",
         "GONOCOCCAL ARTHRITIS HAS EXCELLENT PROGNOSIS: Unlike other forms of septic arthritis, gonococcal arthritis rarely causes permanent joint damage if treated promptly. Short course of ceftriaxone is usually curative. Always screen for concurrent STIs."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Urgent arthrocentesis before antibiotics, blood cultures, and early imaging for adjacent bone involvement are the core diagnostic moves."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Sepsis, rapid joint destruction, inability to bear weight, prosthetic material, polyarticular disease, or surrounding osteomyelitis should trigger more aggressive drainage and broader initial support."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Prior MRSA, healthcare exposure, injection-drug use, gram-negative bacteremia risk, and recent joint procedures change empiric breadth while cultures are pending."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Repeated aspiration or operative washout is the milestone that makes antibiotic success possible; persistent purulence is a drainage problem until proven otherwise."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "As soon as synovial or blood cultures identify the pathogen, narrow to the simplest active regimen and stop empiric MRSA or gram-negative overlap that no longer fits."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Switch to an active oral regimen once drainage is adequate, fever and joint inflammation are improving, and there is no uncontrolled bacteremia or adjacent osteomyelitis forcing a longer IV front-end."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Persistent fever, recurrent effusion, or rising inflammatory markers should prompt repeat drainage planning, osteomyelitis reassessment, and culture review rather than reflexively stacking broader antibiotics."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Orthopedics is usually mandatory, and ID input is valuable for bacteremia, unusual pathogens, prosthetic material, or uncertain oral step-down plans."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count from the first active therapy after adequate drainage; extend the clock only when bone involvement, retained hardware, or inadequate source control truly changes the syndrome."
+      }
     },
     {
       "id": "prosthetic-joint-infection",
@@ -370,7 +442,43 @@ export const BONE_JOINT: DiseaseState = {
         "3 MONTHS (HIP) vs 6 MONTHS (KNEE) FOR DAIR: The longer duration for knee PJI reflects poorer soft tissue coverage and higher failure rates compared to hip PJI treated with DAIR. This is IDSA 2013 guidance and remains standard.",
         "ANTIBIOTIC-LOADED CEMENT SPACERS: The spacer delivers high local antibiotic concentrations (vancomycin + tobramycin or gentamicin is the most common combination). This is adjunctive to systemic antibiotics, not a replacement. The spacer also maintains joint space and limb length between stages.",
         "THE RIFAMPIN DRUG INTERACTION LIST IS ENORMOUS: Rifampin is one of the most potent CYP inducer known. It reduces levels of: warfarin, statins, oral contraceptives, calcineurin inhibitors (cyclosporine, tacrolimus), HIV antiretrovirals, azole antifungals, methadone, and dozens more. Review the entire medication list before starting rifampin. This is a critical pharmacist intervention."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Obtain deep cultures, synovial studies, and a clear surgical plan before long-course antibiotics whenever the patient is stable enough to avoid culture sterilization."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Bacteremia, sepsis, loosening hardware, sinus tract, poor soft-tissue envelope, or acute postoperative failure should move the team quickly toward a source-control decision."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Prior resistant staphylococci or gram-negatives, multiple revisions, chronic suppressive antibiotics, prolonged hospital exposure, and prior rifampin exposure materially change definitive therapy planning."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "DAIR versus one-stage or two-stage exchange is the central stewardship decision because antibiotic selection, rifampin timing, and treatment duration all depend on the implant strategy."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "Once operative cultures finalize, narrow aggressively and only add rifampin after debridement is complete and bloodstream burden is controlled rather than reflexively starting it on day 1."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Many PJI courses can transition to oral therapy after the operative plan is stable, the companion drug is active and tolerated, and adherence plus interaction monitoring are realistic."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Persistent drainage, positive follow-up cultures, or recurrent inflammation should trigger surgical-plan reassessment and biofilm strategy review instead of endless antibiotic broadening."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Orthopedics and ID should both stay engaged because retained hardware, rifampin interactions, and suppressive-therapy decisions have non-obvious consequences."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Tie duration to the operative strategy and the date source control is achieved; retained hardware and staged exchange pathways should not borrow the same clock."
+      }
     },
     {
       "id": "diabetic-foot-osteo",
@@ -421,7 +529,43 @@ export const BONE_JOINT: DiseaseState = {
         "OVIVA + SURGERY = PARADIGM SHIFT: For DFI osteomyelitis treated with complete bone resection and clean margins, antibiotics can be as short as 5-7 days. This is dramatically different from the traditional 6-week IV dogma. The surgery does the heavy lifting; antibiotics are adjunctive.",
         "VASCULAR ASSESSMENT BEFORE ANTIBIOTICS: No antibiotic can cure osteomyelitis in an ischemic limb. Check ankle-brachial index, toe pressures, or transcutaneous oxygen. If vascular disease is present, revascularization is needed for healing. Multidisciplinary approach (vascular surgery + ID + podiatry + wound care) is essential.",
         "PROBE-TO-BONE: FREE, FAST, AND INFORMATIVE: Every clinician seeing DFI should perform this test. Positive PTB in a high-risk patient has PPV ~89% for osteomyelitis. Negative PTB has NPV ~56% (doesn't rule it out). Takes 30 seconds and requires only a sterile blunt probe."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Use probe-to-bone, MRI when needed, bone biopsy or intraoperative cultures, and a perfusion assessment before committing to a long osteomyelitis plan."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Limb-threatening ischemia, spreading necrosis, systemic toxicity, gangrene, or inability to off-load safely means this is no longer a routine outpatient-compatible foot infection."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Recent antibiotics, prior resistant isolates, recurrent admissions, chronic wounds, and prior amputations all increase the chance that initial therapy is too broad or too narrow if culture strategy is weak."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Debridement, bone resection, drainage, off-loading, and revascularization often matter more than antibiotic escalation in getting the foot to heal."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "Once bone or deep operative cultures identify the pathogen set, stop unnecessary MRSA or anti-pseudomonal coverage quickly and avoid letting superficial swabs drive the plan."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Oral step-down is appropriate after debridement or resection, clinical improvement, and confirmation that the chosen oral regimen reaches bone and matches the true culture results."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "If the wound stalls, re-check perfusion, repeat debridement plans, and re-evaluate for residual osteomyelitis before simply extending or broadening antibiotics."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Podiatry, vascular surgery, wound care, and ID are all high-yield when ischemia, recurrent resistant pathogens, or uncertain bone margins complicate the case."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Count duration from the first active regimen after the decisive bone or soft-tissue source-control step: medical management usually needs weeks, while complete resection with clean margins can shorten therapy dramatically."
+      }
     }
   ],
   "drugMonographs": [
@@ -463,6 +607,101 @@ export const BONE_JOINT: DiseaseState = {
         "START RIFAMPIN AFTER DEBRIDEMENT AND BLOODSTREAM CLEARANCE: Do not start rifampin on day 1 of empiric therapy for a bacteremic patient. The high bacterial load during bacteremia increases the probability of selecting rifampin-resistant mutants. Wait until surgical debridement is complete and blood cultures are clearing, THEN add rifampin.",
         "ORANGE BODY FLUIDS: Warn patients that urine, tears, sweat, and saliva will turn orange/red. This stains contact lenses permanently — switch to glasses. Stains are harmless but alarming if unexpected. This counseling point prevents unnecessary ER visits.",
         "THE ARREST TRIAL DISTINCTION: Rifampin is NOT beneficial for native valve SAB (ARREST trial — no benefit, added toxicity). BUT rifampin IS essential for prosthetic material infections (PJI, prosthetic valve IE — Zimmerli trial showed dramatic benefit). The distinction is BIOFILM: prosthetic material has biofilm, native valves do not."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Prosthetic joint infection with retained hardware",
+          "regimen": "300-450 mg PO q12h",
+          "notes": "Always combine with an active companion drug and start after debridement plus bloodstream control."
+        },
+        {
+          "label": "Prosthetic valve endocarditis or higher-burden biofilm disease",
+          "regimen": "300-450 mg PO q8h",
+          "notes": "Use only when the implant or biofilm context truly justifies the interaction burden."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No dose adjustment or post-HD supplementation is usually needed because rifampin is not meaningfully removed by dialysis."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Standard dosing is usually maintained in CRRT; the practical dose-limiting issue is hepatic toxicity and drug interaction management, not filter clearance."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Hepatic disease",
+          "guidance": "Baseline and interval liver tests matter more than usual because rifampin can tip a marginal liver into a real toxicity problem."
+        },
+        {
+          "population": "Methadone, oral contraception, transplant, or complex polypharmacy",
+          "guidance": "This is the classic 'interaction-heavy' host where rifampin should only be used when its biofilm value clearly outweighs the collateral medication disruption."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target is used in routine bone and joint care; the real target is effective combination therapy without hepatic or interaction-related failure.",
+        "sampling": "No drug levels are standard outside specialist TB or malabsorption scenarios. Monitor LFTs and the companion-drug plan instead.",
+        "adjustment": "If toxicity or interaction fallout becomes unmanageable, change the rifampin plan rather than pretending the biofilm upside is automatic."
+      },
+      "administration": {
+        "oralAbsorption": "Oral therapy is the usual route and is best absorbed on an empty stomach, though tolerability may justify food when needed.",
+        "note": "Orange body fluids and permanent contact-lens staining should be part of routine counseling."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "Oral therapy is the standard route; IV rifampin is rarely needed in routine hardware infection care.",
+        "switchCriteria": "If rifampin is started IV in a special case, convert to PO as soon as the patient can absorb reliably.",
+        "note": "The bigger timing question is not IV vs PO but whether bacteremia and source control are ready for rifampin at all."
+      },
+      "opatEligibility": {
+        "eligible": "no",
+        "administration": "Rifampin is usually an oral adjunct rather than an OPAT anchor.",
+        "monitoring": "Outpatient care should focus on liver tests and companion-drug interaction management rather than infusion logistics.",
+        "considerations": [
+          "Never use rifampin as monotherapy.",
+          "Review the entire medication list before discharge because interaction failures often happen after the patient leaves."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "Potent enzyme induction can dramatically lower INR control and then rebound when rifampin is stopped.",
+          "management": "Expect major dose changes and monitor INR closely at both the start and the stop.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Methadone, oral contraceptives, calcineurin inhibitors, or azoles",
+          "effect": "Rifampin can collapse exposure to these drugs and destabilize the rest of the treatment plan.",
+          "management": "Use rifampin only with an explicit medication-management plan for each high-risk interacting drug.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Staphylococcal prosthetic infection with retained material",
+          "role": "Rifampin earns its place when biofilm activity materially changes the chance of cure.",
+          "notes": "That benefit does not extend automatically to native-valve or native-tissue disease."
+        },
+        {
+          "scenario": "Temptation to add rifampin to any tough Staph infection",
+          "role": "Use restraint; the drug is worth its interaction burden mainly in true hardware or biofilm syndromes.",
+          "notes": "Native-valve SAB is not the same biologic problem."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Biofilm / hardware surface",
+          "detail": "Excellent biofilm penetration is rifampin's signature advantage in prosthetic joint infection and retained hardware scenarios."
+        },
+        {
+          "site": "Bone / joint",
+          "detail": "Tissue entry is useful, but rifampin should only be used with a companion drug because monotherapy rapidly selects resistance."
+        },
+        {
+          "site": "Intracellular compartment",
+          "detail": "Good intracellular entry helps when staphylococci are embedded in tissue or device-adjacent inflammatory debris."
+        }
       ]
     },
     {
@@ -499,6 +738,20 @@ export const BONE_JOINT: DiseaseState = {
         "BONE PENETRATION MAKES IT VALUABLE FOR OSTEOMYELITIS: Linezolid achieves bone concentrations that are 40-60% of serum — among the highest of any antibiotic. Combined with 100% oral bioavailability, it's an excellent OVIVA-style oral step-down option for MRSA osteomyelitis. Duration limitation (myelosuppression >4-6 weeks) is the main constraint.",
         "THE MAO INHIBITOR INTERACTION IS REAL BUT NUANCED: For short courses (≤14 days), many ID pharmacists and physicians continue SSRIs/SNRIs with monitoring rather than holding them. For bone/joint infections requiring weeks of linezolid, the serotonergic drug should be held or an alternative antibiotic chosen. The key is duration-dependent risk assessment.",
         "MRSA PNEUMONIA: LINEZOLID > VANCOMYCIN: Vancomycin achieves poor lung concentrations (epithelial lining fluid levels are only 10-25% of serum). Linezolid achieves ELF concentrations exceeding serum levels. For MRSA pneumonia, linezolid is preferred. The ZEPHyR trial showed numerical superiority of linezolid over vancomycin for MRSA nosocomial pneumonia (though primary endpoint differences were debated)."
+      ],
+      "penetration": [
+        {
+          "site": "Bone / joint",
+          "detail": "Excellent bone and joint exposure plus oral equivalence make linezolid a practical step-down option for selected gram-positive osteoarticular infection."
+        },
+        {
+          "site": "Soft tissue",
+          "detail": "Soft-tissue penetration is strong enough to support combined bone and overlying wound infection treatment when toxicity is being monitored."
+        },
+        {
+          "site": "Lung",
+          "detail": "The same lung penetration advantage seen in MRSA pneumonia is one reason linezolid remains attractive when bone and pulmonary gram-positive disease overlap."
+        }
       ]
     }
   ]

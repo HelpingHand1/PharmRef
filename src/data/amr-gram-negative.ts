@@ -1,7 +1,10 @@
 // Editorial source for the generated AMR Gram-Negative disease module.
 // Runtime catalog imports use src/data/generated/diseases/amr-gram-negative.ts.
+import type { DiseaseState } from "../types";
+import { AMR_GN_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
+import { enhanceDisease } from "./stewardship-content";
 
-export const AMR_GN = {
+const AMR_GN_BASE: DiseaseState = {
     id: "amr-gn",
     name: "AMR Gram-Negative Infections",
     icon: "🛡️",
@@ -124,6 +127,65 @@ export const AMR_GN = {
         definition: "KPC (Klebsiella pneumoniae carbapenemase) is the dominant carbapenemase in the US, accounting for 80-86% of carbapenemase-producing CRE. KPC hydrolyzes all beta-lactams including carbapenems. It is inhibited by avibactam, vaborbactam, and relebactam — making the newer BL-BLI combinations the treatment of choice. The IDSA 2024 guidance slightly favors meropenem-vaborbactam, followed by ceftazidime-avibactam, then imipenem-cilastatin-relebactam, based on clinical outcomes data and resistance emergence risk.",
         clinicalPresentation: "CRE cause the same syndromes as other Enterobacterales but with dramatically higher mortality (30-50% for BSI). CDC classifies CRE as an URGENT threat. Common presentations: BSI (often from urinary or abdominal source), complicated UTI, hospital-acquired pneumonia, IAI. Most CRE infections are healthcare-associated — suspect in patients with recent hospitalization, ICU stays, prior broad-spectrum antibiotics, or residence in endemic facilities.",
         diagnostics: "AST identifies carbapenem non-susceptibility. Carbapenemase detection: phenotypic (modified carbapenem inactivation method — mCIM, distinguishes carbapenemase vs non-carbapenemase CRE) and molecular (PCR for blaKPC, blaNDM, blaVIM, blaIMP, blaOXA-48-like). IDSA strongly encourages labs to implement SPECIFIC carbapenemase identification — the choice of preferred agent depends on WHICH carbapenemase is present. Knowing 'CRE' is not enough; knowing 'KPC-producing CRE' drives treatment selection.",
+        rapidDiagnostics: [
+          {
+            trigger: "Carbapenemase PCR or lateral-flow assay reports KPC detected",
+            action: "Move promptly to meropenem-vaborbactam, ceftazidime-avibactam, or imipenem-cilastatin-relebactam rather than polymyxin-based bridging or carbapenem push-through.",
+            rationale: "Mechanism confirmation is the highest-yield stewardship step because KPC behaves very differently from MBL or OXA-48 CRE.",
+          },
+          {
+            trigger: "Blood culture identifies CRE but carbapenemase mechanism is still pending",
+            action: "Call the microbiology lab for same-day mechanism testing before locking in definitive therapy; avoid assuming all CRE isolates share the same preferred agent.",
+            rationale: "A few hours spent clarifying KPC versus MBL versus OXA-48 can prevent the wrong reserve agent from being selected.",
+          },
+        ],
+        breakpointNotes: [
+          {
+            marker: "Ceftazidime-avibactam susceptibility",
+            interpretation: "A susceptible result fits KPC and many OXA-48-like isolates, but resistance can emerge during therapy through KPC omega-loop mutations.",
+            action: "If clinical failure occurs, repeat susceptibility testing and reassess whether meropenem-vaborbactam or imipenem-relebactam is still active.",
+          },
+          {
+            marker: "Meropenem-vaborbactam MIC",
+            interpretation: "Best aligned with confirmed KPC-producing Enterobacterales; the vaborbactam component does not rescue OXA-48 or MBL producers.",
+            action: "Do not extrapolate a KPC-focused susceptibility result to another carbapenemase phenotype.",
+          },
+        ],
+        intrinsicResistance: [
+          {
+            organism: "Proteus, Morganella, Providencia (if KPC-producing)",
+            resistance: "These genera remain intrinsically less susceptible to polymyxins even when they also meet CRE criteria.",
+            implication: "Do not use colistin or polymyxin B as salvage anchors for these organisms just because the isolate is labeled CRE.",
+          },
+          {
+            organism: "KPC-producing Enterobacterales",
+            resistance: "Standard carbapenem monotherapy is functionally inactive once the KPC mechanism is established.",
+            implication: "Avoid 'high-dose meropenem anyway' strategies when a targeted KPC-active beta-lactam/BLI is available.",
+          },
+        ],
+        coverageMatrix: [
+          {
+            label: "KPC confirmed",
+            status: "preferred",
+            detail: "Meropenem-vaborbactam, ceftazidime-avibactam, or imipenem-cilastatin-relebactam are the core definitive options.",
+            note: "Meropenem-vaborbactam is slightly favored when available and susceptible.",
+          },
+          {
+            label: "OXA-48-like instead of KPC",
+            status: "conditional",
+            detail: "Ceftazidime-avibactam remains the cleanest option; meropenem-vaborbactam and imipenem-relebactam should not be assumed active.",
+          },
+          {
+            label: "MBL detected",
+            status: "avoid",
+            detail: "Exit the KPC pathway and switch to ceftazidime-avibactam plus aztreonam or cefiderocol.",
+          },
+          {
+            label: "Pyelonephritis or cUTI with oral susceptibility",
+            status: "active",
+            detail: "TMP-SMX or a fluoroquinolone can be used to spare novel beta-lactam/BLI exposure when susceptibility is confirmed.",
+          },
+        ],
         empiricTherapy: [
           {
             line: "Preferred — KPC-Producing CRE (Non-Urinary Infections)",
@@ -165,6 +227,65 @@ export const AMR_GN = {
         definition: "Metallo-β-lactamases (MBLs) — including NDM, VIM, and IMP — are zinc-dependent carbapenemases that hydrolyze ALL beta-lactams EXCEPT aztreonam. Critically, MBLs are NOT inhibited by avibactam, vaborbactam, or relebactam — meaning caz-avi, mer-vab, and imi-rele used ALONE are ineffective. Treatment requires either: (1) ceftazidime-avibactam PLUS aztreonam (avibactam protects aztreonam from co-produced serine beta-lactamases; aztreonam is intrinsically stable to MBLs), or (2) cefiderocol (siderophore cephalosporin, stable to MBL hydrolysis). MBL prevalence in US CRE is RISING: from 4% to 20% between 2019-2021. NDM is the dominant MBL in the US.",
         clinicalPresentation: "Same as other CRE — BSI, UTI, IAI, pneumonia. MBL-producing CRE are often MORE resistant than KPC-CRE because MBL genes are frequently co-located on plasmids carrying additional resistance determinants (aminoglycoside-modifying enzymes, FQ resistance, etc.). The treatment options are severely limited. These are among the hardest-to-treat infections in medicine. ID consultation is mandatory.",
         diagnostics: "Carbapenemase-specific testing is ESSENTIAL. Phenotypic: EDTA-based tests (EDTA inhibits MBLs by chelating zinc). Molecular: PCR for blaNDM, blaVIM, blaIMP genes. CLSI has endorsed broth disk elution (BDE) method for testing ceftazidime-avibactam/aztreonam combination susceptibility against MBL-producers. Knowing 'MBL' vs 'KPC' vs 'OXA-48' completely changes the treatment algorithm.",
+        rapidDiagnostics: [
+          {
+            trigger: "PCR detects NDM, VIM, or IMP",
+            action: "Stop relying on ceftazidime-avibactam, meropenem-vaborbactam, or imipenem-relebactam alone and move to ceftazidime-avibactam plus aztreonam or cefiderocol.",
+            rationale: "MBL enzymes are not inhibited by avibactam, vaborbactam, or relebactam when those agents are used as stand-alone combinations.",
+          },
+          {
+            trigger: "Broth disk elution or local combo testing for ceftazidime-avibactam plus aztreonam is available",
+            action: "Use synchronized combination susceptibility support when possible to operationalize the aztreonam strategy and document the planned co-infusion schedule.",
+            rationale: "This is one of the few resistant-phenotype scenarios where a paired regimen materially changes whether aztreonam is viable.",
+          },
+        ],
+        breakpointNotes: [
+          {
+            marker: "Aztreonam alone on the susceptibility panel",
+            interpretation: "An apparently favorable aztreonam result can be misleading because co-produced ESBL or AmpC enzymes often destroy aztreonam unless avibactam is present.",
+            action: "Do not use aztreonam monotherapy for serious MBL-CRE infection.",
+          },
+          {
+            marker: "Cefiderocol MIC near the susceptibility cutoff",
+            interpretation: "Clinical success depends on the full 3-hour infusion and ARC-aware dosing because resistance can emerge during treatment.",
+            action: "Recheck renal clearance frequently and consider an early repeat culture if the patient is not improving.",
+          },
+        ],
+        intrinsicResistance: [
+          {
+            organism: "MBL-producing Enterobacterales",
+            resistance: "Functionally resistant to all beta-lactams except aztreonam, and aztreonam usually needs avibactam protection to remain active.",
+            implication: "Avoid any stand-alone carbapenem/BLI product once the MBL mechanism is known.",
+          },
+          {
+            organism: "Proteus, Morganella, Providencia (if MBL-producing)",
+            resistance: "These genera also bring intrinsic polymyxin limitations on top of the MBL phenotype.",
+            implication: "Polymyxin salvage is especially unattractive in this subset.",
+          },
+        ],
+        coverageMatrix: [
+          {
+            label: "Confirmed NDM, VIM, or IMP",
+            status: "preferred",
+            detail: "Ceftazidime-avibactam plus aztreonam or cefiderocol are the main definitive options.",
+            note: "Many programs prefer the aztreonam strategy first when the combo can be coordinated cleanly.",
+          },
+          {
+            label: "Aztreonam without avibactam protection",
+            status: "avoid",
+            detail: "Do not treat serious MBL-CRE infection with aztreonam alone even if it looks active in isolation.",
+          },
+          {
+            label: "Mechanism later proves KPC or OXA-48 rather than MBL",
+            status: "inactive",
+            detail: "Exit this pathway and move to the narrower phenotype-specific CRE strategy.",
+          },
+          {
+            label: "Bridge while combo logistics are being solved",
+            status: "conditional",
+            detail: "Cefiderocol can be used with close microbiology follow-up when synchronized aztreonam pairing is not immediately feasible.",
+          },
+        ],
         empiricTherapy: [
           {
             line: "Preferred — MBL-Producing CRE (Non-Urinary Infections)",
@@ -199,6 +320,64 @@ export const AMR_GN = {
         definition: "Difficult-to-treat resistant (DTR) P. aeruginosa is defined as non-susceptible to ALL of the following: piperacillin-tazobactam, ceftazidime, cefepime, aztreonam, meropenem, imipenem, ciprofloxacin, and levofloxacin. This is the most restrictive definition of resistant Pseudomonas — only novel BL-BLIs and cefiderocol remain active. IDSA 2024 preferred agents: ceftolozane-tazobactam, ceftazidime-avibactam, imipenem-cilastatin-relebactam, or cefiderocol. Important: if the isolate IS susceptible to a traditional agent (e.g., cefepime), use that agent as HIGH-DOSE EXTENDED INFUSION first.",
         clinicalPresentation: "DTR-PA typically occurs in patients with significant healthcare exposure: prolonged ICU stays, chronic ventilator dependence, cystic fibrosis, bronchiectasis, recurrent hospital admissions with multiple antibiotic courses. Common sites: ventilator-associated pneumonia (most common serious DTR-PA infection), bloodstream infections, complicated UTI, wound infections, osteomyelitis. Pseudomonal infections are characterized by biofilm formation, making eradication difficult.",
         diagnostics: "Standard AST identifies susceptibility pattern. DTR is defined by NON-susceptibility to ALL traditional anti-pseudomonal agents. If the isolate retains susceptibility to ANY traditional agent (cefepime, meropenem, pip-tazo, etc.), administer that agent as high-dose extended infusion rather than jumping to novel BL-BLIs. Susceptibility to ceftolozane-tazobactam, ceftazidime-avibactam, imipenem-relebactam, and cefiderocol should be tested when DTR phenotype is identified.",
+        rapidDiagnostics: [
+          {
+            trigger: "Traditional anti-pseudomonal panel is fully non-susceptible but no MBL is detected",
+            action: "Choose among ceftolozane-tazobactam, ceftazidime-avibactam, imipenem-cilastatin-relebactam, or cefiderocol using local susceptibility, infection site, and prior beta-lactam exposure.",
+            rationale: "The DTR label identifies the reserve-agent bucket, but mechanism and site still determine the best individual drug.",
+          },
+          {
+            trigger: "VIM or IMP is detected in Pseudomonas",
+            action: "Avoid ceftolozane-tazobactam and ceftazidime-avibactam as primary therapy and pivot toward cefiderocol-centered treatment.",
+            rationale: "MBL-producing Pseudomonas closes off two of the most frequently chosen novel beta-lactams.",
+          },
+        ],
+        breakpointNotes: [
+          {
+            marker: "Ceftolozane-tazobactam dose selection",
+            interpretation: "Use the 3 g q8h exposure for serious DTR Pseudomonas outside simple urinary infection; the 1.5 g q8h cUTI/cIAI dose underexposes pneumonia and bacteremia.",
+            action: "If the phenotype is truly DTR and the infection is invasive, default to the higher exposure strategy.",
+          },
+          {
+            marker: "Traditional beta-lactam still reported susceptible",
+            interpretation: "IDSA favors high-dose extended infusion of that traditional agent before defaulting to a reserve novel beta-lactam.",
+            action: "Do not bypass cefepime or meropenem merely because newer agents feel broader.",
+          },
+        ],
+        intrinsicResistance: [
+          {
+            organism: "Pseudomonas aeruginosa",
+            resistance: "Low outer-membrane permeability, inducible AmpC, and efflux pumps make underdosed beta-lactams fail quickly.",
+            implication: "Use PK/PD-optimized dosing and avoid short infusions for borderline MIC isolates.",
+          },
+          {
+            organism: "MBL-producing Pseudomonas",
+            resistance: "VIM and IMP enzymes neutralize ceftolozane-tazobactam and ceftazidime-avibactam despite the broader DTR label.",
+            implication: "Mechanism confirmation can immediately narrow the novel-agent shortlist.",
+          },
+        ],
+        coverageMatrix: [
+          {
+            label: "No MBL detected",
+            status: "preferred",
+            detail: "Ceftolozane-tazobactam, ceftazidime-avibactam, imipenem-cilastatin-relebactam, or cefiderocol are all viable reserve options when susceptible.",
+          },
+          {
+            label: "VIM or IMP detected",
+            status: "avoid",
+            detail: "Treat ceftolozane-tazobactam and ceftazidime-avibactam as inactive until proven otherwise; cefiderocol becomes the cleaner anchor.",
+          },
+          {
+            label: "Traditional cefepime, meropenem, or piperacillin-tazobactam remains susceptible",
+            status: "active",
+            detail: "Use the traditional agent as high-dose extended infusion before escalating to a reserve beta-lactam.",
+          },
+          {
+            label: "UTI only with aminoglycoside susceptibility",
+            status: "conditional",
+            detail: "A once-daily aminoglycoside can be a short-course option when renal function and toxicity risk allow.",
+          },
+        ],
         empiricTherapy: [
           {
             line: "FIRST: If Susceptible to ANY Traditional Agent — Use It",
@@ -239,6 +418,64 @@ export const AMR_GN = {
         definition: "CRAB (carbapenem-resistant Acinetobacter baumannii) carries the highest mortality of any gram-negative AMR phenotype (40-60% crude mortality). IDSA 2024: sulbactam-durlobactam (+ carbapenem backbone) is now the PREFERRED agent. S. maltophilia is an intrinsically resistant, opportunistic glucose non-fermenter found in ICU patients, immunocompromised hosts, and CF patients. Intrinsically resistant to carbapenems, aminoglycosides, and most beta-lactams. Preferred agents: cefiderocol (+ second agent initially), caz-avi + aztreonam, minocycline, TMP-SMX, or levofloxacin (each with a second agent).",
         clinicalPresentation: "CRAB: predominantly healthcare-associated — ventilator-associated pneumonia (most common), bloodstream infections, wound infections, meningitis (post-neurosurgical). Environmental reservoir (survives on surfaces for weeks). Outbreaks in ICUs. Mortality: 40-60% for BSI. S. maltophilia: hospital-acquired pneumonia (especially ventilated patients), bloodstream infections (often catheter-related), immunocompromised hosts (hematologic malignancy, transplant). KEY for both: distinguish colonization from true infection. Unnecessary treatment drives further resistance.",
         diagnostics: "CRAB: AST shows resistance to carbapenems + most other agents. Most CRAB produce OXA-type carbapenemases (OXA-23, OXA-24/40, OXA-58). Sulbactam-durlobactam susceptibility testing should be performed. S. maltophilia: intrinsically resistant to carbapenems (L1 metallo-beta-lactamase) and aminoglycosides. CLSI 2024: ceftazidime breakpoints REMOVED for S. maltophilia (do not test). TMP-SMX, minocycline, levofloxacin, and cefiderocol susceptibility should be tested. BDE method available for caz-avi/aztreonam combination testing.",
+        rapidDiagnostics: [
+          {
+            trigger: "A. baumannii complex grows with carbapenem resistance",
+            action: "Request sulbactam-durlobactam susceptibility or confirm local access early; if unavailable, build a high-dose ampicillin-sulbactam combination promptly.",
+            rationale: "CRAB therapy selection changes materially depending on whether sulbactam-durlobactam can be deployed.",
+          },
+          {
+            trigger: "S. maltophilia appears in a respiratory culture",
+            action: "Confirm that the patient has a true clinical infection rather than colonization before starting directed therapy; if treatment is needed, remove carbapenem and ceftazidime anchors.",
+            rationale: "Both overtreatment and the wrong treatment are common in Stenotrophomonas-positive respiratory cultures.",
+          },
+        ],
+        breakpointNotes: [
+          {
+            marker: "S. maltophilia ceftazidime result",
+            interpretation: "CLSI removed breakpoints, so ceftazidime should no longer be used as a treatment justification for Stenotrophomonas.",
+            action: "If the lab still reports ceftazidime, treat that output as outdated and choose a contemporary active agent instead.",
+          },
+          {
+            marker: "CRAB sulbactam-durlobactam susceptibility",
+            interpretation: "This should be requested specifically when the platform supports it; ampicillin-sulbactam results alone are not a reliable surrogate.",
+            action: "Escalate to the lab or stewardship team early rather than waiting until other salvage agents have already been started.",
+          },
+        ],
+        intrinsicResistance: [
+          {
+            organism: "Stenotrophomonas maltophilia",
+            resistance: "Intrinsically resistant to carbapenems via the L1 metallo-beta-lactamase and to many beta-lactams via the L2 serine beta-lactamase.",
+            implication: "Do not leave meropenem or imipenem in place once Stenotrophomonas is the true target.",
+          },
+          {
+            organism: "Acinetobacter baumannii complex",
+            resistance: "Rapidly accumulates OXA carbapenemases and efflux-mediated resistance under monotherapy pressure.",
+            implication: "Avoid single-agent salvage strategies for CRAB.",
+          },
+        ],
+        coverageMatrix: [
+          {
+            label: "CRAB with sulbactam-durlobactam access",
+            status: "preferred",
+            detail: "Sulbactam-durlobactam plus a carbapenem backbone is the new first-line pathway.",
+          },
+          {
+            label: "CRAB without sulbactam-durlobactam access",
+            status: "conditional",
+            detail: "High-dose ampicillin-sulbactam plus at least one second active agent is the fallback structure.",
+          },
+          {
+            label: "Severe Stenotrophomonas infection",
+            status: "preferred",
+            detail: "Cefiderocol, ceftazidime-avibactam plus aztreonam, TMP-SMX, or minocycline-based combination therapy are the main modern options.",
+          },
+          {
+            label: "Stenotrophomonas ceftazidime pathway",
+            status: "avoid",
+            detail: "Treat this as outdated because the breakpoint support is gone and reliability is poor.",
+          },
+        ],
         empiricTherapy: [
           {
             line: "Preferred — CRAB Infections",
@@ -303,6 +540,64 @@ export const AMR_GN = {
         ],
         monitoring: "Renal function (dose adjustment critical). LFTs (especially when combined with aztreonam). Seizure monitoring (particularly in renal impairment or CNS disease). Clinical response. Repeat cultures to assess microbiological clearance, especially for CRE BSI. Monitor for resistance emergence — KPC omega loop mutations (D179Y) can cause caz-avi failure.",
         pregnancyLactation: "Category B. Limited human data. Animal studies showed no harm at therapeutic doses. Use only if clearly needed. Unknown if excreted in breast milk.",
+        rapidDiagnostics: [
+          {
+            trigger: "KPC or OXA-48-like carbapenemase is reported",
+            action: "Use ceftazidime-avibactam as a frontline anchor when the isolate is susceptible and the infection syndrome fits the drug's exposure profile.",
+            rationale: "This is one of the few novel beta-lactams that meaningfully covers both KPC and OXA-48-like producers.",
+          },
+          {
+            trigger: "NDM, VIM, or IMP is reported",
+            action: "Do not use ceftazidime-avibactam alone; pair aztreonam or change to another active agent such as cefiderocol.",
+            rationale: "Avibactam does not inhibit metallo-beta-lactamases by itself.",
+          },
+        ],
+        breakpointNotes: [
+          {
+            marker: "Same labeled dose across indications",
+            interpretation: "The 2.5 g q8h dose is used across the label, but renal underdosing is a common reason for treatment failure in critically ill patients.",
+            action: "Recalculate renal function frequently and avoid preemptive dose reduction without a real drop in clearance.",
+          },
+          {
+            marker: "Loss of susceptibility during therapy",
+            interpretation: "KPC omega-loop mutations can raise the ceftazidime-avibactam MIC while occasionally restoring carbapenem susceptibility.",
+            action: "If the patient worsens, repeat cultures and reassess whether meropenem-vaborbactam or imipenem-cilastatin-relebactam has become viable.",
+          },
+        ],
+        intrinsicResistance: [
+          {
+            organism: "MBL-producing Enterobacterales",
+            resistance: "Avibactam does not inhibit NDM, VIM, or IMP when used alone.",
+            implication: "Ceftazidime-avibactam monotherapy is the wrong choice unless aztreonam is added.",
+          },
+          {
+            organism: "CRAB",
+            resistance: "Acinetobacter generally remains outside the dependable activity range of ceftazidime-avibactam.",
+            implication: "Do not repurpose the drug as a CRAB salvage agent just because it is a newer BL/BLI.",
+          },
+        ],
+        coverageMatrix: [
+          {
+            label: "KPC-CRE",
+            status: "preferred",
+            detail: "A core definitive option when the isolate is susceptible.",
+          },
+          {
+            label: "OXA-48-like CRE",
+            status: "active",
+            detail: "Often the cleanest beta-lactam option when OXA-48-like is confirmed.",
+          },
+          {
+            label: "MBL-CRE with aztreonam pairing",
+            status: "conditional",
+            detail: "Useful only when aztreonam is co-administered to restore meaningful activity.",
+          },
+          {
+            label: "CRAB",
+            status: "avoid",
+            detail: "Not a dependable primary agent for carbapenem-resistant Acinetobacter.",
+          },
+        ],
         pharmacistPearls: [
           "THE MOST VERSATILE NOVEL BL-BLI: Caz-avi is effective against KPC-CRE, ESBL-E, AmpC-E, OXA-48-CRE, DTR-PA, and (with aztreonam) MBL-CRE and S. maltophilia. No other single agent covers this breadth. However, this versatility means it should be used JUDICIOUSLY — resistance emergence is the biggest concern.",
           "Caz-avi + aztreonam for MBL-CRE: The avibactam is the hero here, not the ceftazidime. Avibactam protects aztreonam from serine beta-lactamases co-produced by MBL organisms. Aztreonam is intrinsically stable to MBLs. Administer simultaneously q8h. Monitor LFTs closely.",
@@ -335,6 +630,64 @@ export const AMR_GN = {
         ],
         monitoring: "Renal function (for dose adjustment). Seizure monitoring (meropenem component). Clinical response. Repeat cultures for CRE BSI to document clearance. CBC (thrombocytopenia risk with prolonged courses). Hepatic function (baseline and periodic).",
         pregnancyLactation: "Limited data. Meropenem is Category B. Vaborbactam has limited human pregnancy data. Use only if clearly needed.",
+        rapidDiagnostics: [
+          {
+            trigger: "KPC is confirmed on carbapenemase testing",
+            action: "Move meropenem-vaborbactam near the top of the definitive-treatment list when the isolate is susceptible.",
+            rationale: "This drug has the most KPC-specific positioning in the catalog and a comparatively low resistance-emergence signal.",
+          },
+          {
+            trigger: "OXA-48 or any MBL is reported",
+            action: "Do not use meropenem-vaborbactam as the anchor because the inhibitor does not solve those mechanisms.",
+            rationale: "The 'carbapenem plus inhibitor' label can create a false sense of universal CRE coverage.",
+          },
+        ],
+        breakpointNotes: [
+          {
+            marker: "3-hour infusion",
+            interpretation: "The longer infusion is part of the core exposure strategy, especially when the isolate has an elevated MIC but remains susceptible.",
+            action: "Do not shorten the infusion for convenience in serious KPC infection.",
+          },
+          {
+            marker: "Activity outside KPC",
+            interpretation: "A reported meropenem-vaborbactam result should not be generalized to OXA-48 or MBL CRE without mechanism confirmation.",
+            action: "Keep carbapenemase testing linked to every susceptibility interpretation.",
+          },
+        ],
+        intrinsicResistance: [
+          {
+            organism: "MBL-producing Enterobacterales",
+            resistance: "Vaborbactam does not inhibit NDM, VIM, or IMP.",
+            implication: "Treat the combination as inactive until another mechanism is proven.",
+          },
+          {
+            organism: "OXA-48-like CRE",
+            resistance: "Clinical activity is unreliable because vaborbactam does not meaningfully inhibit OXA-48-like enzymes.",
+            implication: "Use ceftazidime-avibactam instead when OXA-48-like is confirmed.",
+          },
+        ],
+        coverageMatrix: [
+          {
+            label: "KPC-CRE",
+            status: "preferred",
+            detail: "One of the strongest definitive options when susceptible.",
+          },
+          {
+            label: "ESBL or AmpC with meropenem need",
+            status: "active",
+            detail: "The meropenem component remains active, but stewardship should usually preserve the drug for KPC cases.",
+          },
+          {
+            label: "OXA-48-like CRE",
+            status: "inactive",
+            detail: "Do not assume reliable rescue of this mechanism.",
+          },
+          {
+            label: "NDM, VIM, or IMP",
+            status: "avoid",
+            detail: "Move to an MBL-specific strategy such as ceftazidime-avibactam plus aztreonam or cefiderocol.",
+          },
+        ],
         pharmacistPearls: [
           "SLIGHTLY FAVORED FOR KPC-CRE by IDSA 2024: Based on TANGO II trial (strongest clinical trial data for any BL-BLI vs CRE), observational studies showing higher cure rates and lower resistance emergence vs caz-avi, and potent KPC-specific inhibition. The preference is slight — all three preferred agents are acceptable.",
           "LOWEST RESISTANCE EMERGENCE of the three preferred KPC agents: Boronic acid scaffold provides high-affinity KPC binding. KPC mutations that escape vaborbactam are less common than those escaping avibactam. Observational data: 0% resistance emergence with mer-vab vs 20% with caz-avi in one comparative study. This matters for prolonged courses.",
@@ -368,6 +721,64 @@ export const AMR_GN = {
         ],
         monitoring: "Renal function (critical — both for dose reduction AND for identifying augmented renal clearance requiring dose increase). Clinical response. Repeat cultures to document microbiological clearance. CBC. Hepatic function (LFT elevations reported). Monitor for resistance emergence — described with and without prior exposure.",
         pregnancyLactation: "Limited human data. Animal studies showed skeletal variations at high doses. Use only if clearly needed.",
+        rapidDiagnostics: [
+          {
+            trigger: "NDM, VIM, or IMP is confirmed and synchronized aztreonam pairing is not feasible",
+            action: "Use cefiderocol as a rapid-response anchor while confirming full susceptibility and dosing for renal clearance.",
+            rationale: "It is one of the few single agents that can cover these phenotypes without a partner drug.",
+          },
+          {
+            trigger: "CRAB is the target organism",
+            action: "Avoid cefiderocol monotherapy and pair it with another active CRAB agent if it must be used.",
+            rationale: "The CRAB mortality signal means the drug should not be treated as a solo solution in that phenotype.",
+          },
+        ],
+        breakpointNotes: [
+          {
+            marker: "3-hour infusion",
+            interpretation: "The labeled prolonged infusion is central to maintaining time above MIC, especially in isolates with higher but still susceptible MICs.",
+            action: "Shortening the infusion sacrifices one of cefiderocol's key pharmacodynamic advantages.",
+          },
+          {
+            marker: "Augmented renal clearance",
+            interpretation: "CrCl above 120 mL/min can justify q6h dosing because cefiderocol clearance rises with renal function.",
+            action: "Reassess renal function often in burns, early sepsis, or younger critically ill patients.",
+          },
+        ],
+        intrinsicResistance: [
+          {
+            organism: "Gram-positive organisms and anaerobes",
+            resistance: "Cefiderocol has no meaningful primary role against these groups despite its broad gram-negative AMR coverage.",
+            implication: "Do not let the novelty of the drug distract from obvious gram-positive or anaerobic gaps.",
+          },
+          {
+            organism: "CRAB under monotherapy pressure",
+            resistance: "Resistance can emerge during therapy and the CRAB subgroup had worse mortality in CREDIBLE-CR.",
+            implication: "Use combination therapy and close follow-up cultures when cefiderocol is chosen for Acinetobacter.",
+          },
+        ],
+        coverageMatrix: [
+          {
+            label: "MBL-CRE",
+            status: "preferred",
+            detail: "A frontline option when aztreonam pairing is not practical or not tolerated.",
+          },
+          {
+            label: "DTR Pseudomonas with MBL risk",
+            status: "active",
+            detail: "Often the cleanest single-agent reserve beta-lactam when VIM or IMP is suspected.",
+          },
+          {
+            label: "CRAB",
+            status: "conditional",
+            detail: "Use only with combination framing rather than monotherapy.",
+          },
+          {
+            label: "Gram-positive or anaerobic pathogens",
+            status: "avoid",
+            detail: "No dependable coverage; add separate agents if those organisms matter.",
+          },
+        ],
         pharmacistPearls: [
           "THE BROADEST SINGLE AGENT IN THE AMR TOOLKIT: Cefiderocol is active against ALL major AMR gram-negative phenotypes — KPC-CRE, MBL-CRE, OXA-48-CRE, DTR-PA, CRAB, S. maltophilia. No other single agent covers all six. This makes it invaluable when carbapenemase type is unknown or for empiric coverage of MDR gram-negatives. However, breadth means it must be preserved — don't use for ESBL-E or routine CRE when narrower BL-BLIs suffice.",
           "AUGMENTED RENAL CLEARANCE (ARC) DOSE INCREASE: Cefiderocol is one of few drugs with UPWARD dose adjustment for ARC (CrCl >120). Young patients, burns, early sepsis, and pregnant women commonly have ARC. Standard dosing in ARC → subtherapeutic levels → treatment failure. Measure CrCl; if >120, increase to 2g q6h. This is a pharmacist-driven intervention.",
@@ -378,3 +789,9 @@ export const AMR_GN = {
       },
     ],
 };
+
+export const AMR_GN: DiseaseState = enhanceDisease(
+  AMR_GN_BASE,
+  {},
+  AMR_GN_MONOGRAPH_ENHANCEMENTS,
+);

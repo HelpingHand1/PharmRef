@@ -1,20 +1,97 @@
 import { useCallback } from "react";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
+import InstitutionAntibiogramCards from "../components/InstitutionAntibiogramCards";
+import MicrobiologyCards from "../components/MicrobiologyCards";
 import ContentMetaCard from "../components/ContentMetaCard";
 import EmpiricTierView from "../components/EmpiricTierView";
 import Section from "../components/Section";
+import TransitionReadinessPanel from "../components/TransitionReadinessPanel";
+import TrustSurfaceBanner from "../components/TrustSurfaceBanner";
+import {
+  INSTITUTION_PROFILE,
+  getInstitutionPathwayAntibiogram,
+  getInstitutionPathwayNotes,
+} from "../data/institution-profile";
+import { hasMicrobiologyContent } from "../data/microbiology";
 import { NAV_STATES } from "../styles/constants";
 import { getSubcategoryContentKey, resolveContentMeta } from "../data/metadata";
+import { getPreferredRegimenText, getSubcategoryWorkflowEntries } from "../data/stewardship";
 import { hasAnyPatientSignals } from "../utils/regimenGuidance";
+import { getPatientFitSortRank, getRegimenPatientFit } from "../utils/patientFit";
+import {
+  buildPatientContextTags,
+  getPatientReassessmentFocus,
+} from "../utils/patientStewardshipSummary";
+import { getPathwayTransitionReadiness } from "../utils/patientTransitionReadiness";
 import type {
   AllergyRecord,
   DiseaseState,
+  InteractionAction,
   MonographLookupResult,
   NavigateTo,
   PatientContext,
   Styles,
   Subcategory,
 } from "../types";
+
+function renderWorkflowCards(
+  entries: ReturnType<typeof getSubcategoryWorkflowEntries>,
+  S: Styles,
+) {
+  return entries.map((entry) => (
+    <div
+      key={entry.key}
+      style={{
+        padding: "14px 16px",
+        background: S.card.background,
+        borderRadius: "16px",
+        border: `1px solid ${S.card.borderColor}`,
+        boxShadow: S.meta.shadowSm,
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+        <span style={{ fontSize: "18px" }}>{entry.icon}</span>
+        <div style={{ fontWeight: 700, fontSize: "14px", color: entry.accentColor }}>{entry.label}</div>
+        {entry.block?.status === "not_applicable" && (
+          <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+            Not applicable
+          </span>
+        )}
+      </div>
+      {entry.block?.summary && (
+        <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>{entry.block.summary}</div>
+      )}
+      {entry.block?.bullets?.length ? (
+        <ul style={{ margin: "10px 0 0", paddingLeft: "18px", color: S.monographValue.color, lineHeight: 1.7 }}>
+          {entry.block.bullets.map((bullet) => (
+            <li key={bullet}>{bullet}</li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  ));
+}
+
+function summarizeLabels(values: string[], limit = 3) {
+  const unique = [...new Set(values.filter(Boolean))];
+  const shown = unique.slice(0, limit);
+  const remaining = unique.length - shown.length;
+  return [...shown, remaining > 0 ? `+${remaining} more` : ""].filter(Boolean).join(" | ");
+}
+
+const REASSESSMENT_STYLES = {
+  critical: { border: "#ef4444", text: "#dc2626", bg: "rgba(239,68,68,0.10)", label: "Critical" },
+  warn: { border: "#f59e0b", text: "#d97706", bg: "rgba(245,158,11,0.10)", label: "Caution" },
+  info: { border: "#38bdf8", text: "#0284c7", bg: "rgba(56,189,248,0.10)", label: "Info" },
+} as const;
+
+function collectOptionInteractionActions(
+  option: NonNullable<Subcategory["empiricTherapy"]>[number]["options"][number],
+  findMonograph: (drugId: string) => MonographLookupResult | null,
+) {
+  const monographIds = [...new Set([option.monographId, ...(option.plan?.linkedMonographIds ?? [])].filter((value): value is string => Boolean(value)))];
+  return monographIds.flatMap((monographId) => findMonograph(monographId)?.monograph.interactionActions ?? []) as InteractionAction[];
+}
 
 interface SubcategoryPageProps {
   allergies: AllergyRecord[];
@@ -57,6 +134,37 @@ export default function SubcategoryPage({
     contentKey: getSubcategoryContentKey(disease.id, subcategory.id),
   });
   const hasPatientContext = hasAnyPatientSignals(patient);
+  const workflowEntries = getSubcategoryWorkflowEntries(subcategory);
+  const diagnosticWorkflow = workflowEntries.filter((entry) => entry.id === "workflow-diagnostics");
+  const reassessmentWorkflow = workflowEntries.filter((entry) => entry.id === "workflow-reassessment");
+  const transitionWorkflow = workflowEntries.filter((entry) => entry.id === "workflow-transition");
+  const hasMicrobiology = hasMicrobiologyContent(subcategory);
+  const pathwayNotes = getInstitutionPathwayNotes(disease.id, subcategory.id, INSTITUTION_PROFILE);
+  const pathwayAntibiogram = getInstitutionPathwayAntibiogram(disease.id, subcategory.id, INSTITUTION_PROFILE);
+  const patientTags = buildPatientContextTags(patient, crcl);
+  const patientReassessmentFocus = getPatientReassessmentFocus(patient);
+  const pathwayTransitionReadiness = getPathwayTransitionReadiness(patient);
+  const patientFitOptions = (subcategory.empiricTherapy ?? [])
+    .flatMap((tier) =>
+      tier.options.map((option) => {
+        const regimenText = getPreferredRegimenText(option.regimen, option.plan);
+        const reference = option.monographId ?? option.drug;
+        const interactionActions = collectOptionInteractionActions(option, findMonograph);
+        const fit = getRegimenPatientFit(regimenText, reference, patient, crcl, option.plan, interactionActions);
+        const found = option.monographId ? findMonograph(option.monographId) : null;
+        return {
+          fit,
+          label: found?.monograph.name ?? regimenText,
+          line: tier.line,
+          regimenText,
+        };
+      }),
+    )
+    .sort((left, right) => getPatientFitSortRank(left.fit) - getPatientFitSortRank(right.fit));
+  const topPreferredFits = patientFitOptions.filter((entry) => entry.fit.status === "preferred").map((entry) => entry.label);
+  const topCautionFits = patientFitOptions.filter((entry) => entry.fit.status === "caution").map((entry) => entry.label);
+  const topNeedsDataFits = patientFitOptions.filter((entry) => entry.fit.status === "needs_data").map((entry) => entry.label);
+  const topAvoidFits = patientFitOptions.filter((entry) => entry.fit.status === "avoid").map((entry) => entry.label);
   const handleShare = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
@@ -78,6 +186,10 @@ export default function SubcategoryPage({
     {
       label: "Clinical Pearls",
       value: subcategory.pearls?.length ? `${subcategory.pearls.length} pearls` : "No pearls listed",
+    },
+    {
+      label: "Microbiology",
+      value: hasMicrobiology ? "Intelligence added" : "No dedicated cards",
     },
   ];
 
@@ -125,6 +237,11 @@ export default function SubcategoryPage({
                 {(subcategory.organismSpecific?.length ?? 0)} organism pathways
               </span>
             )}
+            {hasMicrobiology && (
+              <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                Microbiology intelligence
+              </span>
+            )}
           </div>
           <div className="quick-facts-grid" style={S.quickFactsGrid}>
             {summaryFacts.map((fact) => (
@@ -136,6 +253,11 @@ export default function SubcategoryPage({
           </div>
         </div>
       </section>
+
+      <TrustSurfaceBanner
+        meta={pageMeta}
+        S={S}
+      />
 
       <ContentMetaCard
         inheritedFrom={inherited ? disease.name : undefined}
@@ -155,20 +277,160 @@ export default function SubcategoryPage({
         <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
           <span style={{ fontWeight: 800 }}>{hasPatientContext ? "👤 Patient context active" : "👤 Patient context not set"}</span>
           {hasPatientContext ? (
-            <>
-              {crcl !== null && <span>CrCl {crcl} mL/min</span>}
-              {patient.dialysis && patient.dialysis !== "none" && <span>{patient.dialysis}</span>}
-              {patient.pregnant && <span>Pregnant</span>}
-              {patient.weight && <span>{patient.weight} kg</span>}
-            </>
+            patientTags.map((tag) => (
+              <span
+                key={tag}
+                style={{
+                  ...S.crossRefPill,
+                  cursor: "default",
+                  marginRight: 0,
+                  marginBottom: 0,
+                }}
+              >
+                {tag}
+              </span>
+            ))
           ) : (
-            <span>Add age, sex, weight, and SCr to screen regimen-level renal and pregnancy cautions below.</span>
+            <span>Add renal function, oral route, microbiology, and source-control flags to personalize fit, de-escalation, IV-to-PO, OPAT, and duration guidance below.</span>
           )}
         </div>
         <button type="button" style={{ ...S.expandAllBtn, marginRight: 0 }} onClick={() => navigateTo(NAV_STATES.CALCULATORS)}>
           Open calculators
         </button>
       </div>
+
+      {hasPatientContext && patientFitOptions.length > 0 && (
+        <div
+          style={{
+            background: S.card.background,
+            border: `1px solid ${S.card.borderColor}`,
+            borderLeft: "4px solid #34d399",
+            borderRadius: "14px",
+            padding: "14px 18px",
+            marginBottom: "18px",
+            display: "grid",
+            gap: "8px",
+          }}
+        >
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#059669" }}>
+            Patient Fit Snapshot
+          </div>
+          {topPreferredFits.length > 0 ? (
+            <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>
+              <strong style={{ color: "#059669" }}>Best fit now:</strong> {summarizeLabels(topPreferredFits)}
+            </div>
+          ) : null}
+          {topCautionFits.length > 0 ? (
+            <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.6 }}>
+              <strong style={{ color: "#d97706" }}>Use with caution:</strong> {summarizeLabels(topCautionFits)}
+            </div>
+          ) : null}
+          {topNeedsDataFits.length > 0 ? (
+            <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.6 }}>
+              <strong style={{ color: "#0284c7" }}>Needs more data:</strong> {summarizeLabels(topNeedsDataFits)}
+            </div>
+          ) : null}
+          {topAvoidFits.length > 0 ? (
+            <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.6 }}>
+              <strong style={{ color: "#dc2626" }}>Avoid for this patient:</strong> {summarizeLabels(topAvoidFits)}
+            </div>
+          ) : null}
+        </div>
+      )}
+
+      {hasPatientContext && patientReassessmentFocus.length > 0 && (
+        <div
+          style={{
+            background: S.card.background,
+            border: `1px solid ${S.card.borderColor}`,
+            borderLeft: "4px solid #f59e0b",
+            borderRadius: "14px",
+            padding: "14px 18px",
+            marginBottom: "18px",
+            display: "grid",
+            gap: "10px",
+          }}
+        >
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#d97706" }}>
+            Patient Reassessment Focus
+          </div>
+          {patientReassessmentFocus.map((item) => {
+            const palette = REASSESSMENT_STYLES[item.severity];
+            return (
+              <div
+                key={`${item.title}-${item.detail}`}
+                style={{
+                  border: `1px solid ${palette.border}40`,
+                  borderLeft: `4px solid ${palette.border}`,
+                  borderRadius: "12px",
+                  background: palette.bg,
+                  padding: "10px 12px",
+                }}
+              >
+                <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: palette.text }}>
+                  {palette.label}
+                </div>
+                <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading, marginTop: "4px" }}>{item.title}</div>
+                <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "4px", lineHeight: 1.55 }}>{item.detail}</div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {hasPatientContext && (
+        <TransitionReadinessPanel
+          items={pathwayTransitionReadiness}
+          subtitle="This is a syndrome-level operational check using the current patient context. Pair it with the pathway's IV-to-PO and discharge workflow plus the chosen agent's monograph."
+          title="Transition & Discharge Readiness"
+          S={S}
+        />
+      )}
+
+      {pathwayNotes.length > 0 && INSTITUTION_PROFILE && (
+        <div
+          style={{
+            background: S.card.background,
+            border: `1px solid ${S.card.borderColor}`,
+            borderLeft: "4px solid #0ea5e9",
+            borderRadius: "14px",
+            padding: "14px 18px",
+            marginBottom: "18px",
+            display: "grid",
+            gap: "10px",
+          }}
+        >
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#0284c7" }}>
+            🏥 Local Stewardship Lens · {INSTITUTION_PROFILE.name}
+          </div>
+          {pathwayNotes.map((note) => (
+            <div key={`${note.kind}-${note.title}`} style={{ display: "grid", gap: "4px" }}>
+              <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading }}>{note.title}</div>
+              <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.6 }}>{note.detail}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {pathwayAntibiogram.length > 0 && INSTITUTION_PROFILE && (
+        <div
+          style={{
+            background: S.card.background,
+            border: `1px solid ${S.card.borderColor}`,
+            borderLeft: "4px solid #059669",
+            borderRadius: "14px",
+            padding: "14px 18px",
+            marginBottom: "18px",
+            display: "grid",
+            gap: "10px",
+          }}
+        >
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#059669" }}>
+            📈 Local antibiogram overlay · {INSTITUTION_PROFILE.name}
+          </div>
+          <InstitutionAntibiogramCards entries={pathwayAntibiogram} S={S} />
+        </div>
+      )}
 
       {subcategory.durationGuidance && (
         <div
@@ -247,6 +509,72 @@ export default function SubcategoryPage({
         </Section>
       )}
 
+      {diagnosticWorkflow.length > 0 && (
+        <Section
+          id="workflow-diagnostics"
+          title="Before Antibiotics"
+          icon="🧪"
+          accentColor="#38bdf8"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <div style={{ display: "grid", gap: "10px" }}>{renderWorkflowCards(diagnosticWorkflow, S)}</div>
+        </Section>
+      )}
+
+      {reassessmentWorkflow.length > 0 && (
+        <Section
+          id="workflow-reassessment"
+          title="48-72h Reassessment"
+          icon="🔄"
+          accentColor="#f59e0b"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <div style={{ display: "grid", gap: "10px" }}>{renderWorkflowCards(reassessmentWorkflow, S)}</div>
+        </Section>
+      )}
+
+      {transitionWorkflow.length > 0 && (
+        <Section
+          id="workflow-transition"
+          title="IV-to-PO, Duration, and Discharge"
+          icon="💊"
+          accentColor="#34d399"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <div style={{ display: "grid", gap: "10px" }}>{renderWorkflowCards(transitionWorkflow, S)}</div>
+        </Section>
+      )}
+
+      {hasMicrobiology && (
+        <Section
+          id="microbiology"
+          title="Microbiology Intelligence"
+          icon="🧫"
+          accentColor="#a855f7"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <MicrobiologyCards
+            rapidDiagnostics={subcategory.rapidDiagnostics}
+            breakpointNotes={subcategory.breakpointNotes}
+            intrinsicResistance={subcategory.intrinsicResistance}
+            coverageMatrix={subcategory.coverageMatrix}
+            S={S}
+          />
+        </Section>
+      )}
+
       <Section
         id="empiric"
         title={
@@ -267,6 +595,8 @@ export default function SubcategoryPage({
         {subcategory.empiricTherapy?.map((tier, index) => (
           <EmpiricTierView
             key={`${tier.line}-${index}`}
+            diseaseId={disease.id}
+            subcategoryId={subcategory.id}
             tier={tier}
             S={S}
             navigateTo={navigateTo}

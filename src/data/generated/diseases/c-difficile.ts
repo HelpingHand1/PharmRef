@@ -495,6 +495,96 @@ export const CDI: DiseaseState = {
         "EXTENDED-PULSED DOSING IS THE FUTURE: The BID × 5d → every-other-day × 20d regimen further reduces recurrence compared to standard 10-day dosing. The mechanism is elegant: the 5-day kill phase eliminates vegetative C. diff, then the every-other-day pulse targets newly germinating spores while giving the microbiome recovery time on 'off' days. This is gaining traction among ID experts even though it's not yet in formal IDSA guidelines.",
         "ORAL ONLY — NO IV FORMULATION: Fidaxomicin is only available as an oral tablet or suspension. It is NOT absorbed systemically and works locally in the GI tract. For patients with ileus who cannot take oral medications, fidaxomicin cannot be given IV — use the fulminant CDI protocol (oral/NG vancomycin 500mg QID + IV metronidazole + rectal vancomycin enemas).",
         "NO CROSS-RESISTANCE WITH RIFAMPIN: Despite both targeting RNA polymerase, fidaxomicin binds a different site on the sigma subunit. Rifampin resistance does NOT predict fidaxomicin resistance. This is clinically relevant in patients who have been on rifampin for TB or prosthetic joint infections."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Initial or recurrent CDI",
+          "regimen": "200 mg PO BID for 10 days",
+          "notes": "Preferred when recurrence reduction and microbiome preservation are priorities."
+        },
+        {
+          "label": "Extended-pulsed recurrence-reduction strategy",
+          "regimen": "200 mg PO BID for 5 days, then 200 mg every other day for 20 days",
+          "notes": "Use in selected recurrence-prone patients when the longer schedule is operationally feasible."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No dose adjustment is needed because systemic absorption is minimal."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "No dose adjustment is needed because the drug acts locally in the gut rather than systemically."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "High recurrence risk",
+          "guidance": "This is where fidaxomicin creates the biggest stewardship value by preserving microbiome recovery better than oral vancomycin."
+        },
+        {
+          "population": "Fulminant CDI with ileus",
+          "guidance": "Do not rely on fidaxomicin when drug delivery to the colon is impaired; fulminant protocols still center on oral or rectal vancomycin plus IV metronidazole."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; success is measured by diarrhea improvement and recurrence prevention, not plasma levels.",
+        "sampling": "No drug levels are used. Follow stool frequency and recurrence over the subsequent weeks.",
+        "adjustment": "If the patient worsens, reassess whether the syndrome has progressed to fulminant CDI rather than adding more fidaxomicin."
+      },
+      "administration": {
+        "oralAbsorption": "Minimal systemic absorption is intentional because the drug works locally in the colon.",
+        "note": "There is no IV formulation; if the patient cannot take or deliver enteral therapy, switch to the fulminant CDI pathway."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "PO-only local therapy; there is no IV equivalent.",
+        "switchCriteria": "Use as oral-first CDI therapy when enteral delivery is reliable.",
+        "note": "This is not a systemic IV-to-PO conversion drug."
+      },
+      "opatEligibility": {
+        "eligible": "no",
+        "administration": "Fidaxomicin is an oral outpatient drug, not an OPAT drug.",
+        "monitoring": "No infusion monitoring is required; focus on symptom response and recurrence prevention.",
+        "considerations": [
+          "Use it as an oral microbiome-sparing CDI strategy rather than a line-based treatment plan."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Strong P-glycoprotein inhibitors such as cyclosporine",
+          "effect": "Systemic exposure can increase modestly even though absorption is usually minimal.",
+          "management": "Use with awareness, but the local GI mechanism still dominates.",
+          "severity": "monitor"
+        },
+        {
+          "interactingAgent": "Concurrent CDI antibiotics",
+          "effect": "There is no reason to combine it routinely with oral vancomycin for standard CDI therapy.",
+          "management": "Choose the CDI strategy intentionally rather than layering agents without a fulminant indication.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Microbiome-sparing CDI therapy",
+          "role": "A preferred option when preventing recurrence is as important as curing the current episode.",
+          "notes": "Its stewardship value is biggest in older, immunocompromised, or recurrence-prone patients."
+        },
+        {
+          "scenario": "Avoiding broad collateral damage from oral vancomycin",
+          "role": "Helps preserve colonization resistance better than oral vancomycin in selected patients.",
+          "notes": "Do not use it where enteral delivery is failing."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Colon lumen",
+          "detail": "Extremely high intraluminal colonic concentrations with minimal systemic absorption are exactly why fidaxomicin works so well for CDI while sparing the microbiome more than vancomycin."
+        },
+        {
+          "site": "Systemic / extraintestinal sites",
+          "detail": "Negligible systemic exposure means fidaxomicin should not be expected to treat extraintestinal C. difficile or other invasive infection."
+        }
       ]
     },
     {
@@ -529,6 +619,100 @@ export const CDI: DiseaseState = {
         "THE CAPSULE VS SOLUTION COST TRICK: Oral vancomycin capsules (Vancocin) are expensive (~$800-1600 for 10-day course). The IV vancomycin vial can be reconstituted and administered ORALLY at a fraction of the cost (~$50-100). Many hospital pharmacies prepare oral vancomycin solution from IV powder — this is a standard, well-established practice. At discharge, Firvanq (branded oral solution) or compounded oral solution from IV vials are cost-saving alternatives to capsules.",
         "TAPER-AND-PULSE REQUIRES PHARMACIST SUPPORT: The tapering schedule is complex and patients frequently make errors. Best practice: write out a calendar-based schedule with exact dates and doses. Pharmacist phone calls at the taper transitions dramatically improve adherence. This is a high-value pharmacist intervention for recurrent CDI.",
         "MICROBIOME DAMAGE IS THE TRADE-OFF: Oral vancomycin kills C. diff effectively but also decimates protective Bacteroides and other anaerobes. This is why CDI recurs more often after vancomycin than after fidaxomicin. The microbiome damage also means that vancomycin-treated patients may benefit more from post-treatment microbiome restoration (Vowst, Rebyota, FMT) to re-establish colonization resistance."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Non-fulminant CDI",
+          "regimen": "125 mg PO QID for 10 days",
+          "notes": "A standard local CDI treatment option when fidaxomicin is not used."
+        },
+        {
+          "label": "Fulminant CDI",
+          "regimen": "500 mg PO or NG QID, plus rectal vancomycin if ileus and IV metronidazole",
+          "notes": "Higher dosing is reserved for fulminant disease with delivery concerns."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No dose adjustment is usually needed because oral vancomycin is not intended to create systemic exposure."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "No dose adjustment is usually needed; if severe colitis increases absorption, monitor in context rather than adjusting preemptively."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Fulminant CDI with ileus",
+          "guidance": "Drug delivery matters more than microbiology here, so add rectal vancomycin and IV metronidazole when oral or NG delivery is inadequate."
+        },
+        {
+          "population": "Concurrent IV vancomycin use or severe colitis",
+          "guidance": "Systemic absorption is still usually low, but severe colitis can make combined vancomycin exposure more relevant than usual."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target for oral CDI therapy; it is intended as a local colonic drug.",
+        "sampling": "No vancomycin levels are routinely needed for standard oral CDI treatment.",
+        "adjustment": "If the patient is worsening, escalate the CDI approach rather than chasing systemic levels of oral vancomycin."
+      },
+      "administration": {
+        "oralAbsorption": "Minimal systemic absorption is expected; the goal is very high colonic lumen concentrations.",
+        "note": "Capsules, solution, NG administration, and rectal enemas each have different operational considerations in fulminant disease."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "Oral vancomycin is not a systemic PO equivalent of IV vancomycin.",
+        "switchCriteria": "Use only for CDI; do not convert systemic MRSA therapy from IV vancomycin to oral vancomycin.",
+        "note": "The route determines the indication here more than the molecule does."
+      },
+      "opatEligibility": {
+        "eligible": "no",
+        "administration": "This is an oral CDI drug rather than an OPAT drug.",
+        "monitoring": "Monitor diarrhea improvement and the discharge plan for recurrence prevention instead of infusion logistics.",
+        "considerations": [
+          "Outpatient oral therapy is common, but it is not OPAT."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Cholestyramine or colestipol",
+          "effect": "Can bind oral vancomycin in the gut and reduce its local effect.",
+          "management": "Avoid co-administration or separate clearly if both are used.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Concurrent IV vancomycin",
+          "effect": "There is no therapeutic substitution; they treat different problems and may occasionally be needed together.",
+          "management": "Prescribe each route intentionally and monitor total clinical context in severe colitis.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Standard oral CDI treatment when fidaxomicin is not chosen",
+          "role": "A dependable local therapy with broad clinical familiarity.",
+          "notes": "Its main stewardship downside is collateral microbiome injury relative to fidaxomicin."
+        },
+        {
+          "scenario": "Fulminant CDI drug-delivery strategy",
+          "role": "Still central when ileus or shock makes lumen drug delivery the urgent problem.",
+          "notes": "Do not confuse this with systemic anti-MRSA therapy."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Colon lumen",
+          "detail": "Oral vancomycin achieves very high stool and colonic lumen concentrations and remains a direct local therapy for CDI rather than a systemic anti-MRSA strategy."
+        },
+        {
+          "site": "Systemic circulation",
+          "detail": "Systemic absorption is usually minimal, though severe colitis or renal dysfunction can increase exposure enough to matter for toxicity monitoring."
+        },
+        {
+          "site": "Distal colon during ileus",
+          "detail": "When ileus prevents oral drug delivery to the diseased colon, rectal vancomycin is added because oral capsules alone may not reach the distal lumen reliably."
+        }
       ]
     },
     {
@@ -561,6 +745,92 @@ export const CDI: DiseaseState = {
         "HEART FAILURE CAUTION: The MODIFY trials flagged higher HF events in patients with underlying CHF. This is an FDA boxed warning. For CDI patients with active decompensated HF, the risk-benefit calculation is less favorable. In compensated HF, most experts still use bezlotoxumab with close monitoring — the CDI recurrence risk may outweigh the HF risk.",
         "TIMING MATTERS: Give bezlotoxumab DURING CDI antibiotic treatment, not after completion. The half-life is ~19 days, so a single dose provides weeks of toxin neutralization through the highest-risk period for recurrence. If a patient has already completed CDI antibiotics, bezlotoxumab can still be given, but timing during treatment is preferred.",
         "COST-EFFECTIVENESS IN RECURRENT CDI: At ~$4,500 per infusion, bezlotoxumab is expensive for a single dose. But for patients at high recurrence risk, preventing even ONE CDI hospitalization ($15,000-50,000+) makes it cost-effective. The strongest cost-effectiveness data is in patients with ≥1 prior CDI recurrence."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Adjunctive recurrence prevention during CDI treatment",
+          "regimen": "10 mg/kg IV x 1 dose during active CDI antibiotic therapy",
+          "notes": "Use as a recurrence-prevention adjunct, not as treatment for the current infection by itself."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No dose adjustment is needed because monoclonal-antibody clearance is not dialysis dependent."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "No dose adjustment is needed because clearance is not meaningfully altered by CRRT."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "High-risk recurrence groups",
+          "guidance": "Greatest value is in older adults, immunocompromised patients, and those with prior CDI recurrence or concurrent systemic antibiotics."
+        },
+        {
+          "population": "Heart failure",
+          "guidance": "Use more cautiously in patients with underlying or decompensated heart failure because recurrence-prevention benefit has to be weighed against HF risk."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; success is lower CDI recurrence over the next 12 weeks rather than short-term symptom change.",
+        "sampling": "No drug levels are used. Monitor infusion tolerance and recurrence outcomes.",
+        "adjustment": "If the patient is clinically worsening during the active episode, intensify CDI treatment rather than assuming bezlotoxumab will rescue the course."
+      },
+      "administration": {
+        "infusion": "Single IV infusion over about 60 minutes.",
+        "note": "Give during the active CDI antibiotic course rather than after all therapy is complete whenever possible."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral formulation exists, and there is no oral equivalent to toxin-neutralizing monoclonal therapy.",
+        "switchCriteria": "Not an IV-to-PO conversion drug; the question is whether the patient needs the one-time infusion at all.",
+        "note": "Use as an adjunct to CDI antibiotics, not as a route-conversion strategy."
+      },
+      "opatEligibility": {
+        "eligible": "conditional",
+        "administration": "A one-time outpatient infusion-center or monitored ambulatory infusion is feasible for selected patients.",
+        "monitoring": "Monitor during and shortly after infusion, with extra attention to heart-failure symptoms in at-risk patients.",
+        "considerations": [
+          "Best for recurrence-prone patients who can access a monitored infusion setting.",
+          "Not a substitute for choosing the right CDI antibiotic plan."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Concurrent CDI antibiotics",
+          "effect": "Bezlotoxumab does not replace vancomycin or fidaxomicin and adds no direct antibacterial effect.",
+          "management": "Administer it during an active CDI antibiotic course rather than in place of one.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Heart-failure-sensitive infusion regimens",
+          "effect": "Volume and infusion exposure may be less well tolerated in patients with unstable CHF.",
+          "management": "Review HF status before infusion and monitor more closely if used.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Preventing recurrent CDI in high-risk patients",
+          "role": "A stewardship adjunct that can reduce re-hospitalization and repeated antibiotic exposure.",
+          "notes": "Most valuable when recurrence risk is clearly elevated."
+        },
+        {
+          "scenario": "Avoiding repeat CDI treatment cycles",
+          "role": "Can lower the chance that the patient re-enters the cycle of recurrent CDI and repeated microbiome injury.",
+          "notes": "Choose it selectively because not every patient needs an expensive infusion adjunct."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Intravascular / interstitial space",
+          "detail": "Bezlotoxumab circulates systemically and neutralizes toxin B after it crosses injured mucosa; its value is toxin control, not antibacterial killing."
+        },
+        {
+          "site": "Colon lumen",
+          "detail": "It does not create useful luminal antibiotic concentrations, so it cannot replace fidaxomicin or oral vancomycin for active CDI treatment."
+        }
       ]
     },
     {
@@ -599,6 +869,106 @@ export const CDI: DiseaseState = {
         "THE ALCOHOL WARNING IS REAL: The disulfiram-like reaction is severe (projectile vomiting, flushing, tachycardia, chest pain). Warn patients explicitly. It persists for 48-72 hours AFTER the last dose. Check for alcohol in other medications (cough syrups, tinctures, elixirs).",
         "WARFARIN INTERACTION IS MAJOR: Metronidazole is one of the STRONGEST CYP2C9 inhibitors among antibiotics. INR can double or triple within days. Pre-emptively reduce warfarin dose by 25-50% and check INR within 3-5 days of starting metronidazole. This interaction causes serious bleeding events when missed.",
         "IV METRONIDAZOLE IN FULMINANT CDI — THE RATIONALE: When the colon is ileus (no motility), oral vancomycin sits in the stomach and proximal small bowel — it cannot reach the diseased colon. IV metronidazole is absorbed systemically and delivered to colonic TISSUE via the bloodstream. This provides drug delivery from the systemic side while oral/rectal vancomycin attempts luminal delivery. This is why the fulminant CDI protocol uses all three routes."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Intra-abdominal or pelvic anaerobic infection",
+          "regimen": "500 mg IV/PO q8h",
+          "notes": "Use it as the anaerobic partner rather than as monotherapy for mixed infections."
+        },
+        {
+          "label": "Brain abscess anaerobic coverage",
+          "regimen": "500 mg IV/PO q8h",
+          "notes": "Strong CNS penetration is the reason it remains a brain-abscess staple when anaerobes matter."
+        },
+        {
+          "label": "Fulminant CDI adjunct",
+          "regimen": "500 mg IV q8h",
+          "notes": "Its remaining CDI role is adjunctive systemic therapy when ileus limits luminal drug delivery."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Standard dosing usually works, but give the next dose after dialysis if sessions are long or daily because metronidazole and metabolites are dialyzable."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Most CRRT patients can remain on standard q8h therapy, with neurotoxicity vigilance taking priority over aggressive dose escalation."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Severe hepatic impairment",
+          "guidance": "Accumulation and neurotoxicity become more likely, so longer courses need slower dosing or closer symptom review."
+        },
+        {
+          "population": "Alcohol use disorder or prolonged therapy",
+          "guidance": "Counsel hard on alcohol avoidance and monitor for cumulative neuropathy rather than treating metronidazole as a benign long-course drug."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target is used; the clinical target is effective anaerobe control without cumulative neuropathy.",
+        "sampling": "No drug levels are standard. Use neurologic review and hepatic function instead.",
+        "adjustment": "If prolonged therapy causes numbness, ataxia, or encephalopathy, stop or switch rather than trying to salvage the course."
+      },
+      "administration": {
+        "infusion": "IV doses are typically infused over 30-60 minutes.",
+        "oralAbsorption": "Oral bioavailability is essentially complete, so PO and IV systemic exposure are effectively interchangeable.",
+        "note": "Metronidazole is one of the easiest stewardship wins for early IV-to-PO conversion."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "Near-complete oral bioavailability with IV-equivalent systemic exposure.",
+        "switchCriteria": "Convert to PO as soon as the gut works because IV metronidazole rarely adds value once absorption is reliable.",
+        "note": "The common mistake is leaving it IV out of habit instead of because the patient needs it."
+      },
+      "opatEligibility": {
+        "eligible": "no",
+        "administration": "Prefer oral continuation over OPAT because IV metronidazole offers little advantage once enteral absorption is intact.",
+        "monitoring": "If prolonged therapy is needed, follow neurologic symptoms and hepatic function rather than arranging unnecessary infusion logistics.",
+        "considerations": [
+          "One of the highest-yield avoidable OPAT drugs because oral absorption is so strong."
+        ]
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "INR can climb quickly through CYP2C9 inhibition.",
+          "management": "Reduce warfarin or monitor INR closely rather than discovering the interaction through bleeding.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Alcohol or disulfiram",
+          "effect": "Can cause severe nausea, flushing, and neuropsychiatric toxicity.",
+          "management": "Counsel patients to avoid alcohol during therapy and for 48-72 hours after the last dose.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Anaerobic partner in mixed intra-abdominal infection",
+          "role": "Metronidazole lets the partner beta-lactam focus on gram-negatives while preserving explicit anaerobe coverage.",
+          "notes": "It should not be mistaken for broad monotherapy."
+        },
+        {
+          "scenario": "IV-to-PO conversion opportunity",
+          "role": "Because oral absorption is so strong, continuing IV metronidazole after GI recovery is usually a pure stewardship miss.",
+          "notes": "Use this as a standard rounds checkpoint."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Colon tissue via systemic route",
+          "detail": "IV metronidazole reaches inflamed colonic tissue through the bloodstream, which is why it still has a role as adjunctive therapy in fulminant CDI with ileus."
+        },
+        {
+          "site": "Peritoneal fluid / abscess",
+          "detail": "Excellent anaerobic tissue penetration remains one of metronidazole's main strengths outside CDI."
+        },
+        {
+          "site": "CSF",
+          "detail": "Strong CNS penetration is clinically important when anaerobic infection extends beyond the abdomen."
+        }
       ]
     }
   ]

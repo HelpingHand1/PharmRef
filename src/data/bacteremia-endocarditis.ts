@@ -1,7 +1,12 @@
 // Editorial source for the generated Bacteremia & Endocarditis disease module.
 // Runtime catalog imports use src/data/generated/diseases/bacteremia-endocarditis.ts.
 
-export const BACTEREMIA_ENDOCARDITIS = {
+import type { DiseaseState, Subcategory } from "../types";
+import { BACTEREMIA_ENDOCARDITIS_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
+import { getEmpiricOptionEnhancementsForDisease } from "./regimen-plan-content";
+import { enhanceDisease, enhanceDiseaseEmpiricOptions, mergeEnhancementMaps, notApplicable, ready } from "./stewardship-content";
+
+const BACTEREMIA_ENDOCARDITIS_BASE: DiseaseState = {
   id: "bacteremia-endocarditis",
   name: "Bacteremia & Endocarditis",
   icon: "🩸",
@@ -461,3 +466,195 @@ export const BACTEREMIA_ENDOCARDITIS = {
     },
   ],
 };
+
+const BACTEREMIA_ENDOCARDITIS_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "sab-workup": {
+    diagnosticWorkup: ready("Every Staphylococcus aureus bacteremia needs repeat blood cultures, a source search, and endocarditis screening logic from day 1.", [
+      "Track time to culture clearance explicitly rather than assuming one negative set is enough.",
+    ]),
+    severitySignals: ready("Persistent bacteremia, hemodynamic instability, metastatic infection, prosthetic material, or embolic phenomena should be treated as complicated SAB until proven otherwise."),
+    mdroRiskFactors: ready("Prior MRSA, recent antibiotics, hemodialysis, injection-drug use, and healthcare exposure mainly determine whether vancomycin or alternative MRSA-active therapy is needed while the phenotype is pending."),
+    sourceControl: ready("Remove infected lines, drain metastatic foci, and inspect for spine, joint, hardware, or endovascular seeding early."),
+    deEscalation: ready("The highest-value stewardship move in SAB is rapid MSSA de-escalation from vancomycin to cefazolin or nafcillin as soon as susceptibility allows."),
+    ivToPoPlan: notApplicable("Routine early oral step-down is not the default in SAB until the patient clearly meets a low-risk, source-controlled framework."),
+    failureEscalation: ready("If cultures stay positive beyond 48-72 hours, assume a source-control or endovascular problem until proven otherwise."),
+    consultTriggers: ready("ID consultation is effectively standard of care for SAB because it improves bundle adherence and outcomes."),
+    durationAnchor: ready("Start counting only after the first negative follow-up culture and after any removable source has been controlled."),
+  },
+  "native-valve-ie": {
+    diagnosticWorkup: ready("Secure multiple blood culture sets before antibiotics when possible and define Duke-ISCVID plus echo data early."),
+    severitySignals: ready("Heart failure, conduction abnormalities, embolic events, persistent bacteremia, or large/mobile vegetations mark a high-risk native-valve course."),
+    mdroRiskFactors: ready("Healthcare exposure, prior MRSA, prosthetic material elsewhere, and prior resistant enterococci or gram-negatives affect empiric therapy while cultures are pending."),
+    sourceControl: ready("Valve surgery, drainage of embolic foci, and device management are the source-control equivalents in endocarditis."),
+    deEscalation: ready("Once the pathogen and valve anatomy are known, simplify to the most definitive narrow regimen and stop unnecessary combination coverage."),
+    ivToPoPlan: ready("Oral step-down is reserved for carefully selected, stabilized patients who resemble POET-type criteria and still need multidisciplinary agreement."),
+    failureEscalation: ready("Persistent fevers or bacteremia should trigger repeat imaging, surgical review, and metastatic focus search before empiric antibiotic escalation."),
+    consultTriggers: ready("Endocarditis-team or combined ID/cardiology/cardiac-surgery involvement should happen early, not after the first complication."),
+    durationAnchor: ready("Count from the first day of documented bloodstream clearance on an active regimen, not from the day the murmur was found."),
+  },
+  "prosthetic-valve-ie": {
+    diagnosticWorkup: ready("Get repeated blood cultures plus multimodality imaging early because prosthetic material lowers the sensitivity of routine echo alone."),
+    severitySignals: ready("New heart block, peri-annular extension, decompensated valve function, persistent bacteremia, or embolic events mark urgent prosthetic-valve disease."),
+    mdroRiskFactors: ready("Prior healthcare exposure, prior resistant staphylococci or enterococci, and recent valve procedures should strongly shape empiric coverage."),
+    sourceControl: ready("Surgical evaluation is part of initial management because source control may ultimately mean prosthesis replacement, not just antibiotics."),
+    deEscalation: ready("Once cultures clarify the pathogen, remove unnecessary empiric breadth but keep the prosthetic-material strategy aligned with the confirmed organism."),
+    ivToPoPlan: notApplicable("Most prosthetic-valve IE remains an IV, procedure-heavy disease and is not a routine early oral-step-down scenario."),
+    failureEscalation: ready("Ongoing bacteremia or worsening conduction/valve function should be treated as evidence that medical therapy alone may be insufficient."),
+    consultTriggers: ready("Early cardiac surgery, cardiology, and ID partnership is mandatory because delays change mortality."),
+    durationAnchor: ready("Duration starts from culture clearance on an active regimen, but any operative reset or uncontrolled peri-annular infection can effectively restart the treatment clock."),
+  },
+  "gram-negative-bacteremia": {
+    diagnosticWorkup: ready("Identify the source, obtain repeat cultures only when clinically indicated, and confirm whether this is an uncomplicated urinary/intra-abdominal bacteremia or something more complex."),
+    severitySignals: ready("Shock, uncontrolled source, endovascular concern, persistent bacteremia, or severe immunocompromise remove the patient from a routine short-course BSI pathway."),
+    mdroRiskFactors: ready("Recent antibiotics, prior ESBL or CRE, healthcare exposure, and device burden are the main determinants of empiric gram-negative breadth."),
+    sourceControl: ready("Remove infected catheters, decompress urinary obstruction, drain abscesses, and control the source early because bacteremia duration follows source control."),
+    deEscalation: ready("Once susceptibilities finalize, drop to the narrowest active agent and transition off carbapenems or anti-pseudomonal therapy quickly when the organism allows."),
+    ivToPoPlan: ready("Oral step-down is appropriate after hemodynamic recovery, source control, bloodstream clearance when indicated, and confirmation of a reliable high-bioavailability oral option."),
+    failureEscalation: ready("Persistent fever or bacteremia should trigger source-control reassessment and resistance review before automatically labeling it a 'long-course bacteremia.'"),
+    consultTriggers: ready("Consult ID for ESBL/CRE, persistent bacteremia, unclear source, or suspected endovascular seeding."),
+    durationAnchor: ready("Count from the first active regimen after source control is achieved; uncomplicated bacteremic UTI does not need a prolonged reflex course."),
+  },
+  "opat-considerations": {
+    diagnosticWorkup: ready("Before OPAT, confirm the source is controlled, the organism is defined, and the discharge monitoring plan is as explicit as the antibiotic order."),
+    severitySignals: ready("Unstable renal function, unresolved bacteremia, unreliable access, or inability to obtain follow-up labs means OPAT is not yet safe."),
+    mdroRiskFactors: ready("Restricted agents, prior resistant organisms, and complex devices increase the need for tighter monitoring and early follow-up after discharge."),
+    sourceControl: ready("No OPAT plan is safe until the removable source has been handled or a durable management strategy is in place."),
+    deEscalation: ready("Use OPAT handoff as another stewardship timeout: can the regimen narrow further, move to PO, or shorten based on response and cultures?"),
+    ivToPoPlan: ready("The cleanest OPAT intervention is often not IV at all: use POET/OVIVA-style oral completion when the syndrome and organism truly support it."),
+    failureEscalation: ready("Any missed labs, worsening symptoms, line complications, or rising inflammatory markers should trigger rapid re-evaluation rather than silent outpatient drift."),
+    consultTriggers: ready("ID, OPAT pharmacy, and the receiving team should all agree on labs, line care, and stop date before discharge."),
+    durationAnchor: ready("Anchor duration to the same inpatient rules: active therapy plus source control and culture clearance, not simply 'weeks from discharge.'"),
+  },
+};
+
+const BACTEREMIA_ENDOCARDITIS_MICROBIOLOGY_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
+  "sab-workup": {
+    rapidDiagnostics: [
+      {
+        trigger: "Rapid blood culture identification confirms MSSA",
+        action: "Switch from vancomycin to cefazolin or nafcillin the same day unless a serious beta-lactam contraindication exists.",
+        rationale: "This is one of the highest-value pharmacist interventions in bloodstream infection because beta-lactams outperform vancomycin for MSSA bacteremia.",
+      },
+      {
+        trigger: "Follow-up blood cultures remain positive 48-72 hours after active therapy begins",
+        action: "Treat the case as complicated SAB until proven otherwise and intensify the search for endocarditis, removable hardware, or metastatic foci.",
+        rationale: "Persistent bacteremia is a microbiologic red flag for uncontrolled source rather than a signal to simply keep the same regimen longer.",
+      },
+    ],
+    breakpointNotes: [
+      {
+        marker: "Single positive blood culture bottle with S. aureus",
+        interpretation: "S. aureus in blood should be treated as clinically meaningful rather than dismissed as contamination.",
+        action: "Start the full SAB workup even if the patient initially appears well.",
+      },
+      {
+        marker: "Vancomycin MIC and PK target",
+        interpretation: "A 'susceptible' MRSA isolate still requires AUC-guided exposure and close source-control review to clear bacteremia reliably.",
+        action: "Do not confuse in vitro susceptibility with permission to ignore clearance cultures or an early alternative-agent discussion.",
+      },
+    ],
+    intrinsicResistance: [
+      {
+        organism: "MSSA",
+        resistance: "Vancomycin is microbiologically active but clinically inferior to antistaphylococcal beta-lactams for bloodstream infection.",
+        implication: "De-escalate to cefazolin or nafcillin immediately once MSSA is confirmed.",
+      },
+      {
+        organism: "Enterococcus species",
+        resistance: "Cephalosporins are intrinsically inactive against Enterococcus.",
+        implication: "If the blood culture ID shifts away from S. aureus toward Enterococcus, leave the SAB pathway and choose enterococcal therapy.",
+      },
+    ],
+    coverageMatrix: [
+      {
+        label: "Confirmed MSSA bacteremia",
+        status: "preferred",
+        detail: "Cefazolin or nafcillin is the definitive path once susceptibilities are known.",
+      },
+      {
+        label: "Confirmed MRSA bacteremia",
+        status: "active",
+        detail: "Vancomycin or daptomycin remains appropriate while clearance cultures and source control are tracked closely.",
+      },
+      {
+        label: "Persistent positive cultures after active therapy",
+        status: "conditional",
+        detail: "Escalate the workup for endocarditis, deep infection, and removable devices rather than simply extending the same plan.",
+      },
+      {
+        label: "Polymicrobial or non-staphylococcal bloodstream infection",
+        status: "avoid",
+        detail: "Do not keep using the SAB algorithm once organism identification shows a different syndrome.",
+      },
+    ],
+  },
+  "gram-negative-bacteremia": {
+    rapidDiagnostics: [
+      {
+        trigger: "Blood culture panel identifies ESBL, AmpC-risk Enterobacterales, or carbapenemase production",
+        action: "Move promptly to cefepime, meropenem, or phenotype-specific reserve therapy instead of waiting for the next day's finalized AST.",
+        rationale: "Early mechanism-aware narrowing is the difference between appropriate stewardship and delayed effective therapy in gram-negative bacteremia.",
+      },
+      {
+        trigger: "Cultures clear quickly and a high-bioavailability oral option is susceptible",
+        action: "Plan oral step-down early rather than defaulting to a prolonged IV or OPAT course.",
+        rationale: "Modern gram-negative bacteremia data support shorter courses and oral completion when the source is controlled.",
+      },
+    ],
+    breakpointNotes: [
+      {
+        marker: "Ceftriaxone nonsusceptibility in Enterobacterales",
+        interpretation: "This should raise immediate concern for ESBL production and make ceftriaxone a poor definitive choice for serious bacteremia.",
+        action: "Move to a more reliable agent while mechanism and source details are clarified.",
+      },
+      {
+        marker: "Oral switch susceptibility",
+        interpretation: "TMP-SMX or a fluoroquinolone supports oral completion only when the isolate is susceptible and the patient is clinically stable.",
+        action: "Do not interpret a marginal oral option as permission to discharge before source control and clearance are confirmed.",
+      },
+    ],
+    intrinsicResistance: [
+      {
+        organism: "AmpC-risk Enterobacterales (Enterobacter cloacae, Klebsiella aerogenes, Citrobacter freundii)",
+        resistance: "Third-generation cephalosporins can select derepressed AmpC production during therapy.",
+        implication: "Prefer cefepime or a carbapenem for serious bacteremia when this phenotype is in play.",
+      },
+      {
+        organism: "CRE",
+        resistance: "Standard ceftriaxone, cefepime, or carbapenem monotherapy may be functionally inactive depending on the carbapenemase mechanism.",
+        implication: "Exit the routine gram-negative bacteremia pathway and use the resistant-phenotype guidance once CRE is identified.",
+      },
+    ],
+    coverageMatrix: [
+      {
+        label: "Susceptible urinary-source Enterobacterales bacteremia",
+        status: "preferred",
+        detail: "Ceftriaxone with early oral TMP-SMX or fluoroquinolone step-down is often enough once the source is controlled.",
+      },
+      {
+        label: "AmpC-risk phenotype",
+        status: "conditional",
+        detail: "Cefepime or meropenem is usually safer than third-generation cephalosporins for definitive therapy.",
+      },
+      {
+        label: "ESBL phenotype",
+        status: "conditional",
+        detail: "Use a carbapenem initially and step down orally only if a truly active high-bioavailability option exists.",
+      },
+      {
+        label: "CRE phenotype",
+        status: "avoid",
+        detail: "Routine bloodstream regimens are no longer adequate once CRE is identified.",
+      },
+    ],
+  },
+};
+
+export const BACTEREMIA_ENDOCARDITIS: DiseaseState = enhanceDiseaseEmpiricOptions(
+  enhanceDisease(
+    BACTEREMIA_ENDOCARDITIS_BASE,
+    mergeEnhancementMaps(BACTEREMIA_ENDOCARDITIS_WORKFLOW_ENHANCEMENTS, BACTEREMIA_ENDOCARDITIS_MICROBIOLOGY_ENHANCEMENTS),
+    BACTEREMIA_ENDOCARDITIS_MONOGRAPH_ENHANCEMENTS,
+  ),
+  getEmpiricOptionEnhancementsForDisease("bacteremia-endocarditis"),
+);

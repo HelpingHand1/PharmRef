@@ -17,6 +17,21 @@ import {
   resolveEvidenceSourceText,
   resolveSourceEntry,
 } from "./source-registry";
+import {
+  PRIORITY_MICROBIOLOGY_MONOGRAPH_IDS,
+  PRIORITY_MICROBIOLOGY_SUBCATEGORY_KEYS,
+} from "./microbiology";
+import {
+  PRIORITY_EXECUTION_MONOGRAPH_IDS,
+  PRIORITY_REGIMEN_PLAN_OPTION_KEYS,
+  PRIORITY_STRUCTURED_MONOGRAPH_IDS,
+  PRIORITY_WORKFLOW_DISEASE_IDS,
+  WORKFLOW_FIELD_CONFIG,
+  flattenWorkflowBlock,
+  getPriorityRegimenPlanKey,
+  getWorkflowBlock,
+  hasWorkflowBlockContent,
+} from "./stewardship";
 
 export type ContentValidationSeverity = "error" | "warn" | "info";
 
@@ -54,6 +69,7 @@ const REQUIRED_MONOGRAPH_FIELDS: Array<keyof DrugMonograph> = [
 ];
 
 const EVIDENCE_GRADE_PATTERN = /^(A|B|C)-(I|II|III)(?:\s*\(.+\))?$/;
+const VALID_COVERAGE_STATUSES = new Set(["preferred", "active", "conditional", "inactive", "avoid"]);
 
 function addIssue(
   issues: ContentValidationIssue[],
@@ -153,6 +169,27 @@ function validateMeta(
   if (!hasValidReviewHistory(meta)) {
     addIssue(issues, "error", disease, scope, "Missing valid structured reviewHistory entries.");
   }
+
+  meta.whatChanged?.forEach((item, index) => {
+    if (!item?.trim()) {
+      addIssue(issues, "warn", disease, `${scope} whatChanged #${index + 1}`, "Empty whatChanged entry.");
+    }
+  });
+
+  meta.sectionConfidence?.forEach((entry, index) => {
+    if (!entry.section?.trim() || !entry.rationale?.trim()) {
+      addIssue(issues, "warn", disease, `${scope} sectionConfidence #${index + 1}`, "Section confidence entry is incomplete.");
+    }
+    if (!["high", "moderate", "emerging"].includes(entry.confidence)) {
+      addIssue(issues, "warn", disease, `${scope} sectionConfidence #${index + 1}`, `Invalid section confidence "${String(entry.confidence)}".`);
+    }
+  });
+
+  meta.guidelineDisagreements?.forEach((entry, index) => {
+    if (!entry.topic?.trim() || !entry.guidanceA?.trim() || !entry.guidanceB?.trim() || !entry.pharmacistTakeaway?.trim()) {
+      addIssue(issues, "warn", disease, `${scope} guidelineDisagreements #${index + 1}`, "Guideline disagreement entry is incomplete.");
+    }
+  });
 
   if (!meta.governance?.owner?.trim()) {
     addIssue(issues, "error", disease, scope, "Missing content owner attribution.");
@@ -294,6 +331,7 @@ function validateSubcategory(
 
     tier.options.forEach((option, optionIndex) => {
       const optionScope = `${tierScope} option #${optionIndex + 1}`;
+      const regimenPlanKey = getPriorityRegimenPlanKey(disease.id, subcategory.id, tier.line, option);
       if (!option.id?.trim()) {
         addIssue(issues, "error", disease.name, optionScope, "Missing structured empiric option id.");
       } else if (optionIds.has(option.id)) {
@@ -337,6 +375,37 @@ function validateSubcategory(
           addIssue(issues, "error", disease.name, optionScope, `Unknown evidenceSourceId "${sourceId}".`);
         }
       });
+      if (option.plan) {
+        if (!option.plan.regimen?.trim()) {
+          addIssue(issues, "warn", disease.name, optionScope, "Structured regimen plan is missing regimen text.");
+        }
+        if (!option.plan.rationale?.trim()) {
+          addIssue(issues, "warn", disease.name, optionScope, "Structured regimen plan is missing rationale.");
+        }
+        option.plan.linkedMonographIds?.forEach((linkedMonographId) => {
+          if (!knownMonographIds.has(linkedMonographId)) {
+            addIssue(
+              issues,
+              "error",
+              disease.name,
+              optionScope,
+              `Structured regimen plan links unknown monographId "${linkedMonographId}".`,
+            );
+          }
+        });
+      }
+      if (PRIORITY_REGIMEN_PLAN_OPTION_KEYS.has(regimenPlanKey)) {
+        if (!option.plan) {
+          addIssue(issues, "error", disease.name, optionScope, "Priority empiric option is missing a structured regimen plan.");
+        } else {
+          if (!option.plan.rationale?.trim()) {
+            addIssue(issues, "error", disease.name, optionScope, "Priority empiric option is missing regimen plan rationale.");
+          }
+          if (!option.plan.linkedMonographIds?.length) {
+            addIssue(issues, "error", disease.name, optionScope, "Priority empiric option is missing linked monograph ids.");
+          }
+        }
+      }
     });
   });
 
@@ -354,6 +423,75 @@ function validateSubcategory(
     addIssue(issues, "warn", disease.name, subcategoryScope, "Duration guidance is missing the standard duration.");
   }
 
+  subcategory.rapidDiagnostics?.forEach((entry, index) => {
+    if (!entry.trigger?.trim() || !entry.action?.trim()) {
+      addIssue(issues, "warn", disease.name, `${subcategoryScope} rapidDiagnostics #${index + 1}`, "Rapid diagnostic entry is incomplete.");
+    }
+  });
+
+  subcategory.breakpointNotes?.forEach((entry, index) => {
+    if (!entry.marker?.trim() || !entry.interpretation?.trim()) {
+      addIssue(issues, "warn", disease.name, `${subcategoryScope} breakpointNotes #${index + 1}`, "Breakpoint note is incomplete.");
+    }
+  });
+
+  subcategory.intrinsicResistance?.forEach((entry, index) => {
+    if (!entry.organism?.trim() || !entry.resistance?.trim() || !entry.implication?.trim()) {
+      addIssue(issues, "warn", disease.name, `${subcategoryScope} intrinsicResistance #${index + 1}`, "Intrinsic resistance alert is incomplete.");
+    }
+  });
+
+  subcategory.coverageMatrix?.forEach((entry, index) => {
+    if (!entry.label?.trim() || !entry.detail?.trim()) {
+      addIssue(issues, "warn", disease.name, `${subcategoryScope} coverageMatrix #${index + 1}`, "Coverage matrix entry is incomplete.");
+    }
+    if (!VALID_COVERAGE_STATUSES.has(entry.status)) {
+      addIssue(issues, "warn", disease.name, `${subcategoryScope} coverageMatrix #${index + 1}`, `Invalid coverage status "${String(entry.status)}".`);
+    }
+  });
+
+  if (PRIORITY_WORKFLOW_DISEASE_IDS.has(disease.id)) {
+    WORKFLOW_FIELD_CONFIG.forEach((fieldConfig) => {
+      const block = getWorkflowBlock(subcategory, fieldConfig.key);
+      if (!hasWorkflowBlockContent(block)) {
+        addIssue(
+          issues,
+          "error",
+          disease.name,
+          `${subcategoryScope} workflow.${fieldConfig.key}`,
+          "Priority pathway is missing a standardized stewardship workflow block.",
+        );
+        return;
+      }
+
+      if (block?.status !== "not_applicable" && flattenWorkflowBlock(block).length === 0) {
+        addIssue(
+          issues,
+          "warn",
+          disease.name,
+          `${subcategoryScope} workflow.${fieldConfig.key}`,
+          "Workflow block has no summary or bullets.",
+        );
+      }
+    });
+  }
+
+  const microbiologyKey = `${disease.id}/${subcategory.id}`;
+  if (PRIORITY_MICROBIOLOGY_SUBCATEGORY_KEYS.has(microbiologyKey)) {
+    if (!subcategory.rapidDiagnostics?.length) {
+      addIssue(issues, "error", disease.name, subcategoryScope, "Priority microbiology pathway is missing rapid diagnostic actions.");
+    }
+    if (!subcategory.breakpointNotes?.length) {
+      addIssue(issues, "error", disease.name, subcategoryScope, "Priority microbiology pathway is missing breakpoint/MIC notes.");
+    }
+    if (!subcategory.intrinsicResistance?.length) {
+      addIssue(issues, "error", disease.name, subcategoryScope, "Priority microbiology pathway is missing intrinsic resistance alerts.");
+    }
+    if (!subcategory.coverageMatrix?.length) {
+      addIssue(issues, "error", disease.name, subcategoryScope, "Priority microbiology pathway is missing coverage matrix rows.");
+    }
+  }
+
   if (!subcategory.pearls || subcategory.pearls.length === 0) {
     addIssue(issues, "info", disease.name, subcategoryScope, "No pearls listed.");
   }
@@ -363,6 +501,7 @@ function validateMonograph(
   issues: ContentValidationIssue[],
   disease: DiseaseState,
   monograph: DrugMonograph,
+  primaryMonographOwnerById: Record<string, string>,
 ) {
   const monographScope = `Monograph ${disease.id}/${monograph.id}`;
   const resolvedMeta = resolveContentMeta(monograph, disease, {
@@ -431,12 +570,145 @@ function validateMonograph(
       addIssue(issues, "warn", disease.name, monographScope, "OPAT block is missing monitoring guidance.");
     }
   }
+
+  if (monograph.dosingByIndication && monograph.dosingByIndication.length === 0) {
+    addIssue(issues, "warn", disease.name, monographScope, "Structured dosingByIndication block is empty.");
+  }
+  monograph.dosingByIndication?.forEach((entry, index) => {
+    if (!entry.label?.trim() || !entry.regimen?.trim()) {
+      addIssue(issues, "warn", disease.name, `${monographScope} dosingByIndication #${index + 1}`, "Structured dosing entry is incomplete.");
+    }
+  });
+
+  monograph.renalReplacement?.forEach((entry, index) => {
+    if (!entry.guidance?.trim()) {
+      addIssue(issues, "warn", disease.name, `${monographScope} renalReplacement #${index + 1}`, "Renal replacement entry is missing guidance.");
+    }
+  });
+
+  monograph.specialPopulations?.forEach((entry, index) => {
+    if (!entry.population?.trim() || !entry.guidance?.trim()) {
+      addIssue(issues, "warn", disease.name, `${monographScope} specialPopulations #${index + 1}`, "Special population entry is incomplete.");
+    }
+  });
+
+  if (monograph.therapeuticDrugMonitoring) {
+    if (!monograph.therapeuticDrugMonitoring.target?.trim()) {
+      addIssue(issues, "warn", disease.name, monographScope, "Therapeutic drug monitoring block is missing target guidance.");
+    }
+    if (!monograph.therapeuticDrugMonitoring.sampling?.trim()) {
+      addIssue(issues, "warn", disease.name, monographScope, "Therapeutic drug monitoring block is missing sampling guidance.");
+    }
+    if (!monograph.therapeuticDrugMonitoring.adjustment?.trim()) {
+      addIssue(issues, "warn", disease.name, monographScope, "Therapeutic drug monitoring block is missing adjustment guidance.");
+    }
+  }
+
+  monograph.penetration?.forEach((entry, index) => {
+    if (!entry.site?.trim() || !entry.detail?.trim()) {
+      addIssue(issues, "warn", disease.name, `${monographScope} penetration #${index + 1}`, "Penetration entry is incomplete.");
+    }
+  });
+
+  monograph.interactionActions?.forEach((entry, index) => {
+    if (!entry.interactingAgent?.trim() || !entry.effect?.trim() || !entry.management?.trim()) {
+      addIssue(issues, "warn", disease.name, `${monographScope} interactionActions #${index + 1}`, "Interaction action entry is incomplete.");
+    }
+  });
+
+  monograph.stewardshipUseCases?.forEach((entry, index) => {
+    if (!entry.scenario?.trim() || !entry.role?.trim()) {
+      addIssue(issues, "warn", disease.name, `${monographScope} stewardshipUseCases #${index + 1}`, "Stewardship use case entry is incomplete.");
+    }
+  });
+
+  monograph.rapidDiagnostics?.forEach((entry, index) => {
+    if (!entry.trigger?.trim() || !entry.action?.trim()) {
+      addIssue(issues, "warn", disease.name, `${monographScope} rapidDiagnostics #${index + 1}`, "Rapid diagnostic entry is incomplete.");
+    }
+  });
+
+  monograph.breakpointNotes?.forEach((entry, index) => {
+    if (!entry.marker?.trim() || !entry.interpretation?.trim()) {
+      addIssue(issues, "warn", disease.name, `${monographScope} breakpointNotes #${index + 1}`, "Breakpoint note is incomplete.");
+    }
+  });
+
+  monograph.intrinsicResistance?.forEach((entry, index) => {
+    if (!entry.organism?.trim() || !entry.resistance?.trim() || !entry.implication?.trim()) {
+      addIssue(issues, "warn", disease.name, `${monographScope} intrinsicResistance #${index + 1}`, "Intrinsic resistance alert is incomplete.");
+    }
+  });
+
+  monograph.coverageMatrix?.forEach((entry, index) => {
+    if (!entry.label?.trim() || !entry.detail?.trim()) {
+      addIssue(issues, "warn", disease.name, `${monographScope} coverageMatrix #${index + 1}`, "Coverage matrix entry is incomplete.");
+    }
+    if (!VALID_COVERAGE_STATUSES.has(entry.status)) {
+      addIssue(issues, "warn", disease.name, `${monographScope} coverageMatrix #${index + 1}`, `Invalid coverage status "${String(entry.status)}".`);
+    }
+  });
+
+  if (PRIORITY_STRUCTURED_MONOGRAPH_IDS.has(monograph.id) && primaryMonographOwnerById[monograph.id] === disease.id) {
+    if (!monograph.dosingByIndication?.length) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority stewardship monograph is missing dosingByIndication.");
+    }
+    if (!monograph.renalReplacement?.length) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority stewardship monograph is missing renalReplacement guidance.");
+    }
+    if (!monograph.specialPopulations?.length) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority stewardship monograph is missing special population guidance.");
+    }
+    if (!monograph.therapeuticDrugMonitoring) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority stewardship monograph is missing therapeutic drug monitoring guidance.");
+    }
+    if (!monograph.administration) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority stewardship monograph is missing administration guidance.");
+    }
+    if (!monograph.penetration?.length) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority stewardship monograph is missing penetration guidance.");
+    }
+    if (!monograph.stewardshipUseCases?.length) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority stewardship monograph is missing stewardship use cases.");
+    }
+  }
+
+  if (PRIORITY_EXECUTION_MONOGRAPH_IDS.has(monograph.id) && primaryMonographOwnerById[monograph.id] === disease.id) {
+    if (!monograph.dosingByIndication?.length) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority execution monograph is missing dosingByIndication.");
+    }
+    if (!monograph.specialPopulations?.length) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority execution monograph is missing special population guidance.");
+    }
+    if (!monograph.ivToPoSwitch) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority execution monograph is missing IV-to-PO guidance.");
+    }
+    if (!monograph.opatEligibility) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority execution monograph is missing OPAT guidance.");
+    }
+  }
+
+  if (PRIORITY_MICROBIOLOGY_MONOGRAPH_IDS.has(monograph.id) && primaryMonographOwnerById[monograph.id] === disease.id) {
+    if (!monograph.rapidDiagnostics?.length) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority microbiology monograph is missing rapid diagnostic actions.");
+    }
+    if (!monograph.breakpointNotes?.length) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority microbiology monograph is missing breakpoint/MIC notes.");
+    }
+    if (!monograph.intrinsicResistance?.length) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority microbiology monograph is missing intrinsic resistance alerts.");
+    }
+    if (!monograph.coverageMatrix?.length) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority microbiology monograph is missing coverage matrix rows.");
+    }
+  }
 }
 
 function validateDisease(
   issues: ContentValidationIssue[],
   disease: DiseaseState,
   knownMonographIds: Set<string>,
+  primaryMonographOwnerById: Record<string, string>,
 ) {
   const diseaseScope = `Disease ${disease.id}`;
   const optionIds = new Set<string>();
@@ -473,7 +745,7 @@ function validateDisease(
   });
 
   disease.drugMonographs.forEach((monograph) => {
-    validateMonograph(issues, disease, monograph);
+    validateMonograph(issues, disease, monograph, primaryMonographOwnerById);
   });
 }
 
@@ -483,6 +755,14 @@ export function buildContentValidationIssues(diseaseStates: DiseaseState[]) {
   const knownMonographIds = new Set(
     diseaseStates.flatMap((disease) => disease.drugMonographs.map((monograph) => monograph.id)),
   );
+  const primaryMonographOwnerById = diseaseStates.reduce<Record<string, string>>((lookup, disease) => {
+    disease.drugMonographs.forEach((monograph) => {
+      if (!lookup[monograph.id]) {
+        lookup[monograph.id] = disease.id;
+      }
+    });
+    return lookup;
+  }, {});
 
   getSourceRegistryIssues().forEach((issue) => {
     addIssue(issues, "error", "Source Registry", issue.scope, issue.message);
@@ -494,7 +774,7 @@ export function buildContentValidationIssues(diseaseStates: DiseaseState[]) {
     }
     diseaseIds.add(disease.id);
 
-    validateDisease(issues, disease, knownMonographIds);
+    validateDisease(issues, disease, knownMonographIds, primaryMonographOwnerById);
   });
 
   return issues;

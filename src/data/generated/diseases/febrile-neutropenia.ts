@@ -213,7 +213,43 @@ export const FEBRILE_NEUTROPENIA: DiseaseState = {
         "OUTPATIENT FN CRITERIA ARE STRICT — ALL MUST BE MET: (1) MASCC ≥21 AND CISNE 0–2, (2) Clinically stable (afebrile after antipyretics, SBP ≥90, HR <100, RR <20, O2 sat normal), (3) Tolerating oral medications, (4) No evidence of active infection source requiring IV access, (5) Reliable patient/caregiver with phone contact, (6) Access to emergency care within 1 hour, (7) Follow-up appointment within 24 hours arranged. Missing even one criterion = inpatient IV therapy.",
         "24-HOUR FOLLOW-UP IS NON-NEGOTIABLE FOR OUTPATIENT FN. The 'window of risk' is the first 24–48 hours when cultures may turn positive and clinical deterioration can occur rapidly. A phone check at 12 hours + in-person reassessment at 24 hours is the minimum standard. Give patients explicit return precautions (worsening fever, rigors, hypotension, confusion, dyspnea) and ensure they understand to return IMMEDIATELY.",
         "DO NOT ROUTINELY OBTAIN CHEST IMAGING IN ASYMPTOMATIC LOW-RISK FN. IDSA 2010: CXR is not required for all FN patients — reserve for those with respiratory symptoms (cough, dyspnea, desaturation). Routine CXR in asymptomatic FN has very low yield and adds cost/radiation. High-resolution CT chest is preferred over plain film when pulmonary infection is clinically suspected in the neutropenic host."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Document MASCC/CISNE logic, obtain cultures before antibiotics when feasible, and confirm that mucositis, GI absorption, and social follow-up truly support outpatient oral treatment."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Any hypotension, organ dysfunction, pneumonia, abdominal pain, severe mucositis, or unstable comorbidity removes the patient from a low-risk FN pathway."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Recent fluoroquinolone prophylaxis, prior ESBL or Pseudomonas, resistant gram-positive colonization, and prolonged recent admissions should push therapy away from routine outpatient oral regimens."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Inspect lines, oral mucosa, skin, perirectal area, and the GI tract early because the physical source may be subtle in neutropenia."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "If cultures stay negative and the patient remains clinically stable, avoid escalating solely because fever persists through the first neutropenic day or two."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "This pathway is already designed for oral therapy when absorption is reliable; switch to inpatient IV therapy promptly if mucositis, vomiting, or instability develops."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Escalate quickly for recurrent fever, culture growth, worsening mucositis, or any hint that outpatient follow-up will not be reliable."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "Oncology and ID input are appropriate when prophylaxis failure or resistant-organism history undermines standard low-risk assumptions."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Tie duration to documented infection when found; for culture-negative FN, stop according to recovery and institutional oncologic protocols rather than arbitrary long courses."
+      }
     },
     {
       "id": "high-risk-fn",
@@ -237,6 +273,32 @@ export const FEBRILE_NEUTROPENIA: DiseaseState = {
               "notes": "IDSA 2010 preferred first-line monotherapy (A-I). Fourth-generation cephalosporin with excellent antipseudomonal activity and broad gram-negative + gram-positive spectrum. Does NOT cover MRSA, Enterococcus, or anaerobes. DOSING NOTE: 2g q8h is the standard for FN; continuous infusion (6g over 24h by elastomeric pump) has pharmacodynamic advantages for organisms with higher MICs. RENAL DOSING: CrCl 30–60 → 1–2g q12h; CrCl 11–29 → 1–2g q24h; HD → 0.5–1g after each HD session. CNS TOXICITY RISK: neurotoxicity (encephalopathy, myoclonus, seizures) at higher exposures — especially in renal failure. Monitor closely in elderly and renally impaired patients. Consider EEG if altered mental status develops on cefepime.",
               "evidence": "A-I",
               "evidenceSource": "IDSA 2010",
+              "plan": {
+                "regimen": "Cefepime 2g IV q8h",
+                "indication": "High-risk febrile neutropenia",
+                "site": "Systemic",
+                "role": "preferred",
+                "rationale": "Standard first-line high-risk FN monotherapy when shock, abdominal source, or prior ESBL history does not force a broader backbone.",
+                "pathogenFocus": [
+                  "Pseudomonas",
+                  "Common gram-negative FN pathogens",
+                  "Viridans streptococci"
+                ],
+                "riskFactorTriggers": [
+                  "High-risk FN without dominant abdominal source",
+                  "Need frontline antipseudomonal beta-lactam"
+                ],
+                "avoidIf": [
+                  "Typhlitis or anaerobic source without added coverage",
+                  "Prior ESBL or MDR gram-negative bacteremia"
+                ],
+                "renalFlags": [
+                  "Renal adjustment and neurotoxicity monitoring are essential in prolonged therapy"
+                ],
+                "linkedMonographIds": [
+                  "cefepime"
+                ]
+              },
               "monographId": "cefepime",
               "evidenceSourceIds": [
                 "idsa-febrile-neutropenia"
@@ -249,6 +311,33 @@ export const FEBRILE_NEUTROPENIA: DiseaseState = {
               "notes": "IDSA 2010 alternative first-line monotherapy (A-I). Broad-spectrum: antipseudomonal + anaerobic coverage + good gram-positive activity. Particularly advantageous when typhlitis, perirectal infection, or intra-abdominal source is suspected (anaerobic coverage included). Standard dosing: 4.5g IV q6h; extended infusion (3-hour infusion of 3.375g q8h or 4.5g q8h) pharmacodynamically superior for organisms with higher MICs — consider for critically ill patients or when Pseudomonas susceptibility is borderline. RENAL DOSING: CrCl 20–40 → 3.375g q8h; CrCl <20/HD → 2.25g q8h (additional 0.75g after HD). GALACTOMANNAN FALSE POSITIVES: pip-tazo can cause false-positive serum galactomannan — interpret serum GM cautiously in patients on pip-tazo; BAL GM preferred if pulmonary aspergillosis suspected.",
               "evidence": "A-I",
               "evidenceSource": "IDSA 2010",
+              "plan": {
+                "regimen": "Piperacillin-Tazobactam 4.5g IV q6h",
+                "indication": "High-risk febrile neutropenia",
+                "site": "Systemic",
+                "role": "preferred",
+                "rationale": "High-risk FN backbone when typhlitis, perirectal infection, or another anaerobic abdominal source is part of the picture.",
+                "pathogenFocus": [
+                  "Pseudomonas",
+                  "Enterobacterales",
+                  "Anaerobes"
+                ],
+                "riskFactorTriggers": [
+                  "Abdominal pain or suspected typhlitis",
+                  "Perirectal or intra-abdominal source",
+                  "Need anaerobic coverage without a second agent"
+                ],
+                "avoidIf": [
+                  "Strong ESBL history makes meropenem cleaner",
+                  "Unnecessary nephrotoxin stacking with vancomycin"
+                ],
+                "renalFlags": [
+                  "Extended infusion and dose adjustment matter in unstable kidney function"
+                ],
+                "linkedMonographIds": [
+                  "pip-tazo"
+                ]
+              },
               "evidenceSourceIds": [
                 "idsa-febrile-neutropenia"
               ],
@@ -260,6 +349,32 @@ export const FEBRILE_NEUTROPENIA: DiseaseState = {
               "notes": "IDSA 2010 alternative first-line monotherapy (A-I). Reserve as the broadest coverage option — covers Pseudomonas, ESBL producers, AmpC producers, anaerobes, streptococci. Preferred as empiric first-line in: (1) Patients with prior gram-negative bacteremia due to ESBL-producing organisms, (2) Recent hospitalization in regions with high ESBL prevalence, (3) Clinically unstable or septic shock presentations where broadest coverage is critical, (4) Suspected typhlitis or abdominal source. STEWARDSHIP NOTE: Carbapenems should not be used routinely as first-line when cefepime or pip-tazo are appropriate — carbapenem overuse drives carbapenem-resistant Enterobacterales (CRE) emergence. RENAL DOSING: CrCl 26–50 → 1g q12h; CrCl 10–25 → 500mg q12h; CrCl <10/HD → 500mg q24h.",
               "evidence": "A-I",
               "evidenceSource": "IDSA 2010",
+              "plan": {
+                "regimen": "Meropenem 1g IV q8h (2g IV q8h for Pseudomonas or suspected resistant organisms)",
+                "indication": "High-risk febrile neutropenia",
+                "site": "Systemic",
+                "role": "preferred",
+                "rationale": "Broadest frontline FN beta-lactam when ESBL history, septic shock, or severe abdominal source makes cefepime or pip-tazo too narrow.",
+                "pathogenFocus": [
+                  "ESBL Enterobacterales",
+                  "Pseudomonas",
+                  "Anaerobes"
+                ],
+                "riskFactorTriggers": [
+                  "Prior ESBL bacteremia",
+                  "Septic shock",
+                  "Typhlitis with severe instability"
+                ],
+                "avoidIf": [
+                  "Culture history supports cefepime or pip-tazo exit"
+                ],
+                "renalFlags": [
+                  "Dose around kidney function and renal replacement from the first day"
+                ],
+                "linkedMonographIds": [
+                  "meropenem"
+                ]
+              },
               "monographId": "meropenem",
               "evidenceSourceIds": [
                 "idsa-febrile-neutropenia"
@@ -277,6 +392,36 @@ export const FEBRILE_NEUTROPENIA: DiseaseState = {
               "notes": "IDSA 2010 (A-I): Vancomycin should NOT be routinely added to empiric FN therapy. Evidence shows routine addition of vancomycin does NOT improve outcomes, increases nephrotoxicity risk, and prolongs therapy duration unnecessarily. ADD VANCOMYCIN ONLY FOR THE FOLLOWING INDICATIONS: (1) Clinically apparent catheter-related infection (exit site erythema/discharge, tunneled catheter tenderness, positive blood cultures flagging from catheter before peripheral). (2) Skin or soft tissue infection (cellulitis, wound infection). (3) Hemodynamic instability or suspected septic shock (broader empiric coverage until source identified). (4) Blood cultures positive for gram-positive organisms (add while awaiting species ID and susceptibilities). (5) Suspected mucositis-associated viridans streptococcal sepsis (NCI grade 3–4 mucositis + severe sepsis picture). (6) Known MRSA colonization with new pulmonary infiltrates or bacteremia. REASSESSMENT AT 48–72H: Discontinue vancomycin if no gram-positive pathogen isolated and patient improving (A-II). AUC-GUIDED DOSING: 2020 ASHP/IDSA/SIDP consensus guidelines mandate AUC/MIC 400–600 monitoring over trough-based dosing — use Bayesian software (e.g., InsightRx, Vanderbilt AUC calculator).",
               "evidence": "A-I",
               "evidenceSource": "IDSA 2010",
+              "plan": {
+                "regimen": "Vancomycin 25-30 mg/kg IV loading dose, then AUC/MIC-guided maintenance dosing",
+                "indication": "High-risk FN with gram-positive or line-risk trigger",
+                "site": "Systemic",
+                "role": "adjunct",
+                "rationale": "Reserved FN add-on for catheter, skin and soft tissue, shock, or culture-based gram-positive signals rather than routine default use.",
+                "pathogenFocus": [
+                  "MRSA",
+                  "Resistant viridans streptococci",
+                  "Serious catheter-related gram-positive infection"
+                ],
+                "riskFactorTriggers": [
+                  "Hemodynamic instability",
+                  "Clinically apparent catheter infection",
+                  "Skin or soft tissue infection",
+                  "Gram-positive blood culture signal"
+                ],
+                "avoidIf": [
+                  "No gram-positive indication after 48-72 hours"
+                ],
+                "renalFlags": [
+                  "AUC-guided dosing and nephrotoxin review are mandatory"
+                ],
+                "rapidDiagnosticActions": [
+                  "Stop early if cultures do not show a target gram-positive pathogen"
+                ],
+                "linkedMonographIds": [
+                  "vancomycin"
+                ]
+              },
               "evidenceSourceIds": [
                 "idsa-febrile-neutropenia"
               ],
@@ -293,6 +438,27 @@ export const FEBRILE_NEUTROPENIA: DiseaseState = {
               "notes": "Add anaerobic coverage when: (1) Typhlitis (neutropenic enterocolitis) — RLQ pain + fever in neutropenic patient; CT-confirmed bowel wall thickening. (2) Perirectal abscess (do NOT perform digital rectal exam — can introduce bacteremia; use imaging). (3) Intra-abdominal source (diverticulitis, appendicitis). (4) Oral/dental source with suspected anaerobic involvement. NOTE: Piperacillin-tazobactam already has anaerobic coverage — metronidazole is redundant and should NOT be added if pip-tazo is the backbone agent. Add metronidazole only when cefepime or meropenem is used as the primary antipseudomonal agent in suspected anaerobic infection.",
               "evidence": "B-III",
               "evidenceSource": "IDSA 2010",
+              "plan": {
+                "regimen": "Metronidazole 500mg IV q8h",
+                "indication": "High-risk FN with anaerobic source concern",
+                "site": "Intra-abdominal",
+                "role": "adjunct",
+                "rationale": "Add only when cefepime or meropenem needs anaerobic help for typhlitis or perirectal infection; do not duplicate pip-tazo anaerobe coverage.",
+                "pathogenFocus": [
+                  "Bacteroides and other anaerobes"
+                ],
+                "riskFactorTriggers": [
+                  "Typhlitis",
+                  "Perirectal infection",
+                  "Oral anaerobic source"
+                ],
+                "avoidIf": [
+                  "Piperacillin-tazobactam is already the backbone"
+                ],
+                "linkedMonographIds": [
+                  "metronidazole"
+                ]
+              },
               "evidenceSourceIds": [
                 "idsa-febrile-neutropenia"
               ],
@@ -443,6 +609,100 @@ export const FEBRILE_NEUTROPENIA: DiseaseState = {
         "CEFEPIME NEUROTOXICITY — KNOW THE RISK. Cefepime encephalopathy (confusion, myoclonus, nonconvulsive status epilepticus) is underrecognized and can be misattributed to metabolic encephalopathy, opioids, or disease progression. Risk factors: AKI, reduced CrCl (accumulation), older age, pre-existing CNS pathology. If an FN patient develops altered mental status on cefepime, check renal function, dose, and consider EEG. This is a pharmacist-critical monitoring point.",
         "TYPHLITIS (NEUTROPENIC ENTEROCOLITIS) IS A SURGICAL AND MEDICAL EMERGENCY. RLQ pain in a neutropenic patient = presumptive typhlitis until proven otherwise. Obtain urgent CT abdomen/pelvis. Broaden antibiotic coverage to include anaerobes (metronidazole + pip-tazo or meropenem alone). Surgical consultation is essential — perforation is a life-threatening complication. Do NOT perform digital rectal exam — bacteremia risk. Serial abdominal exams every 4–6h in hospitalized neutropenic patients with abdominal symptoms.",
         "G-CSF IN ACTIVE FN: Therapeutic G-CSF (filgrastim 5 mcg/kg/day SC) accelerates ANC recovery in high-risk FN but does NOT reduce mortality in most RCTs. Reserve for specific high-risk features: expected prolonged neutropenia >10 days, septic shock, pneumonia, invasive fungal infection, age >65, or progressive disease. Don't use G-CSF therapeutically for all FN episodes — the ASCO guidelines are clear that routine use in all FN patients is not recommended. PRIMARY PROPHYLAXIS is where G-CSF has the strongest evidence (≥20% FN risk)."
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Blood cultures from every lumen plus peripheral blood, baseline labs, focused imaging, and review of prophylaxis history should happen immediately alongside first-dose IV therapy."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Hypotension, pneumonia, abdominal pain/typhlitis, altered mentation, or expected prolonged neutropenia define this as a high-risk pathway from the start."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Prior fluoroquinolone prophylaxis, prior ESBL or resistant Pseudomonas, recent broad-spectrum exposure, and long inpatient oncology courses are the critical empiric resistance gates."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Inspect lines, mucositis, perirectal disease, abdominal catastrophe, and pulmonary sources early; neutropenic sepsis can look source-poor until you look hard."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "At 48-72 hours, narrow only when cultures and clinical course genuinely support it, but do not leave empiric vancomycin or carbapenem coverage in place without an ongoing reason."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "PO completion is rare until hemodynamics stabilize, GI absorption is reliable, and the recovered organism/site clearly fits an oral agent."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Persistent fever requires re-exam, repeat imaging, fungal risk review, and line/source reassessment instead of endless broad-spectrum stacking."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "ID is high yield in prolonged fever, prior resistant-organism history, suspected typhlitis, invasive fungal concern, or unclear de-escalation timing."
+      },
+      "durationAnchor": {
+        "status": "ready",
+        "summary": "Duration should follow the documented infection plus neutrophil recovery logic of the syndrome; avoid carrying empiric broad IV therapy far beyond what the source actually requires."
+      },
+      "rapidDiagnostics": [
+        {
+          "trigger": "Blood culture or rapid molecular result shows resistant gram-negative risk such as ESBL or prior CRE history",
+          "action": "Escalate from cefepime or pip-tazo to a carbapenem or phenotype-directed reserve agent without waiting for another fever day.",
+          "rationale": "In high-risk FN, resistant gram-negative delay is the microbiology failure most likely to become catastrophic quickly."
+        },
+        {
+          "trigger": "No line, skin, pneumonia, or hemodynamic indication for MRSA coverage emerges after initial cultures",
+          "action": "Stop empiric vancomycin early instead of carrying it through the entire neutropenic episode.",
+          "rationale": "Routine vancomycin continuation adds nephrotoxicity and line burden without improving most high-risk FN outcomes."
+        }
+      ],
+      "breakpointNotes": [
+        {
+          "marker": "Cefepime susceptibility in neutropenic sepsis",
+          "interpretation": "The result assumes full-dose 2 g q8h exposure, ideally with optimized infusion timing in unstable patients.",
+          "action": "If fever or bacteremia persists, check whether the PK strategy failed before concluding the organism needs another class."
+        },
+        {
+          "marker": "Persistent fever without microbiologic growth",
+          "interpretation": "Ongoing fever alone does not prove resistant bacteria and should not automatically trigger endless antibacterial broadening.",
+          "action": "Reassess for fungal disease, mucositis, typhlitis, line issues, or a nonbacterial driver at the 4-7 day mark."
+        }
+      ],
+      "intrinsicResistance": [
+        {
+          "organism": "Enterococcus species",
+          "resistance": "Cefepime and other cephalosporins are intrinsically inactive against Enterococcus.",
+          "implication": "If the line, abdomen, or urinary tract strongly suggests Enterococcal infection, pick a regimen that actually covers it."
+        },
+        {
+          "organism": "Bacteroides fragilis group",
+          "resistance": "Cefepime lacks reliable anaerobic coverage.",
+          "implication": "Add metronidazole or choose another backbone when typhlitis, perirectal infection, or another anaerobic source is suspected."
+        }
+      ],
+      "coverageMatrix": [
+        {
+          "label": "Usual high-risk FN gram-negative pathogens including Pseudomonas",
+          "status": "preferred",
+          "detail": "Cefepime, pip-tazo, or meropenem remain the frontline anchors while cultures are pending."
+        },
+        {
+          "label": "MRSA or resistant gram-positive line infection",
+          "status": "conditional",
+          "detail": "Vancomycin is an add-on for specific indications rather than a default companion drug for every high-risk FN patient."
+        },
+        {
+          "label": "ESBL or major resistant gram-negative history",
+          "status": "conditional",
+          "detail": "Meropenem becomes the cleaner anchor when prior microbiology makes cefepime or pip-tazo unsafe."
+        },
+        {
+          "label": "Early empiric antifungal therapy on day 1",
+          "status": "avoid",
+          "detail": "Reserve antifungal escalation for persistent fever, prolonged neutropenia, or host and imaging signals that make invasive fungal disease credible."
+        }
       ]
     },
     {
@@ -643,7 +903,43 @@ export const FEBRILE_NEUTROPENIA: DiseaseState = {
         "MUCOSITIS GRADE DETERMINES ORAL ROUTE VIABILITY. NCI Mucositis Grading: Grade 1 = erythema, minimal pain, eating normally; Grade 2 = patchy ulcerations, modified diet; Grade 3 = confluent ulcerations, unable to eat solid food, IV hydration needed; Grade 4 = tissue necrosis, severe pain, unable to eat or drink, parenteral nutrition. KEY THRESHOLDS: Grade ≥2 = oral fluoroquinolone + amox-clav is not reliable (absorption unpredictable, GI transit rapid). Grade ≥2 mucositis = ORAL ROUTE CONTRAINDICATED for antibiotics; use IV. Additionally, grade ≥2 = HIGH RISK for viridans streptococcal bacteremia from mucosal translocation — vancomycin coverage should be lower threshold in this setting. Grade ≥3 mucositis = viridans streptococcal sepsis risk VERY HIGH — consider prophylactic penicillin or ampicillin in selected patients (not standard, institution-specific).",
         "G-CSF PRIMARY PROPHYLAXIS THRESHOLDS — KNOW THESE COLD. ASCO/NCCN guidelines: G-CSF PRIMARY PROPHYLAXIS recommended when FN risk ≥20%. High-risk chemotherapy regimens (>20% FN risk): CHOP-21 (DLBCL), dose-dense AC (breast), docetaxel-based regimens, TAC (breast), FOLFOX/FOLFIRI with bevacizumab, AML induction, HSCT conditioning. Intermediate-risk (10–20%): R-CVP, CHOP-14, ABVD. For intermediate-risk patients, additional risk factors (age >65, prior chemo/RT, poor performance status, HIV, open wounds, baseline cytopenias) push into primary prophylaxis territory. PEGFILGRASTIM: preferred over filgrastim for convenience (single SC injection given 24–72h AFTER last chemotherapy dose and ≥14 days before next cycle). On-body injector allows same-day administration. Never give pegfilgrastim within 24h before chemotherapy (stimulates proliferating cells that will be killed by chemo).",
         "FLUOROQUINOLONE PROPHYLAXIS CREATES A DIAGNOSTIC AND THERAPEUTIC DILEMMA. If a patient receives FQ prophylaxis and develops FN: (1) The causative organism may be FQ-resistant — do NOT use ciprofloxacin or levofloxacin empirically. (2) Use IV antipseudomonal beta-lactam (cefepime 2g q8h) regardless of MASCC score (cannot safely use oral FQ-based regimen). (3) Blood cultures from FQ-prophylaxis recipients have higher rates of gram-negative resistance and ESBL-producing organisms — request extended susceptibility testing. (4) C. difficile risk is increased after FQ exposure — monitor for diarrhea. This is one of the key reasons antibiotic stewardship in oncology should assess whether FQ prophylaxis is truly indicated for each individual patient."
-      ]
+      ],
+      "diagnosticWorkup": {
+        "status": "ready",
+        "summary": "Review neutropenia duration, mold-active prophylaxis, chest/sinus imaging, galactomannan or beta-D-glucan context, and any pulmonary or hepatosplenic clues before declaring breakthrough fungal disease."
+      },
+      "severitySignals": {
+        "status": "ready",
+        "summary": "Hypoxia, pleuritic chest pain, hemoptysis, hypotension, or disseminated lesions mean the fungal workup and treatment decisions need to accelerate immediately."
+      },
+      "mdroRiskFactors": {
+        "status": "ready",
+        "summary": "Prior azole prophylaxis, prior mold infection, prolonged neutropenia, and repeated broad-spectrum exposure are the key risk signals that shape empiric antifungal choice."
+      },
+      "sourceControl": {
+        "status": "ready",
+        "summary": "Line removal, drainage of focal collections, and tissue diagnosis when safe can be crucial because microbiology is often difficult in invasive fungal disease."
+      },
+      "deEscalation": {
+        "status": "ready",
+        "summary": "Reassess every 48-72 hours whether the patient still fits empiric antifungal criteria or can move back to prophylaxis, especially when imaging and biomarkers stay unconvincing."
+      },
+      "ivToPoPlan": {
+        "status": "ready",
+        "summary": "Transition to oral mold-active therapy only after the patient is stable, absorption is dependable, and the chosen agent fits the breakthrough/prophylaxis history."
+      },
+      "failureEscalation": {
+        "status": "ready",
+        "summary": "Failure should trigger repeat imaging, drug-level review, prophylaxis exposure review, and biopsy/source discussion rather than blind antifungal layering."
+      },
+      "consultTriggers": {
+        "status": "ready",
+        "summary": "ID plus oncology are essential here, and pulmonary/interventional teams may be needed for bronchoscopy or tissue diagnosis."
+      },
+      "durationAnchor": {
+        "status": "not_applicable",
+        "summary": "Empiric fungal therapy duration is individualized to the documented syndrome, response, and neutrophil recovery rather than a simple short-course anchor."
+      }
     }
   ],
   "drugMonographs": []

@@ -82,6 +82,64 @@ export const ADVANCED_AGENTS: DiseaseState = {
       "definition": "Enterobacteriaceae non-susceptible to at least one carbapenem (or producing carbapenemase). Includes KPC, NDM, OXA-48, VIM, IMP producers. One of the most critical AMR threats globally.",
       "clinicalPresentation": "Any infection type: UTI, bacteremia, pneumonia, IAI. Suspect in patients with prior carbapenem exposure, healthcare contact in endemic regions, or prior MDR organism colonization.",
       "diagnostics": "Culture and susceptibility testing essential. Carbapenemase PCR panel (KPC, NDM, OXA-48, VIM, IMP) guides therapy. MIC testing required — not just S/I/R breakpoints. Check ceftazidime-avibactam and meropenem-vaborbactam susceptibility. Consult ID and clinical pharmacy for complex cases.",
+      "rapidDiagnostics": [
+        {
+          "trigger": "Carbapenemase testing identifies KPC",
+          "action": "Prioritize ceftazidime-avibactam or meropenem-vaborbactam and de-escalate away from polymyxin-based salvage if it was started empirically.",
+          "rationale": "Mechanism-specific therapy consistently outperforms older toxicity-heavy fallback regimens."
+        },
+        {
+          "trigger": "Carbapenemase testing identifies NDM, VIM, or IMP",
+          "action": "Do not continue any stand-alone beta-lactam/BLI product; move to ceftazidime-avibactam plus aztreonam or cefiderocol.",
+          "rationale": "MBL-producing CRE is the main place where a paired regimen changes whether aztreonam is viable."
+        }
+      ],
+      "breakpointNotes": [
+        {
+          "marker": "MIC-based interpretation",
+          "interpretation": "CRE therapy selection should be based on organism-specific MICs and carbapenemase mechanism, not on zone diameters or the generic 'CRE' label alone.",
+          "action": "Ask the lab for carbapenemase clarification and MIC details before finalizing definitive therapy."
+        },
+        {
+          "marker": "Ceftazidime-avibactam coverage gap",
+          "interpretation": "A susceptible ceftazidime-avibactam result is compatible with KPC or OXA-48, but not with stand-alone MBL activity.",
+          "action": "If an MBL is present, pair aztreonam or abandon the drug for a different anchor."
+        }
+      ],
+      "intrinsicResistance": [
+        {
+          "organism": "Proteus, Morganella, Providencia",
+          "resistance": "These genera retain intrinsic polymyxin limitations even when they also acquire carbapenemases.",
+          "implication": "Do not build salvage CRE regimens around colistin for these organisms."
+        },
+        {
+          "organism": "MBL-producing Enterobacterales",
+          "resistance": "Stand-alone avibactam, vaborbactam, and relebactam combinations remain functionally inactive against the metallo-beta-lactamase itself.",
+          "implication": "This is the main place where mechanism testing changes therapy immediately."
+        }
+      ],
+      "coverageMatrix": [
+        {
+          "label": "KPC-CRE",
+          "status": "preferred",
+          "detail": "Ceftazidime-avibactam or meropenem-vaborbactam are the primary anchors; imipenem-cilastatin-relebactam is another option when susceptible."
+        },
+        {
+          "label": "OXA-48-like CRE",
+          "status": "active",
+          "detail": "Ceftazidime-avibactam is usually the cleanest fit; meropenem-vaborbactam does not reliably solve this mechanism."
+        },
+        {
+          "label": "NDM, VIM, or IMP",
+          "status": "conditional",
+          "detail": "Use ceftazidime-avibactam plus aztreonam or cefiderocol rather than any stand-alone BL/BLI product."
+        },
+        {
+          "label": "Colistin monotherapy",
+          "status": "avoid",
+          "detail": "Reserve only for last-line salvage when better targeted options truly do not exist."
+        }
+      ],
       "durationGuidance": {
         "standard": "7–14 days (source and severity dependent)",
         "severe": "14 days (bacteremia) — repeat blood cultures at 48h",
@@ -165,6 +223,64 @@ export const ADVANCED_AGENTS: DiseaseState = {
       "definition": "Pseudomonas non-susceptible to all first-line agents: piperacillin-tazobactam, cefepime, ceftazidime, meropenem, imipenem, aztreonam, AND ciprofloxacin/levofloxacin. Growing global problem.",
       "clinicalPresentation": "VAP, HAP, bacteremia, complicated UTI, wound infections. ICU patients, CF patients, prior antibiotic exposure at high risk.",
       "diagnostics": "Full susceptibility panel required. Test ceftolozane-tazobactam, imipenem-cilastatin-relebactam, ceftazidime-avibactam. CF patients require special testing (agar dilution).",
+      "rapidDiagnostics": [
+        {
+          "trigger": "Traditional anti-pseudomonal beta-lactams all report non-susceptible",
+          "action": "Use the novel anti-pseudomonal panel and prior-exposure history to choose ceftolozane-tazobactam or imipenem-cilastatin-relebactam rather than defaulting to colistin.",
+          "rationale": "Most modern DTR Pseudomonas cases can now avoid polymyxin toxicity if susceptibility testing is available."
+        },
+        {
+          "trigger": "MBL signal or carbapenemase PCR suggests VIM or IMP",
+          "action": "Treat ceftolozane-tazobactam and ceftazidime-avibactam as unreliable and pivot toward cefiderocol-centered therapy.",
+          "rationale": "MBL-producing Pseudomonas is a distinct subgroup with a much smaller active-agent shortlist."
+        }
+      ],
+      "breakpointNotes": [
+        {
+          "marker": "Ceftolozane-tazobactam dosing",
+          "interpretation": "The pneumonia or serious-infection dose is 3 g q8h; lower cUTI/cIAI dosing is insufficient for invasive DTR Pseudomonas.",
+          "action": "Do not reuse the smaller dose in bacteremia or pneumonia because it undercuts the advantage of the drug."
+        },
+        {
+          "marker": "Traditional beta-lactam still susceptible",
+          "interpretation": "If cefepime, meropenem, or piperacillin-tazobactam remains susceptible, optimized extended-infusion use still outranks a reflex jump to a reserve agent.",
+          "action": "Verify whether the case is truly DTR before spending a newer beta-lactam."
+        }
+      ],
+      "intrinsicResistance": [
+        {
+          "organism": "Pseudomonas aeruginosa",
+          "resistance": "Baseline low permeability and inducible AmpC make borderline exposures fail and select resistance quickly.",
+          "implication": "PK/PD optimization is not optional when treating MDR or DTR isolates."
+        },
+        {
+          "organism": "MBL-producing Pseudomonas",
+          "resistance": "Ceftolozane-tazobactam and ceftazidime-avibactam lose activity despite the broad DTR label.",
+          "implication": "Mechanism-aware escalation remains essential even after the phenotype is called resistant."
+        }
+      ],
+      "coverageMatrix": [
+        {
+          "label": "No MBL detected",
+          "status": "preferred",
+          "detail": "Ceftolozane-tazobactam or imipenem-cilastatin-relebactam are common first-look agents when susceptible."
+        },
+        {
+          "label": "MBL detected",
+          "status": "avoid",
+          "detail": "Do not rely on ceftolozane-tazobactam or ceftazidime-avibactam as the primary anchor."
+        },
+        {
+          "label": "Traditional cefepime or meropenem still active",
+          "status": "active",
+          "detail": "Use high-dose extended infusion of the active traditional agent before escalating."
+        },
+        {
+          "label": "Polymyxin fallback",
+          "status": "conditional",
+          "detail": "Keep as salvage only when novel-agent susceptibility or access is absent."
+        }
+      ],
       "durationGuidance": {
         "standard": "7 days (HAP/VAP per IDSA/ATS 2016)",
         "severe": "14 days (bacteremia, inadequate source control)",
@@ -248,14 +364,12 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "extendedInfusion": "NOT applicable — give as 30–60 min IV infusion to achieve high Cmax"
       },
       "opatEligibility": {
-        "eligible": "yes",
-        "administration": "IV q24h (extended interval) — ideal for OPAT; once-daily self-administration or nurse visit",
-        "monitoring": "Weekly serum creatinine, BUN; audiometry for courses >2 weeks; random level at steady-state (dose 3–4) for interval confirmation",
+        "eligible": "conditional",
+        "administration": "Once-daily extended-interval dosing can work in OPAT when reliable drug-level follow-up is available.",
+        "monitoring": "Levels plus renal function are mandatory, often more than once weekly early in therapy.",
         "considerations": [
-          "Extended-interval dosing preferred for OPAT — once-daily administration, reduced toxicity",
-          "Not appropriate for CrCl <40 mL/min without close PK monitoring",
-          "Vestibular toxicity may not be obvious — ask about balance/dizziness at each visit",
-          "Audiometry baseline recommended for courses >2 weeks"
+          "Appropriate only when the microbiology gain is real and home monitoring can keep up.",
+          "Poor OPAT choice when kidney function is unstable or synergy duration is already nearly complete."
         ]
       },
       "pharmacistPearls": [
@@ -266,6 +380,93 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "Trough level monitoring for conventional dosing must be drawn 30 min BEFORE the dose, not during infusion or too early after dose.",
         "Nephrotoxicity is dose-cumulative and predictable — highest risk with troughs >2 mg/L, prolonged courses (>14 days), and concurrent nephrotoxins. It is usually reversible.",
         "Ototoxicity can be cochlear (hearing loss, tinnitus) OR vestibular (balance, oscillopsia). Vestibular toxicity is often missed — ask about balance problems specifically."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Serious gram-negative infection",
+          "regimen": "5-7 mg/kg IV q24h using extended-interval dosing",
+          "notes": "Reserve monotherapy for carefully selected urinary syndromes or when susceptibilities truly support it."
+        },
+        {
+          "label": "Synergy for endocarditis or enterococcal infection",
+          "regimen": "1 mg/kg IV q8h or institution-specific synergy protocol",
+          "notes": "Short-course synergy is a niche use case, not a routine add-on."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Use post-hemodialysis dosing with level-guided redosing because missing the post-HD level or dose creates both toxicity and failure risk."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT aminoglycoside dosing is level-driven; use larger loading doses but let measured levels determine the interval."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Obesity",
+          "guidance": "Use adjusted body weight for dosing rather than actual body weight unless your local protocol says otherwise."
+        },
+        {
+          "population": "Pre-existing renal dysfunction or vestibular injury risk",
+          "guidance": "The toxicity margin is narrow enough that alternative agents should be preferred whenever they remain active."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "Extended-interval peaks should be high enough for concentration-dependent killing while troughs fall low enough to limit toxicity; synergy regimens target low troughs and modest peaks.",
+        "sampling": "Use institution-specific nomograms or measured peaks and troughs; timing accuracy matters as much as the result.",
+        "adjustment": "If kidney function is worsening or levels stay prolonged, stop gentamicin rather than forcing the interval when another active drug exists."
+      },
+      "administration": {
+        "infusion": "Usually infused over about 30 minutes with careful level timing documentation.",
+        "compatibility": "Do not co-infuse in the same line or bag with beta-lactams because inactivation can occur.",
+        "note": "The loading dose is important even in renal dysfunction because underloading is a common stewardship failure."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral systemic formulation exists.",
+        "switchCriteria": "Transition to an active oral or safer IV agent as soon as susceptibilities allow because gentamicin is rarely the ideal full-course drug.",
+        "note": "If the only reason gentamicin is present is synergy, set a stop date early."
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Loop diuretics",
+          "effect": "Can amplify ototoxicity and complicate renal toxicity assessment.",
+          "management": "Avoid the combination when possible and monitor hearing and kidney function closely if it cannot be avoided.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Vancomycin, amphotericin B, or other nephrotoxins",
+          "effect": "Additive kidney injury is common and often avoidable.",
+          "management": "Keep overlap as short as possible and increase lab and level surveillance.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Short targeted gram-negative therapy or salvage regimen component",
+          "role": "Aminoglycosides earn their place when concentration-dependent killing or limited susceptibility leaves few better options.",
+          "notes": "They should not be routine double-coverage decorations on top of an active beta-lactam."
+        },
+        {
+          "scenario": "Synergy in selected endocarditis pathways",
+          "role": "Useful only in specific guideline-backed circumstances and for defined durations.",
+          "notes": "Write the planned stop date at the time the drug is started."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Urine / renal cortex",
+          "detail": "Very high urinary and renal cortical concentrations support pyelonephritis and gram-negative urinary-source synergy strategies."
+        },
+        {
+          "site": "Lung",
+          "detail": "Pulmonary penetration is poor, which is why gentamicin should not be relied on as pneumonia monotherapy."
+        },
+        {
+          "site": "CSF",
+          "detail": "Systemic CSF penetration is minimal; CNS use generally requires intrathecal or intraventricular administration if it is used at all."
+        }
       ]
     },
     {
@@ -295,20 +496,76 @@ export const ADVANCED_AGENTS: DiseaseState = {
       ],
       "monitoring": "Renal function (primary elimination). CBC, LFTs for prolonged courses. C. diff monitoring for diarrhea.",
       "pregnancyLactation": "Category B. No teratogenicity in animal studies. Limited human data. Use only if benefit outweighs risk. Minimal excretion in breast milk.",
+      "rapidDiagnostics": [
+        {
+          "trigger": "NDM, VIM, or IMP is confirmed",
+          "action": "Pair aztreonam with an avibactam-containing regimen such as ceftazidime-avibactam rather than using aztreonam alone.",
+          "rationale": "Aztreonam survives the MBL, but co-produced serine beta-lactamases usually still need to be blocked."
+        },
+        {
+          "trigger": "Severe beta-lactam allergy requires a gram-negative-only option",
+          "action": "Aztreonam remains useful, but verify whether gram-positive or anaerobic add-on coverage is also needed.",
+          "rationale": "Its allergy advantage can obscure the fact that it leaves obvious spectrum gaps."
+        }
+      ],
+      "breakpointNotes": [
+        {
+          "marker": "Aztreonam susceptibility in MBL producers",
+          "interpretation": "Aztreonam alone can look active in vitro while still failing clinically if co-produced ESBL or AmpC enzymes are present.",
+          "action": "Treat aztreonam monotherapy as unreliable in serious MBL infection unless a paired avibactam strategy is in place."
+        },
+        {
+          "marker": "Ceftazidime side-chain cross-reactivity",
+          "interpretation": "The ring system is unique, but the shared R1 side chain means immediate ceftazidime allergy still matters.",
+          "action": "Do not assume aztreonam is universally safe in all cephalosporin-allergic patients."
+        }
+      ],
+      "intrinsicResistance": [
+        {
+          "organism": "Gram-positive organisms and anaerobes",
+          "resistance": "Aztreonam has no clinically useful activity against these groups.",
+          "implication": "Always assess whether companion coverage is required."
+        },
+        {
+          "organism": "Stenotrophomonas maltophilia",
+          "resistance": "Aztreonam alone is not dependable because the organism's L2 beta-lactamase can still hydrolyze it unless avibactam is present.",
+          "implication": "Keep aztreonam inside a mechanism-aware combination rather than using it as monotherapy."
+        }
+      ],
+      "coverageMatrix": [
+        {
+          "label": "MBL-CRE with avibactam partner",
+          "status": "conditional",
+          "detail": "A high-value component of ceftazidime-avibactam plus aztreonam strategies."
+        },
+        {
+          "label": "Aerobic gram-negative infection with severe penicillin allergy",
+          "status": "active",
+          "detail": "Often the cleanest beta-lactam option if the pathogen is susceptible."
+        },
+        {
+          "label": "Gram-positive or anaerobic infection",
+          "status": "avoid",
+          "detail": "No dependable coverage."
+        },
+        {
+          "label": "Aztreonam monotherapy for MBL infection",
+          "status": "avoid",
+          "detail": "Do not rely on it without an avibactam-containing partner."
+        }
+      ],
       "ivToPoSwitch": {
-        "poBioavailability": "Poor oral bioavailability — no oral formulation available",
-        "switchCriteria": "Not applicable — IV/IM only (parenteral) or inhaled (Cayston) for CF",
-        "note": "No oral step-down possible. Consider switching to alternative oral agent if clinically appropriate."
+        "poBioavailability": "No oral formulation exists, so step-down requires switching to another active oral class.",
+        "switchCriteria": "Leave aztreonam once allergy clarification or susceptibilities reveal a better IV or oral option.",
+        "note": "Its main value is often as a bridge while allergy and microbiology are clarified."
       },
       "opatEligibility": {
-        "eligible": "yes",
-        "administration": "IV q6-8h via PICC or port; inhaled Cayston for CF prophylaxis",
-        "monitoring": "Renal function weekly; LFTs for prolonged courses",
+        "eligible": "conditional",
+        "administration": "OPAT is feasible, but q8h dosing and the need for partner agents can make it more complex than it first appears.",
+        "monitoring": "Weekly CBC and renal function are minimum expectations, with closer review if combination therapy is being used for resistant pathogens.",
         "considerations": [
-          "Key advantage for OPAT: safe in penicillin-allergic patients (no cross-reactivity with penicillin or carbapenems)",
-          "Exception: avoid if history of IMMEDIATE reaction to ceftazidime (shared R1 side chain)",
-          "Provides no gram-positive coverage — ensure empiric gram-positive coverage addressed separately",
-          "Inhaled aztreonam (Cayston) used for CF chronic Pseudomonas suppression"
+          "Most useful when a severe beta-lactam allergy truly prevents easier options.",
+          "Do not build OPAT around aztreonam monotherapy for MBL organisms."
         ]
       },
       "pharmacistPearls": [
@@ -317,6 +574,87 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "Aztreonam + ceftazidime-avibactam is a powerful combination for NDM-producing CRE: avibactam protects aztreonam from metallo-beta-lactamase hydrolysis.",
         "Aztreonam does NOT cause positive results on beta-lactam skin testing in most penicillin-allergic patients. However, if concerned, refer to allergy for evaluation.",
         "Aztreonam has no activity against gram-positive organisms. A common clinical error is treating gram-positive bacteremia with aztreonam based on susceptibility report — aztreonam is not indicated."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Aerobic gram-negative infection with severe beta-lactam allergy",
+          "regimen": "1-2 g IV q8h",
+          "notes": "Use higher-end dosing for severe infection or Pseudomonas risk, but remember the gram-positive and anaerobic gaps."
+        },
+        {
+          "label": "Serious gram-negative or Pseudomonas infection",
+          "regimen": "2 g IV q6-8h",
+          "notes": "Only trust monotherapy when the organism and syndrome truly fit aztreonam's narrow spectrum."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Use renally adjusted dosing with a post-hemodialysis supplement because aztreonam is primarily renally cleared."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT often still supports q8h or more aggressive exposure, particularly when resistant gram-negative infection is being treated."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Immediate ceftazidime allergy",
+          "guidance": "Do not assume aztreonam is automatically safe because the shared side chain with ceftazidime still matters."
+        },
+        {
+          "population": "MBL-producing CRE or polymicrobial infection",
+          "guidance": "Its narrow allergy-friendly profile is useful, but only if you explicitly solve the co-produced beta-lactamase or companion-coverage gap."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; the important target is dependable gram-negative coverage without forgetting the obvious spectrum gaps.",
+        "sampling": "No drug levels are standard. Review renal function, organism phenotype, and partner-drug adequacy.",
+        "adjustment": "If the organism is an MBL producer, fix the partner strategy rather than just pushing aztreonam harder."
+      },
+      "administration": {
+        "infusion": "Typically infused intermittently on a q6-8h schedule depending on syndrome severity.",
+        "note": "Operational simplicity should not hide the need for additional gram-positive or anaerobic coverage when required."
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Ceftazidime-avibactam",
+          "effect": "The combination can restore clinical usefulness against MBL organisms where aztreonam alone is unreliable.",
+          "management": "Pair intentionally for NDM, VIM, or IMP producers when the mechanism demands it.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Probenecid",
+          "effect": "Can raise aztreonam levels by reducing renal tubular secretion.",
+          "management": "Avoid using probenecid as a pseudo-boosting strategy.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Serious gram-negative therapy in true beta-lactam allergy",
+          "role": "A valuable narrow-spectrum bridge when allergy limits other beta-lactams.",
+          "notes": "Always reassess whether the allergy history still justifies it."
+        },
+        {
+          "scenario": "Mechanism-aware partner in MBL regimens",
+          "role": "Useful when paired correctly rather than used alone against a resistant phenotype it cannot reliably solve.",
+          "notes": "Document the pairing rationale clearly for the next team."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Urine",
+          "detail": "Strong urinary exposure supports aztreonam use in susceptible gram-negative UTI when beta-lactam allergy limits options."
+        },
+        {
+          "site": "Lung",
+          "detail": "Pulmonary penetration is usable for gram-negative pneumonia, though it usually functions as a targeted niche agent rather than a broad empiric anchor."
+        },
+        {
+          "site": "CSF",
+          "detail": "Inflamed meninges allow some CSF entry, but aztreonam is not the usual first-line CNS beta-lactam."
+        }
       ]
     },
     {
@@ -350,15 +688,71 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "target": "fT>MIC ≥40–70% (free drug time above MIC)",
         "extendedInfusion": "Consider extended infusion (1h standard; 3h for higher MIC targets or severe infections) — increases fT>MIC"
       },
+      "rapidDiagnostics": [
+        {
+          "trigger": "True DTR Pseudomonas is confirmed without an MBL signal",
+          "action": "Ceftolozane-tazobactam becomes a frontline option, especially when local susceptibility favors it over ceftazidime-avibactam.",
+          "rationale": "It is one of the most Pseudomonas-focused reserve beta-lactams in the toolkit."
+        },
+        {
+          "trigger": "VIM or IMP is detected",
+          "action": "Move away from ceftolozane-tazobactam because the drug does not solve metallo-beta-lactamase-mediated resistance.",
+          "rationale": "A resistant phenotype alone can obscure the specific mechanism that closes this option."
+        }
+      ],
+      "breakpointNotes": [
+        {
+          "marker": "Dose selection by syndrome",
+          "interpretation": "The 3 g q8h exposure is the serious-infection or pulmonary dose; 1.5 g q8h is the smaller cUTI/cIAI dose.",
+          "action": "Do not use the smaller dose for bacteremia or pneumonia just because the isolate is urinary in origin."
+        },
+        {
+          "marker": "Extended infusion for higher MIC isolates",
+          "interpretation": "Longer infusion materially improves target attainment when the Pseudomonas MIC is creeping upward.",
+          "action": "Coordinate with pharmacy rather than defaulting to a short infusion out of habit."
+        }
+      ],
+      "intrinsicResistance": [
+        {
+          "organism": "MBL-producing gram-negatives",
+          "resistance": "Tazobactam does not inhibit NDM, VIM, or IMP.",
+          "implication": "Do not use ceftolozane-tazobactam when an MBL is established."
+        },
+        {
+          "organism": "CRAB and most CRE phenotypes",
+          "resistance": "The drug is not a dependable rescue option for Acinetobacter or carbapenemase-producing Enterobacterales.",
+          "implication": "Keep it focused on resistant Pseudomonas rather than 'broad MDR' use."
+        }
+      ],
+      "coverageMatrix": [
+        {
+          "label": "DTR Pseudomonas without MBL",
+          "status": "preferred",
+          "detail": "A frontline reserve agent when susceptibility and site support it."
+        },
+        {
+          "label": "ESBL-E without Pseudomonas need",
+          "status": "conditional",
+          "detail": "Can be active, but stewardship usually prefers preserving the drug for resistant Pseudomonas."
+        },
+        {
+          "label": "MBL-producing isolates",
+          "status": "avoid",
+          "detail": "No dependable activity against NDM, VIM, or IMP."
+        },
+        {
+          "label": "CRE or CRAB",
+          "status": "inactive",
+          "detail": "Not the right reserve beta-lactam for these phenotypes."
+        }
+      ],
       "opatEligibility": {
         "eligible": "conditional",
-        "administration": "IV q8h via PICC/port — requires infusion pump for extended-infusion protocol",
-        "monitoring": "Renal function 2×/week; clinical response at 3–5 days",
+        "administration": "Home or facility q8h prolonged infusion is feasible but operationally heavier than standard OPAT drugs.",
+        "monitoring": "Weekly CBC and renal function are minimum expectations, with closer review for prolonged therapy or unstable renal function.",
         "considerations": [
-          "OPAT requires frequent renal monitoring due to dose-adjustment complexity",
-          "Extended infusion beneficial — coordinate with OPAT pharmacy for infusion bags",
-          "High cost — obtain prior authorization; document MDR Pseudomonas susceptibility",
-          "Not appropriate for oral step-down — IV only"
+          "Best for stable patients with confirmed susceptible resistant Pseudomonas and no oral exit.",
+          "Avoid if stewardship follow-up cannot support a reserve-agent OPAT plan."
         ]
       },
       "pharmacistPearls": [
@@ -367,6 +761,93 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "Does NOT inhibit metallo-beta-lactamases (NDM, VIM, IMP) — if MBL suspected, this drug will fail.",
         "Extended infusion over 3 hours significantly improves pharmacodynamic target attainment for Pseudomonas strains with MIC ≥4 mg/L. Work with clinical pharmacy to implement.",
         "Resistance during therapy has been reported — obtain follow-up cultures if patient fails to respond."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "MDR or DTR Pseudomonas pneumonia",
+          "regimen": "3 g IV q8h over 3 hours",
+          "notes": "Use the pneumonia dose when lung infection or severe bacteremia is the reason you chose it."
+        },
+        {
+          "label": "Complicated UTI or intra-abdominal infection",
+          "regimen": "1.5-3 g IV q8h over 1-3 hours depending on syndrome and site",
+          "notes": "The lung dose is still favored when there is any question about severity or borderline susceptibility."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Use the renally adjusted regimen after hemodialysis; underdosing after dialysis is a common avoidable problem."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT often still supports aggressive q8h exposure, particularly when resistant Pseudomonas pneumonia is the target."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Augmented renal clearance",
+          "guidance": "ARC is common in ICU pneumonia and can meaningfully lower exposure, so keep the prolonged infusion and full q8h schedule when renal function is brisk."
+        },
+        {
+          "population": "Metallo-beta-lactamase producers",
+          "guidance": "Do not use ceftolozane-tazobactam when MBL biology is established because the tazobactam partner does not solve that mechanism."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; the main goal is full q8h prolonged-infusion exposure against the confirmed susceptible phenotype.",
+        "sampling": "Drug levels are not standard. Review susceptibility mechanism, infusion timing, and renal trajectory.",
+        "adjustment": "If it appears to be failing, re-check whether the organism truly fits the drug before escalating to more toxic salvage."
+      },
+      "administration": {
+        "infusion": "Extended infusion over 3 hours is preferred for severe infection and resistant Pseudomonas.",
+        "stability": "OPAT and elastomeric use depend on local stability confirmation.",
+        "note": "This drug is at its best when it is used specifically for the Pseudomonas problem it was built to solve."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral formulation exists.",
+        "switchCriteria": "Transition off IV therapy only if cultures later reveal an active oral option, which is uncommon in the resistant syndromes that justify use.",
+        "note": "Most discharge planning is infusion-based rather than PO conversion."
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Warfarin",
+          "effect": "INR can shift during prolonged broad-spectrum treatment.",
+          "management": "Increase INR monitoring during therapy transitions.",
+          "severity": "monitor"
+        },
+        {
+          "interactingAgent": "Aminoglycosides",
+          "effect": "Combination may be intentional in salvage therapy, but line compatibility and additive kidney injury can become the operational problem.",
+          "management": "Use separate lines when possible and justify the duration of overlap explicitly.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Definitive MDR Pseudomonas therapy",
+          "role": "A high-value reserve antipseudomonal when the phenotype matches and older beta-lactams do not.",
+          "notes": "It should not be used as a generic \"big gun\" for Enterobacterales."
+        },
+        {
+          "scenario": "Avoiding colistin for susceptible resistant Pseudomonas",
+          "role": "Often the cleaner definitive option when susceptibility supports it.",
+          "notes": "Leave it on the shelf when standard cefepime or meropenem still works."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Lung / epithelial lining fluid",
+          "detail": "Adequate pulmonary penetration at the pneumonia dose and infusion strategy is one reason it is useful for resistant Pseudomonas pneumonia."
+        },
+        {
+          "site": "Urine",
+          "detail": "High urinary exposure supports use in cUTI caused by susceptible MDR gram-negative pathogens."
+        },
+        {
+          "site": "CSF",
+          "detail": "CNS experience is limited enough that it should not be assumed to cover meningitis simply because the isolate is susceptible."
+        }
       ]
     },
     {
@@ -400,15 +881,71 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "target": "fT>MIC ≥40% (static), ≥80% (bactericidal) — free drug time above MIC",
         "extendedInfusion": "Extended infusion over 3h improves target attainment — 0.5g component infused over 3h"
       },
+      "rapidDiagnostics": [
+        {
+          "trigger": "KPC-producing Enterobacterales is confirmed and the isolate is susceptible",
+          "action": "Imipenem-cilastatin-relebactam is a reasonable definitive option, especially if ceftazidime-avibactam or meropenem-vaborbactam are unavailable or recently used.",
+          "rationale": "Relebactam restores imipenem activity for KPC and AmpC-driven resistance but not for MBL or OXA-48."
+        },
+        {
+          "trigger": "DTR Pseudomonas is confirmed without MBL",
+          "action": "Use imipenem-cilastatin-relebactam as a targeted reserve anti-pseudomonal option when susceptibility and seizure risk permit.",
+          "rationale": "Its role is strongest in imipenem-nonsusceptible Pseudomonas and selected KPC isolates."
+        }
+      ],
+      "breakpointNotes": [
+        {
+          "marker": "Mechanism dependence",
+          "interpretation": "A favorable result only makes sense if the resistance driver is KPC or AmpC rather than OXA-48 or an MBL.",
+          "action": "Keep carbapenemase testing connected to every susceptibility interpretation."
+        },
+        {
+          "marker": "Exposure strategy",
+          "interpretation": "The product is labeled as a 30-minute infusion, but extended infusion can improve target attainment in difficult isolates.",
+          "action": "If the MIC is borderline and the patient is critically ill, discuss the infusion strategy with stewardship or ID."
+        }
+      ],
+      "intrinsicResistance": [
+        {
+          "organism": "MBL-producing Enterobacterales or Pseudomonas",
+          "resistance": "Relebactam does not inhibit NDM, VIM, or IMP.",
+          "implication": "Do not expect rescue activity when an MBL is present."
+        },
+        {
+          "organism": "OXA-48-like CRE and Stenotrophomonas",
+          "resistance": "Activity is unreliable or absent because relebactam does not fix those core mechanisms.",
+          "implication": "Choose a more mechanism-specific agent instead."
+        }
+      ],
+      "coverageMatrix": [
+        {
+          "label": "KPC-CRE",
+          "status": "active",
+          "detail": "A viable definitive option when susceptible, though often ranked behind meropenem-vaborbactam or ceftazidime-avibactam."
+        },
+        {
+          "label": "DTR Pseudomonas without MBL",
+          "status": "preferred",
+          "detail": "An important reserve anti-pseudomonal option when local susceptibility supports it."
+        },
+        {
+          "label": "OXA-48-like or MBL CRE",
+          "status": "avoid",
+          "detail": "Do not rely on relebactam to rescue these mechanisms."
+        },
+        {
+          "label": "Stenotrophomonas",
+          "status": "inactive",
+          "detail": "No dependable role."
+        }
+      ],
       "opatEligibility": {
         "eligible": "conditional",
-        "administration": "IV q6h — requires daily nursing or patient education for q6h pump administration",
-        "monitoring": "Renal function 2-3×/week due to complex dose-adjustment; seizure monitoring",
+        "administration": "OPAT is possible but q6h dosing is burdensome and usually less attractive than other definitive options.",
+        "monitoring": "Weekly renal function and CBC are minimum expectations, with closer review for any neurologic symptoms.",
         "considerations": [
-          "q6h dosing is burdensome for OPAT — consider ertapenem (q24h) if susceptible",
-          "Avoid in patients with prior seizures or significant CNS disease without neurology input",
-          "Relebactam component not available separately — this is the complete branded product",
-          "High cost; requires prior authorization for MDR indication"
+          "Consider only when the susceptibility pattern truly favors it and the infusion program can handle q6h dosing.",
+          "Poor OPAT choice if seizure risk or adherence concerns are present."
         ]
       },
       "pharmacistPearls": [
@@ -417,6 +954,88 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "IC-Relebactam is preferred over colistin for carbapenem-resistant Pseudomonas and KPC-CRE based on RESTORE-IMI trial data — significantly better safety profile.",
         "Relebactam does NOT inhibit metallo-beta-lactamases (NDM, VIM) or OXA-48. If these are present, IC-R will fail. Carbapenemase testing is mandatory before use.",
         "The RESTORE-IMI 2 trial showed IC-R was non-inferior to piperacillin-tazobactam for HAP/VAP, with activity against pip-tazo resistant Pseudomonas."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "DTR Pseudomonas or selected KPC infection",
+          "regimen": "1.25 g IV q6h",
+          "notes": "Use as a mechanism-directed reserve option rather than a default carbapenem escalation."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Use the renally adjusted regimen after hemodialysis because the q6h schedule is already easy to underdeliver."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT often still requires aggressive q6h coverage; seizure risk and effluent rate both matter when adjusting."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Seizure risk or advanced CNS disease",
+          "guidance": "Imipenem still carries more seizure concern than meropenem, so choose carefully when the brain is already vulnerable."
+        },
+        {
+          "population": "Unknown carbapenemase mechanism",
+          "guidance": "Do not assume activity for all resistant gram-negatives; the phenotype still has to fit relebactam's mechanism."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; the real target is correct mechanism coverage with dependable q6h exposure.",
+        "sampling": "Drug levels are not standard. Review seizure history, renal function, and susceptibility mechanism closely.",
+        "adjustment": "If neurotoxicity or mechanism mismatch is emerging, pivot early rather than treating it as a generic carbapenem failure."
+      },
+      "administration": {
+        "infusion": "Administer on the scheduled q6h interval with disciplined timing because missed doses rapidly erode coverage.",
+        "compatibility": "Frequent dosing increases line-scheduling conflicts, so compatibility planning matters in ICU patients.",
+        "note": "Operational burden is one reason it is usually a targeted reserve choice rather than a discharge favorite."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral formulation exists.",
+        "switchCriteria": "Most patients remain on IV therapy until cure or change to another active class because true oral exits are uncommon.",
+        "note": "If a reliable oral option appears, that usually means the resistant phenotype was narrower than first feared."
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Valproic acid",
+          "effect": "Imipenem-class carbapenems can markedly lower valproate exposure and trigger seizures.",
+          "management": "Use an alternative antiepileptic for the full carbapenem course.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Ganciclovir or other seizure-threshold-lowering drugs",
+          "effect": "Can amplify CNS toxicity in already vulnerable patients.",
+          "management": "Review neurotoxicity risk before committing to prolonged therapy.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Targeted DTR Pseudomonas therapy",
+          "role": "A reserve anti-pseudomonal option when susceptibility and mechanism support it.",
+          "notes": "Do not use it just because cefepime feels emotionally too small."
+        },
+        {
+          "scenario": "Selected KPC infection when other preferred agents are unavailable or recently used",
+          "role": "A reasonable mechanism-directed backup rather than a universal first choice.",
+          "notes": "Keep the reason for choosing it explicit in the stewardship note."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Lung / epithelial lining fluid",
+          "detail": "Pulmonary exposure is sufficient for susceptible resistant gram-negative pneumonia when full-dose q6h therapy is used."
+        },
+        {
+          "site": "Urine",
+          "detail": "Renal elimination produces strong urinary exposure, making it useful in resistant cUTI and urinary-source bacteremia."
+        },
+        {
+          "site": "CSF",
+          "detail": "CNS use is not a strength because seizure liability and limited data make other carbapenems easier choices for meningitis."
+        }
       ]
     },
     {
@@ -457,13 +1076,11 @@ export const ADVANCED_AGENTS: DiseaseState = {
       },
       "opatEligibility": {
         "eligible": "no",
-        "administration": "IV only — requires ICU or intensive monitoring setting",
-        "monitoring": "Daily renal function, electrolytes, neurological assessment — not suitable for OPAT",
+        "administration": "The toxicity burden and dosing complexity make routine OPAT a poor fit.",
+        "monitoring": "Daily or near-daily renal and neurologic review is usually needed early in therapy.",
         "considerations": [
-          "Nephrotoxicity and complex renal dosing require close inpatient monitoring",
-          "Only appropriate when no other options exist — always consult ID",
-          "Inhaled colistin as ADJUNCT to IV therapy in pulmonary MDR infections may be used in stable patients transitioning to subacute care",
-          "PK/PD service consultation is standard of care for colistin dosing"
+          "Use inpatient or highly supervised subacute settings rather than standard home OPAT.",
+          "Reserve for situations where better tolerated active agents are unavailable."
         ]
       },
       "pharmacistPearls": [
@@ -473,6 +1090,88 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "NEVER use colistin as monotherapy if any other agent shows activity — combination with carbapenem, rifampin, or fosfomycin improves outcomes and reduces resistance emergence.",
         "Colistin resistance during therapy is a real risk — follow-up cultures are essential.",
         "The emergence of novel agents (IC-relebactam, ceftazidime-avibactam, ceftolozane-tazobactam) has significantly reduced the indications for colistin. If any of these agents cover the organism, they are preferred."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Salvage therapy for DTR gram-negative infection",
+          "regimen": "Load with 9 MIU colistimethate, then maintenance per renal function and product-specific units",
+          "notes": "Consult a PK-savvy pharmacist or institutional nomogram because unit confusion is a patient-safety issue."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Use level- or protocol-driven post-hemodialysis dosing because both the prodrug and active form create dosing confusion in dialysis patients."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "CRRT dosing is highly individualized and should follow an experienced protocol because both underexposure and toxicity are easy to create."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Baseline CKD or concurrent nephrotoxins",
+          "guidance": "If any safer active agent exists, use it instead because kidney injury risk is often the reason colistin cannot be completed."
+        },
+        {
+          "population": "Neuromuscular disease",
+          "guidance": "Colistin can worsen weakness and respiratory compromise, so use only when the microbiology gain is worth that neurologic risk."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No widely available bedside target, but PK-guided dosing is ideal when the service offers it because therapeutic and toxic exposures overlap.",
+        "sampling": "If levels are available, use them. Otherwise monitor renal function, urine output, neurologic symptoms, and whether the regimen still needs colistin at all.",
+        "adjustment": "Do not respond to toxicity by casually stretching the interval without re-evaluating whether a safer active option has become available."
+      },
+      "administration": {
+        "infusion": "A loading dose is mandatory; maintenance infusions then follow the institution's unit-specific protocol.",
+        "compatibility": "Verify units and product formulation every time because CMS and colistin base activity are easy to confuse.",
+        "note": "This is a drug where operational precision is as important as microbiology."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral systemic formulation exists.",
+        "switchCriteria": "True oral step-down is not expected; the transition question is usually whether colistin can be stopped for a safer IV or oral alternative.",
+        "note": "If the patient improves and susceptibilities open another door, take it."
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Vancomycin, amphotericin B, aminoglycosides, or other nephrotoxins",
+          "effect": "Additive kidney injury is common and can force premature discontinuation.",
+          "management": "Strip out avoidable nephrotoxins and shorten overlap aggressively.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Neuromuscular blocking agents",
+          "effect": "Can worsen neuromuscular weakness and respiratory failure risk.",
+          "management": "Use extreme caution in ventilated or perioperative patients and monitor closely.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Last-line salvage for highly resistant gram-negative infection",
+          "role": "A fallback only when newer beta-lactam options are inactive, unavailable, or inappropriate.",
+          "notes": "Always document why safer reserve agents cannot be used."
+        },
+        {
+          "scenario": "Prompt de-escalation once a safer active option appears",
+          "role": "The stewardship goal with colistin is usually to get off colistin as soon as microbiology permits.",
+          "notes": "Do not keep it just because the patient is already tolerating it today."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Urine",
+          "detail": "When given as colistimethate, renal excretion can produce clinically useful urinary concentrations for highly resistant lower-tract infection."
+        },
+        {
+          "site": "Lung",
+          "detail": "IV colistin alone gives variable lung exposure, which is why inhaled adjunct therapy is often considered for severe MDR pneumonia."
+        },
+        {
+          "site": "CSF",
+          "detail": "Systemic CSF penetration is poor, so intrathecal or intraventricular therapy may be required when no better CNS-active option exists."
+        }
       ]
     },
     {
@@ -503,19 +1202,17 @@ export const ADVANCED_AGENTS: DiseaseState = {
       "monitoring": "CBC at baseline and weekly for courses >6 days (especially platelets — serotonin pathway in platelets). Monitor for signs of serotonin syndrome. Visual symptoms (optic neuropathy) for prolonged courses.",
       "pregnancyLactation": "Category C. Animal embryo-fetal toxicity data. No adequate human data. Avoid unless benefits outweigh risks.",
       "ivToPoSwitch": {
-        "poBioavailability": ">90% oral bioavailability — nearly complete absorption",
-        "switchCriteria": "Switch to oral immediately once patient tolerating oral intake — same dose (200mg PO QD). No dose adjustment needed for IV→PO switch.",
-        "note": "The >90% bioavailability makes tedizolid an ideal IV→PO switch candidate. IV-equivalent oral therapy means hospitalization for IV access is not clinically justified."
+        "poBioavailability": "High oral bioavailability with near-IV exposure.",
+        "switchCriteria": "Switch to PO as soon as oral intake is reliable because the same daily dose is used.",
+        "note": "One of the cleanest day-1 or day-2 IV-to-PO conversions for gram-positive skin infection."
       },
       "opatEligibility": {
-        "eligible": "yes",
-        "administration": "PO 200mg once daily — no IV access required for oral step-down. IV option if oral not feasible.",
-        "monitoring": "CBC weekly if >6-day course. Serotonin symptom assessment.",
+        "eligible": "conditional",
+        "administration": "IV OPAT is possible, but oral once-daily therapy is usually the better outpatient route.",
+        "monitoring": "CBC and serotonergic symptom review still matter whether the route is IV or PO.",
         "considerations": [
-          "Once-daily oral dosing is ideal for outpatient management of MRSA SSTI",
-          "Avoid serotonergic drugs during therapy",
-          "More expensive than linezolid — document clinical indication",
-          "6-day course for ABSSSI supported by ATTAIN trials (vs. 10 days for linezolid)"
+          "Prefer oral completion over home IV infusion whenever feasible.",
+          "Use mostly in short-course SSTI pathways rather than prolonged invasive infection plans."
         ]
       },
       "pharmacistPearls": [
@@ -525,6 +1222,83 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "Tedizolid is bacteriostatic for most organisms. Do NOT use for bacteremia, endocarditis, or osteomyelitis as primary therapy — these require bactericidal agents.",
         "Oral bioavailability >90% — this is equivalent to IV. IV-to-PO switch at day 1–2 of therapy is appropriate and cost-effective.",
         "Cost: tedizolid is significantly more expensive than linezolid. In formulary-restricted settings, document MRSA + linezolid intolerance or failure to justify tedizolid."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "ABSSSI",
+          "regimen": "200 mg IV/PO daily for 6 days",
+          "notes": "Best used when a short-course once-daily gram-positive oral option is the real goal."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No dose adjustment is usually needed, which is part of tedizolid's operational appeal."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Standard daily dosing usually remains appropriate because renal clearance is not the main driver."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Patients with renal dysfunction or linezolid intolerance risk",
+          "guidance": "Tedizolid can be attractive when you want oxazolidinone activity with less concern about renal metabolite accumulation."
+        },
+        {
+          "population": "Bacteremia or deep-seated invasive infection",
+          "guidance": "Do not overextend tedizolid into syndromes where the evidence base is much thinner than for skin infection."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; success depends on syndrome fit and toxicity surveillance rather than drug levels.",
+        "sampling": "No standard drug levels are used. Follow CBC and serotonergic toxicity context when courses extend.",
+        "adjustment": "If deeper infection is declared later, switch to a better-validated agent rather than forcing tedizolid to cover more than it should."
+      },
+      "administration": {
+        "infusion": "IV administration is once daily; switch to PO quickly when possible.",
+        "oralAbsorption": "High oral bioavailability makes IV-to-PO conversion straightforward.",
+        "note": "The operational advantage is once-daily oral completion rather than prolonged IV therapy."
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Serotonergic drugs",
+          "effect": "Can increase serotonin-toxicity risk, even if the signal may be somewhat lower than with linezolid.",
+          "management": "Reconcile serotonergic medications before starting therapy and monitor closely if overlap is unavoidable.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Rifampin",
+          "effect": "Can lower tedizolid exposure.",
+          "management": "Avoid the combination or use only with a clear rationale and close follow-up.",
+          "severity": "monitor"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Short-course gram-positive skin infection",
+          "role": "A once-daily oral-capable option when linezolid-like activity is useful but a shorter course is appealing.",
+          "notes": "Its best stewardship role is simplifying outpatient management, not covering deep bacteremia."
+        },
+        {
+          "scenario": "Avoiding unnecessary prolonged IV gram-positive therapy",
+          "role": "High oral bioavailability can shorten line days quickly when the syndrome fits.",
+          "notes": "Do not confuse convenience with evidence for invasive disease."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Skin / soft tissue",
+          "detail": "Excellent soft-tissue exposure supports once-daily treatment of gram-positive skin infection."
+        },
+        {
+          "site": "Lung",
+          "detail": "Pulmonary penetration is good enough to make tedizolid biologically interesting for pneumonia, even though routine HAP use remains limited."
+        },
+        {
+          "site": "Bone / joint",
+          "detail": "Bone penetration is reasonable, but the clinical experience is still thinner than with linezolid for long osteoarticular courses."
+        }
       ]
     },
     {
@@ -560,19 +1334,17 @@ export const ADVANCED_AGENTS: DiseaseState = {
       "monitoring": "LFTs at baseline and during therapy. QT interval (ECG). Serum posaconazole trough level (target ≥0.5-1 mg/L for prophylaxis; ≥1-2 mg/L for treatment). Electrolytes (especially K, Mg — correct hypokalemia/hypomagnesemia to reduce QT risk). Monitor all co-administered drugs for interactions.",
       "pregnancyLactation": "Category C. Teratogenic in animal studies. Avoid in pregnancy unless life-threatening fungal infection with no alternatives. Contraception required during therapy.",
       "ivToPoSwitch": {
-        "poBioavailability": "Delayed-release tablets: high (>90%), food-independent. Oral suspension: variable (40-60%), requires food",
-        "switchCriteria": "Switch to DR tablets when tolerating oral intake. Avoid oral suspension when possible — unreliable absorption. IV→PO switch preferred to DR tablets 300mg QD.",
-        "note": "DR tablet formulation has superior, predictable bioavailability vs. suspension. Suspension requires high-fat meal or acidic beverage — significant barrier in ill/NPO patients."
+        "poBioavailability": "Delayed-release tablets have dependable oral exposure; suspension is less reliable and more food dependent.",
+        "switchCriteria": "Switch to delayed-release tablets when oral intake is reliable and absorption barriers are manageable.",
+        "note": "Avoid converting to suspension unless there is a compelling reason and a level-monitoring plan."
       },
       "opatEligibility": {
         "eligible": "yes",
-        "administration": "PO 300mg DR tablet QD — once daily, food-independent (DR tablets). No IV access required for oral prophylaxis/step-down",
-        "monitoring": "LFTs, serum drug levels, QT monitoring, calcineurin inhibitor levels if applicable",
+        "administration": "Once-daily oral delayed-release tablets make outpatient prophylaxis or step-down practical without IV access.",
+        "monitoring": "Trough levels, LFTs, QT context, and interacting-drug levels all require structured follow-up.",
         "considerations": [
-          "Ideal for prophylaxis in AML/HSCT outpatients — once-daily oral tablet",
-          "Extensive drug interactions require medication reconciliation before OPAT",
-          "Calcineurin inhibitor doses require significant adjustment when starting posaconazole",
-          "Levels should be checked in patients who may have absorption issues (mucositis, GI disease)"
+          "Excellent outpatient prophylaxis drug when the interaction burden is actively managed.",
+          "Do not discharge on posaconazole without reviewing immunosuppressants and formulation."
         ]
       },
       "pharmacistPearls": [
@@ -582,6 +1354,88 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "Posaconazole prophylaxis is standard of care (IDSA 2016, ESCMID 2022) in AML patients receiving remission-induction chemotherapy — reduces IA incidence from ~12% to ~5% and improves survival.",
         "Therapeutic drug monitoring (TDM) is recommended for treatment (target trough ≥1-2 mg/L) and optional for prophylaxis (target ≥0.5-1 mg/L). Drug levels help ensure adequate exposure and avoid toxicity.",
         "Correct hypokalemia and hypomagnesemia before starting posaconazole — electrolyte abnormalities potentiate QT prolongation."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Mold prophylaxis",
+          "regimen": "300 mg PO BID day 1, then 300 mg PO daily using delayed-release tablets",
+          "notes": "The tablet formulation is strongly preferred over suspension for reliable outpatient prophylaxis."
+        },
+        {
+          "label": "Treatment of invasive mold infection",
+          "regimen": "300 mg IV or PO q12h day 1, then 300 mg daily",
+          "notes": "Use as a treatment or salvage azole when drug levels and interaction management can be supported."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "Oral formulations do not require dose adjustment; avoid IV formulation in significant renal dysfunction because of SBECD concerns when possible."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Oral therapy is usually preferred if feasible; if IV is necessary, reassess renal and vehicle exposure frequently."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Transplant recipients or patients on calcineurin inhibitors",
+          "guidance": "This is an interaction-heavy drug where immunosuppressant adjustment must be part of the plan before the first dose."
+        },
+        {
+          "population": "Mucositis, GI dysfunction, or unpredictable absorption",
+          "guidance": "Use delayed-release tablets or IV therapy rather than relying on the older suspension in patients with impaired absorption."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "Trough at least 0.5-1 mcg/mL for prophylaxis and often at least 1-1.5 mcg/mL for treatment depending on syndrome and local practice.",
+        "sampling": "Check troughs after steady state and with major formulation, interaction, or GI-status changes.",
+        "adjustment": "If the level is low, fix the formulation or interaction problem before just escalating the dose."
+      },
+      "administration": {
+        "infusion": "IV loading and daily maintenance are available when oral absorption is unreliable.",
+        "oralAbsorption": "Delayed-release tablets provide far more dependable exposure than the suspension and are preferred for outpatient use.",
+        "note": "Formulation choice is a core clinical decision with posaconazole, not a dispensing detail."
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Tacrolimus, cyclosporine, or sirolimus",
+          "effect": "Posaconazole can dramatically raise calcineurin- or mTOR-inhibitor exposure.",
+          "management": "Preemptively reduce doses and monitor drug levels closely when starting or stopping posaconazole.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "CYP3A4-metabolized statins or QT-prolonging drugs",
+          "effect": "Can raise toxicity risk or amplify QT prolongation.",
+          "management": "Hold or switch interacting drugs when possible and review ECG and medication context carefully.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Outpatient mold prophylaxis in high-risk hematology or transplant patients",
+          "role": "A high-value preventive antifungal when Mucorales coverage and once-daily oral dosing matter.",
+          "notes": "Its stewardship success depends on doing the interaction work well."
+        },
+        {
+          "scenario": "Avoiding amphotericin exposure when an active oral mold-active azole is appropriate",
+          "role": "Can provide a safer outpatient continuation path in selected patients once levels are therapeutic and site fit is acceptable.",
+          "notes": "Do not use it casually where CNS or absorption reliability is uncertain without TDM support."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Lung / deep tissue",
+          "detail": "Good lung and tissue penetration supports prophylaxis and treatment roles in invasive mold disease, especially when Mucorales coverage is needed."
+        },
+        {
+          "site": "CSF / brain",
+          "detail": "CNS exposure is variable and generally less predictable than voriconazole, so brain infection needs careful drug-level and outcome review."
+        },
+        {
+          "site": "Urine",
+          "detail": "Urinary concentrations are poor, so posaconazole is not the azole to reach for in fungal UTI."
+        }
       ]
     },
     {
@@ -626,14 +1480,11 @@ export const ADVANCED_AGENTS: DiseaseState = {
       },
       "opatEligibility": {
         "eligible": "conditional",
-        "administration": "IV QD via PICC/port — once daily infusion over 2h is feasible for OPAT in stable patients",
-        "monitoring": "Daily electrolytes in first 2 weeks (K, Mg), then 3×/week; renal function 2-3×/week",
+        "administration": "Outpatient infusion is possible in carefully selected stable patients, but the lab and electrolyte burden is much heavier than with most OPAT drugs.",
+        "monitoring": "At least twice-weekly renal and electrolyte review is often needed even after inpatient stabilization.",
         "considerations": [
-          "Electrolyte monitoring intensity limits OPAT feasibility unless daily labs can be drawn",
-          "Oral step-down not possible — no oral amphotericin formulation",
-          "OPAT most feasible for prophylaxis dosing (3 mg/kg) vs. treatment of active invasive disease",
-          "Ensure reliable IV access — tissue irritant if extravasated",
-          "Consider transition to azole (fluconazole, voriconazole, or posaconazole) once susceptibility confirmed and patient stable"
+          "Reasonable only when the patient is clinically stable and the outpatient program can handle frequent lab-driven supplementation.",
+          "Poor fit when ongoing AKI, recurrent rigors, or rapid electrolyte replacement is still occurring."
         ]
       },
       "pharmacistPearls": [
@@ -643,6 +1494,93 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "For cryptococcal meningitis induction: L-AmB 4-6 mg/kg/day + flucytosine 100 mg/kg/day × 2 weeks is the gold standard (WHO-endorsed). After induction, consolidate with fluconazole 400mg/day × 8 weeks, then maintenance 200mg/day.",
         "Mucormycosis requires HIGH-DOSE L-AmB (5-10 mg/kg/day) — the MIC for Mucorales is significantly higher than for Candida/Aspergillus. Standard doses (3 mg/kg) are subtherapeutic for mucormycosis.",
         "ABCD, ABLC, L-AmB are all lipid-associated formulations but they are NOT interchangeable. AmBisome (L-AmB) is a true liposomal formulation with the best safety data. ABLC (Abelcet) and ABCD (Amphotec) have different toxicity profiles."
+      ],
+      "dosingByIndication": [
+        {
+          "label": "Cryptococcal, mold, or resistant Candida CNS/deep infection",
+          "regimen": "3-5 mg/kg IV q24h",
+          "notes": "Use the higher end when CNS disease, severe mold infection, or salvage therapy is the reason you chose amphotericin."
+        },
+        {
+          "label": "Mucormycosis",
+          "regimen": "5-10 mg/kg IV q24h",
+          "notes": "High-dose therapy is the rule for mucormycosis, not an exception."
+        }
+      ],
+      "renalReplacement": [
+        {
+          "modality": "HD",
+          "guidance": "No supplemental dosing is needed because the drug is not meaningfully removed by hemodialysis, but HD does not protect the kidneys from amphotericin toxicity."
+        },
+        {
+          "modality": "CRRT",
+          "guidance": "Dose is usually unchanged in CRRT; daily renal and electrolyte review matters more than the machine settings."
+        }
+      ],
+      "specialPopulations": [
+        {
+          "population": "Pregnancy",
+          "guidance": "Liposomal amphotericin B remains the preferred systemic antifungal for many serious infections in pregnancy."
+        },
+        {
+          "population": "Concurrent nephrotoxins or baseline CKD",
+          "guidance": "Pre-hydration, electrolyte replacement, and daily renal review matter more than nominal dose adjustment because toxicity is exposure-limiting."
+        }
+      ],
+      "therapeuticDrugMonitoring": {
+        "target": "No routine serum target; the actionable endpoints are renal stability, potassium and magnesium replacement, and clinical response.",
+        "sampling": "No drug levels are standard. Follow BMP daily, especially creatinine, potassium, magnesium, and bicarbonate.",
+        "adjustment": "If nephrotoxicity becomes limiting, decide whether the pathogen/site allows step-down to a safer azole rather than just stretching the interval."
+      },
+      "administration": {
+        "infusion": "Usually infused over about 2 hours; do not give as IV push.",
+        "compatibility": "Use a dedicated line when possible and avoid mixing with saline-containing solutions in the same bag.",
+        "note": "Pre-hydration and standing electrolyte replacement should be part of the regimen, not optional add-ons."
+      },
+      "ivToPoSwitch": {
+        "poBioavailability": "No oral amphotericin formulation provides systemic treatment.",
+        "switchCriteria": "Transition only when the pathogen, site, and susceptibility profile support a safer oral azole or other active step-down agent.",
+        "note": "For cryptococcal and mucormycosis pathways, the step-down clock is determined by induction milestones and source control, not by simple clinical improvement."
+      },
+      "interactionActions": [
+        {
+          "interactingAgent": "Other nephrotoxins such as tacrolimus, vancomycin, aminoglycosides, or IV contrast",
+          "effect": "Additive kidney injury can make amphotericin toxicity arrive earlier and more severely.",
+          "management": "Remove avoidable nephrotoxins and increase lab frequency when combination exposure is unavoidable.",
+          "severity": "major"
+        },
+        {
+          "interactingAgent": "Digoxin",
+          "effect": "Amphotericin-driven hypokalemia can potentiate digoxin toxicity.",
+          "management": "Replace potassium aggressively and monitor digoxin effect closely.",
+          "severity": "major"
+        }
+      ],
+      "stewardshipUseCases": [
+        {
+          "scenario": "Bridge for severe mold, cryptococcal, or resistant Candida infection",
+          "role": "The broad fungicidal fallback when site, resistance, or pregnancy makes azoles or echinocandins inadequate.",
+          "notes": "The stewardship goal is to leave amphotericin as soon as a safer active option becomes appropriate."
+        },
+        {
+          "scenario": "Suspected mucormycosis",
+          "role": "High-dose liposomal amphotericin B is the default anchor while diagnosis and surgical plans are still forming.",
+          "notes": "Do not substitute voriconazole when Mucorales remains on the table."
+        }
+      ],
+      "penetration": [
+        {
+          "site": "Reticuloendothelial / deep tissue sites",
+          "detail": "Broad tissue distribution is one reason liposomal amphotericin B remains the fallback for severe mold and disseminated fungal disease."
+        },
+        {
+          "site": "CSF / brain",
+          "detail": "CNS entry is imperfect but clinically meaningful enough to support use in cryptococcal and mold CNS infection when paired with the right companion regimen."
+        },
+        {
+          "site": "Urine",
+          "detail": "Urinary concentrations are limited with the liposomal formulation, so lower-tract fungal infection may need another agent when susceptibility allows."
+        }
       ]
     }
   ]
