@@ -56,10 +56,41 @@ export function searchCatalog(query: string, searchIndex: SearchEntry[] | null):
   const diseaseMap = new Map<string, { payload: SearchResult["diseases"][number]; score: number }>();
   const drugMap = new Map<string, { payload: SearchResult["drugs"][number]; score: number }>();
   const organismMap = new Map<string, { payload: SearchResult["organisms"][number]; score: number }>();
+  const pathogenMap = new Map<string, { payload: SearchResult["pathogens"][number]; score: number }>();
   const regimenMap = new Map<string, { payload: SearchResult["regimens"][number]; score: number }>();
   const subcatMap = new Map<string, { payload: SearchResult["subcategories"][number]; score: number }>();
 
   searchIndex.forEach((entry) => {
+    if (entry.type === "pathogen") {
+      const therapyText = entry.pathogen.preferredTherapyBySite
+        .flatMap((recommendation) => [
+          recommendation.site,
+          recommendation.preferred,
+          recommendation.rationale,
+          ...(recommendation.alternatives ?? []),
+          ...(recommendation.avoid ?? []),
+        ])
+        .join(" ");
+      const breakpointText = entry.pathogen.breakpointRules
+        ?.flatMap((rule) => [rule.title, rule.detail, ...(rule.site ?? []), ...(rule.interpretation ?? [])])
+        .join(" ");
+      const textScore = Math.max(
+        scoreName(entry.pathogen.name, q),
+        fieldScore(entry.pathogen.phenotype, 55, q, tokens),
+        fieldScore(entry.pathogen.summary, 40, q, tokens),
+        arrayScore(entry.pathogen.likelySyndromes, 35, q, tokens),
+        fieldScore(therapyText, 45, q, tokens),
+        fieldScore(breakpointText, 45, q, tokens),
+        fieldScore(entry.text, 45, q, tokens),
+      );
+      if (textScore === 0) return;
+      const existing = pathogenMap.get(entry.pathogen.id);
+      if (!existing || textScore > existing.score) {
+        pathogenMap.set(entry.pathogen.id, { payload: entry.pathogen, score: textScore });
+      }
+      return;
+    }
+
     if (entry.type === "disease") {
       const textScore = Math.max(
         scoreName(entry.disease.name, q),
@@ -213,6 +244,7 @@ export function searchCatalog(query: string, searchIndex: SearchEntry[] | null):
     diseases: [...diseaseMap.values()].sort((a, b) => b.score - a.score).map((x) => x.payload),
     drugs: [...drugMap.values()].sort((a, b) => b.score - a.score).map((x) => x.payload),
     organisms: [...organismMap.values()].sort((a, b) => b.score - a.score).map((x) => x.payload),
+    pathogens: [...pathogenMap.values()].sort((a, b) => b.score - a.score).map((x) => x.payload),
     regimens: [...regimenMap.values()].sort((a, b) => b.score - a.score).map((x) => x.payload),
     subcategories: [...subcatMap.values()].sort((a, b) => b.score - a.score).map((x) => x.payload),
   };

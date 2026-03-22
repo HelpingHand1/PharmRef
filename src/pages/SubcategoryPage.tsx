@@ -1,10 +1,12 @@
 import { useCallback } from "react";
+import type { CatalogDerived } from "../data/derived";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
 import InstitutionAntibiogramCards from "../components/InstitutionAntibiogramCards";
 import MicrobiologyCards from "../components/MicrobiologyCards";
 import ContentMetaCard from "../components/ContentMetaCard";
 import EmpiricTierView from "../components/EmpiricTierView";
 import Section from "../components/Section";
+import SourceEvidencePills from "../components/SourceEvidencePills";
 import TransitionReadinessPanel from "../components/TransitionReadinessPanel";
 import TrustSurfaceBanner from "../components/TrustSurfaceBanner";
 import {
@@ -16,15 +18,18 @@ import { hasMicrobiologyContent } from "../data/microbiology";
 import { NAV_STATES } from "../styles/constants";
 import { getSubcategoryContentKey, resolveContentMeta } from "../data/metadata";
 import { getPreferredRegimenText, getSubcategoryWorkflowEntries } from "../data/stewardship";
+import { buildPathogenBreakpointPreset } from "../utils/breakpointWorkspacePreset";
 import { hasAnyPatientSignals } from "../utils/regimenGuidance";
 import { getPatientFitSortRank, getRegimenPatientFit } from "../utils/patientFit";
 import {
   buildPatientContextTags,
   getPatientReassessmentFocus,
 } from "../utils/patientStewardshipSummary";
+import { getPathwayReassessmentItems } from "../utils/patientReassessmentEngine";
 import { getPathwayTransitionReadiness } from "../utils/patientTransitionReadiness";
 import type {
   AllergyRecord,
+  EvidenceStatement,
   DiseaseState,
   InteractionAction,
   MonographLookupResult,
@@ -79,6 +84,26 @@ function summarizeLabels(values: string[], limit = 3) {
   return [...shown, remaining > 0 ? `+${remaining} more` : ""].filter(Boolean).join(" | ");
 }
 
+function renderEvidenceCards(entries: EvidenceStatement[], S: Styles) {
+  return entries.map((entry) => (
+    <div
+      key={`${entry.title}-${entry.detail}`}
+      style={{
+        padding: "14px 16px",
+        background: S.card.background,
+        borderRadius: "14px",
+        border: `1px solid ${S.card.borderColor}`,
+        boxShadow: S.meta.shadowSm,
+      }}
+    >
+      <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading }}>{entry.title}</div>
+      <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.6 }}>{entry.detail}</div>
+      {entry.note ? <div style={{ fontSize: "12px", color: S.meta.textMuted, marginTop: "6px", lineHeight: 1.55 }}>{entry.note}</div> : null}
+      <SourceEvidencePills sourceIds={entry.sourceIds} S={S} />
+    </div>
+  ));
+}
+
 const REASSESSMENT_STYLES = {
   critical: { border: "#ef4444", text: "#dc2626", bg: "rgba(239,68,68,0.10)", label: "Critical" },
   warn: { border: "#f59e0b", text: "#d97706", bg: "rgba(245,158,11,0.10)", label: "Caution" },
@@ -95,6 +120,7 @@ function collectOptionInteractionActions(
 
 interface SubcategoryPageProps {
   allergies: AllergyRecord[];
+  catalogDerived: CatalogDerived | null;
   copiedId: string | null;
   disease: DiseaseState;
   expandedSections: Record<string, boolean>;
@@ -114,6 +140,7 @@ interface SubcategoryPageProps {
 
 export default function SubcategoryPage({
   allergies,
+  catalogDerived,
   copiedId,
   disease,
   expandedSections,
@@ -139,11 +166,13 @@ export default function SubcategoryPage({
   const reassessmentWorkflow = workflowEntries.filter((entry) => entry.id === "workflow-reassessment");
   const transitionWorkflow = workflowEntries.filter((entry) => entry.id === "workflow-transition");
   const hasMicrobiology = hasMicrobiologyContent(subcategory);
+  const relatedPathogens = catalogDerived?.findPathogensForSubcategory(disease.id, subcategory.id) ?? [];
   const pathwayNotes = getInstitutionPathwayNotes(disease.id, subcategory.id, INSTITUTION_PROFILE);
   const pathwayAntibiogram = getInstitutionPathwayAntibiogram(disease.id, subcategory.id, INSTITUTION_PROFILE);
   const patientTags = buildPatientContextTags(patient, crcl);
   const patientReassessmentFocus = getPatientReassessmentFocus(patient);
   const pathwayTransitionReadiness = getPathwayTransitionReadiness(patient);
+  const pathwayReassessmentItems = getPathwayReassessmentItems(subcategory, patient);
   const patientFitOptions = (subcategory.empiricTherapy ?? [])
     .flatMap((tier) =>
       tier.options.map((option) => {
@@ -240,6 +269,11 @@ export default function SubcategoryPage({
             {hasMicrobiology && (
               <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
                 Microbiology intelligence
+              </span>
+            )}
+            {relatedPathogens.length > 0 && (
+              <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                {relatedPathogens.length} phenotype refs
               </span>
             )}
           </div>
@@ -387,6 +421,15 @@ export default function SubcategoryPage({
         />
       )}
 
+      {(hasPatientContext || (subcategory.reassessmentCheckpoints?.length ?? 0) > 0) && (
+        <TransitionReadinessPanel
+          items={pathwayReassessmentItems}
+          subtitle="These checkpoints combine pathway-specific timeout content with the active patient culture and source-control state."
+          title="Deterministic Reassessment Engine"
+          S={S}
+        />
+      )}
+
       {pathwayNotes.length > 0 && INSTITUTION_PROFILE && (
         <div
           style={{
@@ -524,6 +567,23 @@ export default function SubcategoryPage({
         </Section>
       )}
 
+      {(subcategory.diagnosticStewardship?.length ?? 0) > 0 && (
+        <Section
+          id="diagnostic-stewardship"
+          title="Diagnostic Stewardship"
+          icon="🧭"
+          accentColor="#0284c7"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <div style={{ display: "grid", gap: "10px" }}>
+            {renderEvidenceCards(subcategory.diagnosticStewardship ?? [], S)}
+          </div>
+        </Section>
+      )}
+
       {reassessmentWorkflow.length > 0 && (
         <Section
           id="workflow-reassessment"
@@ -539,6 +599,50 @@ export default function SubcategoryPage({
         </Section>
       )}
 
+      {(subcategory.reassessmentCheckpoints?.length ?? 0) > 0 && (
+        <Section
+          id="reassessment-timeline"
+          title="Structured Reassessment Timeline"
+          icon="⏱"
+          accentColor="#f59e0b"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <div style={{ display: "grid", gap: "10px" }}>
+            {subcategory.reassessmentCheckpoints?.map((checkpoint) => (
+              <div
+                key={`${checkpoint.window}-${checkpoint.title}`}
+                style={{
+                  padding: "14px 16px",
+                  background: S.card.background,
+                  borderRadius: "16px",
+                  border: `1px solid ${S.card.borderColor}`,
+                  boxShadow: S.meta.shadowSm,
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", marginBottom: "8px" }}>
+                  <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                    {checkpoint.window}
+                  </span>
+                  <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading }}>{checkpoint.title}</div>
+                </div>
+                <div style={{ fontSize: "13px", color: S.monographValue.color, lineHeight: 1.6 }}>{checkpoint.trigger}</div>
+                {checkpoint.actions.length > 0 ? (
+                  <ul style={{ margin: "10px 0 0", paddingLeft: "18px", color: S.monographValue.color, lineHeight: 1.7 }}>
+                    {checkpoint.actions.map((action) => (
+                      <li key={action}>{action}</li>
+                    ))}
+                  </ul>
+                ) : null}
+                <SourceEvidencePills sourceIds={checkpoint.sourceIds} S={S} />
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
+
       {transitionWorkflow.length > 0 && (
         <Section
           id="workflow-transition"
@@ -551,6 +655,74 @@ export default function SubcategoryPage({
           S={S}
         >
           <div style={{ display: "grid", gap: "10px" }}>{renderWorkflowCards(transitionWorkflow, S)}</div>
+        </Section>
+      )}
+
+      {(subcategory.contaminationPitfalls?.length ?? 0) > 0 && (
+        <Section
+          id="contamination-pitfalls"
+          title="Contamination / Colonization Pitfalls"
+          icon="🧪"
+          accentColor="#ef4444"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <div style={{ display: "grid", gap: "10px" }}>
+            {subcategory.contaminationPitfalls?.map((entry) => (
+              <div
+                key={`${entry.scenario}-${entry.action}`}
+                style={{
+                  padding: "14px 16px",
+                  background: S.card.background,
+                  borderRadius: "14px",
+                  border: `1px solid ${S.card.borderColor}`,
+                  boxShadow: S.meta.shadowSm,
+                }}
+              >
+                <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading }}>{entry.scenario}</div>
+                <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.6 }}>{entry.implication}</div>
+                <div style={{ fontSize: "12px", color: S.meta.textMuted, marginTop: "6px", lineHeight: 1.55 }}>{entry.action}</div>
+                <SourceEvidencePills sourceIds={entry.sourceIds} S={S} />
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
+
+      {(subcategory.durationAnchors?.length ?? 0) > 0 && (
+        <Section
+          id="duration-anchors"
+          title="Duration Anchors"
+          icon="📅"
+          accentColor="#34d399"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <div style={{ display: "grid", gap: "10px" }}>
+            {subcategory.durationAnchors?.map((entry) => (
+              <div
+                key={`${entry.event}-${entry.anchor}`}
+                style={{
+                  padding: "14px 16px",
+                  background: S.card.background,
+                  borderRadius: "14px",
+                  border: `1px solid ${S.card.borderColor}`,
+                  boxShadow: S.meta.shadowSm,
+                }}
+              >
+                <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#059669", marginBottom: "8px" }}>
+                  {entry.event}
+                </div>
+                <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>{entry.anchor}</div>
+                {entry.rationale ? <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{entry.rationale}</div> : null}
+                <SourceEvidencePills sourceIds={entry.sourceIds} S={S} />
+              </div>
+            ))}
+          </div>
         </Section>
       )}
 
@@ -572,6 +744,65 @@ export default function SubcategoryPage({
             coverageMatrix={subcategory.coverageMatrix}
             S={S}
           />
+        </Section>
+      )}
+
+      {relatedPathogens.length > 0 && (
+        <Section
+          id="pathogen-links"
+          title="Related Pathogen References"
+          icon="🧬"
+          accentColor="#0284c7"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <div style={{ display: "grid", gap: "10px" }}>
+            {relatedPathogens.map((pathogen) => (
+              <div
+                key={pathogen.id}
+                style={{
+                  padding: "14px 16px",
+                  background: S.card.background,
+                  borderRadius: "16px",
+                  border: `1px solid ${S.card.borderColor}`,
+                  boxShadow: S.meta.shadowSm,
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", gap: "12px", alignItems: "flex-start", flexWrap: "wrap" }}>
+                  <div>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading }}>{pathogen.name}</div>
+                    <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+                      {pathogen.phenotype}
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                    <button
+                      type="button"
+                      style={{ ...S.crossRefPill, fontFamily: "inherit", marginRight: 0, marginBottom: 0 }}
+                      onClick={() => navigateTo(NAV_STATES.PATHOGEN, { pathogenId: pathogen.id })}
+                    >
+                      Open reference
+                    </button>
+                    <button
+                      type="button"
+                      style={{ ...S.crossRefPill, fontFamily: "inherit", marginRight: 0, marginBottom: 0 }}
+                      onClick={() =>
+                        navigateTo(NAV_STATES.BREAKPOINTS, {
+                          pathogenId: pathogen.id,
+                          breakpointPreset: buildPathogenBreakpointPreset(pathogen),
+                        })
+                      }
+                    >
+                      Breakpoint workspace
+                    </button>
+                  </div>
+                </div>
+                <div style={{ fontSize: "12px", color: S.meta.textMuted, marginTop: "8px", lineHeight: 1.55 }}>{pathogen.summary}</div>
+              </div>
+            ))}
+          </div>
         </Section>
       )}
 

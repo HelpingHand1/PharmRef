@@ -399,6 +399,107 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         "status": "ready",
         "summary": "Start counting only after the first negative follow-up culture and after any removable source has been controlled."
       },
+      "diagnosticStewardship": [
+        {
+          "title": "Treat every S. aureus blood isolate as clinically meaningful",
+          "detail": "The diagnostic error to avoid is calling SAB a contaminant and never launching repeat cultures, source review, and echo planning.",
+          "sourceIds": [
+            "aha-2015-ie",
+            "sab-bundle-literature"
+          ]
+        },
+        {
+          "title": "Follow-up cultures are part of diagnosis, not just monitoring",
+          "detail": "Culture clearance timing determines uncomplicated versus complicated SAB and therefore changes duration, echo urgency, and source-control pressure.",
+          "sourceIds": [
+            "aha-2015-ie",
+            "sab-bundle-literature"
+          ]
+        }
+      ],
+      "reassessmentCheckpoints": [
+        {
+          "window": "24h",
+          "title": "24-hour SAB bundle check",
+          "trigger": "Confirm that repeat blood cultures, source-control actions, and echocardiography planning are already moving.",
+          "actions": [
+            "If rapid diagnostics show MSSA, leave vancomycin the same day for cefazolin or nafcillin.",
+            "Remove or plan removal of any suspected infected intravascular source.",
+            "Document whether TTE or TEE is required based on risk."
+          ],
+          "sourceIds": [
+            "aha-2015-ie",
+            "sab-bundle-literature"
+          ]
+        },
+        {
+          "window": "48h",
+          "title": "48-hour clearance timeout",
+          "trigger": "Reassess whether cultures are clearing and whether the case already meets complicated-SAB criteria.",
+          "actions": [
+            "Treat persistent positivity as a source-control or endovascular problem until proven otherwise.",
+            "Confirm beta-lactam definitive therapy for MSSA and exposure quality for MRSA.",
+            "Search for spine, joint, hardware, and other metastatic foci if fevers or cultures persist."
+          ],
+          "sourceIds": [
+            "aha-2015-ie",
+            "sab-bundle-literature"
+          ]
+        },
+        {
+          "window": "definitive",
+          "title": "Definitive SAB duration lock",
+          "trigger": "Once bloodstream clearance and source complexity are defined, lock the uncomplicated versus complicated pathway and treatment duration.",
+          "actions": [
+            "Count from the first negative follow-up culture on an active regimen.",
+            "Use 14 days only when all uncomplicated criteria are truly met.",
+            "Keep IV therapy as the default unless a carefully selected oral-step-down framework is explicitly satisfied."
+          ],
+          "sourceIds": [
+            "aha-2015-ie",
+            "sab-bundle-literature",
+            "poet"
+          ]
+        }
+      ],
+      "contaminationPitfalls": [
+        {
+          "scenario": "Single positive blood culture bottle with S. aureus",
+          "implication": "This should still be treated as real bloodstream infection until the entire clinical picture proves otherwise.",
+          "action": "Do not downgrade the workup because only one bottle is positive.",
+          "sourceIds": [
+            "aha-2015-ie",
+            "sab-bundle-literature"
+          ]
+        },
+        {
+          "scenario": "Organism identification later shifts away from S. aureus",
+          "implication": "The SAB algorithm does not apply to every gram-positive blood culture syndrome once the organism changes.",
+          "action": "Move to the correct organism-specific pathway rather than forcing non-staphylococcal bacteremia through SAB rules.",
+          "sourceIds": [
+            "aha-2015-ie"
+          ]
+        }
+      ],
+      "durationAnchors": [
+        {
+          "event": "First negative follow-up blood culture",
+          "anchor": "This is day 1 for uncomplicated and complicated SAB duration counting.",
+          "rationale": "Duration anchored to the admission day or first empiric dose will misclassify persistent bacteremia.",
+          "sourceIds": [
+            "aha-2015-ie",
+            "sab-bundle-literature"
+          ]
+        },
+        {
+          "event": "Control of removable intravascular source",
+          "anchor": "Line removal or other source-control action should happen early, but the clock still follows documented bloodstream clearance on active therapy.",
+          "sourceIds": [
+            "aha-2015-ie",
+            "sab-bundle-literature"
+          ]
+        }
+      ],
       "rapidDiagnostics": [
         {
           "trigger": "Rapid blood culture identification confirms MSSA",

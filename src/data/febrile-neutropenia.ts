@@ -550,6 +550,80 @@ const FEBRILE_NEUTROPENIA_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcateg
     failureEscalation: ready("Persistent fever requires re-exam, repeat imaging, fungal risk review, and line/source reassessment instead of endless broad-spectrum stacking."),
     consultTriggers: ready("ID is high yield in prolonged fever, prior resistant-organism history, suspected typhlitis, invasive fungal concern, or unclear de-escalation timing."),
     durationAnchor: ready("Duration should follow the documented infection plus neutrophil recovery logic of the syndrome; avoid carrying empiric broad IV therapy far beyond what the source actually requires."),
+    diagnosticStewardship: [
+      {
+        title: "Every lumen and the peripheral bloodstream need to count early",
+        detail: "High-risk FN loses critical time when cultures are incomplete or line-associated clues are not captured before the first antipseudomonal dose.",
+        sourceIds: ["nccn-fever-neutropenia"],
+      },
+      {
+        title: "Persistent fever is not the same thing as resistant bacteria",
+        detail: "At 24-48 hours, ongoing fever should trigger source review, mucositis assessment, and fungal risk review rather than automatic antibacterial stacking.",
+        sourceIds: ["nccn-fever-neutropenia", "idsa-2024-amr"],
+      },
+    ],
+    reassessmentCheckpoints: [
+      {
+        window: "24h",
+        title: "24-hour neutropenic-sepsis timeout",
+        trigger: "Confirm blood cultures from each lumen plus peripheral blood, review prophylaxis history, and re-check whether line, abdomen, lung, or mucosa is the leading source.",
+        actions: [
+          "Verify every-lumen and peripheral cultures were sent or repeated if needed.",
+          "Document whether typhlitis, line infection, pneumonia, or perirectal disease is emerging.",
+          "Check if prior fluoroquinolone prophylaxis or resistant-organism history changes the backbone agent.",
+        ],
+        sourceIds: ["nccn-fever-neutropenia", "idsa-2024-amr"],
+      },
+      {
+        window: "48h",
+        title: "48-hour high-risk FN de-escalation timeout",
+        trigger: "Use cultures, line assessment, and clinical trajectory to remove vancomycin or carbapenem coverage that no longer has a defined indication.",
+        actions: [
+          "Stop empiric vancomycin if no gram-positive, line, skin, or shock reason remains.",
+          "Keep carbapenem-level therapy only when prior or current microbiology truly requires it.",
+          "Escalate the fungal workup instead of adding more antibacterial layers when fever persists without a bacterial target.",
+        ],
+        sourceIds: ["nccn-fever-neutropenia", "idsa-2024-amr"],
+      },
+      {
+        window: "definitive",
+        title: "Definitive FN source and recovery lock",
+        trigger: "After the source is defined or cultures remain negative with recovery underway, convert the plan from empiric neutropenic coverage to syndrome-specific therapy.",
+        actions: [
+          "Tie duration to the documented infection and ANC recovery rules of the actual syndrome.",
+          "Use bloodstream-clearance rules only when a true bacteremic syndrome exists.",
+          "Plan oral or OPAT transition only after hemodynamics, GI absorption, and follow-up reliability are established.",
+        ],
+        sourceIds: ["nccn-fever-neutropenia"],
+      },
+    ],
+    contaminationPitfalls: [
+      {
+        scenario: "Single CoNS-positive bottle from one draw without matching clinical deterioration",
+        implication: "Line-access patients frequently produce contaminants that can trap teams into unnecessary vancomycin continuation.",
+        action: "Require repeat culture support or a convincing catheter syndrome before locking in definitive gram-positive therapy.",
+        sourceIds: ["nccn-fever-neutropenia"],
+      },
+      {
+        scenario: "Fever from mucositis or cytokine release without documented bacterial target",
+        implication: "Neutropenic inflammation can look infectious enough to justify endless antibacterial broadening when the real next step is reassessment.",
+        action: "Use the 48-hour timeout to distinguish mucositis-driven fever from documented resistant bacterial infection.",
+        sourceIds: ["nccn-fever-neutropenia"],
+      },
+    ],
+    durationAnchors: [
+      {
+        event: "ANC recovery with culture-negative high-risk FN",
+        anchor: "For culture-negative episodes, anchor discontinuation to clinical stability plus marrow recovery rather than arbitrary prolonged IV completion.",
+        sourceIds: ["nccn-fever-neutropenia"],
+      },
+      {
+        event: "Documented bloodstream clearance or controlled focal source",
+        anchor: "When bacteremia or a focal infection is proven, count from the first negative blood culture or from the source-control milestone that matches that syndrome.",
+        rationale: "High-risk FN should inherit the duration rules of the actual infection rather than the fear generated by neutropenia alone.",
+        sourceIds: ["nccn-fever-neutropenia"],
+      },
+    ],
   },
   "fn-with-fungal-risk": {
     diagnosticWorkup: ready("Review neutropenia duration, mold-active prophylaxis, chest/sinus imaging, galactomannan or beta-D-glucan context, and any pulmonary or hepatosplenic clues before declaring breakthrough fungal disease."),
@@ -561,6 +635,80 @@ const FEBRILE_NEUTROPENIA_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcateg
     failureEscalation: ready("Failure should trigger repeat imaging, drug-level review, prophylaxis exposure review, and biopsy/source discussion rather than blind antifungal layering."),
     consultTriggers: ready("ID plus oncology are essential here, and pulmonary/interventional teams may be needed for bronchoscopy or tissue diagnosis."),
     durationAnchor: notApplicable("Empiric fungal therapy duration is individualized to the documented syndrome, response, and neutrophil recovery rather than a simple short-course anchor."),
+    diagnosticStewardship: [
+      {
+        title: "Breakthrough-fungal thinking starts with prophylaxis history",
+        detail: "Mold-active prophylaxis, prior azole exposure, and drug-level problems should be reviewed before choosing or broadening empiric antifungal therapy.",
+        sourceIds: ["nccn-fever-neutropenia", "idsa-candidiasis-aspergillosis"],
+      },
+      {
+        title: "CT and biomarker data should guide the antifungal branch point",
+        detail: "Persistent fever alone is not enough; chest or sinus imaging, galactomannan, beta-D-glucan, and BAL planning should shape whether this is Candida, Aspergillus, Mucorales, or no proven IFI yet.",
+        sourceIds: ["nccn-fever-neutropenia", "idsa-candidiasis-aspergillosis"],
+      },
+    ],
+    reassessmentCheckpoints: [
+      {
+        window: "24h",
+        title: "24-hour persistent-febrile neutropenia fungal timeout",
+        trigger: "Confirm CT chest or sinus imaging, serum biomarkers, prophylaxis exposure, and whether bronchoscopy or biopsy needs to be planned now.",
+        actions: [
+          "Document the current prophylaxis agent, adherence, and any recent antifungal levels.",
+          "Review whether CT chest, serum galactomannan, and beta-D-glucan have been sent or are pending.",
+          "Decide if pulmonary or sinus tissue diagnosis is needed rather than escalating blindly.",
+        ],
+        sourceIds: ["nccn-fever-neutropenia", "idsa-candidiasis-aspergillosis"],
+      },
+      {
+        window: "48h",
+        title: "48-hour mold-versus-Candida reassessment",
+        trigger: "Use imaging, biomarkers, BAL data, and clinical trajectory to decide whether the patient still fits empiric therapy or now has a documented IFI pathway.",
+        actions: [
+          "Reassess whether the chosen antifungal matches prophylaxis breakthrough biology.",
+          "Check if drug levels, renal function, or interactions are undermining the current regimen.",
+          "Avoid layering multiple antifungals unless the syndrome and diagnostics support it.",
+        ],
+        sourceIds: ["nccn-fever-neutropenia", "idsa-candidiasis-aspergillosis"],
+      },
+      {
+        window: "definitive",
+        title: "Definitive IFI or empiric-stop lock",
+        trigger: "Once invasive fungal disease is documented or convincingly excluded, convert to the syndrome-specific treatment or stop plan tied to immune recovery.",
+        actions: [
+          "Use candidemia, invasive aspergillosis, or mucormycosis-specific duration rules when those syndromes are proven.",
+          "If no IFI is documented and ANC is recovering, stop empiric antifungal therapy rather than finishing an arbitrary long course.",
+          "Plan PO step-down only when absorption, interactions, and organism fit are reliable.",
+        ],
+        sourceIds: ["nccn-fever-neutropenia", "idsa-candidiasis-aspergillosis"],
+      },
+    ],
+    contaminationPitfalls: [
+      {
+        scenario: "Isolated beta-D-glucan elevation without supportive imaging or clinical syndrome",
+        implication: "False-positive biomarker results can drive unnecessary antifungal escalation in patients with multiple confounders.",
+        action: "Interpret biomarkers alongside CT findings, BAL data, and the full host context before locking in definitive IFI treatment.",
+        sourceIds: ["nccn-fever-neutropenia", "idsa-candidiasis-aspergillosis"],
+      },
+      {
+        scenario: "Airway Candida or nonspecific mold growth without invasive correlate",
+        implication: "Respiratory tract cultures can reflect colonization rather than angioinvasive fungal disease in persistently febrile neutropenia.",
+        action: "Require radiographic and syndrome fit before escalating around a colonizing airway isolate.",
+        sourceIds: ["nccn-fever-neutropenia", "idsa-candidiasis-aspergillosis"],
+      },
+    ],
+    durationAnchors: [
+      {
+        event: "Documented candidemia clearance",
+        anchor: "Count candidemia treatment from the first negative blood culture on an active antifungal regimen.",
+        sourceIds: ["idsa-candidiasis-aspergillosis"],
+      },
+      {
+        event: "Documented mold disease with radiographic and immune recovery",
+        anchor: "For invasive aspergillosis or mucormycosis, duration follows response on imaging plus immune recovery rather than a short fixed-day count.",
+        rationale: "Breakthrough mold disease duration is defined by biology and host recovery, not by the calendar alone.",
+        sourceIds: ["nccn-fever-neutropenia", "idsa-candidiasis-aspergillosis"],
+      },
+    ],
   },
 };
 

@@ -78,6 +78,16 @@ export function hasAnyPatientSignals(patient: PatientContext) {
       patient.sourceControl ||
       patient.bacteremiaConcern ||
       patient.endovascularConcern ||
+      patient.immunocompromised ||
+      patient.neutropenic ||
+      patient.transplant ||
+      patient.icuLevelCare ||
+      patient.vasopressors ||
+      patient.cultureCollectedOn ||
+      patient.rapidDiagnosticOn ||
+      patient.finalCultureOn ||
+      patient.sourceControlOn ||
+      patient.operativeSourceControlOn ||
       (patient.activeMedications && patient.activeMedications.length > 0) ||
       (patient.dialysis && patient.dialysis !== "none"),
   );

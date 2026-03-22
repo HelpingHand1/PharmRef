@@ -1,71 +1,7 @@
 import { startTransition, useCallback, useEffect, useRef, useState } from "react";
 import { NAV_STATES } from "../styles/constants";
-import type { NavigateTo, NavigateToData, NavStateKey } from "../types";
-
-function stateToHash(
-  navState: NavStateKey,
-  diseaseId: string | null,
-  subcategoryId: string | null,
-  monographId: string | null,
-): string {
-  if (navState === "audit") return "#/audit";
-  if (navState === NAV_STATES.CALCULATORS) return "#/calculators";
-  if (navState === NAV_STATES.COMPARE) return "#/compare";
-  if (navState === NAV_STATES.MONOGRAPH && diseaseId && monographId) return `#/${diseaseId}/drug/${monographId}`;
-  if (navState === NAV_STATES.SUBCATEGORY && diseaseId && subcategoryId) return `#/${diseaseId}/${subcategoryId}`;
-  if (navState === NAV_STATES.DISEASE_OVERVIEW && diseaseId) return `#/${diseaseId}`;
-  return "#/";
-}
-
-function hashToState(hash: string): {
-  nav: NavStateKey;
-  diseaseId: string | null;
-  subcategoryId: string | null;
-  monographId: string | null;
-} {
-  const parts = hash.replace(/^#\/?/, "").split("/").filter(Boolean);
-
-  if (parts.length === 0) {
-    return { nav: NAV_STATES.HOME, diseaseId: null, subcategoryId: null, monographId: null };
-  }
-
-  if (parts[0] === "compare") {
-    return { nav: NAV_STATES.COMPARE, diseaseId: null, subcategoryId: null, monographId: null };
-  }
-
-  if (parts[0] === "audit") {
-    return { nav: "audit", diseaseId: null, subcategoryId: null, monographId: null };
-  }
-
-  if (parts[0] === "calculators") {
-    return { nav: NAV_STATES.CALCULATORS, diseaseId: null, subcategoryId: null, monographId: null };
-  }
-
-  if (parts[1] === "drug" && parts[2]) {
-    return {
-      nav: NAV_STATES.MONOGRAPH,
-      diseaseId: parts[0],
-      subcategoryId: null,
-      monographId: parts[2],
-    };
-  }
-
-  if (parts[1]) {
-    return {
-      nav: NAV_STATES.SUBCATEGORY,
-      diseaseId: parts[0],
-      subcategoryId: parts[1],
-      monographId: null,
-    };
-  }
-
-  return {
-    nav: NAV_STATES.DISEASE_OVERVIEW,
-    diseaseId: parts[0],
-    subcategoryId: null,
-    monographId: null,
-  };
-}
+import type { BreakpointWorkspacePreset, NavigateTo, NavigateToData, NavStateKey } from "../types";
+import { hashToState, resolveBreakpointPreset, stateToHash } from "../utils/navigationState";
 
 function resolveId(
   explicitId: string | null | undefined,
@@ -82,6 +18,8 @@ export function useNavigation() {
   const [selectedDiseaseId, setSelectedDiseaseId] = useState<string | null>(null);
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<string | null>(null);
   const [selectedMonographId, setSelectedMonographId] = useState<string | null>(null);
+  const [selectedPathogenId, setSelectedPathogenId] = useState<string | null>(null);
+  const [selectedBreakpointPreset, setSelectedBreakpointPreset] = useState<BreakpointWorkspacePreset | null>(null);
   const isHashNavigation = useRef(false);
 
   useEffect(() => {
@@ -92,6 +30,8 @@ export function useNavigation() {
       setSelectedDiseaseId(next.diseaseId);
       setSelectedSubcategoryId(next.subcategoryId);
       setSelectedMonographId(next.monographId);
+      setSelectedPathogenId(next.pathogenId);
+      setSelectedBreakpointPreset(next.breakpointPreset);
       window.scrollTo({ top: 0, behavior: "auto" });
     };
 
@@ -107,11 +47,25 @@ export function useNavigation() {
       return;
     }
 
-    const nextHash = stateToHash(navState, selectedDiseaseId, selectedSubcategoryId, selectedMonographId);
+    const nextHash = stateToHash(
+      navState,
+      selectedDiseaseId,
+      selectedSubcategoryId,
+      selectedMonographId,
+      selectedPathogenId,
+      selectedBreakpointPreset,
+    );
     if (window.location.hash !== nextHash) {
       window.history.replaceState(null, "", nextHash);
     }
-  }, [navState, selectedDiseaseId, selectedSubcategoryId, selectedMonographId]);
+  }, [
+    navState,
+    selectedBreakpointPreset,
+    selectedDiseaseId,
+    selectedSubcategoryId,
+    selectedMonographId,
+    selectedPathogenId,
+  ]);
 
   const navigateTo = useCallback<NavigateTo>(
     (state: NavStateKey, data: NavigateToData = {}) => {
@@ -122,6 +76,19 @@ export function useNavigation() {
           setSelectedDiseaseId(null);
           setSelectedSubcategoryId(null);
           setSelectedMonographId(null);
+          setSelectedPathogenId(null);
+          setSelectedBreakpointPreset(null);
+          window.scrollTo({ top: 0, behavior: "auto" });
+          return;
+        }
+
+        if (state === NAV_STATES.PATHOGEN || state === NAV_STATES.BREAKPOINTS) {
+          const nextPathogenId = resolveId(data.pathogenId, data.pathogen, selectedPathogenId);
+          setSelectedDiseaseId(null);
+          setSelectedSubcategoryId(null);
+          setSelectedMonographId(null);
+          setSelectedPathogenId(nextPathogenId);
+          setSelectedBreakpointPreset(state === NAV_STATES.BREAKPOINTS ? resolveBreakpointPreset(data) : null);
           window.scrollTo({ top: 0, behavior: "auto" });
           return;
         }
@@ -139,10 +106,12 @@ export function useNavigation() {
         setSelectedDiseaseId(nextDiseaseId);
         setSelectedSubcategoryId(nextSubcategoryId);
         setSelectedMonographId(nextMonographId);
+        setSelectedPathogenId(null);
+        setSelectedBreakpointPreset(null);
         window.scrollTo({ top: 0, behavior: "auto" });
       });
     },
-    [selectedDiseaseId, selectedMonographId, selectedSubcategoryId],
+    [selectedDiseaseId, selectedMonographId, selectedPathogenId, selectedSubcategoryId],
   );
 
   return {
@@ -150,6 +119,8 @@ export function useNavigation() {
     navigateTo,
     selectedDiseaseId,
     selectedMonographId,
+    selectedBreakpointPreset,
+    selectedPathogenId,
     selectedSubcategoryId,
   };
 }

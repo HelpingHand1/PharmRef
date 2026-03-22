@@ -75,6 +75,14 @@ export function buildPatientContextTags(patient: PatientContext, crcl: number | 
   if (patient.sourceControl === "not_applicable") tags.push("Source control N/A");
   if (patient.bacteremiaConcern) tags.push("Bacteremia concern");
   if (patient.endovascularConcern) tags.push("Endovascular concern");
+  if (patient.immunocompromised) tags.push("Immunocompromised");
+  if (patient.neutropenic) tags.push("Neutropenic");
+  if (patient.transplant) tags.push("Transplant");
+  if (patient.icuLevelCare) tags.push("ICU-level care");
+  if (patient.vasopressors) tags.push("On vasopressors");
+  if (patient.cultureCollectedOn) tags.push(`Cultures ${patient.cultureCollectedOn}`);
+  if (patient.finalCultureOn) tags.push(`Final cx ${patient.finalCultureOn}`);
+  if (patient.sourceControlOn) tags.push(`Source control ${patient.sourceControlOn}`);
   if (patient.activeMedications?.length) {
     tags.push(`Meds: ${summarizeActiveMedications(patient.activeMedications, 2)}`);
   }
@@ -249,6 +257,30 @@ export function getPatientReassessmentFocus(patient: PatientContext) {
       severity: "critical",
       title: "Endovascular infection concern",
       detail: "Delay oral-only step-down and confirm that the current regimen is appropriate for endovascular disease until that workup is settled.",
+    });
+  }
+
+  if (patient.immunocompromised || patient.transplant) {
+    addFocus(items, {
+      severity: "warn",
+      title: "Host immunocompromise",
+      detail: "Be slower to shorten, narrow, or convert to oral therapy until source control and microbiology are unusually clear.",
+    });
+  }
+
+  if (patient.neutropenic) {
+    addFocus(items, {
+      severity: "critical",
+      title: "Neutropenia keeps thresholds high",
+      detail: "De-escalation and oral transition should stay conservative until the microbiology, host recovery, and syndrome trajectory all make sense together.",
+    });
+  }
+
+  if (patient.vasopressors || patient.icuLevelCare) {
+    addFocus(items, {
+      severity: "warn",
+      title: "Critical illness still active",
+      detail: "While ICU-level instability or vasopressor support is present, use a higher bar for narrowing and keep PK/PD execution tight.",
     });
   }
 

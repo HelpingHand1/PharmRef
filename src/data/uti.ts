@@ -499,6 +499,79 @@ const UTI_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
     failureEscalation: ready("If fever or leukocytosis persist, look first for obstruction, abscess, prostatitis, untreated source, or the wrong organism rather than reflexively extending the same drug."),
     consultTriggers: ready("Consult urology or ID for obstruction, emphysematous infection, persistent bacteremia, renal abscess, or recurrent resistant gram-negative disease."),
     durationAnchor: ready("Count duration from the first active agent after source control is addressed; bacteremia alone does not mandate an automatically longer course."),
+    diagnosticStewardship: [
+      {
+        title: "Pre-treatment urine culture is the anchor test",
+        detail: "Complicated UTI should not be managed as 'positive UA equals broad antibiotics'; the urine culture drives de-escalation, oral step-down, and resistant-phenotype confirmation.",
+        sourceIds: ["idsa-2025-cuti"],
+      },
+      {
+        title: "Mixed flora and candiduria need clinical context",
+        detail: "Culture growth alone does not obligate treatment if the syndrome is colonization, asymptomatic bacteriuria, or catheter-associated yeast without invasive disease.",
+        sourceIds: ["idsa-2025-cuti", "idsa-2010-cauti"],
+      },
+    ],
+    reassessmentCheckpoints: [
+      {
+        window: "24h",
+        title: "24-hour urine-source timeout",
+        trigger: "Confirm that urine culture, blood cultures when indicated, and early imaging/source-control steps are actually in motion.",
+        actions: [
+          "Verify whether obstruction, stone, or hardware is part of the syndrome.",
+          "Check that empiric therapy still matches severity and resistance risk.",
+          "Flag whether an oral exit might be possible once susceptibilities return.",
+        ],
+        sourceIds: ["idsa-2025-cuti"],
+      },
+      {
+        window: "48h",
+        title: "48-hour narrowing timeout",
+        trigger: "Use finalized or near-final microbiology to stop unnecessary anti-pseudomonal or carbapenem exposure and to reject non-infectious culture noise.",
+        actions: [
+          "De-escalate to ceftriaxone, TMP-SMX, or fluoroquinolone when the isolate and patient fit.",
+          "Stop treating asymptomatic candiduria or colonization patterns masquerading as cUTI.",
+          "Escalate source-control workup instead of extending broad therapy when fever persists.",
+        ],
+        sourceIds: ["idsa-2025-cuti", "idsa-2010-cauti"],
+      },
+      {
+        window: "definitive",
+        title: "Definitive therapy and duration lock",
+        trigger: "Once the organism, urinary source, and source-control status are clear, lock the shortest effective course and discharge route.",
+        actions: [
+          "Use high-bioavailability oral step-down when susceptibility and absorption are reliable.",
+          "Do not lengthen the course only because early bacteremia was present.",
+          "Tie duration to source control for obstructed or instrumented infections.",
+        ],
+        sourceIds: ["idsa-2025-cuti", "oral-stepdown-bacteremia"],
+      },
+    ],
+    contaminationPitfalls: [
+      {
+        scenario: "Asymptomatic bacteriuria in a catheterized or chronically colonized patient",
+        implication: "Positive urine cultures are common and often do not explain fever or delirium by themselves.",
+        action: "Treat symptoms plus a coherent urinary syndrome rather than the culture in isolation.",
+        sourceIds: ["idsa-2010-cauti", "idsa-2025-cuti"],
+      },
+      {
+        scenario: "Candiduria or mixed flora without invasive features",
+        implication: "Yeast and mixed growth frequently represent colonization or collection problems rather than a pathogen that needs antifungal escalation.",
+        action: "Re-collect, change the catheter when needed, and confirm the syndrome before treating.",
+        sourceIds: ["idsa-2010-cauti", "idsa-candidiasis"],
+      },
+    ],
+    durationAnchors: [
+      {
+        event: "Relief of obstruction or exchange of infected hardware",
+        anchor: "For obstructed, stented, or hardware-associated urinary infection, count the main treatment course from the first active regimen after drainage or device intervention when feasible.",
+        sourceIds: ["idsa-2025-cuti", "idsa-2010-cauti"],
+      },
+      {
+        event: "First active systemic therapy",
+        anchor: "For uncomplicated bacteremic cUTI without persistent obstruction, use the first active regimen as the clock start and aim for a 7-day total course when the patient responds.",
+        sourceIds: ["idsa-2025-cuti", "oral-stepdown-bacteremia"],
+      },
+    ],
   },
   pyelonephritis: {
     diagnosticWorkup: ready("Obtain a urine culture up front and add blood cultures when the patient is febrile, toxic, or being admitted.", [

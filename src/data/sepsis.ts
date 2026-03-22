@@ -321,6 +321,80 @@ const SEPSIS_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
     failureEscalation: ready("Persistent instability should trigger re-search for source, resistant organism, or underdosed extended-infusion beta-lactam exposure before simply adding more drugs."),
     consultTriggers: ready("Escalate to source-specific specialists early and involve ID when bacteremia, resistant pathogens, or unclear source threatens appropriate narrowing."),
     durationAnchor: ready("Count from the first active regimen after source control is underway; bacteremia or ICU location alone should not dictate unnecessarily long courses."),
+    diagnosticStewardship: [
+      {
+        title: "The first culture set should be usable, not symbolic",
+        detail: "Community sepsis still needs blood cultures and source cultures collected around the first dose so the second-day regimen is anchored to real microbiology.",
+        sourceIds: ["ssc-2021"],
+      },
+      {
+        title: "Do not let a vague source label force avoidable carbapenem use",
+        detail: "Community syndromes should stay on community-level empiric therapy unless prior resistant-organism history or clear exposure signals justify escalation.",
+        sourceIds: ["ssc-2021", "idsa-2024-amr"],
+      },
+    ],
+    reassessmentCheckpoints: [
+      {
+        window: "24h",
+        title: "24-hour source and culture timeout",
+        trigger: "Confirm that cultures were actually sent, the likely source is still plausible, and any needed drainage or decompression plan is in motion.",
+        actions: [
+          "Verify blood cultures and source cultures are pending or final.",
+          "Reconcile whether urine, lung, abdomen, skin, or line findings still fit the bedside syndrome.",
+          "Escalate only if new resistance signals or source data justify it.",
+        ],
+        sourceIds: ["ssc-2021"],
+      },
+      {
+        window: "48h",
+        title: "48-hour community-sepsis de-escalation timeout",
+        trigger: "Use culture data, rapid diagnostics, and clinical recovery to remove vancomycin, carbapenem, or atypical coverage that no longer fits.",
+        actions: [
+          "Stop MRSA coverage if cultures and source review do not support it.",
+          "Collapse to the narrowest active community-source regimen the same day final microbiology allows it.",
+          "If cultures stay negative, document whether antibiotics are still treating a real bacterial syndrome.",
+        ],
+        sourceIds: ["ssc-2021", "idsa-2024-amr"],
+      },
+      {
+        window: "definitive",
+        title: "Definitive source-specific duration lock",
+        trigger: "Once the source is confirmed and the patient is hemodynamically improving, transition from broad sepsis framing to the shortest effective source-based course.",
+        actions: [
+          "Anchor duration to source control and syndrome-specific rules rather than ICU location.",
+          "Use bloodstream-clearance rules only when the confirmed syndrome truly requires them.",
+          "Build IV-to-PO or OPAT plans only after absorption and source control are reliable.",
+        ],
+        sourceIds: ["ssc-2021", "balance"],
+      },
+    ],
+    contaminationPitfalls: [
+      {
+        scenario: "Single commensal-positive blood culture bottle in a patient without a matching intravascular source",
+        implication: "Early sepsis can lead teams to overcall skin commensals as the explanation for illness before the real source is defined.",
+        action: "Repeat cultures and keep the syndrome anchored to the bedside source review before broadening around a likely contaminant.",
+        sourceIds: ["ssc-2021"],
+      },
+      {
+        scenario: "Urine or sputum growth without a convincing clinical source syndrome",
+        implication: "Community sepsis often coexists with colonization or incidental bacteriuria that is not driving the shock or organ dysfunction.",
+        action: "Recheck whether the culture matches the source story before escalating to source-specific definitive therapy.",
+        sourceIds: ["ssc-2021"],
+      },
+    ],
+    durationAnchors: [
+      {
+        event: "Adequate source control",
+        anchor: "If drainage, decompression, or device removal was required, reset the duration clock from that intervention rather than from presentation alone.",
+        sourceIds: ["ssc-2021"],
+      },
+      {
+        event: "Bloodstream clearance when true bacteremia is confirmed",
+        anchor: "For bloodstream syndromes that require documented clearance, count from the first negative culture on active therapy.",
+        rationale: "Not every septic patient needs bloodstream duration rules, but the ones who do need them applied precisely.",
+        sourceIds: ["ssc-2021", "balance"],
+      },
+    ],
   },
   "sepsis-hcap": {
     diagnosticWorkup: ready("Review prior microbiology, recent antibiotics, devices, and healthcare exposures immediately because these drive empiric coverage more than syndrome labels."),
@@ -332,6 +406,80 @@ const SEPSIS_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
     failureEscalation: ready("Failure should prompt resistant-phenotype review, repeat cultures, dose/exposure review, and a fresh source-control search."),
     consultTriggers: ready("ID involvement is high yield whenever resistant gram-negatives, fungemia concern, or unresolved source-control questions remain."),
     durationAnchor: ready("Tie duration to the confirmed source plus timing of source control rather than the initial intensity of shock alone."),
+    diagnosticStewardship: [
+      {
+        title: "Prior microbiology should shape the second dose, not just the first",
+        detail: "Recent ESBL, KPC, MRSA, VRE, or Candida history should be reconciled immediately so empiric breadth is either justified or removed early.",
+        sourceIds: ["ssc-2021", "idsa-2024-amr"],
+      },
+      {
+        title: "Device-heavy sepsis needs source cultures that can change therapy",
+        detail: "Line, urine, wound, respiratory, and drain cultures should be sent only when they will meaningfully clarify whether the device or site is the true source.",
+        sourceIds: ["ssc-2021"],
+      },
+    ],
+    reassessmentCheckpoints: [
+      {
+        window: "24h",
+        title: "24-hour healthcare-exposure timeout",
+        trigger: "Reconcile prior resistant-organism history, current cultures, device burden, and whether the chosen regimen still matches the most likely hospital source.",
+        actions: [
+          "Confirm line, urine, respiratory, or wound cultures are actually pending.",
+          "Check whether prior microbiology justifies ongoing carbapenem, MRSA, or antifungal coverage.",
+          "Document what source-control action is planned for devices or collections in the next day.",
+        ],
+        sourceIds: ["ssc-2021", "idsa-2024-amr"],
+      },
+      {
+        window: "48h",
+        title: "48-hour de-escalation and device timeout",
+        trigger: "Use cultures, rapid diagnostics, and device/source clarification to stop redundant vancomycin, antifungal, or broad gram-negative therapy.",
+        actions: [
+          "Remove MRSA therapy when nares, cultures, and bedside source review do not support it.",
+          "Step down from carbapenem or dual broad coverage when resistant phenotypes are not confirmed.",
+          "Do not keep empiric antifungals unless invasive candidiasis remains credible.",
+        ],
+        sourceIds: ["ssc-2021", "idsa-2024-amr", "idsa-candidiasis"],
+      },
+      {
+        window: "definitive",
+        title: "Definitive healthcare-sepsis therapy lock",
+        trigger: "Once the true source and organism are established, convert the regimen to a source-specific definitive plan with a documented duration clock.",
+        actions: [
+          "Tie duration to source control, device removal, or drainage timing.",
+          "Apply bloodstream-clearance rules only when a true bacteremic syndrome exists.",
+          "Build OPAT or PO transition plans only after the hospital-acquired source is stable and controlled.",
+        ],
+        sourceIds: ["ssc-2021", "balance"],
+      },
+    ],
+    contaminationPitfalls: [
+      {
+        scenario: "Colonization or surveillance positivity without matching invasive syndrome",
+        implication: "A prior resistant isolate should influence empiric choices, but it does not prove the current source or justify indefinite reserve-agent use.",
+        action: "Use the 24- and 48-hour timeouts to decide whether current cultures and source anatomy still support that organism as the driver.",
+        sourceIds: ["ssc-2021", "idsa-2024-amr"],
+      },
+      {
+        scenario: "Chronic catheter, urine, or wound cultures that reflect device colonization more than invasive infection",
+        implication: "Healthcare-exposed patients often have positive cultures from colonized sites that can distract from the actual septic focus.",
+        action: "Anchor definitive therapy to the site with the best syndrome fit and the strongest microbiologic evidence.",
+        sourceIds: ["ssc-2021"],
+      },
+    ],
+    durationAnchors: [
+      {
+        event: "Device removal or source-control procedure completed",
+        anchor: "Count duration from the moment the infected line, drainable collection, or obstructed system is actually controlled.",
+        sourceIds: ["ssc-2021"],
+      },
+      {
+        event: "Bloodstream clearance when true bacteremia is part of the syndrome",
+        anchor: "Use the first negative blood culture on active therapy only when the hospital-acquired syndrome truly behaves like a bacteremic infection.",
+        rationale: "Positive surveillance cultures and colonized devices do not automatically create a bloodstream-duration clock.",
+        sourceIds: ["ssc-2021", "balance"],
+      },
+    ],
   },
   "septic-shock": {
     diagnosticWorkup: ready("Culture first if it does not delay therapy, but antibiotic administration within the first hour and simultaneous source identification are the dominant priorities."),
@@ -343,6 +491,80 @@ const SEPSIS_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
     failureEscalation: ready("Persisting shock should trigger repeat cultures, source re-imaging, PK/PD review, and resistant-pathogen escalation only when the source and exposures justify it."),
     consultTriggers: ready("ID plus source-specific procedural teams are early partners here, not late rescue calls."),
     durationAnchor: ready("Once shock is controlled and source control is achieved, return to source-specific shortest-effective durations rather than automatically extending therapy because the presentation was dramatic."),
+    diagnosticStewardship: [
+      {
+        title: "First-hour cultures should inform the second dose",
+        detail: "Shock does not remove the need for cultures; it compresses the timeline so cultures, lactate, and source framing all need to happen around the first dose.",
+        sourceIds: ["ssc-2021", "sepsis-3"],
+      },
+      {
+        title: "Use resistance signals to fix the right class early",
+        detail: "Prior ESBL, KPC, MBL, MRSA, or DTR Pseudomonas history should change the regimen before the second or third dose, not after a full day of ineffective therapy.",
+        sourceIds: ["ssc-2021", "idsa-2024-amr"],
+      },
+    ],
+    reassessmentCheckpoints: [
+      {
+        window: "24h",
+        title: "24-hour shock timeout",
+        trigger: "Reconcile cultures sent, source-control timeline, vasopressor trajectory, and whether the chosen regimen still matches the most likely source.",
+        actions: [
+          "Confirm blood cultures and source cultures are actually pending or resulted.",
+          "Document what source-control step is planned in the next 6-12 hours.",
+          "Check whether the broad beta-lactam is the right mechanism-aware choice for the current phenotype risk.",
+        ],
+        sourceIds: ["ssc-2021", "idsa-2024-amr"],
+      },
+      {
+        window: "48h",
+        title: "48-hour de-escalation and source-control timeout",
+        trigger: "Use culture data, rapid diagnostics, and source-control progress to stop unneeded MRSA, antifungal, or carbapenem coverage.",
+        actions: [
+          "Drop vancomycin when MRSA is no longer credible.",
+          "Avoid continuing empiric antifungals unless invasive candidiasis risk remains real.",
+          "Narrow to a source-matched definitive regimen the same day microbiology allows it.",
+        ],
+        sourceIds: ["ssc-2021", "idsa-2024-amr"],
+      },
+      {
+        window: "definitive",
+        title: "Definitive source-specific therapy lock",
+        trigger: "After vasopressor liberation or clear clinical recovery, shift from shock-based thinking to the shortest effective source-specific course.",
+        actions: [
+          "Anchor duration to source control and microbiology, not the drama of presentation.",
+          "For bacteremic syndromes, use documented bloodstream clearance when that syndrome requires it.",
+          "Build the IV-to-PO or OPAT exit plan only after shock resolves and absorption is reliable.",
+        ],
+        sourceIds: ["ssc-2021", "balance"],
+      },
+    ],
+    contaminationPitfalls: [
+      {
+        scenario: "Prior colonization or surveillance swab without matching source syndrome",
+        implication: "Historical MDRO data should shape empiric choices but does not prove the current septic source.",
+        action: "Keep the regimen tied to bedside source evidence and rapidly evolving cultures rather than colonization alone.",
+        sourceIds: ["ssc-2021", "idsa-2024-amr"],
+      },
+      {
+        scenario: "Single culture result from a non-sterile site during undifferentiated shock",
+        implication: "Respiratory or urinary growth can mislead if it is not anchored to the true source of shock.",
+        action: "Re-check the syndrome framing before escalating to a reserve agent simply because a colonizing organism appeared.",
+        sourceIds: ["ssc-2021"],
+      },
+    ],
+    durationAnchors: [
+      {
+        event: "Source control achieved",
+        anchor: "Once drainage, debridement, decompression, or device removal occurs, use that milestone to reset the duration clock for source-controlled sepsis.",
+        sourceIds: ["ssc-2021"],
+      },
+      {
+        event: "Bloodstream clearance in bacteremic sepsis",
+        anchor: "When the syndrome includes bacteremia that requires clearance documentation, count from the first negative culture on an active regimen.",
+        rationale: "Bacteremic sepsis should inherit bloodstream rules only when the underlying syndrome truly requires them.",
+        sourceIds: ["ssc-2021", "balance"],
+      },
+    ],
   },
 };
 

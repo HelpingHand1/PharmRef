@@ -4,6 +4,7 @@ import type {
   DrugSearchResult,
   MonographLookupResult,
   OrganismSpecific,
+  PathogenReference,
   RegimenReference,
   Subcategory,
 } from "../types";
@@ -23,9 +24,11 @@ import {
   flattenRegimenPlan,
   flattenSubcategoryStewardshipText,
 } from "./stewardship";
+import { PATHOGEN_REFERENCES } from "./pathogen-references";
 
 export type SearchEntry =
   | { type: "disease"; disease: DiseaseState; text: string }
+  | { type: "pathogen"; pathogen: PathogenReference; text: string }
   | {
       type: "subcategory";
       disease: DiseaseState;
@@ -39,9 +42,14 @@ export type SearchEntry =
 
 export interface CatalogDerived {
   allMonographs: Array<DrugMonograph & { parentDisease: DiseaseState }>;
+  allPathogens: PathogenReference[];
   allRegimens: RegimenReference[];
   totalSubcategories: number;
   diseaseById: Record<string, DiseaseState>;
+  pathogenById: Record<string, PathogenReference>;
+  pathogensByDiseaseId: Record<string, PathogenReference[]>;
+  pathogensByMonographId: Record<string, PathogenReference[]>;
+  pathogensBySubcategoryKey: Record<string, PathogenReference[]>;
   subcategoryByDiseaseId: Record<string, Record<string, Subcategory>>;
   monographLookup: Record<string, MonographLookupResult>;
   monographXref: Record<string, DiseaseState[]>;
@@ -49,6 +57,10 @@ export interface CatalogDerived {
   searchIndex: SearchEntry[];
   monographsByClass: Record<string, DrugSearchResult[]>;
   findMonograph: (drugId: string) => MonographLookupResult | null;
+  findPathogen: (pathogenId: string) => PathogenReference | null;
+  findPathogensForDisease: (diseaseId: string) => PathogenReference[];
+  findPathogensForMonograph: (drugId: string) => PathogenReference[];
+  findPathogensForSubcategory: (diseaseId: string, subcategoryId: string) => PathogenReference[];
 }
 
 function getEmpiricTherapy(subcategory: Subcategory) {
@@ -106,8 +118,15 @@ export function buildCatalogDerived(diseases: DiseaseState[], regimenCatalog?: R
   const resolvedRegimenCatalog = regimenCatalog ?? buildRegimenCatalog(diseases);
   const seen = new Set<string>();
   const allMonographs: Array<DrugMonograph & { parentDisease: DiseaseState }> = [];
+  const allPathogens = PATHOGEN_REFERENCES.slice();
   const allRegimens = resolvedRegimenCatalog.regimens.slice();
   const diseaseById: Record<string, DiseaseState> = Object.fromEntries(diseases.map((disease) => [disease.id, disease]));
+  const pathogenById: Record<string, PathogenReference> = Object.fromEntries(
+    PATHOGEN_REFERENCES.map((pathogen) => [pathogen.id, pathogen]),
+  );
+  const pathogensByDiseaseId: Record<string, PathogenReference[]> = {};
+  const pathogensByMonographId: Record<string, PathogenReference[]> = {};
+  const pathogensBySubcategoryKey: Record<string, PathogenReference[]> = {};
   const subcategoryByDiseaseId: Record<string, Record<string, Subcategory>> = Object.fromEntries(
     diseases.map((disease) => [
       disease.id,
@@ -119,6 +138,61 @@ export function buildCatalogDerived(diseases: DiseaseState[], regimenCatalog?: R
     Object.entries(resolvedRegimenCatalog.xrefByMonographId).map(([monographId, regimens]) => [monographId, regimens.slice()]),
   );
   const searchIndex: SearchEntry[] = [];
+
+  PATHOGEN_REFERENCES.forEach((pathogen) => {
+    [...new Set((pathogen.relatedPathways ?? []).map((pathway) => pathway.diseaseId))].forEach((diseaseId) => {
+      (pathogensByDiseaseId[diseaseId] ??= []).push(pathogen);
+    });
+
+    (pathogen.relatedPathways ?? []).forEach((pathway) => {
+      if (!pathway.subcategoryId) return;
+      (pathogensBySubcategoryKey[`${pathway.diseaseId}/${pathway.subcategoryId}`] ??= []).push(pathogen);
+    });
+
+    const relatedMonographIds = new Set<string>([
+      ...(pathogen.linkedMonographIds ?? []),
+      ...pathogen.preferredTherapyBySite.flatMap((entry) => entry.linkedMonographIds ?? []),
+      ...(pathogen.breakpointRules?.flatMap((entry) => entry.linkedMonographIds ?? []) ?? []),
+    ]);
+    relatedMonographIds.forEach((monographId) => {
+      (pathogensByMonographId[monographId] ??= []).push(pathogen);
+    });
+
+    searchIndex.push({
+      type: "pathogen",
+      pathogen,
+      text: [
+        pathogen.name,
+        pathogen.phenotype,
+        pathogen.summary,
+        ...pathogen.likelySyndromes,
+        ...pathogen.rapidDiagnosticInterpretation.flatMap((entry) => [entry.title, entry.detail, entry.note ?? ""]),
+        ...pathogen.contaminationPitfalls.flatMap((entry) => [entry.scenario, entry.implication, entry.action]),
+        ...pathogen.resistanceMechanisms.flatMap((entry) => [entry.title, entry.detail, entry.note ?? ""]),
+        ...pathogen.breakpointCaveats.flatMap((entry) => [entry.title, entry.detail, entry.note ?? ""]),
+        ...pathogen.preferredTherapyBySite.flatMap((entry) => [
+          entry.site,
+          entry.preferred,
+          entry.rationale,
+          ...(entry.alternatives ?? []),
+          ...(entry.avoid ?? []),
+          ...(entry.linkedMonographIds ?? []),
+        ]),
+        ...(pathogen.breakpointRules?.flatMap((rule) => [
+          rule.title,
+          rule.detail,
+          ...(rule.site ?? []),
+          ...(rule.interpretation ?? []),
+          ...(rule.rapidDiagnostic ?? []),
+          ...(rule.linkedMonographIds ?? []),
+        ]) ?? []),
+        ...(pathogen.relatedPathways?.map((pathway) => pathway.label) ?? []),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase(),
+    });
+  });
 
   diseases.forEach((disease) => {
     disease.drugMonographs.forEach((monograph) => {
@@ -280,9 +354,14 @@ export function buildCatalogDerived(diseases: DiseaseState[], regimenCatalog?: R
 
   return {
     allMonographs,
+    allPathogens,
     allRegimens,
     totalSubcategories: diseases.reduce((count, disease) => count + disease.subcategories.length, 0),
     diseaseById,
+    pathogenById,
+    pathogensByDiseaseId,
+    pathogensByMonographId,
+    pathogensBySubcategoryKey,
     subcategoryByDiseaseId,
     monographLookup,
     monographXref,
@@ -290,5 +369,10 @@ export function buildCatalogDerived(diseases: DiseaseState[], regimenCatalog?: R
     searchIndex,
     monographsByClass,
     findMonograph: (drugId: string) => monographLookup[drugId] ?? null,
+    findPathogen: (pathogenId: string) => pathogenById[pathogenId] ?? null,
+    findPathogensForDisease: (diseaseId: string) => pathogensByDiseaseId[diseaseId] ?? [],
+    findPathogensForMonograph: (drugId: string) => pathogensByMonographId[drugId] ?? [],
+    findPathogensForSubcategory: (diseaseId: string, subcategoryId: string) =>
+      pathogensBySubcategoryKey[`${diseaseId}/${subcategoryId}`] ?? [],
   };
 }

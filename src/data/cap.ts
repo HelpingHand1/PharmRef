@@ -516,6 +516,80 @@ const CAP_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
     failureEscalation: ready("Persistent instability should trigger review of steroid decisions, viral coinfection, resistant pathogens, source control, and whether the beta-lactam infusion strategy is adequate."),
     consultTriggers: ready("ID or pulmonary/critical care consultation is appropriate for necrotizing disease, bacteremia, unusual pathogens, or any case that needs broader-than-standard ICU CAP coverage."),
     durationAnchor: ready("Count from the first active regimen, but still use shortest effective duration once shock resolves and source issues are addressed."),
+    diagnosticStewardship: [
+      {
+        title: "Use ICU diagnostics to narrow, not just to justify how broad you started",
+        detail: "Blood cultures, good respiratory cultures, viral testing, and MRSA nares PCR should all be gathered early enough to shape the second-day regimen.",
+        sourceIds: ["ats-idsa-2019-cap"],
+      },
+      {
+        title: "Severe presentation does not erase the MRSA and Pseudomonas entry gates",
+        detail: "Prior isolation and recent IV antibiotic exposure remain the main reasons to keep anti-MRSA or antipseudomonal therapy once the first doses are delivered.",
+        sourceIds: ["ats-idsa-2019-cap"],
+      },
+    ],
+    reassessmentCheckpoints: [
+      {
+        window: "24h",
+        title: "24-hour severe-CAP diagnostic timeout",
+        trigger: "Reconcile cultures, viral data, urinary antigens, and whether the initial MRSA or Pseudomonas risk still looks real.",
+        actions: [
+          "Confirm blood cultures and respiratory sampling were actually obtained or why they were not.",
+          "Review MRSA nares status and whether necrosis, post-influenza disease, or prior MRSA remains credible.",
+          "Check if recent IV antibiotic exposure or prior Pseudomonas isolation truly justifies ongoing antipseudomonal coverage.",
+        ],
+        sourceIds: ["ats-idsa-2019-cap"],
+      },
+      {
+        window: "48h",
+        title: "48-hour ICU CAP de-escalation timeout",
+        trigger: "Use nares PCR, respiratory cultures, hemodynamic recovery, and imaging review to stop redundant MRSA or antipseudomonal therapy.",
+        actions: [
+          "Stop vancomycin or linezolid when MRSA is no longer supported.",
+          "Collapse to standard severe-CAP therapy if Pseudomonas risk is not confirmed.",
+          "Document whether steroids and atypical coverage still fit the active syndrome.",
+        ],
+        sourceIds: ["ats-idsa-2019-cap", "cape-cod"],
+      },
+      {
+        window: "definitive",
+        title: "Definitive CAP duration and step-down lock",
+        trigger: "Once shock or high oxygen support is improving, move from ICU framing to pathogen- and source-specific treatment duration.",
+        actions: [
+          "Use the shortest effective CAP course once clinical stability is reached.",
+          "Extend only for bacteremia, empyema, abscess, or another documented complication.",
+          "Build PO step-down only after absorption and oxygen trajectory are reliable.",
+        ],
+        sourceIds: ["ats-idsa-2019-cap", "el-moussaoui-2006-short-course-cap"],
+      },
+    ],
+    contaminationPitfalls: [
+      {
+        scenario: "Positive MRSA nares screening without culture or imaging support for invasive MRSA pneumonia",
+        implication: "The nares result is a helpful rule-out tool but can become a false rule-in if it is treated as proof of ICU MRSA pneumonia.",
+        action: "Keep anti-MRSA therapy only when the full syndrome and microbiology still support it.",
+        sourceIds: ["ats-idsa-2019-cap"],
+      },
+      {
+        scenario: "Poor-quality or colonized respiratory specimens in ventilated or chronically colonized patients",
+        implication: "Respiratory growth can reflect colonization and lead to avoidable escalation beyond standard severe CAP therapy.",
+        action: "Reassess specimen quality and the underlying exposure history before locking in broader definitive coverage.",
+        sourceIds: ["ats-idsa-2019-cap"],
+      },
+    ],
+    durationAnchors: [
+      {
+        event: "Clinical stability after severe CAP",
+        anchor: "Count from the first active regimen, but stop once the patient reaches sustained clinical stability and the minimum severe-CAP duration is met.",
+        sourceIds: ["ats-idsa-2019-cap", "el-moussaoui-2006-short-course-cap"],
+      },
+      {
+        event: "Pleural or bacteremic complication controlled",
+        anchor: "If empyema drainage or bloodstream clearance becomes part of the syndrome, shift to the complication-specific duration clock.",
+        rationale: "Severe presentation alone should not lengthen therapy, but true complications should.",
+        sourceIds: ["ats-idsa-2019-cap"],
+      },
+    ],
   },
   "aspiration-pneumonia": {
     diagnosticWorkup: ready("Distinguish aspiration pneumonia from aspiration pneumonitis before committing to antibiotics, then image and culture when severity or complications justify it."),

@@ -12,6 +12,7 @@ export { default as RegimenPatientWarnings } from "./RegimenPatientWarnings";
 export { default as CrossRefBadges } from "./CrossRefBadges";
 export { default as RegimenCrossRefs } from "./RegimenCrossRefs";
 export { default as RegimenEvidencePills } from "./RegimenEvidencePills";
+export { default as SourceEvidencePills } from "./SourceEvidencePills";
 export { default as AuditView } from "./AuditView";
 export { default as ContentMetaCard } from "./ContentMetaCard";
 export { default as DisclaimerModal } from "./DisclaimerModal";

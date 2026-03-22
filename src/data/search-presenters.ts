@@ -1,6 +1,7 @@
 import type {
   DiseaseState,
   DrugSearchResult,
+  PathogenSearchResult,
   RegimenSearchResult,
   Subcategory,
   SubcategorySearchResult,
@@ -184,6 +185,22 @@ export function buildDiseaseSearchPreview(disease: DiseaseState, query: string):
       { group: "epidemiology", text: disease.overview.epidemiology ?? "" },
       { group: "risk-factors", text: disease.overview.riskFactors ?? "" },
       ...disease.overview.keyGuidelines.map((entry) => ({ group: "guideline", text: `${entry.name}: ${entry.detail}` })),
+    ],
+    query,
+  );
+}
+
+export function buildPathogenSearchPreview(pathogen: PathogenSearchResult, query: string): SearchPreview {
+  return pickPreview(
+    [
+      { group: "summary", text: pathogen.summary },
+      { group: "phenotype", text: pathogen.phenotype },
+      ...pathogen.likelySyndromes.map((text) => ({ group: "syndrome", text })),
+      ...pathogen.breakpointCaveats.map((entry) => ({ group: "breakpoint", text: `${entry.title}: ${entry.detail}` })),
+      ...pathogen.preferredTherapyBySite.map((entry) => ({
+        group: "therapy",
+        text: `${entry.site}: ${entry.preferred}. ${entry.rationale}`,
+      })),
     ],
     query,
   );

@@ -1008,6 +1008,79 @@ export const AMR_GN: DiseaseState = {
           "notes": "Document the mechanism in the note so the next team does not accidentally drop aztreonam."
         }
       ],
+      "monitoringActions": [
+        {
+          "trigger": "Renal recovery, CRRT downtime, or missed q8h prolonged infusions during active therapy",
+          "action": "Recalculate dosing the same shift and confirm the infusion schedule before assuming microbiologic failure.",
+          "rationale": "Reserve-agent exposure can erode quickly when renal function or ICU support changes.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "kpc-observational-outcomes"
+          ]
+        },
+        {
+          "trigger": "Rapid diagnostic or carbapenemase testing suggests NDM, VIM, or IMP production",
+          "action": "Add or continue aztreonam immediately and do not rely on ceftazidime-avibactam alone even if a panel appears favorable.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "aztreonam-avibactam-evidence",
+            "clsi-breakpoint-updates"
+          ]
+        }
+      ],
+      "misuseTraps": [
+        {
+          "scenario": "Using ceftazidime-avibactam alone for an MBL producer because the isolate is labeled CRE or a panel prints susceptible",
+          "risk": "Avibactam does not inhibit MBLs, so stand-alone use can leave the regimen functionally inactive.",
+          "saferApproach": "Pair with aztreonam or switch to another mechanism-appropriate regimen once the phenotype is clarified.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "aztreonam-avibactam-evidence",
+            "clsi-breakpoint-updates"
+          ]
+        },
+        {
+          "scenario": "Continuing reserve therapy for a generic CRE label without documenting the carbapenemase mechanism",
+          "risk": "KPC and some OXA-48 pathways fit ceftazidime-avibactam, but MBL disease does not; the label alone creates false reassurance.",
+          "saferApproach": "Tie continuation to mechanism results, site fit, and a written backup plan if the phenotype changes.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "kpc-observational-outcomes"
+          ]
+        }
+      ],
+      "administrationConstraints": [
+        {
+          "title": "MBL workflows require paired aztreonam execution",
+          "detail": "When this drug is being used to protect aztreonam, both agents need synchronized renal adjustment, infusion timing, and handoff instructions.",
+          "action": "Build the pair into order sets and MAR language so the partner drug is not delayed or dropped on transfer.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "aztreonam-avibactam-evidence",
+            "clsi-breakpoint-updates"
+          ]
+        },
+        {
+          "title": "Q8h reserve-agent delivery needs an explicit infusion plan",
+          "detail": "SNF or OPAT transitions can fail operationally if the receiving program cannot reliably deliver repeated 2-hour infusions and partner therapy.",
+          "action": "Verify infusion capability before discharge and keep inpatient therapy if the delivery model is not dependable.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "kpc-observational-outcomes"
+          ]
+        }
+      ],
+      "siteSpecificAvoidances": [
+        {
+          "site": "MBL-producing infection managed without aztreonam support",
+          "reason": "Ceftazidime-avibactam alone is not a reliable definitive regimen for NDM, VIM, or IMP producers.",
+          "preferredApproach": "Use the ceftazidime-avibactam plus aztreonam strategy or another mechanism-directed alternative.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "aztreonam-avibactam-evidence"
+          ]
+        }
+      ],
       "penetration": [
         {
           "site": "Lung / epithelial lining fluid",
@@ -1187,6 +1260,76 @@ export const AMR_GN: DiseaseState = {
           "scenario": "Mechanism-specific reserve use",
           "role": "Should be deployed because KPC is present, not because the organism simply looks scary on the AST.",
           "notes": "Switch away if the mechanism turns out to be MBL or a different non-KPC phenotype."
+        }
+      ],
+      "monitoringActions": [
+        {
+          "trigger": "Renal function changes or the 3-hour infusion is shortened in a serious KPC infection",
+          "action": "Rebuild the regimen immediately instead of accepting cUTI-style underexposure in deep-seated disease.",
+          "rationale": "This agent depends on full prolonged-infusion exposure for the infections where it adds the most value.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "tango-ii"
+          ]
+        },
+        {
+          "trigger": "Carbapenemase testing no longer supports KPC as the dominant mechanism",
+          "action": "Stop treating meropenem-vaborbactam as the definitive answer and reselect therapy based on the updated phenotype.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "kpc-observational-outcomes"
+          ]
+        }
+      ],
+      "misuseTraps": [
+        {
+          "scenario": "Using meropenem-vaborbactam for MBL or many OXA-48 phenotypes because the organism is simply labeled CRE",
+          "risk": "The drug is not a universal CRE solution and mechanism mismatch can leave the patient on a high-confidence but inactive regimen.",
+          "saferApproach": "Restrict definitive use to KPC-driven disease or other explicitly supported phenotypes.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "tango-ii",
+            "kpc-observational-outcomes"
+          ]
+        },
+        {
+          "scenario": "Dropping to a shorter infusion or lighter dose for pneumonia, bacteremia, or undrained deep infection",
+          "risk": "Operational convenience can quietly trade away the exposure advantage that made the drug worth choosing.",
+          "saferApproach": "Keep the 4 g q8h prolonged-infusion strategy unless renal function truly requires adjustment.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "tango-ii"
+          ]
+        }
+      ],
+      "administrationConstraints": [
+        {
+          "title": "The 3-hour infusion is part of the regimen, not an optional optimization",
+          "detail": "Shortening the infusion undermines PK/PD against KPC isolates with limited exposure margin.",
+          "action": "Treat every missed or shortened infusion as a same-day stewardship and pharmacy follow-up issue.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "tango-ii"
+          ]
+        },
+        {
+          "title": "Q8h OPAT requires a real delivery model",
+          "detail": "Meropenem-vaborbactam often looks easier on paper than it is in post-acute settings because repeated prolonged infusions stress staffing and line access.",
+          "action": "Confirm the receiving program can execute the schedule before discharge rather than hoping it will be improvised later.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "kpc-observational-outcomes"
+          ]
+        }
+      ],
+      "siteSpecificAvoidances": [
+        {
+          "site": "MBL-producing infection regardless of anatomic source",
+          "reason": "Vaborbactam does not solve MBL biology, so apparent carbapenem activity should not be trusted as a stand-alone answer.",
+          "preferredApproach": "Move to an MBL-active strategy instead of escalating meropenem-vaborbactam intensity.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ]
         }
       ],
       "penetration": [
@@ -1369,6 +1512,75 @@ export const AMR_GN: DiseaseState = {
           "scenario": "Avoiding polymyxin-centered salvage",
           "role": "Often the cleaner alternative when susceptibility and site both support cefiderocol.",
           "notes": "Keep the stewardship note explicit about why it was chosen over other reserve agents."
+        }
+      ],
+      "monitoringActions": [
+        {
+          "trigger": "Susceptibility support is method-limited, discordant, or drifting during therapy",
+          "action": "Reconfirm how the AST was generated and whether the organism-site pair still fits cefiderocol before stacking on salvage agents.",
+          "rationale": "Execution failure with cefiderocol often starts with overconfidence in a fragile susceptibility call.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "credible-cr"
+          ]
+        },
+        {
+          "trigger": "CRAB infection remains clinically uncontrolled despite in vitro activity",
+          "action": "Escalate source-control review and reassess whether adjunctive therapy or an alternative strategy is needed rather than assuming the MIC settled the case.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "credible-cr"
+          ]
+        }
+      ],
+      "misuseTraps": [
+        {
+          "scenario": "Using cefiderocol as casual monotherapy for CRAB with poor source control or uncertain susceptibility support",
+          "risk": "The mortality signal in CRAB literature makes mechanically correct but clinically thin monotherapy a risky default.",
+          "saferApproach": "Use it only with a documented CRAB plan that addresses source control, susceptibility confidence, and whether a partner agent is justified.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "credible-cr"
+          ]
+        },
+        {
+          "scenario": "Escalating to cefiderocol for colonization or a resistant label without proving invasive disease",
+          "risk": "Reserve-agent use can outpace the clinical syndrome and create unnecessary complexity without benefit.",
+          "saferApproach": "Make the invasive site, organism significance, and fallback options explicit before committing.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "credible-cr"
+          ]
+        }
+      ],
+      "administrationConstraints": [
+        {
+          "title": "Cefiderocol requires credible susceptibility and source-control handoff",
+          "detail": "The drug is most defensible when the lab method, infection site, and source-control plan are all documented clearly for the next team.",
+          "action": "Put the AST method or stewardship interpretation in the note when cefiderocol is continued beyond empiric salvage.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "credible-cr"
+          ]
+        },
+        {
+          "title": "Repeated 3-hour infusions create line and nursing collisions",
+          "detail": "Critically ill patients often receive multiple concurrent prolonged infusions, so cefiderocol can fail operationally even before it fails microbiologically.",
+          "action": "Map line access and competing infusions before finalizing q8h delivery plans.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ]
+        }
+      ],
+      "siteSpecificAvoidances": [
+        {
+          "site": "CRAB pneumonia or deep-seated infection without source control or a documented rescue plan",
+          "reason": "Cefiderocol can look attractive on the report, but unresolved source burden and CRAB outcome concerns make unsupported monotherapy a weak strategy.",
+          "preferredApproach": "Address source control first and document whether a companion or alternative regimen is preferred.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "credible-cr"
+          ]
         }
       ],
       "penetration": [

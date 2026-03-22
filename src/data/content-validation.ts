@@ -1,5 +1,13 @@
-import type { ContentMeta, DiseaseState, DrugMonograph, OverviewEvidenceEntry, Subcategory } from "../types";
+import type {
+  ContentMeta,
+  DiseaseState,
+  DrugMonograph,
+  OverviewEvidenceEntry,
+  PathogenReference,
+  Subcategory,
+} from "../types";
 import { CONTENT_STALE_AFTER_DAYS } from "../version";
+import { PATHOGEN_REFERENCES } from "./pathogen-references";
 import {
   computeDiseaseOverviewFingerprint,
   getMonographContentKey,
@@ -127,6 +135,28 @@ function getEmpiricTherapy(subcategory: Subcategory) {
 function hasNonEmptyRecordValues(record?: Record<string, string | undefined>) {
   if (!record) return false;
   return Object.values(record).some((value) => typeof value === "string" && value.trim().length > 0);
+}
+
+function validateStructuredSourceIds(
+  issues: ContentValidationIssue[],
+  disease: string,
+  scope: string,
+  sourceIds: string[] | undefined,
+) {
+  if (!sourceIds?.length) {
+    addIssue(issues, "error", disease, scope, "Missing explicit structured source ids.");
+    return;
+  }
+
+  sourceIds.forEach((sourceId) => {
+    if (!sourceId.trim()) {
+      addIssue(issues, "error", disease, scope, "Structured source id is blank.");
+      return;
+    }
+    if (!resolveSourceEntry(sourceId)) {
+      addIssue(issues, "error", disease, scope, `Unknown source id "${sourceId}".`);
+    }
+  });
 }
 
 function validateMeta(
@@ -423,6 +453,50 @@ function validateSubcategory(
     addIssue(issues, "warn", disease.name, subcategoryScope, "Duration guidance is missing the standard duration.");
   }
 
+  if (subcategory.diagnosticStewardship && subcategory.diagnosticStewardship.length === 0) {
+    addIssue(issues, "error", disease.name, `${subcategoryScope} diagnosticStewardship`, "Structured diagnostic stewardship block is empty.");
+  }
+  subcategory.diagnosticStewardship?.forEach((entry, index) => {
+    const scope = `${subcategoryScope} diagnosticStewardship #${index + 1}`;
+    if (!entry.title?.trim() || !entry.detail?.trim()) {
+      addIssue(issues, "error", disease.name, scope, "Diagnostic stewardship entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+  });
+
+  if (subcategory.reassessmentCheckpoints && subcategory.reassessmentCheckpoints.length === 0) {
+    addIssue(issues, "error", disease.name, `${subcategoryScope} reassessmentCheckpoints`, "Structured reassessment checkpoint block is empty.");
+  }
+  subcategory.reassessmentCheckpoints?.forEach((entry, index) => {
+    const scope = `${subcategoryScope} reassessmentCheckpoints #${index + 1}`;
+    if (!entry.window || !entry.title?.trim() || !entry.trigger?.trim() || entry.actions.length === 0) {
+      addIssue(issues, "error", disease.name, scope, "Reassessment checkpoint entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+  });
+
+  if (subcategory.contaminationPitfalls && subcategory.contaminationPitfalls.length === 0) {
+    addIssue(issues, "error", disease.name, `${subcategoryScope} contaminationPitfalls`, "Structured contamination pitfalls block is empty.");
+  }
+  subcategory.contaminationPitfalls?.forEach((entry, index) => {
+    const scope = `${subcategoryScope} contaminationPitfalls #${index + 1}`;
+    if (!entry.scenario?.trim() || !entry.implication?.trim() || !entry.action?.trim()) {
+      addIssue(issues, "error", disease.name, scope, "Contamination pitfall entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+  });
+
+  if (subcategory.durationAnchors && subcategory.durationAnchors.length === 0) {
+    addIssue(issues, "error", disease.name, `${subcategoryScope} durationAnchors`, "Structured duration anchors block is empty.");
+  }
+  subcategory.durationAnchors?.forEach((entry, index) => {
+    const scope = `${subcategoryScope} durationAnchors #${index + 1}`;
+    if (!entry.event?.trim() || !entry.anchor?.trim()) {
+      addIssue(issues, "error", disease.name, scope, "Duration anchor entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+  });
+
   subcategory.rapidDiagnostics?.forEach((entry, index) => {
     if (!entry.trigger?.trim() || !entry.action?.trim()) {
       addIssue(issues, "warn", disease.name, `${subcategoryScope} rapidDiagnostics #${index + 1}`, "Rapid diagnostic entry is incomplete.");
@@ -622,6 +696,50 @@ function validateMonograph(
     }
   });
 
+  if (monograph.monitoringActions && monograph.monitoringActions.length === 0) {
+    addIssue(issues, "error", disease.name, `${monographScope} monitoringActions`, "Structured monitoring actions block is empty.");
+  }
+  monograph.monitoringActions?.forEach((entry, index) => {
+    const scope = `${monographScope} monitoringActions #${index + 1}`;
+    if (!entry.trigger?.trim() || !entry.action?.trim()) {
+      addIssue(issues, "error", disease.name, scope, "Monitoring action entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+  });
+
+  if (monograph.misuseTraps && monograph.misuseTraps.length === 0) {
+    addIssue(issues, "error", disease.name, `${monographScope} misuseTraps`, "Structured misuse traps block is empty.");
+  }
+  monograph.misuseTraps?.forEach((entry, index) => {
+    const scope = `${monographScope} misuseTraps #${index + 1}`;
+    if (!entry.scenario?.trim() || !entry.risk?.trim() || !entry.saferApproach?.trim()) {
+      addIssue(issues, "error", disease.name, scope, "Misuse trap entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+  });
+
+  if (monograph.administrationConstraints && monograph.administrationConstraints.length === 0) {
+    addIssue(issues, "error", disease.name, `${monographScope} administrationConstraints`, "Structured administration constraints block is empty.");
+  }
+  monograph.administrationConstraints?.forEach((entry, index) => {
+    const scope = `${monographScope} administrationConstraints #${index + 1}`;
+    if (!entry.title?.trim() || !entry.detail?.trim()) {
+      addIssue(issues, "error", disease.name, scope, "Administration constraint entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+  });
+
+  if (monograph.siteSpecificAvoidances && monograph.siteSpecificAvoidances.length === 0) {
+    addIssue(issues, "error", disease.name, `${monographScope} siteSpecificAvoidances`, "Structured site-specific avoidances block is empty.");
+  }
+  monograph.siteSpecificAvoidances?.forEach((entry, index) => {
+    const scope = `${monographScope} siteSpecificAvoidances #${index + 1}`;
+    if (!entry.site?.trim() || !entry.reason?.trim()) {
+      addIssue(issues, "error", disease.name, scope, "Site-specific avoidance entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+  });
+
   monograph.rapidDiagnostics?.forEach((entry, index) => {
     if (!entry.trigger?.trim() || !entry.action?.trim()) {
       addIssue(issues, "warn", disease.name, `${monographScope} rapidDiagnostics #${index + 1}`, "Rapid diagnostic entry is incomplete.");
@@ -704,6 +822,116 @@ function validateMonograph(
   }
 }
 
+function validatePathogenReference(
+  issues: ContentValidationIssue[],
+  pathogen: PathogenReference,
+  diseaseStates: DiseaseState[],
+  knownMonographIds: Set<string>,
+) {
+  const scope = `Pathogen ${pathogen.id}`;
+
+  if (!pathogen.id?.trim() || !pathogen.name?.trim() || !pathogen.phenotype?.trim() || !pathogen.summary?.trim()) {
+    addIssue(issues, "error", pathogen.name || pathogen.id, scope, "Pathogen reference is missing a required identity field.");
+  }
+  if (!pathogen.likelySyndromes.length) {
+    addIssue(issues, "error", pathogen.name, scope, "Pathogen reference is missing likely syndromes.");
+  }
+  if (!pathogen.rapidDiagnosticInterpretation.length) {
+    addIssue(issues, "error", pathogen.name, scope, "Pathogen reference is missing rapid diagnostic interpretation.");
+  }
+  if (!pathogen.resistanceMechanisms.length) {
+    addIssue(issues, "error", pathogen.name, scope, "Pathogen reference is missing resistance mechanisms.");
+  }
+  if (!pathogen.breakpointCaveats.length) {
+    addIssue(issues, "error", pathogen.name, scope, "Pathogen reference is missing breakpoint caveats.");
+  }
+  if (!pathogen.preferredTherapyBySite.length) {
+    addIssue(issues, "error", pathogen.name, scope, "Pathogen reference is missing therapy-by-site recommendations.");
+  }
+  if (!pathogen.breakpointRules?.length) {
+    addIssue(issues, "error", pathogen.name, scope, "Pathogen reference is missing structured breakpoint rules.");
+  }
+
+  pathogen.rapidDiagnosticInterpretation.forEach((entry, index) => {
+    const entryScope = `${scope} rapidDiagnosticInterpretation #${index + 1}`;
+    if (!entry.title?.trim() || !entry.detail?.trim()) {
+      addIssue(issues, "error", pathogen.name, entryScope, "Rapid diagnostic interpretation entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, pathogen.name, entryScope, entry.sourceIds);
+  });
+
+  pathogen.contaminationPitfalls.forEach((entry, index) => {
+    const entryScope = `${scope} contaminationPitfalls #${index + 1}`;
+    if (!entry.scenario?.trim() || !entry.implication?.trim() || !entry.action?.trim()) {
+      addIssue(issues, "error", pathogen.name, entryScope, "Contamination pitfall entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, pathogen.name, entryScope, entry.sourceIds);
+  });
+
+  pathogen.resistanceMechanisms.forEach((entry, index) => {
+    const entryScope = `${scope} resistanceMechanisms #${index + 1}`;
+    if (!entry.title?.trim() || !entry.detail?.trim()) {
+      addIssue(issues, "error", pathogen.name, entryScope, "Resistance mechanism entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, pathogen.name, entryScope, entry.sourceIds);
+  });
+
+  pathogen.breakpointCaveats.forEach((entry, index) => {
+    const entryScope = `${scope} breakpointCaveats #${index + 1}`;
+    if (!entry.title?.trim() || !entry.detail?.trim()) {
+      addIssue(issues, "error", pathogen.name, entryScope, "Breakpoint caveat entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, pathogen.name, entryScope, entry.sourceIds);
+  });
+
+  pathogen.preferredTherapyBySite.forEach((entry, index) => {
+    const entryScope = `${scope} preferredTherapyBySite #${index + 1}`;
+    if (!entry.site?.trim() || !entry.preferred?.trim() || !entry.rationale?.trim()) {
+      addIssue(issues, "error", pathogen.name, entryScope, "Preferred-therapy entry is incomplete.");
+    }
+    entry.linkedMonographIds?.forEach((linkedMonographId) => {
+      if (!knownMonographIds.has(linkedMonographId)) {
+        addIssue(issues, "error", pathogen.name, entryScope, `Unknown linked monograph id "${linkedMonographId}".`);
+      }
+    });
+    validateStructuredSourceIds(issues, pathogen.name, entryScope, entry.sourceIds);
+  });
+
+  pathogen.breakpointRules?.forEach((entry, index) => {
+    const entryScope = `${scope} breakpointRules #${index + 1}`;
+    if (!entry.title?.trim() || !entry.detail?.trim()) {
+      addIssue(issues, "error", pathogen.name, entryScope, "Breakpoint rule entry is incomplete.");
+    }
+    entry.linkedMonographIds?.forEach((linkedMonographId) => {
+      if (!knownMonographIds.has(linkedMonographId)) {
+        addIssue(issues, "error", pathogen.name, entryScope, `Unknown linked monograph id "${linkedMonographId}".`);
+      }
+    });
+    validateStructuredSourceIds(issues, pathogen.name, entryScope, entry.sourceIds);
+  });
+
+  pathogen.linkedMonographIds?.forEach((linkedMonographId) => {
+    if (!knownMonographIds.has(linkedMonographId)) {
+      addIssue(issues, "error", pathogen.name, scope, `Unknown linked monograph id "${linkedMonographId}".`);
+    }
+  });
+
+  pathogen.relatedPathways?.forEach((pathway, index) => {
+    const entryScope = `${scope} relatedPathways #${index + 1}`;
+    const disease = diseaseStates.find((candidate) => candidate.id === pathway.diseaseId);
+    if (!disease) {
+      addIssue(issues, "error", pathogen.name, entryScope, `Unknown disease id "${pathway.diseaseId}".`);
+      return;
+    }
+    if (pathway.subcategoryId && !disease.subcategories.some((subcategory) => subcategory.id === pathway.subcategoryId)) {
+      addIssue(issues, "error", pathogen.name, entryScope, `Unknown subcategory id "${pathway.subcategoryId}" for disease "${pathway.diseaseId}".`);
+    }
+    if (!pathway.label?.trim()) {
+      addIssue(issues, "error", pathogen.name, entryScope, "Related pathway is missing a label.");
+    }
+  });
+}
+
 function validateDisease(
   issues: ContentValidationIssue[],
   disease: DiseaseState,
@@ -775,6 +1003,10 @@ export function buildContentValidationIssues(diseaseStates: DiseaseState[]) {
     diseaseIds.add(disease.id);
 
     validateDisease(issues, disease, knownMonographIds, primaryMonographOwnerById);
+  });
+
+  PATHOGEN_REFERENCES.forEach((pathogen) => {
+    validatePathogenReference(issues, pathogen, diseaseStates, knownMonographIds);
   });
 
   return issues;

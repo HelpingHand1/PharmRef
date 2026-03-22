@@ -28,8 +28,9 @@ test("catalog derived counts stay stable", () => {
   assert.equal(DISEASE_STATES.length, 15);
   assert.equal(derived.totalSubcategories, 61);
   assert.equal(derived.allMonographs.length, 43);
+  assert.equal(derived.allPathogens.length, 9);
   assert.equal(derived.allRegimens.length, 376);
-  assert.equal(derived.searchIndex.length, 674);
+  assert.equal(derived.searchIndex.length, 683);
   assert.equal(derived.findMonograph("vancomycin")?.monograph.name, "Vancomycin");
   assert.ok((derived.regimenXref.vancomycin?.length ?? 0) > 0);
 });

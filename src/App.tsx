@@ -12,10 +12,13 @@ import { WORK_SESSION_PERSISTENCE } from "./utils/persistenceEnvelope";
 import { DISEASE_CATALOG, DISEASE_SUMMARY_BY_ID, MONOGRAPH_CATALOG, MONOGRAPH_SUMMARY_BY_ID } from "./data/catalog-manifest";
 import { loadAllDiseases, loadDisease, loadRegimenCatalog } from "./data/catalog-loader";
 import { buildCatalogDerived, type CatalogDerived } from "./data/derived";
+import { PATHOGEN_REFERENCE_BY_ID, PATHOGEN_REFERENCES } from "./data/pathogen-references";
 import { hasAnyPatientSignals } from "./utils/regimenGuidance";
+import BreakpointWorkspacePage from "./pages/BreakpointWorkspacePage";
 import DiseaseOverviewPage from "./pages/DiseaseOverviewPage";
 import HomePage from "./pages/HomePage";
 import MonographPage from "./pages/MonographPage";
+import PathogenReferencePage from "./pages/PathogenReferencePage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import SubcategoryPage from "./pages/SubcategoryPage";
 import CalculatorsPage from "./pages/CalculatorsPage";
@@ -62,9 +65,18 @@ export default function PharmRef() {
   const catalogDerivedRef = useRef<CatalogDerived | null>(null);
   const catalogPromiseRef = useRef<Promise<CatalogDerived> | null>(null);
 
-  const { navState, navigateTo, selectedDiseaseId, selectedMonographId, selectedSubcategoryId } = useNavigation();
+  const {
+    navState,
+    navigateTo,
+    selectedBreakpointPreset,
+    selectedDiseaseId,
+    selectedMonographId,
+    selectedPathogenId,
+    selectedSubcategoryId,
+  } = useNavigation();
   const selectedDiseaseSummary = selectedDiseaseId ? DISEASE_SUMMARY_BY_ID[selectedDiseaseId] ?? null : null;
   const selectedDisease = selectedDiseaseId ? loadedDiseases[selectedDiseaseId] ?? null : null;
+  const selectedPathogen = selectedPathogenId ? PATHOGEN_REFERENCE_BY_ID[selectedPathogenId] ?? null : null;
   const selectedSubcategory = useMemo(
     () => selectedDisease?.subcategories.find((subcategory) => subcategory.id === selectedSubcategoryId) ?? null,
     [selectedDisease, selectedSubcategoryId],
@@ -126,6 +138,7 @@ export default function PharmRef() {
     selectedDisease,
     selectedSubcategory,
     selectedMonograph,
+    selectedPathogen,
     navigateTo,
   );
 
@@ -160,7 +173,7 @@ export default function PharmRef() {
 
   useEffect(() => {
     setExpandedSections({});
-  }, [navState, selectedDiseaseId, selectedSubcategoryId, selectedMonographId]);
+  }, [navState, selectedDiseaseId, selectedSubcategoryId, selectedMonographId, selectedPathogenId]);
 
   useEffect(() => {
     const handleShortcut = (event: KeyboardEvent) => {
@@ -247,8 +260,11 @@ export default function PharmRef() {
     const shouldLoadFullCatalog =
       isSearchActive ||
       navState === NAV_STATES.COMPARE ||
+      navState === NAV_STATES.DISEASE_OVERVIEW ||
       navState === NAV_STATES.SUBCATEGORY ||
       navState === NAV_STATES.MONOGRAPH ||
+      navState === NAV_STATES.PATHOGEN ||
+      navState === NAV_STATES.BREAKPOINTS ||
       navState === "audit";
 
     if (!shouldLoadFullCatalog) return;
@@ -268,15 +284,20 @@ export default function PharmRef() {
   }, []);
 
   const currentSectionIds = useMemo(() => {
-    if (navState === NAV_STATES.DISEASE_OVERVIEW) return ["overview", "guidelines", "trials"];
+    if (navState === NAV_STATES.DISEASE_OVERVIEW) return ["overview", "guidelines", "trials", "pathogens"];
     if (navState === NAV_STATES.SUBCATEGORY) {
       return [
         "presentation",
         "diagnostics",
         "workflow-diagnostics",
+        "diagnostic-stewardship",
         "workflow-reassessment",
+        "reassessment-timeline",
         "workflow-transition",
+        "contamination-pitfalls",
+        "duration-anchors",
         "microbiology",
+        "pathogen-links",
         "empiric",
         "organism",
         "pearls",
@@ -295,16 +316,24 @@ export default function PharmRef() {
         "ae",
         "interactions",
         "monitoring",
+        "monitoring-actions",
         "tdm",
         "pregnancy",
         "administration",
+        "administration-constraints",
         "microbiology",
+        "pathogen-links",
+        "misuse-traps",
         "penetration",
+        "site-avoidances",
         "interaction-actions",
         "stewardship",
         "pharm-pearls",
         "opat-ipo",
       ];
+    }
+    if (navState === NAV_STATES.PATHOGEN) {
+      return ["rapid-dx", "contamination", "mechanisms", "breakpoints", "therapy", "related"];
     }
     return [];
   }, [navState]);
@@ -407,6 +436,20 @@ export default function PharmRef() {
       return trail;
     }
 
+    if (navState === NAV_STATES.BREAKPOINTS) {
+      trail.push({ label: "Breakpoint workspace" });
+      if (selectedPathogen) {
+        trail.push({ label: selectedPathogen.name });
+      }
+      return trail;
+    }
+
+    if (navState === NAV_STATES.PATHOGEN && selectedPathogen) {
+      trail.push({ label: "Pathogen references" });
+      trail.push({ label: selectedPathogen.name });
+      return trail;
+    }
+
     if (diseaseLabel && navState !== NAV_STATES.HOME && selectedDiseaseId) {
       trail.push({
         label: diseaseLabel,
@@ -423,7 +466,7 @@ export default function PharmRef() {
     }
 
     return trail;
-  }, [navState, navigateTo, selectedDisease, selectedDiseaseId, selectedDiseaseSummary, selectedMonograph, selectedMonographId, selectedSubcategory]);
+  }, [navState, navigateTo, selectedDisease, selectedDiseaseId, selectedDiseaseSummary, selectedMonograph, selectedMonographId, selectedPathogen, selectedSubcategory]);
 
   const compareDrugs = useMemo(
     () =>
@@ -532,6 +575,7 @@ export default function PharmRef() {
             setCompareItems([]);
             navigateTo(NAV_STATES.COMPARE);
           }}
+          pathogens={PATHOGEN_REFERENCES}
           recentViews={recentViews}
           S={S}
           theme={theme}
@@ -593,10 +637,31 @@ export default function PharmRef() {
     );
   }
 
+  if (navState === NAV_STATES.BREAKPOINTS) {
+    return (
+      <Layout {...layoutProps} compact>
+        <button type="button" style={S.backBtn} onClick={() => navigateTo(NAV_STATES.HOME)}>
+          ← Home
+        </button>
+        <BreakpointWorkspacePage
+          crcl={crcl}
+          findMonograph={findMonograph}
+          navigateTo={navigateTo}
+          patient={patient}
+          pathogens={PATHOGEN_REFERENCES}
+          selectedBreakpointPreset={selectedBreakpointPreset}
+          selectedPathogenId={selectedPathogenId}
+          S={S}
+        />
+      </Layout>
+    );
+  }
+
   if (navState === NAV_STATES.DISEASE_OVERVIEW && selectedDisease) {
     return (
       <Layout {...layoutProps} compact>
         <DiseaseOverviewPage
+          catalogDerived={catalogDerived}
           disease={selectedDisease}
           expandedSections={expandedSections}
           navigateTo={navigateTo}
@@ -616,6 +681,7 @@ export default function PharmRef() {
       <Layout {...layoutProps} compact>
         <SubcategoryPage
           allergies={allergies}
+          catalogDerived={catalogDerived}
           copiedId={copiedId}
           crcl={crcl}
           disease={selectedDisease}
@@ -642,6 +708,7 @@ export default function PharmRef() {
         <MonographPage
           adjbw={adjbw}
           allergies={allergies}
+          catalogDerived={catalogDerived}
           crcl={crcl}
           disease={selectedDisease}
           expandedSections={expandedSections}
@@ -660,6 +727,24 @@ export default function PharmRef() {
           showToast={showToast}
           theme={theme}
           toggleBookmark={toggleBookmark}
+          toggleSection={toggleSection}
+        />
+      </Layout>
+    );
+  }
+
+  if (navState === NAV_STATES.PATHOGEN && selectedPathogen) {
+    return (
+      <Layout {...layoutProps} compact>
+        <PathogenReferencePage
+          catalogDerived={catalogDerived}
+          expandedSections={expandedSections}
+          navigateTo={navigateTo}
+          onCollapseAll={collapseAll}
+          onExpandAll={expandAll}
+          pathogen={selectedPathogen}
+          readingMode={readingMode}
+          S={S}
           toggleSection={toggleSection}
         />
       </Layout>

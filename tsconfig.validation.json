@@ -22,10 +22,14 @@
     "src/utils/persistenceEnvelope.ts",
     "src/utils/regimenGuidance.ts",
     "src/utils/monographPatientGuidance.ts",
+    "src/utils/navigationState.ts",
     "src/utils/patientMedicationInteractions.ts",
     "src/utils/patientFit.ts",
+    "src/utils/patientReassessmentEngine.ts",
     "src/utils/patientStewardshipSummary.ts",
-    "src/utils/patientTransitionReadiness.ts"
+    "src/utils/patientTransitionReadiness.ts",
+    "src/utils/breakpointWorkspacePreset.ts",
+    "src/utils/susceptibilityWorkspace.ts"
   ],
   "exclude": [
     "node_modules",

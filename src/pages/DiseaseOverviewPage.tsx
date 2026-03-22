@@ -1,3 +1,4 @@
+import type { CatalogDerived } from "../data/derived";
 import type { DiseaseState, NavigateTo, Styles } from "../types";
 import { getSourceLookupHref } from "../data/source-registry";
 import { resolveOverviewEntrySources } from "../data/overview-evidence";
@@ -7,6 +8,7 @@ import ExpandCollapseBar from "../components/ExpandCollapseBar";
 import ContentMetaCard from "../components/ContentMetaCard";
 
 interface DiseaseOverviewPageProps {
+  catalogDerived: CatalogDerived | null;
   disease: DiseaseState;
   expandedSections: Record<string, boolean>;
   navigateTo: NavigateTo;
@@ -19,6 +21,7 @@ interface DiseaseOverviewPageProps {
 }
 
 export default function DiseaseOverviewPage({
+  catalogDerived,
   disease,
   expandedSections,
   navigateTo,
@@ -30,6 +33,7 @@ export default function DiseaseOverviewPage({
   toggleSection,
 }: DiseaseOverviewPageProps) {
   const overview = disease.overview;
+  const relatedPathogens = catalogDerived?.findPathogensForDisease(disease.id) ?? [];
   const summaryFacts = [
     { label: "Guidelines", value: `${overview.keyGuidelines.length} listed` },
     { label: "Landmark Trials", value: `${overview.landmarkTrials.length} listed` },
@@ -87,6 +91,11 @@ export default function DiseaseOverviewPage({
               <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
                 {disease.drugMonographs.length} monographs
               </span>
+              {relatedPathogens.length > 0 && (
+                <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                  {relatedPathogens.length} pathogen refs
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -229,6 +238,39 @@ export default function DiseaseOverviewPage({
           })}
         </div>
       </Section>
+
+      {relatedPathogens.length > 0 && (
+        <Section
+          id="pathogens"
+          title="Related Pathogen References"
+          icon="🧬"
+          accentColor="#0284c7"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "10px" }}>
+            {relatedPathogens.map((pathogen) => (
+              <button
+                key={pathogen.id}
+                type="button"
+                className="pr-card result-card"
+                style={{ ...S.card, marginBottom: 0, padding: "16px 18px", textAlign: "left" }}
+                onClick={() => navigateTo(NAV_STATES.PATHOGEN, { pathogenId: pathogen.id })}
+              >
+                <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{pathogen.name}</div>
+                <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+                  {pathogen.phenotype}
+                </div>
+                <div style={{ fontSize: "12px", color: S.meta.textMuted, marginTop: "8px", lineHeight: 1.55 }}>
+                  {pathogen.summary}
+                </div>
+              </button>
+            ))}
+          </div>
+        </Section>
+      )}
 
       <div className="section-meta-row" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginTop: "30px", marginBottom: "12px", flexWrap: "wrap" }}>
         <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>Disease Subcategories</div>

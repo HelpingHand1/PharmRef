@@ -633,6 +633,109 @@ export const IAI: DiseaseState = {
         "status": "ready",
         "summary": "Count from the moment adequate post-operative source control is re-established, not from the first ineffective empiric dose."
       },
+      "diagnosticStewardship": [
+        {
+          "title": "Operative and drain cultures should come from moments that can change therapy",
+          "detail": "Healthcare-associated IAI is often culture-rich but decision-poor; prioritize sterile operative specimens and new drain events over chronic drain colonization.",
+          "sourceIds": [
+            "idsa-sis-2010-ciai",
+            "durapop"
+          ]
+        },
+        {
+          "title": "Post-operative Candida signals need sterility context",
+          "detail": "Yeast from blood or a normally sterile abdominal specimen can matter; yeast from superficial or chronically colonized sites usually should not drive definitive antifungal therapy alone.",
+          "sourceIds": [
+            "idsa-sis-2010-ciai",
+            "idsa-candidiasis"
+          ]
+        }
+      ],
+      "reassessmentCheckpoints": [
+        {
+          "window": "24h",
+          "title": "24-hour leak and drain-control timeout",
+          "trigger": "Confirm whether the leak, collection, or post-operative complication has a real source-control plan and whether cultures are coming from interpretable sites.",
+          "actions": [
+            "Document the next source-control step or why current drainage is considered adequate.",
+            "Review whether operative, blood, or fresh drain cultures are pending.",
+            "Check if empiric antipseudomonal, enterococcal, or antifungal coverage still matches the anatomy and exposure history."
+          ],
+          "sourceIds": [
+            "idsa-sis-2010-ciai",
+            "durapop"
+          ]
+        },
+        {
+          "window": "48h",
+          "title": "48-hour post-operative IAI de-escalation timeout",
+          "trigger": "Use source-control progress plus cultures to remove redundant vancomycin, antipseudomonal, or empiric antifungal therapy.",
+          "actions": [
+            "Drop gram-positive add-ons if no bloodstream or operative evidence supports them.",
+            "Step down from carbapenem-level therapy when ESBL or other resistant phenotypes are not confirmed.",
+            "Stop empiric antifungal therapy unless sterile-site yeast or host factors still make invasive candidiasis credible."
+          ],
+          "sourceIds": [
+            "idsa-sis-2010-ciai",
+            "durapop",
+            "idsa-candidiasis"
+          ]
+        },
+        {
+          "window": "definitive",
+          "title": "Definitive healthcare-IAI duration lock",
+          "trigger": "Once adequate source control is restored, convert the regimen to the narrowest active definitive plan and restart the duration clock from that intervention.",
+          "actions": [
+            "Apply STOP-IT logic to source-controlled courses whenever the anatomy is truly controlled.",
+            "Use longer postoperative durations only when leak control remains incomplete or tertiary peritonitis persists.",
+            "Delay PO transition until GI function is dependable and the chosen oral regimen truly fits the recovered organisms."
+          ],
+          "sourceIds": [
+            "stop-it",
+            "durapop",
+            "idsa-sis-2010-ciai"
+          ]
+        }
+      ],
+      "contaminationPitfalls": [
+        {
+          "scenario": "Positive cultures from longstanding drains or open abdominal collections without a new sterile specimen",
+          "implication": "Chronic drain colonization can look microbiologically dramatic while obscuring the actual treatable source.",
+          "action": "Use fresh operative or sterile-site cultures to choose definitive therapy whenever possible.",
+          "sourceIds": [
+            "idsa-sis-2010-ciai",
+            "durapop"
+          ]
+        },
+        {
+          "scenario": "Candida from non-sterile abdominal sites without bloodstream or sterile-site confirmation",
+          "implication": "Post-operative colonization can push teams into unnecessary empiric antifungal continuation.",
+          "action": "Anchor antifungal decisions to sterile-site evidence, host risk, and source-control anatomy.",
+          "sourceIds": [
+            "idsa-sis-2010-ciai",
+            "idsa-candidiasis"
+          ]
+        }
+      ],
+      "durationAnchors": [
+        {
+          "event": "Adequate post-operative source control re-established",
+          "anchor": "Count duration from the washout, leak repair, drain revision, or re-operation that actually controls the abdomen.",
+          "sourceIds": [
+            "stop-it",
+            "durapop"
+          ]
+        },
+        {
+          "event": "Persistent tertiary peritonitis or uncontrolled leak",
+          "anchor": "Do not force a STOP-IT stop date when the abdomen is still uncontrolled; the right response is renewed source review plus individualized duration.",
+          "rationale": "Longer therapy is a sign of unresolved anatomy, not a substitute for fixing it.",
+          "sourceIds": [
+            "durapop",
+            "idsa-sis-2010-ciai"
+          ]
+        }
+      ],
       "rapidDiagnostics": [
         {
           "trigger": "Operative or drain cultures show ESBL-producing Enterobacterales or prior cultures suggest them",

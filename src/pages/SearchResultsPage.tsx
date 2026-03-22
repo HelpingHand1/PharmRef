@@ -4,6 +4,7 @@ import { MONOGRAPH_SUMMARY_BY_ID } from "../data/catalog-manifest";
 import {
   buildDiseaseSearchPreview,
   buildDrugSearchPreview,
+  buildPathogenSearchPreview,
   buildRegimenSearchPreview,
   buildSubcategorySearchPreview,
 } from "../data/search-presenters";
@@ -11,10 +12,11 @@ import { getConfidenceBadge, getContentFreshness, getMonographContentKey, getSub
 import { NAV_STATES } from "../styles/constants";
 import type { NavigateTo, SearchResult, Styles } from "../types";
 
-type TabLabel = "All" | "Drugs" | "Regimens" | "Organisms" | "Syndromes" | "Diseases";
-const ALL_TABS: TabLabel[] = ["All", "Drugs", "Regimens", "Organisms", "Syndromes", "Diseases"];
+type TabLabel = "All" | "Drugs" | "Pathogens" | "Regimens" | "Organisms" | "Syndromes" | "Diseases";
+const ALL_TABS: TabLabel[] = ["All", "Drugs", "Pathogens", "Regimens", "Organisms", "Syndromes", "Diseases"];
 const TAB_GROUPS: Record<string, string> = {
   Drugs: "Drug Monographs",
+  Pathogens: "Pathogen References",
   Regimens: "Regimens",
   Organisms: "Organisms",
   Syndromes: "Subcategories",
@@ -119,7 +121,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
   const [activeTab, setActiveTab] = useState<TabLabel>("All");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
-  const total = results.diseases.length + results.drugs.length + results.regimens.length + results.organisms.length + results.subcategories.length;
+  const total = results.diseases.length + results.drugs.length + results.pathogens.length + results.regimens.length + results.organisms.length + results.subcategories.length;
   const hl = (text: string) => highlightMatch(text, query, S.meta.accentSurface, S.meta.accent);
 
   const pillBase: React.CSSProperties = { ...S.crossRefPill, fontFamily: "inherit" };
@@ -167,6 +169,40 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
           );
         })()
       )),
+    },
+    {
+      title: "Pathogen References",
+      items: results.pathogens.map((pathogen) => {
+        const preview = buildPathogenSearchPreview(pathogen, query);
+        return (
+          <div
+            key={pathogen.id}
+            className="pr-card result-card"
+            style={{ ...S.card, marginBottom: 0, padding: "18px 20px" }}
+            onClick={() => {
+              onClearSearch();
+              navigateTo(NAV_STATES.PATHOGEN, { pathogenId: pathogen.id });
+            }}
+          >
+            <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🧬 Pathogen reference</div>
+            <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{hl(pathogen.name)}</div>
+            <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{pathogen.phenotype}</div>
+            <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "10px", lineHeight: 1.55 }}>{preview.primary}</div>
+            {preview.secondary && (
+              <div style={{ fontSize: "12px", color: S.meta.textMuted, marginTop: "6px", lineHeight: 1.55 }}>
+                {preview.secondary}
+              </div>
+            )}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
+              {pathogen.likelySyndromes.slice(0, 3).map((syndrome) => (
+                <span key={`${pathogen.id}-${syndrome}`} style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                  {syndrome}
+                </span>
+              ))}
+            </div>
+          </div>
+        );
+      }),
     },
     {
       title: "Organisms",
@@ -374,6 +410,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
   const tabCounts: Record<string, number> = {
     All: total,
     Drugs: results.drugs.length,
+    Pathogens: results.pathogens.length,
     Regimens: results.regimens.length,
     Organisms: results.organisms.length,
     Syndromes: results.subcategories.length,

@@ -165,7 +165,15 @@ export function flattenRegimenPlan(plan?: RegimenPlan | null): string[] {
 }
 
 export function flattenSubcategoryStewardshipText(subcategory: Subcategory): string[] {
-  return getSubcategoryWorkflowEntries(subcategory).flatMap((entry) => [entry.label, ...flattenWorkflowBlock(entry.block)]);
+  return [
+    ...getSubcategoryWorkflowEntries(subcategory).flatMap((entry) => [entry.label, ...flattenWorkflowBlock(entry.block)]),
+    ...(subcategory.diagnosticStewardship?.flatMap((entry) => [entry.title, entry.detail, entry.note ?? ""]) ?? []),
+    ...(subcategory.reassessmentCheckpoints?.flatMap((entry) => [entry.window, entry.title, entry.trigger, ...entry.actions]) ?? []),
+    ...(subcategory.contaminationPitfalls?.flatMap((entry) => [entry.scenario, entry.implication, entry.action]) ?? []),
+    ...(subcategory.durationAnchors?.flatMap((entry) => [entry.event, entry.anchor, entry.rationale ?? ""]) ?? []),
+  ]
+    .map((value) => value.trim())
+    .filter(Boolean);
 }
 
 export function flattenMonographStructuredText(monograph: DrugMonograph): string[] {
@@ -211,6 +219,10 @@ export function flattenMonographStructuredText(monograph: DrugMonograph): string
       : []),
     ...(monograph.interactionActions?.flatMap((entry) => [entry.interactingAgent, entry.effect, entry.management, entry.severity ?? ""]) ?? []),
     ...(monograph.stewardshipUseCases?.flatMap((entry) => [entry.scenario, entry.role, entry.notes ?? ""]) ?? []),
+    ...(monograph.monitoringActions?.flatMap((entry) => [entry.trigger, entry.action, entry.rationale ?? ""]) ?? []),
+    ...(monograph.misuseTraps?.flatMap((entry) => [entry.scenario, entry.risk, entry.saferApproach]) ?? []),
+    ...(monograph.administrationConstraints?.flatMap((entry) => [entry.title, entry.detail, entry.action ?? ""]) ?? []),
+    ...(monograph.siteSpecificAvoidances?.flatMap((entry) => [entry.site, entry.reason, entry.preferredApproach ?? ""]) ?? []),
   ]
     .map((value) => value.trim())
     .filter(Boolean);

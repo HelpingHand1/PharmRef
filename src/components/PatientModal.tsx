@@ -66,6 +66,10 @@ export default function PatientModal({
     setPatient((p) => ({ ...p, [key]: isNaN(parsed as number) ? undefined : parsed }));
   }
 
+  function textField(key: keyof PatientContext, value: string) {
+    setPatient((p) => ({ ...p, [key]: value || undefined }));
+  }
+
   function clear() {
     setPatient({});
   }
@@ -273,6 +277,109 @@ export default function PatientModal({
               />
               Active serotonergic medications
             </label>
+          </div>
+        </div>
+
+        <div
+          style={{
+            marginBottom: "16px",
+            padding: "14px 16px",
+            borderRadius: "16px",
+            border: `1px solid ${isDark ? "#2f4556" : "#c6d4d8"}`,
+            background: isDark ? "rgba(12, 31, 41, 0.64)" : "rgba(240, 249, 255, 0.76)",
+          }}
+        >
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: isDark ? "#67e8f9" : "#0f766e", marginBottom: "10px" }}>
+            Host Risk and Timeline
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "8px" }}>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.immunocompromised ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, immunocompromised: e.target.checked }))}
+              />
+              Immunocompromised host
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.neutropenic ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, neutropenic: e.target.checked }))}
+              />
+              Neutropenic
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.transplant ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, transplant: e.target.checked }))}
+              />
+              Transplant recipient
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.icuLevelCare ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, icuLevelCare: e.target.checked }))}
+              />
+              ICU-level care
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={patient.vasopressors ?? false}
+                onChange={(e) => setPatient((p) => ({ ...p, vasopressors: e.target.checked }))}
+              />
+              Vasopressors active
+            </label>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginTop: "12px" }}>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Cultures collected</label>
+              <input
+                type="date"
+                style={inputStyle}
+                value={patient.cultureCollectedOn ?? ""}
+                onChange={(e) => textField("cultureCollectedOn", e.target.value)}
+              />
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Rapid diagnostic resulted</label>
+              <input
+                type="date"
+                style={inputStyle}
+                value={patient.rapidDiagnosticOn ?? ""}
+                onChange={(e) => textField("rapidDiagnosticOn", e.target.value)}
+              />
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Final culture resulted</label>
+              <input
+                type="date"
+                style={inputStyle}
+                value={patient.finalCultureOn ?? ""}
+                onChange={(e) => textField("finalCultureOn", e.target.value)}
+              />
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Source control achieved</label>
+              <input
+                type="date"
+                style={inputStyle}
+                value={patient.sourceControlOn ?? ""}
+                onChange={(e) => textField("sourceControlOn", e.target.value)}
+              />
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Operative source control</label>
+              <input
+                type="date"
+                style={inputStyle}
+                value={patient.operativeSourceControlOn ?? ""}
+                onChange={(e) => textField("operativeSourceControlOn", e.target.value)}
+              />
+            </div>
           </div>
         </div>
 

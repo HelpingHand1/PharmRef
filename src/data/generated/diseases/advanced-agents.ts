@@ -642,6 +642,75 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "notes": "Document the pairing rationale clearly for the next team."
         }
       ],
+      "monitoringActions": [
+        {
+          "trigger": "Rapid diagnostics or carbapenemase testing points to NDM, VIM, or IMP production",
+          "action": "Make sure the ceftazidime-avibactam partner is active and scheduled correctly rather than assuming aztreonam monotherapy has become adequate.",
+          "rationale": "The main preventable failure mode is treating the MBL label with aztreonam alone.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "aztreonam-avibactam-evidence",
+            "clsi-breakpoint-updates"
+          ]
+        },
+        {
+          "trigger": "Allergy clarification suggests broader beta-lactams are actually usable",
+          "action": "Reassess the need for aztreonam the same day and de-escalate if a better-supported beta-lactam can be used safely.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ]
+        }
+      ],
+      "misuseTraps": [
+        {
+          "scenario": "Using aztreonam alone for an MBL-producing isolate because the susceptibility report appears permissive",
+          "risk": "Co-produced serine beta-lactamases can still inactivate aztreonam and create a false sense of definitive coverage.",
+          "saferApproach": "Pair with ceftazidime-avibactam or use another mechanism-directed regimen when MBL biology is present.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "aztreonam-avibactam-evidence",
+            "clsi-breakpoint-updates"
+          ]
+        },
+        {
+          "scenario": "Assuming aztreonam is automatically safe in a patient with immediate ceftazidime allergy",
+          "risk": "The shared side chain can make the allergy workaround unsafe as well as ineffective.",
+          "saferApproach": "Review the exact allergy history and use supervised testing or an alternative plan when ceftazidime reactivity is plausible.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ]
+        }
+      ],
+      "administrationConstraints": [
+        {
+          "title": "MBL regimens need aztreonam and ceftazidime-avibactam coordinated intentionally",
+          "detail": "The combination fails operationally when one agent is timed, adjusted, or handed off independently of the other.",
+          "action": "Link the two drugs in the medication plan and verify combination-testing interpretation in the stewardship note.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "aztreonam-avibactam-evidence",
+            "clsi-breakpoint-updates"
+          ]
+        },
+        {
+          "title": "Spectrum gaps should be named, not assumed covered by momentum",
+          "detail": "Aztreonam does not solve anaerobic or gram-positive needs in polymicrobial syndromes even when the gram-negative target is clear.",
+          "action": "Write the companion-coverage plan explicitly at initiation and reassessment.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ]
+        }
+      ],
+      "siteSpecificAvoidances": [
+        {
+          "site": "Polymicrobial intra-abdominal or aspiration infection without explicit companion coverage",
+          "reason": "Aztreonam leaves important anaerobic and gram-positive gaps that can be missed when allergy concerns dominate the plan.",
+          "preferredApproach": "Add the needed companion agents or use a broader regimen once allergy clarification allows it.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ]
+        }
+      ],
       "penetration": [
         {
           "site": "Urine",
@@ -835,6 +904,75 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "notes": "Leave it on the shelf when standard cefepime or meropenem still works."
         }
       ],
+      "monitoringActions": [
+        {
+          "trigger": "Renal function shifts or a 3 g pneumonia regimen is not being maintained in lung infection",
+          "action": "Correct the dose and infusion strategy the same day rather than accepting lower-exposure carryover from non-pneumonia workflows.",
+          "rationale": "The main preventable failure mode is underdelivering the lung-focused regimen when resistant Pseudomonas is the target.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "aspect-np"
+          ]
+        },
+        {
+          "trigger": "Rapid diagnostics or phenotyping suggests MBL or non-Pseudomonas carbapenemase biology",
+          "action": "Reassess immediately because ceftolozane-tazobactam is not meant to rescue mechanism mismatches.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "aspect-np"
+          ]
+        }
+      ],
+      "misuseTraps": [
+        {
+          "scenario": "Using ceftolozane-tazobactam as a generic broad agent for ESBL or CRE when other preferred drugs are available",
+          "risk": "That burns a valuable Pseudomonas-focused reserve option without solving the actual resistance mechanism problem better.",
+          "saferApproach": "Save it for resistant Pseudomonas or other explicitly supported phenotypes where it offers a clear advantage.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ]
+        },
+        {
+          "scenario": "Continuing the lower cUTI-style regimen into pneumonia or severe bacteremia",
+          "risk": "The wrong dose can turn a microbiologically reasonable choice into an exposure failure.",
+          "saferApproach": "Use the 3 g q8h prolonged-infusion regimen when lung infection or high-inoculum disease is the reason it was selected.",
+          "sourceIds": [
+            "aspect-np",
+            "aspect-cuti-ciai"
+          ]
+        }
+      ],
+      "administrationConstraints": [
+        {
+          "title": "Pneumonia workflows should default to 3 g q8h over 3 hours",
+          "detail": "The lung dose and prolonged infusion are part of the intended resistant-Pseudomonas strategy, not optional escalations to add later.",
+          "action": "Hard-wire the pneumonia build into order sets for HAP/VAP and severe DTR Pseudomonas pathways.",
+          "sourceIds": [
+            "aspect-np",
+            "idsa-2024-amr"
+          ]
+        },
+        {
+          "title": "Elastomeric and post-acute delivery need local stability confirmation",
+          "detail": "Reserve-agent q8h infusion plans can fail after discharge if the receiving program cannot match the intended infusion model.",
+          "action": "Confirm the exact post-acute preparation workflow before promising OPAT or SNF continuation.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "aspect-cuti-ciai"
+          ]
+        }
+      ],
+      "siteSpecificAvoidances": [
+        {
+          "site": "Pneumonia treated with the lower cUTI/cIAI dosing strategy",
+          "reason": "The lower regimen can underdeliver exposure for lung infection and severe resistant Pseudomonas disease.",
+          "preferredApproach": "Use the 3 g q8h extended-infusion pneumonia regimen or choose another active agent.",
+          "sourceIds": [
+            "aspect-np",
+            "idsa-2024-amr"
+          ]
+        }
+      ],
       "penetration": [
         {
           "site": "Lung / epithelial lining fluid",
@@ -1023,6 +1161,74 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "notes": "Keep the reason for choosing it explicit in the stewardship note."
         }
       ],
+      "monitoringActions": [
+        {
+          "trigger": "New encephalopathy, seizure activity, or renal decline while on q6h therapy",
+          "action": "Reassess dosing and drug choice immediately instead of treating the neurotoxicity signal as nonspecific ICU delirium.",
+          "rationale": "Imipenem exposure and CNS vulnerability can become the dominant execution risk quickly.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "restore-imi-1"
+          ]
+        },
+        {
+          "trigger": "Updated microbiology suggests MBL or another relebactam-mismatched phenotype",
+          "action": "Stop treating the regimen as definitive and switch to a mechanism-appropriate option.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "restore-imi-1"
+          ]
+        }
+      ],
+      "misuseTraps": [
+        {
+          "scenario": "Escalating to imipenem-cilastatin-relebactam as a generic carbapenem upgrade without documenting the mechanism",
+          "risk": "This turns a targeted reserve drug into broad emotional escalation and can miss the actual resistant phenotype.",
+          "saferApproach": "Use it only when the organism, site, and susceptibility pattern fit relebactam's role.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "restore-imi-1"
+          ]
+        },
+        {
+          "scenario": "Keeping valproate or other seizure-threshold stressors in place without a neurotoxicity plan",
+          "risk": "Operationally convenient continuation can precipitate breakthrough seizures or force abrupt therapy changes.",
+          "saferApproach": "Coordinate antiepileptic substitution and neurologic monitoring before prolonged therapy.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "restore-imi-1"
+          ]
+        }
+      ],
+      "administrationConstraints": [
+        {
+          "title": "Q6h timing discipline is part of the drug's value",
+          "detail": "Missed or delayed doses erode exposure quickly, especially in ICU patients with changing clearance.",
+          "action": "Treat schedule drift as a pharmacy-nursing workflow issue to fix, not a minor delay to tolerate.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "restore-imi-1"
+          ]
+        },
+        {
+          "title": "Neurotoxicity handoff belongs in transfer and discharge planning",
+          "detail": "This regimen is operationally fragile when neurologic risk, renal instability, and q6h delivery all travel with the patient.",
+          "action": "Document seizure history, renal plan, and why a q6h reserve regimen remains necessary before transfer.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ]
+        }
+      ],
+      "siteSpecificAvoidances": [
+        {
+          "site": "MBL-producing infection regardless of anatomic source",
+          "reason": "Relebactam does not overcome MBL-mediated resistance, so apparent carbapenem escalation does not fix the biology.",
+          "preferredApproach": "Switch to an MBL-active regimen instead of intensifying imipenem-cilastatin-relebactam.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ]
+        }
+      ],
       "penetration": [
         {
           "site": "Lung / epithelial lining fluid",
@@ -1157,6 +1363,75 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "scenario": "Prompt de-escalation once a safer active option appears",
           "role": "The stewardship goal with colistin is usually to get off colistin as soon as microbiology permits.",
           "notes": "Do not keep it just because the patient is already tolerating it today."
+        }
+      ],
+      "monitoringActions": [
+        {
+          "trigger": "Serum creatinine rises, urine output falls, or dialysis needs change after the loading dose",
+          "action": "Recalculate dosing and reassess whether colistin is still necessary instead of simply stretching intervals and hoping toxicity stabilizes.",
+          "rationale": "Nephrotoxicity is the dominant operational failure mode and can evolve before the microbiology plan changes.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "credible-cr"
+          ]
+        },
+        {
+          "trigger": "New paresthesias, weakness, apnea risk, or escalating neuromuscular blocker exposure",
+          "action": "Treat neurotoxicity as a reason to stop or replace colistin, not just a side effect to monitor passively.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ]
+        }
+      ],
+      "misuseTraps": [
+        {
+          "scenario": "Starting or continuing colistin when a newer beta-lactam or sulbactam-based option is active",
+          "risk": "The toxicity burden is rarely justified once a safer active alternative exists.",
+          "saferApproach": "Use colistin only when better tolerated mechanism-appropriate options are truly unavailable or inactive.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "attack",
+            "credible-cr"
+          ]
+        },
+        {
+          "scenario": "Skipping the loading dose or mixing CMS and colistin-base units loosely across handoffs",
+          "risk": "Unit confusion and underloading can produce both early failure and preventable toxicity.",
+          "saferApproach": "Use a protocolized loading strategy with explicit unit language at every order and transfer step.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ]
+        }
+      ],
+      "administrationConstraints": [
+        {
+          "title": "Unit language must be standardized every time",
+          "detail": "Confusion between colistimethate sodium and colistin-base activity remains a serious medication-safety risk.",
+          "action": "Spell out units, formulation, and maintenance strategy in the order and transfer documentation.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ]
+        },
+        {
+          "title": "Colistin needs a predeclared exit strategy",
+          "detail": "Because toxicity accumulates quickly, teams should know what result or clinical milestone would let them stop it.",
+          "action": "Document the stop trigger at initiation and revisit it with each culture update.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "credible-cr"
+          ]
+        }
+      ],
+      "siteSpecificAvoidances": [
+        {
+          "site": "Pneumonia, bloodstream infection, or other deep-seated disease when a safer active reserve agent exists",
+          "reason": "Colistin's narrow therapeutic window and inferior tolerability make it a poor definitive anchor once another active option is available.",
+          "preferredApproach": "Move to the mechanism-directed beta-lactam or sulbactam-based regimen as soon as susceptibilities allow.",
+          "sourceIds": [
+            "idsa-2024-amr",
+            "attack",
+            "credible-cr"
+          ]
         }
       ],
       "penetration": [

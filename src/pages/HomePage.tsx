@@ -1,10 +1,12 @@
 import { useMemo, useState } from "react";
 import { CLASS_GROUPS, groupMonographsByClass } from "../data/derived";
 import { NAV_STATES } from "../styles/constants";
+import { buildPathogenBreakpointPreset } from "../utils/breakpointWorkspacePreset";
 import type {
   DiseaseCatalogSummary,
   MonographCatalogSummary,
   NavigateTo,
+  PathogenReference,
   RecentView,
   Styles,
 } from "../types";
@@ -22,6 +24,7 @@ interface HomePageProps {
   onStartCompare: () => void;
   recentViews: RecentView[];
   S: Styles;
+  pathogens: PathogenReference[];
   theme: import("../types").ThemeKey;
   toggleBookmark: (id: string) => void;
   totalSubcategories: number;
@@ -37,6 +40,7 @@ export default function HomePage({
   onOpenAllergyModal,
   onOpenRecent,
   onStartCompare,
+  pathogens,
   recentViews,
   S,
   theme,
@@ -101,6 +105,17 @@ export default function HomePage({
       onClick: () => navigateTo(NAV_STATES.CALCULATORS),
     },
     {
+      title: "Breakpoint Workspace",
+      detail: "Sanity-check phenotype, site, and susceptibility signals before you lock in therapy.",
+      icon: "🧬",
+      meta: `${pathogens.length} pathogen refs`,
+      onClick: () =>
+        navigateTo(NAV_STATES.BREAKPOINTS, {
+          pathogenId: pathogens[0]?.id ?? null,
+          breakpointPreset: buildPathogenBreakpointPreset(pathogens[0]),
+        }),
+    },
+    {
       title: "Data Audit",
       detail: "Check missing fields and broken content links before the dataset grows further.",
       icon: "🔍",
@@ -138,7 +153,7 @@ export default function HomePage({
               Evidence-based antimicrobial guidance organized by syndrome, organism, and drug monograph. Built for quick scanning on shift and deeper reading when you need the detail.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "20px" }}>
-              {["Detailed monographs", "Organism-specific therapy", "Pharmacist pearls"].map((item) => (
+              {["Detailed monographs", "Pathogen references", "Breakpoint workspace"].map((item) => (
                 <span
                   key={item}
                   style={{
@@ -381,6 +396,33 @@ export default function HomePage({
               ›
             </div>
           </div>
+        ))}
+      </div>
+
+      <div className="section-meta-row" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginTop: "30px", marginBottom: "14px", flexWrap: "wrap" }}>
+        <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>Pathogen References</div>
+        <div style={{ fontSize: "12px", color: S.monographValue.color }}>Jump from phenotype and rapid diagnostics to the right monograph and syndrome context.</div>
+      </div>
+      <div className="home-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "10px" }}>
+        {pathogens.map((pathogen) => (
+          <button
+            key={pathogen.id}
+            type="button"
+            className="pr-card disease-card"
+            style={{ ...S.card, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "8px", marginBottom: 0, padding: "18px 20px", textAlign: "left" }}
+            onClick={() => navigateTo(NAV_STATES.PATHOGEN, { pathogenId: pathogen.id })}
+          >
+            <div style={{ fontSize: "11px", color: S.meta.accent, fontWeight: 700 }}>🧬 PATHOGEN</div>
+            <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{pathogen.name}</div>
+            <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}>{pathogen.phenotype}</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "4px" }}>
+              {pathogen.likelySyndromes.slice(0, 2).map((syndrome) => (
+                <span key={`${pathogen.id}-${syndrome}`} style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                  {syndrome}
+                </span>
+              ))}
+            </div>
+          </button>
         ))}
       </div>
 

@@ -10,6 +10,15 @@ const { buildDrugSearchPreview } = require(path.join(validationRoot, "data/searc
 const { PRIORITY_EXECUTION_MONOGRAPH_IDS } = require(path.join(validationRoot, "data/stewardship.js"));
 
 const derived = buildCatalogDerived(DISEASE_STATES);
+const RESERVE_AGENT_IDS = [
+  "ceftazidime-avibactam",
+  "meropenem-vaborbactam",
+  "cefiderocol",
+  "ceftolozane-tazobactam",
+  "imipenem-cilastatin-relebactam",
+  "colistin",
+  "aztreonam",
+];
 
 test("priority execution monographs expose the structured execution blocks", () => {
   for (const monographId of PRIORITY_EXECUTION_MONOGRAPH_IDS) {
@@ -26,6 +35,19 @@ test("priority execution monographs expose the structured execution blocks", () 
     assert.ok(monograph.opatEligibility, `${monographId} is missing opatEligibility`);
     assert.ok(monograph.interactionActions?.length, `${monographId} is missing interactionActions`);
     assert.ok(monograph.stewardshipUseCases?.length, `${monographId} is missing stewardshipUseCases`);
+  }
+});
+
+test("reserve resistant-pathogen monographs expose execution-risk blocks", () => {
+  for (const monographId of RESERVE_AGENT_IDS) {
+    const record = derived.findMonograph(monographId);
+    assert.ok(record, `Expected reserve monograph ${monographId}`);
+    const monograph = record.monograph;
+
+    assert.ok(monograph.monitoringActions?.length, `${monographId} is missing monitoringActions`);
+    assert.ok(monograph.misuseTraps?.length, `${monographId} is missing misuseTraps`);
+    assert.ok(monograph.administrationConstraints?.length, `${monographId} is missing administrationConstraints`);
+    assert.ok(monograph.siteSpecificAvoidances?.length, `${monographId} is missing siteSpecificAvoidances`);
   }
 });
 
@@ -71,6 +93,20 @@ test("execution-layer search finds IV-to-PO, OPAT, and interaction guidance for 
   assert.ok(ceftazidimeAvibactam, "Expected ceftazidime-avibactam drug result");
   const ceftazidimeAvibactamPreview = buildDrugSearchPreview(ceftazidimeAvibactam, "ceftazidime-avibactam aztreonam NDM");
   assert.match(`${ceftazidimeAvibactamPreview.primary} ${ceftazidimeAvibactamPreview.secondary ?? ""}`, /aztreonam|NDM|MBL|CRE/i);
+
+  const cefiderocolResults = searchCatalog("cefiderocol CRAB source control mortality", derived.searchIndex);
+  assert.ok(cefiderocolResults, "Expected cefiderocol reserve-agent search results");
+  const cefiderocol = cefiderocolResults.drugs.find((entry) => entry.id === "cefiderocol");
+  assert.ok(cefiderocol, "Expected cefiderocol drug result");
+  const cefiderocolPreview = buildDrugSearchPreview(cefiderocol, "cefiderocol CRAB source control mortality");
+  assert.match(`${cefiderocolPreview.primary} ${cefiderocolPreview.secondary ?? ""}`, /CRAB|source control|mortality|reserve/i);
+
+  const aztreonamResults = searchCatalog("aztreonam ceftazidime-avibactam MBL partner", derived.searchIndex);
+  assert.ok(aztreonamResults, "Expected aztreonam mechanism-aware search results");
+  const aztreonam = aztreonamResults.drugs.find((entry) => entry.id === "aztreonam");
+  assert.ok(aztreonam, "Expected aztreonam drug result");
+  const aztreonamPreview = buildDrugSearchPreview(aztreonam, "aztreonam ceftazidime-avibactam MBL partner");
+  assert.match(`${aztreonamPreview.primary} ${aztreonamPreview.secondary ?? ""}`, /MBL|partner|ceftazidime-avibactam|NDM/i);
 
   const fidaxomicinResults = searchCatalog("fidaxomicin recurrence microbiome CDI", derived.searchIndex);
   assert.ok(fidaxomicinResults, "Expected fidaxomicin CDI search results");

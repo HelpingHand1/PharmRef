@@ -59,6 +59,209 @@ export interface ContentMeta {
   governance: ContentGovernance;
 }
 
+export type PatientRapidDiagnosticResult =
+  | "none"
+  | "mrsa"
+  | "mssa"
+  | "esbl"
+  | "kpc"
+  | "mbl"
+  | "dtr-pseudomonas";
+
+export type BreakpointRapidDiagnostic = PatientRapidDiagnosticResult | "candida";
+
+export type SusceptibilityInterpretation =
+  | "susceptible"
+  | "intermediate"
+  | "resistant"
+  | "sdd"
+  | "unknown";
+
+export type SusceptibilityComparator = "<" | "<=" | "=" | ">=" | ">";
+export type SusceptibilityCombinationTestMethod =
+  | "bde"
+  | "local-combo"
+  | "reported-pair"
+  | "not-stated";
+
+export interface NormalizedSusceptibilityObservation {
+  raw: string;
+  normalizedAgentId?: string;
+  agentLabel?: string;
+  interpretation?: SusceptibilityInterpretation;
+  comparator?: SusceptibilityComparator;
+  value?: number;
+  units?: "mg/L" | "mcg/mL";
+  keywords?: string[];
+}
+
+export interface NormalizedCombinationObservation {
+  raw: string;
+  comboId: string;
+  comboLabel: string;
+  memberAgentIds: string[];
+  interpretation?: SusceptibilityInterpretation;
+  testMethod?: SusceptibilityCombinationTestMethod;
+  keywords?: string[];
+}
+
+export interface EvidenceStatement {
+  title: string;
+  detail: string;
+  note?: string;
+  sourceIds?: string[];
+}
+
+export interface ContaminationPitfall {
+  scenario: string;
+  implication: string;
+  action: string;
+  sourceIds?: string[];
+}
+
+export interface ReassessmentCheckpoint {
+  window: "24h" | "48h" | "definitive";
+  title: string;
+  trigger: string;
+  actions: string[];
+  sourceIds?: string[];
+}
+
+export interface DurationAnchorEntry {
+  event: string;
+  anchor: string;
+  rationale?: string;
+  sourceIds?: string[];
+}
+
+export interface MonitoringAction {
+  trigger: string;
+  action: string;
+  rationale?: string;
+  sourceIds?: string[];
+}
+
+export interface MisuseTrap {
+  scenario: string;
+  risk: string;
+  saferApproach: string;
+  sourceIds?: string[];
+}
+
+export interface AdministrationConstraint {
+  title: string;
+  detail: string;
+  action?: string;
+  sourceIds?: string[];
+}
+
+export interface SiteSpecificAvoidance {
+  site: string;
+  reason: string;
+  preferredApproach?: string;
+  sourceIds?: string[];
+}
+
+export interface PathogenTherapyRecommendation {
+  site: string;
+  preferred: string;
+  alternatives?: string[];
+  avoid?: string[];
+  rationale: string;
+  linkedMonographIds?: string[];
+  sourceIds?: string[];
+}
+
+export interface PathogenBreakpointRule {
+  title: string;
+  outcome: "reliable" | "caution" | "avoid";
+  detail: string;
+  site?: string[];
+  interpretation?: SusceptibilityInterpretation[];
+  rapidDiagnostic?: BreakpointRapidDiagnostic[];
+  linkedMonographIds?: string[];
+  sourceIds?: string[];
+}
+
+export interface RelatedPathwayReference {
+  diseaseId: string;
+  subcategoryId?: string;
+  label: string;
+}
+
+export interface PathogenReference {
+  id: string;
+  name: string;
+  phenotype: string;
+  summary: string;
+  likelySyndromes: string[];
+  rapidDiagnosticInterpretation: EvidenceStatement[];
+  contaminationPitfalls: ContaminationPitfall[];
+  resistanceMechanisms: EvidenceStatement[];
+  breakpointCaveats: EvidenceStatement[];
+  preferredTherapyBySite: PathogenTherapyRecommendation[];
+  breakpointRules?: PathogenBreakpointRule[];
+  linkedMonographIds?: string[];
+  relatedPathways?: RelatedPathwayReference[];
+}
+
+export interface SusceptibilityWorkspaceInput {
+  pathogenId?: string;
+  site: string;
+  interpretation: SusceptibilityInterpretation;
+  rapidDiagnostic?: BreakpointRapidDiagnostic;
+  mic?: string;
+  observation?: NormalizedSusceptibilityObservation | null;
+  observations?: NormalizedSusceptibilityObservation[];
+  combinationObservations?: NormalizedCombinationObservation[];
+  dialysis?: PatientContext["dialysis"];
+  crcl?: number | null;
+  patient?: PatientContext;
+}
+
+export interface SusceptibilityWorkspaceFinding {
+  outcome: "reliable" | "caution" | "avoid";
+  title: string;
+  detail: string;
+  linkedMonographIds?: string[];
+  sourceIds?: string[];
+}
+
+export interface SusceptibilityWorkspaceExecutionNote {
+  title: string;
+  detail: string;
+  action?: string;
+  linkedMonographIds?: string[];
+  sourceIds?: string[];
+}
+
+export type WorkflowReadinessStatus =
+  | "ready"
+  | "caution"
+  | "not_ready"
+  | "needs_data"
+  | "not_applicable";
+
+export interface WorkflowReadinessItem {
+  id: string;
+  title: string;
+  status: WorkflowReadinessStatus;
+  summary: string;
+  detail: string;
+  cues: string[];
+}
+
+export interface SusceptibilityWorkspaceResult {
+  pathogen: PathogenReference;
+  matchedTherapy: PathogenTherapyRecommendation[];
+  findings: SusceptibilityWorkspaceFinding[];
+  executionNotes?: SusceptibilityWorkspaceExecutionNote[];
+  comboReadinessItems?: WorkflowReadinessItem[];
+  observation?: NormalizedSusceptibilityObservation | null;
+  observations?: NormalizedSusceptibilityObservation[];
+  combinationObservations?: NormalizedCombinationObservation[];
+}
+
 export interface OverviewEvidenceEntry {
   name: string;
   detail: string;
@@ -255,6 +458,10 @@ export interface Subcategory {
   failureEscalation?: WorkflowBlock;
   consultTriggers?: WorkflowBlock;
   durationAnchor?: WorkflowBlock;
+  diagnosticStewardship?: EvidenceStatement[];
+  reassessmentCheckpoints?: ReassessmentCheckpoint[];
+  contaminationPitfalls?: ContaminationPitfall[];
+  durationAnchors?: DurationAnchorEntry[];
   rapidDiagnostics?: RapidDiagnosticAction[];
   breakpointNotes?: BreakpointNote[];
   intrinsicResistance?: IntrinsicResistanceAlert[];
@@ -355,6 +562,10 @@ export interface DrugMonograph {
   coverageMatrix?: CoverageMatrixRow[];
   interactionActions?: InteractionAction[];
   stewardshipUseCases?: StewardshipUseCase[];
+  monitoringActions?: MonitoringAction[];
+  misuseTraps?: MisuseTrap[];
+  administrationConstraints?: AdministrationConstraint[];
+  siteSpecificAvoidances?: SiteSpecificAvoidance[];
 }
 
 export interface MonographCatalogSummary {
@@ -413,10 +624,20 @@ export interface PatientContext {
   priorDtrPseudomonas?: boolean;
   mrsaNares?: "negative" | "positive" | "pending";
   cultureStatus?: "not_sent" | "pending" | "final";
-  rapidDiagnosticResult?: "none" | "mrsa" | "mssa" | "esbl" | "kpc" | "mbl" | "dtr-pseudomonas";
+  rapidDiagnosticResult?: PatientRapidDiagnosticResult;
   sourceControl?: "achieved" | "pending" | "not_applicable";
   bacteremiaConcern?: boolean;
   endovascularConcern?: boolean;
+  immunocompromised?: boolean;
+  neutropenic?: boolean;
+  transplant?: boolean;
+  icuLevelCare?: boolean;
+  vasopressors?: boolean;
+  cultureCollectedOn?: string;
+  rapidDiagnosticOn?: string;
+  finalCultureOn?: string;
+  sourceControlOn?: string;
+  operativeSourceControlOn?: string;
   activeMedications?: string[];
 }
 
@@ -439,6 +660,8 @@ export type OrganismSearchResult = OrganismSpecific & {
   parentSubcategory: Subcategory;
 };
 
+export type PathogenSearchResult = PathogenReference;
+
 export type SubcategorySearchResult = Subcategory & {
   parentDisease: DiseaseState;
   matchType: "name" | "pearl" | "workflow" | "microbiology" | "empiric";
@@ -453,6 +676,7 @@ export interface SearchResult {
   diseases: DiseaseState[];
   drugs: DrugSearchResult[];
   organisms: OrganismSearchResult[];
+  pathogens: PathogenSearchResult[];
   regimens: RegimenSearchResult[];
   subcategories: SubcategorySearchResult[];
 }
@@ -460,16 +684,26 @@ export interface SearchResult {
 export type RecentView =
   | { type: "disease"; diseaseId: string; label: string; meta: string; icon: string }
   | { type: "subcategory"; diseaseId: string; subcategoryId: string; label: string; meta: string; icon: string }
-  | { type: "monograph"; diseaseId: string; monographId: string; label: string; meta: string; icon: string };
+  | { type: "monograph"; diseaseId: string; monographId: string; label: string; meta: string; icon: string }
+  | { type: "pathogen"; pathogenId: string; label: string; meta: string; icon: string };
 
 export type NavStateKey =
   | "home"
   | "disease_overview"
   | "subcategory"
   | "monograph"
+  | "pathogen"
   | "compare"
   | "audit"
-  | "calculators";
+  | "calculators"
+  | "breakpoints";
+
+export interface BreakpointWorkspacePreset {
+  site?: string | null;
+  rapidDiagnostic?: BreakpointRapidDiagnostic | null;
+  interpretation?: SusceptibilityInterpretation | null;
+  mic?: string | null;
+}
 
 export type NavigateToData = {
   disease?: { id: string } | null;
@@ -478,6 +712,9 @@ export type NavigateToData = {
   subcategoryId?: string | null;
   monograph?: { id: string } | null;
   monographId?: string | null;
+  pathogen?: { id: string } | null;
+  pathogenId?: string | null;
+  breakpointPreset?: BreakpointWorkspacePreset | null;
 };
 
 export type NavigateTo = (state: NavStateKey, data?: NavigateToData) => void;

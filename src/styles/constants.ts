@@ -6,8 +6,10 @@ export const NAV_STATES = {
   DISEASE_OVERVIEW: "disease_overview",
   SUBCATEGORY: "subcategory",
   MONOGRAPH: "monograph",
+  PATHOGEN: "pathogen",
   COMPARE: "compare",
   CALCULATORS: "calculators",
+  BREAKPOINTS: "breakpoints",
 } as const;
 
 // ============================================================
