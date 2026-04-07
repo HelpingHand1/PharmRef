@@ -56,6 +56,37 @@ export interface HartfordEstimate {
   monitoring: string;
 }
 
+export interface ExtendedInfusionEstimate {
+  agent: "cefepime" | "meropenem" | "pip-tazo";
+  regimen: string;
+  rationale: string;
+}
+
+export interface DaptomycinDoseEstimate {
+  mgPerKg: number;
+  totalDoseMg: number;
+}
+
+export interface TmpSmxDoseEstimate {
+  totalTmpMgPerDay: number;
+  tmpMgPerDose: number;
+  dsTabsPerDose: number;
+}
+
+export type ColistinDoseUnit = "million_iu" | "cms_mg" | "cba_mg";
+
+export interface ColistinDoseConversion {
+  millionIU: number;
+  cmsMg: number;
+  cbaMg: number;
+}
+
+export interface AzoleTdmAssessment {
+  goal: string;
+  interpretation: string;
+  action: string;
+}
+
 function roundToTenth(value: number) {
   return Math.round(value * 10) / 10;
 }
@@ -175,4 +206,206 @@ export function calculateHartfordAminoglycoside(crcl: number, weightKg: number):
     interval: "Conventional dosing preferred",
     monitoring: "CrCl <20 — consult clinical pharmacokinetics; avoid extended interval",
   };
+}
+
+export function estimateExtendedInfusionBetaLactam(
+  agent: ExtendedInfusionEstimate["agent"],
+  crcl: number,
+  hasArc = false,
+): ExtendedInfusionEstimate | null {
+  if (!crcl || crcl <= 0) return null;
+
+  const arc = hasArc || crcl >= 120;
+
+  if (agent === "meropenem") {
+    if (arc) {
+      return {
+        agent,
+        regimen: "Meropenem 2 g IV q8h over 3 hours",
+        rationale: "ARC or CrCl >=120 mL/min increases the risk of underexposure; preserve full prolonged-infusion exposure.",
+      };
+    }
+    if (crcl >= 60) {
+      return {
+        agent,
+        regimen: "Meropenem 1-2 g IV q8h over 3 hours",
+        rationale: "Extended infusion improves time above MIC in serious gram-negative infection.",
+      };
+    }
+    if (crcl >= 30) {
+      return {
+        agent,
+        regimen: "Meropenem 1 g IV q12h over 3 hours",
+        rationale: "Moderate renal impairment still supports prolonged infusion, but maintenance intervals usually widen.",
+      };
+    }
+    return {
+      agent,
+      regimen: "Meropenem 1 g IV q24h over 3 hours",
+      rationale: "Severe renal dysfunction requires individualized PK review; verify same-day dosing if renal replacement changes.",
+    };
+  }
+
+  if (agent === "cefepime") {
+    if (arc) {
+      return {
+        agent,
+        regimen: "Cefepime 2 g IV q8h over 3-4 hours",
+        rationale: "ARC and higher MIC gram-negative disease need full q8h extended-infusion exposure.",
+      };
+    }
+    if (crcl >= 60) {
+      return {
+        agent,
+        regimen: "Cefepime 2 g IV q8-12h over 3-4 hours",
+        rationale: "Use the q8h end of the range for severe infection, pneumonia, or higher-MIC organisms.",
+      };
+    }
+    if (crcl >= 30) {
+      return {
+        agent,
+        regimen: "Cefepime 2 g IV q12h over 3-4 hours",
+        rationale: "Moderate renal impairment usually shifts maintenance to q12h while preserving prolonged infusion.",
+      };
+    }
+    return {
+      agent,
+      regimen: "Cefepime 1 g IV q24h over 3 hours",
+      rationale: "Severe renal dysfunction needs close neurotoxicity review and individualized escalation if the syndrome is high risk.",
+    };
+  }
+
+  if (arc) {
+    return {
+      agent,
+      regimen: "Piperacillin-tazobactam 4.5 g IV q6h over 4 hours",
+      rationale: "ARC and serious infection favor aggressive q6h extended infusion instead of convenience dosing.",
+    };
+  }
+  if (crcl >= 60) {
+    return {
+      agent,
+      regimen: "Piperacillin-tazobactam 4.5 g IV q8h over 4 hours",
+      rationale: "Standard severe-infection prolonged infusion schedule.",
+    };
+  }
+  if (crcl >= 20) {
+    return {
+      agent,
+      regimen: "Piperacillin-tazobactam 3.375-4.5 g IV q8-12h over 4 hours",
+      rationale: "Moderate renal impairment still supports prolonged infusion, but interval reduction is usually needed.",
+    };
+  }
+  return {
+    agent,
+    regimen: "Piperacillin-tazobactam 2.25-3.375 g IV q8-12h over 4 hours",
+    rationale: "Severe renal dysfunction or dialysis needs modality-specific review before finalizing the schedule.",
+  };
+}
+
+export function calculateDaptomycinDose(weightKg: number, mgPerKg: number): DaptomycinDoseEstimate | null {
+  if (!weightKg || !mgPerKg || weightKg <= 0 || mgPerKg <= 0) return null;
+  return {
+    mgPerKg: roundToTenth(mgPerKg),
+    totalDoseMg: Math.round((weightKg * mgPerKg) / 50) * 50,
+  };
+}
+
+export function calculateTmpSmxDose(
+  weightKg: number,
+  tmpMgPerKgPerDay: number,
+  dosesPerDay: number,
+): TmpSmxDoseEstimate | null {
+  if (!weightKg || !tmpMgPerKgPerDay || !dosesPerDay || weightKg <= 0 || tmpMgPerKgPerDay <= 0 || dosesPerDay <= 0) {
+    return null;
+  }
+
+  const totalTmpMgPerDay = roundToTenth(weightKg * tmpMgPerKgPerDay);
+  const tmpMgPerDose = roundToTenth(totalTmpMgPerDay / dosesPerDay);
+  return {
+    totalTmpMgPerDay,
+    tmpMgPerDose,
+    dsTabsPerDose: roundToTenth(tmpMgPerDose / 160),
+  };
+}
+
+export function convertColistinDose(value: number, unit: ColistinDoseUnit): ColistinDoseConversion | null {
+  if (!value || value <= 0) return null;
+
+  if (unit === "million_iu") {
+    return {
+      millionIU: roundToTenth(value),
+      cmsMg: roundToTenth(value * 80),
+      cbaMg: roundToTenth(value * 33),
+    };
+  }
+
+  if (unit === "cms_mg") {
+    return {
+      millionIU: roundToTenth(value / 80),
+      cmsMg: roundToTenth(value),
+      cbaMg: roundToTenth((value * 33) / 80),
+    };
+  }
+
+  return {
+    millionIU: roundToTenth(value / 33),
+    cmsMg: roundToTenth((value * 80) / 33),
+    cbaMg: roundToTenth(value),
+  };
+}
+
+export function assessAzoleTrough(
+  agent: "voriconazole" | "posaconazole-prophylaxis" | "posaconazole-treatment",
+  trough: number,
+): AzoleTdmAssessment | null {
+  if (!trough || trough <= 0) return null;
+
+  if (agent === "voriconazole") {
+    if (trough < 1) {
+      return {
+        goal: "1-5.5 mcg/mL",
+        interpretation: "Likely underexposed",
+        action: "Confirm adherence, timing, interactions, and consider maintenance escalation with repeat trough review.",
+      };
+    }
+    if (trough <= 5.5) {
+      return {
+        goal: "1-5.5 mcg/mL",
+        interpretation: "In target range",
+        action: "Continue current dosing if liver tests, neuro-visual symptoms, and QT profile remain acceptable.",
+      };
+    }
+    return {
+      goal: "1-5.5 mcg/mL",
+      interpretation: "High exposure / toxicity risk",
+      action: "Evaluate for hepatotoxicity or neurotoxicity and consider dose reduction or alternate azole strategy.",
+    };
+  }
+
+  if (agent === "posaconazole-prophylaxis") {
+    return trough >= 0.7
+      ? {
+          goal: ">=0.7 mcg/mL",
+          interpretation: "At prophylaxis goal",
+          action: "Maintain regimen if absorption, formulation, and interaction plan remain stable.",
+        }
+      : {
+          goal: ">=0.7 mcg/mL",
+          interpretation: "Below prophylaxis goal",
+          action: "Reassess formulation, food/acid suppression effects, and consider dose/formulation adjustment.",
+        };
+  }
+
+  return trough >= 1
+    ? {
+        goal: ">=1 mcg/mL",
+        interpretation: "At treatment goal",
+        action: "Maintain regimen if clinical response and tolerability are acceptable.",
+      }
+    : {
+        goal: ">=1 mcg/mL",
+        interpretation: "Below treatment goal",
+        action: "Reassess formulation, administration conditions, and interactions before adjusting therapy.",
+      };
 }

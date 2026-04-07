@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 import RegimenEvidencePills from "../components/RegimenEvidencePills";
 import { MONOGRAPH_SUMMARY_BY_ID } from "../data/catalog-manifest";
+import { getCatalogCollectionLabel, getPathwayCollectionLabel } from "../data/topic-surface";
 import {
   buildDiseaseSearchPreview,
   buildDrugSearchPreview,
@@ -12,15 +13,15 @@ import { getConfidenceBadge, getContentFreshness, getMonographContentKey, getSub
 import { NAV_STATES } from "../styles/constants";
 import type { NavigateTo, SearchResult, Styles } from "../types";
 
-type TabLabel = "All" | "Drugs" | "Pathogens" | "Regimens" | "Organisms" | "Syndromes" | "Diseases";
-const ALL_TABS: TabLabel[] = ["All", "Drugs", "Pathogens", "Regimens", "Organisms", "Syndromes", "Diseases"];
+type TabLabel = "All" | "Drugs" | "Pathogens" | "Regimens" | "Organisms" | "Pathways" | "Topics";
+const ALL_TABS: TabLabel[] = ["All", "Drugs", "Pathogens", "Regimens", "Organisms", "Pathways", "Topics"];
 const TAB_GROUPS: Record<string, string> = {
   Drugs: "Drug Monographs",
   Pathogens: "Pathogen References",
   Regimens: "Regimens",
   Organisms: "Organisms",
-  Syndromes: "Subcategories",
-  Diseases: "Disease States",
+  Pathways: getPathwayCollectionLabel(),
+  Topics: getCatalogCollectionLabel(),
 };
 
 const DEFAULT_VISIBLE = 4;
@@ -276,7 +277,9 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
                 });
               }}
             >
-              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🧪 Empiric Regimen</div>
+              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>
+                🧪 {regimen.parentDisease.surfaceMode === "general-pharmacy" ? "Treatment Approach" : "Empiric Regimen"}
+              </div>
               <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading, lineHeight: 1.45 }}>{hl(regimen.regimen)}</div>
               <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
                 {regimen.parentDisease.name}
@@ -322,7 +325,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
       )),
     },
     {
-      title: "Subcategories",
+      title: getPathwayCollectionLabel(),
       items: results.subcategories.map((subcategory) => (
         (() => {
           const resolvedMeta = resolveContentMeta(subcategory, subcategory.parentDisease, {
@@ -342,9 +345,11 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
               <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>
                 📋{" "}
                 {subcategory.matchType === "name"
-                  ? "Matched in title"
+                  ? "Matched in pathway title"
                   : subcategory.matchType === "pearl"
                     ? "Matched in pearls"
+                    : subcategory.matchType === "decision-support"
+                      ? "Matched in decision support"
                     : subcategory.matchType === "microbiology"
                       ? "Matched in microbiology"
                     : subcategory.matchType === "workflow"
@@ -370,7 +375,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
       )),
     },
     {
-      title: "Disease States",
+      title: getCatalogCollectionLabel(),
       items: results.diseases.map((disease) => (
         (() => {
           const resolvedMeta = resolveContentMeta(disease);
@@ -385,7 +390,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
                 navigateTo(NAV_STATES.DISEASE_OVERVIEW, { disease });
               }}
             >
-              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🔬 Disease State</div>
+              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🔬 Clinical Topic</div>
               <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>
                 {disease.icon} {hl(disease.name)}
               </div>
@@ -413,8 +418,8 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
     Pathogens: results.pathogens.length,
     Regimens: results.regimens.length,
     Organisms: results.organisms.length,
-    Syndromes: results.subcategories.length,
-    Diseases: results.diseases.length,
+    Pathways: results.subcategories.length,
+    Topics: results.diseases.length,
   };
 
   return (

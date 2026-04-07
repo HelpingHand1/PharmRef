@@ -4,6 +4,7 @@ const path = require("node:path");
 
 const { DISEASE_STATES } = require(path.resolve(__dirname, "../../.tmp/validation/src/data/index.js"));
 const { buildCatalogDerived } = require(path.resolve(__dirname, "../../.tmp/validation/src/data/derived.js"));
+const { getTreatmentTiers } = require(path.resolve(__dirname, "../../.tmp/validation/src/data/topic-surface.js"));
 
 test("empiric options expose stable ids and valid monograph links", () => {
   const derived = buildCatalogDerived(DISEASE_STATES);
@@ -11,7 +12,7 @@ test("empiric options expose stable ids and valid monograph links", () => {
 
   for (const disease of DISEASE_STATES) {
     for (const subcategory of disease.subcategories) {
-      for (const tier of subcategory.empiricTherapy || []) {
+      for (const tier of getTreatmentTiers(subcategory)) {
         for (const option of tier.options) {
           assert.match(option.id ?? "", /\S/, `${disease.id}/${subcategory.id} is missing an empiric option id`);
           assert.equal(optionIds.has(option.id), false, `duplicate empiric option id ${option.id}`);

@@ -45,6 +45,15 @@ test("search still finds legacy oral step-down osteomyelitis content", () => {
   );
 });
 
+test("search finds definitive MSSA bacteremia decision-support content", () => {
+  const results = searchCatalog("cefazolin definitive MSSA bacteremia", derived.searchIndex);
+  assert.ok(results, "Expected search results for definitive MSSA bacteremia");
+  assert.ok(
+    results.subcategories.some((subcategory) => subcategory.parentDisease.id === "bacteremia-endocarditis" && subcategory.id === "sab-workup"),
+    "Expected SAB workup pathway to match definitive MSSA bacteremia query",
+  );
+});
+
 test("search tokenizes resistant phenotype comparisons like KPC vs NDM", () => {
   const results = searchCatalog("KPC vs NDM", derived.searchIndex);
   assert.ok(results, "Expected search results for KPC vs NDM");

@@ -13,7 +13,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 6,
     "contentMeta": {
       "confidence": "high",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "IDSA 2025 cUTI guidance",
       "sources": [
         {
@@ -31,7 +31,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed 2025 cUTI reclassification, shorter-course recommendations, and IV-to-PO bacteremic UTI guidance."
         }
@@ -53,7 +53,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 5,
     "contentMeta": {
       "confidence": "high",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "ATS/IDSA 2019 CAP guidance",
       "sources": [
         {
@@ -71,7 +71,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed outpatient and inpatient CAP regimen selection, STEP short-course data, and severe CAP steroid updates."
         }
@@ -93,7 +93,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 5,
     "contentMeta": {
       "confidence": "moderate",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "ATS/IDSA 2016 HAP/VAP guidance",
       "sources": [
         {
@@ -111,7 +111,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed HAP/VAP empiric coverage, resistant gram-negative escalation, and ICU stewardship framing."
         }
@@ -133,7 +133,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 3,
     "contentMeta": {
       "confidence": "moderate",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "IDSA SSTI guidance",
       "sources": [
         {
@@ -151,7 +151,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed purulent and nonpurulent SSTI pathways, MRSA coverage boundaries, and oral step-down strategy."
         }
@@ -173,7 +173,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 3,
     "contentMeta": {
       "confidence": "moderate",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "SIS/IDSA intra-abdominal infection guidance",
       "sources": [
         {
@@ -195,7 +195,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed source-control-first IAI management, biliary coverage boundaries, and short-course post-control durations."
         }
@@ -217,7 +217,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 3,
     "contentMeta": {
       "confidence": "high",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "IDSA 2024 AMR guidance",
       "sources": [
         {
@@ -235,7 +235,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed IDSA AMR mechanism-based therapy, carbapenem-sparing strategy, and extended-infusion beta-lactam use."
         }
@@ -257,7 +257,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 5,
     "contentMeta": {
       "confidence": "high",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "ESC 2023 + AHA 2015 IE guidance",
       "sources": [
         {
@@ -279,7 +279,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed bloodstream infection duration, endocarditis evaluation, and oral or OPAT transition criteria."
         }
@@ -301,7 +301,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 4,
     "contentMeta": {
       "confidence": "high",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "IDSA/SHEA CDI guidance",
       "sources": [
         {
@@ -319,7 +319,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed CDI severity stratification, fidaxomicin preference, and recurrence-prevention escalation."
         }
@@ -341,7 +341,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 2,
     "contentMeta": {
       "confidence": "moderate",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "OVIVA-informed bone and joint guidance",
       "sources": [
         {
@@ -359,7 +359,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed osteomyelitis and prosthetic-joint step-down strategy, source control, and OVIVA-aligned oral therapy."
         }
@@ -381,7 +381,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 2,
     "contentMeta": {
       "confidence": "moderate",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "IDSA CNS infection guidance",
       "sources": [
         {
@@ -403,7 +403,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed meningitis and ventriculitis empiric therapy, adjunctive dexamethasone use, and CNS diagnostic priorities."
         }
@@ -425,7 +425,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 4,
     "contentMeta": {
       "confidence": "moderate",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "IDSA 2016 candidiasis and aspergillosis guidance",
       "sources": [
         {
@@ -443,7 +443,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed candidiasis and aspergillosis first-line agents, salvage roles, and therapeutic monitoring priorities."
         }
@@ -465,7 +465,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 8,
     "contentMeta": {
       "confidence": "emerging",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "IDSA 2022-2024 resistant pathogen guidance",
       "sources": [
         {
@@ -487,7 +487,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed reserve-agent positioning for resistant gram-negatives and stewardship boundaries for novel therapies."
         }
@@ -509,7 +509,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 0,
     "contentMeta": {
       "confidence": "moderate",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "IDSA febrile neutropenia guidance",
       "sources": [
         {
@@ -531,7 +531,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed high-risk febrile neutropenia initial coverage, escalation triggers, and outpatient risk stratification."
         }
@@ -553,7 +553,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 0,
     "contentMeta": {
       "confidence": "moderate",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "IWGDF/IDSA diabetic foot guidance",
       "sources": [
         {
@@ -571,7 +571,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed diabetic foot severity staging, debridement and perfusion priorities, and osteomyelitis step-down options."
         }
@@ -585,6 +585,62 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     }
   },
   {
+    "id": "t2dm",
+    "name": "Type 2 Diabetes Mellitus",
+    "icon": "🩸",
+    "category": "Endocrinology",
+    "subcategoryCount": 7,
+    "monographCount": 0,
+    "contentMeta": {
+      "confidence": "high",
+      "lastReviewed": "2026-04-05",
+      "guidelineVersion": "ADA Standards of Care 2026 with KDIGO and Endocrine Society support",
+      "sources": [
+        {
+          "id": "ada-2026-diagnosis",
+          "citation": "ADA Standards of Care 2026 section on diagnosis and classification of diabetes."
+        },
+        {
+          "id": "ada-2026-glycemic-goals",
+          "citation": "ADA Standards of Care 2026 section on glycemic goals and hypoglycemia."
+        },
+        {
+          "id": "ada-2026-pharmacologic",
+          "citation": "ADA Standards of Care 2026 section on pharmacologic approaches to glycemic treatment."
+        },
+        {
+          "id": "ada-2026-cv-risk",
+          "citation": "ADA Standards of Care 2026 section on cardiovascular disease and risk management."
+        },
+        {
+          "id": "ada-2026-ckd-risk",
+          "citation": "ADA Standards of Care 2026 section on chronic kidney disease and risk management."
+        },
+        {
+          "id": "ada-2026-hospital",
+          "citation": "ADA Standards of Care 2026 section on diabetes care in the hospital."
+        },
+        {
+          "id": "ada-kdigo-2022-ckd",
+          "citation": "ADA/KDIGO consensus report supporting cardiorenal layering in diabetes with CKD."
+        }
+      ],
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-04-05",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed adult T2DM diagnosis, target selection, cardiorenal-weight-guided therapy, inpatient glycemic management, and sick-day/discharge medication safety."
+        }
+      ],
+      "reviewedBy": "PharmRef editorial review",
+      "reviewScope": "Disease overview review",
+      "governance": {
+        "owner": "PharmRef editorial review",
+        "approvedBodyVersion": "00a7c066"
+      }
+    }
+  },
+  {
     "id": "sepsis",
     "name": "Sepsis & Septic Shock",
     "icon": "🔴",
@@ -593,7 +649,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 0,
     "contentMeta": {
       "confidence": "high",
-      "lastReviewed": "2026-03-09",
+      "lastReviewed": "2026-04-05",
       "guidelineVersion": "SSC 2021 + Sepsis-3 + BALANCE 2024",
       "sources": [
         {
@@ -611,7 +667,7 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
       ],
       "reviewHistory": [
         {
-          "reviewedOn": "2026-03-09",
+          "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed early sepsis antimicrobials, resistant-risk stratification, and shorter-course de-escalation evidence."
         }

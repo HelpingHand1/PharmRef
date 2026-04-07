@@ -11,6 +11,7 @@ import { FUNGAL_INFECTIONS } from "./generated/diseases/fungal-infections";
 import { ADVANCED_AGENTS } from "./generated/diseases/advanced-agents";
 import { FEBRILE_NEUTROPENIA } from "./generated/diseases/febrile-neutropenia";
 import { DIABETIC_FOOT } from "./generated/diseases/diabetic-foot";
+import { T2DM } from "./generated/diseases/t2dm";
 import { AMR_GN } from "./generated/diseases/amr-gram-negative";
 import { BACTEREMIA_ENDOCARDITIS } from "./generated/diseases/bacteremia-endocarditis";
 import { SEPSIS } from "./generated/diseases/sepsis";
@@ -31,6 +32,7 @@ const RAW_DISEASE_STATES: DiseaseState[] = [
   ADVANCED_AGENTS,
   FEBRILE_NEUTROPENIA,
   DIABETIC_FOOT,
+  T2DM,
   SEPSIS,
 ];
 

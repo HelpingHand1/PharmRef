@@ -224,7 +224,153 @@ export const BONE_JOINT: DiseaseState = {
       "durationAnchor": {
         "status": "ready",
         "summary": "Count duration from the first clearly active regimen after drainage or debridement when performed; most native vertebral osteomyelitis still targets about 6 total weeks, not 6 weeks of unnecessary IV therapy."
-      }
+      },
+      "definitiveTherapy": [
+        {
+          "id": "vertebral-osteo-mssa",
+          "title": "MSSA vertebral osteomyelitis",
+          "organism": "MSSA",
+          "syndrome": "Hematogenous or post-bacteremic vertebral osteomyelitis",
+          "susceptibility": "Methicillin susceptible",
+          "match": {
+            "pathogenIds": [
+              "mssa"
+            ]
+          },
+          "preferred": {
+            "regimen": "Cefazolin IV up front, then a high-bioavailability oral completion plan only after source control and stability are clear",
+            "why": "MSSA bone infection still starts with a bactericidal beta-lactam frame before oral simplification is considered.",
+            "linkedMonographIds": [
+              "cefazolin"
+            ],
+            "sourceIds": [
+              "oviva",
+              "idsa-pji-osteomyelitis"
+            ],
+            "confidence": "moderate"
+          },
+          "acceptable": [
+            {
+              "regimen": "Nafcillin or oxacillin when cefazolin is not the best operational fit",
+              "why": "Still active, but usually less convenient for prolonged delivery.",
+              "linkedMonographIds": [
+                "nafcillin"
+              ],
+              "sourceIds": [
+                "idsa-pji-osteomyelitis"
+              ],
+              "confidence": "moderate"
+            }
+          ],
+          "sourceIds": [
+            "oviva",
+            "idsa-pji-osteomyelitis"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "id": "vertebral-osteo-mrsa",
+          "title": "MRSA vertebral osteomyelitis",
+          "organism": "MRSA",
+          "syndrome": "MRSA bone or epidural-adjacent infection",
+          "susceptibility": "Methicillin resistant",
+          "match": {
+            "pathogenIds": [
+              "mrsa"
+            ]
+          },
+          "preferred": {
+            "regimen": "Vancomycin or daptomycin initially, then linezolid or TMP-SMX completion only when the marrow, interaction, and absorption profile is acceptable",
+            "why": "MRSA bone therapy needs both bacteremia thinking early and oral-exit discipline later.",
+            "linkedMonographIds": [
+              "vancomycin",
+              "daptomycin",
+              "linezolid",
+              "tmp-smx"
+            ],
+            "sourceIds": [
+              "oviva",
+              "idsa-pji-osteomyelitis"
+            ],
+            "confidence": "moderate"
+          },
+          "sourceIds": [
+            "oviva",
+            "idsa-pji-osteomyelitis"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "oralStepDown": [
+        {
+          "id": "vertebral-linezolid",
+          "label": "Linezolid oral completion",
+          "regimen": "Linezolid 600 mg PO q12h",
+          "rank": 1,
+          "match": {
+            "avoidPatientSignals": [
+              "poor_oral_route",
+              "thrombocytopenia",
+              "calcineurin_inhibitor"
+            ]
+          },
+          "eligibilityChecklist": [
+            "MRSA or resistant gram-positive pathogen needs an oral bone-active exit",
+            "Platelet trend and interaction profile are acceptable",
+            "No uncontrolled bacteremia or drainable epidural focus remains"
+          ],
+          "bioavailability": "Essentially IV-equivalent.",
+          "penetration": "Strong bone penetration supports OVIVA-style completion when toxicity is watched closely.",
+          "barrierNotes": [
+            "Weekly CBC and interaction review are part of the drug choice."
+          ],
+          "evidenceStrength": "High oral-bone exposure but toxicity-limited",
+          "linkedMonographIds": [
+            "linezolid"
+          ],
+          "sourceIds": [
+            "oviva"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "durationRules": [
+        {
+          "id": "vertebral-standard-6w",
+          "label": "Standard native vertebral osteomyelitis",
+          "defaultDuration": "About 6 weeks",
+          "anchorEvent": "First clearly active regimen after drainage, debridement, or the decision to manage non-operatively",
+          "appliesWhen": [
+            "Source control is adequate or the non-operative plan is stable"
+          ],
+          "sourceIds": [
+            "oviva",
+            "idsa-pji-osteomyelitis"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "failureEscalationPath": [
+        {
+          "id": "vertebral-48h",
+          "checkpoint": "48-72h",
+          "title": "Pain, CRP, or neurologic trajectory is not moving the right way",
+          "trigger": "The expected early stabilization is not happening.",
+          "likelyCauses": [
+            "Residual epidural or paravertebral collection",
+            "Wrong pathogen assumption",
+            "Insufficient source control"
+          ],
+          "actions": [
+            "Repeat imaging when neurologic or inflammatory signals worsen",
+            "Treat persistent bacteremia as a clue to missed endovascular seeding or deep abscess"
+          ],
+          "sourceIds": [
+            "idsa-pji-osteomyelitis"
+          ],
+          "confidence": "moderate"
+        }
+      ]
     },
     {
       "id": "septic-arthritis",
@@ -565,7 +711,144 @@ export const BONE_JOINT: DiseaseState = {
       "durationAnchor": {
         "status": "ready",
         "summary": "Count duration from the first active regimen after the decisive bone or soft-tissue source-control step: medical management usually needs weeks, while complete resection with clean margins can shorten therapy dramatically."
-      }
+      },
+      "definitiveTherapy": [
+        {
+          "id": "dfo-clean-margin",
+          "title": "Post-resection diabetic foot osteomyelitis with clean margins",
+          "organism": "Resected diabetic foot osteomyelitis",
+          "syndrome": "Post-operative diabetic foot infection",
+          "susceptibility": "Clean-margin resection strategy",
+          "preferred": {
+            "regimen": "Short post-resection antibiotic tail with rapid narrowing to culture-confirmed pathogens",
+            "why": "Adequate surgery changes the antibiotic problem; do not keep a 6-week default just because osteomyelitis appeared in the chart.",
+            "linkedMonographIds": [
+              "cefazolin",
+              "linezolid",
+              "tmp-smx"
+            ],
+            "sourceIds": [
+              "oviva",
+              "iwgdf-idsa-dfi"
+            ],
+            "confidence": "moderate"
+          },
+          "sourceIds": [
+            "oviva",
+            "iwgdf-idsa-dfi"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "id": "dfo-medical-management",
+          "title": "Medical management without complete bone resection",
+          "organism": "Bone-culture-directed diabetic foot osteomyelitis",
+          "syndrome": "Non-resected bone infection",
+          "susceptibility": "Pathogen-directed therapy",
+          "preferred": {
+            "regimen": "Bone-culture-directed regimen with oral completion when bone-active exposure and adherence are realistic",
+            "why": "The deep culture and perfusion plan matter more than superficial wound flora or reflex broad-spectrum continuation.",
+            "linkedMonographIds": [
+              "linezolid",
+              "tmp-smx",
+              "cefazolin",
+              "pip-tazo"
+            ],
+            "sourceIds": [
+              "oviva",
+              "iwgdf-idsa-dfi"
+            ],
+            "confidence": "moderate"
+          },
+          "sourceIds": [
+            "oviva",
+            "iwgdf-idsa-dfi"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "oralStepDown": [
+        {
+          "id": "dfo-linezolid",
+          "label": "Linezolid oral bone completion",
+          "regimen": "Linezolid 600 mg PO q12h",
+          "rank": 1,
+          "match": {
+            "avoidPatientSignals": [
+              "poor_oral_route",
+              "thrombocytopenia",
+              "calcineurin_inhibitor"
+            ]
+          },
+          "eligibilityChecklist": [
+            "MRSA or resistant gram-positive bone infection is confirmed",
+            "Adequate debridement and perfusion plan are in place",
+            "CBC monitoring is realistic"
+          ],
+          "bioavailability": "IV-equivalent oral exposure.",
+          "penetration": "Strong bone and soft-tissue exposure.",
+          "barrierNotes": [
+            "Toxicity and interaction monitoring have to be explicit before discharge."
+          ],
+          "evidenceStrength": "Useful OVIVA-style exit when carefully monitored",
+          "linkedMonographIds": [
+            "linezolid"
+          ],
+          "sourceIds": [
+            "oviva",
+            "iwgdf-idsa-dfi"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "durationRules": [
+        {
+          "id": "dfo-clean-margin-short",
+          "label": "Clean-margin resection",
+          "defaultDuration": "About 1 week",
+          "anchorEvent": "Date of definitive resection with clean margins",
+          "appliesWhen": [
+            "Infected bone is completely removed"
+          ],
+          "sourceIds": [
+            "iwgdf-idsa-dfi"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "id": "dfo-medical-4to6",
+          "label": "Medical management or residual infected bone",
+          "defaultDuration": "4-6 weeks",
+          "anchorEvent": "First active regimen after the decisive debridement or bone-culture result",
+          "sourceIds": [
+            "oviva",
+            "iwgdf-idsa-dfi"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "failureEscalationPath": [
+        {
+          "id": "dfo-48h",
+          "checkpoint": "48-72h",
+          "title": "The foot is still not declaring itself better",
+          "trigger": "Wound progress, perfusion, or inflammatory trajectory remain poor.",
+          "likelyCauses": [
+            "Residual necrotic tissue",
+            "Poor perfusion",
+            "Wrong culture anchor",
+            "Incomplete off-loading"
+          ],
+          "actions": [
+            "Reassess perfusion and revascularization needs",
+            "Do not broaden antibiotics before checking whether debridement and off-loading are actually adequate"
+          ],
+          "sourceIds": [
+            "iwgdf-idsa-dfi"
+          ],
+          "confidence": "moderate"
+        }
+      ]
     }
   ],
   "drugMonographs": [

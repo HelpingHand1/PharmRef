@@ -1,8 +1,9 @@
 // Editorial source for the Advanced Agents disease module.
 // Runtime imports use src/data/generated/diseases/advanced-agents.ts.
 import type { DiseaseState } from "../types";
+import { getDecisionSupportMonographEnhancementsForDisease } from "./decision-support-content";
 import { ADVANCED_AGENTS_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
-import { enhanceDisease } from "./stewardship-content";
+import { enhanceDisease, mergeEnhancementMaps } from "./stewardship-content";
 
 const ADVANCED_AGENTS_BASE: DiseaseState = {
   id: "advanced-agents",
@@ -980,5 +981,8 @@ const ADVANCED_AGENTS_BASE: DiseaseState = {
 export const ADVANCED_AGENTS: DiseaseState = enhanceDisease(
   ADVANCED_AGENTS_BASE,
   {},
-  ADVANCED_AGENTS_MONOGRAPH_ENHANCEMENTS,
+  mergeEnhancementMaps(
+    ADVANCED_AGENTS_MONOGRAPH_ENHANCEMENTS,
+    getDecisionSupportMonographEnhancementsForDisease("advanced-agents"),
+  ),
 );

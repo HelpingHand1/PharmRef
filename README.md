@@ -1,19 +1,19 @@
 # PharmRef
 
-PharmRef is a TypeScript + React + Vite clinical reference app for antimicrobial decision support. It organizes syndrome-level guidance, organism-specific therapy, and drug monographs into a single PWA-style interface optimized for point-of-care browsing.
+PharmRef is a TypeScript + React + Vite clinical pharmacy reference app. It organizes topic-level guidance, care pathways, pathogen references, and drug monographs into a single PWA-style interface optimized for point-of-care browsing.
 
-## Current state (v2.3.0)
+## Current state (v2.4.0)
 
-- 15 disease states
-- 61 subcategories
+- 16 clinical topics
+- 68 care pathways
 - 43 unique drug monographs
 - React 18 + Vite 7 + TypeScript 5
 - PWA build via `vite-plugin-pwa`
-- Static disease-content modules under `src/data/*.ts`
-- Structured disease-level review metadata and source tracking
+- Static topic-content modules under `src/data/*.ts`
+- Structured topic-level review metadata and source tracking
 - Build-time content validation via `npm run validate:content`
 
-### Included disease states
+### Included clinical topics
 
 1. Urinary Tract Infections
 2. Community-Acquired Pneumonia
@@ -29,16 +29,17 @@ PharmRef is a TypeScript + React + Vite clinical reference app for antimicrobial
 12. Advanced Agents (Ceftazidime-Avibactam, Ceftolozane-Tazobactam, Imipenem-Cilastatin-Relebactam, Meropenem-Vaborbactam, Cefiderocol)
 13. Febrile Neutropenia
 14. Diabetic Foot Infections
-15. Sepsis & Septic Shock
+15. Type 2 Diabetes Mellitus
+16. Sepsis & Septic Shock
 
 ## What the app does
 
-- Hash-based navigation for bookmarkable disease, subcategory, monograph, compare, and audit views
+- Hash-based navigation for bookmarkable topic, pathway, monograph, compare, and audit views
 - Scored, ranked full-text search with relevance tiers (exact name → starts-with → contains → class/brand → spectrum/MOA → pearls → notes), filter tabs by content type, show-more/less per section, and match highlighting
 - Drug class browser on the home screen — 14 named class groups + Other, with a filter pill row
-- Organism search cards show disease › subcategory breadcrumb and a preferred-treatment preview line
+- Organism search cards show topic › pathway breadcrumb and a preferred-treatment preview line
 - Share button (🔗) on every monograph and subcategory hero — copies the current URL to clipboard
-- Bookmark button (🔖) on monographs and disease states, persisted in localStorage
+- Bookmark button (🔖) on monographs and clinical topics, persisted in localStorage
 - Compare view for side-by-side drug monographs
 - Patient context panel (weight, sex, age) with inline CrCl, IBW, and AdjBW calculations
 - Six clinical calculators: CrCl (Cockcroft-Gault), IBW/AdjBW, CURB-65, PORT/PSI, Vancomycin AUC, Aminoglycoside dosing
@@ -46,7 +47,7 @@ PharmRef is a TypeScript + React + Vite clinical reference app for antimicrobial
 - Data audit screen for content completeness and cross-reference gaps
 - Reading mode, three themes (dark / light / OLED), toast feedback, copy buttons, and back-to-top
 - Recent-views strip on the home screen for faster return navigation
-- Cross-disease monograph badges when the same drug appears in multiple disease states
+- Cross-topic monograph badges when the same drug appears in multiple clinical topics
 - ESC key closes allergy and patient modals
 - Responsive layout and print-friendly styles
 
@@ -123,23 +124,23 @@ npm run typecheck    # tsc --noEmit
 npm run validate:content
 ```
 
-## Adding a new disease state
+## Adding a new clinical topic
 
-1. Create `src/data/<disease>.ts` exporting one `DiseaseState` (annotate `: DiseaseState` explicitly to catch schema errors early).
+1. Create `src/data/<topic>.ts` exporting one `DiseaseState` (the internal type name is still `DiseaseState` for now; annotate `: DiseaseState` explicitly to catch schema errors early).
 2. Import it in `src/data/index.ts` and add it to `DISEASE_STATES`.
 3. Run `npm run typecheck` and `npm run build`.
 
 ### Content expectations
 
-Each disease module is expected to include:
+Each clinical topic module is expected to include:
 
 - Overview definition, epidemiology, risk factors
 - Key guidelines and landmark trials
-- Subcategories with diagnostics and clinical presentation where relevant
+- Care pathways (`subcategories`) with diagnostics and clinical presentation where relevant
 - Empiric therapy tiers (`empiricTherapy`) with `line` / `options[].regimen` structure
 - Organism-specific therapy (`organismSpecific`) where applicable
 - Pharmacist pearls
-- Drug monographs at the top-level `drugMonographs` array (not nested inside subcategories)
+- Drug monographs at the top-level `drugMonographs` array (not nested inside pathways)
 
 ### Data schema notes
 
@@ -154,18 +155,18 @@ Each disease module is expected to include:
 What is already in place:
 
 - Centralized schema in `src/types.ts`
-- Data modules isolated by disease state
+- Data modules isolated by clinical topic
 - Precomputed lookup/search structures in `src/data/derived.ts`
 - Relevance-scored search engine in `src/hooks/useSearch.ts`
 - Separate Vite build chunks for app code (`vendor`) and disease data (`disease-data`)
 
 Likely next steps when the catalog grows further:
 
-1. Split disease metadata from full disease content so the home screen loads without eagerly pulling every monograph.
+1. Split topic metadata from full topic content so the home screen loads without eagerly pulling every monograph.
 2. Move search indexing into a background worker or prebuilt JSON index if search latency becomes noticeable.
 3. Introduce content validation scripts for duplicate IDs, missing required sections, and cross-link integrity outside the UI audit screen.
-4. Consider route-level or disease-level lazy loading if the data chunk exceeds ~1.5 MB gzipped.
-5. Expand review metadata from disease-level inheritance to subcategory- and monograph-specific provenance where it materially changes recommendations.
+4. Consider route-level or topic-level lazy loading if the data chunk exceeds ~1.5 MB gzipped.
+5. Expand review metadata from topic-level inheritance to pathway- and monograph-specific provenance where it materially changes recommendations.
 
 ## Verification
 

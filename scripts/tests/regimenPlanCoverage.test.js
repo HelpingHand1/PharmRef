@@ -5,6 +5,7 @@ const path = require("node:path");
 const validationRoot = path.resolve(__dirname, "../../.tmp/validation/src");
 const { DISEASE_STATES } = require(path.join(validationRoot, "data/index.js"));
 const { buildCatalogDerived } = require(path.join(validationRoot, "data/derived.js"));
+const { getTreatmentTiers } = require(path.join(validationRoot, "data/topic-surface.js"));
 const { searchCatalog } = require(path.join(validationRoot, "utils/searchCatalog.js"));
 
 const derived = buildCatalogDerived(DISEASE_STATES);
@@ -19,7 +20,7 @@ function findSubcategory(diseaseId, subcategoryId) {
 
 function findOption(diseaseId, subcategoryId, line, drugKey) {
   const subcategory = findSubcategory(diseaseId, subcategoryId);
-  const tiers = subcategory?.empiricTherapy ?? subcategory?.empiricRegimens ?? [];
+  const tiers = subcategory ? getTreatmentTiers(subcategory) : [];
   const tier = tiers.find((entry) => entry.line === line);
   return tier?.options.find((option) => option.drug === drugKey) ?? null;
 }

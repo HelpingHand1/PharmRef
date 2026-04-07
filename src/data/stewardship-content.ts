@@ -1,5 +1,6 @@
 import type { DiseaseState, DrugMonograph, EmpiricOption, Subcategory, WorkflowBlock } from "../types";
 import { getEmpiricOptionContentKey } from "./stewardship";
+import { getTreatmentTiers } from "./topic-surface";
 
 export function ready(summary: string, bullets: string[] = []): WorkflowBlock {
   return {
@@ -55,7 +56,7 @@ export function enhanceDiseaseEmpiricOptions(
   return {
     ...disease,
     subcategories: disease.subcategories.map((subcategory) => {
-      const tiers = subcategory.empiricTherapy ?? subcategory.empiricRegimens;
+      const tiers = getTreatmentTiers(subcategory);
       const subcategoryEnhancements = optionEnhancements[subcategory.id];
 
       if (!tiers || !subcategoryEnhancements) {
@@ -93,9 +94,13 @@ export function enhanceDiseaseEmpiricOptions(
         };
       });
 
-      return subcategory.empiricTherapy
-        ? { ...subcategory, empiricTherapy: updatedTiers }
-        : { ...subcategory, empiricRegimens: updatedTiers };
+      if (subcategory.treatmentApproach) {
+        return { ...subcategory, treatmentApproach: updatedTiers };
+      }
+      if (subcategory.empiricTherapy) {
+        return { ...subcategory, empiricTherapy: updatedTiers };
+      }
+      return { ...subcategory, empiricRegimens: updatedTiers };
     }),
   };
 }

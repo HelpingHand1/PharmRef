@@ -4,6 +4,7 @@ import {
   parseActiveMedicationsInput,
   serializeActiveMedicationsInput,
 } from "../utils/patientMedicationInteractions";
+import { useFocusTrap } from "../utils/focusTrap";
 
 interface PatientModalProps {
   show: boolean;
@@ -43,6 +44,8 @@ export default function PatientModal({
   ibw,
   adjbw,
 }: PatientModalProps) {
+  const trapRef = useFocusTrap(show);
+
   useEffect(() => {
     if (!show) return;
     const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -68,6 +71,17 @@ export default function PatientModal({
 
   function textField(key: keyof PatientContext, value: string) {
     setPatient((p) => ({ ...p, [key]: value || undefined }));
+  }
+
+  function labField(key: keyof NonNullable<PatientContext["labs"]>, value: string) {
+    const parsed = value === "" ? undefined : Number(value);
+    setPatient((p) => ({
+      ...p,
+      labs: {
+        ...(p.labs ?? {}),
+        [key]: Number.isNaN(parsed as number) ? undefined : parsed,
+      },
+    }));
   }
 
   function clear() {
@@ -115,6 +129,7 @@ export default function PatientModal({
       onClick={onClose}
     >
       <div
+        ref={trapRef}
         className="modal-panel"
         role="dialog"
         aria-modal="true"
@@ -363,6 +378,15 @@ export default function PatientModal({
               />
             </div>
             <div style={fieldWrap}>
+              <label style={labelStyle}>Culture clearance date</label>
+              <input
+                type="date"
+                style={inputStyle}
+                value={patient.cultureClearanceOn ?? ""}
+                onChange={(e) => textField("cultureClearanceOn", e.target.value)}
+              />
+            </div>
+            <div style={fieldWrap}>
               <label style={labelStyle}>Source control achieved</label>
               <input
                 type="date"
@@ -379,6 +403,101 @@ export default function PatientModal({
                 value={patient.operativeSourceControlOn ?? ""}
                 onChange={(e) => textField("operativeSourceControlOn", e.target.value)}
               />
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Documented source control</label>
+              <input
+                type="date"
+                style={inputStyle}
+                value={patient.documentedSourceControlOn ?? ""}
+                onChange={(e) => textField("documentedSourceControlOn", e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div
+          style={{
+            marginBottom: "16px",
+            padding: "14px 16px",
+            borderRadius: "16px",
+            border: `1px solid ${isDark ? "#3b3f63" : "#d5d9ee"}`,
+            background: isDark ? "rgba(24, 24, 52, 0.52)" : "rgba(245, 247, 255, 0.82)",
+          }}
+        >
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: isDark ? "#c4b5fd" : "#4338ca", marginBottom: "10px" }}>
+            Decision-Support Signals
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Line access</label>
+              <select
+                style={selectStyle}
+                value={patient.lineAccess ?? ""}
+                onChange={(e) =>
+                  setPatient((p) => ({
+                    ...p,
+                    lineAccess: (e.target.value as PatientContext["lineAccess"]) || undefined,
+                  }))
+                }
+              >
+                <option value="">Not assessed</option>
+                <option value="limited">Limited or unreliable</option>
+                <option value="single_lumen">Single lumen only</option>
+                <option value="multi_lumen">Multiple lumens available</option>
+              </select>
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Transplant / CNI exposure</label>
+              <select
+                style={selectStyle}
+                value={patient.transplantImmunosuppression ?? ""}
+                onChange={(e) =>
+                  setPatient((p) => ({
+                    ...p,
+                    transplantImmunosuppression: (e.target.value as PatientContext["transplantImmunosuppression"]) || undefined,
+                  }))
+                }
+              >
+                <option value="">Not assessed</option>
+                <option value="none">No transplant immunosuppression</option>
+                <option value="calcineurin_inhibitor">Calcineurin inhibitor</option>
+                <option value="other">Other transplant immunosuppression</option>
+              </select>
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "12px", marginTop: "12px" }}>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Platelets</label>
+              <input type="number" min="0" step="1" style={inputStyle} value={patient.labs?.platelets ?? ""} onChange={(e) => labField("platelets", e.target.value)} placeholder="K/uL" />
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>CK</label>
+              <input type="number" min="0" step="1" style={inputStyle} value={patient.labs?.ck ?? ""} onChange={(e) => labField("ck", e.target.value)} placeholder="U/L" />
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>AST</label>
+              <input type="number" min="0" step="1" style={inputStyle} value={patient.labs?.ast ?? ""} onChange={(e) => labField("ast", e.target.value)} placeholder="U/L" />
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>ALT</label>
+              <input type="number" min="0" step="1" style={inputStyle} value={patient.labs?.alt ?? ""} onChange={(e) => labField("alt", e.target.value)} placeholder="U/L" />
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Bilirubin</label>
+              <input type="number" min="0" step="0.1" style={inputStyle} value={patient.labs?.bilirubin ?? ""} onChange={(e) => labField("bilirubin", e.target.value)} placeholder="mg/dL" />
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>ANC</label>
+              <input type="number" min="0" step="0.1" style={inputStyle} value={patient.labs?.anc ?? ""} onChange={(e) => labField("anc", e.target.value)} placeholder="K/uL" />
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Lactate</label>
+              <input type="number" min="0" step="0.1" style={inputStyle} value={patient.labs?.lactate ?? ""} onChange={(e) => labField("lactate", e.target.value)} placeholder="mmol/L" />
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>QTc</label>
+              <input type="number" min="0" step="1" style={inputStyle} value={patient.labs?.qtc ?? ""} onChange={(e) => labField("qtc", e.target.value)} placeholder="ms" />
             </div>
           </div>
         </div>

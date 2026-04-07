@@ -5605,6 +5605,601 @@ export const REGIMEN_CATALOG: RegimenReference[] = [
     "drug": "id-alone"
   },
   {
+    "id": "t2dm/cardiorenal-weight-guided-therapy/ascvd-or-high-cardiovascular-risk/glp1-ascvd-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "cardiorenal-weight-guided-therapy",
+    "subcategoryName": "Cardiorenal and Weight-Guided Therapy",
+    "line": "ASCVD or high cardiovascular risk",
+    "regimen": "Use a GLP-1 receptor agonist with proven cardiovascular benefit when ASCVD predominates, especially if weight loss is also desired",
+    "notes": "This class is particularly attractive when the patient also wants to avoid hypoglycemia and weight gain. The benefit extends beyond A1c reduction, so do not reserve it only for late-line rescue.",
+    "drug": "glp1-ascvd",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 CV Risk Management",
+    "evidenceSourceIds": [
+      "ada-2026-cv-risk"
+    ]
+  },
+  {
+    "id": "t2dm/cardiorenal-weight-guided-therapy/ascvd-or-high-cardiovascular-risk/sglt2-ascvd-2",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "cardiorenal-weight-guided-therapy",
+    "subcategoryName": "Cardiorenal and Weight-Guided Therapy",
+    "line": "ASCVD or high cardiovascular risk",
+    "regimen": "Use an SGLT2 inhibitor with cardiovascular benefit when ASCVD coexists with heart-failure or kidney priorities, or when oral therapy and low hypoglycemia risk are important",
+    "notes": "SGLT2 inhibitors are especially practical when the patient prefers oral therapy, but they require volume and sick-day counseling and are not ideal during active dehydration or perioperative fasting windows.",
+    "drug": "sglt2-ascvd",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 CV Risk Management",
+    "evidenceSourceIds": [
+      "ada-2026-cv-risk"
+    ]
+  },
+  {
+    "id": "t2dm/cardiorenal-weight-guided-therapy/heart-failure-and-ckd-first-sequencing/glp1-after-sglt2-2",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "cardiorenal-weight-guided-therapy",
+    "subcategoryName": "Cardiorenal and Weight-Guided Therapy",
+    "line": "Heart failure and CKD-first sequencing",
+    "regimen": "Add a GLP-1 receptor agonist when glycemic or weight goals remain above target after metformin plus SGLT2 inhibitor, or when SGLT2 therapy is not tolerated",
+    "notes": "This layering approach is especially useful in CKD because it improves glucose and weight without increasing hypoglycemia risk. It is also the preferred add-on when the remaining unmet need is weight loss.",
+    "drug": "glp1-after-sglt2",
+    "evidence": "A-I",
+    "evidenceSource": "KDIGO 2022 Diabetes in CKD",
+    "evidenceSourceIds": [
+      "kdigo-2022-diabetes-ckd"
+    ]
+  },
+  {
+    "id": "t2dm/cardiorenal-weight-guided-therapy/heart-failure-and-ckd-first-sequencing/sglt2-hf-ckd-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "cardiorenal-weight-guided-therapy",
+    "subcategoryName": "Cardiorenal and Weight-Guided Therapy",
+    "line": "Heart failure and CKD-first sequencing",
+    "regimen": "Prioritize an SGLT2 inhibitor for T2DM with symptomatic heart failure or CKD with albuminuria when kidney function and hemodynamics permit",
+    "notes": "This is now a disease-modifying decision, not just a glucose-lowering decision. Review diuretic burden, orthostasis, and peri-illness hold rules before calling the prescription complete.",
+    "drug": "sglt2-hf-ckd",
+    "evidence": "A-I",
+    "evidenceSource": "ADA/KDIGO 2022 CKD Consensus",
+    "evidenceSourceIds": [
+      "ada-kdigo-2022-ckd"
+    ]
+  },
+  {
+    "id": "t2dm/cardiorenal-weight-guided-therapy/lower-cost-or-lower-complexity-fallback-options/sulfonylurea-fallback-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "cardiorenal-weight-guided-therapy",
+    "subcategoryName": "Cardiorenal and Weight-Guided Therapy",
+    "line": "Lower-cost or lower-complexity fallback options",
+    "regimen": "Use a sulfonylurea when cost is the dominant barrier and the patient can reliably eat and recognize hypoglycemia",
+    "notes": "Sulfonylureas can lower A1c effectively, but they trade cost advantage for higher hypoglycemia risk and weight gain. They are generally poor fits for older adults with irregular intake or recurrent lows.",
+    "drug": "sulfonylurea-fallback",
+    "evidence": "B-I",
+    "evidenceSource": "ADA 2026 Pharmacologic Approaches",
+    "evidenceSourceIds": [
+      "ada-2026-pharmacologic"
+    ]
+  },
+  {
+    "id": "t2dm/cardiorenal-weight-guided-therapy/lower-cost-or-lower-complexity-fallback-options/tzd-selective-2",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "cardiorenal-weight-guided-therapy",
+    "subcategoryName": "Cardiorenal and Weight-Guided Therapy",
+    "line": "Lower-cost or lower-complexity fallback options",
+    "regimen": "Use a TZD selectively when insulin resistance is prominent and edema, heart failure, fracture risk, and liver disease are not limiting factors",
+    "notes": "TZDs are durable oral options but are usually a deliberate niche choice rather than a default add-on because weight gain and fluid retention can undo the benefit in the wrong patient.",
+    "drug": "tzd-selective",
+    "evidence": "B-I",
+    "evidenceSource": "ADA 2026 Pharmacologic Approaches",
+    "evidenceSourceIds": [
+      "ada-2026-pharmacologic"
+    ]
+  },
+  {
+    "id": "t2dm/diagnosis-and-glycemic-targets/diagnostic-confirmation-and-target-setting/confirm-diagnosis-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "diagnosis-and-glycemic-targets",
+    "subcategoryName": "Diagnosis and Glycemic Targets",
+    "line": "Diagnostic confirmation and target setting",
+    "regimen": "Confirm T2DM with repeat A1c >=6.5%, fasting plasma glucose >=126 mg/dL, 2-hour OGTT >=200 mg/dL, or random glucose >=200 mg/dL with classic symptoms",
+    "notes": "Repeat testing on a separate day unless symptoms or crisis make the diagnosis clear. At the same visit, stage CKD, albuminuria, ASCVD risk, neuropathy, and retinal follow-up so the first medication decision is not made in a vacuum.",
+    "drug": "confirm-diagnosis",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 Diagnosis & Classification",
+    "evidenceSourceIds": [
+      "ada-2026-diagnosis"
+    ]
+  },
+  {
+    "id": "t2dm/diagnosis-and-glycemic-targets/diagnostic-confirmation-and-target-setting/default-target-2",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "diagnosis-and-glycemic-targets",
+    "subcategoryName": "Diagnosis and Glycemic Targets",
+    "line": "Diagnostic confirmation and target setting",
+    "regimen": "Use an A1c goal near <7% for many adults, then individualize tighter or looser targets based on hypoglycemia risk, frailty, life expectancy, and treatment burden",
+    "notes": "A lower goal can be reasonable when it is safely achievable; a higher goal is often better when recurrent hypoglycemia, cognitive burden, or multimorbidity makes intensive control low-value or unsafe.",
+    "drug": "default-target",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 Glycemic Goals",
+    "evidenceSourceIds": [
+      "ada-2026-glycemic-goals"
+    ]
+  },
+  {
+    "id": "t2dm/diagnosis-and-glycemic-targets/when-severe-hyperglycemia-changes-the-plan/urgent-insulin-evaluation-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "diagnosis-and-glycemic-targets",
+    "subcategoryName": "Diagnosis and Glycemic Targets",
+    "line": "When severe hyperglycemia changes the plan",
+    "regimen": "If A1c >10%, glucose >=300 mg/dL, ketones, dehydration, or catabolic symptoms are present, move toward insulin-based treatment and urgent reassessment instead of routine oral stepwise escalation",
+    "notes": "This is also the point to question whether the presentation truly fits routine T2DM. Delayed insulin in the setting of symptomatic severe hyperglycemia increases admission risk and prolongs clinical recovery.",
+    "drug": "urgent-insulin-evaluation",
+    "evidence": "A-II",
+    "evidenceSource": "ADA 2026 Pharmacologic Approaches",
+    "evidenceSourceIds": [
+      "ada-2026-pharmacologic"
+    ]
+  },
+  {
+    "id": "t2dm/discharge-and-follow-up/follow-up-intensity/early-follow-up-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "discharge-and-follow-up",
+    "subcategoryName": "Discharge and Follow-up",
+    "line": "Follow-up intensity",
+    "regimen": "Arrange follow-up within about 1-2 weeks when insulin is new, doses changed substantially, CKD or heart failure complicates therapy, or severe infection triggered the admission",
+    "notes": "The risk window after discharge is often operational rather than pharmacologic: missing supplies, unclear instructions, or no one reviewing glucose data. Early contact prevents avoidable readmissions.",
+    "drug": "early-follow-up",
+    "evidence": "B-I",
+    "evidenceSource": "ADA 2026 Pharmacologic Approaches",
+    "evidenceSourceIds": [
+      "ada-2026-pharmacologic"
+    ]
+  },
+  {
+    "id": "t2dm/discharge-and-follow-up/restart-delays-and-safety-gates/restart-metformin-safely-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "discharge-and-follow-up",
+    "subcategoryName": "Discharge and Follow-up",
+    "line": "Restart delays and safety gates",
+    "regimen": "Restart metformin only after renal function and perfusion are stable, and delay for about 48 hours after contrast-related hold when renal reassessment is required",
+    "notes": "This keeps the restart tied to objective recovery rather than to the discharge clock. If AKI or poor intake is still evolving, wait.",
+    "drug": "restart-metformin-safely",
+    "evidence": "B-II",
+    "evidenceSource": "FDA metformin renal function guidance",
+    "evidenceSourceIds": [
+      "fda-metformin-renal-guidance"
+    ]
+  },
+  {
+    "id": "t2dm/discharge-and-follow-up/restart-delays-and-safety-gates/restart-sglt2-safely-2",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "discharge-and-follow-up",
+    "subcategoryName": "Discharge and Follow-up",
+    "line": "Restart delays and safety gates",
+    "regimen": "Restart SGLT2 inhibitor therapy only after the patient is eating and drinking normally, hemodynamically stable, and no longer at elevated ketone risk",
+    "notes": "Post-op nausea, poor intake, or ongoing infection are poor conditions for a day-1 restart even when discharge is otherwise appropriate.",
+    "drug": "restart-sglt2-safely",
+    "evidence": "A-II",
+    "evidenceSource": "FDA SGLT2 perioperative warning",
+    "evidenceSourceIds": [
+      "fda-sglt2-perioperative-warning"
+    ]
+  },
+  {
+    "id": "t2dm/discharge-and-follow-up/temporary-insulin-at-discharge/temporary-basal-discharge-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "discharge-and-follow-up",
+    "subcategoryName": "Discharge and Follow-up",
+    "line": "Temporary insulin at discharge",
+    "regimen": "Use temporary basal insulin at discharge when inpatient insulin need remains substantial, A1c is markedly above goal, or oral therapy alone is unlikely to control early post-discharge hyperglycemia",
+    "notes": "A practical approach is to simplify to a conservative once-daily basal plan with written titration instructions instead of sending home the full inpatient correction-scale complexity. Pair this with supply checks and early follow-up.",
+    "drug": "temporary-basal-discharge",
+    "evidence": "B-I",
+    "evidenceSource": "ADA 2026 Diabetes Care in the Hospital",
+    "evidenceSourceIds": [
+      "ada-2026-hospital"
+    ]
+  },
+  {
+    "id": "t2dm/discharge-and-follow-up/when-the-patient-can-largely-return-to-outpatien/return-home-regimen-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "discharge-and-follow-up",
+    "subcategoryName": "Discharge and Follow-up",
+    "line": "When the patient can largely return to outpatient therapy",
+    "regimen": "Return to the preadmission regimen when A1c was already near target, inpatient hyperglycemia was clearly stress-related, and no new renal, hemodynamic, or intake barrier remains",
+    "notes": "This is often the right move after short admissions, but only if the home regimen was actually working before the acute event. A good discharge medication list should distinguish 'resume' from 'resume once safe.'",
+    "drug": "return-home-regimen",
+    "evidence": "B-I",
+    "evidenceSource": "ADA 2026 Diabetes Care in the Hospital",
+    "evidenceSourceIds": [
+      "ada-2026-hospital"
+    ]
+  },
+  {
+    "id": "t2dm/hospital-management-non-icu/preferred-scheduled-insulin-strategies/basal-plus-nonicu-2",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "hospital-management-non-icu",
+    "subcategoryName": "Hospital Management (Non-ICU)",
+    "line": "Preferred scheduled insulin strategies",
+    "regimen": "Use basal insulin plus correction for patients with poor or unpredictable intake when full scheduled prandial insulin would create avoidable hypoglycemia",
+    "notes": "Basal-plus is often the best bridge during infection recovery, intermittent fasting, or procedure-heavy admissions because it respects the unstable nutrition pattern without falling back to correction-only care.",
+    "drug": "basal-plus-nonicu",
+    "evidence": "A-I",
+    "evidenceSource": "Endocrine Society 2022 Inpatient Hyperglycemia",
+    "evidenceSourceIds": [
+      "endocrine-society-2022-hospital-hyperglycemia"
+    ]
+  },
+  {
+    "id": "t2dm/hospital-management-non-icu/preferred-scheduled-insulin-strategies/basal-bolus-nonicu-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "hospital-management-non-icu",
+    "subcategoryName": "Hospital Management (Non-ICU)",
+    "line": "Preferred scheduled insulin strategies",
+    "regimen": "Use scheduled basal-bolus insulin for most non-ICU inpatients with persistent hyperglycemia who are eating reliably",
+    "notes": "This remains the default structured inpatient strategy because it addresses both fasting and nutritional glucose. Match the mealtime component to what the patient is actually eating, not what is written in the generic diet order.",
+    "drug": "basal-bolus-nonicu",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 Diabetes Care in the Hospital",
+    "evidenceSourceIds": [
+      "ada-2026-hospital"
+    ]
+  },
+  {
+    "id": "t2dm/hospital-management-non-icu/select-lower-intensity-alternatives/dpp4-hospital-select-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "hospital-management-non-icu",
+    "subcategoryName": "Hospital Management (Non-ICU)",
+    "line": "Select lower-intensity alternatives",
+    "regimen": "In select stable non-ICU adults with mild hyperglycemia and low insulin requirements, consider DPP-4 inhibitor plus correction insulin instead of full basal-bolus therapy",
+    "notes": "This is a simplification option for carefully chosen patients, not a replacement for scheduled insulin in marked stress hyperglycemia or severe infection. It works best when the patient was previously managed without insulin and is clinically stable.",
+    "drug": "dpp4-hospital-select",
+    "evidence": "B-I",
+    "evidenceSource": "Endocrine Society 2022 Inpatient Hyperglycemia",
+    "evidenceSourceIds": [
+      "endocrine-society-2022-hospital-hyperglycemia"
+    ]
+  },
+  {
+    "id": "t2dm/hospital-management-non-icu/what-not-to-do/avoid-sliding-scale-only-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "hospital-management-non-icu",
+    "subcategoryName": "Hospital Management (Non-ICU)",
+    "line": "What not to do",
+    "regimen": "Avoid sliding-scale-only insulin as the sole regimen for sustained inpatient hyperglycemia",
+    "notes": "Reactive correction without scheduled basal coverage leads to glucose cycling, treatment delay, and preventable overnight instability. Use it only as a short-lived adjunct or in very mild, low-risk situations.",
+    "drug": "avoid-sliding-scale-only",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 Diabetes Care in the Hospital",
+    "evidenceSourceIds": [
+      "ada-2026-hospital"
+    ]
+  },
+  {
+    "id": "t2dm/lifestyle-and-first-line-therapy/foundation-for-most-adults-with-newly-treated-t2/behavior-foundation-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "lifestyle-and-first-line-therapy",
+    "subcategoryName": "Lifestyle and First-Line Therapy",
+    "line": "Foundation for most adults with newly treated T2DM",
+    "regimen": "Start structured diabetes education, nutrition counseling, physical activity progression, sleep support, and weight-focused goal setting at the same time as medication therapy",
+    "notes": "Lifestyle treatment is not a softer version of drug therapy; it is the base layer that improves A1c, weight, blood pressure, and long-term medication durability. Education is most effective when offered up front rather than after control worsens.",
+    "drug": "behavior-foundation",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 Health Behaviors",
+    "evidenceSourceIds": [
+      "ada-2026-health-behaviors"
+    ]
+  },
+  {
+    "id": "t2dm/lifestyle-and-first-line-therapy/foundation-for-most-adults-with-newly-treated-t2/metformin-first-line-2",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "lifestyle-and-first-line-therapy",
+    "subcategoryName": "Lifestyle and First-Line Therapy",
+    "line": "Foundation for most adults with newly treated T2DM",
+    "regimen": "Use metformin as a common first medication when eGFR is >=30 mL/min/1.73 m2 and there is no active hypoxia, shock, or unstable renal function",
+    "notes": "Start low and titrate to minimize GI intolerance. Extended-release formulations often improve adherence. Continue to reassess B12 status over time, especially if neuropathy symptoms emerge or anemia develops.",
+    "drug": "metformin-first-line",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 Pharmacologic Approaches",
+    "evidenceSourceIds": [
+      "ada-2026-pharmacologic"
+    ]
+  },
+  {
+    "id": "t2dm/lifestyle-and-first-line-therapy/if-metformin-is-not-tolerated-or-not-a-good-fit/sglt2-or-glp1-alternative-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "lifestyle-and-first-line-therapy",
+    "subcategoryName": "Lifestyle and First-Line Therapy",
+    "line": "If metformin is not tolerated or not a good fit",
+    "regimen": "Choose an SGLT2 inhibitor or GLP-1 receptor agonist next when cardiorenal benefit or weight benefit is the main priority rather than defaulting to a sulfonylurea",
+    "notes": "This is the clearest example of modern T2DM sequencing: the best next drug is often determined by heart, kidney, and weight goals rather than by A1c alone.",
+    "drug": "sglt2-or-glp1-alternative",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 Pharmacologic Approaches",
+    "evidenceSourceIds": [
+      "ada-2026-pharmacologic"
+    ]
+  },
+  {
+    "id": "t2dm/lifestyle-and-first-line-therapy/if-metformin-is-not-tolerated-or-not-a-good-fit/simple-oral-fallback-2",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "lifestyle-and-first-line-therapy",
+    "subcategoryName": "Lifestyle and First-Line Therapy",
+    "line": "If metformin is not tolerated or not a good fit",
+    "regimen": "Use DPP-4 inhibitor therapy for a low-hypoglycemia, oral-only fallback when potency needs are modest and cost or GI tolerance limit other classes",
+    "notes": "DPP-4 inhibitors are weight neutral and easy to use but have less A1c potency and no meaningful weight-loss benefit. They are a simplification strategy, not an organ-protective strategy.",
+    "drug": "simple-oral-fallback",
+    "evidence": "B-I",
+    "evidenceSource": "ADA 2026 Pharmacologic Approaches",
+    "evidenceSourceIds": [
+      "ada-2026-pharmacologic"
+    ]
+  },
+  {
+    "id": "t2dm/lifestyle-and-first-line-therapy/when-weight-loss-is-a-co-primary-treatment-goal/glp1-weight-priority-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "lifestyle-and-first-line-therapy",
+    "subcategoryName": "Lifestyle and First-Line Therapy",
+    "line": "When weight loss is a co-primary treatment goal",
+    "regimen": "Prioritize a higher-efficacy GLP-1 receptor agonist when obesity, appetite control, and treatment durability matter as much as A1c lowering",
+    "notes": "This is especially useful when the patient wants to avoid insulin, weight gain, or sulfonylurea-associated hypoglycemia. Nausea and affordability remain the main operational barriers, so early counseling matters.",
+    "drug": "glp1-weight-priority",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 Obesity & Weight",
+    "evidenceSourceIds": [
+      "ada-2026-obesity"
+    ]
+  },
+  {
+    "id": "t2dm/sick-day-and-perioperative-management/home-sick-day-rules/hold-metformin-aki-3",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "sick-day-and-perioperative-management",
+    "subcategoryName": "Sick-Day and Perioperative Management",
+    "line": "Home sick-day rules",
+    "regimen": "Hold metformin during significant dehydration, tissue hypoxia, shock, or unstable renal function and restart only after recovery is clear",
+    "notes": "The key operational question is whether kidney function and perfusion are stable enough to trust normal clearance again. Do not rush the restart on the day of persistent AKI.",
+    "drug": "hold-metformin-aki",
+    "evidence": "B-II",
+    "evidenceSource": "FDA metformin renal function guidance",
+    "evidenceSourceIds": [
+      "fda-metformin-renal-guidance"
+    ]
+  },
+  {
+    "id": "t2dm/sick-day-and-perioperative-management/home-sick-day-rules/hold-sglt2-illness-2",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "sick-day-and-perioperative-management",
+    "subcategoryName": "Sick-Day and Perioperative Management",
+    "line": "Home sick-day rules",
+    "regimen": "Hold SGLT2 inhibitor therapy during significant acute illness, dehydration, prolonged fasting, or suspected ketoacidosis",
+    "notes": "This is one of the most important outpatient safety moves because euglycemic DKA can be missed when clinicians focus only on the glucose number.",
+    "drug": "hold-sglt2-illness",
+    "evidence": "A-II",
+    "evidenceSource": "FDA SGLT2 perioperative warning",
+    "evidenceSourceIds": [
+      "fda-sglt2-perioperative-warning"
+    ]
+  },
+  {
+    "id": "t2dm/sick-day-and-perioperative-management/home-sick-day-rules/sick-day-core-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "sick-day-and-perioperative-management",
+    "subcategoryName": "Sick-Day and Perioperative Management",
+    "line": "Home sick-day rules",
+    "regimen": "Increase glucose checks, maintain hydration, continue basal insulin, and seek same-day help if vomiting, ketones, or inability to keep fluids down develops",
+    "notes": "Patients should understand that the problem during acute illness is often dehydration and insulin deficiency physiology rather than the absolute glucose alone. Write the escalation thresholds before illness happens.",
+    "drug": "sick-day-core",
+    "evidence": "A-II",
+    "evidenceSource": "ADA 2026 Diabetes Care in the Hospital",
+    "evidenceSourceIds": [
+      "ada-2026-hospital"
+    ]
+  },
+  {
+    "id": "t2dm/sick-day-and-perioperative-management/perioperative-and-npo-planning/hold-sulfonylurea-day-of-3",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "sick-day-and-perioperative-management",
+    "subcategoryName": "Sick-Day and Perioperative Management",
+    "line": "Perioperative and NPO planning",
+    "regimen": "Hold sulfonylureas on the day of procedure or whenever oral intake is unreliable because the hypoglycemia risk exceeds the glycemic benefit",
+    "notes": "This is especially important for older adults and patients whose fasting duration may be longer than planned.",
+    "drug": "hold-sulfonylurea-day-of",
+    "evidence": "B-I",
+    "evidenceSource": "Endocrine Society 2022 Inpatient Hyperglycemia",
+    "evidenceSourceIds": [
+      "endocrine-society-2022-hospital-hyperglycemia"
+    ]
+  },
+  {
+    "id": "t2dm/sick-day-and-perioperative-management/perioperative-and-npo-planning/npo-basal-plan-2",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "sick-day-and-perioperative-management",
+    "subcategoryName": "Sick-Day and Perioperative Management",
+    "line": "Perioperative and NPO planning",
+    "regimen": "Reduce basal insulin by about 20-25% for many fasting patients while continuing correction insulin and holding prandial insulin until meals resume",
+    "notes": "Larger reductions may be needed with CKD, frailty, or prior fasting hypoglycemia. The safer error is usually conservative basal continuation rather than complete basal omission.",
+    "drug": "npo-basal-plan",
+    "evidence": "B-I",
+    "evidenceSource": "Endocrine Society 2022 Inpatient Hyperglycemia",
+    "evidenceSourceIds": [
+      "endocrine-society-2022-hospital-hyperglycemia"
+    ]
+  },
+  {
+    "id": "t2dm/sick-day-and-perioperative-management/perioperative-and-npo-planning/periop-sglt2-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "sick-day-and-perioperative-management",
+    "subcategoryName": "Sick-Day and Perioperative Management",
+    "line": "Perioperative and NPO planning",
+    "regimen": "Stop most SGLT2 inhibitors 3 days before scheduled surgery and stop ertugliflozin 4 days before surgery",
+    "notes": "Document the stop date clearly; many preventable perioperative euglycemic DKA cases come from vague verbal instructions or last-minute medication reconciliation.",
+    "drug": "periop-sglt2",
+    "evidence": "A-II",
+    "evidenceSource": "FDA SGLT2 perioperative warning",
+    "evidenceSourceIds": [
+      "fda-sglt2-perioperative-warning"
+    ]
+  },
+  {
+    "id": "t2dm/treatment-intensification-and-injectables/above-goal-without-catabolic-symptoms/glp1-before-insulin-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "treatment-intensification-and-injectables",
+    "subcategoryName": "Treatment Intensification and Injectables",
+    "line": "Above goal without catabolic symptoms",
+    "regimen": "Add a GLP-1 receptor agonist before basal insulin in most adults who need injectable intensification but do not have marked hyperglycemia or catabolic symptoms",
+    "notes": "This usually improves A1c with less hypoglycemia and less weight gain than insulin-first escalation. It also simplifies later layering if basal insulin is still needed.",
+    "drug": "glp1-before-insulin",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 Pharmacologic Approaches",
+    "evidenceSourceIds": [
+      "ada-2026-pharmacologic"
+    ]
+  },
+  {
+    "id": "t2dm/treatment-intensification-and-injectables/above-goal-without-catabolic-symptoms/dual-oral-intensification-2",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "treatment-intensification-and-injectables",
+    "subcategoryName": "Treatment Intensification and Injectables",
+    "line": "Above goal without catabolic symptoms",
+    "regimen": "When injectables are not acceptable or not available, add a complementary oral agent with attention to organ benefit, cost, and hypoglycemia risk rather than stacking same-effect therapies",
+    "notes": "Avoid GLP-1 receptor agonist plus DPP-4 inhibitor combinations. Choose sulfonylurea or TZD only after the patient-specific tradeoffs are discussed clearly.",
+    "drug": "dual-oral-intensification",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 Pharmacologic Approaches",
+    "evidenceSourceIds": [
+      "ada-2026-pharmacologic"
+    ]
+  },
+  {
+    "id": "t2dm/treatment-intensification-and-injectables/comparative-durability-and-access-tradeoffs/grade-durability-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "treatment-intensification-and-injectables",
+    "subcategoryName": "Treatment Intensification and Injectables",
+    "line": "Comparative durability and access tradeoffs",
+    "regimen": "When choosing common add-on therapy after metformin, expect better glycemic durability from GLP-1 receptor agonist or basal insulin strategies than from DPP-4 inhibitor therapy alone",
+    "notes": "GRADE reminds us that not all second-line choices fail at the same speed. Use that lesson when the patient is already drifting upward and long-term durability matters more than short-term convenience.",
+    "drug": "grade-durability",
+    "evidence": "B-I",
+    "evidenceSource": "GRADE",
+    "evidenceSourceIds": [
+      "grade-trial"
+    ]
+  },
+  {
+    "id": "t2dm/treatment-intensification-and-injectables/marked-hyperglycemia-or-symptomatic-decompensati/basal-insulin-start-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "treatment-intensification-and-injectables",
+    "subcategoryName": "Treatment Intensification and Injectables",
+    "line": "Marked hyperglycemia or symptomatic decompensation",
+    "regimen": "Start basal insulin when hyperglycemia is marked, symptomatic, catabolic, or clearly beyond the reach of slower oral titration",
+    "notes": "A simple starting frame is a conservative basal dose with written self-titration instructions and concurrent review of any sulfonylurea deintensification needed to reduce hypoglycemia. Continue metformin and organ-protective therapy when safe.",
+    "drug": "basal-insulin-start",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 Pharmacologic Approaches",
+    "evidenceSourceIds": [
+      "ada-2026-pharmacologic"
+    ]
+  },
+  {
+    "id": "t2dm/treatment-intensification-and-injectables/when-basal-insulin-is-no-longer-enough/prandial-intensification-2",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "treatment-intensification-and-injectables",
+    "subcategoryName": "Treatment Intensification and Injectables",
+    "line": "When basal insulin is no longer enough",
+    "regimen": "Add targeted prandial insulin when meal-related hyperglycemia remains dominant despite optimized basal insulin and other noninsulin options",
+    "notes": "Start with the largest meal or the most reproducible postprandial excursion before committing to a full basal-bolus schedule. Complexity should match the patient's health literacy and monitoring capacity.",
+    "drug": "prandial-intensification",
+    "evidence": "A-II",
+    "evidenceSource": "ADA 2026 Pharmacologic Approaches",
+    "evidenceSourceIds": [
+      "ada-2026-pharmacologic"
+    ]
+  },
+  {
+    "id": "t2dm/treatment-intensification-and-injectables/when-basal-insulin-is-no-longer-enough/add-glp1-to-basal-1",
+    "diseaseId": "t2dm",
+    "diseaseName": "Type 2 Diabetes Mellitus",
+    "diseaseIcon": "🩸",
+    "subcategoryId": "treatment-intensification-and-injectables",
+    "subcategoryName": "Treatment Intensification and Injectables",
+    "line": "When basal insulin is no longer enough",
+    "regimen": "If fasting glucose is near target but A1c remains elevated on basal insulin, add a GLP-1 receptor agonist before expanding to full basal-bolus therapy when possible",
+    "notes": "This strategy often improves postprandial control with less weight gain and lower hypoglycemia burden than immediate mealtime insulin in appropriate patients.",
+    "drug": "add-glp1-to-basal",
+    "evidence": "A-I",
+    "evidenceSource": "ADA 2026 Pharmacologic Approaches",
+    "evidenceSourceIds": [
+      "ada-2026-pharmacologic"
+    ]
+  },
+  {
     "id": "uti/pyelonephritis/adjunctive/supportive-1",
     "diseaseId": "uti",
     "diseaseName": "Urinary Tract Infections",

@@ -3,6 +3,14 @@ import { NAV_STATES } from "../styles/constants";
 import type { BreakpointWorkspacePreset, NavigateTo, NavigateToData, NavStateKey } from "../types";
 import { hashToState, resolveBreakpointPreset, stateToHash } from "../utils/navigationState";
 
+const PAGE_TITLES: Record<string, string> = {
+  [NAV_STATES.HOME]: "PharmRef",
+  [NAV_STATES.COMPARE]: "Compare Drugs — PharmRef",
+  [NAV_STATES.CALCULATORS]: "Calculators — PharmRef",
+  [NAV_STATES.BREAKPOINTS]: "Breakpoint Workspace — PharmRef",
+  audit: "Content Audit — PharmRef",
+};
+
 function resolveId(
   explicitId: string | null | undefined,
   item: { id: string } | null | undefined,
@@ -40,6 +48,18 @@ export function useNavigation() {
 
     return () => window.removeEventListener("hashchange", applyHash);
   }, []);
+
+  const updatePageTitle = useCallback((entityName?: string | null) => {
+    if (entityName) {
+      document.title = `${entityName} — PharmRef`;
+    } else {
+      document.title = PAGE_TITLES[navState] ?? "PharmRef";
+    }
+  }, [navState]);
+
+  useEffect(() => {
+    updatePageTitle();
+  }, [updatePageTitle]);
 
   useEffect(() => {
     if (isHashNavigation.current) {
@@ -122,5 +142,6 @@ export function useNavigation() {
     selectedBreakpointPreset,
     selectedPathogenId,
     selectedSubcategoryId,
+    updatePageTitle,
   };
 }

@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { CLASS_GROUPS, groupMonographsByClass } from "../data/derived";
+import { getCatalogCollectionLabel } from "../data/topic-surface";
 import { NAV_STATES } from "../styles/constants";
 import { buildPathogenBreakpointPreset } from "../utils/breakpointWorkspacePreset";
 import type {
@@ -77,8 +78,8 @@ export default function HomePage({
   );
 
   const stats = [
-    { label: "Disease States", value: diseaseStates.length },
-    { label: "Subcategories", value: totalSubcategories },
+    { label: "Clinical Topics", value: diseaseStates.length },
+    { label: "Care Pathways", value: totalSubcategories },
     { label: "Drug Monographs", value: allMonographs.length },
   ];
 
@@ -144,16 +145,16 @@ export default function HomePage({
         <div className="home-hero-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "22px", alignItems: "stretch" }}>
           <div className="home-hero-copy">
             <div style={{ ...S.monographLabel, color: S.meta.accent, marginBottom: "12px", fontSize: "12px" }}>
-              Clinical antibiotic reference
+              Clinical pharmacy reference
             </div>
             <h1 style={{ fontSize: "clamp(30px, 4vw, 42px)", lineHeight: 1.05, letterSpacing: "-0.05em", margin: 0, color: S.meta.textHeading }}>
-              Faster antimicrobial answers, with less visual noise.
+              Faster medication and care-pathway answers, with less visual noise.
             </h1>
             <p style={{ ...S.monographValue, maxWidth: "640px", marginTop: "16px", marginBottom: 0 }}>
-              Evidence-based antimicrobial guidance organized by syndrome, organism, and drug monograph. Built for quick scanning on shift and deeper reading when you need the detail.
+              Evidence-based clinical pharmacy guidance organized by topic, pathway, pathogen, and drug monograph. Built for quick scanning on shift and deeper reading when you need the detail.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "20px" }}>
-              {["Detailed monographs", "Pathogen references", "Breakpoint workspace"].map((item) => (
+              {["Clinical topics", "Drug detail", "Decision support"].map((item) => (
                 <span
                   key={item}
                   style={{
@@ -249,7 +250,7 @@ export default function HomePage({
                 onClick={() => onOpenRecent(recent)}
               >
                 <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>
-                  {recent.icon} {recent.type.toUpperCase()}
+                  {recent.icon} {recent.type === "disease" ? "TOPIC" : recent.type === "subcategory" ? "PATHWAY" : recent.type.toUpperCase()}
                 </div>
                 <div style={{ fontSize: "15px", fontWeight: 700, color: S.meta.textHeading }}>{recent.label}</div>
                 <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{recent.meta}</div>
@@ -320,11 +321,11 @@ export default function HomePage({
                     onClick={() => navigateTo(NAV_STATES.DISEASE_OVERVIEW, { diseaseId: disease.id })}
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                      <div style={{ fontSize: "11px", color: S.meta.accent, fontWeight: 700 }}>{disease.icon} DISEASE</div>
+                      <div style={{ fontSize: "11px", color: S.meta.accent, fontWeight: 700 }}>{disease.icon} TOPIC</div>
                       <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "#fbbf24", fontSize: "14px", padding: "0 0 0 8px" }} onClick={(e) => { e.stopPropagation(); toggleBookmark(id); }} title="Remove bookmark">🔖</button>
                     </div>
                     <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{disease.name}</div>
-                    <div style={{ fontSize: "11px", color: S.monographValue.color }}>{disease.subcategoryCount} subcategories</div>
+                    <div style={{ fontSize: "11px", color: S.monographValue.color }}>{disease.subcategoryCount} pathways</div>
                   </button>
                 );
               }
@@ -335,8 +336,8 @@ export default function HomePage({
       )}
 
       <div className="section-meta-row" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginBottom: "14px", flexWrap: "wrap" }}>
-        <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>Disease States</div>
-        <div style={{ fontSize: "12px", color: S.monographValue.color }}>Browse by syndrome first, then drill into therapy pathways and drug detail.</div>
+        <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>{getCatalogCollectionLabel()}</div>
+        <div style={{ fontSize: "12px", color: S.monographValue.color }}>Browse by topic first, then drill into care pathways, treatment approaches, and drug detail.</div>
       </div>
       <div className="home-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "10px" }}>
         {diseaseStates.map((disease) => (
@@ -372,7 +373,7 @@ export default function HomePage({
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
                 <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
-                  {disease.subcategoryCount} subcategories
+                  {disease.subcategoryCount} pathways
                 </span>
                 <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
                   {disease.monographCount} monographs

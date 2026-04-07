@@ -6,7 +6,7 @@ import type { ContentMetaSeed } from "./editorial/content-meta";
 export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   "uti": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA 2025 cUTI guidance",
     "sources": [
       {
@@ -24,7 +24,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed 2025 cUTI reclassification, shorter-course recommendations, and IV-to-PO bacteremic UTI guidance."
       }
@@ -32,7 +32,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "cap": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "ATS/IDSA 2019 CAP guidance",
     "sources": [
       {
@@ -50,7 +50,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed outpatient and inpatient CAP regimen selection, STEP short-course data, and severe CAP steroid updates."
       }
@@ -58,7 +58,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "hap-vap": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "ATS/IDSA 2016 HAP/VAP guidance",
     "sources": [
       {
@@ -76,7 +76,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed HAP/VAP empiric coverage, resistant gram-negative escalation, and ICU stewardship framing."
       }
@@ -84,7 +84,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "ssti": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA SSTI guidance",
     "sources": [
       {
@@ -102,7 +102,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed purulent and nonpurulent SSTI pathways, MRSA coverage boundaries, and oral step-down strategy."
       }
@@ -110,7 +110,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "iai": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "SIS/IDSA intra-abdominal infection guidance",
     "sources": [
       {
@@ -132,7 +132,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed source-control-first IAI management, biliary coverage boundaries, and short-course post-control durations."
       }
@@ -140,7 +140,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "amr-gn": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA 2024 AMR guidance",
     "sources": [
       {
@@ -158,7 +158,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed IDSA AMR mechanism-based therapy, carbapenem-sparing strategy, and extended-infusion beta-lactam use."
       }
@@ -166,7 +166,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "bacteremia-endocarditis": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "ESC 2023 + AHA 2015 IE guidance",
     "sources": [
       {
@@ -188,7 +188,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed bloodstream infection duration, endocarditis evaluation, and oral or OPAT transition criteria."
       }
@@ -196,7 +196,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "c-difficile": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA/SHEA CDI guidance",
     "sources": [
       {
@@ -214,7 +214,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed CDI severity stratification, fidaxomicin preference, and recurrence-prevention escalation."
       }
@@ -222,7 +222,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "bone-joint": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "OVIVA-informed bone and joint guidance",
     "sources": [
       {
@@ -240,7 +240,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed osteomyelitis and prosthetic-joint step-down strategy, source control, and OVIVA-aligned oral therapy."
       }
@@ -248,7 +248,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "cns-infections": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA CNS infection guidance",
     "sources": [
       {
@@ -270,7 +270,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed meningitis and ventriculitis empiric therapy, adjunctive dexamethasone use, and CNS diagnostic priorities."
       }
@@ -278,7 +278,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "fungal-infections": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA 2016 candidiasis and aspergillosis guidance",
     "sources": [
       {
@@ -296,7 +296,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed candidiasis and aspergillosis first-line agents, salvage roles, and therapeutic monitoring priorities."
       }
@@ -304,7 +304,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "advanced-agents": {
     "confidence": "emerging",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA 2022-2024 resistant pathogen guidance",
     "sources": [
       {
@@ -326,7 +326,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed reserve-agent positioning for resistant gram-negatives and stewardship boundaries for novel therapies."
       }
@@ -334,7 +334,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "febrile-neutropenia": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA febrile neutropenia guidance",
     "sources": [
       {
@@ -356,7 +356,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed high-risk febrile neutropenia initial coverage, escalation triggers, and outpatient risk stratification."
       }
@@ -364,7 +364,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "diabetic-foot": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IWGDF/IDSA diabetic foot guidance",
     "sources": [
       {
@@ -382,7 +382,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed diabetic foot severity staging, debridement and perfusion priorities, and osteomyelitis step-down options."
       }
@@ -390,7 +390,7 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "sepsis": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "SSC 2021 + Sepsis-3 + BALANCE 2024",
     "sources": [
       {
@@ -408,18 +408,246 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed early sepsis antimicrobials, resistant-risk stratification, and shorter-course de-escalation evidence."
+      }
+    ]
+  },
+  "t2dm": {
+    "confidence": "high",
+    "lastReviewed": "2026-04-05",
+    "guidelineVersion": "ADA Standards of Care 2026 with KDIGO and Endocrine Society support",
+    "sources": [
+      {
+        "id": "ada-2026-diagnosis",
+        "citation": "ADA Standards of Care 2026 section on diagnosis and classification of diabetes."
+      },
+      {
+        "id": "ada-2026-glycemic-goals",
+        "citation": "ADA Standards of Care 2026 section on glycemic goals and hypoglycemia."
+      },
+      {
+        "id": "ada-2026-pharmacologic",
+        "citation": "ADA Standards of Care 2026 section on pharmacologic approaches to glycemic treatment."
+      },
+      {
+        "id": "ada-2026-cv-risk",
+        "citation": "ADA Standards of Care 2026 section on cardiovascular disease and risk management."
+      },
+      {
+        "id": "ada-2026-ckd-risk",
+        "citation": "ADA Standards of Care 2026 section on chronic kidney disease and risk management."
+      },
+      {
+        "id": "ada-2026-hospital",
+        "citation": "ADA Standards of Care 2026 section on diabetes care in the hospital."
+      },
+      {
+        "id": "ada-kdigo-2022-ckd",
+        "citation": "ADA/KDIGO consensus report supporting cardiorenal layering in diabetes with CKD."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed adult T2DM diagnosis, target selection, cardiorenal-weight-guided therapy, inpatient glycemic management, and sick-day/discharge medication safety."
       }
     ]
   }
 };
 
 export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
+  "t2dm/diagnosis-and-glycemic-targets": {
+    "confidence": "high",
+    "lastReviewed": "2026-04-05",
+    "guidelineVersion": "ADA 2026 diagnosis and glycemic targets guidance",
+    "sources": [
+      {
+        "id": "ada-2026-diagnosis",
+        "citation": "Diagnostic thresholds, confirmation rules, and phenotype reassessment guidance."
+      },
+      {
+        "id": "ada-2026-glycemic-goals",
+        "citation": "Individualized A1c targets and hypoglycemia-aware goal selection."
+      },
+      {
+        "id": "ada-2026-pharmacologic",
+        "citation": "Thresholds for early insulin when severe hyperglycemia or catabolic symptoms are present."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed diagnostic confirmation rules, individualized A1c targets, and thresholds that should trigger urgent insulin-deficiency reassessment."
+      }
+    ]
+  },
+  "t2dm/lifestyle-and-first-line-therapy": {
+    "confidence": "high",
+    "lastReviewed": "2026-04-05",
+    "guidelineVersion": "ADA 2026 first-line outpatient T2DM care",
+    "sources": [
+      {
+        "id": "ada-2026-health-behaviors",
+        "citation": "Diabetes self-management education, nutrition, activity, and psychosocial support guidance."
+      },
+      {
+        "id": "ada-2026-obesity",
+        "citation": "Weight-management-first treatment framing for adults with T2DM and obesity."
+      },
+      {
+        "id": "ada-2026-pharmacologic",
+        "citation": "Metformin use and medication sequencing for newly treated T2DM."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed diabetes self-management education, weight-forward care, metformin use, and practical first-line sequencing."
+      }
+    ]
+  },
+  "t2dm/cardiorenal-weight-guided-therapy": {
+    "confidence": "high",
+    "lastReviewed": "2026-04-05",
+    "guidelineVersion": "ADA 2026 cardiorenal and weight-prioritized therapy",
+    "sources": [
+      {
+        "id": "ada-2026-cv-risk",
+        "citation": "ASCVD-focused therapy selection and cardiovascular risk management."
+      },
+      {
+        "id": "ada-2026-ckd-risk",
+        "citation": "CKD-focused therapy selection and renal risk management."
+      },
+      {
+        "id": "ada-kdigo-2022-ckd",
+        "citation": "Layered therapy approach for diabetes with CKD."
+      },
+      {
+        "id": "aha-acc-hfsa-2022-heart-failure",
+        "citation": "Heart-failure guidance supporting SGLT2 inhibitor use when HF is present."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed ASCVD, heart-failure, CKD, and obesity-driven sequencing for GLP-1 receptor agonist and SGLT2 inhibitor therapy."
+      }
+    ]
+  },
+  "t2dm/treatment-intensification-and-injectables": {
+    "confidence": "high",
+    "lastReviewed": "2026-04-05",
+    "guidelineVersion": "ADA 2026 intensification guidance with GRADE support",
+    "sources": [
+      {
+        "id": "ada-2026-pharmacologic",
+        "citation": "Injectable sequencing, insulin thresholds, and multi-agent intensification guidance."
+      },
+      {
+        "id": "grade-trial",
+        "citation": "Comparative durability data for common add-on therapies after metformin."
+      },
+      {
+        "id": "ukpds-34",
+        "citation": "Foundational metformin outcome data underpinning durable base therapy."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed when to intensify beyond foundation therapy, when to prefer GLP-1 receptor agonists before insulin, and when basal or prandial insulin is warranted."
+      }
+    ]
+  },
+  "t2dm/hospital-management-non-icu": {
+    "confidence": "high",
+    "lastReviewed": "2026-04-05",
+    "guidelineVersion": "ADA 2026 hospital care with Endocrine Society 2022 inpatient guidance",
+    "sources": [
+      {
+        "id": "ada-2026-hospital",
+        "citation": "Inpatient target range, medication holds, and insulin-therapy principles."
+      },
+      {
+        "id": "endocrine-society-2022-hospital-hyperglycemia",
+        "citation": "Noncritical care insulin strategy and DPP-4-based simplification guidance."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed non-ICU glycemic targets, basal-bolus versus basal-plus insulin strategy, and limited DPP-4-based simplification pathways."
+      }
+    ]
+  },
+  "t2dm/sick-day-and-perioperative-management": {
+    "confidence": "high",
+    "lastReviewed": "2026-04-05",
+    "guidelineVersion": "ADA 2026 hospital/perioperative safety with FDA medication-hold guidance",
+    "sources": [
+      {
+        "id": "ada-2026-hospital",
+        "citation": "Acute illness, perioperative, and medication-hold guidance in hospitalized diabetes care."
+      },
+      {
+        "id": "fda-sglt2-perioperative-warning",
+        "citation": "Perioperative and acute-illness SGLT2 hold safety guidance."
+      },
+      {
+        "id": "fda-metformin-renal-guidance",
+        "citation": "Metformin contrast and renal-function restart guidance."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed dehydration and ketone escalation, perioperative SGLT2 holds, metformin safety holds, and basal insulin handling during fasting."
+      }
+    ]
+  },
+  "t2dm/discharge-and-follow-up": {
+    "confidence": "high",
+    "lastReviewed": "2026-04-05",
+    "guidelineVersion": "ADA 2026 transition-of-care diabetes guidance",
+    "sources": [
+      {
+        "id": "ada-2026-hospital",
+        "citation": "Discharge medication reconciliation and transition-of-care diabetes guidance."
+      },
+      {
+        "id": "ada-2026-pharmacologic",
+        "citation": "Outpatient sequencing logic for post-discharge regimen selection."
+      },
+      {
+        "id": "fda-sglt2-perioperative-warning",
+        "citation": "Safe restart boundaries for SGLT2 therapy after acute illness or procedures."
+      },
+      {
+        "id": "fda-metformin-renal-guidance",
+        "citation": "Safe metformin restart boundaries after kidney-risk events or contrast."
+      }
+    ],
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed discharge medication reconciliation, safe restart timing for metformin and SGLT2 therapy, temporary basal insulin discharge planning, and follow-up timing."
+      }
+    ]
+  },
   "amr-gn/esbl-e": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA 2024 ESBL-E guidance",
     "sources": [
       {
@@ -437,7 +665,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed ESBL empiric boundaries, carbapenem preference, and oral step-down cautions."
       }
@@ -445,7 +673,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "amr-gn/cre-kpc": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA 2024 KPC-CRE guidance",
     "sources": [
       {
@@ -487,7 +715,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed KPC-CRE preferred BL/BLI therapy and definitive selection criteria."
       }
@@ -495,7 +723,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "amr-gn/cre-mbl": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA 2024 MBL-CRE guidance",
     "sources": [
       {
@@ -537,7 +765,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed MBL-CRE salvage strategy, aztreonam combination use, and cefiderocol role."
       }
@@ -545,7 +773,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "amr-gn/dtr-pa": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA 2024 DTR Pseudomonas guidance",
     "sources": [
       {
@@ -587,7 +815,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed DTR Pseudomonas susceptibility-based escalation and newer beta-lactam positioning."
       }
@@ -595,7 +823,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "amr-gn/crab-steno": {
     "confidence": "emerging",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA 2024 CRAB/Stenotrophomonas guidance",
     "sources": [
       {
@@ -637,7 +865,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed CRAB and Stenotrophomonas combination strategies and limited-agent stewardship."
       }
@@ -645,7 +873,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "advanced-agents/cre-management": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "Advanced CRE agent review 2024",
     "sources": [
       {
@@ -679,7 +907,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed mechanism-specific CRE agent selection across KPC, OXA, and MBL phenotypes."
       }
@@ -687,7 +915,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "advanced-agents/mdr-pseudomonas": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "Advanced DTR Pseudomonas agent review 2024",
     "sources": [
       {
@@ -721,7 +949,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed advanced agent positioning for MDR Pseudomonas and susceptibility-guided de-escalation."
       }
@@ -729,7 +957,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "febrile-neutropenia/high-risk-fn": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "IDSA/NCCN high-risk FN guidance",
     "sources": [
       {
@@ -751,7 +979,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed initial anti-pseudomonal coverage and inpatient escalation thresholds for high-risk febrile neutropenia."
       }
@@ -759,7 +987,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "febrile-neutropenia/fn-with-fungal-risk": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "Persistent FN fungal-risk guidance",
     "sources": [
       {
@@ -777,7 +1005,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed persistent-fever fungal evaluation triggers, imaging strategy, and empiric mold coverage."
       }
@@ -785,7 +1013,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "bacteremia-endocarditis/sab-workup": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "SAB workup and IE-screening review",
     "sources": [
       {
@@ -803,7 +1031,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed S. aureus bacteremia bundle elements, repeat-culture timing, and echocardiography triggers."
       }
@@ -811,7 +1039,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "bacteremia-endocarditis/native-valve-ie": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "ESC 2023 / AHA 2015 native-valve IE guidance",
     "sources": [
       {
@@ -829,7 +1057,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed native-valve endocarditis diagnostic criteria, surgical triggers, and oral step-down boundaries."
       }
@@ -837,7 +1065,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "bacteremia-endocarditis/prosthetic-valve-ie": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "ESC 2023 / AHA 2015 prosthetic-valve IE guidance",
     "sources": [
       {
@@ -855,7 +1083,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed prosthetic-valve endocarditis adjunctive therapy risks and multidisciplinary surgical timing."
       }
@@ -863,7 +1091,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "bacteremia-endocarditis/gram-negative-bacteremia": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "Modern uncomplicated GNB duration review",
     "sources": [
       {
@@ -881,7 +1109,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed uncomplicated gram-negative bacteremia duration evidence and IV-to-PO transition criteria."
       }
@@ -889,7 +1117,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "bacteremia-endocarditis/opat-considerations": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "OPAT stewardship review 2024",
     "sources": [
       {
@@ -907,7 +1135,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed OPAT eligibility, monitoring burden, and complications that should block outpatient therapy."
       }
@@ -915,7 +1143,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "sepsis/sepsis-community": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "SSC 2021 + community sepsis stewardship review",
     "sources": [
       {
@@ -933,7 +1161,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed community-onset sepsis empiric framing and early narrowing after source clarification."
       }
@@ -941,7 +1169,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "sepsis/sepsis-hcap": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "SSC 2021 + AMR risk-informed sepsis stewardship",
     "sources": [
       {
@@ -959,7 +1187,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed healthcare-exposure resistance risk, broader empiric coverage boundaries, and de-escalation triggers."
       }
@@ -967,7 +1195,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "sepsis/septic-shock": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "SSC 2021 septic shock guidance",
     "sources": [
       {
@@ -985,7 +1213,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed septic shock antimicrobial timing, hemodynamic support references, and post-control de-escalation."
       }
@@ -996,7 +1224,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
 export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   "ceftazidime-avibactam": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "KPC-CRE and resistant Enterobacterales data",
     "sources": [
       {
@@ -1038,7 +1266,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed KPC-CRE positioning, definitive-use boundaries, and outcome data for deep-seated infection."
       }
@@ -1046,7 +1274,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "meropenem-vaborbactam": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "KPC-CRE beta-lactam/BLI data",
     "sources": [
       {
@@ -1080,7 +1308,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed KPC-CRE efficacy data, definitive-use positioning, and cUTI registration support."
       }
@@ -1088,7 +1316,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "cefiderocol": {
     "confidence": "emerging",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "Cefiderocol resistant gram-negative evidence review",
     "sources": [
       {
@@ -1130,7 +1358,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed salvage use in MBL and resistant gram-negative infections and outcome-signal cautions."
       }
@@ -1138,7 +1366,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "aztreonam": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "Aztreonam MBL-pairing and allergy-use review",
     "sources": [
       {
@@ -1172,7 +1400,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed aztreonam use in MBL pairing strategies, allergy-driven selection, and key spectrum gaps."
       }
@@ -1180,7 +1408,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "ceftolozane-tazobactam": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "DTR Pseudomonas targeted beta-lactam data",
     "sources": [
       {
@@ -1214,7 +1442,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed DTR Pseudomonas positioning, pulmonary data, and exposure-driven dosing considerations."
       }
@@ -1222,7 +1450,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "imipenem-cilastatin-relebactam": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "Relebactam resistant Pseudomonas and CRE data",
     "sources": [
       {
@@ -1256,7 +1484,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed relebactam use in resistant Pseudomonas and KPC-CRE with comparative outcome data."
       }
@@ -1264,7 +1492,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "colistin": {
     "confidence": "emerging",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "Colistin salvage-use evidence review",
     "sources": [
       {
@@ -1282,7 +1510,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed nephrotoxicity-limited salvage role and reasons to prefer newer agents when available."
       }
@@ -1290,7 +1518,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "tedizolid": {
     "confidence": "emerging",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "Tedizolid stewardship evidence review",
     "sources": [
       {
@@ -1308,7 +1536,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed off-label stewardship limits, skin-structure data, and prolonged-use uncertainty."
       }
@@ -1316,7 +1544,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "posaconazole": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "Posaconazole prophylaxis and salvage-use data",
     "sources": [
       {
@@ -1334,7 +1562,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed prophylaxis indications, salvage therapy role, and therapeutic drug monitoring targets."
       }
@@ -1342,7 +1570,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "liposomal-amphotericin-b": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "L-AmB invasive fungal infection guidance",
     "sources": [
       {
@@ -1364,7 +1592,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed invasive mold and mucormycosis role with renal and electrolyte monitoring priorities."
       }
@@ -1372,7 +1600,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "vancomycin": {
     "confidence": "high",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "AUC-guided vancomycin monitoring review",
     "sources": [
       {
@@ -1390,7 +1618,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed AUC-guided dosing, bacteremia and endocarditis roles, and nephrotoxicity mitigation."
       }
@@ -1398,7 +1626,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "daptomycin": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "High-dose daptomycin SAB/IE review",
     "sources": [
       {
@@ -1416,7 +1644,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed high-dose SAB and endocarditis use, salvage combinations, and monitoring priorities."
       }
@@ -1424,7 +1652,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "cefazolin": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "MSSA bacteremia beta-lactam review",
     "sources": [
       {
@@ -1442,7 +1670,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed MSSA bacteremia role, inoculum-effect caveats, and beta-lactam comparative outcomes."
       }
@@ -1450,7 +1678,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "nafcillin": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "Anti-staphylococcal penicillin review",
     "sources": [
       {
@@ -1468,7 +1696,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed anti-staphylococcal penicillin use in deep MSSA infection and OPAT tolerability tradeoffs."
       }
@@ -1476,7 +1704,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "ceftriaxone": {
     "confidence": "moderate",
-    "lastReviewed": "2026-03-09",
+    "lastReviewed": "2026-04-05",
     "guidelineVersion": "Ceftriaxone endocarditis/OPAT review",
     "sources": [
       {
@@ -1494,7 +1722,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     ],
     "reviewHistory": [
       {
-        "reviewedOn": "2026-03-09",
+        "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed streptococcal endocarditis and bloodstream infection role with once-daily OPAT advantages."
       }

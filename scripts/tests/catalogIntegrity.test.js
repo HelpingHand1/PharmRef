@@ -4,6 +4,7 @@ const path = require("node:path");
 
 const { DISEASE_STATES } = require(path.resolve(__dirname, "../../.tmp/validation/src/data/index.js"));
 const { buildCatalogDerived } = require(path.resolve(__dirname, "../../.tmp/validation/src/data/derived.js"));
+const { getTreatmentTiers } = require(path.resolve(__dirname, "../../.tmp/validation/src/data/topic-surface.js"));
 const {
   computeDiseaseOverviewFingerprint,
   getMonographContentKey,
@@ -25,12 +26,12 @@ const {
 
 test("catalog derived counts stay stable", () => {
   const derived = buildCatalogDerived(DISEASE_STATES);
-  assert.equal(DISEASE_STATES.length, 15);
-  assert.equal(derived.totalSubcategories, 61);
+  assert.equal(DISEASE_STATES.length, 16);
+  assert.equal(derived.totalSubcategories, 68);
   assert.equal(derived.allMonographs.length, 43);
   assert.equal(derived.allPathogens.length, 9);
-  assert.equal(derived.allRegimens.length, 376);
-  assert.equal(derived.searchIndex.length, 683);
+  assert.equal(derived.allRegimens.length, 411);
+  assert.equal(derived.searchIndex.length, 726);
   assert.equal(derived.findMonograph("vancomycin")?.monograph.name, "Vancomycin");
   assert.ok((derived.regimenXref.vancomycin?.length ?? 0) > 0);
 });
@@ -124,7 +125,7 @@ test("all empiric evidence labels resolve through the canonical source registry"
 
   for (const disease of DISEASE_STATES) {
     for (const subcategory of disease.subcategories) {
-      for (const tier of subcategory.empiricTherapy || []) {
+      for (const tier of getTreatmentTiers(subcategory)) {
         for (const option of tier.options) {
           if (option.evidenceSource && resolveEvidenceSourceText(option.evidenceSource).length === 0) {
             unresolved.add(option.evidenceSource);
@@ -142,7 +143,7 @@ test("all empiric evidence labels resolve to direct-locator sources", () => {
 
   for (const disease of DISEASE_STATES) {
     for (const subcategory of disease.subcategories) {
-      for (const tier of subcategory.empiricTherapy || []) {
+      for (const tier of getTreatmentTiers(subcategory)) {
         for (const option of tier.options) {
           if (!option.evidenceSource) continue;
           const sources = resolveEvidenceSourceText(option.evidenceSource);
@@ -288,6 +289,20 @@ test("curated overview sources expose direct locators", () => {
     "kern-1999-low-risk-fn",
     "cornely-2007-posaconazole",
     "wingard-2010-voriconazole",
+    "ada-2026-diagnosis",
+    "ada-2026-glycemic-goals",
+    "ada-2026-pharmacologic",
+    "ada-2026-cv-risk",
+    "ada-2026-ckd-risk",
+    "ada-2026-hospital",
+    "ada-kdigo-2022-ckd",
+    "fda-sglt2-perioperative-warning",
+    "fda-metformin-renal-guidance",
+    "ukpds-34",
+    "empa-reg-outcome",
+    "leader",
+    "dapa-ckd",
+    "grade-trial",
   ];
 
   ids.forEach((sourceId) => {

@@ -17,7 +17,17 @@ import {
 import { hasMicrobiologyContent } from "../data/microbiology";
 import { NAV_STATES } from "../styles/constants";
 import { getSubcategoryContentKey, resolveContentMeta } from "../data/metadata";
-import { getPreferredRegimenText, getSubcategoryWorkflowEntries } from "../data/stewardship";
+import {
+  getPathwayWorkflowGroupTitles,
+  getPreferredRegimenText,
+  getSubcategoryWorkflowEntries,
+} from "../data/stewardship";
+import {
+  getTreatmentSectionTitle,
+  getTreatmentSummaryLabel,
+  getTreatmentTiers,
+  showsInfectiousDetail,
+} from "../data/topic-surface";
 import { buildPathogenBreakpointPreset } from "../utils/breakpointWorkspacePreset";
 import { hasAnyPatientSignals } from "../utils/regimenGuidance";
 import { getPatientFitSortRank, getRegimenPatientFit } from "../utils/patientFit";
@@ -27,17 +37,36 @@ import {
 } from "../utils/patientStewardshipSummary";
 import { getPathwayReassessmentItems } from "../utils/patientReassessmentEngine";
 import { getPathwayTransitionReadiness } from "../utils/patientTransitionReadiness";
+import {
+  getDecisionSupportSiteHint,
+  mapRapidDiagnosticToPathogenId,
+  rankDecisionMatches,
+} from "../utils/decisionSupport";
 import type {
   AllergyRecord,
   EvidenceStatement,
   DiseaseState,
+  DefinitiveTherapyRule,
   InteractionAction,
   MonographLookupResult,
   NavigateTo,
+  OralStepDownOption,
   PatientContext,
   Styles,
   Subcategory,
 } from "../types";
+
+const DECISION_STATE_STYLES = {
+  matched: { color: "#059669", border: "rgba(5,150,105,0.28)", background: "rgba(5,150,105,0.10)", label: "Matched" },
+  needs_context: { color: "#d97706", border: "rgba(217,119,6,0.28)", background: "rgba(217,119,6,0.10)", label: "Needs context" },
+  not_applicable: { color: "#64748b", border: "rgba(100,116,139,0.28)", background: "rgba(100,116,139,0.10)", label: "Not applicable" },
+} as const;
+
+const CONFIDENCE_STYLES = {
+  high: { color: "#0284c7", border: "rgba(2,132,199,0.28)", background: "rgba(2,132,199,0.10)" },
+  moderate: { color: "#7c3aed", border: "rgba(124,58,237,0.28)", background: "rgba(124,58,237,0.10)" },
+  emerging: { color: "#b45309", border: "rgba(180,83,9,0.28)", background: "rgba(180,83,9,0.10)" },
+} as const;
 
 function renderWorkflowCards(
   entries: ReturnType<typeof getSubcategoryWorkflowEntries>,
@@ -160,36 +189,71 @@ export default function SubcategoryPage({
   const { meta: pageMeta, inherited } = resolveContentMeta(subcategory, disease, {
     contentKey: getSubcategoryContentKey(disease.id, subcategory.id),
   });
+  const treatmentTiers = getTreatmentTiers(subcategory);
+  const surfaceShowsInfectiousDetail = showsInfectiousDetail(disease);
+  const workflowGroupTitles = getPathwayWorkflowGroupTitles(disease);
   const hasPatientContext = hasAnyPatientSignals(patient);
-  const workflowEntries = getSubcategoryWorkflowEntries(subcategory);
+  const workflowEntries = getSubcategoryWorkflowEntries(subcategory, disease);
   const diagnosticWorkflow = workflowEntries.filter((entry) => entry.id === "workflow-diagnostics");
   const reassessmentWorkflow = workflowEntries.filter((entry) => entry.id === "workflow-reassessment");
   const transitionWorkflow = workflowEntries.filter((entry) => entry.id === "workflow-transition");
-  const hasMicrobiology = hasMicrobiologyContent(subcategory);
-  const relatedPathogens = catalogDerived?.findPathogensForSubcategory(disease.id, subcategory.id) ?? [];
-  const pathwayNotes = getInstitutionPathwayNotes(disease.id, subcategory.id, INSTITUTION_PROFILE);
-  const pathwayAntibiogram = getInstitutionPathwayAntibiogram(disease.id, subcategory.id, INSTITUTION_PROFILE);
+  const hasMicrobiology = surfaceShowsInfectiousDetail && hasMicrobiologyContent(subcategory);
+  const relatedPathogens = surfaceShowsInfectiousDetail
+    ? catalogDerived?.findPathogensForSubcategory(disease.id, subcategory.id) ?? []
+    : [];
+  const pathwayNotes = surfaceShowsInfectiousDetail
+    ? getInstitutionPathwayNotes(disease.id, subcategory.id, INSTITUTION_PROFILE)
+    : [];
+  const pathwayAntibiogram = surfaceShowsInfectiousDetail
+    ? getInstitutionPathwayAntibiogram(disease.id, subcategory.id, INSTITUTION_PROFILE)
+    : [];
   const patientTags = buildPatientContextTags(patient, crcl);
-  const patientReassessmentFocus = getPatientReassessmentFocus(patient);
-  const pathwayTransitionReadiness = getPathwayTransitionReadiness(patient);
-  const pathwayReassessmentItems = getPathwayReassessmentItems(subcategory, patient);
-  const patientFitOptions = (subcategory.empiricTherapy ?? [])
-    .flatMap((tier) =>
-      tier.options.map((option) => {
-        const regimenText = getPreferredRegimenText(option.regimen, option.plan);
-        const reference = option.monographId ?? option.drug;
-        const interactionActions = collectOptionInteractionActions(option, findMonograph);
-        const fit = getRegimenPatientFit(regimenText, reference, patient, crcl, option.plan, interactionActions);
-        const found = option.monographId ? findMonograph(option.monographId) : null;
-        return {
-          fit,
-          label: found?.monograph.name ?? regimenText,
-          line: tier.line,
-          regimenText,
-        };
-      }),
-    )
-    .sort((left, right) => getPatientFitSortRank(left.fit) - getPatientFitSortRank(right.fit));
+  const patientReassessmentFocus = surfaceShowsInfectiousDetail ? getPatientReassessmentFocus(patient) : [];
+  const pathwayTransitionReadiness = surfaceShowsInfectiousDetail ? getPathwayTransitionReadiness(patient) : [];
+  const pathwayReassessmentItems = surfaceShowsInfectiousDetail ? getPathwayReassessmentItems(subcategory, patient) : [];
+  const decisionSiteHint = getDecisionSupportSiteHint(disease.id, subcategory.id);
+  const rapidDiagnosticPathogenId = mapRapidDiagnosticToPathogenId(patient.rapidDiagnosticResult);
+  const decisionSupportContext = {
+    allergies,
+    crcl,
+    patient,
+    pathogenId: rapidDiagnosticPathogenId,
+    rapidDiagnostic: patient.rapidDiagnosticResult ?? null,
+    site: decisionSiteHint,
+  };
+  const definitiveMatchesRaw = rankDecisionMatches<DefinitiveTherapyRule>(
+    subcategory.definitiveTherapy ?? [],
+    decisionSupportContext,
+  );
+  const definitiveMatches = definitiveMatchesRaw.filter((match) => match.state !== "not_applicable").length
+    ? definitiveMatchesRaw.filter((match) => match.state !== "not_applicable")
+    : definitiveMatchesRaw;
+  const oralStepDownMatchesRaw = rankDecisionMatches<OralStepDownOption>(
+    subcategory.oralStepDown ?? [],
+    decisionSupportContext,
+  );
+  const oralStepDownMatches = oralStepDownMatchesRaw.filter((match) => match.state !== "not_applicable").length
+    ? oralStepDownMatchesRaw.filter((match) => match.state !== "not_applicable")
+    : oralStepDownMatchesRaw;
+  const patientFitOptions = surfaceShowsInfectiousDetail
+    ? treatmentTiers
+        .flatMap((tier) =>
+          tier.options.map((option) => {
+            const regimenText = getPreferredRegimenText(option.regimen, option.plan);
+            const reference = option.monographId ?? option.drug;
+            const interactionActions = collectOptionInteractionActions(option, findMonograph);
+            const fit = getRegimenPatientFit(regimenText, reference, patient, crcl, option.plan, interactionActions);
+            const found = option.monographId ? findMonograph(option.monographId) : null;
+            return {
+              fit,
+              label: found?.monograph.name ?? regimenText,
+              line: tier.line,
+              regimenText,
+            };
+          }),
+        )
+        .sort((left, right) => getPatientFitSortRank(left.fit) - getPatientFitSortRank(right.fit))
+    : [];
   const topPreferredFits = patientFitOptions.filter((entry) => entry.fit.status === "preferred").map((entry) => entry.label);
   const topCautionFits = patientFitOptions.filter((entry) => entry.fit.status === "caution").map((entry) => entry.label);
   const topNeedsDataFits = patientFitOptions.filter((entry) => entry.fit.status === "needs_data").map((entry) => entry.label);
@@ -205,21 +269,31 @@ export default function SubcategoryPage({
   const hasOrganisms = (subcategory.organismSpecific?.length ?? 0) > 0;
   const summaryFacts = [
     {
-      label: "Empiric Tiers",
-      value: subcategory.empiricTherapy?.length ? `${subcategory.empiricTherapy.length} tiers` : "No tiers listed",
-    },
-    {
-      label: "Organism-Specific",
-      value: hasOrganisms ? `${subcategory.organismSpecific?.length ?? 0} pathways` : "Not included",
+      label: getTreatmentSummaryLabel(disease),
+      value: treatmentTiers.length ? `${treatmentTiers.length} tiers` : "No tiers listed",
     },
     {
       label: "Clinical Pearls",
       value: subcategory.pearls?.length ? `${subcategory.pearls.length} pearls` : "No pearls listed",
     },
     {
-      label: "Microbiology",
-      value: hasMicrobiology ? "Intelligence added" : "No dedicated cards",
+      label: "Decision Support",
+      value: subcategory.definitiveTherapy?.length
+        ? `${subcategory.definitiveTherapy.length} definitive rule${subcategory.definitiveTherapy.length === 1 ? "" : "s"}`
+        : "No structured rules",
     },
+    ...(surfaceShowsInfectiousDetail
+      ? [
+          {
+            label: "Organism-Specific",
+            value: hasOrganisms ? `${subcategory.organismSpecific?.length ?? 0} pathways` : "Not included",
+          },
+          {
+            label: "Microbiology",
+            value: hasMicrobiology ? "Intelligence added" : "No dedicated cards",
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -256,22 +330,32 @@ export default function SubcategoryPage({
           <h1 style={{ fontSize: "28px", lineHeight: 1.08, letterSpacing: "-0.04em", margin: 0, color: S.meta.textHeading }}>{subcategory.name}</h1>
           <div style={{ color: S.monographValue.color, fontSize: "14px", lineHeight: 1.7, marginTop: "12px" }}>{subcategory.definition}</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "16px" }}>
-            {subcategory.empiricTherapy && subcategory.empiricTherapy.length > 0 && (
+            {treatmentTiers.length > 0 && (
               <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
-                {subcategory.empiricTherapy.length} therapy tier{subcategory.empiricTherapy.length === 1 ? "" : "s"}
+                {treatmentTiers.length} therapy tier{treatmentTiers.length === 1 ? "" : "s"}
               </span>
             )}
-            {hasOrganisms && (
+            {surfaceShowsInfectiousDetail && hasOrganisms && (
               <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
                 {(subcategory.organismSpecific?.length ?? 0)} organism pathways
               </span>
             )}
-            {hasMicrobiology && (
+            {surfaceShowsInfectiousDetail && hasMicrobiology && (
               <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
                 Microbiology intelligence
               </span>
             )}
-            {relatedPathogens.length > 0 && (
+            {(subcategory.definitiveTherapy?.length ?? 0) > 0 && (
+              <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                Definitive therapy engine
+              </span>
+            )}
+            {(subcategory.oralStepDown?.length ?? 0) > 0 && (
+              <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                Oral step-down engine
+              </span>
+            )}
+            {surfaceShowsInfectiousDetail && relatedPathogens.length > 0 && (
               <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
                 {relatedPathogens.length} phenotype refs
               </span>
@@ -325,7 +409,11 @@ export default function SubcategoryPage({
               </span>
             ))
           ) : (
-            <span>Add renal function, oral route, microbiology, and source-control flags to personalize fit, de-escalation, IV-to-PO, OPAT, and duration guidance below.</span>
+            <span>
+              {surfaceShowsInfectiousDetail
+                ? "Add renal function, oral route, microbiology, and source-control flags to personalize fit, de-escalation, IV-to-PO, OPAT, and duration guidance below."
+                : "Add age, renal function, pregnancy status, and active medications to personalize treatment selection and follow-up guidance below."}
+            </span>
           )}
         </div>
         <button type="button" style={{ ...S.expandAllBtn, marginRight: 0 }} onClick={() => navigateTo(NAV_STATES.CALCULATORS)}>
@@ -333,7 +421,7 @@ export default function SubcategoryPage({
         </button>
       </div>
 
-      {hasPatientContext && patientFitOptions.length > 0 && (
+      {surfaceShowsInfectiousDetail && hasPatientContext && patientFitOptions.length > 0 && (
         <div
           style={{
             background: S.card.background,
@@ -372,7 +460,7 @@ export default function SubcategoryPage({
         </div>
       )}
 
-      {hasPatientContext && patientReassessmentFocus.length > 0 && (
+      {surfaceShowsInfectiousDetail && hasPatientContext && patientReassessmentFocus.length > 0 && (
         <div
           style={{
             background: S.card.background,
@@ -412,7 +500,7 @@ export default function SubcategoryPage({
         </div>
       )}
 
-      {hasPatientContext && (
+      {surfaceShowsInfectiousDetail && hasPatientContext && (
         <TransitionReadinessPanel
           items={pathwayTransitionReadiness}
           subtitle="This is a syndrome-level operational check using the current patient context. Pair it with the pathway's IV-to-PO and discharge workflow plus the chosen agent's monograph."
@@ -421,7 +509,7 @@ export default function SubcategoryPage({
         />
       )}
 
-      {(hasPatientContext || (subcategory.reassessmentCheckpoints?.length ?? 0) > 0) && (
+      {surfaceShowsInfectiousDetail && (hasPatientContext || (subcategory.reassessmentCheckpoints?.length ?? 0) > 0) && (
         <TransitionReadinessPanel
           items={pathwayReassessmentItems}
           subtitle="These checkpoints combine pathway-specific timeout content with the active patient culture and source-control state."
@@ -430,7 +518,7 @@ export default function SubcategoryPage({
         />
       )}
 
-      {pathwayNotes.length > 0 && INSTITUTION_PROFILE && (
+      {surfaceShowsInfectiousDetail && pathwayNotes.length > 0 && INSTITUTION_PROFILE && (
         <div
           style={{
             background: S.card.background,
@@ -455,7 +543,7 @@ export default function SubcategoryPage({
         </div>
       )}
 
-      {pathwayAntibiogram.length > 0 && INSTITUTION_PROFILE && (
+      {surfaceShowsInfectiousDetail && pathwayAntibiogram.length > 0 && INSTITUTION_PROFILE && (
         <div
           style={{
             background: S.card.background,
@@ -555,7 +643,7 @@ export default function SubcategoryPage({
       {diagnosticWorkflow.length > 0 && (
         <Section
           id="workflow-diagnostics"
-          title="Before Antibiotics"
+          title={workflowGroupTitles["workflow-diagnostics"]}
           icon="🧪"
           accentColor="#38bdf8"
           expandedSections={expandedSections}
@@ -587,7 +675,7 @@ export default function SubcategoryPage({
       {reassessmentWorkflow.length > 0 && (
         <Section
           id="workflow-reassessment"
-          title="48-72h Reassessment"
+          title={workflowGroupTitles["workflow-reassessment"]}
           icon="🔄"
           accentColor="#f59e0b"
           expandedSections={expandedSections}
@@ -646,7 +734,7 @@ export default function SubcategoryPage({
       {transitionWorkflow.length > 0 && (
         <Section
           id="workflow-transition"
-          title="IV-to-PO, Duration, and Discharge"
+          title={workflowGroupTitles["workflow-transition"]}
           icon="💊"
           accentColor="#34d399"
           expandedSections={expandedSections}
@@ -726,7 +814,442 @@ export default function SubcategoryPage({
         </Section>
       )}
 
-      {hasMicrobiology && (
+      {(subcategory.definitiveTherapy?.length ?? 0) > 0 && (
+        <Section
+          id="definitive-therapy"
+          title="Definitive Therapy Engine"
+          icon="🎯"
+          accentColor="#059669"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+          defaultOpen
+        >
+          <div style={{ display: "grid", gap: "10px" }}>
+            {definitiveMatches.map((match) => {
+              const entry = match.item;
+              const stateStyle = DECISION_STATE_STYLES[match.state];
+              const confidenceStyle = entry.confidence ? CONFIDENCE_STYLES[entry.confidence] : null;
+              return (
+                <div
+                  key={entry.id}
+                  style={{
+                    padding: "16px",
+                    background: S.card.background,
+                    borderRadius: "16px",
+                    border: `1px solid ${S.card.borderColor}`,
+                    boxShadow: S.meta.shadowSm,
+                    display: "grid",
+                    gap: "10px",
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: "10px", flexWrap: "wrap", alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{entry.title}</div>
+                      <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+                        {entry.organism} · {entry.susceptibility}
+                        {entry.syndrome ? ` · ${entry.syndrome}` : ""}
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", justifyContent: "flex-end" }}>
+                      <span
+                        style={{
+                          ...S.crossRefPill,
+                          cursor: "default",
+                          marginRight: 0,
+                          marginBottom: 0,
+                          color: stateStyle.color,
+                          borderColor: stateStyle.border,
+                          background: stateStyle.background,
+                        }}
+                      >
+                        {stateStyle.label}
+                      </span>
+                      {confidenceStyle ? (
+                        <span
+                          style={{
+                            ...S.crossRefPill,
+                            cursor: "default",
+                            marginRight: 0,
+                            marginBottom: 0,
+                            color: confidenceStyle.color,
+                            borderColor: confidenceStyle.border,
+                            background: confidenceStyle.background,
+                          }}
+                        >
+                          {entry.confidence} confidence
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  <div style={{ border: "1px solid rgba(5,150,105,0.18)", background: "rgba(5,150,105,0.06)", borderRadius: "14px", padding: "12px 14px" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#059669", marginBottom: "6px" }}>
+                      Preferred
+                    </div>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading }}>{entry.preferred.regimen}</div>
+                    <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{entry.preferred.why}</div>
+                    {entry.preferred.linkedMonographIds?.length ? (
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "8px" }}>
+                        {entry.preferred.linkedMonographIds.map((monographId) => {
+                          const found = findMonograph(monographId);
+                          if (!found) return null;
+                          return (
+                            <button
+                              key={`${entry.id}-preferred-${monographId}`}
+                              type="button"
+                              style={{ ...S.crossRefPill, fontFamily: "inherit", marginRight: 0, marginBottom: 0 }}
+                              onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { diseaseId: found.disease.id, monographId })}
+                            >
+                              {found.monograph.name}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ) : null}
+                    <SourceEvidencePills sourceIds={entry.preferred.sourceIds} S={S} />
+                  </div>
+
+                  {[
+                    { label: "Acceptable", color: "#0284c7", entries: entry.acceptable ?? [] },
+                    { label: "Rescue", color: "#d97706", entries: entry.rescue ?? [] },
+                    { label: "Avoid", color: "#dc2626", entries: entry.avoid ?? [] },
+                  ].map((group) =>
+                    group.entries.length ? (
+                      <div key={`${entry.id}-${group.label}`} style={{ display: "grid", gap: "8px" }}>
+                        <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: group.color }}>
+                          {group.label}
+                        </div>
+                        {group.entries.map((branch, branchIndex) => (
+                          <div key={`${entry.id}-${group.label}-${branchIndex}`} style={{ ...S.quickFactCard, padding: "12px 14px" }}>
+                            <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading }}>{branch.regimen}</div>
+                            <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{branch.why}</div>
+                            {branch.linkedMonographIds?.length ? (
+                              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "8px" }}>
+                                {branch.linkedMonographIds.map((monographId) => {
+                                  const found = findMonograph(monographId);
+                                  if (!found) return null;
+                                  return (
+                                    <button
+                                      key={`${entry.id}-${group.label}-${monographId}`}
+                                      type="button"
+                                      style={{ ...S.crossRefPill, fontFamily: "inherit", marginRight: 0, marginBottom: 0 }}
+                                      onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { diseaseId: found.disease.id, monographId })}
+                                    >
+                                      {found.monograph.name}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            ) : null}
+                            <SourceEvidencePills sourceIds={branch.sourceIds} S={S} />
+                          </div>
+                        ))}
+                      </div>
+                    ) : null,
+                  )}
+
+                  {match.matchedCriteria.length > 0 || match.blockedCriteria.length > 0 ? (
+                    <div style={{ display: "grid", gap: "6px" }}>
+                      {match.matchedCriteria.length > 0 ? (
+                        <div style={{ fontSize: "12px", color: "#059669", lineHeight: 1.55 }}>
+                          Matches: {match.matchedCriteria.join(" · ")}
+                        </div>
+                      ) : null}
+                      {match.blockedCriteria.length > 0 ? (
+                        <div style={{ fontSize: "12px", color: S.meta.textMuted, lineHeight: 1.55 }}>
+                          Context gates: {match.blockedCriteria.join(" · ")}
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : null}
+
+                  {entry.monitoringFocus?.length ? (
+                    <div>
+                      <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#0284c7", marginBottom: "6px" }}>
+                        Monitoring focus
+                      </div>
+                      <ul style={{ margin: 0, paddingLeft: "18px", color: S.monographValue.color, lineHeight: 1.7 }}>
+                        {entry.monitoringFocus.map((focus) => (
+                          <li key={focus}>{focus}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+
+                  {entry.disagreementNote ? (
+                    <div style={{ fontSize: "12px", color: "#b45309", lineHeight: 1.55 }}>
+                      Guideline disagreement: {entry.disagreementNote}
+                    </div>
+                  ) : null}
+                  {entry.whatChanged?.length ? (
+                    <div style={{ fontSize: "12px", color: S.meta.textMuted, lineHeight: 1.55 }}>
+                      What changed: {entry.whatChanged.join(" · ")}
+                    </div>
+                  ) : null}
+                  <SourceEvidencePills sourceIds={entry.sourceIds} S={S} />
+                </div>
+              );
+            })}
+          </div>
+        </Section>
+      )}
+
+      {(subcategory.oralStepDown?.length ?? 0) > 0 && (
+        <Section
+          id="oral-stepdown"
+          title="Oral Step-Down Engine"
+          icon="💊"
+          accentColor="#0284c7"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <div style={{ display: "grid", gap: "10px" }}>
+            {oralStepDownMatches.map((match) => {
+              const entry = match.item;
+              const stateStyle = DECISION_STATE_STYLES[match.state];
+              const confidenceStyle = entry.confidence ? CONFIDENCE_STYLES[entry.confidence] : null;
+              return (
+                <div key={entry.id} style={{ ...S.quickFactCard, padding: "16px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: "10px", flexWrap: "wrap", alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{entry.label}</div>
+                      <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{entry.regimen}</div>
+                    </div>
+                    <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", justifyContent: "flex-end" }}>
+                      <span
+                        style={{
+                          ...S.crossRefPill,
+                          cursor: "default",
+                          marginRight: 0,
+                          marginBottom: 0,
+                          color: stateStyle.color,
+                          borderColor: stateStyle.border,
+                          background: stateStyle.background,
+                        }}
+                      >
+                        Rank {entry.rank}
+                      </span>
+                      <span
+                        style={{
+                          ...S.crossRefPill,
+                          cursor: "default",
+                          marginRight: 0,
+                          marginBottom: 0,
+                          color: stateStyle.color,
+                          borderColor: stateStyle.border,
+                          background: stateStyle.background,
+                        }}
+                      >
+                        {stateStyle.label}
+                      </span>
+                      {confidenceStyle ? (
+                        <span
+                          style={{
+                            ...S.crossRefPill,
+                            cursor: "default",
+                            marginRight: 0,
+                            marginBottom: 0,
+                            color: confidenceStyle.color,
+                            borderColor: confidenceStyle.border,
+                            background: confidenceStyle.background,
+                          }}
+                        >
+                          {entry.confidence} confidence
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div style={{ display: "grid", gap: "8px" }}>
+                    <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}>
+                      <strong>Bioavailability:</strong> {entry.bioavailability}
+                    </div>
+                    <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}>
+                      <strong>Penetration fit:</strong> {entry.penetration}
+                    </div>
+                    {entry.evidenceStrength ? (
+                      <div style={{ fontSize: "12px", color: "#0284c7", lineHeight: 1.55 }}>
+                        <strong>Evidence:</strong> {entry.evidenceStrength}
+                      </div>
+                    ) : null}
+                    {entry.eligibilityChecklist.length > 0 ? (
+                      <ul style={{ margin: 0, paddingLeft: "18px", color: S.monographValue.color, lineHeight: 1.7 }}>
+                        {entry.eligibilityChecklist.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    ) : null}
+                    {entry.barrierNotes?.length ? (
+                      <div style={{ fontSize: "12px", color: "#b45309", lineHeight: 1.55 }}>
+                        Barriers: {entry.barrierNotes.join(" · ")}
+                      </div>
+                    ) : null}
+                    {match.matchedCriteria.length > 0 ? (
+                      <div style={{ fontSize: "12px", color: "#059669", lineHeight: 1.55 }}>
+                        Matches: {match.matchedCriteria.join(" · ")}
+                      </div>
+                    ) : null}
+                    {match.blockedCriteria.length > 0 ? (
+                      <div style={{ fontSize: "12px", color: S.meta.textMuted, lineHeight: 1.55 }}>
+                        Context gates: {match.blockedCriteria.join(" · ")}
+                      </div>
+                    ) : null}
+                    {entry.linkedMonographIds?.length ? (
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                        {entry.linkedMonographIds.map((monographId) => {
+                          const found = findMonograph(monographId);
+                          if (!found) return null;
+                          return (
+                            <button
+                              key={`${entry.id}-${monographId}`}
+                              type="button"
+                              style={{ ...S.crossRefPill, fontFamily: "inherit", marginRight: 0, marginBottom: 0 }}
+                              onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { diseaseId: found.disease.id, monographId })}
+                            >
+                              {found.monograph.name}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ) : null}
+                    {entry.disagreementNote ? (
+                      <div style={{ fontSize: "12px", color: "#b45309", lineHeight: 1.55 }}>
+                        Guideline disagreement: {entry.disagreementNote}
+                      </div>
+                    ) : null}
+                    <SourceEvidencePills sourceIds={entry.sourceIds} S={S} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Section>
+      )}
+
+      {(subcategory.durationRules?.length ?? 0) > 0 && (
+        <Section
+          id="duration-engine"
+          title="Structured Duration Rules"
+          icon="⏱"
+          accentColor="#38bdf8"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <div style={{ display: "grid", gap: "10px" }}>
+            {subcategory.durationRules?.map((entry) => {
+              const confidenceStyle = entry.confidence ? CONFIDENCE_STYLES[entry.confidence] : null;
+              return (
+                <div key={entry.id} style={{ ...S.quickFactCard, padding: "16px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: "10px", flexWrap: "wrap", alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{entry.label}</div>
+                      <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+                        Default duration: <strong style={{ color: "#38bdf8" }}>{entry.defaultDuration}</strong>
+                      </div>
+                    </div>
+                    {confidenceStyle ? (
+                      <span
+                        style={{
+                          ...S.crossRefPill,
+                          cursor: "default",
+                          marginRight: 0,
+                          marginBottom: 0,
+                          color: confidenceStyle.color,
+                          borderColor: confidenceStyle.border,
+                          background: confidenceStyle.background,
+                        }}
+                      >
+                        {entry.confidence} confidence
+                      </span>
+                    ) : null}
+                  </div>
+                  <div style={{ fontSize: "12px", color: S.meta.textHeading, lineHeight: 1.55 }}>
+                    <strong>Anchor:</strong> {entry.anchorEvent}
+                  </div>
+                  {entry.appliesWhen?.length ? (
+                    <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}>
+                      Applies when: {entry.appliesWhen.join(" · ")}
+                    </div>
+                  ) : null}
+                  {entry.exceptions?.length ? (
+                    <div style={{ fontSize: "12px", color: "#dc2626", lineHeight: 1.55 }}>
+                      Exceptions: {entry.exceptions.join(" · ")}
+                    </div>
+                  ) : null}
+                  <SourceEvidencePills sourceIds={entry.sourceIds} S={S} />
+                </div>
+              );
+            })}
+          </div>
+        </Section>
+      )}
+
+      {(subcategory.failureEscalationPath?.length ?? 0) > 0 && (
+        <Section
+          id="failure-path"
+          title="Treatment Failure / Escalation Path"
+          icon="📈"
+          accentColor="#ef4444"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <div style={{ display: "grid", gap: "10px" }}>
+            {subcategory.failureEscalationPath?.map((entry) => {
+              const confidenceStyle = entry.confidence ? CONFIDENCE_STYLES[entry.confidence] : null;
+              return (
+                <div key={entry.id} style={{ ...S.quickFactCard, padding: "16px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: "10px", flexWrap: "wrap", alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{entry.title}</div>
+                      <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+                        Checkpoint: {entry.checkpoint}
+                      </div>
+                    </div>
+                    {confidenceStyle ? (
+                      <span
+                        style={{
+                          ...S.crossRefPill,
+                          cursor: "default",
+                          marginRight: 0,
+                          marginBottom: 0,
+                          color: confidenceStyle.color,
+                          borderColor: confidenceStyle.border,
+                          background: confidenceStyle.background,
+                        }}
+                      >
+                        {entry.confidence} confidence
+                      </span>
+                    ) : null}
+                  </div>
+                  <div style={{ fontSize: "12px", color: S.meta.textHeading, lineHeight: 1.55 }}>
+                    <strong>Trigger:</strong> {entry.trigger}
+                  </div>
+                  {entry.likelyCauses?.length ? (
+                    <div style={{ fontSize: "12px", color: "#b45309", lineHeight: 1.55 }}>
+                      Likely causes: {entry.likelyCauses.join(" · ")}
+                    </div>
+                  ) : null}
+                  <ul style={{ margin: 0, paddingLeft: "18px", color: S.monographValue.color, lineHeight: 1.7 }}>
+                    {entry.actions.map((action) => (
+                      <li key={action}>{action}</li>
+                    ))}
+                  </ul>
+                  <SourceEvidencePills sourceIds={entry.sourceIds} S={S} />
+                </div>
+              );
+            })}
+          </div>
+        </Section>
+      )}
+
+      {surfaceShowsInfectiousDetail && hasMicrobiology && (
         <Section
           id="microbiology"
           title="Microbiology Intelligence"
@@ -747,7 +1270,7 @@ export default function SubcategoryPage({
         </Section>
       )}
 
-      {relatedPathogens.length > 0 && (
+      {surfaceShowsInfectiousDetail && relatedPathogens.length > 0 && (
         <Section
           id="pathogen-links"
           title="Related Pathogen References"
@@ -808,13 +1331,7 @@ export default function SubcategoryPage({
 
       <Section
         id="empiric"
-        title={
-          subcategory.empiricTherapy?.some((tier) =>
-            tier.line.toLowerCase().includes("prevention") || tier.line.toLowerCase().includes("stewardship"),
-          )
-            ? "Interventions & Protocols"
-            : "Empiric Therapy"
-        }
+        title={getTreatmentSectionTitle(subcategory, disease)}
         icon="💊"
         accentColor="#34d399"
         expandedSections={expandedSections}
@@ -823,11 +1340,12 @@ export default function SubcategoryPage({
         S={S}
         defaultOpen
       >
-        {subcategory.empiricTherapy?.map((tier, index) => (
+        {treatmentTiers.map((tier, index) => (
           <EmpiricTierView
             key={`${tier.line}-${index}`}
             diseaseId={disease.id}
             subcategoryId={subcategory.id}
+            surfaceMode={disease.surfaceMode}
             tier={tier}
             S={S}
             navigateTo={navigateTo}

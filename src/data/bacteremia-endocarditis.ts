@@ -2,6 +2,10 @@
 // Runtime catalog imports use src/data/generated/diseases/bacteremia-endocarditis.ts.
 
 import type { DiseaseState, Subcategory } from "../types";
+import {
+  getDecisionSupportMonographEnhancementsForDisease,
+  getDecisionSupportSubcategoryEnhancementsForDisease,
+} from "./decision-support-content";
 import { BACTEREMIA_ENDOCARDITIS_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
 import { getEmpiricOptionEnhancementsForDisease } from "./regimen-plan-content";
 import { enhanceDisease, enhanceDiseaseEmpiricOptions, mergeEnhancementMaps, notApplicable, ready } from "./stewardship-content";
@@ -727,8 +731,15 @@ const BACTEREMIA_ENDOCARDITIS_MICROBIOLOGY_ENHANCEMENTS: Record<string, Partial<
 export const BACTEREMIA_ENDOCARDITIS: DiseaseState = enhanceDiseaseEmpiricOptions(
   enhanceDisease(
     BACTEREMIA_ENDOCARDITIS_BASE,
-    mergeEnhancementMaps(BACTEREMIA_ENDOCARDITIS_WORKFLOW_ENHANCEMENTS, BACTEREMIA_ENDOCARDITIS_MICROBIOLOGY_ENHANCEMENTS),
-    BACTEREMIA_ENDOCARDITIS_MONOGRAPH_ENHANCEMENTS,
+    mergeEnhancementMaps(
+      BACTEREMIA_ENDOCARDITIS_WORKFLOW_ENHANCEMENTS,
+      BACTEREMIA_ENDOCARDITIS_MICROBIOLOGY_ENHANCEMENTS,
+      getDecisionSupportSubcategoryEnhancementsForDisease("bacteremia-endocarditis"),
+    ),
+    mergeEnhancementMaps(
+      BACTEREMIA_ENDOCARDITIS_MONOGRAPH_ENHANCEMENTS,
+      getDecisionSupportMonographEnhancementsForDisease("bacteremia-endocarditis"),
+    ),
   ),
   getEmpiricOptionEnhancementsForDisease("bacteremia-endocarditis"),
 );

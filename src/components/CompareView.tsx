@@ -35,6 +35,49 @@ function formatCoverageMatrix(
   return monograph.coverageMatrix?.map((entry) => `${entry.label} (${entry.status}): ${entry.detail}`).join(" | ") || "—";
 }
 
+function formatSpecialPopulationMatrix(
+  monograph: CompareViewProps["drugs"][number]["monograph"],
+) {
+  return monograph.specialPopulationMatrix?.map((entry) =>
+    [
+      entry.population,
+      entry.doseStrategy,
+      entry.tdmTarget ? `TDM ${entry.tdmTarget}` : "",
+      entry.whenToConsult ? `Consult ${entry.whenToConsult}` : "",
+    ]
+      .filter(Boolean)
+      .join(": "),
+  ).join(" | ") || "—";
+}
+
+function formatMonitoringSchedule(
+  monograph: CompareViewProps["drugs"][number]["monograph"],
+) {
+  return monograph.monitoringSchedule?.map((entry) =>
+    [
+      entry.phase.replace(/_/g, " "),
+      entry.cadence,
+      entry.labs?.length ? `Labs ${entry.labs.join(", ")}` : "",
+      entry.clinical?.length ? `Clinical ${entry.clinical.join(", ")}` : "",
+    ]
+      .filter(Boolean)
+      .join(": "),
+  ).join(" | ") || "—";
+}
+
+function formatExecutionBurden(
+  monograph: CompareViewProps["drugs"][number]["monograph"],
+) {
+  if (!monograph.executionBurden) return "—";
+  return [
+    `Infusion ${monograph.executionBurden.infusionBurden}`,
+    `Line ${monograph.executionBurden.lineAccess}`,
+    `OPAT ${monograph.executionBurden.opatFit}`,
+    `Monitoring ${monograph.executionBurden.monitoringBurden}`,
+    monograph.executionBurden.comparatorSummary,
+  ].join(" | ");
+}
+
 function badgeStyles(
   S: CompareViewProps["S"],
   tone: "fresh" | "info" | "warn" | "danger" | null,
@@ -219,6 +262,11 @@ export default function CompareView({
       v2: dm2.specialPopulations?.map((entry) => `${entry.population}: ${entry.guidance}`).join(" | ") || "—",
     },
     {
+      label: "Special Population Matrix",
+      v1: formatSpecialPopulationMatrix(dm1),
+      v2: formatSpecialPopulationMatrix(dm2),
+    },
+    {
       label: "Administration",
       v1: [
         formatStructuredBlock("Infusion", dm1.administration?.infusion),
@@ -239,6 +287,11 @@ export default function CompareView({
       label: "Penetration",
       v1: formatMonographPenetration(dm1),
       v2: formatMonographPenetration(dm2),
+    },
+    {
+      label: "Execution Burden",
+      v1: formatExecutionBurden(dm1),
+      v2: formatExecutionBurden(dm2),
     },
     {
       label: "Breakpoint / MIC Notes",
@@ -271,6 +324,11 @@ export default function CompareView({
       v2: snapshot2.interactionSummary,
     },
     {
+      label: "Monitoring Schedule",
+      v1: formatMonitoringSchedule(dm1),
+      v2: formatMonitoringSchedule(dm2),
+    },
+    {
       label: "Stewardship Use Cases",
       v1: dm1.stewardshipUseCases?.map((entry) => `${entry.scenario}: ${entry.role}`).join(" | ") || "—",
       v2: dm2.stewardshipUseCases?.map((entry) => `${entry.scenario}: ${entry.role}`).join(" | ") || "—",
@@ -287,7 +345,7 @@ export default function CompareView({
             {dm1.name} vs {dm2.name}
           </h1>
           <p style={{ color: S.monographValue?.color || "#64748b", fontSize: "13px", marginTop: "10px", marginBottom: 0, lineHeight: 1.6 }}>
-            Review class, dosing, safety, monitoring, and pearls side by side.
+            Review efficacy fit, execution burden, monitoring, and operational tradeoffs side by side.
           </p>
         </div>
       </section>

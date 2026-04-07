@@ -31,6 +31,14 @@ const REVIEW_SUMMARIES = {
   "febrile-neutropenia": "Reviewed high-risk febrile neutropenia initial coverage, escalation triggers, and outpatient risk stratification.",
   "diabetic-foot": "Reviewed diabetic foot severity staging, debridement and perfusion priorities, and osteomyelitis step-down options.",
   sepsis: "Reviewed early sepsis antimicrobials, resistant-risk stratification, and shorter-course de-escalation evidence.",
+  t2dm: "Reviewed adult T2DM diagnosis, target selection, cardiorenal-weight-guided therapy, inpatient glycemic management, and sick-day/discharge medication safety.",
+  "t2dm/diagnosis-and-glycemic-targets": "Reviewed diagnostic confirmation rules, individualized A1c targets, and thresholds that should trigger urgent insulin-deficiency reassessment.",
+  "t2dm/lifestyle-and-first-line-therapy": "Reviewed diabetes self-management education, weight-forward care, metformin use, and practical first-line sequencing.",
+  "t2dm/cardiorenal-weight-guided-therapy": "Reviewed ASCVD, heart-failure, CKD, and obesity-driven sequencing for GLP-1 receptor agonist and SGLT2 inhibitor therapy.",
+  "t2dm/treatment-intensification-and-injectables": "Reviewed when to intensify beyond foundation therapy, when to prefer GLP-1 receptor agonists before insulin, and when basal or prandial insulin is warranted.",
+  "t2dm/hospital-management-non-icu": "Reviewed non-ICU glycemic targets, basal-bolus versus basal-plus insulin strategy, and limited DPP-4-based simplification pathways.",
+  "t2dm/sick-day-and-perioperative-management": "Reviewed dehydration and ketone escalation, perioperative SGLT2 holds, metformin safety holds, and basal insulin handling during fasting.",
+  "t2dm/discharge-and-follow-up": "Reviewed discharge medication reconciliation, safe restart timing for metformin and SGLT2 therapy, temporary basal insulin discharge planning, and follow-up timing.",
   "amr-gn/esbl-e": "Reviewed ESBL empiric boundaries, carbapenem preference, and oral step-down cautions.",
   "amr-gn/cre-kpc": "Reviewed KPC-CRE preferred BL/BLI therapy and definitive selection criteria.",
   "amr-gn/cre-mbl": "Reviewed MBL-CRE salvage strategy, aztreonam combination use, and cefiderocol role.",
@@ -221,9 +229,86 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       buildSource("balance", "Seven versus fourteen days for bloodstream infection, 2024."),
     ],
   }),
+  t2dm: withConfidence("high", "t2dm", {
+    lastReviewed: CONTENT_REVIEWED_ON,
+    guidelineVersion: "ADA Standards of Care 2026 with KDIGO and Endocrine Society support",
+    sources: [
+      buildSource("ada-2026-diagnosis", "ADA Standards of Care 2026 section on diagnosis and classification of diabetes."),
+      buildSource("ada-2026-glycemic-goals", "ADA Standards of Care 2026 section on glycemic goals and hypoglycemia."),
+      buildSource("ada-2026-pharmacologic", "ADA Standards of Care 2026 section on pharmacologic approaches to glycemic treatment."),
+      buildSource("ada-2026-cv-risk", "ADA Standards of Care 2026 section on cardiovascular disease and risk management."),
+      buildSource("ada-2026-ckd-risk", "ADA Standards of Care 2026 section on chronic kidney disease and risk management."),
+      buildSource("ada-2026-hospital", "ADA Standards of Care 2026 section on diabetes care in the hospital."),
+      buildSource("ada-kdigo-2022-ckd", "ADA/KDIGO consensus report supporting cardiorenal layering in diabetes with CKD."),
+    ],
+  }),
 };
 
 export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
+  "t2dm/diagnosis-and-glycemic-targets": withConfidence("high", "t2dm/diagnosis-and-glycemic-targets", {
+    lastReviewed: CONTENT_REVIEWED_ON,
+    guidelineVersion: "ADA 2026 diagnosis and glycemic targets guidance",
+    sources: [
+      buildSource("ada-2026-diagnosis", "Diagnostic thresholds, confirmation rules, and phenotype reassessment guidance."),
+      buildSource("ada-2026-glycemic-goals", "Individualized A1c targets and hypoglycemia-aware goal selection."),
+      buildSource("ada-2026-pharmacologic", "Thresholds for early insulin when severe hyperglycemia or catabolic symptoms are present."),
+    ],
+  }),
+  "t2dm/lifestyle-and-first-line-therapy": withConfidence("high", "t2dm/lifestyle-and-first-line-therapy", {
+    lastReviewed: CONTENT_REVIEWED_ON,
+    guidelineVersion: "ADA 2026 first-line outpatient T2DM care",
+    sources: [
+      buildSource("ada-2026-health-behaviors", "Diabetes self-management education, nutrition, activity, and psychosocial support guidance."),
+      buildSource("ada-2026-obesity", "Weight-management-first treatment framing for adults with T2DM and obesity."),
+      buildSource("ada-2026-pharmacologic", "Metformin use and medication sequencing for newly treated T2DM."),
+    ],
+  }),
+  "t2dm/cardiorenal-weight-guided-therapy": withConfidence("high", "t2dm/cardiorenal-weight-guided-therapy", {
+    lastReviewed: CONTENT_REVIEWED_ON,
+    guidelineVersion: "ADA 2026 cardiorenal and weight-prioritized therapy",
+    sources: [
+      buildSource("ada-2026-cv-risk", "ASCVD-focused therapy selection and cardiovascular risk management."),
+      buildSource("ada-2026-ckd-risk", "CKD-focused therapy selection and renal risk management."),
+      buildSource("ada-kdigo-2022-ckd", "Layered therapy approach for diabetes with CKD."),
+      buildSource("aha-acc-hfsa-2022-heart-failure", "Heart-failure guidance supporting SGLT2 inhibitor use when HF is present."),
+    ],
+  }),
+  "t2dm/treatment-intensification-and-injectables": withConfidence("high", "t2dm/treatment-intensification-and-injectables", {
+    lastReviewed: CONTENT_REVIEWED_ON,
+    guidelineVersion: "ADA 2026 intensification guidance with GRADE support",
+    sources: [
+      buildSource("ada-2026-pharmacologic", "Injectable sequencing, insulin thresholds, and multi-agent intensification guidance."),
+      buildSource("grade-trial", "Comparative durability data for common add-on therapies after metformin."),
+      buildSource("ukpds-34", "Foundational metformin outcome data underpinning durable base therapy."),
+    ],
+  }),
+  "t2dm/hospital-management-non-icu": withConfidence("high", "t2dm/hospital-management-non-icu", {
+    lastReviewed: CONTENT_REVIEWED_ON,
+    guidelineVersion: "ADA 2026 hospital care with Endocrine Society 2022 inpatient guidance",
+    sources: [
+      buildSource("ada-2026-hospital", "Inpatient target range, medication holds, and insulin-therapy principles."),
+      buildSource("endocrine-society-2022-hospital-hyperglycemia", "Noncritical care insulin strategy and DPP-4-based simplification guidance."),
+    ],
+  }),
+  "t2dm/sick-day-and-perioperative-management": withConfidence("high", "t2dm/sick-day-and-perioperative-management", {
+    lastReviewed: CONTENT_REVIEWED_ON,
+    guidelineVersion: "ADA 2026 hospital/perioperative safety with FDA medication-hold guidance",
+    sources: [
+      buildSource("ada-2026-hospital", "Acute illness, perioperative, and medication-hold guidance in hospitalized diabetes care."),
+      buildSource("fda-sglt2-perioperative-warning", "Perioperative and acute-illness SGLT2 hold safety guidance."),
+      buildSource("fda-metformin-renal-guidance", "Metformin contrast and renal-function restart guidance."),
+    ],
+  }),
+  "t2dm/discharge-and-follow-up": withConfidence("high", "t2dm/discharge-and-follow-up", {
+    lastReviewed: CONTENT_REVIEWED_ON,
+    guidelineVersion: "ADA 2026 transition-of-care diabetes guidance",
+    sources: [
+      buildSource("ada-2026-hospital", "Discharge medication reconciliation and transition-of-care diabetes guidance."),
+      buildSource("ada-2026-pharmacologic", "Outpatient sequencing logic for post-discharge regimen selection."),
+      buildSource("fda-sglt2-perioperative-warning", "Safe restart boundaries for SGLT2 therapy after acute illness or procedures."),
+      buildSource("fda-metformin-renal-guidance", "Safe metformin restart boundaries after kidney-risk events or contrast."),
+    ],
+  }),
   "amr-gn/esbl-e": withConfidence("high", "amr-gn/esbl-e", {
     lastReviewed: CONTENT_REVIEWED_ON,
     guidelineVersion: "IDSA 2024 ESBL-E guidance",

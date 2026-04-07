@@ -276,6 +276,141 @@ export interface WorkflowBlock {
   bullets?: string[];
 }
 
+export type PatientSignalKey =
+  | "allergy_beta_lactam"
+  | "pregnancy"
+  | "renal_impairment"
+  | "dialysis"
+  | "poor_oral_route"
+  | "opat_limited"
+  | "bacteremia"
+  | "endovascular"
+  | "thrombocytopenia"
+  | "qtc_prolonged"
+  | "ck_elevated"
+  | "neutropenia"
+  | "transplant"
+  | "calcineurin_inhibitor"
+  | "arc"
+  | "hepatic_injury"
+  | "line_access_limited";
+
+export interface DecisionMatchCriteria {
+  pathogenIds?: string[];
+  sites?: string[];
+  rapidDiagnostics?: BreakpointRapidDiagnostic[];
+  requiresPatientSignals?: PatientSignalKey[];
+  avoidPatientSignals?: PatientSignalKey[];
+}
+
+export interface SourceBackedDecisionBlock {
+  sourceIds?: string[];
+  confidence?: ContentConfidence;
+  disagreementNote?: string;
+  whatChanged?: string[];
+}
+
+export type DefinitiveTherapyRole = "preferred" | "acceptable" | "rescue" | "avoid";
+
+export interface DefinitiveTherapyBranch extends SourceBackedDecisionBlock {
+  regimen: string;
+  why: string;
+  linkedMonographIds?: string[];
+}
+
+export interface DefinitiveTherapyRule extends SourceBackedDecisionBlock {
+  id: string;
+  title: string;
+  organism: string;
+  syndrome?: string;
+  susceptibility: string;
+  match?: DecisionMatchCriteria;
+  preferred: DefinitiveTherapyBranch;
+  acceptable?: DefinitiveTherapyBranch[];
+  rescue?: DefinitiveTherapyBranch[];
+  avoid?: DefinitiveTherapyBranch[];
+  monitoringFocus?: string[];
+}
+
+export interface SpecialPopulationDosingMatrix extends SourceBackedDecisionBlock {
+  population: string;
+  doseStrategy: string;
+  weightBasis?: string;
+  infusionStrategy?: string;
+  tdmTarget?: string;
+  whenToConsult?: string;
+}
+
+export interface OralStepDownOption extends SourceBackedDecisionBlock {
+  id: string;
+  label: string;
+  regimen: string;
+  rank: number;
+  match?: DecisionMatchCriteria;
+  eligibilityChecklist: string[];
+  bioavailability: string;
+  penetration: string;
+  barrierNotes?: string[];
+  evidenceStrength?: string;
+  linkedMonographIds?: string[];
+}
+
+export interface DurationRule extends SourceBackedDecisionBlock {
+  id: string;
+  label: string;
+  defaultDuration: string;
+  anchorEvent: string;
+  appliesWhen?: string[];
+  exceptions?: string[];
+  linkedMonographIds?: string[];
+}
+
+export interface FailureEscalationBranch extends SourceBackedDecisionBlock {
+  id: string;
+  checkpoint: "24h" | "48-72h" | "not_improving";
+  title: string;
+  trigger: string;
+  likelyCauses?: string[];
+  actions: string[];
+  broadenTo?: string[];
+  linkedMonographIds?: string[];
+}
+
+export type MonitoringSchedulePhase = "baseline" | "early" | "weekly" | "event_driven";
+
+export interface MonitoringSchedule extends SourceBackedDecisionBlock {
+  id: string;
+  phase: MonitoringSchedulePhase;
+  cadence: string;
+  labs?: string[];
+  clinical?: string[];
+  actionThresholds?: string[];
+}
+
+export interface ExecutionBurdenProfile extends SourceBackedDecisionBlock {
+  infusionBurden: "low" | "moderate" | "high";
+  lineAccess: "simple" | "moderate" | "complex";
+  opatFit: "good" | "conditional" | "poor";
+  monitoringBurden: "low" | "moderate" | "high";
+  sodiumLoad?: string;
+  vesicant?: string;
+  homeInfusionNote?: string;
+  comparatorSummary: string;
+}
+
+export interface PatientLabSnapshot {
+  platelets?: number;
+  ck?: number;
+  ast?: number;
+  alt?: number;
+  bilirubin?: number;
+  anc?: number;
+  lactate?: number;
+  qtc?: number;
+}
+
+export type PatientLineAccess = "limited" | "single_lumen" | "multi_lumen";
+
 export interface RapidDiagnosticAction {
   trigger: string;
   action: string;
@@ -420,6 +555,7 @@ export interface DiseaseState {
   name: string;
   icon: string;
   category: string;
+  surfaceMode?: "infectious-disease" | "general-pharmacy";
   contentMeta?: ContentMeta;
   overview: {
     definition: string;
@@ -466,6 +602,10 @@ export interface Subcategory {
   breakpointNotes?: BreakpointNote[];
   intrinsicResistance?: IntrinsicResistanceAlert[];
   coverageMatrix?: CoverageMatrixRow[];
+  definitiveTherapy?: DefinitiveTherapyRule[];
+  oralStepDown?: OralStepDownOption[];
+  durationRules?: DurationRule[];
+  failureEscalationPath?: FailureEscalationBranch[];
   pearls?: string[];
   empiricTherapy?: EmpiricTier[];
   organismSpecific?: OrganismSpecific[];
@@ -475,6 +615,8 @@ export interface Subcategory {
     opatNote?: string;
     stewardshipNote?: string;
   };
+  /** Neutral alias for non-infectious treatment pathways. */
+  treatmentApproach?: EmpiricTier[];
   /** Alias: some data files use empiricRegimens instead of empiricTherapy */
   empiricRegimens?: EmpiricTier[];
 }
@@ -548,6 +690,9 @@ export interface DrugMonograph {
   therapeuticDrugMonitoring?: TherapeuticDrugMonitoring;
   administration?: AdministrationGuidance;
   penetration?: PenetrationEntry[];
+  specialPopulationMatrix?: SpecialPopulationDosingMatrix[];
+  monitoringSchedule?: MonitoringSchedule[];
+  executionBurden?: ExecutionBurdenProfile;
   tissuePenetration?: {
     csf?: string;
     lung?: string;
@@ -636,9 +781,14 @@ export interface PatientContext {
   cultureCollectedOn?: string;
   rapidDiagnosticOn?: string;
   finalCultureOn?: string;
+  cultureClearanceOn?: string;
   sourceControlOn?: string;
   operativeSourceControlOn?: string;
+  documentedSourceControlOn?: string;
   activeMedications?: string[];
+  labs?: PatientLabSnapshot;
+  lineAccess?: PatientLineAccess;
+  transplantImmunosuppression?: "none" | "calcineurin_inhibitor" | "other";
 }
 
 export interface AllergyRecord {
@@ -664,7 +814,7 @@ export type PathogenSearchResult = PathogenReference;
 
 export type SubcategorySearchResult = Subcategory & {
   parentDisease: DiseaseState;
-  matchType: "name" | "pearl" | "workflow" | "microbiology" | "empiric";
+  matchType: "name" | "pearl" | "decision-support" | "workflow" | "microbiology" | "empiric";
 };
 
 export type RegimenSearchResult = RegimenReference & {
@@ -813,6 +963,7 @@ export interface RegimenCrossRefsProps {
 export interface EmpiricTierViewProps {
   diseaseId: string;
   subcategoryId: string;
+  surfaceMode?: DiseaseState["surfaceMode"];
   tier: EmpiricTier;
   S: Styles;
   navigateTo: NavigateTo;

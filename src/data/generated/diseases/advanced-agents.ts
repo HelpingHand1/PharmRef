@@ -1447,7 +1447,78 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "site": "CSF",
           "detail": "Systemic CSF penetration is poor, so intrathecal or intraventricular therapy may be required when no better CNS-active option exists."
         }
-      ]
+      ],
+      "specialPopulationMatrix": [
+        {
+          "population": "Obesity or unstable renal function",
+          "doseStrategy": "Separate the loading dose from maintenance logic and treat unit conversion errors as a patient-safety issue, not a documentation nuisance.",
+          "weightBasis": "Use the local CMS/CBA convention consistently",
+          "whenToConsult": "Mandatory pharmacist review every time.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ],
+          "confidence": "high"
+        },
+        {
+          "population": "CRRT / HD",
+          "doseStrategy": "Renal replacement does not eliminate nephrotoxicity risk and makes unit confusion easier, not harder.",
+          "whenToConsult": "Mandatory pharmacist or PK review every time.",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "monitoringSchedule": [
+        {
+          "id": "colistin-baseline",
+          "phase": "baseline",
+          "cadence": "Before the first maintenance dose",
+          "labs": [
+            "BMP"
+          ],
+          "clinical": [
+            "Neurologic baseline",
+            "Unit-convention verification"
+          ],
+          "actionThresholds": [
+            "Confirm CBA versus CMS units before the order reaches the bedside."
+          ],
+          "sourceIds": [
+            "idsa-2024-amr"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "colistin-early",
+          "phase": "early",
+          "cadence": "Daily early in therapy",
+          "labs": [
+            "BMP"
+          ],
+          "clinical": [
+            "Neurologic and respiratory muscle review"
+          ],
+          "actionThresholds": [
+            "Do not wait for severe AKI or neuromuscular toxicity before re-evaluating the regimen."
+          ],
+          "sourceIds": [
+            "idsa-2024-amr"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "executionBurden": {
+        "infusionBurden": "moderate",
+        "lineAccess": "moderate",
+        "opatFit": "poor",
+        "monitoringBurden": "high",
+        "comparatorSummary": "Toxicity-heavy salvage therapy where dose-unit safety and daily renal review are part of the drug, not optional extras.",
+        "sourceIds": [
+          "idsa-2024-amr"
+        ],
+        "confidence": "high"
+      }
     },
     {
       "id": "tedizolid",

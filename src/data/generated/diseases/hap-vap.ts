@@ -709,6 +709,258 @@ export const HAP_VAP: DiseaseState = {
           "status": "avoid",
           "detail": "Routine HAP broad-spectrum bundles should not be treated as definitive therapy for these resistant organisms."
         }
+      ],
+      "definitiveTherapy": [
+        {
+          "id": "hap-mrsa-pneumonia",
+          "title": "MRSA nosocomial pneumonia",
+          "organism": "MRSA",
+          "syndrome": "HAP/VAP with MRSA risk or confirmed MRSA",
+          "susceptibility": "MRSA phenotype",
+          "match": {
+            "pathogenIds": [
+              "mrsa"
+            ],
+            "sites": [
+              "lung"
+            ]
+          },
+          "preferred": {
+            "regimen": "Vancomycin with AUC-guided dosing or linezolid 600 mg IV/PO q12h",
+            "why": "These are the lung-usable MRSA options; linezolid may be operationally cleaner when renal toxicity or IV continuation becomes the limiting factor.",
+            "linkedMonographIds": [
+              "vancomycin",
+              "linezolid"
+            ],
+            "sourceIds": [
+              "ats-idsa-2016-hap-vap"
+            ],
+            "confidence": "high"
+          },
+          "acceptable": [
+            {
+              "regimen": "Linezolid favored when PO continuation is needed or vancomycin kidney toxicity is becoming the main execution problem",
+              "why": "Pneumonia is one of the few syndromes where linezolid's oral bioavailability and ELF penetration meaningfully change the bedside decision.",
+              "linkedMonographIds": [
+                "linezolid"
+              ],
+              "sourceIds": [
+                "ats-idsa-2016-hap-vap"
+              ],
+              "confidence": "moderate"
+            }
+          ],
+          "avoid": [
+            {
+              "regimen": "Daptomycin",
+              "why": "Pulmonary surfactant inactivates daptomycin, so susceptibility on paper does not make it a pneumonia drug.",
+              "linkedMonographIds": [
+                "daptomycin"
+              ],
+              "sourceIds": [
+                "ats-idsa-2016-hap-vap"
+              ],
+              "confidence": "high"
+            }
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "hap-mssa-pneumonia",
+          "title": "MSSA nosocomial pneumonia",
+          "organism": "MSSA",
+          "syndrome": "HAP/VAP with same-day MSSA signal",
+          "susceptibility": "Methicillin susceptible",
+          "match": {
+            "pathogenIds": [
+              "mssa"
+            ],
+            "sites": [
+              "lung"
+            ]
+          },
+          "preferred": {
+            "regimen": "Cefazolin or nafcillin when the isolate and syndrome truly represent MSSA pneumonia",
+            "why": "Once MRSA is off the table, keep lung therapy focused and stop carrying anti-MRSA toxicity just because it started empirically.",
+            "linkedMonographIds": [
+              "cefazolin",
+              "nafcillin"
+            ],
+            "sourceIds": [
+              "ats-idsa-2016-hap-vap"
+            ],
+            "confidence": "moderate"
+          },
+          "acceptable": [
+            {
+              "regimen": "Cefepime only if gram-negative overlap is still needed while the pulmonary picture settles",
+              "why": "Do not leave cefepime in place longer than necessary once the pathogen is truly MSSA.",
+              "linkedMonographIds": [
+                "cefepime"
+              ],
+              "sourceIds": [
+                "ats-idsa-2016-hap-vap"
+              ],
+              "confidence": "moderate"
+            }
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "id": "hap-dtr-pseudomonas",
+          "title": "DTR Pseudomonas lung infection",
+          "organism": "DTR Pseudomonas",
+          "syndrome": "HAP/VAP with resistant non-fermenter phenotype",
+          "susceptibility": "Difficult-to-treat resistance phenotype",
+          "match": {
+            "pathogenIds": [
+              "dtr-pseudomonas"
+            ],
+            "sites": [
+              "lung"
+            ]
+          },
+          "preferred": {
+            "regimen": "Ceftolozane-tazobactam or cefiderocol, matched to the susceptibility profile and operational fit",
+            "why": "These preserve lung-usable antipseudomonal activity when standard beta-lactams are no longer reliable.",
+            "linkedMonographIds": [
+              "ceftolozane-tazobactam",
+              "cefiderocol"
+            ],
+            "sourceIds": [
+              "idsa-2024-amr",
+              "ats-idsa-2016-hap-vap"
+            ],
+            "confidence": "high"
+          },
+          "rescue": [
+            {
+              "regimen": "Ceftazidime-avibactam or imipenem-cilastatin-relebactam when the phenotype and AST support it",
+              "why": "Useful reserve options when the isolate is still susceptible and the line-access or renal context favors them.",
+              "linkedMonographIds": [
+                "ceftazidime-avibactam",
+                "imipenem-cilastatin-relebactam"
+              ],
+              "sourceIds": [
+                "idsa-2024-amr"
+              ],
+              "confidence": "moderate"
+            }
+          ],
+          "sourceIds": [
+            "idsa-2024-amr",
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "oralStepDown": [
+        {
+          "id": "hap-linezolid-stepdown",
+          "label": "Linezolid oral completion",
+          "regimen": "Linezolid 600 mg PO q12h",
+          "rank": 1,
+          "match": {
+            "avoidPatientSignals": [
+              "poor_oral_route",
+              "thrombocytopenia",
+              "calcineurin_inhibitor"
+            ]
+          },
+          "eligibilityChecklist": [
+            "MRSA is the dominant pathogen and linezolid is the chosen lung-active agent",
+            "Oral route is reliable and the patient is clinically improving",
+            "Platelet trend and interaction profile are acceptable for completion"
+          ],
+          "bioavailability": "Essentially IV-equivalent oral exposure.",
+          "penetration": "Excellent lung exposure is the main reason this can be a same-drug IV-to-PO switch.",
+          "barrierNotes": [
+            "Watch platelet trend, serotonergic load, and transplant/CNI interaction burden."
+          ],
+          "evidenceStrength": "Strong execution option when linezolid is already the right drug",
+          "linkedMonographIds": [
+            "linezolid"
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "durationRules": [
+        {
+          "id": "hap-standard-7d",
+          "label": "Most HAP/VAP courses",
+          "defaultDuration": "7 days",
+          "anchorEvent": "First active regimen with improving oxygenation, fever curve, and secretion burden",
+          "appliesWhen": [
+            "Standard bacterial HAP/VAP response",
+            "No uncontrolled non-fermenter relapse pattern"
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "hap-nonfermenter-extend",
+          "label": "Non-fermenter or slow-response exception",
+          "defaultDuration": "10-14 days",
+          "anchorEvent": "First active regimen after susceptibility-matched therapy is in place",
+          "appliesWhen": [
+            "Confirmed Pseudomonas or Acinetobacter with slow response",
+            "Persistent ventilator dependence from ongoing infectious burden"
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "failureEscalationPath": [
+        {
+          "id": "hap-24h",
+          "checkpoint": "24h",
+          "title": "Empiric coverage sanity check",
+          "trigger": "A high-mortality HAP/VAP regimen is started.",
+          "actions": [
+            "Confirm MRSA and antipseudomonal coverage truly match local risk and prior cultures",
+            "Get respiratory cultures before the regimen calcifies into a week of default therapy",
+            "Treat prolonged infusion strategy as part of the drug, not a nursing preference"
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap",
+            "ssc-2021"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "hap-48h",
+          "checkpoint": "48-72h",
+          "title": "Not clearly improving by the antibiotic timeout",
+          "trigger": "Fever, vasopressors, or ventilator burden are not breaking in the expected direction.",
+          "likelyCauses": [
+            "Wrong pathogen",
+            "Inadequate source control or secretion burden",
+            "Noninfectious mimic",
+            "Incorrect PK execution"
+          ],
+          "actions": [
+            "Review MRSA nares, respiratory cultures, and line/sedation/aspiration factors together",
+            "Reassess whether linezolid, vancomycin, or a reserve antipseudomonal agent better matches the confirmed phenotype",
+            "Image or bronchoscopically reassess when the clinical story no longer fits a routine course"
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        }
       ]
     },
     {
@@ -1526,7 +1778,112 @@ export const HAP_VAP: DiseaseState = {
             "sab-bundle-literature"
           ]
         }
-      ]
+      ],
+      "specialPopulationMatrix": [
+        {
+          "population": "Obesity",
+          "doseStrategy": "Load and maintain using actual body weight, then verify exposure with AUC follow-up rather than defaulting to a trough-only habit.",
+          "weightBasis": "Actual body weight for loading; pharmacist review for extreme obesity maintenance",
+          "infusionStrategy": "Do not trim the loading dose just because the patient is large or critically ill.",
+          "tdmTarget": "AUC/MIC 400-600",
+          "whenToConsult": "Use PK review early when obesity and kidney dysfunction overlap.",
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        },
+        {
+          "population": "Augmented renal clearance",
+          "doseStrategy": "Expect early underexposure in trauma, sepsis, or younger ICU patients with CrCl >120; reassess before a low trough convinces the team the drug is failing.",
+          "infusionStrategy": "Front-load exposure and check levels early.",
+          "tdmTarget": "AUC/MIC 400-600 with early reassessment",
+          "whenToConsult": "PK review is high-value when ARC is likely.",
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "population": "HD / CRRT / ECMO",
+          "doseStrategy": "Tie the regimen to the current modality and circuit changes rather than yesterday's serum creatinine; CRRT often still needs active maintenance.",
+          "weightBasis": "Actual body weight loading still matters",
+          "tdmTarget": "AUC/MIC 400-600",
+          "whenToConsult": "Mandatory when renal replacement modality or ECMO status changes.",
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "monitoringSchedule": [
+        {
+          "id": "hap-vanc-baseline",
+          "phase": "baseline",
+          "cadence": "Before or with first dose",
+          "labs": [
+            "SCr / BMP",
+            "CBC if prolonged course is expected"
+          ],
+          "clinical": [
+            "Document MRSA risk",
+            "Set the de-escalation plan before the first timeout"
+          ],
+          "actionThresholds": [
+            "Do not let pneumonia vancomycin run for days without a clear AUC strategy."
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "hap-vanc-early",
+          "phase": "early",
+          "cadence": "Within the first 24-48 hours",
+          "labs": [
+            "AUC-level strategy or Bayesian input",
+            "SCr trend"
+          ],
+          "clinical": [
+            "MRSA nares or respiratory culture review"
+          ],
+          "actionThresholds": [
+            "If the kidney trajectory worsens or MRSA is not holding up, de-escalate or change agents early."
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "hap-vanc-weekly",
+          "phase": "weekly",
+          "cadence": "At least weekly once stable",
+          "labs": [
+            "BMP",
+            "CBC if therapy is prolonged"
+          ],
+          "clinical": [
+            "Ongoing toxicity review",
+            "Ventilator and secretion trajectory"
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "executionBurden": {
+        "infusionBurden": "moderate",
+        "lineAccess": "moderate",
+        "opatFit": "conditional",
+        "monitoringBurden": "high",
+        "comparatorSummary": "Still standard MRSA pneumonia coverage, but AUC work and kidney monitoring make it less operationally clean than linezolid.",
+        "sourceIds": [
+          "ats-idsa-2016-hap-vap"
+        ],
+        "confidence": "high"
+      }
     },
     {
       "id": "linezolid",
@@ -1713,7 +2070,80 @@ export const HAP_VAP: DiseaseState = {
             "aha-2015-ie"
           ]
         }
-      ]
+      ],
+      "specialPopulationMatrix": [
+        {
+          "population": "Thrombocytopenia or marrow vulnerability",
+          "doseStrategy": "Treat platelet reserve as part of drug selection, not just monitoring after the drug is already committed.",
+          "tdmTarget": "No routine serum target; toxicity surveillance is the limiting variable",
+          "whenToConsult": "Reassess if baseline platelets are low, CKD is present, or a longer course is expected.",
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        },
+        {
+          "population": "Calcineurin inhibitor exposure, serotonergic burden, or transplant",
+          "doseStrategy": "Interaction review is part of the dose decision because the oral switch advantage disappears if toxicity monitoring is not realistic.",
+          "whenToConsult": "Use pharmacist review early when transplant or complex psychiatry meds are involved.",
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap",
+            "idsa-aspergillosis"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "monitoringSchedule": [
+        {
+          "id": "linezolid-baseline",
+          "phase": "baseline",
+          "cadence": "Before or within the first 24 hours",
+          "labs": [
+            "CBC"
+          ],
+          "clinical": [
+            "Medication interaction review",
+            "Serotonin-toxicity risk review"
+          ],
+          "actionThresholds": [
+            "Document the platelet baseline before committing to a prolonged course."
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "linezolid-weekly",
+          "phase": "weekly",
+          "cadence": "Weekly, earlier if baseline risk is high",
+          "labs": [
+            "CBC"
+          ],
+          "clinical": [
+            "Visual and neuropathy review for prolonged therapy"
+          ],
+          "actionThresholds": [
+            "Do not push through a falling platelet trend without re-evaluating the regimen."
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "executionBurden": {
+        "infusionBurden": "low",
+        "lineAccess": "simple",
+        "opatFit": "good",
+        "monitoringBurden": "moderate",
+        "homeInfusionNote": "The biggest operational advantage is often avoiding OPAT entirely because PO is IV-equivalent.",
+        "comparatorSummary": "Strong lung-active MRSA option with excellent PO execution, limited mainly by platelet and interaction burden.",
+        "sourceIds": [
+          "ats-idsa-2016-hap-vap"
+        ],
+        "confidence": "high"
+      }
     },
     {
       "id": "meropenem",
@@ -1914,7 +2344,84 @@ export const HAP_VAP: DiseaseState = {
             "ssc-2021"
           ]
         }
-      ]
+      ],
+      "specialPopulationMatrix": [
+        {
+          "population": "Augmented renal clearance",
+          "doseStrategy": "Preserve full q8h extended-infusion exposure instead of drifting to underdosed convenience schedules.",
+          "infusionStrategy": "Extended infusion is the default non-CNS strategy",
+          "whenToConsult": "Use PK review if CrCl is >120 or the isolate MIC is not comfortably low.",
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap",
+            "acorn"
+          ],
+          "confidence": "high"
+        },
+        {
+          "population": "HD / CRRT / ECMO",
+          "doseStrategy": "Tie every regimen to the current circuit and downtime, not just the label's nominal renal bucket.",
+          "infusionStrategy": "Extended infusion still matters during CRRT",
+          "whenToConsult": "Mandatory when circuit settings or downtime change.",
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "monitoringSchedule": [
+        {
+          "id": "mero-baseline",
+          "phase": "baseline",
+          "cadence": "Before or with the first dose",
+          "labs": [
+            "BMP"
+          ],
+          "clinical": [
+            "Seizure risk review",
+            "Infusion strategy verification"
+          ],
+          "actionThresholds": [
+            "Treat infusion time as part of the prescribed exposure."
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "mero-event",
+          "phase": "event_driven",
+          "cadence": "Any time renal clearance changes",
+          "labs": [
+            "BMP",
+            "beta-lactam TDM if available in special populations"
+          ],
+          "clinical": [
+            "CRRT or ARC review"
+          ],
+          "actionThresholds": [
+            "Rebuild the regimen the same day clearance changes."
+          ],
+          "sourceIds": [
+            "ats-idsa-2016-hap-vap",
+            "acorn"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "executionBurden": {
+        "infusionBurden": "high",
+        "lineAccess": "complex",
+        "opatFit": "conditional",
+        "monitoringBurden": "moderate",
+        "sodiumLoad": "Operationally meaningful when q8h extended infusions compete with other ICU infusions.",
+        "homeInfusionNote": "Possible in sophisticated programs, but q8h extended infusion is a major home-delivery burden.",
+        "comparatorSummary": "Broad and reliable, but prolonged infusions and line competition make it operationally expensive compared with narrower exits.",
+        "sourceIds": [
+          "ats-idsa-2016-hap-vap"
+        ],
+        "confidence": "high"
+      }
     }
   ]
 };

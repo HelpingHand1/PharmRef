@@ -20,11 +20,14 @@ import {
 } from "./microbiology";
 import { flattenContentMetaText } from "./metadata";
 import {
+  flattenMonographDecisionSupportText,
   flattenMonographStructuredText,
   flattenRegimenPlan,
+  flattenSubcategoryDecisionSupportText,
   flattenSubcategoryStewardshipText,
 } from "./stewardship";
 import { PATHOGEN_REFERENCES } from "./pathogen-references";
+import { getTreatmentTiers } from "./topic-surface";
 
 export type SearchEntry =
   | { type: "disease"; disease: DiseaseState; text: string }
@@ -34,7 +37,7 @@ export type SearchEntry =
       disease: DiseaseState;
       subcategory: Subcategory;
       text: string;
-      matchClassify: (query: string) => "name" | "pearl" | "workflow" | "microbiology" | "empiric";
+      matchClassify: (query: string) => "name" | "pearl" | "decision-support" | "workflow" | "microbiology" | "empiric";
     }
   | { type: "regimen"; disease: DiseaseState; subcategory: Subcategory; regimen: RegimenReference; text: string }
   | { type: "organism"; disease: DiseaseState; subcategory: Subcategory; organism: OrganismSpecific; text: string }
@@ -63,16 +66,16 @@ export interface CatalogDerived {
   findPathogensForSubcategory: (diseaseId: string, subcategoryId: string) => PathogenReference[];
 }
 
-function getEmpiricTherapy(subcategory: Subcategory) {
-  return subcategory.empiricTherapy ?? subcategory.empiricRegimens ?? [];
-}
-
 function workflowQueryMatch(values: string[], query: string) {
   const lowerQuery = query.toLowerCase();
   const tokens = lowerQuery
     .split(/\s+/)
     .map((token) => token.trim())
     .filter((token) => token.length > 1 && !["vs", "and", "or", "the", "for", "with", "to"].includes(token));
+  const combined = values.join(" ").toLowerCase();
+  if (combined.includes(lowerQuery) || (tokens.length > 0 && tokens.every((token) => combined.includes(token)))) {
+    return true;
+  }
   return values.some((value) => {
     const lowerValue = value.toLowerCase();
     return lowerValue.includes(lowerQuery) || (tokens.length > 0 && tokens.every((token) => lowerValue.includes(token)));
@@ -221,12 +224,12 @@ export function buildCatalogDerived(diseases: DiseaseState[], regimenCatalog?: R
 
     disease.subcategories.forEach((subcategory) => {
       const searchTexts = [subcategory.name, subcategory.definition, aliasTextFor(SUBCATEGORY_ALIASES, subcategory.id), ...(subcategory.pearls ?? [])];
-      searchTexts.push(...flattenSubcategoryStewardshipText(subcategory));
+      searchTexts.push(...flattenSubcategoryStewardshipText(subcategory, disease));
       searchTexts.push(...flattenSubcategoryMicrobiologyText(subcategory));
       searchTexts.push(...flattenContentMetaText(subcategory.contentMeta));
       searchTexts.push(...getInstitutionPathwaySearchText(disease.id, subcategory.id));
 
-      getEmpiricTherapy(subcategory).forEach((tier) => {
+      getTreatmentTiers(subcategory).forEach((tier) => {
         searchTexts.push(tier.line);
         tier.options.forEach((option) => {
           searchTexts.push(option.plan?.regimen ?? option.regimen);
@@ -251,10 +254,13 @@ export function buildCatalogDerived(diseases: DiseaseState[], regimenCatalog?: R
           if (subcategory.pearls?.some((pearl) => pearl.toLowerCase().includes(query))) {
             return "pearl";
           }
+          if (workflowQueryMatch(flattenSubcategoryDecisionSupportText(subcategory), query)) {
+            return "decision-support";
+          }
           if (workflowQueryMatch(flattenSubcategoryMicrobiologyText(subcategory), query)) {
             return "microbiology";
           }
-          if (workflowQueryMatch(flattenSubcategoryStewardshipText(subcategory), query)) {
+          if (workflowQueryMatch(flattenSubcategoryStewardshipText(subcategory, disease), query)) {
             return "workflow";
           }
           return "empiric";
@@ -289,6 +295,7 @@ export function buildCatalogDerived(diseases: DiseaseState[], regimenCatalog?: R
           aliasTextFor(DRUG_ALIASES, drug.id),
           ...(drug.pharmacistPearls ?? []),
           ...(drug.drugInteractions ?? []),
+          ...flattenMonographDecisionSupportText(drug),
           ...flattenMonographStructuredText(drug),
           ...flattenMonographMicrobiologyText(drug),
           ...flattenContentMetaText(drug.contentMeta),

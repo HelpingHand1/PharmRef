@@ -13,6 +13,7 @@ export const DISEASE_ALIASES: Record<string, string[]> = {
   "advanced-agents": ["advanced agents", "resistant pathogen agents", "novel beta lactam"],
   "febrile-neutropenia": ["fn", "febrile neutropenia"],
   "diabetic-foot": ["dfi", "diabetic foot infection"],
+  t2dm: ["t2dm", "type 2 diabetes", "type ii diabetes", "dm2", "adult type 2 diabetes"],
   sepsis: ["sepsis", "septic shock", "qsofa", "sofa"],
 };
 
@@ -34,6 +35,13 @@ export const SUBCATEGORY_ALIASES: Record<string, string[]> = {
   "moderate-dfi": ["moderate diabetic foot infection"],
   "severe-dfi": ["severe diabetic foot infection"],
   "dfi-osteomyelitis": ["diabetic foot osteomyelitis"],
+  "diagnosis-and-glycemic-targets": ["a1c target", "a1c goal", "diabetes diagnosis", "glycemic target"],
+  "lifestyle-and-first-line-therapy": ["metformin", "first line diabetes therapy", "lifestyle diabetes treatment"],
+  "cardiorenal-weight-guided-therapy": ["glp1", "sglt2", "cardiorenal diabetes", "heart failure diabetes", "ckd diabetes"],
+  "treatment-intensification-and-injectables": ["basal insulin", "injectable diabetes therapy", "diabetes intensification"],
+  "hospital-management-non-icu": ["hospital hyperglycemia", "inpatient hyperglycemia", "non icu diabetes"],
+  "sick-day-and-perioperative-management": ["sick day", "periop diabetes", "npo diabetes", "surgery sglt2"],
+  "discharge-and-follow-up": ["discharge insulin", "diabetes discharge", "restart metformin", "restart sglt2"],
   "sepsis-community": ["community acquired sepsis"],
   "sepsis-hcap": ["healthcare associated sepsis"],
 };

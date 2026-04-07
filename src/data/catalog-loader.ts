@@ -16,6 +16,7 @@ const diseaseLoaders: Record<string, () => Promise<DiseaseState>> = {
   "advanced-agents": () => import("./generated/diseases/advanced-agents").then((module) => module.ADVANCED_AGENTS),
   "febrile-neutropenia": () => import("./generated/diseases/febrile-neutropenia").then((module) => module.FEBRILE_NEUTROPENIA),
   "diabetic-foot": () => import("./generated/diseases/diabetic-foot").then((module) => module.DIABETIC_FOOT),
+  t2dm: () => import("./generated/diseases/t2dm").then((module) => module.T2DM),
   "amr-gn": () => import("./generated/diseases/amr-gram-negative").then((module) => module.AMR_GN),
   "bacteremia-endocarditis": () => import("./generated/diseases/bacteremia-endocarditis").then((module) => module.BACTEREMIA_ENDOCARDITIS),
   sepsis: () => import("./generated/diseases/sepsis").then((module) => module.SEPSIS),

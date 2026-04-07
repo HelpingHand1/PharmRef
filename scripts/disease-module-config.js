@@ -36,6 +36,7 @@ const GENERATED_DISEASE_MODULES = [
     outputFile: "diabetic-foot.ts",
     displayName: "Diabetic Foot",
   },
+  { sourceFile: "t2dm.js", exportName: "T2DM", outputFile: "t2dm.ts", displayName: "T2DM" },
   { sourceFile: "sepsis.js", exportName: "SEPSIS", outputFile: "sepsis.ts", displayName: "Sepsis" },
   {
     sourceFile: "amr-gram-negative.js",

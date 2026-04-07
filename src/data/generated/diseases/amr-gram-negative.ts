@@ -430,6 +430,98 @@ export const AMR_GN: DiseaseState = {
         "Caz-avi resistance is the BIGGEST concern: KPC mutations (particularly omega loop mutations like D179Y) can render caz-avi ineffective while potentially RESTORING meropenem activity. This has created the phenomenon of 'caz-avi resistant, meropenem restored' CRE. If caz-avi resistance emerges during therapy: (1) check meropenem MIC (may be restored), (2) switch to mer-vab or imi-rele. This pattern is well-described in the literature.",
         "DO NOT use polymyxin-based regimens for CRE if BL-BLIs are available: The era of polymyxin-based CRE treatment is OVER. Every comparative study (TANGO II, RESTORE-IMI 1, observational) shows BL-BLIs are superior with dramatically lower toxicity. Using colistin/polymyxin B for CRE when caz-avi/mer-vab/imi-rele are available is substandard care.",
         "Extended-infusion meropenem monotherapy for CRE is NO LONGER recommended: Previously, some used high-dose extended-infusion meropenem for CRE with MICs of 8-16. This is obsolete — novel BL-BLIs are superior. Do not attempt to 'push through' carbapenem resistance with high-dose meropenem. Use the right drug for the resistance mechanism."
+      ],
+      "definitiveTherapy": [
+        {
+          "id": "kpc-definitive",
+          "title": "KPC-CRE",
+          "organism": "KPC-producing CRE",
+          "syndrome": "Invasive CRE infection",
+          "susceptibility": "KPC phenotype",
+          "match": {
+            "pathogenIds": [
+              "kpc-cre"
+            ]
+          },
+          "preferred": {
+            "regimen": "Meropenem-vaborbactam or ceftazidime-avibactam, chosen by susceptibility and execution fit",
+            "why": "These are the phenotype-aligned agents; the core decision is which one the organism, access, and monitoring context favor.",
+            "linkedMonographIds": [
+              "meropenem-vaborbactam",
+              "ceftazidime-avibactam"
+            ],
+            "sourceIds": [
+              "idsa-2024-amr",
+              "tango-ii"
+            ],
+            "confidence": "high"
+          },
+          "acceptable": [
+            {
+              "regimen": "Imipenem-cilastatin-relebactam when susceptibility supports it",
+              "why": "Reasonable reserve alternative when the organism is susceptible and local access or formulary fit favors it.",
+              "linkedMonographIds": [
+                "imipenem-cilastatin-relebactam"
+              ],
+              "sourceIds": [
+                "idsa-2024-amr"
+              ],
+              "confidence": "moderate"
+            }
+          ],
+          "avoid": [
+            {
+              "regimen": "Standard cefepime, ceftriaxone, or meropenem monotherapy",
+              "why": "Familiar beta-lactams are not adequate once KPC is confirmed.",
+              "linkedMonographIds": [
+                "cefepime",
+                "meropenem"
+              ],
+              "sourceIds": [
+                "idsa-2024-amr"
+              ],
+              "confidence": "high"
+            }
+          ],
+          "sourceIds": [
+            "idsa-2024-amr",
+            "tango-ii"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "durationRules": [
+        {
+          "id": "kpc-duration",
+          "label": "KPC bloodstream or deep-seated infection",
+          "defaultDuration": "10-14 days or syndrome-specific longer course",
+          "anchorEvent": "First active phenotype-matched therapy after source control",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "failureEscalationPath": [
+        {
+          "id": "kpc-48h",
+          "checkpoint": "48-72h",
+          "title": "Not clearing on apparently active KPC therapy",
+          "trigger": "Cultures remain positive or the patient is clinically worsening.",
+          "likelyCauses": [
+            "Incorrect phenotype assumption",
+            "Hidden source control problem",
+            "Resistance emergence"
+          ],
+          "actions": [
+            "Repeat susceptibility and carbapenemase review",
+            "Reassess infusion execution and line-access feasibility"
+          ],
+          "sourceIds": [
+            "idsa-2024-amr"
+          ],
+          "confidence": "moderate"
+        }
       ]
     },
     {
@@ -553,6 +645,83 @@ export const AMR_GN: DiseaseState = {
         "Aztreonam-avibactam (Emblaveo) is in development: This fixed combination is the ideal agent for MBL-CRE. Until it's available, we use the workaround of caz-avi + aztreonam. The ceftazidime component is essentially along for the ride — it's the avibactam we need. Administer both drugs q8h simultaneously to ensure avibactam levels are adequate when aztreonam is present.",
         "Cefiderocol is an option but monitor for resistance: ~92% activity against MBL-CRE, but resistance emergence has been described both during therapy and de novo. For critical infections, some experts advocate combination therapy (cefiderocol + another active agent) until the clinical field has more experience with cefiderocol monotherapy for MBL-CRE.",
         "These infections REQUIRE ID consultation: MBL-CRE are among the most dangerous infections a hospitalized patient can develop. The treatment algorithm is complex (carbapenemase identification → agent selection → dosing optimization → monitoring for resistance). Non-ID clinicians should not manage these independently."
+      ],
+      "definitiveTherapy": [
+        {
+          "id": "mbl-definitive",
+          "title": "MBL-CRE",
+          "organism": "NDM / VIM / IMP phenotype",
+          "syndrome": "Invasive CRE infection",
+          "susceptibility": "MBL phenotype",
+          "match": {
+            "pathogenIds": [
+              "mbl-cre"
+            ]
+          },
+          "preferred": {
+            "regimen": "Cefiderocol or ceftazidime-avibactam plus aztreonam",
+            "why": "MBL organisms sit outside the usual KPC playbook, so phenotype-specific therapy is mandatory rather than optional.",
+            "linkedMonographIds": [
+              "cefiderocol",
+              "ceftazidime-avibactam",
+              "aztreonam"
+            ],
+            "sourceIds": [
+              "idsa-2024-amr"
+            ],
+            "confidence": "high"
+          },
+          "avoid": [
+            {
+              "regimen": "Meropenem-vaborbactam monotherapy",
+              "why": "Vaborbactam does not solve MBL biology.",
+              "linkedMonographIds": [
+                "meropenem-vaborbactam"
+              ],
+              "sourceIds": [
+                "idsa-2024-amr"
+              ],
+              "confidence": "high"
+            }
+          ],
+          "sourceIds": [
+            "idsa-2024-amr"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "durationRules": [
+        {
+          "id": "mbl-duration",
+          "label": "MBL bloodstream or deep-seated infection",
+          "defaultDuration": "10-14 days or syndrome-specific longer course",
+          "anchorEvent": "First active phenotype-matched therapy after source control",
+          "sourceIds": [
+            "idsa-2024-amr"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "failureEscalationPath": [
+        {
+          "id": "mbl-48h",
+          "checkpoint": "48-72h",
+          "title": "MBL course is not stabilizing",
+          "trigger": "The patient is still worsening or cultures remain positive despite an MBL-targeted plan.",
+          "likelyCauses": [
+            "Resistance emergence",
+            "Missed source-control need",
+            "Inadequate cefiderocol or aztreonam pairing execution"
+          ],
+          "actions": [
+            "Repeat AST and mechanism review",
+            "Audit infusion timing and access constraints before assuming the drug class itself failed"
+          ],
+          "sourceIds": [
+            "idsa-2024-amr"
+          ],
+          "confidence": "moderate"
+        }
       ]
     },
     {

@@ -42,7 +42,7 @@ export function useRecentViews(
           type: "disease",
           diseaseId: selectedDisease.id,
           label: selectedDisease.name,
-          meta: `${selectedDisease.subcategories.length} subcategories · ${selectedDisease.drugMonographs.length} monographs`,
+          meta: `${selectedDisease.subcategories.length} pathways · ${selectedDisease.drugMonographs.length} monographs`,
           icon: selectedDisease.icon,
         }),
       );

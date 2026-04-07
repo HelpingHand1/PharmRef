@@ -3,7 +3,6 @@ import type {
   DrugSearchResult,
   PathogenSearchResult,
   RegimenSearchResult,
-  Subcategory,
   SubcategorySearchResult,
 } from "../types";
 import {
@@ -15,12 +14,15 @@ import {
   flattenSubcategoryMicrobiologyText,
 } from "./microbiology";
 import {
+  flattenMonographDecisionSupportText,
   flattenMonographStructuredText,
   flattenRegimenPlan,
+  flattenSubcategoryDecisionSupportText,
   flattenSubcategoryStewardshipText,
   getPreferredRegimenNotes,
   getPreferredRegimenText,
 } from "./stewardship";
+import { getTreatmentTiers } from "./topic-surface";
 
 interface SearchPreview {
   primary: string;
@@ -42,6 +44,13 @@ function tokenizeQuery(query: string) {
 
 function normalizeLine(text: string) {
   return text.replace(/\s+/g, " ").trim();
+}
+
+function summarizeList(items: Array<string | undefined> | undefined, max = 2) {
+  const normalized = (items ?? []).map((item) => normalizeLine(item ?? "")).filter(Boolean);
+  if (!normalized.length) return "";
+  if (normalized.length <= max) return normalized.join(" | ");
+  return `${normalized.slice(0, max).join(" | ")} | +${normalized.length - max} more`;
 }
 
 function candidateScore(text: string, query: string, tokens: string[]) {
@@ -86,13 +95,134 @@ function pickPreview(candidates: Candidate[], query: string): SearchPreview {
   };
 }
 
-function getEmpiricTherapy(subcategory: Subcategory) {
-  return subcategory.empiricTherapy ?? subcategory.empiricRegimens ?? [];
+function buildDrugDecisionSupportCandidates(drug: DrugSearchResult): Candidate[] {
+  return [
+    ...(drug.specialPopulationMatrix?.map((entry) => ({
+      group: "special-population",
+      text: normalizeLine(
+        `Special population (${entry.population}): ${entry.doseStrategy}${
+          summarizeList(
+            [
+              entry.weightBasis ? `Weight basis: ${entry.weightBasis}` : "",
+              entry.infusionStrategy ? `Infusion: ${entry.infusionStrategy}` : "",
+              entry.tdmTarget ? `TDM: ${entry.tdmTarget}` : "",
+              entry.whenToConsult ? `Consult: ${entry.whenToConsult}` : "",
+            ],
+            3,
+          )
+            ? ` ${summarizeList(
+                [
+                  entry.weightBasis ? `Weight basis: ${entry.weightBasis}` : "",
+                  entry.infusionStrategy ? `Infusion: ${entry.infusionStrategy}` : "",
+                  entry.tdmTarget ? `TDM: ${entry.tdmTarget}` : "",
+                  entry.whenToConsult ? `Consult: ${entry.whenToConsult}` : "",
+                ],
+                3,
+              )}`
+            : ""
+        }`,
+      ),
+    })) ?? []),
+    ...(drug.monitoringSchedule?.map((entry) => ({
+      group: "monitoring-schedule",
+      text: normalizeLine(
+        `Monitoring (${entry.phase}): ${entry.cadence}${
+          summarizeList(
+            [
+              entry.labs?.length ? `Labs: ${entry.labs.join(", ")}` : "",
+              entry.clinical?.length ? `Clinical: ${entry.clinical.join(", ")}` : "",
+              entry.actionThresholds?.length ? `Action threshold: ${entry.actionThresholds[0]}` : "",
+            ],
+            2,
+          )
+            ? ` ${summarizeList(
+                [
+                  entry.labs?.length ? `Labs: ${entry.labs.join(", ")}` : "",
+                  entry.clinical?.length ? `Clinical: ${entry.clinical.join(", ")}` : "",
+                  entry.actionThresholds?.length ? `Action threshold: ${entry.actionThresholds[0]}` : "",
+                ],
+                2,
+              )}`
+            : ""
+        }`,
+      ),
+    })) ?? []),
+    ...(drug.executionBurden
+      ? [
+          {
+            group: "execution-burden",
+            text: normalizeLine(`Execution burden: ${drug.executionBurden.comparatorSummary}`),
+          },
+          {
+            group: "opat-fit",
+            text: normalizeLine(
+              `Operational fit: OPAT ${drug.executionBurden.opatFit}; infusion burden ${drug.executionBurden.infusionBurden}; line access ${drug.executionBurden.lineAccess}. ${
+                drug.executionBurden.homeInfusionNote ?? ""
+              }`,
+            ),
+          },
+        ]
+      : []),
+    ...flattenMonographDecisionSupportText(drug).map((text) => ({ group: "decision-support", text })),
+  ];
+}
+
+function buildSubcategoryDecisionSupportCandidates(subcategory: SubcategorySearchResult): Candidate[] {
+  return [
+    ...(subcategory.definitiveTherapy?.flatMap((entry) => [
+      {
+        group: "definitive-therapy",
+        text: normalizeLine(`Preferred definitive therapy (${entry.title}): ${entry.preferred.regimen}. ${entry.preferred.why}`),
+      },
+      ...(entry.acceptable?.map((branch) => ({
+        group: "definitive-acceptable",
+        text: normalizeLine(`Acceptable definitive therapy (${entry.title}): ${branch.regimen}. ${branch.why}`),
+      })) ?? []),
+      ...(entry.rescue?.map((branch) => ({
+        group: "definitive-rescue",
+        text: normalizeLine(`Rescue definitive therapy (${entry.title}): ${branch.regimen}. ${branch.why}`),
+      })) ?? []),
+      ...(entry.avoid?.map((branch) => ({
+        group: "definitive-avoid",
+        text: normalizeLine(`Avoid in definitive therapy (${entry.title}): ${branch.regimen}. ${branch.why}`),
+      })) ?? []),
+      ...(entry.monitoringFocus?.map((focus) => ({
+        group: "definitive-monitoring",
+        text: normalizeLine(`Definitive therapy monitoring (${entry.title}): ${focus}`),
+      })) ?? []),
+    ]) ?? []),
+    ...(subcategory.oralStepDown?.map((entry) => ({
+      group: "oral-stepdown",
+      text: normalizeLine(
+        `Oral step-down #${entry.rank} (${entry.label}): ${entry.regimen}. ${entry.bioavailability} ${entry.penetration}${
+          summarizeList(entry.barrierNotes, 1) ? ` Barrier: ${summarizeList(entry.barrierNotes, 1)}` : ""
+        }`,
+      ),
+    })) ?? []),
+    ...(subcategory.durationRules?.map((entry) => ({
+      group: "duration-rule",
+      text: normalizeLine(
+        `Duration (${entry.label}): ${entry.defaultDuration} from ${entry.anchorEvent}${
+          summarizeList(entry.exceptions, 1) ? ` Exception: ${summarizeList(entry.exceptions, 1)}` : ""
+        }`,
+      ),
+    })) ?? []),
+    ...(subcategory.failureEscalationPath?.map((entry) => ({
+      group: "failure-escalation",
+      text: normalizeLine(
+        `${entry.checkpoint} escalation (${entry.title}): ${entry.trigger} ${
+          summarizeList([...entry.actions, ...(entry.broadenTo ?? [])], 2)
+        }`,
+      ),
+    })) ?? []),
+    ...flattenSubcategoryDecisionSupportText(subcategory).map((text) => ({ group: "decision-support", text })),
+  ];
 }
 
 export function buildDrugSearchPreview(drug: DrugSearchResult, query: string): SearchPreview {
   return pickPreview(
     [
+      ...buildDrugDecisionSupportCandidates(drug),
       ...flattenMonographStructuredText(drug).map((text) => ({ group: "structured", text })),
       ...flattenMonographMicrobiologyText(drug).map((text) => ({ group: "microbiology", text })),
       ...getInstitutionDrugNoteLines(drug).map((text) => ({ group: "local-policy", text })),
@@ -143,7 +273,8 @@ export function buildRegimenSearchPreview(regimen: RegimenSearchResult, query: s
 }
 
 export function buildSubcategorySearchPreview(subcategory: SubcategorySearchResult, query: string): SearchPreview {
-  const empiricCandidates = getEmpiricTherapy(subcategory).flatMap((tier) =>
+  const decisionSupportCandidates = buildSubcategoryDecisionSupportCandidates(subcategory);
+  const empiricCandidates = getTreatmentTiers(subcategory).flatMap((tier) =>
     tier.options.flatMap((option) => [
       {
         group: "empiric-regimen",
@@ -158,21 +289,26 @@ export function buildSubcategorySearchPreview(subcategory: SubcategorySearchResu
   );
 
   const candidates =
-    subcategory.matchType === "workflow"
-      ? flattenSubcategoryStewardshipText(subcategory).map((text) => ({ group: "workflow", text }))
+    subcategory.matchType === "workflow" || subcategory.matchType === "decision-support"
+      ? [
+          ...decisionSupportCandidates,
+          ...flattenSubcategoryStewardshipText(subcategory, subcategory.parentDisease).map((text) => ({ group: "workflow", text })),
+        ]
       : subcategory.matchType === "microbiology"
         ? flattenSubcategoryMicrobiologyText(subcategory).map((text) => ({ group: "microbiology", text }))
       : subcategory.matchType === "pearl"
           ? (subcategory.pearls ?? []).map((text) => ({ group: "pearl", text }))
           : subcategory.matchType === "empiric"
             ? [
+                ...decisionSupportCandidates,
                 ...empiricCandidates,
                 ...flattenSubcategoryMicrobiologyText(subcategory).map((text) => ({ group: "microbiology", text })),
-                ...flattenSubcategoryStewardshipText(subcategory).map((text) => ({ group: "workflow", text })),
+                ...flattenSubcategoryStewardshipText(subcategory, subcategory.parentDisease).map((text) => ({ group: "workflow", text })),
               ]
             : [
                 { group: "definition", text: subcategory.definition },
-                ...flattenSubcategoryStewardshipText(subcategory).map((text) => ({ group: "workflow", text })),
+                ...decisionSupportCandidates,
+                ...flattenSubcategoryStewardshipText(subcategory, subcategory.parentDisease).map((text) => ({ group: "workflow", text })),
               ];
 
   return pickPreview(candidates, query);

@@ -865,7 +865,109 @@ export const FUNGAL_INFECTIONS: DiseaseState = {
           "site": "Urine",
           "detail": "Urinary exposure is poor, so voriconazole should not be expected to treat fungal lower-tract urine infection."
         }
-      ]
+      ],
+      "specialPopulationMatrix": [
+        {
+          "population": "Hepatic injury",
+          "doseStrategy": "Keep the loading strategy intact, then use trough plus liver trajectory to decide whether maintenance reduction is needed.",
+          "tdmTarget": "Trough roughly 1-5.5 mcg/mL",
+          "whenToConsult": "Use pharmacist review when bilirubin or transaminases are already elevated.",
+          "sourceIds": [
+            "idsa-aspergillosis"
+          ],
+          "confidence": "high"
+        },
+        {
+          "population": "Calcineurin inhibitor exposure or transplant",
+          "doseStrategy": "Dose interaction planning is part of the regimen choice because tacrolimus or cyclosporine exposure can swing immediately.",
+          "whenToConsult": "Mandatory transplant-pharmacy review.",
+          "sourceIds": [
+            "idsa-aspergillosis"
+          ],
+          "confidence": "high"
+        },
+        {
+          "population": "Prolonged QTc or major QT-risk profile",
+          "doseStrategy": "Treat ECG and electrolyte review as a gateway to therapy, not a follow-up chore.",
+          "whenToConsult": "Reassess if QTc is already prolonged or multiple QT-active drugs remain on board.",
+          "sourceIds": [
+            "idsa-aspergillosis"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "monitoringSchedule": [
+        {
+          "id": "vori-baseline",
+          "phase": "baseline",
+          "cadence": "Before or on day 1",
+          "labs": [
+            "AST/ALT",
+            "bilirubin",
+            "BMP"
+          ],
+          "clinical": [
+            "Medication interaction review",
+            "Baseline ECG when QT risk exists"
+          ],
+          "actionThresholds": [
+            "Document the interaction plan before the first maintenance dose."
+          ],
+          "sourceIds": [
+            "idsa-aspergillosis"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "vori-early",
+          "phase": "early",
+          "cadence": "Day 5 trough and early weekly review",
+          "labs": [
+            "Voriconazole trough",
+            "LFTs"
+          ],
+          "clinical": [
+            "Visual symptoms",
+            "QT review when relevant"
+          ],
+          "actionThresholds": [
+            "Adjust or exit if trough and toxicity are moving in the wrong direction."
+          ],
+          "sourceIds": [
+            "idsa-aspergillosis"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "vori-weekly",
+          "phase": "weekly",
+          "cadence": "Weekly until stable, then with every major interaction change",
+          "labs": [
+            "Voriconazole trough",
+            "LFTs"
+          ],
+          "clinical": [
+            "Neuro-visual review",
+            "Dermatologic counseling for longer courses"
+          ],
+          "sourceIds": [
+            "idsa-aspergillosis"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "executionBurden": {
+        "infusionBurden": "low",
+        "lineAccess": "simple",
+        "opatFit": "conditional",
+        "monitoringBurden": "high",
+        "homeInfusionNote": "The real operational move is usually early oral conversion plus tight TDM and interaction control.",
+        "comparatorSummary": "Best-in-class mold therapy when exposure is measured carefully; the monitoring and interaction burden is the price of that potency.",
+        "sourceIds": [
+          "idsa-aspergillosis"
+        ],
+        "confidence": "high"
+      }
     },
     {
       "id": "amphotericin-b",

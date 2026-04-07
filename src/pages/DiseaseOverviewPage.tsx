@@ -2,6 +2,7 @@ import type { CatalogDerived } from "../data/derived";
 import type { DiseaseState, NavigateTo, Styles } from "../types";
 import { getSourceLookupHref } from "../data/source-registry";
 import { resolveOverviewEntrySources } from "../data/overview-evidence";
+import { getCatalogCollectionLabel, getPathwayCollectionLabel, getTopicOverviewLabel, showsInfectiousDetail } from "../data/topic-surface";
 import { NAV_STATES } from "../styles/constants";
 import Section from "../components/Section";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
@@ -34,17 +35,18 @@ export default function DiseaseOverviewPage({
 }: DiseaseOverviewPageProps) {
   const overview = disease.overview;
   const relatedPathogens = catalogDerived?.findPathogensForDisease(disease.id) ?? [];
+  const showsPathogenReferences = showsInfectiousDetail(disease) && relatedPathogens.length > 0;
   const summaryFacts = [
     { label: "Guidelines", value: `${overview.keyGuidelines.length} listed` },
     { label: "Landmark Trials", value: `${overview.landmarkTrials.length} listed` },
     { label: "Risk Factors", value: overview.riskFactors ? "Included" : "Not listed" },
-    { label: "Subcategories", value: `${disease.subcategories.length} pathways` },
+    { label: getPathwayCollectionLabel(), value: `${disease.subcategories.length} pathways` },
   ];
 
   return (
     <>
       <button type="button" style={S.backBtn} onClick={() => navigateTo(NAV_STATES.HOME)}>
-        ← All Disease States
+        ← All {getCatalogCollectionLabel()}
       </button>
 
       <section
@@ -79,19 +81,21 @@ export default function DiseaseOverviewPage({
             {disease.icon}
           </div>
           <div className="page-hero-copy" style={{ flex: 1, minWidth: "220px" }}>
-            <div style={{ ...S.monographLabel, color: S.meta.accent, marginBottom: "8px" }}>Disease Overview</div>
+            <div style={{ ...S.monographLabel, color: S.meta.accent, marginBottom: "8px" }}>{getTopicOverviewLabel()}</div>
             <h1 style={{ fontSize: "30px", lineHeight: 1.08, letterSpacing: "-0.04em", margin: 0, color: S.meta.textHeading }}>
               {disease.name}
             </h1>
             <div style={{ color: S.monographValue.color, fontSize: "14px", marginTop: "8px", lineHeight: 1.6 }}>{disease.category}</div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "14px" }}>
               <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
-                {disease.subcategories.length} subcategories
+                {disease.subcategories.length} pathways
               </span>
-              <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
-                {disease.drugMonographs.length} monographs
-              </span>
-              {relatedPathogens.length > 0 && (
+              {disease.drugMonographs.length > 0 && (
+                <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                  {disease.drugMonographs.length} monographs
+                </span>
+              )}
+              {showsPathogenReferences && (
                 <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
                   {relatedPathogens.length} pathogen refs
                 </span>
@@ -239,7 +243,7 @@ export default function DiseaseOverviewPage({
         </div>
       </Section>
 
-      {relatedPathogens.length > 0 && (
+      {showsPathogenReferences && (
         <Section
           id="pathogens"
           title="Related Pathogen References"
@@ -273,8 +277,8 @@ export default function DiseaseOverviewPage({
       )}
 
       <div className="section-meta-row" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginTop: "30px", marginBottom: "12px", flexWrap: "wrap" }}>
-        <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>Disease Subcategories</div>
-        <div style={{ fontSize: "12px", color: S.monographValue.color }}>Open a syndrome-specific pathway to review empiric and targeted therapy.</div>
+        <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>{getPathwayCollectionLabel()}</div>
+        <div style={{ fontSize: "12px", color: S.monographValue.color }}>Open a pathway to review assessment priorities, treatment approach, and follow-up decisions.</div>
       </div>
       {disease.subcategories.map((subcategory) => (
         <div
@@ -309,25 +313,29 @@ export default function DiseaseOverviewPage({
         </div>
       ))}
 
-      <div className="section-meta-row" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginTop: "30px", marginBottom: "12px", flexWrap: "wrap" }}>
-        <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>
-          Drug Monographs ({disease.drugMonographs.length})
-        </div>
-        <div style={{ fontSize: "12px", color: S.monographValue.color }}>Direct access to detailed drug-level safety, dosing, and monitoring guidance.</div>
-      </div>
-      <div className="results-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "10px" }}>
-        {disease.drugMonographs.map((drug) => (
-          <div
-            key={drug.id}
-            className="pr-card result-card"
-            style={{ ...S.card, marginBottom: 0, padding: "16px 18px" }}
-            onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { disease, monograph: drug })}
-          >
-            <div style={{ fontSize: "15px", fontWeight: 700, color: S.meta.accent }}>{drug.name}</div>
-            <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{drug.drugClass}</div>
+      {disease.drugMonographs.length > 0 && (
+        <>
+          <div className="section-meta-row" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginTop: "30px", marginBottom: "12px", flexWrap: "wrap" }}>
+            <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>
+              Drug Monographs ({disease.drugMonographs.length})
+            </div>
+            <div style={{ fontSize: "12px", color: S.monographValue.color }}>Direct access to detailed drug-level safety, dosing, and monitoring guidance.</div>
           </div>
-        ))}
-      </div>
+          <div className="results-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "10px" }}>
+            {disease.drugMonographs.map((drug) => (
+              <div
+                key={drug.id}
+                className="pr-card result-card"
+                style={{ ...S.card, marginBottom: 0, padding: "16px 18px" }}
+                onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { disease, monograph: drug })}
+              >
+                <div style={{ fontSize: "15px", fontWeight: 700, color: S.meta.accent }}>{drug.name}</div>
+                <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{drug.drugClass}</div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </>
   );
 }

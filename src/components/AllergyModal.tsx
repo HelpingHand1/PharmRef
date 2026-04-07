@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { AllergyModalProps } from "../types";
+import { useFocusTrap } from "../utils/focusTrap";
 
 export default function AllergyModal({
   show,
@@ -14,6 +15,8 @@ export default function AllergyModal({
   onClearWorkData,
   removeAllergy,
 }: AllergyModalProps) {
+  const trapRef = useFocusTrap(show);
+
   useEffect(() => {
     if (!show) return;
     const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -49,6 +52,7 @@ export default function AllergyModal({
       onClick={onClose}
     >
       <div
+        ref={trapRef}
         className="modal-panel"
         role="dialog"
         aria-modal="true"

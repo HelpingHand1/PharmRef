@@ -2,6 +2,7 @@
 // Runtime catalog imports use src/data/generated/diseases/ssti.ts.
 
 import type { DiseaseState, Subcategory } from "../types";
+import { getDecisionSupportMonographEnhancementsForDisease } from "./decision-support-content";
 import { SSTI_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
 import { enhanceDisease, mergeEnhancementMaps, notApplicable, ready } from "./stewardship-content";
 
@@ -404,5 +405,8 @@ const SSTI_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
 export const SSTI: DiseaseState = enhanceDisease(
   SSTI_BASE,
   mergeEnhancementMaps(SSTI_WORKFLOW_ENHANCEMENTS),
-  SSTI_MONOGRAPH_ENHANCEMENTS,
+  mergeEnhancementMaps(
+    SSTI_MONOGRAPH_ENHANCEMENTS,
+    getDecisionSupportMonographEnhancementsForDisease("ssti"),
+  ),
 );

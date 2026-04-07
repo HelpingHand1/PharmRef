@@ -48,6 +48,24 @@ export default function PathogenReferencePage({
   S,
   toggleSection,
 }: PathogenReferencePageProps) {
+  const linkedDecisionSupport = (pathogen.relatedPathways ?? []).flatMap((pathway) => {
+    const subcategory = pathway.subcategoryId
+      ? catalogDerived?.subcategoryByDiseaseId[pathway.diseaseId]?.[pathway.subcategoryId] ?? null
+      : null;
+
+    if (!subcategory?.definitiveTherapy?.length) {
+      return [];
+    }
+
+    return subcategory.definitiveTherapy
+      .filter((entry) => !entry.match?.pathogenIds?.length || entry.match.pathogenIds.includes(pathogen.id))
+      .map((entry) => ({
+        pathway,
+        subcategory,
+        entry,
+      }));
+  });
+
   return (
     <>
       <button type="button" style={S.backBtn} onClick={() => navigateTo(NAV_STATES.HOME)}>
@@ -246,6 +264,59 @@ export default function PathogenReferencePage({
           })}
         </div>
       </Section>
+
+      {linkedDecisionSupport.length > 0 ? (
+        <Section
+          id="pathway-decision-support"
+          title="Linked Pathway Decision Support"
+          icon="🎯"
+          accentColor="#059669"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <div style={{ display: "grid", gap: "10px" }}>
+            {linkedDecisionSupport.map(({ pathway, entry }) => (
+              <div
+                key={`${pathway.diseaseId}-${pathway.subcategoryId}-${entry.id}`}
+                style={{
+                  padding: "14px 16px",
+                  background: S.card.background,
+                  borderRadius: "14px",
+                  border: `1px solid ${S.card.borderColor}`,
+                  boxShadow: S.meta.shadowSm,
+                }}
+              >
+                <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading }}>{entry.title}</div>
+                <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+                  {pathway.label}
+                </div>
+                <div style={{ fontSize: "12px", color: S.meta.textHeading, marginTop: "8px", lineHeight: 1.6 }}>
+                  <strong>Preferred:</strong> {entry.preferred.regimen}
+                </div>
+                <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+                  {entry.preferred.why}
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
+                  <button
+                    type="button"
+                    style={{ ...S.crossRefPill, fontFamily: "inherit", marginRight: 0, marginBottom: 0 }}
+                    onClick={() =>
+                      pathway.subcategoryId
+                        ? navigateTo(NAV_STATES.SUBCATEGORY, { diseaseId: pathway.diseaseId, subcategoryId: pathway.subcategoryId })
+                        : navigateTo(NAV_STATES.DISEASE_OVERVIEW, { diseaseId: pathway.diseaseId })
+                    }
+                  >
+                    Open pathway
+                  </button>
+                </div>
+                <SourceEvidencePills sourceIds={entry.sourceIds} S={S} />
+              </div>
+            ))}
+          </div>
+        </Section>
+      ) : null}
 
       <Section
         id="related"

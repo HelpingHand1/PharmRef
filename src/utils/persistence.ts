@@ -35,6 +35,8 @@ function safeSet<T>(key: string, value: T, options: PersistenceOptions = {}): vo
   try {
     const storage = getStorage(options.scope);
     storage.setItem(PREFIX + key, JSON.stringify(buildPersistedEnvelope(value, options)));
+    // StorageEvent only fires in *other* tabs — dispatch a custom event for same-tab sync
+    window.dispatchEvent(new CustomEvent("pharmref-storage", { detail: { key, scope: options.scope } }));
   } catch {
     // Storage full or unavailable — fail silently
   }
@@ -58,13 +60,25 @@ export function usePersistedState<T>(key: string, defaultValue: T, options: Pers
   }, [key, scope, state, ttlMs]);
 
   useEffect(() => {
-    const handler = (e: StorageEvent) => {
+    // Cross-tab sync via native StorageEvent
+    const handleStorage = (e: StorageEvent) => {
       if (e.storageArea === getStorage(scope) && e.key === PREFIX + key) {
         setState(safeGet(key, defaultValue, { scope, ttlMs }));
       }
     };
-    window.addEventListener("storage", handler);
-    return () => window.removeEventListener("storage", handler);
+    // Same-tab sync via custom event (StorageEvent doesn't fire in the originating tab)
+    const handleLocal = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail?.key === key && (detail?.scope ?? "local") === scope) {
+        setState(safeGet(key, defaultValue, { scope, ttlMs }));
+      }
+    };
+    window.addEventListener("storage", handleStorage);
+    window.addEventListener("pharmref-storage", handleLocal);
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener("pharmref-storage", handleLocal);
+    };
   }, [defaultValue, key, scope, ttlMs]);
 
   return [state, setState] as [T, Dispatch<SetStateAction<T>>];

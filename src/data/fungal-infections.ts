@@ -8,8 +8,9 @@
 // IDSA Antifungal Stewardship Principles
 // ============================================================
 import type { DiseaseState } from "../types";
+import { getDecisionSupportMonographEnhancementsForDisease } from "./decision-support-content";
 import { FUNGAL_INFECTIONS_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
-import { enhanceDisease } from "./stewardship-content";
+import { enhanceDisease, mergeEnhancementMaps } from "./stewardship-content";
 
 const FUNGAL_INFECTIONS_BASE: DiseaseState = {
   id: "fungal-infections",
@@ -415,7 +416,10 @@ const FUNGAL_INFECTIONS_BASE: DiseaseState = {
 const FUNGAL_INFECTIONS: DiseaseState = enhanceDisease(
   FUNGAL_INFECTIONS_BASE,
   {},
-  FUNGAL_INFECTIONS_MONOGRAPH_ENHANCEMENTS,
+  mergeEnhancementMaps(
+    FUNGAL_INFECTIONS_MONOGRAPH_ENHANCEMENTS,
+    getDecisionSupportMonographEnhancementsForDisease("fungal-infections"),
+  ),
 );
 
 export { FUNGAL_INFECTIONS };

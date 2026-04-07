@@ -2,6 +2,10 @@
 // Runtime catalog imports use src/data/generated/diseases/uti.ts.
 
 import type { DiseaseState, Subcategory } from "../types";
+import {
+  getDecisionSupportMonographEnhancementsForDisease,
+  getDecisionSupportSubcategoryEnhancementsForDisease,
+} from "./decision-support-content";
 import { UTI_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
 import { getEmpiricOptionEnhancementsForDisease } from "./regimen-plan-content";
 import { enhanceDisease, enhanceDiseaseEmpiricOptions, mergeEnhancementMaps, notApplicable, ready } from "./stewardship-content";
@@ -665,8 +669,15 @@ const UTI_MICROBIOLOGY_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
 export const UTI: DiseaseState = enhanceDiseaseEmpiricOptions(
   enhanceDisease(
     UTI_BASE,
-    mergeEnhancementMaps(UTI_WORKFLOW_ENHANCEMENTS, UTI_MICROBIOLOGY_ENHANCEMENTS),
-    UTI_MONOGRAPH_ENHANCEMENTS,
+    mergeEnhancementMaps(
+      UTI_WORKFLOW_ENHANCEMENTS,
+      UTI_MICROBIOLOGY_ENHANCEMENTS,
+      getDecisionSupportSubcategoryEnhancementsForDisease("uti"),
+    ),
+    mergeEnhancementMaps(
+      UTI_MONOGRAPH_ENHANCEMENTS,
+      getDecisionSupportMonographEnhancementsForDisease("uti"),
+    ),
   ),
   getEmpiricOptionEnhancementsForDisease("uti"),
 );

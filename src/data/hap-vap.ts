@@ -2,6 +2,10 @@
 // Runtime catalog imports use src/data/generated/diseases/hap-vap.ts.
 
 import type { DiseaseState, DrugMonograph, Subcategory } from "../types";
+import {
+  getDecisionSupportMonographEnhancementsForDisease,
+  getDecisionSupportSubcategoryEnhancementsForDisease,
+} from "./decision-support-content";
 import { PIP_TAZO_EXECUTION_ENHANCEMENTS } from "./execution-monograph-content";
 import { getEmpiricOptionEnhancementsForDisease } from "./regimen-plan-content";
 import { enhanceDisease, enhanceDiseaseEmpiricOptions, mergeEnhancementMaps, notApplicable, ready } from "./stewardship-content";
@@ -1046,8 +1050,15 @@ const HAP_VAP_MONOGRAPH_ENHANCEMENTS: Record<string, Partial<DrugMonograph>> = {
 export const HAP_VAP: DiseaseState = enhanceDiseaseEmpiricOptions(
   enhanceDisease(
     HAP_VAP_BASE,
-    mergeEnhancementMaps(HAP_VAP_WORKFLOW_ENHANCEMENTS, HAP_VAP_MICROBIOLOGY_ENHANCEMENTS),
-    HAP_VAP_MONOGRAPH_ENHANCEMENTS,
+    mergeEnhancementMaps(
+      HAP_VAP_WORKFLOW_ENHANCEMENTS,
+      HAP_VAP_MICROBIOLOGY_ENHANCEMENTS,
+      getDecisionSupportSubcategoryEnhancementsForDisease("hap-vap"),
+    ),
+    mergeEnhancementMaps(
+      HAP_VAP_MONOGRAPH_ENHANCEMENTS,
+      getDecisionSupportMonographEnhancementsForDisease("hap-vap"),
+    ),
   ),
   getEmpiricOptionEnhancementsForDisease("hap-vap"),
 );

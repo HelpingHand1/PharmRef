@@ -10,6 +10,8 @@ import { CONTENT_STALE_AFTER_DAYS } from "../version";
 import { PATHOGEN_REFERENCES } from "./pathogen-references";
 import {
   computeDiseaseOverviewFingerprint,
+  getConfidenceBadge,
+  getContentFreshness,
   getMonographContentKey,
   getSubcategoryContentKey,
   computeMonographFingerprint,
@@ -30,7 +32,10 @@ import {
   PRIORITY_MICROBIOLOGY_SUBCATEGORY_KEYS,
 } from "./microbiology";
 import {
+  PRIORITY_DECISION_SUPPORT_MONOGRAPH_IDS,
+  PRIORITY_DECISION_SUPPORT_SUBCATEGORY_KEYS,
   PRIORITY_EXECUTION_MONOGRAPH_IDS,
+  PRIORITY_ORAL_STEPDOWN_SUBCATEGORY_KEYS,
   PRIORITY_REGIMEN_PLAN_OPTION_KEYS,
   PRIORITY_STRUCTURED_MONOGRAPH_IDS,
   PRIORITY_WORKFLOW_DISEASE_IDS,
@@ -40,6 +45,7 @@ import {
   getWorkflowBlock,
   hasWorkflowBlockContent,
 } from "./stewardship";
+import { getTreatmentTiers } from "./topic-surface";
 
 export type ContentValidationSeverity = "error" | "warn" | "info";
 
@@ -48,6 +54,38 @@ export interface ContentValidationIssue {
   disease: string;
   scope: string;
   message: string;
+}
+
+export interface AuditCoverageMetric {
+  label: string;
+  completed: number;
+  total: number;
+  tone: "fresh" | "info" | "warn";
+}
+
+export interface AuditAttentionItem {
+  label: string;
+  disease: string;
+  scope: string;
+  kind: "pathway" | "monograph";
+  freshnessLabel: string;
+  freshnessTone: "fresh" | "info" | "warn";
+  confidenceLabel: string;
+  confidenceTone: "fresh" | "info" | "warn";
+  disagreementCount: number;
+  recentChangesCount: number;
+  reviewOwner: string;
+}
+
+export interface ContentAuditSummary {
+  pathwayCoverage: AuditCoverageMetric[];
+  monographCoverage: AuditCoverageMetric[];
+  agingPriorityContent: AuditAttentionItem[];
+  disagreementPriorityContent: AuditAttentionItem[];
+  totalPriorityItems: number;
+  nonFreshPriorityCount: number;
+  stalePriorityCount: number;
+  disagreementPriorityCount: number;
 }
 
 const REQUIRED_DISEASE_FIELDS: Array<keyof DiseaseState> = ["id", "name", "icon", "category", "overview", "subcategories"];
@@ -107,6 +145,67 @@ function daysOld(value: string | undefined): number | null {
   return Math.floor((Date.now() - parsed.getTime()) / (1000 * 60 * 60 * 24));
 }
 
+function buildCoverageMetric(label: string, completed: number, total: number): AuditCoverageMetric {
+  const missing = total - completed;
+  return {
+    label,
+    completed,
+    total,
+    tone: missing === 0 ? "fresh" : missing <= Math.max(1, Math.floor(total * 0.2)) ? "info" : "warn",
+  };
+}
+
+function getPriorityMonographOwnerById(diseaseStates: DiseaseState[]) {
+  return diseaseStates.reduce<Record<string, string>>((lookup, disease) => {
+    disease.drugMonographs.forEach((monograph) => {
+      if (!lookup[monograph.id]) {
+        lookup[monograph.id] = disease.id;
+      }
+    });
+    return lookup;
+  }, {});
+}
+
+function buildAuditAttentionItem(
+  disease: DiseaseState,
+  options: {
+    label: string;
+    scope: string;
+    kind: "pathway" | "monograph";
+    meta: ContentMeta | null;
+  },
+): AuditAttentionItem {
+  const freshness = options.meta
+    ? getContentFreshness(options.meta)
+    : {
+        tone: "warn" as const,
+        label: "Review metadata missing",
+        shortLabel: "Metadata missing",
+        ageDays: null,
+      };
+  const confidence = options.meta
+    ? getConfidenceBadge(options.meta.confidence)
+    : {
+        label: "Confidence missing",
+        shortLabel: "Confidence missing",
+        tone: "warn" as const,
+      };
+
+  return {
+    label: options.label,
+    disease: disease.name,
+    scope: options.scope,
+    kind: options.kind,
+    freshnessLabel: freshness.label,
+    freshnessTone: freshness.tone,
+    confidenceLabel: confidence.label,
+    confidenceTone: confidence.tone,
+    disagreementCount: options.meta?.guidelineDisagreements?.length ?? 0,
+    recentChangesCount: options.meta?.whatChanged?.length ?? 0,
+    reviewOwner: options.meta?.governance?.owner ?? "Unassigned",
+  };
+}
+
 function hasValidReviewHistory(
   meta: Pick<ContentMeta, "lastReviewed" | "reviewedBy" | "reviewHistory">,
 ) {
@@ -126,10 +225,6 @@ function hasValidReviewHistory(
     const previous = new Date(`${entries[index - 1].reviewedOn}T00:00:00`).getTime();
     return !Number.isNaN(previous) && previous >= current;
   });
-}
-
-function getEmpiricTherapy(subcategory: Subcategory) {
-  return subcategory.empiricTherapy ?? subcategory.empiricRegimens ?? [];
 }
 
 function hasNonEmptyRecordValues(record?: Record<string, string | undefined>) {
@@ -157,6 +252,55 @@ function validateStructuredSourceIds(
       addIssue(issues, "error", disease, scope, `Unknown source id "${sourceId}".`);
     }
   });
+}
+
+function validateLinkedMonographIds(
+  issues: ContentValidationIssue[],
+  disease: string,
+  scope: string,
+  linkedMonographIds: string[] | undefined,
+  knownMonographIds: Set<string>,
+) {
+  linkedMonographIds?.forEach((linkedMonographId) => {
+    if (!knownMonographIds.has(linkedMonographId)) {
+      addIssue(
+        issues,
+        "error",
+        disease,
+        scope,
+        `Decision-support entry links unknown monographId "${linkedMonographId}".`,
+      );
+    }
+  });
+}
+
+function validateDecisionMatchCriteria(
+  issues: ContentValidationIssue[],
+  disease: string,
+  scope: string,
+  match: {
+    pathogenIds?: string[];
+    sites?: string[];
+    rapidDiagnostics?: string[];
+    requiresPatientSignals?: string[];
+    avoidPatientSignals?: string[];
+  } | undefined,
+) {
+  if (!match) return;
+
+  const validateList = (label: string, values: string[] | undefined) => {
+    values?.forEach((value, index) => {
+      if (!value?.trim()) {
+        addIssue(issues, "error", disease, `${scope} match.${label} #${index + 1}`, "Match criterion is blank.");
+      }
+    });
+  };
+
+  validateList("pathogenIds", match.pathogenIds);
+  validateList("sites", match.sites);
+  validateList("rapidDiagnostics", match.rapidDiagnostics);
+  validateList("requiresPatientSignals", match.requiresPatientSignals);
+  validateList("avoidPatientSignals", match.avoidPatientSignals);
 }
 
 function validateMeta(
@@ -345,7 +489,7 @@ function validateSubcategory(
     computeSubcategoryFingerprint(subcategory),
   );
 
-  const tiers = getEmpiricTherapy(subcategory);
+  const tiers = getTreatmentTiers(subcategory);
   if (tiers.length === 0) {
     addIssue(issues, "error", disease.name, subcategoryScope, "No empiric therapy tiers listed.");
   }
@@ -524,6 +668,80 @@ function validateSubcategory(
     }
   });
 
+  if (subcategory.definitiveTherapy && subcategory.definitiveTherapy.length === 0) {
+    addIssue(issues, "error", disease.name, `${subcategoryScope} definitiveTherapy`, "Definitive therapy block is empty.");
+  }
+  subcategory.definitiveTherapy?.forEach((entry, index) => {
+    const scope = `${subcategoryScope} definitiveTherapy #${index + 1}`;
+    if (!entry.id?.trim() || !entry.title?.trim() || !entry.organism?.trim() || !entry.susceptibility?.trim()) {
+      addIssue(issues, "error", disease.name, scope, "Definitive therapy rule is missing a required identity field.");
+    }
+    if (!entry.preferred?.regimen?.trim() || !entry.preferred?.why?.trim()) {
+      addIssue(issues, "error", disease.name, scope, "Definitive therapy rule is missing a preferred regimen or rationale.");
+    }
+    validateDecisionMatchCriteria(issues, disease.name, scope, entry.match);
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+    validateStructuredSourceIds(issues, disease.name, `${scope} preferred`, entry.preferred.sourceIds);
+    validateLinkedMonographIds(issues, disease.name, `${scope} preferred`, entry.preferred.linkedMonographIds, knownMonographIds);
+
+    [entry.acceptable ?? [], entry.rescue ?? [], entry.avoid ?? []].forEach((branches, branchGroupIndex) => {
+      const branchLabel = ["acceptable", "rescue", "avoid"][branchGroupIndex];
+      branches.forEach((branch, branchIndex) => {
+        const branchScope = `${scope} ${branchLabel} #${branchIndex + 1}`;
+        if (!branch.regimen?.trim() || !branch.why?.trim()) {
+          addIssue(issues, "error", disease.name, branchScope, "Definitive therapy branch is incomplete.");
+        }
+        validateStructuredSourceIds(issues, disease.name, branchScope, branch.sourceIds);
+        validateLinkedMonographIds(issues, disease.name, branchScope, branch.linkedMonographIds, knownMonographIds);
+      });
+    });
+  });
+
+  if (subcategory.oralStepDown && subcategory.oralStepDown.length === 0) {
+    addIssue(issues, "error", disease.name, `${subcategoryScope} oralStepDown`, "Oral step-down block is empty.");
+  }
+  subcategory.oralStepDown?.forEach((entry, index) => {
+    const scope = `${subcategoryScope} oralStepDown #${index + 1}`;
+    if (
+      !entry.id?.trim() ||
+      !entry.label?.trim() ||
+      !entry.regimen?.trim() ||
+      entry.rank < 1 ||
+      entry.eligibilityChecklist.length === 0 ||
+      !entry.bioavailability?.trim() ||
+      !entry.penetration?.trim()
+    ) {
+      addIssue(issues, "error", disease.name, scope, "Oral step-down option is incomplete.");
+    }
+    validateDecisionMatchCriteria(issues, disease.name, scope, entry.match);
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+    validateLinkedMonographIds(issues, disease.name, scope, entry.linkedMonographIds, knownMonographIds);
+  });
+
+  if (subcategory.durationRules && subcategory.durationRules.length === 0) {
+    addIssue(issues, "error", disease.name, `${subcategoryScope} durationRules`, "Duration rules block is empty.");
+  }
+  subcategory.durationRules?.forEach((entry, index) => {
+    const scope = `${subcategoryScope} durationRules #${index + 1}`;
+    if (!entry.id?.trim() || !entry.label?.trim() || !entry.defaultDuration?.trim() || !entry.anchorEvent?.trim()) {
+      addIssue(issues, "error", disease.name, scope, "Duration rule is incomplete.");
+    }
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+    validateLinkedMonographIds(issues, disease.name, scope, entry.linkedMonographIds, knownMonographIds);
+  });
+
+  if (subcategory.failureEscalationPath && subcategory.failureEscalationPath.length === 0) {
+    addIssue(issues, "error", disease.name, `${subcategoryScope} failureEscalationPath`, "Failure / escalation block is empty.");
+  }
+  subcategory.failureEscalationPath?.forEach((entry, index) => {
+    const scope = `${subcategoryScope} failureEscalationPath #${index + 1}`;
+    if (!entry.id?.trim() || !entry.title?.trim() || !entry.trigger?.trim() || entry.actions.length === 0) {
+      addIssue(issues, "error", disease.name, scope, "Failure / escalation branch is incomplete.");
+    }
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+    validateLinkedMonographIds(issues, disease.name, scope, entry.linkedMonographIds, knownMonographIds);
+  });
+
   if (PRIORITY_WORKFLOW_DISEASE_IDS.has(disease.id)) {
     WORKFLOW_FIELD_CONFIG.forEach((fieldConfig) => {
       const block = getWorkflowBlock(subcategory, fieldConfig.key);
@@ -564,6 +782,22 @@ function validateSubcategory(
     if (!subcategory.coverageMatrix?.length) {
       addIssue(issues, "error", disease.name, subcategoryScope, "Priority microbiology pathway is missing coverage matrix rows.");
     }
+  }
+
+  if (PRIORITY_DECISION_SUPPORT_SUBCATEGORY_KEYS.has(microbiologyKey)) {
+    if (!subcategory.definitiveTherapy?.length) {
+      addIssue(issues, "error", disease.name, subcategoryScope, "Priority decision-support pathway is missing definitive therapy rules.");
+    }
+    if (!subcategory.durationRules?.length) {
+      addIssue(issues, "error", disease.name, subcategoryScope, "Priority decision-support pathway is missing duration rules.");
+    }
+    if (!subcategory.failureEscalationPath?.length) {
+      addIssue(issues, "error", disease.name, subcategoryScope, "Priority decision-support pathway is missing failure / escalation branches.");
+    }
+  }
+
+  if (PRIORITY_ORAL_STEPDOWN_SUBCATEGORY_KEYS.has(microbiologyKey) && !subcategory.oralStepDown?.length) {
+    addIssue(issues, "error", disease.name, subcategoryScope, "Priority decision-support pathway is missing oral step-down options.");
   }
 
   if (!subcategory.pearls || subcategory.pearls.length === 0) {
@@ -767,6 +1001,35 @@ function validateMonograph(
     }
   });
 
+  if (monograph.specialPopulationMatrix && monograph.specialPopulationMatrix.length === 0) {
+    addIssue(issues, "error", disease.name, `${monographScope} specialPopulationMatrix`, "Special population matrix is empty.");
+  }
+  monograph.specialPopulationMatrix?.forEach((entry, index) => {
+    const scope = `${monographScope} specialPopulationMatrix #${index + 1}`;
+    if (!entry.population?.trim() || !entry.doseStrategy?.trim()) {
+      addIssue(issues, "error", disease.name, scope, "Special population matrix entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+  });
+
+  if (monograph.monitoringSchedule && monograph.monitoringSchedule.length === 0) {
+    addIssue(issues, "error", disease.name, `${monographScope} monitoringSchedule`, "Monitoring schedule is empty.");
+  }
+  monograph.monitoringSchedule?.forEach((entry, index) => {
+    const scope = `${monographScope} monitoringSchedule #${index + 1}`;
+    if (!entry.id?.trim() || !entry.phase || !entry.cadence?.trim()) {
+      addIssue(issues, "error", disease.name, scope, "Monitoring schedule entry is incomplete.");
+    }
+    validateStructuredSourceIds(issues, disease.name, scope, entry.sourceIds);
+  });
+
+  if (monograph.executionBurden) {
+    if (!monograph.executionBurden.comparatorSummary?.trim()) {
+      addIssue(issues, "error", disease.name, `${monographScope} executionBurden`, "Execution burden block is missing comparatorSummary.");
+    }
+    validateStructuredSourceIds(issues, disease.name, `${monographScope} executionBurden`, monograph.executionBurden.sourceIds);
+  }
+
   if (PRIORITY_STRUCTURED_MONOGRAPH_IDS.has(monograph.id) && primaryMonographOwnerById[monograph.id] === disease.id) {
     if (!monograph.dosingByIndication?.length) {
       addIssue(issues, "error", disease.name, monographScope, "Priority stewardship monograph is missing dosingByIndication.");
@@ -803,6 +1066,18 @@ function validateMonograph(
     }
     if (!monograph.opatEligibility) {
       addIssue(issues, "error", disease.name, monographScope, "Priority execution monograph is missing OPAT guidance.");
+    }
+  }
+
+  if (PRIORITY_DECISION_SUPPORT_MONOGRAPH_IDS.has(monograph.id) && primaryMonographOwnerById[monograph.id] === disease.id) {
+    if (!monograph.specialPopulationMatrix?.length) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority decision-support monograph is missing a special population dosing matrix.");
+    }
+    if (!monograph.monitoringSchedule?.length) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority decision-support monograph is missing a monitoring schedule.");
+    }
+    if (!monograph.executionBurden) {
+      addIssue(issues, "error", disease.name, monographScope, "Priority decision-support monograph is missing an execution burden profile.");
     }
   }
 
@@ -983,14 +1258,7 @@ export function buildContentValidationIssues(diseaseStates: DiseaseState[]) {
   const knownMonographIds = new Set(
     diseaseStates.flatMap((disease) => disease.drugMonographs.map((monograph) => monograph.id)),
   );
-  const primaryMonographOwnerById = diseaseStates.reduce<Record<string, string>>((lookup, disease) => {
-    disease.drugMonographs.forEach((monograph) => {
-      if (!lookup[monograph.id]) {
-        lookup[monograph.id] = disease.id;
-      }
-    });
-    return lookup;
-  }, {});
+  const primaryMonographOwnerById = getPriorityMonographOwnerById(diseaseStates);
 
   getSourceRegistryIssues().forEach((issue) => {
     addIssue(issues, "error", "Source Registry", issue.scope, issue.message);
@@ -1010,4 +1278,128 @@ export function buildContentValidationIssues(diseaseStates: DiseaseState[]) {
   });
 
   return issues;
+}
+
+export function buildContentAuditSummary(diseaseStates: DiseaseState[]): ContentAuditSummary {
+  const primaryMonographOwnerById = getPriorityMonographOwnerById(diseaseStates);
+  const pathwayByKey = new Map<string, { disease: DiseaseState; subcategory: Subcategory }>();
+  const monographById = new Map<string, { disease: DiseaseState; monograph: DrugMonograph }>();
+
+  diseaseStates.forEach((disease) => {
+    disease.subcategories.forEach((subcategory) => {
+      pathwayByKey.set(`${disease.id}/${subcategory.id}`, { disease, subcategory });
+    });
+    disease.drugMonographs.forEach((monograph) => {
+      if (primaryMonographOwnerById[monograph.id] === disease.id) {
+        monographById.set(monograph.id, { disease, monograph });
+      }
+    });
+  });
+
+  const pathwayCoverage = [
+    buildCoverageMetric(
+      "Definitive therapy",
+      [...PRIORITY_DECISION_SUPPORT_SUBCATEGORY_KEYS].filter((key) => pathwayByKey.get(key)?.subcategory.definitiveTherapy?.length).length,
+      PRIORITY_DECISION_SUPPORT_SUBCATEGORY_KEYS.size,
+    ),
+    buildCoverageMetric(
+      "Oral step-down",
+      [...PRIORITY_ORAL_STEPDOWN_SUBCATEGORY_KEYS].filter((key) => pathwayByKey.get(key)?.subcategory.oralStepDown?.length).length,
+      PRIORITY_ORAL_STEPDOWN_SUBCATEGORY_KEYS.size,
+    ),
+    buildCoverageMetric(
+      "Duration rules",
+      [...PRIORITY_DECISION_SUPPORT_SUBCATEGORY_KEYS].filter((key) => pathwayByKey.get(key)?.subcategory.durationRules?.length).length,
+      PRIORITY_DECISION_SUPPORT_SUBCATEGORY_KEYS.size,
+    ),
+    buildCoverageMetric(
+      "Failure / escalation",
+      [...PRIORITY_DECISION_SUPPORT_SUBCATEGORY_KEYS].filter((key) => pathwayByKey.get(key)?.subcategory.failureEscalationPath?.length).length,
+      PRIORITY_DECISION_SUPPORT_SUBCATEGORY_KEYS.size,
+    ),
+  ];
+
+  const monographCoverage = [
+    buildCoverageMetric(
+      "Special population matrix",
+      [...PRIORITY_DECISION_SUPPORT_MONOGRAPH_IDS].filter((id) => monographById.get(id)?.monograph.specialPopulationMatrix?.length).length,
+      PRIORITY_DECISION_SUPPORT_MONOGRAPH_IDS.size,
+    ),
+    buildCoverageMetric(
+      "Monitoring schedule",
+      [...PRIORITY_DECISION_SUPPORT_MONOGRAPH_IDS].filter((id) => monographById.get(id)?.monograph.monitoringSchedule?.length).length,
+      PRIORITY_DECISION_SUPPORT_MONOGRAPH_IDS.size,
+    ),
+    buildCoverageMetric(
+      "Execution burden",
+      [...PRIORITY_DECISION_SUPPORT_MONOGRAPH_IDS].filter((id) => monographById.get(id)?.monograph.executionBurden).length,
+      PRIORITY_DECISION_SUPPORT_MONOGRAPH_IDS.size,
+    ),
+  ];
+
+  const priorityPathwayKeys = new Set([
+    ...PRIORITY_DECISION_SUPPORT_SUBCATEGORY_KEYS,
+    ...PRIORITY_ORAL_STEPDOWN_SUBCATEGORY_KEYS,
+  ]);
+  const priorityAttentionItems: AuditAttentionItem[] = [
+    ...[...priorityPathwayKeys].flatMap((key) => {
+      const entry = pathwayByKey.get(key);
+      if (!entry) return [];
+      const resolvedMeta = resolveContentMeta(entry.subcategory, entry.disease, {
+        contentKey: getSubcategoryContentKey(entry.disease.id, entry.subcategory.id),
+      }).meta;
+      return [
+        buildAuditAttentionItem(entry.disease, {
+          label: entry.subcategory.name,
+          scope: `Pathway ${entry.disease.id}/${entry.subcategory.id}`,
+          kind: "pathway",
+          meta: resolvedMeta,
+        }),
+      ];
+    }),
+    ...[...PRIORITY_DECISION_SUPPORT_MONOGRAPH_IDS].flatMap((monographId) => {
+      const entry = monographById.get(monographId);
+      if (!entry) return [];
+      const resolvedMeta = resolveContentMeta(entry.monograph, entry.disease, {
+        contentKey: getMonographContentKey(entry.disease.id, entry.monograph.id),
+      }).meta;
+      return [
+        buildAuditAttentionItem(entry.disease, {
+          label: entry.monograph.name,
+          scope: `Monograph ${entry.disease.id}/${entry.monograph.id}`,
+          kind: "monograph",
+          meta: resolvedMeta,
+        }),
+      ];
+    }),
+  ];
+
+  const freshnessRank = { warn: 0, info: 1, fresh: 2 } as const;
+  const agingPriorityContent = priorityAttentionItems
+    .filter((item) => item.freshnessTone !== "fresh")
+    .sort(
+      (left, right) =>
+        freshnessRank[left.freshnessTone] - freshnessRank[right.freshnessTone] ||
+        right.disagreementCount - left.disagreementCount ||
+        left.label.localeCompare(right.label),
+    );
+  const disagreementPriorityContent = priorityAttentionItems
+    .filter((item) => item.disagreementCount > 0)
+    .sort(
+      (left, right) =>
+        right.disagreementCount - left.disagreementCount ||
+        freshnessRank[left.freshnessTone] - freshnessRank[right.freshnessTone] ||
+        left.label.localeCompare(right.label),
+    );
+
+  return {
+    pathwayCoverage,
+    monographCoverage,
+    agingPriorityContent,
+    disagreementPriorityContent,
+    totalPriorityItems: priorityAttentionItems.length,
+    nonFreshPriorityCount: agingPriorityContent.length,
+    stalePriorityCount: priorityAttentionItems.filter((item) => item.freshnessTone === "warn").length,
+    disagreementPriorityCount: disagreementPriorityContent.length,
+  };
 }

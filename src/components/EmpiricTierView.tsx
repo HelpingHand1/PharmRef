@@ -35,6 +35,7 @@ function collectOptionInteractionActions(
 const EmpiricTierView = memo(function EmpiricTierView({
   diseaseId,
   subcategoryId,
+  surfaceMode,
   tier,
   S,
   navigateTo,
@@ -45,6 +46,7 @@ const EmpiricTierView = memo(function EmpiricTierView({
   patient,
   crcl,
 }: EmpiricTierViewProps) {
+  const showsInfectiousDetail = surfaceMode !== "general-pharmacy";
   const institutionSortedOptions = sortEmpiricOptionsForInstitution(diseaseId, subcategoryId, tier.options);
   const options = institutionSortedOptions
     .map(({ option, overlay }) => {
@@ -59,7 +61,7 @@ const EmpiricTierView = memo(function EmpiricTierView({
       };
     })
     .sort((left, right) => {
-      if (!hasAnyPatientSignals(patient)) {
+      if (!showsInfectiousDetail || !hasAnyPatientSignals(patient)) {
         return 0;
       }
 
@@ -89,8 +91,8 @@ const EmpiricTierView = memo(function EmpiricTierView({
         const warningReference = opt.monographId ?? opt.drug;
         const regimenText = getPreferredRegimenText(opt.regimen, opt.plan);
         const regimenNotes = getPreferredRegimenNotes(opt.notes, opt.plan);
-        const localOverlay = overlay ?? getInstitutionOptionOverlay(diseaseId, subcategoryId, opt);
-        const localAntibiogram = getInstitutionOptionAntibiogram(diseaseId, subcategoryId, opt);
+        const localOverlay = showsInfectiousDetail ? (overlay ?? getInstitutionOptionOverlay(diseaseId, subcategoryId, opt)) : null;
+        const localAntibiogram = showsInfectiousDetail ? getInstitutionOptionAntibiogram(diseaseId, subcategoryId, opt) : [];
         return (
           <div
             key={optionId}
@@ -135,7 +137,7 @@ const EmpiricTierView = memo(function EmpiricTierView({
                   {opt.plan.role}
                 </span>
               )}
-              {patientFit.status !== "unavailable" && (
+              {showsInfectiousDetail && patientFit.status !== "unavailable" && (
                 <span
                   style={{
                     ...S.crossRefPill,
@@ -151,12 +153,12 @@ const EmpiricTierView = memo(function EmpiricTierView({
                   Patient fit: {patientFit.label}
                 </span>
               )}
-              {localOverlay?.preferred && (
+              {showsInfectiousDetail && localOverlay?.preferred && (
                 <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0, background: "rgba(52,211,153,0.12)", borderColor: "rgba(52,211,153,0.28)", color: "#059669" }}>
                   Local preferred
                 </span>
               )}
-              {localOverlay?.restricted && (
+              {showsInfectiousDetail && localOverlay?.restricted && (
                 <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0, background: "rgba(239,68,68,0.12)", borderColor: "rgba(239,68,68,0.28)", color: "#dc2626" }}>
                   Restricted
                 </span>
@@ -165,7 +167,7 @@ const EmpiricTierView = memo(function EmpiricTierView({
             <div style={{ fontSize: "13px", color: S.monographValue?.color || "#94a3b8", fontFamily: "'JetBrains Mono', monospace", marginBottom: "8px", lineHeight: 1.65 }}>
               {regimenText}
             </div>
-            {patientFit.status !== "unavailable" && (
+            {showsInfectiousDetail && patientFit.status !== "unavailable" && (
               <div style={{ fontSize: "12px", color: S.monographValue?.color || "#cbd5e1", lineHeight: 1.55, marginBottom: "8px" }}>
                 <strong style={{ color: FIT_BADGE_STYLES[patientFit.status].color }}>Patient fit:</strong> {patientFit.detail}
               </div>
@@ -209,7 +211,7 @@ const EmpiricTierView = memo(function EmpiricTierView({
                 )}
               </div>
             )}
-            {localAntibiogram.length > 0 && (
+            {showsInfectiousDetail && localAntibiogram.length > 0 && (
               <div
                 style={{
                   marginTop: "10px",
@@ -225,7 +227,7 @@ const EmpiricTierView = memo(function EmpiricTierView({
                 <InstitutionAntibiogramCards entries={localAntibiogram} compact S={S} />
               </div>
             )}
-            {localOverlay && (
+            {showsInfectiousDetail && localOverlay && (
               <div
                 style={{
                   marginTop: "10px",
@@ -272,17 +274,19 @@ const EmpiricTierView = memo(function EmpiricTierView({
                 })}
               </div>
             )}
-            <AllergyWarning drugId={`${warningReference ?? ""} ${regimenText}`.trim()} allergies={allergies} S={S} />
-            <RegimenPatientWarnings
-              crcl={crcl}
-              drugId={warningReference}
-              interactionActions={interactionActions}
-              navigateTo={navigateTo}
-              patient={patient}
-              plan={opt.plan}
-              regimen={regimenText}
-              S={S}
-            />
+            {showsInfectiousDetail && <AllergyWarning drugId={`${warningReference ?? ""} ${regimenText}`.trim()} allergies={allergies} S={S} />}
+            {showsInfectiousDetail && (
+              <RegimenPatientWarnings
+                crcl={crcl}
+                drugId={warningReference}
+                interactionActions={interactionActions}
+                navigateTo={navigateTo}
+                patient={patient}
+                plan={opt.plan}
+                regimen={regimenText}
+                S={S}
+              />
+            )}
           </div>
         );
       })}

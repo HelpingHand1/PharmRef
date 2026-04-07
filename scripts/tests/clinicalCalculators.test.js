@@ -79,3 +79,37 @@ test("vancomycin and Hartford aminoglycoside estimators stay stable", () => {
     },
   );
 });
+
+test("extended-infusion beta-lactam helper escalates for ARC", () => {
+  assert.deepEqual(
+    calculators.estimateExtendedInfusionBetaLactam("meropenem", 135, false),
+    {
+      agent: "meropenem",
+      regimen: "Meropenem 2 g IV q8h over 3 hours",
+      rationale: "ARC or CrCl >=120 mL/min increases the risk of underexposure; preserve full prolonged-infusion exposure.",
+    },
+  );
+});
+
+test("daptomycin, TMP-SMX, colistin, and azole helpers stay stable", () => {
+  assert.deepEqual(
+    calculators.calculateDaptomycinDose(92, 10),
+    { mgPerKg: 10, totalDoseMg: 900 },
+  );
+  assert.deepEqual(
+    calculators.calculateTmpSmxDose(80, 10, 2),
+    { totalTmpMgPerDay: 800, tmpMgPerDose: 400, dsTabsPerDose: 2.5 },
+  );
+  assert.deepEqual(
+    calculators.convertColistinDose(1, "million_iu"),
+    { millionIU: 1, cmsMg: 80, cbaMg: 33 },
+  );
+  assert.deepEqual(
+    calculators.assessAzoleTrough("voriconazole", 6.2),
+    {
+      goal: "1-5.5 mcg/mL",
+      interpretation: "High exposure / toxicity risk",
+      action: "Evaluate for hepatotoxicity or neurotoxicity and consider dose reduction or alternate azole strategy.",
+    },
+  );
+});

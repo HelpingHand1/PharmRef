@@ -557,6 +557,334 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "status": "avoid",
           "detail": "Do not keep using the SAB algorithm once organism identification shows a different syndrome."
         }
+      ],
+      "definitiveTherapy": [
+        {
+          "id": "sab-mssa-definitive",
+          "title": "MSSA bloodstream infection",
+          "organism": "MSSA",
+          "syndrome": "S. aureus bacteremia or endovascular infection",
+          "susceptibility": "Methicillin susceptible",
+          "match": {
+            "pathogenIds": [
+              "mssa"
+            ],
+            "sites": [
+              "bloodstream",
+              "endovascular"
+            ]
+          },
+          "preferred": {
+            "regimen": "Cefazolin 2 g IV q8h",
+            "why": "Same-day beta-lactam optimization clears MSSA bacteremia faster and more reliably than leaving vancomycin in place.",
+            "linkedMonographIds": [
+              "cefazolin"
+            ],
+            "sourceIds": [
+              "aha-2015-ie",
+              "esc-2023-ie"
+            ],
+            "confidence": "high"
+          },
+          "acceptable": [
+            {
+              "regimen": "Nafcillin or oxacillin 2 g IV q4h",
+              "why": "Still appropriate when cefazolin is not the preferred execution choice.",
+              "linkedMonographIds": [
+                "nafcillin"
+              ],
+              "sourceIds": [
+                "aha-2015-ie",
+                "esc-2023-ie"
+              ],
+              "confidence": "moderate"
+            }
+          ],
+          "rescue": [
+            {
+              "regimen": "Daptomycin 8-10 mg/kg IV daily",
+              "why": "Use when a true beta-lactam barrier exists or beta-lactam toxicity makes definitive cefazolin impossible.",
+              "linkedMonographIds": [
+                "daptomycin"
+              ],
+              "sourceIds": [
+                "aha-2015-ie"
+              ],
+              "confidence": "moderate"
+            }
+          ],
+          "avoid": [
+            {
+              "regimen": "Continuing vancomycin as definitive MSSA therapy",
+              "why": "In vitro activity does not make vancomycin a clinically equivalent definitive agent for MSSA bacteremia.",
+              "linkedMonographIds": [
+                "vancomycin"
+              ],
+              "sourceIds": [
+                "aha-2015-ie",
+                "esc-2023-ie"
+              ],
+              "confidence": "high"
+            }
+          ],
+          "monitoringFocus": [
+            "Repeat blood cultures until documented clearance",
+            "Verify same-day source control or device removal",
+            "Lock the duration clock to the first negative culture"
+          ],
+          "sourceIds": [
+            "aha-2015-ie",
+            "esc-2023-ie"
+          ],
+          "confidence": "high",
+          "whatChanged": [
+            "Now surfaces definitive MSSA beta-lactam preference separately from empiric SAB coverage."
+          ]
+        },
+        {
+          "id": "sab-beta-lactam-allergy-salvage",
+          "title": "MSSA with meaningful beta-lactam allergy barrier",
+          "organism": "MSSA",
+          "syndrome": "S. aureus bacteremia or endovascular infection",
+          "susceptibility": "Methicillin susceptible with no safe beta-lactam path",
+          "match": {
+            "pathogenIds": [
+              "mssa"
+            ],
+            "requiresPatientSignals": [
+              "allergy_beta_lactam"
+            ],
+            "sites": [
+              "bloodstream",
+              "endovascular"
+            ]
+          },
+          "preferred": {
+            "regimen": "Daptomycin 8-10 mg/kg IV daily",
+            "why": "This keeps bactericidal activity when cefazolin or nafcillin is truly off the table.",
+            "linkedMonographIds": [
+              "daptomycin"
+            ],
+            "sourceIds": [
+              "aha-2015-ie"
+            ],
+            "confidence": "moderate"
+          },
+          "acceptable": [
+            {
+              "regimen": "Vancomycin with AUC-guided dosing",
+              "why": "Use only if daptomycin is not appropriate or the team needs a temporary bridge while allergy clarity is obtained.",
+              "linkedMonographIds": [
+                "vancomycin"
+              ],
+              "sourceIds": [
+                "aha-2015-ie"
+              ],
+              "confidence": "moderate"
+            }
+          ],
+          "monitoringFocus": [
+            "Reassess whether cefazolin can still be used safely once allergy details are clarified",
+            "Do not skip blood-culture clearance checks just because the regimen changed"
+          ],
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "id": "sab-mrsa-definitive",
+          "title": "MRSA bloodstream infection",
+          "organism": "MRSA",
+          "syndrome": "S. aureus bacteremia or endovascular infection",
+          "susceptibility": "Methicillin resistant",
+          "match": {
+            "pathogenIds": [
+              "mrsa"
+            ],
+            "sites": [
+              "bloodstream",
+              "endovascular"
+            ]
+          },
+          "preferred": {
+            "regimen": "Vancomycin with AUC/MIC 400-600",
+            "why": "MRSA bacteremia is still a PK-driven disease, and vancomycin remains appropriate when exposure quality is controlled and cultures clear.",
+            "linkedMonographIds": [
+              "vancomycin"
+            ],
+            "sourceIds": [
+              "aha-2015-ie",
+              "camera2"
+            ],
+            "confidence": "high"
+          },
+          "acceptable": [
+            {
+              "regimen": "Daptomycin 8-10 mg/kg IV daily",
+              "why": "Move early when kidney injury, vancomycin exposure failure, or persistent bacteremia makes continued vancomycin execution weaker.",
+              "linkedMonographIds": [
+                "daptomycin"
+              ],
+              "sourceIds": [
+                "aha-2015-ie",
+                "camera2"
+              ],
+              "confidence": "high"
+            }
+          ],
+          "avoid": [
+            {
+              "regimen": "Routine beta-lactam add-on synergy with vancomycin",
+              "why": "CAMERA2 showed more AKI without the outcome win needed to justify routine combination therapy.",
+              "sourceIds": [
+                "camera2"
+              ],
+              "confidence": "high"
+            }
+          ],
+          "monitoringFocus": [
+            "AUC quality, kidney trajectory, and first-negative-culture date",
+            "Escalate rapidly if cultures stay positive beyond 72 hours"
+          ],
+          "sourceIds": [
+            "aha-2015-ie",
+            "camera2"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "oralStepDown": [
+        {
+          "id": "sab-poet-style-stepdown",
+          "label": "POET-style oral completion for carefully selected deep staphylococcal infection",
+          "regimen": "High-dose dual-oral regimen only after a substantial IV lead-in and formal stability review",
+          "rank": 3,
+          "eligibilityChecklist": [
+            "At least ~10 days of active IV therapy completed",
+            "Blood cultures cleared and source control is durable",
+            "No uncontrolled endovascular complication or hemodynamic instability",
+            "A high-bioavailability, syndrome-appropriate oral combination is available"
+          ],
+          "bioavailability": "Only appropriate with deliberately chosen high-exposure oral combinations.",
+          "penetration": "Must match endovascular or metastatic-focus needs; this is not a casual discharge shortcut.",
+          "barrierNotes": [
+            "Not routine for uncomplicated SAB day 2-3 discharge planning",
+            "Do not use when bacteremia is still clearing or endocardial complications remain uncertain"
+          ],
+          "evidenceStrength": "Selective RCT-supported strategy",
+          "linkedMonographIds": [
+            "linezolid",
+            "rifampin",
+            "amoxicillin",
+            "daptomycin"
+          ],
+          "sourceIds": [
+            "poet",
+            "esc-2023-ie"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "durationRules": [
+        {
+          "id": "sab-uncomplicated-duration",
+          "label": "Uncomplicated SAB",
+          "defaultDuration": "14 days",
+          "anchorEvent": "First negative blood culture while all uncomplicated criteria remain true",
+          "appliesWhen": [
+            "No endocarditis",
+            "No metastatic infection",
+            "No retained prosthetic or endovascular focus",
+            "Cultures clear within 72 hours"
+          ],
+          "exceptions": [
+            "Exit this rule immediately if persistent bacteremia, deep focus, or endovascular concern emerges"
+          ],
+          "sourceIds": [
+            "aha-2015-ie",
+            "esc-2023-ie"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "sab-complicated-duration",
+          "label": "Complicated SAB or endocarditis",
+          "defaultDuration": "4-6 weeks",
+          "anchorEvent": "First negative blood culture after the decisive source-control step",
+          "appliesWhen": [
+            "Endocarditis, metastatic infection, persistent bacteremia, or any retained prosthetic focus"
+          ],
+          "exceptions": [
+            "Prosthetic valve or deep spinal infection often needs the longer end of the range"
+          ],
+          "sourceIds": [
+            "aha-2015-ie",
+            "esc-2023-ie"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "failureEscalationPath": [
+        {
+          "id": "sab-24h",
+          "checkpoint": "24h",
+          "title": "First-day execution check",
+          "trigger": "Positive blood cultures with S. aureus are confirmed and the patient is still on empiric therapy.",
+          "actions": [
+            "Remove or exchange obvious line sources",
+            "Send repeat blood cultures and schedule echocardiography",
+            "If rapid MSSA signal is present, plan same-day beta-lactam optimization"
+          ],
+          "sourceIds": [
+            "aha-2015-ie",
+            "esc-2023-ie"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "sab-48h",
+          "checkpoint": "48-72h",
+          "title": "Cultures still positive or not clearly clearing",
+          "trigger": "Follow-up cultures remain positive or the clinical trajectory is not convincingly better.",
+          "likelyCauses": [
+            "Uncontrolled source",
+            "Endocarditis",
+            "Subtherapeutic MRSA exposure",
+            "Missed metastatic focus"
+          ],
+          "actions": [
+            "Escalate source-control review and imaging for metastatic infection",
+            "Obtain TEE if not already completed or if the first study was insufficient",
+            "Switch from vancomycin to high-dose daptomycin when MRSA exposure quality is failing or kidney injury is worsening"
+          ],
+          "sourceIds": [
+            "aha-2015-ie",
+            "camera2"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "sab-not-improving",
+          "checkpoint": "not_improving",
+          "title": "Persistent bacteremia or worsening course",
+          "trigger": "The patient remains culture-positive or clinically worse despite apparently active therapy.",
+          "likelyCauses": [
+            "Occult drainable focus",
+            "Endovascular complication",
+            "Wrong definitive drug for MSSA or MRSA execution context"
+          ],
+          "actions": [
+            "Re-culture and re-image rather than just extending duration",
+            "Revisit definitive-agent choice with PK and toxicity context in view",
+            "Treat persistent positivity as a source-control problem until proven otherwise"
+          ],
+          "sourceIds": [
+            "aha-2015-ie",
+            "esc-2023-ie"
+          ],
+          "confidence": "high"
+        }
       ]
     },
     {
@@ -1125,6 +1453,278 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "status": "avoid",
           "detail": "Routine bloodstream regimens are no longer adequate once CRE is identified."
         }
+      ],
+      "definitiveTherapy": [
+        {
+          "id": "gnb-enterobacterales-urinary",
+          "title": "Susceptible urinary-source Enterobacterales bacteremia",
+          "organism": "E. coli / Klebsiella / Proteus",
+          "syndrome": "Urinary-source gram-negative bacteremia",
+          "susceptibility": "Usual susceptible phenotype",
+          "preferred": {
+            "regimen": "Ceftriaxone IV with early oral TMP-SMX or fluoroquinolone step-down when susceptible",
+            "why": "This captures the common bacteremic-UTI pathway without forcing unnecessary carbapenem or prolonged IV therapy.",
+            "linkedMonographIds": [
+              "ceftriaxone",
+              "tmp-smx",
+              "ciprofloxacin",
+              "levofloxacin"
+            ],
+            "sourceIds": [
+              "idsa-2025-cuti",
+              "oral-stepdown-bacteremia"
+            ],
+            "confidence": "high"
+          },
+          "acceptable": [
+            {
+              "regimen": "Cefepime when AmpC-risk organisms or hospital exposure make ceftriaxone less reliable",
+              "why": "Preserves a non-carbapenem option when the phenotype raises derepressed AmpC concern.",
+              "linkedMonographIds": [
+                "cefepime"
+              ],
+              "sourceIds": [
+                "idsa-2024-amr",
+                "merino-2"
+              ],
+              "confidence": "moderate"
+            }
+          ],
+          "monitoringFocus": [
+            "Confirm the urinary source is controlled and there is no persistent obstruction",
+            "Lock the oral exit plan once susceptibilities finalize"
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti",
+            "oral-stepdown-bacteremia"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "gnb-esbl",
+          "title": "ESBL bacteremia",
+          "organism": "ESBL-producing Enterobacterales",
+          "syndrome": "Invasive urinary or bloodstream infection",
+          "susceptibility": "ESBL phenotype or ceftriaxone nonsusceptibility with compatible mechanism",
+          "match": {
+            "pathogenIds": [
+              "esbl-enterobacterales"
+            ]
+          },
+          "preferred": {
+            "regimen": "Meropenem",
+            "why": "Carbapenems remain the most reliable serious-infection anchor while the source is controlled and the bacteremia clears.",
+            "linkedMonographIds": [
+              "meropenem"
+            ],
+            "sourceIds": [
+              "idsa-2024-amr",
+              "merino"
+            ],
+            "confidence": "high"
+          },
+          "acceptable": [
+            {
+              "regimen": "Ertapenem for stable non-pseudomonal infection once shock is off the table",
+              "why": "Useful when daily OPAT-friendly carbapenem exposure is enough and broader Pseudomonas activity is not needed.",
+              "linkedMonographIds": [
+                "ertapenem"
+              ],
+              "sourceIds": [
+                "idsa-2024-amr"
+              ],
+              "confidence": "moderate"
+            }
+          ],
+          "avoid": [
+            {
+              "regimen": "Piperacillin-tazobactam as definitive serious ESBL bacteremia therapy",
+              "why": "MERINO-level outcome concerns outweigh the comfort of a susceptible report for invasive bloodstream disease.",
+              "linkedMonographIds": [
+                "pip-tazo"
+              ],
+              "sourceIds": [
+                "merino",
+                "idsa-2024-amr"
+              ],
+              "confidence": "high"
+            }
+          ],
+          "monitoringFocus": [
+            "Move to oral completion only when a truly high-bioavailability susceptible option exists"
+          ],
+          "sourceIds": [
+            "idsa-2024-amr",
+            "merino"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "gnb-cre-escalate",
+          "title": "CRE or carbapenemase phenotype",
+          "organism": "CRE / carbapenemase-producing Enterobacterales",
+          "syndrome": "Bloodstream infection",
+          "susceptibility": "KPC, MBL, or other CRE mechanism",
+          "match": {
+            "pathogenIds": [
+              "kpc-cre",
+              "mbl-cre"
+            ]
+          },
+          "preferred": {
+            "regimen": "Exit the routine bacteremia pathway and use phenotype-specific reserve therapy",
+            "why": "Once carbapenemase production is confirmed, routine ceftriaxone, cefepime, or carbapenem monotherapy may be functionally inactive.",
+            "linkedMonographIds": [
+              "ceftazidime-avibactam",
+              "meropenem-vaborbactam",
+              "cefiderocol"
+            ],
+            "sourceIds": [
+              "idsa-2024-amr"
+            ],
+            "confidence": "high"
+          },
+          "sourceIds": [
+            "idsa-2024-amr"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "oralStepDown": [
+        {
+          "id": "gnb-tmp-smx-stepdown",
+          "label": "TMP-SMX oral completion",
+          "regimen": "TMP-SMX DS BID when susceptible",
+          "rank": 1,
+          "match": {
+            "avoidPatientSignals": [
+              "poor_oral_route"
+            ]
+          },
+          "eligibilityChecklist": [
+            "Organism is susceptible",
+            "Patient is clinically improving and can absorb oral therapy",
+            "No uncontrolled obstruction, abscess, or endovascular complication remains"
+          ],
+          "bioavailability": "High systemic oral exposure supports bloodstream and urinary completion when susceptibility is real.",
+          "penetration": "Useful for urinary and some deep urinary-source bacteremia syndromes, including prostatitis-oriented completion plans.",
+          "barrierNotes": [
+            "Check potassium, creatinine, and marrow reserve before discharge."
+          ],
+          "evidenceStrength": "Strong oral-step-down option when susceptibility confirms it",
+          "linkedMonographIds": [
+            "tmp-smx"
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti",
+            "oral-stepdown-bacteremia"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "gnb-fluoroquinolone-stepdown",
+          "label": "Fluoroquinolone oral completion",
+          "regimen": "Ciprofloxacin or levofloxacin when susceptible",
+          "rank": 2,
+          "match": {
+            "avoidPatientSignals": [
+              "poor_oral_route",
+              "qtc_prolonged",
+              "pregnancy"
+            ]
+          },
+          "eligibilityChecklist": [
+            "Organism is susceptible and a fluoroquinolone has not already failed",
+            "Oral route is reliable and cation/feed timing can be controlled",
+            "No compelling safety reason to avoid fluoroquinolones"
+          ],
+          "bioavailability": "High systemic exposure makes fluoroquinolones operationally useful oral exits when tolerated.",
+          "penetration": "Particularly useful when urinary plus tissue penetration both matter.",
+          "barrierNotes": [
+            "QTc, tendon, CNS, and cation-binding issues can erase the apparent convenience."
+          ],
+          "evidenceStrength": "High-bioavailability oral exit, but safety and resistance constraints matter",
+          "linkedMonographIds": [
+            "ciprofloxacin",
+            "levofloxacin"
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti",
+            "oral-stepdown-bacteremia"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "durationRules": [
+        {
+          "id": "gnb-urinary-7d",
+          "label": "Urinary-source bacteremia with controlled source",
+          "defaultDuration": "7 days",
+          "anchorEvent": "First active systemic regimen after source control or after the obstruction issue is relieved",
+          "appliesWhen": [
+            "Enterobacterales urinary source",
+            "Clinical improvement is evident"
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti",
+            "oral-stepdown-bacteremia"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "gnb-pseudomonas-or-uncertain",
+          "label": "Pseudomonas or uncertain-source bacteremia",
+          "defaultDuration": "10-14 days",
+          "anchorEvent": "First active regimen after source control and documented clearance",
+          "appliesWhen": [
+            "Pseudomonas phenotype",
+            "Uncertain source control",
+            "Slow clinical response"
+          ],
+          "sourceIds": [
+            "idsa-2024-amr"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "failureEscalationPath": [
+        {
+          "id": "gnb-24h",
+          "checkpoint": "24h",
+          "title": "Mechanism and source check",
+          "trigger": "Blood cultures identify gram-negative bacteremia and the source is still being clarified.",
+          "actions": [
+            "Review prior resistant cultures before reflexively broadening",
+            "Relieve obstruction and drain collections early",
+            "Treat ceftriaxone nonsusceptibility as a mechanism clue, not just a lab oddity"
+          ],
+          "sourceIds": [
+            "idsa-2024-amr",
+            "idsa-2025-cuti"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "gnb-48h",
+          "checkpoint": "48-72h",
+          "title": "Cultures finalizing without a clean step-down path",
+          "trigger": "The patient is not clearly improving or the isolate is more resistant than the initial empiric plan assumed.",
+          "likelyCauses": [
+            "Occult obstruction",
+            "ESBL or carbapenemase phenotype",
+            "Wrong source assumption"
+          ],
+          "actions": [
+            "Re-image the urinary or abdominal source when the course is not tracking",
+            "Escalate to phenotype-specific reserve therapy for CRE or MBL signals",
+            "Do not keep an apparently broad but actually inactive regimen just because the patient received it first"
+          ],
+          "sourceIds": [
+            "idsa-2024-amr",
+            "idsa-2025-cuti"
+          ],
+          "confidence": "high"
+        }
       ]
     },
     {
@@ -1418,7 +2018,123 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "site": "CSF",
           "detail": "Inflamed meninges improve CSF entry, but CNS use still requires higher exposure and close toxicity monitoring."
         }
-      ]
+      ],
+      "specialPopulationMatrix": [
+        {
+          "population": "Obesity",
+          "doseStrategy": "Load and maintain using actual body weight, then confirm the exposure with AUC-based follow-up rather than a fixed trough habit.",
+          "weightBasis": "Actual body weight for loading; pharmacist review for extreme obesity maintenance",
+          "infusionStrategy": "Preserve full loading exposure even if maintenance intervals widen later.",
+          "tdmTarget": "AUC/MIC 400-600",
+          "whenToConsult": "Use PK/ID support when obesity and kidney dysfunction overlap.",
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "high"
+        },
+        {
+          "population": "Augmented renal clearance",
+          "doseStrategy": "Expect faster clearance and earlier subtherapeutic exposure; do not assume the usual q12h schedule is enough.",
+          "infusionStrategy": "Keep first maintenance levels early.",
+          "tdmTarget": "AUC/MIC 400-600 with early reassessment",
+          "whenToConsult": "If CrCl is >120 or the patient is in early sepsis/trauma, involve PK early.",
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "population": "HD / CRRT / ECMO",
+          "doseStrategy": "Tie every dose plan to the current modality rather than yesterday's renal function; CRRT often still needs aggressive maintenance.",
+          "weightBasis": "Actual body weight loading still matters",
+          "tdmTarget": "AUC/MIC 400-600",
+          "whenToConsult": "Mandatory whenever dialysis mode changes or ECMO is added.",
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "high"
+        },
+        {
+          "population": "Pregnancy",
+          "doseStrategy": "Vancomycin remains usable, but clearance can increase and exposure drift matters more than textbook interval rules.",
+          "tdmTarget": "AUC/MIC 400-600",
+          "whenToConsult": "Use PK review when pregnancy and serious MRSA disease overlap.",
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "monitoringSchedule": [
+        {
+          "id": "vanc-baseline",
+          "phase": "baseline",
+          "cadence": "Before or with first dose",
+          "labs": [
+            "SCr / BMP",
+            "CBC if a prolonged course is likely"
+          ],
+          "clinical": [
+            "Baseline hemodynamics",
+            "Infection site and clearance plan"
+          ],
+          "actionThresholds": [
+            "Do not wait for day-3 kidney injury before building an AUC plan."
+          ],
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "vanc-early",
+          "phase": "early",
+          "cadence": "Within the first 24-48 hours",
+          "labs": [
+            "AUC-level strategy or Bayesian input",
+            "SCr trend"
+          ],
+          "clinical": [
+            "Repeat blood-culture clearance if bacteremic"
+          ],
+          "actionThresholds": [
+            "If kidney injury is accelerating or AUC cannot be kept in range, switch strategies early."
+          ],
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "vanc-weekly",
+          "phase": "weekly",
+          "cadence": "At least weekly once stable",
+          "labs": [
+            "BMP",
+            "CBC for longer courses"
+          ],
+          "clinical": [
+            "Toxicity review",
+            "Ongoing source-control progress"
+          ],
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "executionBurden": {
+        "infusionBurden": "moderate",
+        "lineAccess": "moderate",
+        "opatFit": "conditional",
+        "monitoringBurden": "high",
+        "homeInfusionNote": "OPAT is feasible, but the AUC and lab cadence make it much less forgiving than daptomycin or ceftriaxone.",
+        "comparatorSummary": "High-monitoring MRSA workhorse; effective when executed well, but kidney and AUC workflow are the cost of using it.",
+        "sourceIds": [
+          "aha-2015-ie"
+        ],
+        "confidence": "high"
+      }
     },
     {
       "id": "daptomycin",
@@ -1548,7 +2264,92 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "site": "Lung",
           "detail": "It remains inactive in the lung because surfactant binds and inactivates the drug."
         }
-      ]
+      ],
+      "specialPopulationMatrix": [
+        {
+          "population": "Obesity",
+          "doseStrategy": "Preserve high mg/kg exposure for bacteremia or endovascular disease instead of trimming the dose for convenience.",
+          "weightBasis": "Actual body weight unless a local alternative PK policy exists",
+          "tdmTarget": "No routine serum target; track CK and response",
+          "whenToConsult": "Use pharmacist review for very high absolute doses.",
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "population": "HD / CRRT",
+          "doseStrategy": "Use modality-timed dosing and keep endovascular exposures aggressive when the syndrome is bloodstream or valve disease.",
+          "whenToConsult": "Mandatory when renal replacement changes or the isolate MIC is higher than expected.",
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "population": "Elevated CK or heavy statin exposure",
+          "doseStrategy": "Treat CK trajectory as part of the dose decision, not a separate afterthought.",
+          "whenToConsult": "Reassess early if CK is already elevated or rising.",
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "monitoringSchedule": [
+        {
+          "id": "dapto-baseline",
+          "phase": "baseline",
+          "cadence": "Before starting therapy",
+          "labs": [
+            "CK",
+            "BMP",
+            "CBC if prolonged course expected"
+          ],
+          "clinical": [
+            "Review pneumonia exclusion and statin exposure"
+          ],
+          "actionThresholds": [
+            "Do not start daptomycin for a lung syndrome just because the isolate is susceptible."
+          ],
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "dapto-weekly",
+          "phase": "weekly",
+          "cadence": "At least weekly",
+          "labs": [
+            "CK",
+            "BMP"
+          ],
+          "clinical": [
+            "Muscle symptoms",
+            "Blood-culture clearance if bacteremic"
+          ],
+          "actionThresholds": [
+            "Escalate quickly if CK rises sharply or myalgias appear."
+          ],
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "executionBurden": {
+        "infusionBurden": "low",
+        "lineAccess": "simple",
+        "opatFit": "good",
+        "monitoringBurden": "moderate",
+        "homeInfusionNote": "Once-daily delivery is a major operational advantage when OPAT is realistic.",
+        "comparatorSummary": "Operationally easier than vancomycin for MRSA bloodstream completion, but only when the syndrome is not pneumonia and CK monitoring is manageable.",
+        "sourceIds": [
+          "aha-2015-ie"
+        ],
+        "confidence": "high"
+      }
     },
     {
       "id": "ceftriaxone",
@@ -1818,7 +2619,63 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "site": "CSF",
           "detail": "CSF penetration is limited compared with nafcillin or ceftriaxone, so it is not the usual beta-lactam for MSSA meningitis."
         }
-      ]
+      ],
+      "specialPopulationMatrix": [
+        {
+          "population": "Obesity",
+          "doseStrategy": "Maintain full MSSA exposure; severe obesity often pushes toward higher-frequency dosing rather than passive underdosing.",
+          "weightBasis": "No classic mg/kg target, but obesity should not dilute definitive MSSA treatment intensity.",
+          "whenToConsult": "Use pharmacy review when obesity and deep infection overlap.",
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "population": "HD / CRRT / OPAT",
+          "doseStrategy": "Tie interval selection to modality and whether outpatient q8h delivery is truly practical.",
+          "whenToConsult": "Reassess whenever renal replacement or the OPAT plan changes.",
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "monitoringSchedule": [
+        {
+          "id": "cefazolin-weekly",
+          "phase": "weekly",
+          "cadence": "Weekly during prolonged therapy",
+          "labs": [
+            "CBC",
+            "BMP"
+          ],
+          "clinical": [
+            "Line burden",
+            "Rash or cytopenia review"
+          ],
+          "actionThresholds": [
+            "Do not ignore late neutropenia signals during multi-week therapy."
+          ],
+          "sourceIds": [
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "executionBurden": {
+        "infusionBurden": "moderate",
+        "lineAccess": "moderate",
+        "opatFit": "good",
+        "monitoringBurden": "moderate",
+        "sodiumLoad": "Lower operational burden than q4h antistaphylococcal penicillins.",
+        "homeInfusionNote": "Often the cleanest MSSA OPAT drug when q8h delivery is workable.",
+        "comparatorSummary": "Definitive MSSA standard with a much cleaner outpatient footprint than nafcillin or oxacillin.",
+        "sourceIds": [
+          "aha-2015-ie"
+        ],
+        "confidence": "high"
+      }
     }
   ]
 };

@@ -10,7 +10,12 @@ import {
   flattenMonographMicrobiologyText,
   flattenSubcategoryMicrobiologyText,
 } from "../data/microbiology";
-import { flattenMonographStructuredText, flattenSubcategoryStewardshipText } from "../data/stewardship";
+import {
+  flattenMonographDecisionSupportText,
+  flattenMonographStructuredText,
+  flattenSubcategoryDecisionSupportText,
+  flattenSubcategoryStewardshipText,
+} from "../data/stewardship";
 import type { SearchResult } from "../types";
 
 function scoreName(name: string, q: string): number {
@@ -109,6 +114,7 @@ export function searchCatalog(query: string, searchIndex: SearchEntry[] | null):
     }
 
     if (entry.type === "drug") {
+      const decisionSupportText = flattenMonographDecisionSupportText(entry.drug).join(" ");
       const structuredText = flattenMonographStructuredText(entry.drug).join(" ");
       const microbiologyText = flattenMonographMicrobiologyText(entry.drug).join(" ");
       const metaText = flattenContentMetaText(entry.drug.contentMeta).join(" ");
@@ -118,6 +124,7 @@ export function searchCatalog(query: string, searchIndex: SearchEntry[] | null):
         fieldScore(entry.drug.drugClass, 55, q, tokens),
         fieldScore(entry.drug.spectrum, 30, q, tokens),
         fieldScore(entry.drug.mechanismOfAction, 30, q, tokens),
+        fieldScore(decisionSupportText, 52, q, tokens),
         fieldScore(structuredText, 40, q, tokens),
         fieldScore(microbiologyText, 45, q, tokens),
         fieldScore(metaText, 18, q, tokens),
@@ -208,12 +215,14 @@ export function searchCatalog(query: string, searchIndex: SearchEntry[] | null):
       return;
     }
 
-    const workflowText = flattenSubcategoryStewardshipText(entry.subcategory).join(" ");
+    const decisionSupportText = flattenSubcategoryDecisionSupportText(entry.subcategory).join(" ");
+    const workflowText = flattenSubcategoryStewardshipText(entry.subcategory, entry.disease).join(" ");
     const microbiologyText = flattenSubcategoryMicrobiologyText(entry.subcategory).join(" ");
     const metaText = flattenContentMetaText(entry.subcategory.contentMeta).join(" ");
     const textScore = Math.max(
       scoreName(entry.subcategory.name, q),
       fieldScore(entry.subcategory.definition, 30, q, tokens),
+      fieldScore(decisionSupportText, 52, q, tokens),
       fieldScore(workflowText, 40, q, tokens),
       fieldScore(microbiologyText, 45, q, tokens),
       fieldScore(metaText, 18, q, tokens),

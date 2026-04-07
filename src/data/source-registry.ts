@@ -243,6 +243,175 @@ const SOURCE_LIST: EvidenceSource[] = [
     doi: "10.1093/cid/ciad527",
     searchQuery: "IWGDF IDSA diabetic foot infection guideline",
   }),
+  source("ada-2026-diagnosis", "guideline", "ADA 2026 Diagnosis & Classification", {
+    aliases: [
+      "ADA 2026 Diagnosis and Classification",
+      "Diagnosis and Classification of Diabetes: Standards of Care in Diabetes-2026",
+    ],
+    pmid: "41358893",
+    doi: "10.2337/dc26-S002",
+    searchQuery: "Diagnosis and Classification of Diabetes Standards of Care in Diabetes 2026",
+  }),
+  source("ada-2026-health-behaviors", "guideline", "ADA 2026 Health Behaviors", {
+    aliases: [
+      "ADA 2026 Health Behaviors and Well-being",
+      "Facilitating Positive Health Behaviors and Well-being to Improve Health Outcomes: Standards of Care in Diabetes-2026",
+    ],
+    pmid: "41358898",
+    doi: "10.2337/dc26-S005",
+    searchQuery: "Facilitating Positive Health Behaviors and Well-being to Improve Health Outcomes Standards of Care in Diabetes 2026",
+  }),
+  source("ada-2026-glycemic-goals", "guideline", "ADA 2026 Glycemic Goals", {
+    aliases: [
+      "ADA 2026 Glycemic Goals and Hypoglycemia",
+      "Glycemic Goals, Hypoglycemia, and Hyperglycemic Crises: Standards of Care in Diabetes-2026",
+    ],
+    pmid: "41358894",
+    doi: "10.2337/dc26-S006",
+    searchQuery: "Glycemic Goals Hypoglycemia and Hyperglycemic Crises Standards of Care in Diabetes 2026",
+  }),
+  source("ada-2026-obesity", "guideline", "ADA 2026 Obesity & Weight", {
+    aliases: [
+      "ADA 2026 Obesity and Weight Management",
+      "Obesity and Weight Management for the Prevention and Treatment of Diabetes: Standards of Care in Diabetes-2026",
+    ],
+    pmid: "41358882",
+    doi: "10.2337/dc26-S008",
+    searchQuery: "Obesity and Weight Management for the Prevention and Treatment of Diabetes Standards of Care in Diabetes 2026",
+  }),
+  source("ada-2026-pharmacologic", "guideline", "ADA 2026 Pharmacologic Approaches", {
+    aliases: [
+      "ADA 2026 Pharmacologic Approaches to Glycemic Treatment",
+      "Pharmacologic Approaches to Glycemic Treatment: Standards of Care in Diabetes-2026",
+    ],
+    pmid: "41358900",
+    doi: "10.2337/dc26-S009",
+    searchQuery: "Pharmacologic Approaches to Glycemic Treatment Standards of Care in Diabetes 2026",
+  }),
+  source("ada-2026-cv-risk", "guideline", "ADA 2026 CV Risk Management", {
+    aliases: [
+      "ADA 2026 Cardiovascular Disease and Risk Management",
+      "Cardiovascular Disease and Risk Management: Standards of Care in Diabetes-2026",
+    ],
+    pmid: "41358899",
+    doi: "10.2337/dc26-S010",
+    searchQuery: "Cardiovascular Disease and Risk Management Standards of Care in Diabetes 2026",
+  }),
+  source("ada-2026-ckd-risk", "guideline", "ADA 2026 CKD Risk Management", {
+    aliases: [
+      "ADA 2026 Chronic Kidney Disease and Risk Management",
+      "Chronic Kidney Disease and Risk Management: Standards of Care in Diabetes-2026",
+    ],
+    pmid: "41358881",
+    doi: "10.2337/dc26-S011",
+    searchQuery: "Chronic Kidney Disease and Risk Management Standards of Care in Diabetes 2026",
+  }),
+  source("ada-2026-hospital", "guideline", "ADA 2026 Diabetes Care in the Hospital", {
+    aliases: [
+      "ADA 2026 Hospital Care",
+      "Diabetes Care in the Hospital: Standards of Care in Diabetes-2026",
+    ],
+    pmid: "41358892",
+    doi: "10.2337/dc26-S016",
+    searchQuery: "Diabetes Care in the Hospital Standards of Care in Diabetes 2026",
+  }),
+  source("endocrine-society-2022-hospital-hyperglycemia", "guideline", "Endocrine Society 2022 Inpatient Hyperglycemia", {
+    aliases: [
+      "Management of Hyperglycemia in Hospitalized Adult Patients in Non-Critical Care Settings",
+      "Endocrine Society 2022 Hospital Hyperglycemia Guideline",
+    ],
+    pmid: "35690958",
+    doi: "10.1210/clinem/dgac278",
+    searchQuery: "Management of Hyperglycemia in Hospitalized Adult Patients in Non-Critical Care Settings Endocrine Society 2022",
+  }),
+  source("ada-kdigo-2022-ckd", "consensus", "ADA/KDIGO 2022 CKD Consensus", {
+    aliases: [
+      "ADA KDIGO consensus report diabetes chronic kidney disease",
+      "Diabetes management in chronic kidney disease: a consensus report by the American Diabetes Association and Kidney Disease Improving Global Outcomes",
+    ],
+    pmid: "36202661",
+    doi: "10.1016/j.kint.2022.08.012",
+    searchQuery: "ADA KDIGO 2022 consensus report diabetes chronic kidney disease",
+  }),
+  source("kdigo-2022-diabetes-ckd", "guideline", "KDIGO 2022 Diabetes in CKD", {
+    aliases: [
+      "KDIGO 2022 diabetes management in chronic kidney disease",
+      "Diabetes Management in Chronic Kidney Disease: Synopsis of the KDIGO 2022 Clinical Practice Guideline Update",
+    ],
+    pmid: "36623286",
+    doi: "10.7326/M22-2904",
+    searchQuery: "KDIGO 2022 clinical practice guideline diabetes management in chronic kidney disease synopsis",
+  }),
+  source("aha-acc-hfsa-2022-heart-failure", "guideline", "AHA/ACC/HFSA 2022 Heart Failure Guideline", {
+    aliases: [
+      "2022 AHA ACC HFSA Guideline for the Management of Heart Failure",
+      "AHA ACC HFSA 2022 heart failure guideline",
+    ],
+    pmid: "35379503",
+    doi: "10.1016/j.jacc.2021.12.012",
+    searchQuery: "2022 AHA ACC HFSA Guideline for the Management of Heart Failure",
+  }),
+  source("fda-sglt2-perioperative-warning", "consensus", "FDA SGLT2 perioperative warning", {
+    aliases: [
+      "FDA SGLT2 surgery warning",
+      "FDA revises labels of SGLT2 inhibitors for diabetes to include warnings about too much acid in the blood and serious urinary tract infections",
+    ],
+    url: "https://www.fda.gov/drugs/drug-safety-and-availability/fda-revises-labels-sglt2-inhibitors-diabetes-include-warnings-about-too-much-acid-blood-and-serious",
+    searchQuery: "FDA SGLT2 inhibitors surgery stop 3 days before scheduled surgery",
+  }),
+  source("fda-metformin-renal-guidance", "consensus", "FDA metformin renal function guidance", {
+    aliases: [
+      "DailyMed metformin iodinated contrast guidance",
+      "Metformin contrast restart 48 hours renal function stable",
+    ],
+    url: "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=c3dfa8a1-d10a-4a1a-8eba-5f4e2a5a2949",
+    searchQuery: "DailyMed metformin iodinated contrast restart 48 hours renal function stable",
+  }),
+  source("ukpds-34", "trial", "UKPDS 34", {
+    aliases: [
+      "Effect of intensive blood-glucose control with metformin on complications in overweight patients with type 2 diabetes",
+      "UKPDS 34 metformin",
+    ],
+    pmid: "9742977",
+    doi: "10.1016/S0140-6736(98)07037-8",
+    searchQuery: "UKPDS 34 metformin overweight type 2 diabetes",
+  }),
+  source("empa-reg-outcome", "trial", "EMPA-REG OUTCOME", {
+    aliases: [
+      "Empagliflozin Cardiovascular Outcomes",
+      "Empagliflozin, Cardiovascular Outcomes, and Mortality in Type 2 Diabetes",
+    ],
+    pmid: "26378978",
+    doi: "10.1056/NEJMoa1504720",
+    searchQuery: "EMPA-REG OUTCOME empagliflozin cardiovascular outcomes type 2 diabetes",
+  }),
+  source("leader", "trial", "LEADER", {
+    aliases: [
+      "Liraglutide Cardiovascular Outcomes",
+      "Liraglutide and Cardiovascular Outcomes in Type 2 Diabetes",
+    ],
+    pmid: "27295427",
+    doi: "10.1056/NEJMoa1603827",
+    searchQuery: "LEADER liraglutide cardiovascular outcomes type 2 diabetes",
+  }),
+  source("dapa-ckd", "trial", "DAPA-CKD", {
+    aliases: [
+      "Dapagliflozin in Patients with Chronic Kidney Disease",
+      "DAPA CKD",
+    ],
+    pmid: "32970396",
+    doi: "10.1056/NEJMoa2024816",
+    searchQuery: "DAPA-CKD dapagliflozin chronic kidney disease",
+  }),
+  source("grade-trial", "trial", "GRADE", {
+    aliases: [
+      "Glycemia Reduction in Type 2 Diabetes - Glycemic Outcomes",
+      "GRADE trial",
+    ],
+    pmid: "36129996",
+    doi: "10.1056/NEJMoa2200433",
+    searchQuery: "GRADE trial glycemia reduction in type 2 diabetes glycemic outcomes",
+  }),
   source("osteomyelitis-stewardship", "review", "Osteomyelitis stewardship", {
     searchQuery: "osteomyelitis stewardship oral step down review",
   }),

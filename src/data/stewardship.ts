@@ -1,10 +1,12 @@
 import type {
+  DiseaseState,
   EmpiricOption,
   DrugMonograph,
   RegimenPlan,
   Subcategory,
   WorkflowBlock,
 } from "../types";
+import { getTopicSurfaceMode } from "./topic-surface";
 
 export const PRIORITY_WORKFLOW_DISEASE_IDS = new Set([
   "cap",
@@ -22,6 +24,37 @@ export const PRIORITY_STRUCTURED_MONOGRAPH_IDS = new Set([
   "meropenem",
   "cefepime",
   "linezolid",
+]);
+
+export const PRIORITY_DECISION_SUPPORT_SUBCATEGORY_KEYS = new Set([
+  "bacteremia-endocarditis/sab-workup",
+  "bacteremia-endocarditis/gram-negative-bacteremia",
+  "hap-vap/hap-mdr-risk",
+  "uti/complicated-uti",
+  "bone-joint/vertebral-osteomyelitis",
+  "bone-joint/diabetic-foot-osteo",
+  "amr-gn/cre-kpc",
+  "amr-gn/cre-mbl",
+]);
+
+export const PRIORITY_ORAL_STEPDOWN_SUBCATEGORY_KEYS = new Set([
+  "bacteremia-endocarditis/sab-workup",
+  "bacteremia-endocarditis/gram-negative-bacteremia",
+  "hap-vap/hap-mdr-risk",
+  "uti/complicated-uti",
+  "bone-joint/vertebral-osteomyelitis",
+  "bone-joint/diabetic-foot-osteo",
+]);
+
+export const PRIORITY_DECISION_SUPPORT_MONOGRAPH_IDS = new Set([
+  "vancomycin",
+  "daptomycin",
+  "cefazolin",
+  "linezolid",
+  "meropenem",
+  "tmp-smx",
+  "voriconazole",
+  "colistin",
 ]);
 
 export const PRIORITY_EXECUTION_MONOGRAPH_IDS = new Set([
@@ -105,6 +138,18 @@ export const WORKFLOW_FIELD_CONFIG = [
 
 export type WorkflowFieldKey = (typeof WORKFLOW_FIELD_CONFIG)[number]["key"];
 
+const GENERAL_PHARMACY_WORKFLOW_LABELS: Partial<Record<WorkflowFieldKey, string>> = {
+  diagnosticWorkup: "Initial assessment",
+  severitySignals: "Targets and risk flags",
+  mdroRiskFactors: "Comorbidity modifiers",
+  sourceControl: "Treatment priorities",
+  deEscalation: "Ongoing management",
+  failureEscalation: "Escalation triggers",
+  consultTriggers: "Consult and follow-up",
+  ivToPoPlan: "Transition and follow-up",
+  durationAnchor: "Follow-up timing",
+};
+
 export function getWorkflowBlock(subcategory: Subcategory, key: WorkflowFieldKey): WorkflowBlock | undefined {
   return subcategory[key];
 }
@@ -122,10 +167,36 @@ export function flattenWorkflowBlock(block?: WorkflowBlock | null): string[] {
     .filter(Boolean);
 }
 
-export function getSubcategoryWorkflowEntries(subcategory: Subcategory) {
+export function getPathwayWorkflowGroupTitles(
+  disease?: Pick<DiseaseState, "surfaceMode"> | null,
+) {
+  if (getTopicSurfaceMode(disease) === "general-pharmacy") {
+    return {
+      "workflow-diagnostics": "Initial Assessment",
+      "workflow-reassessment": "Ongoing Management",
+      "workflow-transition": "Transition / Follow-up",
+    } as const;
+  }
+
+  return {
+    "workflow-diagnostics": "Before Antibiotics",
+    "workflow-reassessment": "48-72h Reassessment",
+    "workflow-transition": "IV-to-PO, Duration, and Discharge",
+  } as const;
+}
+
+export function getSubcategoryWorkflowEntries(
+  subcategory: Subcategory,
+  disease?: Pick<DiseaseState, "surfaceMode"> | null,
+) {
+  const surfaceMode = getTopicSurfaceMode(disease);
   return WORKFLOW_FIELD_CONFIG
     .map((config) => ({
       ...config,
+      label:
+        surfaceMode === "general-pharmacy"
+          ? (GENERAL_PHARMACY_WORKFLOW_LABELS[config.key] ?? config.label)
+          : config.label,
       block: getWorkflowBlock(subcategory, config.key),
     }))
     .filter((entry) => hasWorkflowBlockContent(entry.block));
@@ -164,13 +235,108 @@ export function flattenRegimenPlan(plan?: RegimenPlan | null): string[] {
     .filter(Boolean);
 }
 
-export function flattenSubcategoryStewardshipText(subcategory: Subcategory): string[] {
+export function flattenSubcategoryDecisionSupportText(subcategory: Subcategory): string[] {
   return [
-    ...getSubcategoryWorkflowEntries(subcategory).flatMap((entry) => [entry.label, ...flattenWorkflowBlock(entry.block)]),
+    ...(subcategory.definitiveTherapy?.flatMap((entry) => [
+      entry.title,
+      entry.organism,
+      entry.syndrome ?? "",
+      entry.susceptibility,
+      entry.preferred.regimen,
+      entry.preferred.why,
+      ...(entry.acceptable?.flatMap((branch) => [branch.regimen, branch.why]) ?? []),
+      ...(entry.rescue?.flatMap((branch) => [branch.regimen, branch.why]) ?? []),
+      ...(entry.avoid?.flatMap((branch) => [branch.regimen, branch.why]) ?? []),
+      ...(entry.monitoringFocus ?? []),
+      entry.disagreementNote ?? "",
+      ...(entry.whatChanged ?? []),
+    ]) ?? []),
+    ...(subcategory.oralStepDown?.flatMap((entry) => [
+      entry.label,
+      entry.regimen,
+      ...entry.eligibilityChecklist,
+      entry.bioavailability,
+      entry.penetration,
+      ...(entry.barrierNotes ?? []),
+      entry.evidenceStrength ?? "",
+      entry.disagreementNote ?? "",
+      ...(entry.whatChanged ?? []),
+    ]) ?? []),
+    ...(subcategory.durationRules?.flatMap((entry) => [
+      entry.label,
+      entry.defaultDuration,
+      entry.anchorEvent,
+      ...(entry.appliesWhen ?? []),
+      ...(entry.exceptions ?? []),
+      entry.disagreementNote ?? "",
+      ...(entry.whatChanged ?? []),
+    ]) ?? []),
+    ...(subcategory.failureEscalationPath?.flatMap((entry) => [
+      entry.checkpoint,
+      entry.title,
+      entry.trigger,
+      ...(entry.likelyCauses ?? []),
+      ...entry.actions,
+      ...(entry.broadenTo ?? []),
+      entry.disagreementNote ?? "",
+      ...(entry.whatChanged ?? []),
+    ]) ?? []),
+  ]
+    .map((value) => value.trim())
+    .filter(Boolean);
+}
+
+export function flattenSubcategoryStewardshipText(
+  subcategory: Subcategory,
+  disease?: Pick<DiseaseState, "surfaceMode"> | null,
+): string[] {
+  return [
+    ...getSubcategoryWorkflowEntries(subcategory, disease).flatMap((entry) => [entry.label, ...flattenWorkflowBlock(entry.block)]),
     ...(subcategory.diagnosticStewardship?.flatMap((entry) => [entry.title, entry.detail, entry.note ?? ""]) ?? []),
     ...(subcategory.reassessmentCheckpoints?.flatMap((entry) => [entry.window, entry.title, entry.trigger, ...entry.actions]) ?? []),
     ...(subcategory.contaminationPitfalls?.flatMap((entry) => [entry.scenario, entry.implication, entry.action]) ?? []),
     ...(subcategory.durationAnchors?.flatMap((entry) => [entry.event, entry.anchor, entry.rationale ?? ""]) ?? []),
+    ...flattenSubcategoryDecisionSupportText(subcategory),
+  ]
+    .map((value) => value.trim())
+    .filter(Boolean);
+}
+
+export function flattenMonographDecisionSupportText(monograph: DrugMonograph): string[] {
+  return [
+    ...(monograph.specialPopulationMatrix?.flatMap((entry) => [
+      entry.population,
+      entry.doseStrategy,
+      entry.weightBasis ?? "",
+      entry.infusionStrategy ?? "",
+      entry.tdmTarget ?? "",
+      entry.whenToConsult ?? "",
+      entry.disagreementNote ?? "",
+      ...(entry.whatChanged ?? []),
+    ]) ?? []),
+    ...(monograph.monitoringSchedule?.flatMap((entry) => [
+      entry.phase,
+      entry.cadence,
+      ...(entry.labs ?? []),
+      ...(entry.clinical ?? []),
+      ...(entry.actionThresholds ?? []),
+      entry.disagreementNote ?? "",
+      ...(entry.whatChanged ?? []),
+    ]) ?? []),
+    ...(monograph.executionBurden
+      ? [
+          monograph.executionBurden.infusionBurden,
+          monograph.executionBurden.lineAccess,
+          monograph.executionBurden.opatFit,
+          monograph.executionBurden.monitoringBurden,
+          monograph.executionBurden.sodiumLoad ?? "",
+          monograph.executionBurden.vesicant ?? "",
+          monograph.executionBurden.homeInfusionNote ?? "",
+          monograph.executionBurden.comparatorSummary,
+          monograph.executionBurden.disagreementNote ?? "",
+          ...(monograph.executionBurden.whatChanged ?? []),
+        ]
+      : []),
   ]
     .map((value) => value.trim())
     .filter(Boolean);
@@ -223,6 +389,7 @@ export function flattenMonographStructuredText(monograph: DrugMonograph): string
     ...(monograph.misuseTraps?.flatMap((entry) => [entry.scenario, entry.risk, entry.saferApproach]) ?? []),
     ...(monograph.administrationConstraints?.flatMap((entry) => [entry.title, entry.detail, entry.action ?? ""]) ?? []),
     ...(monograph.siteSpecificAvoidances?.flatMap((entry) => [entry.site, entry.reason, entry.preferredApproach ?? ""]) ?? []),
+    ...flattenMonographDecisionSupportText(monograph),
   ]
     .map((value) => value.trim())
     .filter(Boolean);

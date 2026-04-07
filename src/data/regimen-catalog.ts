@@ -1,13 +1,10 @@
-import type { DiseaseState, RegimenReference, Subcategory } from "../types";
+import type { DiseaseState, RegimenReference } from "../types";
 import { getPreferredRegimenNotes, getPreferredRegimenText } from "./stewardship";
+import { getTreatmentTiers } from "./topic-surface";
 
 export interface RegimenCatalogData {
   regimens: RegimenReference[];
   xrefByMonographId: Record<string, RegimenReference[]>;
-}
-
-function getEmpiricTherapy(subcategory: Subcategory) {
-  return subcategory.empiricTherapy ?? subcategory.empiricRegimens ?? [];
 }
 
 function sortRegimenReferences(left: RegimenReference, right: RegimenReference) {
@@ -26,7 +23,7 @@ export function buildRegimenCatalog(diseases: DiseaseState[]): RegimenCatalogDat
 
   diseases.forEach((disease) => {
     disease.subcategories.forEach((subcategory) => {
-      getEmpiricTherapy(subcategory).forEach((tier) => {
+      getTreatmentTiers(subcategory).forEach((tier) => {
         tier.options.forEach((option) => {
           if (!option.id) return;
 

@@ -49,6 +49,18 @@ test("subcategory search previews surface workflow and microbiology context", ()
   assert.match(`${microPreview.primary} ${microPreview.secondary ?? ""}`, /Enterococcus|cephalosporin/i);
 });
 
+test("decision-support search previews carry explicit definitive-therapy labeling", () => {
+  const results = requireResults("cefazolin definitive MSSA bacteremia");
+  const match = results.subcategories.find(
+    (entry) => entry.parentDisease.id === "bacteremia-endocarditis" && entry.id === "sab-workup",
+  );
+
+  assert.ok(match, "Expected SAB workup decision-support result");
+  assert.equal(match.matchType, "decision-support");
+  const preview = buildSubcategorySearchPreview(match, "cefazolin definitive MSSA bacteremia");
+  assert.match(`${preview.primary} ${preview.secondary ?? ""}`, /Preferred definitive therapy|Cefazolin|MSSA/i);
+});
+
 test("drug search previews surface stewardship and local overlay context", () => {
   const cefiderocolResults = requireResults("cefiderocol CRAB mortality");
   const cefiderocol = cefiderocolResults.drugs.find((entry) => entry.id === "cefiderocol");
@@ -60,5 +72,5 @@ test("drug search previews surface stewardship and local overlay context", () =>
   const meropenem = meropenemResults.drugs.find((entry) => entry.id === "meropenem");
   assert.ok(meropenem, "Expected meropenem drug result");
   const meropenemPreview = buildDrugSearchPreview(meropenem, "CRRT meropenem");
-  assert.match(`${meropenemPreview.primary} ${meropenemPreview.secondary ?? ""}`, /CRRT|renal|effluent|q8h/i);
+  assert.match(`${meropenemPreview.primary} ${meropenemPreview.secondary ?? ""}`, /Special population|CRRT|extended infusion|q8h/i);
 });

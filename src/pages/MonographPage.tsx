@@ -25,6 +25,7 @@ import { hasAnyPatientSignals } from "../utils/regimenGuidance";
 import { getMonographTransitionReadiness } from "../utils/patientTransitionReadiness";
 import type {
   AllergyRecord,
+  ContentConfidence,
   DiseaseState,
   DrugMonograph,
   NavigateTo,
@@ -33,6 +34,12 @@ import type {
   Styles,
   ThemeKey,
 } from "../types";
+
+const CONFIDENCE_STYLES: Record<ContentConfidence, { color: string; border: string; background: string }> = {
+  high: { color: "#0284c7", border: "rgba(2,132,199,0.28)", background: "rgba(2,132,199,0.10)" },
+  moderate: { color: "#7c3aed", border: "rgba(124,58,237,0.28)", background: "rgba(124,58,237,0.10)" },
+  emerging: { color: "#b45309", border: "rgba(180,83,9,0.28)", background: "rgba(180,83,9,0.10)" },
+};
 
 interface MonographPageProps {
   adjbw: number | null;
@@ -175,6 +182,14 @@ export default function MonographPage({
       label: "Safety Flag",
       value: monograph.adverseEffects?.fdaBoxedWarnings ? "FDA boxed warning" : "No boxed warning listed",
     },
+    ...(monograph.executionBurden
+      ? [
+          {
+            label: "Execution Burden",
+            value: `${monograph.executionBurden.infusionBurden} infusion · ${monograph.executionBurden.monitoringBurden} monitoring`,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -470,13 +485,16 @@ export default function MonographPage({
           ...(monograph.renalReplacement?.length ? [{ id: "rrt", label: "HD / CRRT" }] : []),
           { id: "hepatic", label: "Hepatic" },
           ...(monograph.specialPopulations?.length ? [{ id: "special-pop", label: "Special Pops" }] : []),
+          ...(monograph.specialPopulationMatrix?.length ? [{ id: "special-pop-matrix", label: "Decision Matrix" }] : []),
           { id: "ae", label: "Adverse Effects" },
           { id: "interactions", label: "Interactions" },
           { id: "monitoring", label: "Monitoring" },
           ...(monograph.monitoringActions?.length ? [{ id: "monitoring-actions", label: "Action Thresholds" }] : []),
+          ...(monograph.monitoringSchedule?.length ? [{ id: "monitoring-schedule", label: "Schedule" }] : []),
           ...(monograph.therapeuticDrugMonitoring ? [{ id: "tdm", label: "TDM" }] : []),
           { id: "pregnancy", label: "Pregnancy" },
           ...(monograph.administration ? [{ id: "administration", label: "Administration" }] : []),
+          ...(monograph.executionBurden ? [{ id: "execution-burden", label: "Execution Lens" }] : []),
           ...(monograph.administrationConstraints?.length ? [{ id: "administration-constraints", label: "Admin Constraints" }] : []),
           ...(hasMicrobiology ? [{ id: "microbiology", label: "Microbiology" }] : []),
           ...(monograph.misuseTraps?.length ? [{ id: "misuse-traps", label: "Misuse Traps" }] : []),
@@ -635,6 +653,48 @@ export default function MonographPage({
         </Section>
       ) : null}
 
+      {monograph.specialPopulationMatrix?.length ? (
+        <Section id="special-pop-matrix" title="Special Population Dosing Matrix" icon="🧮" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+          <div style={{ display: "grid", gap: "10px" }}>
+            {monograph.specialPopulationMatrix.map((entry, index) => {
+              const confidenceStyle = entry.confidence ? CONFIDENCE_STYLES[entry.confidence] : null;
+              return (
+                <div key={`${entry.population}-${index}`} style={{ ...S.quickFactCard, padding: "16px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: "10px", flexWrap: "wrap", alignItems: "flex-start" }}>
+                    <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{entry.population}</div>
+                    {confidenceStyle ? (
+                      <span
+                        style={{
+                          ...S.crossRefPill,
+                          cursor: "default",
+                          marginRight: 0,
+                          marginBottom: 0,
+                          color: confidenceStyle.color,
+                          borderColor: confidenceStyle.border,
+                          background: confidenceStyle.background,
+                        }}
+                      >
+                        {entry.confidence} confidence
+                      </span>
+                    ) : null}
+                  </div>
+                  <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>{entry.doseStrategy}</div>
+                  <div style={{ display: "grid", gap: "6px" }}>
+                    {entry.weightBasis ? <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}><strong>Weight basis:</strong> {entry.weightBasis}</div> : null}
+                    {entry.infusionStrategy ? <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}><strong>Infusion strategy:</strong> {entry.infusionStrategy}</div> : null}
+                    {entry.tdmTarget ? <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}><strong>TDM target:</strong> {entry.tdmTarget}</div> : null}
+                    {entry.whenToConsult ? <div style={{ fontSize: "12px", color: "#b45309", lineHeight: 1.55 }}><strong>Consult:</strong> {entry.whenToConsult}</div> : null}
+                    {entry.disagreementNote ? <div style={{ fontSize: "12px", color: "#b45309", lineHeight: 1.55 }}>Guideline disagreement: {entry.disagreementNote}</div> : null}
+                    {entry.whatChanged?.length ? <div style={{ fontSize: "12px", color: S.meta.textMuted, lineHeight: 1.55 }}>What changed: {entry.whatChanged.join(" · ")}</div> : null}
+                  </div>
+                  <SourceEvidencePills sourceIds={entry.sourceIds} S={S} />
+                </div>
+              );
+            })}
+          </div>
+        </Section>
+      ) : null}
+
       <Section id="ae" title="Adverse Effects" icon="⚠" accentColor="#ef4444" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
         {monograph.adverseEffects && (
           <div style={S.aeGrid}>
@@ -704,6 +764,57 @@ export default function MonographPage({
         </Section>
       ) : null}
 
+      {monograph.monitoringSchedule?.length ? (
+        <Section id="monitoring-schedule" title="Monitoring Schedule" icon="🗓" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+          <div style={{ display: "grid", gap: "10px" }}>
+            {monograph.monitoringSchedule.map((entry) => {
+              const confidenceStyle = entry.confidence ? CONFIDENCE_STYLES[entry.confidence] : null;
+              return (
+                <div key={entry.id} style={{ ...S.quickFactCard, padding: "16px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: "10px", flexWrap: "wrap", alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{entry.phase.replace(/_/g, " ")}</div>
+                      <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{entry.cadence}</div>
+                    </div>
+                    {confidenceStyle ? (
+                      <span
+                        style={{
+                          ...S.crossRefPill,
+                          cursor: "default",
+                          marginRight: 0,
+                          marginBottom: 0,
+                          color: confidenceStyle.color,
+                          borderColor: confidenceStyle.border,
+                          background: confidenceStyle.background,
+                        }}
+                      >
+                        {entry.confidence} confidence
+                      </span>
+                    ) : null}
+                  </div>
+                  {entry.labs?.length ? (
+                    <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}>
+                      <strong>Labs:</strong> {entry.labs.join(" · ")}
+                    </div>
+                  ) : null}
+                  {entry.clinical?.length ? (
+                    <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}>
+                      <strong>Clinical:</strong> {entry.clinical.join(" · ")}
+                    </div>
+                  ) : null}
+                  {entry.actionThresholds?.length ? (
+                    <div style={{ fontSize: "12px", color: "#dc2626", lineHeight: 1.55 }}>
+                      <strong>Action thresholds:</strong> {entry.actionThresholds.join(" · ")}
+                    </div>
+                  ) : null}
+                  <SourceEvidencePills sourceIds={entry.sourceIds} S={S} />
+                </div>
+              );
+            })}
+          </div>
+        </Section>
+      ) : null}
+
       {monograph.therapeuticDrugMonitoring ? (
         <Section id="tdm" title="Therapeutic Drug Monitoring" icon="📈" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
@@ -741,6 +852,51 @@ export default function MonographPage({
               ],
               S,
             )}
+          </div>
+        </Section>
+      ) : null}
+
+      {monograph.executionBurden ? (
+        <Section id="execution-burden" title="Execution Burden Profile" icon="🏠" accentColor="#059669" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+          <div style={{ ...S.quickFactCard, padding: "16px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "10px" }}>
+              {[
+                `Infusion: ${monograph.executionBurden.infusionBurden}`,
+                `Line access: ${monograph.executionBurden.lineAccess}`,
+                `OPAT: ${monograph.executionBurden.opatFit}`,
+                `Monitoring: ${monograph.executionBurden.monitoringBurden}`,
+              ].map((value) => (
+                <span key={value} style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
+                  {value}
+                </span>
+              ))}
+            </div>
+            <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>
+              {monograph.executionBurden.comparatorSummary}
+            </div>
+            <div style={{ display: "grid", gap: "6px", marginTop: "10px" }}>
+              {monograph.executionBurden.homeInfusionNote ? (
+                <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}>
+                  <strong>Home infusion:</strong> {monograph.executionBurden.homeInfusionNote}
+                </div>
+              ) : null}
+              {monograph.executionBurden.sodiumLoad ? (
+                <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}>
+                  <strong>Sodium / fluid burden:</strong> {monograph.executionBurden.sodiumLoad}
+                </div>
+              ) : null}
+              {monograph.executionBurden.vesicant ? (
+                <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}>
+                  <strong>Vesicant note:</strong> {monograph.executionBurden.vesicant}
+                </div>
+              ) : null}
+              {monograph.executionBurden.disagreementNote ? (
+                <div style={{ fontSize: "12px", color: "#b45309", lineHeight: 1.55 }}>
+                  Guideline disagreement: {monograph.executionBurden.disagreementNote}
+                </div>
+              ) : null}
+            </div>
+            <SourceEvidencePills sourceIds={monograph.executionBurden.sourceIds} S={S} />
           </div>
         </Section>
       ) : null}

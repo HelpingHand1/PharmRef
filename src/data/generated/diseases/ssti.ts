@@ -829,7 +829,67 @@ export const SSTI: DiseaseState = {
           "site": "CSF",
           "detail": "Central nervous system penetration is poor at standard dosing, so cefazolin should not be assumed to substitute for nafcillin or ceftriaxone in meningitis."
         }
-      ]
+      ],
+      "specialPopulationMatrix": [
+        {
+          "population": "Obesity",
+          "doseStrategy": "Maintain full MSSA exposure; obesity should push toward adequate frequency, not toward a diluted definitive regimen.",
+          "weightBasis": "No classic mg/kg target, but obesity should not erode exposure for deep gram-positive disease",
+          "whenToConsult": "Use pharmacist review when obesity overlaps with bacteremia, osteomyelitis, or high-inoculum disease.",
+          "sourceIds": [
+            "idsa-2014-ssti",
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "population": "HD / CRRT / OPAT",
+          "doseStrategy": "Tie interval selection to modality and to whether the q8h delivery plan is truly executable.",
+          "whenToConsult": "Reassess whenever renal replacement or home-delivery logistics change.",
+          "sourceIds": [
+            "idsa-2014-ssti",
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "monitoringSchedule": [
+        {
+          "id": "ssti-cefazolin-weekly",
+          "phase": "weekly",
+          "cadence": "Weekly during prolonged therapy",
+          "labs": [
+            "CBC",
+            "BMP"
+          ],
+          "clinical": [
+            "Line burden",
+            "Rash or cytopenia review"
+          ],
+          "actionThresholds": [
+            "Late neutropenia and line friction matter during multi-week therapy."
+          ],
+          "sourceIds": [
+            "idsa-2014-ssti",
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "executionBurden": {
+        "infusionBurden": "moderate",
+        "lineAccess": "moderate",
+        "opatFit": "good",
+        "monitoringBurden": "moderate",
+        "sodiumLoad": "Lower operational burden than q4h antistaphylococcal penicillins.",
+        "homeInfusionNote": "Often the cleanest MSSA IV option when q8h delivery is workable.",
+        "comparatorSummary": "Reliable definitive MSSA option with a cleaner outpatient footprint than nafcillin or oxacillin.",
+        "sourceIds": [
+          "idsa-2014-ssti",
+          "aha-2015-ie"
+        ],
+        "confidence": "high"
+      }
     },
     {
       "id": "clindamycin",
@@ -1094,7 +1154,99 @@ export const SSTI: DiseaseState = {
           "site": "Lung",
           "detail": "Daptomycin is inactivated by pulmonary surfactant and should never be used for pneumonia regardless of in vitro susceptibility."
         }
-      ]
+      ],
+      "specialPopulationMatrix": [
+        {
+          "population": "Obesity",
+          "doseStrategy": "Preserve full mg/kg exposure for bacteremia-adjacent or deep gram-positive disease rather than shaving the dose for convenience.",
+          "weightBasis": "Actual body weight unless a local alternative PK policy exists",
+          "tdmTarget": "No routine serum target; track CK and response",
+          "whenToConsult": "Use pharmacist review for very high absolute doses.",
+          "sourceIds": [
+            "idsa-2014-ssti",
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "population": "HD / CRRT",
+          "doseStrategy": "Use modality-timed dosing and do not let renal replacement force a low-exposure deep-infection plan.",
+          "whenToConsult": "Mandatory when renal replacement changes or the isolate MIC is higher than expected.",
+          "sourceIds": [
+            "idsa-2014-ssti",
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "population": "Elevated CK or heavy statin exposure",
+          "doseStrategy": "Treat CK trajectory as part of the drug-selection decision, not as an afterthought.",
+          "whenToConsult": "Reassess early if CK is already elevated or rising.",
+          "sourceIds": [
+            "idsa-2014-ssti",
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "monitoringSchedule": [
+        {
+          "id": "ssti-dapto-baseline",
+          "phase": "baseline",
+          "cadence": "Before starting therapy",
+          "labs": [
+            "CK",
+            "BMP",
+            "CBC if prolonged course expected"
+          ],
+          "clinical": [
+            "Review statin exposure",
+            "Verify the syndrome is not pneumonia"
+          ],
+          "actionThresholds": [
+            "Do not let a susceptible report override the pneumonia exclusion."
+          ],
+          "sourceIds": [
+            "idsa-2014-ssti",
+            "aha-2015-ie"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "ssti-dapto-weekly",
+          "phase": "weekly",
+          "cadence": "At least weekly",
+          "labs": [
+            "CK",
+            "BMP"
+          ],
+          "clinical": [
+            "Muscle symptoms",
+            "Source control progress for deep infection"
+          ],
+          "actionThresholds": [
+            "Escalate quickly if CK rises sharply or myalgias appear."
+          ],
+          "sourceIds": [
+            "idsa-2014-ssti",
+            "aha-2015-ie"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "executionBurden": {
+        "infusionBurden": "low",
+        "lineAccess": "simple",
+        "opatFit": "good",
+        "monitoringBurden": "moderate",
+        "homeInfusionNote": "Once-daily delivery is a major operational advantage when OPAT is realistic.",
+        "comparatorSummary": "Operationally easier than vancomycin for deep MRSA completion, provided the syndrome is not pneumonia and CK monitoring is manageable.",
+        "sourceIds": [
+          "idsa-2014-ssti",
+          "aha-2015-ie"
+        ],
+        "confidence": "high"
+      }
     }
   ]
 };

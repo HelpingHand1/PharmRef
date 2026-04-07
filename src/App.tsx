@@ -54,6 +54,7 @@ export default function PharmRef() {
   const [allergyInput, setAllergyInput] = useState("");
   const [allergySeverity, setAllergySeverity] = useState("mild");
   const [compareItems, setCompareItems] = usePersistedState<string[]>("compareItems", []);
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [loadedDiseases, setLoadedDiseases] = useState<Record<string, DiseaseState>>({});
   const [catalogDerived, setCatalogDerived] = useState<CatalogDerived | null>(null);
@@ -73,6 +74,7 @@ export default function PharmRef() {
     selectedMonographId,
     selectedPathogenId,
     selectedSubcategoryId,
+    updatePageTitle,
   } = useNavigation();
   const selectedDiseaseSummary = selectedDiseaseId ? DISEASE_SUMMARY_BY_ID[selectedDiseaseId] ?? null : null;
   const selectedDisease = selectedDiseaseId ? loadedDiseases[selectedDiseaseId] ?? null : null;
@@ -177,6 +179,12 @@ export default function PharmRef() {
 
   useEffect(() => {
     const handleShortcut = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+        event.preventDefault();
+        setCommandPaletteOpen((open) => !open);
+        return;
+      }
+
       const activeTag = document.activeElement?.tagName;
       if (event.key === "/" && !["INPUT", "TEXTAREA"].includes(activeTag ?? "")) {
         event.preventDefault();
@@ -255,6 +263,15 @@ export default function PharmRef() {
       cancelled = true;
     };
   }, [ensureDiseaseLoaded, navState, navigateTo, selectedDiseaseId, selectedMonographId, selectedSubcategoryId]);
+
+  useEffect(() => {
+    if (selectedMonograph) updatePageTitle(selectedMonograph.name);
+    else if (selectedSubcategory) updatePageTitle(selectedSubcategory.name);
+    else if (selectedDisease) updatePageTitle(selectedDisease.name);
+    else if (selectedPathogen) updatePageTitle(selectedPathogen.name);
+    else if (isSearchActive) updatePageTitle(`Search: ${deferredQuery}`);
+    else updatePageTitle();
+  }, [deferredQuery, isSearchActive, selectedDisease, selectedMonograph, selectedPathogen, selectedSubcategory, updatePageTitle]);
 
   useEffect(() => {
     const shouldLoadFullCatalog =
@@ -507,12 +524,16 @@ export default function PharmRef() {
     allergyInput,
     allergySeverity,
     breadcrumbs,
+    commandPaletteOpen,
+    navigateTo,
     navState,
     onAddAllergy: addAllergy,
     onCloseAllergyModal: () => setShowAllergyModal(false),
+    onCloseCommandPalette: () => setCommandPaletteOpen(false),
     onClearWorkData: clearWorkData,
     onHome: handleHome,
     onOpenAllergyModal: () => setShowAllergyModal(true),
+    onOpenCommandPalette: () => setCommandPaletteOpen(true),
     onOpenPatientModal: () => setShowPatientModal(true),
     showPatientModal,
     onClosePatientModal: () => setShowPatientModal(false),
@@ -632,7 +653,7 @@ export default function PharmRef() {
         <button type="button" style={S.backBtn} onClick={() => navigateTo(NAV_STATES.HOME)}>
           ← Home
         </button>
-        <CalculatorsPage S={S} theme={theme} patient={patient} crcl={crcl} ibw={ibw} adjbw={adjbw} />
+        <CalculatorsPage S={S} theme={theme} patient={patient} crcl={crcl} ibw={ibw} adjbw={adjbw} showToast={showToast} />
       </Layout>
     );
   }
@@ -645,6 +666,7 @@ export default function PharmRef() {
         </button>
         <BreakpointWorkspacePage
           crcl={crcl}
+          diseaseStates={catalogDerived ? Object.values(catalogDerived.diseaseById) : []}
           findMonograph={findMonograph}
           navigateTo={navigateTo}
           patient={patient}

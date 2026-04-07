@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import SourceEvidencePills from "../components/SourceEvidencePills";
 import TransitionReadinessPanel from "../components/TransitionReadinessPanel";
+import { rankDecisionMatches } from "../utils/decisionSupport";
 import {
   formatNormalizedCombinationObservation,
   formatNormalizedSusceptibilityObservation,
@@ -14,6 +15,7 @@ import { NAV_STATES } from "../styles/constants";
 import type {
   BreakpointRapidDiagnostic,
   BreakpointWorkspacePreset,
+  DiseaseState,
   NavigateTo,
   NormalizedCombinationObservation,
   NormalizedSusceptibilityObservation,
@@ -27,6 +29,7 @@ import type {
 
 interface BreakpointWorkspacePageProps {
   crcl: number | null;
+  diseaseStates: DiseaseState[];
   findMonograph: (drugId: string) => { disease: { id: string }; monograph: { name: string; id: string } } | null;
   navigateTo: NavigateTo;
   patient: PatientContext;
@@ -189,6 +192,7 @@ function buildStructuredCombinationObservation(
 
 export default function BreakpointWorkspacePage({
   crcl,
+  diseaseStates,
   findMonograph,
   navigateTo,
   patient,
@@ -298,6 +302,36 @@ export default function BreakpointWorkspacePage({
       patient,
     });
   }, [allCombinationObservations, allObservations, interpretation, mic, parsedObservation, patient, rapidDiagnostic, selectedPathogen, site, workspaceCrcl, workspaceDialysis]);
+
+  const pathwayDecisionMatches = useMemo(() => {
+    if (!selectedPathogen) return [];
+
+    return diseaseStates
+      .flatMap((disease) =>
+        disease.subcategories.flatMap((subcategory) =>
+          rankDecisionMatches(subcategory.definitiveTherapy, {
+            crcl: workspaceCrcl,
+            patient,
+            pathogenId: selectedPathogen.id,
+            rapidDiagnostic,
+            site,
+          })
+            .filter((match) => match.state !== "not_applicable")
+            .map((match) => ({
+              disease,
+              subcategory,
+              match,
+            })),
+        ),
+      )
+      .sort((left, right) => {
+        const rank = (state: typeof left.match.state) => (state === "matched" ? 0 : state === "needs_context" ? 1 : 2);
+        const stateDelta = rank(left.match.state) - rank(right.match.state);
+        if (stateDelta !== 0) return stateDelta;
+        return right.match.score - left.match.score;
+      })
+      .slice(0, 6);
+  }, [diseaseStates, patient, rapidDiagnostic, selectedPathogen, site, workspaceCrcl]);
 
   function resetExecutionContext() {
     setWorkspaceDialysis(patient.dialysis ?? "none");
@@ -885,6 +919,79 @@ export default function BreakpointWorkspacePage({
                   ))}
                 </div>
               </div>
+
+              {pathwayDecisionMatches.length ? (
+                <div style={{ marginTop: "18px" }}>
+                  <div style={{ ...S.monographLabel, marginBottom: "8px" }}>Pathway definitive therapy engine</div>
+                  <div style={{ display: "grid", gap: "10px" }}>
+                    {pathwayDecisionMatches.map(({ disease, subcategory, match }) => (
+                      <div key={`${disease.id}-${subcategory.id}-${match.item.id}`} style={{ ...S.quickFactCard, padding: "14px 16px" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", gap: "10px", flexWrap: "wrap", alignItems: "flex-start" }}>
+                          <div>
+                            <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading }}>{match.item.title}</div>
+                            <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+                              {disease.name} · {subcategory.name}
+                            </div>
+                          </div>
+                          <span
+                            style={{
+                              ...S.crossRefPill,
+                              cursor: "default",
+                              marginRight: 0,
+                              marginBottom: 0,
+                              color: match.state === "matched" ? "#059669" : "#d97706",
+                              borderColor: match.state === "matched" ? "rgba(5,150,105,0.28)" : "rgba(217,119,6,0.28)",
+                              background: match.state === "matched" ? "rgba(5,150,105,0.10)" : "rgba(217,119,6,0.10)",
+                            }}
+                          >
+                            {match.state === "matched" ? "Matched" : "Needs context"}
+                          </span>
+                        </div>
+                        <div style={{ fontSize: "12px", color: S.meta.textHeading, marginTop: "8px", lineHeight: 1.6 }}>
+                          <strong>Preferred:</strong> {match.item.preferred.regimen}
+                        </div>
+                        <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
+                          {match.item.preferred.why}
+                        </div>
+                        {match.matchedCriteria.length ? (
+                          <div style={{ fontSize: "12px", color: "#059669", marginTop: "8px", lineHeight: 1.55 }}>
+                            Matches: {match.matchedCriteria.join(" · ")}
+                          </div>
+                        ) : null}
+                        {match.blockedCriteria.length ? (
+                          <div style={{ fontSize: "12px", color: S.meta.textMuted, marginTop: "6px", lineHeight: 1.55 }}>
+                            Context gates: {match.blockedCriteria.join(" · ")}
+                          </div>
+                        ) : null}
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
+                          <button
+                            type="button"
+                            style={{ ...S.crossRefPill, fontFamily: "inherit", marginRight: 0, marginBottom: 0 }}
+                            onClick={() => navigateTo(NAV_STATES.SUBCATEGORY, { diseaseId: disease.id, subcategoryId: subcategory.id })}
+                          >
+                            Open pathway
+                          </button>
+                          {match.item.preferred.linkedMonographIds?.map((monographId) => {
+                            const found = findMonograph(monographId);
+                            if (!found) return null;
+                            return (
+                              <button
+                                key={`${match.item.id}-${monographId}`}
+                                type="button"
+                                style={{ ...S.crossRefPill, fontFamily: "inherit", marginRight: 0, marginBottom: 0 }}
+                                onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { diseaseId: found.disease.id, monographId })}
+                              >
+                                {found.monograph.name}
+                              </button>
+                            );
+                          })}
+                        </div>
+                        <SourceEvidencePills sourceIds={match.item.sourceIds} S={S} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
             </>
           ) : (
             <div style={{ color: S.monographValue.color }}>Select a pathogen phenotype to start the breakpoint review.</div>

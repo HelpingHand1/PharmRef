@@ -838,6 +838,297 @@ export const UTI: DiseaseState = {
           "status": "avoid",
           "detail": "Do not convert yeast in the urine into a reflex antifungal treatment plan without symptoms or invasive risk."
         }
+      ],
+      "definitiveTherapy": [
+        {
+          "id": "cuti-standard-enterobacterales",
+          "title": "Susceptible Enterobacterales cUTI",
+          "organism": "Susceptible Enterobacterales",
+          "syndrome": "Complicated UTI or pyelonephritis with systemic signs",
+          "susceptibility": "Routine susceptible phenotype",
+          "preferred": {
+            "regimen": "Ceftriaxone or cefepime up front, then oral TMP-SMX or fluoroquinolone if susceptible and clinically improving",
+            "why": "This follows the IDSA 2025 short-course and early step-down frame without spending carbapenem pressure when it is unnecessary.",
+            "linkedMonographIds": [
+              "ceftriaxone",
+              "cefepime",
+              "tmp-smx",
+              "ciprofloxacin",
+              "levofloxacin"
+            ],
+            "sourceIds": [
+              "idsa-2025-cuti"
+            ],
+            "confidence": "high"
+          },
+          "acceptable": [
+            {
+              "regimen": "Piperacillin-tazobactam when broader gram-negative coverage is needed while the source is clarified",
+              "why": "Useful when Pseudomonas or mixed abdominal-urinary uncertainty still matters early.",
+              "linkedMonographIds": [
+                "pip-tazo"
+              ],
+              "sourceIds": [
+                "idsa-2025-cuti"
+              ],
+              "confidence": "moderate"
+            }
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "cuti-esbl",
+          "title": "ESBL cUTI",
+          "organism": "ESBL-producing Enterobacterales",
+          "syndrome": "Complicated UTI, pyelonephritis, or bacteremic urinary infection",
+          "susceptibility": "ESBL phenotype",
+          "match": {
+            "pathogenIds": [
+              "esbl-enterobacterales"
+            ]
+          },
+          "preferred": {
+            "regimen": "Meropenem initially, then oral TMP-SMX or fluoroquinolone only if the isolate is susceptible and the patient is stable",
+            "why": "Serious ESBL infection still belongs on a carbapenem until a real oral exit is proven rather than assumed.",
+            "linkedMonographIds": [
+              "meropenem",
+              "tmp-smx",
+              "ciprofloxacin",
+              "levofloxacin"
+            ],
+            "sourceIds": [
+              "idsa-2025-cuti",
+              "idsa-2024-amr",
+              "merino"
+            ],
+            "confidence": "high"
+          },
+          "acceptable": [
+            {
+              "regimen": "Ertapenem for stable non-pseudomonal ESBL urinary infection",
+              "why": "A once-daily carbapenem is often the cleanest bridge when there is no safe oral option yet.",
+              "linkedMonographIds": [
+                "ertapenem"
+              ],
+              "sourceIds": [
+                "idsa-2024-amr"
+              ],
+              "confidence": "moderate"
+            }
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti",
+            "idsa-2024-amr",
+            "merino"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "cuti-pseudomonas",
+          "title": "Pseudomonas cUTI",
+          "organism": "Pseudomonas aeruginosa",
+          "syndrome": "Complicated UTI or pyelonephritis",
+          "susceptibility": "Pseudomonal phenotype",
+          "match": {
+            "sites": [
+              "urine",
+              "kidney",
+              "bladder"
+            ]
+          },
+          "preferred": {
+            "regimen": "Cefepime, piperacillin-tazobactam, or meropenem based on susceptibility and illness severity",
+            "why": "Keep therapy tied to the actual Pseudomonas AST instead of assuming every broad urinary beta-lactam is interchangeable.",
+            "linkedMonographIds": [
+              "cefepime",
+              "pip-tazo",
+              "meropenem"
+            ],
+            "sourceIds": [
+              "idsa-2025-cuti"
+            ],
+            "confidence": "moderate"
+          },
+          "acceptable": [
+            {
+              "regimen": "Ciprofloxacin when it is susceptible and the oral route is dependable",
+              "why": "This may be the only practical oral anti-pseudomonal exit from a urinary admission.",
+              "linkedMonographIds": [
+                "ciprofloxacin"
+              ],
+              "sourceIds": [
+                "idsa-2025-cuti"
+              ],
+              "confidence": "moderate"
+            }
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "oralStepDown": [
+        {
+          "id": "cuti-tmp-smx",
+          "label": "TMP-SMX step-down",
+          "regimen": "TMP-SMX DS BID when susceptible",
+          "rank": 1,
+          "match": {
+            "avoidPatientSignals": [
+              "poor_oral_route",
+              "pregnancy"
+            ]
+          },
+          "eligibilityChecklist": [
+            "The isolate is susceptible",
+            "The patient is hemodynamically improving and can absorb oral therapy",
+            "No uncontrolled obstruction, prostatitis concern, or worsening kidney injury is forcing ongoing IV therapy"
+          ],
+          "bioavailability": "High-bioavailability oral step-down option.",
+          "penetration": "Useful across bacteremic urinary infection and prostatitis-oriented continuation plans when susceptible.",
+          "barrierNotes": [
+            "Check potassium, creatinine, and interaction burden before discharge."
+          ],
+          "evidenceStrength": "Preferred oral exit when susceptibility and safety align",
+          "linkedMonographIds": [
+            "tmp-smx"
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "cuti-fluoroquinolone",
+          "label": "Fluoroquinolone step-down",
+          "regimen": "Ciprofloxacin or levofloxacin when susceptible",
+          "rank": 2,
+          "match": {
+            "avoidPatientSignals": [
+              "poor_oral_route",
+              "qtc_prolonged",
+              "pregnancy"
+            ]
+          },
+          "eligibilityChecklist": [
+            "The isolate is susceptible",
+            "QT/safety tradeoffs are acceptable",
+            "Oral absorption is reliable and cation/feed timing is manageable"
+          ],
+          "bioavailability": "High oral systemic exposure.",
+          "penetration": "Strong urinary and tissue penetration supports pyelonephritis and prostatitis completion when tolerated.",
+          "barrierNotes": [
+            "Do not ignore prior fluoroquinolone exposure, QTc, tendon, or CNS toxicity risk."
+          ],
+          "evidenceStrength": "High-value oral exit but safety limited",
+          "linkedMonographIds": [
+            "ciprofloxacin",
+            "levofloxacin"
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti"
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "id": "cuti-amoxclav",
+          "label": "Amoxicillin-clavulanate step-down for carefully selected lower-pressure isolates",
+          "regimen": "Amoxicillin-clavulanate only when susceptible and the syndrome does not demand high systemic exposure",
+          "rank": 3,
+          "eligibilityChecklist": [
+            "The organism is clearly susceptible",
+            "The patient is improving and the syndrome is not an endovascular or high-inoculum infection",
+            "There is no better high-bioavailability oral option"
+          ],
+          "bioavailability": "Acceptable but not as dependable as TMP-SMX or fluoroquinolones for bacteremic urinary disease.",
+          "penetration": "Best reserved for lower-pressure completion plans rather than aggressive pyelonephritis rescue.",
+          "barrierNotes": [
+            "Use thoughtfully; do not default to it for every bacteremic urinary discharge."
+          ],
+          "evidenceStrength": "Situational oral exit",
+          "linkedMonographIds": [
+            "amoxicillin"
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti"
+          ],
+          "confidence": "emerging",
+          "disagreementNote": "Compared with TMP-SMX or fluoroquinolones, the oral beta-lactam evidence base is thinner for bacteremic cUTI completion."
+        }
+      ],
+      "durationRules": [
+        {
+          "id": "cuti-standard-7d",
+          "label": "Most bacteremic or septic cUTI",
+          "defaultDuration": "7 days",
+          "anchorEvent": "First active regimen after obstruction is relieved or after the clearly active agent starts",
+          "appliesWhen": [
+            "Clinical response is prompt",
+            "No prostatitis or endovascular complication is suspected"
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "cuti-prostatitis-exception",
+          "label": "Possible prostatitis or deeper male febrile UTI",
+          "defaultDuration": "10-14 days",
+          "anchorEvent": "First active regimen with a prostate-penetrating drug",
+          "appliesWhen": [
+            "Febrile male UTI with prostatitis concern"
+          ],
+          "exceptions": [
+            "Longer courses may still be needed when abscess or retained obstruction persists."
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "failureEscalationPath": [
+        {
+          "id": "cuti-24h",
+          "checkpoint": "24h",
+          "title": "Source-control and obstruction check",
+          "trigger": "The patient has systemic urinary infection and the first active regimen is started.",
+          "actions": [
+            "Make sure obstruction, stent issues, or catheter problems are not being mistaken for antibiotic failure",
+            "Do not let nitrofurantoin or fosfomycin susceptibility distract from a pyelonephritis-level syndrome"
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "cuti-48h",
+          "checkpoint": "48-72h",
+          "title": "Not improving as expected",
+          "trigger": "Fever, pain, or renal function trajectory are not improving on a supposedly active regimen.",
+          "likelyCauses": [
+            "Obstruction",
+            "Abscess",
+            "ESBL or Pseudomonas mismatch",
+            "Wrong source diagnosis"
+          ],
+          "actions": [
+            "Re-image for obstruction or abscess",
+            "Re-check prior resistant cultures and the finalized AST",
+            "Escalate mechanism-aware therapy if ESBL, CRE, or Pseudomonas is emerging"
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti",
+            "idsa-2024-amr"
+          ],
+          "confidence": "high"
+        }
       ]
     },
     {
@@ -1390,7 +1681,60 @@ export const UTI: DiseaseState = {
           "site": "Bone / soft tissue",
           "detail": "Systemic tissue exposure is good enough to support selected oral step-down plans outside the urinary tract when susceptibility is confirmed."
         }
-      ]
+      ],
+      "specialPopulationMatrix": [
+        {
+          "population": "ACE inhibitor / ARB / spironolactone exposure",
+          "doseStrategy": "Build potassium surveillance into the regimen choice rather than treating hyperkalemia as a surprise later.",
+          "whenToConsult": "Escalate early if baseline potassium reserve is narrow.",
+          "sourceIds": [
+            "idsa-2025-cuti"
+          ],
+          "confidence": "high"
+        },
+        {
+          "population": "Pregnancy, dialysis, or severe renal impairment",
+          "doseStrategy": "Trimester-specific pregnancy review and renal-metabolic monitoring matter more than nominal convenience.",
+          "whenToConsult": "Use pharmacist review when renal dysfunction, dialysis, or pregnancy complicates the plan.",
+          "sourceIds": [
+            "idsa-2025-cuti"
+          ],
+          "confidence": "moderate"
+        }
+      ],
+      "monitoringSchedule": [
+        {
+          "id": "tmpsmx-early",
+          "phase": "early",
+          "cadence": "Day 3-5 of therapy when risk is meaningful",
+          "labs": [
+            "BMP",
+            "CBC for longer courses"
+          ],
+          "clinical": [
+            "Interaction and rash review"
+          ],
+          "actionThresholds": [
+            "Check potassium before outpatient step-down complacency sets in."
+          ],
+          "sourceIds": [
+            "idsa-2025-cuti"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "executionBurden": {
+        "infusionBurden": "low",
+        "lineAccess": "simple",
+        "opatFit": "good",
+        "monitoringBurden": "moderate",
+        "homeInfusionNote": "The main execution value is often avoiding OPAT completely with a true oral exit.",
+        "comparatorSummary": "Excellent oral urinary-source exit when susceptibility and metabolic safety both cooperate.",
+        "sourceIds": [
+          "idsa-2025-cuti"
+        ],
+        "confidence": "high"
+      }
     },
     {
       "id": "fosfomycin",

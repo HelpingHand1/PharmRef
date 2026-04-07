@@ -1,9 +1,11 @@
 import type { ReactNode, RefObject } from "react";
-import type { AllergyRecord, NavStateKey, PatientContext, Styles, ThemeKey } from "../types";
+import type { AllergyRecord, NavigateTo, NavStateKey, PatientContext, Styles, ThemeKey } from "../types";
 import AllergyModal from "./AllergyModal";
+import CommandPalette from "./CommandPalette";
 import DisclaimerModal from "./DisclaimerModal";
 import PatientModal from "./PatientModal";
 import Toast from "./Toast";
+import WhatsNewModal from "./WhatsNewModal";
 import { hasAnyPatientSignals } from "../utils/regimenGuidance";
 import { APP_VERSION, CONTENT_REVIEWED_LABEL } from "../version";
 
@@ -20,17 +22,21 @@ interface LayoutProps {
   allergySeverity: string;
   breadcrumbs: Breadcrumb[];
   children: ReactNode;
+  commandPaletteOpen: boolean;
   compact?: boolean;
   crcl: number | null;
   hasWorkSessionData: boolean;
   ibw: number | null;
+  navigateTo: NavigateTo;
   navState: NavStateKey;
   onAddAllergy: () => void;
   onCloseAllergyModal: () => void;
+  onCloseCommandPalette: () => void;
   onClosePatientModal: () => void;
   onClearWorkData: () => void;
   onHome: () => void;
   onOpenAllergyModal: () => void;
+  onOpenCommandPalette: () => void;
   onOpenPatientModal: () => void;
   onRemoveAllergy: (name: string) => void;
   onSearchChange: (value: string) => void;
@@ -59,17 +65,21 @@ export default function Layout({
   allergySeverity,
   breadcrumbs,
   children,
+  commandPaletteOpen,
   compact = false,
   crcl,
   hasWorkSessionData,
   ibw,
+  navigateTo,
   navState,
   onAddAllergy,
   onCloseAllergyModal,
+  onCloseCommandPalette,
   onClosePatientModal,
   onClearWorkData,
   onHome,
   onOpenAllergyModal,
+  onOpenCommandPalette,
   onOpenPatientModal,
   onRemoveAllergy,
   onSearchChange,
@@ -113,7 +123,7 @@ export default function Layout({
               style={S.searchBox}
               value={searchQuery}
               onChange={(event) => onSearchChange(event.target.value)}
-              placeholder="Search drugs, organisms, syndromes, pearls..."
+              placeholder="Search topics, pathways, drugs, pathogens, pearls..."
             />
             {searchQuery ? (
               <button type="button" style={S.clearBtn} onClick={() => onSearchChange("")} title="Clear search" aria-label="Clear search">
@@ -124,6 +134,16 @@ export default function Layout({
             )}
           </div>
           <div style={S.headerToolbar} className="header-toolbar">
+            <button
+              type="button"
+              style={{ ...S.themeToggle, gap: "4px", paddingLeft: "8px", paddingRight: "8px", fontSize: "11px" }}
+              onClick={onOpenCommandPalette}
+              title="Command palette (⌘K)"
+              aria-label="Open command palette"
+            >
+              <span style={{ fontSize: "14px" }}>⌘</span>
+              <span style={{ fontWeight: 600 }}>K</span>
+            </button>
             <button
               type="button"
               style={{ ...S.themeToggle, position: "relative", gap: "6px", paddingLeft: "10px", paddingRight: "10px" }}
@@ -252,6 +272,16 @@ export default function Layout({
         onClearWorkData={onClearWorkData}
       />
       <DisclaimerModal S={S} />
+      <WhatsNewModal S={S} />
+      <CommandPalette
+        open={commandPaletteOpen}
+        onClose={onCloseCommandPalette}
+        navigateTo={navigateTo}
+        S={S}
+        onClearSearch={() => onSearchChange("")}
+        onOpenAllergyModal={onOpenAllergyModal}
+        onOpenPatientModal={onOpenPatientModal}
+      />
     </div>
   );
 }

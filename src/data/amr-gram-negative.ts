@@ -1,8 +1,12 @@
 // Editorial source for the generated AMR Gram-Negative disease module.
 // Runtime catalog imports use src/data/generated/diseases/amr-gram-negative.ts.
 import type { DiseaseState } from "../types";
+import {
+  getDecisionSupportMonographEnhancementsForDisease,
+  getDecisionSupportSubcategoryEnhancementsForDisease,
+} from "./decision-support-content";
 import { AMR_GN_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
-import { enhanceDisease } from "./stewardship-content";
+import { enhanceDisease, mergeEnhancementMaps } from "./stewardship-content";
 
 const AMR_GN_BASE: DiseaseState = {
     id: "amr-gn",
@@ -792,6 +796,9 @@ const AMR_GN_BASE: DiseaseState = {
 
 export const AMR_GN: DiseaseState = enhanceDisease(
   AMR_GN_BASE,
-  {},
-  AMR_GN_MONOGRAPH_ENHANCEMENTS,
+  mergeEnhancementMaps(getDecisionSupportSubcategoryEnhancementsForDisease("amr-gn")),
+  mergeEnhancementMaps(
+    AMR_GN_MONOGRAPH_ENHANCEMENTS,
+    getDecisionSupportMonographEnhancementsForDisease("amr-gn"),
+  ),
 );

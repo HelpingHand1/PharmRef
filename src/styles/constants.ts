@@ -207,8 +207,14 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
     }
 
     /* Page fade-in */
-    @keyframes pr-fade-in { from { opacity: 0; } to { opacity: 1; } }
-    .pr-fade-in { animation: pr-fade-in 0.18s ease-out; }
+    @keyframes pr-fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .pr-fade-in { animation: pr-fade-in 0.2s ease-out; }
+
+    /* Command palette and modal entrance */
+    @keyframes palette-in { from { opacity: 0; transform: translateY(-12px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    /* Route transition */
+    .app-main { animation: pr-fade-in 0.2s ease-out; }
 
     /* Reduced motion accessibility */
     @media (prefers-reduced-motion: reduce) {
@@ -220,6 +226,7 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
       .allergy-badge { animation: none !important; }
       .pr-spinner { animation: none !important; border-top-color: var(--pr-accent, #0ea5e9); opacity: 0.5; }
       .pr-fade-in { animation: none !important; }
+      .app-main { animation: none !important; }
       * { scroll-behavior: auto !important; }
     }
 

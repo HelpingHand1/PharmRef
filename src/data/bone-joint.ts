@@ -1,4 +1,8 @@
 import type { DiseaseState, Subcategory } from "../types";
+import {
+  getDecisionSupportMonographEnhancementsForDisease,
+  getDecisionSupportSubcategoryEnhancementsForDisease,
+} from "./decision-support-content";
 import { BONE_JOINT_MONOGRAPH_ENHANCEMENTS } from "./penetration-content";
 import { enhanceDisease, mergeEnhancementMaps, ready } from "./stewardship-content";
 
@@ -322,6 +326,12 @@ const BONE_JOINT_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcategory>> = {
 
 export const BONE_JOINT: DiseaseState = enhanceDisease(
   BONE_JOINT_BASE,
-  mergeEnhancementMaps(BONE_JOINT_WORKFLOW_ENHANCEMENTS),
-  BONE_JOINT_MONOGRAPH_ENHANCEMENTS,
+  mergeEnhancementMaps(
+    BONE_JOINT_WORKFLOW_ENHANCEMENTS,
+    getDecisionSupportSubcategoryEnhancementsForDisease("bone-joint"),
+  ),
+  mergeEnhancementMaps(
+    BONE_JOINT_MONOGRAPH_ENHANCEMENTS,
+    getDecisionSupportMonographEnhancementsForDisease("bone-joint"),
+  ),
 );

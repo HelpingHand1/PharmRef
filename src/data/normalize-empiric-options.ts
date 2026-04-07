@@ -49,11 +49,13 @@ export function normalizeDiseaseEmpiricOptions(
   return {
     ...disease,
     subcategories: disease.subcategories.map((subcategory) => {
+      const treatmentApproach = normalizeTierOptions(subcategory.id, subcategory.treatmentApproach);
       const empiricTherapy = normalizeTierOptions(subcategory.id, subcategory.empiricTherapy);
       const empiricRegimens = normalizeTierOptions(subcategory.id, subcategory.empiricRegimens);
 
       return {
         ...subcategory,
+        ...(treatmentApproach ? { treatmentApproach } : {}),
         ...(empiricTherapy ? { empiricTherapy } : {}),
         ...(empiricRegimens ? { empiricRegimens } : {}),
       };
