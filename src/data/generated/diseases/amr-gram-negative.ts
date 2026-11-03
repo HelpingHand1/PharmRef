@@ -7,16 +7,16 @@ export const AMR_GN: DiseaseState = {
   "id": "amr-gn",
   "name": "AMR Gram-Negative Infections",
   "icon": "🛡️",
-  "category": "Antimicrobial Resistance — IDSA 2024 Guidance (Tamma et al.)",
+  "category": "Antimicrobial Resistance — IDSA 2026 Guidance (Tamma et al.)",
   "overview": {
-    "definition": "The IDSA 2024 Guidance on the Treatment of Antimicrobial-Resistant Gram-Negative Infections (Tamma et al., CID 2024, v4.0) is the definitive US resource for managing resistant gram-negative pathogens. It covers six resistance phenotypes: ESBL-E, AmpC-E, CRE, DTR P. aeruginosa, CRAB, and S. maltophilia. This is NOT a disease-state guideline — it is a RESISTANCE-PATTERN guideline. It assumes the causative organism and susceptibilities are KNOWN, and provides preferred/alternative agent selection stratified by site of infection (cystitis vs pyelonephritis/cUTI vs non-urinary). The key principle: treatment selection should be guided by the specific resistance mechanism, not just the organism name.",
+    "definition": "The IDSA 2026 Guidance on the Treatment of Antimicrobial-Resistant Gram-Negative Infections (Tamma et al., CID 2026; published July 2026, superseding the 2024 v4.0 document) is the definitive US resource for managing resistant gram-negative pathogens. It covers six resistance phenotypes: ESBL-E, AmpC-E, CRE, DTR P. aeruginosa, CRAB, and S. maltophilia. This is NOT a disease-state guideline — it is a RESISTANCE-PATTERN guideline. It assumes the causative organism and susceptibilities are KNOWN, and provides preferred/alternative agent selection stratified by site of infection (cystitis vs pyelonephritis/cUTI vs non-urinary). The key principle: treatment selection should be guided by the specific resistance mechanism, not just the organism name.",
     "epidemiology": "AMR gram-negatives caused >2.8 million infections and >35,000 deaths annually in the US (2012-2017, CDC). ESBL-E are the most common resistance phenotype encountered in clinical practice — CTX-M-15 is the dominant ESBL in the US. CRE are classified as an urgent threat by the CDC. KPC is the dominant US carbapenemase (~80-86% of carbapenemase-producing CRE), but MBL prevalence (NDM, VIM, IMP) is RISING (from 4% to 20% of CRE between 2019-2021). DTR P. aeruginosa (non-susceptible to all standard beta-lactams, FQs, and carbapenems) represents the most challenging Pseudomonal infections. CRAB carries the highest crude mortality of any gram-negative resistance phenotype (40-60%).",
     "keyGuidelines": [
       {
-        "name": "IDSA 2024 AMR Guidance v4.0 (Tamma et al., CID 2024)",
-        "detail": "Fourth iteration of the living guidance document. Panel of 6 ID specialists. Key updates from v3.0 (2023): sulbactam-durlobactam added as preferred for CRAB, high-dose amp-sulb downgraded to alternative for CRAB, MBL prevalence increasing in US acknowledged, cefepime MIC 4-8 concern for AmpC-E removed, ceftolozane-tazobactam acknowledged as likely effective for ESBL-E but reserved for DTR-PA. Current as of December 31, 2023. Updated annually at idsociety.org/practice-guideline/amr-guidance/.",
+        "name": "IDSA 2026 AMR Guidance (Tamma et al., CID 2026)",
+        "detail": "Current living guidance (evidence through March 1, 2026; supersedes v4.0/2024). Key changes: (1) ESBL presumption now ceftriaxone MIC ≥4 µg/mL for E. coli, K. pneumoniae, K. oxytoca. (2) ESBL-E cystitis: gepotidacin, pivmecillinam, and oral sulopenem join nitrofurantoin, TMP-SMX, and single-dose aminoglycosides as preferred. (3) ESBL-E cUTI: pip-tazo, IV fosfomycin, and aminoglycosides are alternatives; cefepime-enmetazobactam is an alternative outside the urinary tract. (4) AmpC-E: Hafnia alvei added as moderate risk; completing a ceftriaxone course may be reasonable for non-severe infection with improvement and source control. (5) NDM-CRE: aztreonam-avibactam and cefiderocol preferred, with aztreonam-avibactam slightly preferred over ceftazidime-avibactam + aztreonam. (6) DTR-PA: ceftolozane-tazobactam favored for pneumonia. (7) CRAB: sulbactam-durlobactam + imipenem or meropenem is the priority for invasive infection; other regimens are bridge therapy only. (8) S. maltophilia: cefiderocol MONOTHERAPY is now preferred; aztreonam-avibactam (preferably with a second agent), levofloxacin, minocycline, and TMP-SMX (as combination components) are alternatives. Table 2 reflects 2026 CLSI breakpoints. Cefepime-zidebactam and oral tebipenem were approved after submission and will be addressed in the next update.",
         "sourceIds": [
-          "idsa-2024-amr"
+          "idsa-2026-amr"
         ]
       },
       {
@@ -79,7 +79,7 @@ export const AMR_GN: DiseaseState = {
       },
       {
         "name": "Observational: Ceftazidime-avibactam + Aztreonam for MBL (Falcone et al., 2021)",
-        "detail": "102 patients with MBL-producing Enterobacterales BSI. Ceftazidime-avibactam + aztreonam vs other regimens. 30-day mortality 19% vs 44%. Established caz-avi + aztreonam as preferred treatment for MBL-CRE pending FDA-approved aztreonam-avibactam.",
+        "detail": "102 patients with MBL-producing Enterobacterales BSI. Ceftazidime-avibactam + aztreonam vs other regimens. 30-day mortality 19% vs 44%. Established caz-avi + aztreonam as the MBL-CRE workaround before fixed-dose aztreonam-avibactam (Emblaveo) was FDA-approved in February 2025; IDSA 2026 now slightly prefers aztreonam-avibactam.",
         "sourceIds": [
           "falcone-2021-caz-avi-aztreonam"
         ]
@@ -91,9 +91,9 @@ export const AMR_GN: DiseaseState = {
     {
       "id": "esbl-e",
       "name": "ESBL-Producing Enterobacterales (ESBL-E)",
-      "definition": "ESBLs are enzymes that hydrolyze most penicillins, cephalosporins, and aztreonam. CTX-M-15 is the dominant ESBL in the US. Most prevalent in E. coli, K. pneumoniae, K. oxytoca, and P. mirabilis. ESBL-E generally remain susceptible to carbapenems. Non-susceptibility to ceftriaxone (MIC >=2) is used as a proxy for ESBL production. IDSA 2024: Carbapenems are preferred for serious ESBL-E infections outside the urinary tract. Pip-tazo is NOT recommended (MERINO). Cefepime is NOT recommended for ESBL-E even if susceptible.",
-      "clinicalPresentation": "ESBL-E cause the same clinical syndromes as susceptible Enterobacterales — UTIs, bacteremia, IAI, pneumonia, SSTIs. The difference is not the presentation but the TREATMENT. Suspect ESBL when: prior ESBL culture, recent cephalosporin/FQ exposure, travel to endemic areas, recurrent UTIs with resistance, nursing home residence. The microbiology lab identifies ESBL via ceftriaxone non-susceptibility (MIC >=2) — routine ESBL confirmatory testing is not performed at most labs.",
-      "diagnostics": "Identified by antimicrobial susceptibility testing: ceftriaxone non-susceptible (MIC >=2) is used as a proxy for ESBL production. Molecular testing (PCR for blaCTX-M, blaTEM, blaSHV genes) confirms ESBL type but is not routine. CLSI breakpoints guide interpretation. KEY: pip-tazo MIC testing may be INACCURATE for ESBL-E (poor reproducibility with commercial AST methods) — susceptibility on the report does NOT guarantee clinical efficacy.",
+      "definition": "ESBLs are enzymes that hydrolyze most penicillins, cephalosporins, and aztreonam. CTX-M-15 is the dominant ESBL in the US. Most prevalent in E. coli, K. pneumoniae, K. oxytoca, and P. mirabilis. ESBL-E generally remain susceptible to carbapenems. IDSA 2026 presumes ESBL production in E. coli, K. pneumoniae, and K. oxytoca when the ceftriaxone MIC is ≥4 µg/mL (changed from MIC ≥2 in 2024). IDSA 2026: Carbapenems are preferred for ESBL-E infections outside the urinary tract (cefepime-enmetazobactam is an alternative). Pip-tazo is an alternative for ESBL-E cUTI only and is NOT suggested outside the urinary tract (MERINO). Avoid cefepime for ESBL-E cUTI or invasive infection even if susceptible.",
+      "clinicalPresentation": "ESBL-E cause the same clinical syndromes as susceptible Enterobacterales — UTIs, bacteremia, IAI, pneumonia, SSTIs. The difference is not the presentation but the TREATMENT. Suspect ESBL when: prior ESBL culture, recent cephalosporin/FQ exposure, travel to endemic areas, recurrent UTIs with resistance, nursing home residence. IDSA 2026 uses ceftriaxone resistance (MIC ≥4 µg/mL) in E. coli, K. pneumoniae, or K. oxytoca as the working ESBL signal — routine ESBL confirmatory testing is not performed at most labs.",
+      "diagnostics": "Identified by antimicrobial susceptibility testing: ceftriaxone MIC ≥4 µg/mL in E. coli, K. pneumoniae, or K. oxytoca is the IDSA 2026 proxy for ESBL production (2024 used MIC ≥2). Molecular testing (PCR for blaCTX-M, blaTEM, blaSHV genes) confirms ESBL type but is not routine. CLSI breakpoints guide interpretation. KEY: pip-tazo MIC testing may be INACCURATE for ESBL-E (poor reproducibility with commercial AST methods) — susceptibility on the report does NOT guarantee clinical efficacy.",
       "empiricTherapy": [
         {
           "line": "Preferred — Uncomplicated Cystitis",
@@ -101,16 +101,40 @@ export const AMR_GN: DiseaseState = {
             {
               "drug": "nitrofurantoin",
               "regimen": "Nitrofurantoin 100mg PO BID × 5 days",
-              "notes": "IDSA 2024 preferred for ESBL-E uncomplicated cystitis. NOT affected by ESBL enzymes (different mechanism). Achieves high urinary concentrations. Does NOT achieve systemic levels — for cystitis ONLY, never for pyelonephritis or bacteremia.",
+              "notes": "IDSA 2026 preferred for ESBL-E uncomplicated cystitis. NOT affected by ESBL enzymes (different mechanism). Achieves high urinary concentrations. Does NOT achieve systemic levels — for cystitis ONLY, never for pyelonephritis or bacteremia.",
               "monographId": "nitrofurantoin",
               "id": "amr-gn/esbl-e/preferred-uncomplicated-cystitis/nitrofurantoin-1"
             },
             {
               "drug": "tmp-smx",
               "regimen": "TMP-SMX DS 1 tab PO BID × 3 days",
-              "notes": "IDSA 2024 preferred for ESBL-E uncomplicated cystitis IF susceptible. Not a beta-lactam — unaffected by ESBLs. Co-resistance is common (ESBL-E often carry additional resistance genes), so susceptibility must be confirmed.",
+              "notes": "IDSA 2026 preferred for ESBL-E uncomplicated cystitis IF susceptible. Not a beta-lactam — unaffected by ESBLs. Co-resistance is common (ESBL-E often carry additional resistance genes), so susceptibility must be confirmed.",
               "monographId": "tmp-smx",
               "id": "amr-gn/esbl-e/preferred-uncomplicated-cystitis/tmp-smx-2"
+            },
+            {
+              "drug": "gepotidacin-esbl-cystitis",
+              "regimen": "Gepotidacin 1,500mg PO BID × 5 days (take after a meal)",
+              "notes": "IDSA 2026 preferred for ESBL-E uncomplicated cystitis. First-in-class triazaacenaphthylene that inhibits DNA gyrase and topoisomerase IV at a site distinct from fluoroquinolones. FDA-approved (2025) for uUTI in females ≥12 years (≥40 kg). GI effects (diarrhea, nausea) are the most common adverse events; review the label for QTc and CYP3A4 interaction cautions.",
+              "id": "amr-gn/esbl-e/preferred-uncomplicated-cystitis/gepotidacin-esbl-cystitis-3"
+            },
+            {
+              "drug": "pivmecillinam-esbl-cystitis",
+              "regimen": "Pivmecillinam 185mg PO TID × 3–7 days",
+              "notes": "IDSA 2026 preferred for ESBL-E uncomplicated cystitis. FDA-approved (2024) for uUTI in women ≥18 caused by E. coli, P. mirabilis, or S. saprophyticus; long track record in Europe. Mecillinam retains activity against many ESBL-producing E. coli. Pivalate prodrug — avoid in carnitine deficiency and avoid prolonged or repeated courses.",
+              "id": "amr-gn/esbl-e/preferred-uncomplicated-cystitis/pivmecillinam-esbl-cystitis-4"
+            },
+            {
+              "drug": "sulopenem-esbl-cystitis",
+              "regimen": "Sulopenem etzadroxil/probenecid 500mg/500mg PO BID × 5 days (with food)",
+              "notes": "IDSA 2026 preferred for ESBL-E uncomplicated cystitis, but FDA labeling limits it to adult women with uUTI and limited or no alternative oral options — NOT for cUTI or pyelonephritis. An oral penem: use deliberately to protect the carbapenem class. Probenecid raises levels of other renally secreted drugs.",
+              "id": "amr-gn/esbl-e/preferred-uncomplicated-cystitis/sulopenem-esbl-cystitis-5"
+            },
+            {
+              "drug": "aminoglycoside-single-dose-esbl",
+              "regimen": "Gentamicin or tobramycin 5mg/kg IV/IM × 1, or amikacin 15mg/kg IV/IM × 1",
+              "notes": "IDSA 2026 preferred for ESBL-E uncomplicated cystitis as a SINGLE dose. High urinary concentrations; a single dose carries minimal nephrotoxicity or ototoxicity risk. Useful when oral options are resistant or not tolerated.",
+              "id": "amr-gn/esbl-e/preferred-uncomplicated-cystitis/aminoglycoside-single-dose-esbl-6"
             }
           ]
         },
@@ -119,22 +143,22 @@ export const AMR_GN: DiseaseState = {
           "options": [
             {
               "drug": "tmp-smx",
-              "regimen": "TMP-SMX DS 1 tab PO BID × 5-7 days",
-              "notes": "IDSA 2024 preferred for ESBL-E pyelonephritis/cUTI if susceptible. High urinary AND renal parenchymal concentrations. Oral step-down target from carbapenems. Achieves adequate serum levels for tissue penetration.",
+              "regimen": "TMP-SMX DS 1 tab PO BID × 7 days",
+              "notes": "IDSA 2026 preferred for ESBL-E pyelonephritis/cUTI if susceptible. High urinary AND renal parenchymal concentrations. Oral step-down target from carbapenems. Achieves adequate serum levels for tissue penetration. Duration follows IDSA 2025 cUTI guidance (7 days for non-FQ agents in improving patients).",
               "monographId": "tmp-smx",
               "id": "amr-gn/esbl-e/preferred-pyelonephritis-complicated-uti/tmp-smx-1"
             },
             {
               "drug": "ciprofloxacin",
               "regimen": "Ciprofloxacin 500mg PO BID × 5-7 days (or Levofloxacin 750mg PO daily)",
-              "notes": "IDSA 2024 preferred for ESBL-E pyelonephritis/cUTI if susceptible. High bioavailability. However, ESBL-E frequently co-resistant to FQs. Reserve for confirmed susceptible isolates to limit further FQ selection pressure.",
+              "notes": "IDSA 2026 preferred for ESBL-E pyelonephritis/cUTI if susceptible. High bioavailability. However, ESBL-E frequently co-resistant to FQs. Reserve for confirmed susceptible isolates to limit further FQ selection pressure.",
               "monographId": "ciprofloxacin",
               "id": "amr-gn/esbl-e/preferred-pyelonephritis-complicated-uti/ciprofloxacin-2"
             },
             {
               "drug": "ertapenem",
               "regimen": "Ertapenem 1g IV daily",
-              "notes": "IDSA 2024 preferred when TMP-SMX/FQ are not options (resistance or toxicity). Transition to oral TMP-SMX or FQ when susceptible and clinically improving. NOT for critically ill or hypoalbuminemic patients — use meropenem instead.",
+              "notes": "Carbapenem when TMP-SMX/FQ are not options (resistance or toxicity). Transition to oral TMP-SMX or FQ when susceptible and clinically improving. NOT for critically ill or hypoalbuminemic patients — use meropenem instead. IDSA 2026 alternatives for ESBL-E cUTI: IV fosfomycin, once-daily aminoglycosides, or piperacillin-tazobactam.",
               "monographId": "ertapenem",
               "id": "amr-gn/esbl-e/preferred-pyelonephritis-complicated-uti/ertapenem-3"
             }
@@ -146,16 +170,27 @@ export const AMR_GN: DiseaseState = {
             {
               "drug": "meropenem",
               "regimen": "Meropenem 1g IV q8h (extended infusion over 3h)",
-              "notes": "IDSA 2024 preferred for ESBL-E infections outside urinary tract. MERINO trial standard of care. Extended infusion optimizes T>MIC. For critically ill or hypoalbuminemic patients, use meropenem or imipenem — NOT ertapenem.",
+              "notes": "IDSA 2026 preferred for ESBL-E infections outside urinary tract. MERINO trial standard of care. Extended infusion optimizes T>MIC. For critically ill or hypoalbuminemic patients, use meropenem or imipenem — NOT ertapenem.",
               "monographId": "meropenem",
               "id": "amr-gn/esbl-e/preferred-non-urinary-infections-bsi-iai-pneumon/meropenem-1"
             },
             {
               "drug": "ertapenem",
               "regimen": "Ertapenem 1g IV daily",
-              "notes": "IDSA 2024 preferred for non-critically ill with normal albumin. Once-daily dosing ideal for OPAT. Ertapenem clearance increases with hypoalbuminemia (highly protein-bound) — observational data showed 5× higher mortality in hypoalbuminemic patients receiving ertapenem vs meropenem.",
+              "notes": "IDSA 2026 preferred for non-critically ill with normal albumin. Once-daily dosing ideal for OPAT. Ertapenem clearance increases with hypoalbuminemia (highly protein-bound) — observational data showed 5× higher mortality in hypoalbuminemic patients receiving ertapenem vs meropenem.",
               "monographId": "ertapenem",
               "id": "amr-gn/esbl-e/preferred-non-urinary-infections-bsi-iai-pneumon/ertapenem-2"
+            }
+          ]
+        },
+        {
+          "line": "Alternative — Non-Urinary ESBL-E Infections",
+          "options": [
+            {
+              "drug": "cefepime-enmetazobactam",
+              "regimen": "Cefepime-enmetazobactam 2.5g IV q8h over 2h (eGFR 60–129; renally adjust)",
+              "notes": "IDSA 2026 alternative for ESBL-E infections outside the urinary tract. Enmetazobactam is a penicillanic acid sulfone ESBL inhibitor; FDA-approved (2024, Exblifep) for cUTI based on ALLIUM. Carbapenem-sparing option, but clinical data outside the urinary tract are limited — carbapenems remain preferred for serious invasive disease. Do NOT treat plain cefepime susceptibility as equivalent.",
+              "id": "amr-gn/esbl-e/alternative-non-urinary-esbl-e-infections/cefepime-enmetazobactam-1"
             }
           ]
         },
@@ -164,14 +199,14 @@ export const AMR_GN: DiseaseState = {
           "options": [
             {
               "drug": "pip-tazo-avoid",
-              "regimen": "Piperacillin-tazobactam — NOT recommended for ESBL-E",
-              "notes": "MERINO trial: pip-tazo FAILED non-inferiority vs meropenem for ESBL-E BSI (12% vs 4% mortality). Mechanistic concerns: tazobactam may not reliably inhibit ESBLs (low tazobactam:piperacillin ratio of 1:8, MIC testing unreliable, inoculum effect). In vitro susceptibility does NOT guarantee clinical efficacy. Exception: if pip-tazo was started empirically for uncomplicated cystitis and patient improves, no change needed.",
+              "regimen": "Piperacillin-tazobactam — NOT suggested for ESBL-E outside the urinary tract (alternative only for ESBL-E cUTI)",
+              "notes": "IDSA 2026 lists pip-tazo as an ALTERNATIVE for ESBL-E cUTI but does not suggest it for infections outside the urinary tract. MERINO trial: pip-tazo FAILED non-inferiority vs meropenem for ESBL-E BSI (12% vs 4% mortality). Mechanistic concerns: tazobactam may not reliably inhibit ESBLs (low tazobactam:piperacillin ratio of 1:8, MIC testing unreliable, inoculum effect). In vitro susceptibility does NOT guarantee clinical efficacy for invasive disease.",
               "id": "amr-gn/esbl-e/avoid-for-esbl-e-even-if-susceptible-on-report/pip-tazo-avoid-1"
             },
             {
               "drug": "cefepime-avoid",
-              "regimen": "Cefepime — NOT recommended for ESBL-E",
-              "notes": "ESBLs commonly hydrolyze cefepime. Cefepime MIC testing unreliable for ESBL-E. Clinical trial arm terminated early for high failure signal in ESBL-E pyelonephritis/cUTI despite MICs of 1-2. Observational data show poorer outcomes vs carbapenems for invasive ESBL-E. Do NOT trust cefepime susceptibility for confirmed ESBL-E.",
+              "regimen": "Cefepime — avoid for ESBL-E cUTI or infections outside the urinary tract",
+              "notes": "IDSA 2026 suggests avoiding cefepime for ESBL-E cUTI and invasive infections. ESBLs commonly hydrolyze cefepime. Cefepime MIC testing unreliable for ESBL-E. Clinical trial arm terminated early for high failure signal in ESBL-E pyelonephritis/cUTI despite MICs of 1-2. Observational data show poorer outcomes vs carbapenems for invasive ESBL-E. Cephamycins (cefoxitin, cefotetan, cefmetazole) are also not suggested pending outcome data.",
               "id": "amr-gn/esbl-e/avoid-for-esbl-e-even-if-susceptible-on-report/cefepime-avoid-2"
             }
           ]
@@ -180,20 +215,20 @@ export const AMR_GN: DiseaseState = {
       "organismSpecific": [
         {
           "organism": "ESBL-E — Uncomplicated Cystitis",
-          "preferred": "Nitrofurantoin, TMP-SMX",
-          "alternative": "FQs, single-dose aminoglycoside, fosfomycin (E. coli only), carbapenems",
-          "notes": "For cystitis: use narrow-spectrum agents. Nitrofurantoin and TMP-SMX are unaffected by ESBLs. Reserve carbapenems and FQs for when narrow agents are not active. Fosfomycin only for E. coli (other species carry fosA gene = intrinsic resistance). Doxycycline NOT recommended for ESBL-E cystitis (limited urinary excretion)."
+          "preferred": "Nitrofurantoin, TMP-SMX, gepotidacin, pivmecillinam, oral sulopenem, single-dose aminoglycoside",
+          "alternative": "Oral fosfomycin (E. coli only)",
+          "notes": "IDSA 2026 added gepotidacin, pivmecillinam, and oral sulopenem as preferred cystitis agents. Use the narrowest active agent; sulopenem labeling restricts it to patients with limited oral options. Fosfomycin only for E. coli (other species often carry fosA = intrinsic resistance). Doxycycline NOT recommended for ESBL-E cystitis (limited urinary excretion)."
         },
         {
           "organism": "ESBL-E — Pyelonephritis / Complicated UTI",
-          "preferred": "TMP-SMX, FQs (if susceptible); carbapenems (if TMP-SMX/FQ not options)",
-          "alternative": "Aminoglycosides (once-daily, duration-limited)",
-          "notes": "Step down to oral TMP-SMX or FQ whenever possible. Carbapenems for initial therapy if severely ill, then de-escalate. Nitrofurantoin and fosfomycin do NOT achieve adequate renal parenchymal concentrations — never use for pyelonephritis."
+          "preferred": "TMP-SMX, ciprofloxacin, levofloxacin (if susceptible); carbapenems if those are not options",
+          "alternative": "IV fosfomycin, once-daily aminoglycosides, piperacillin-tazobactam (IDSA 2026)",
+          "notes": "Step down to oral TMP-SMX or FQ whenever possible. Carbapenems for initial therapy if severely ill, then de-escalate. Nitrofurantoin and oral fosfomycin do NOT achieve adequate renal parenchymal concentrations — never use for pyelonephritis."
         },
         {
           "organism": "ESBL-E — Non-Urinary (BSI, IAI, Pneumonia)",
           "preferred": "Meropenem, imipenem-cilastatin (critically ill/hypoalbuminemic); ertapenem (stable, normal albumin)",
-          "alternative": "Oral step-down to TMP-SMX or FQ after clinical improvement",
+          "alternative": "Cefepime-enmetazobactam (IDSA 2026); oral step-down to TMP-SMX or FQ after clinical improvement",
           "notes": "MERINO established carbapenems as the standard. Step down to oral agents aggressively. Novel BL-BLIs (caz-avi, mer-vab, imi-rele) are effective but should be RESERVED for CRE. Using caz-avi for ESBL-E is wasteful stewardship."
         }
       ],
@@ -209,7 +244,7 @@ export const AMR_GN: DiseaseState = {
     {
       "id": "ampc-e",
       "name": "AmpC β-Lactamase-Producing Enterobacterales (AmpC-E)",
-      "definition": "AmpC β-lactamases are chromosomally encoded enzymes that hydrolyze cephalosporins when overexpressed. The IDSA 2024 guidance identifies three organisms at MODERATE risk for clinically significant inducible AmpC production: Enterobacter cloacae complex, Klebsiella aerogenes, and Citrobacter freundii. Key concept: an isolate may initially test SUSCEPTIBLE to ceftriaxone, but exposure to ceftriaxone INDUCES ampC expression → resistance emerges during treatment (~20% risk). Cefepime is the preferred agent — it is both a weak ampC inducer AND resistant to AmpC hydrolysis. The old SPACE/SPICE mnemonics are oversimplified and outdated.",
+      "definition": "AmpC β-lactamases are chromosomally encoded enzymes that hydrolyze cephalosporins when overexpressed. The IDSA 2026 guidance identifies Enterobacter cloacae complex, Klebsiella aerogenes, and Citrobacter freundii as the most frequently encountered organisms at MODERATE risk for clinically significant inducible AmpC production, and adds Hafnia alvei to the same risk category. Key concept: an isolate may initially test SUSCEPTIBLE to ceftriaxone, but exposure to ceftriaxone INDUCES ampC expression → resistance emerges during treatment (~20% risk). Cefepime is the preferred agent — it is both a weak ampC inducer AND resistant to AmpC hydrolysis. The old SPACE/SPICE mnemonics are oversimplified and outdated.",
       "clinicalPresentation": "Same clinical syndromes as other Enterobacterales. The clinical challenge is not the presentation but the TREATMENT TRAP: cultures return susceptible to ceftriaxone, clinician starts ceftriaxone, resistance emerges during therapy, patient fails treatment. This is the classic AmpC story and occurs in ~20% of E. cloacae/K. aerogenes/C. freundii infections treated with ceftriaxone.",
       "diagnostics": "Routine AST identifies susceptibility patterns. There is NO CLSI-endorsed test for AmpC detection in clinical isolates. The pharmacist must KNOW which organisms carry inducible ampC genes and intervene regardless of reported ceftriaxone susceptibility. If the lab reports 'E. cloacae susceptible to ceftriaxone,' YOUR job is to flag this and recommend cefepime instead.",
       "empiricTherapy": [
@@ -219,7 +254,7 @@ export const AMR_GN: DiseaseState = {
             {
               "drug": "cefepime",
               "regimen": "Cefepime 2g IV q8h (extended infusion over 3h)",
-              "notes": "IDSA 2024 preferred for AmpC-E infections. Weak ampC inducer AND stable against AmpC hydrolysis (forms stable acyl enzyme complexes). Observational studies and meta-analysis show similar outcomes to carbapenems. No clinical trial exists comparing cefepime vs carbapenem for AmpC-E, but mechanism and observational data strongly support cefepime. CARBAPENEM-SPARING — this is the critical stewardship advantage.",
+              "notes": "IDSA 2026 preferred for AmpC-E infections when the cefepime MIC is susceptible or susceptible dose-dependent (≤8 µg/mL). Weak ampC inducer AND stable against AmpC hydrolysis (forms stable acyl enzyme complexes). Observational studies and meta-analysis show similar outcomes to carbapenems. No clinical trial exists comparing cefepime vs carbapenem for AmpC-E, but mechanism and observational data strongly support cefepime. CARBAPENEM-SPARING — this is the critical stewardship advantage.",
               "monographId": "cefepime",
               "id": "amr-gn/ampc-e/preferred-invasive-infections-e-cloacae-k-aeroge/cefepime-1"
             },
@@ -238,14 +273,14 @@ export const AMR_GN: DiseaseState = {
             {
               "drug": "nitrofurantoin",
               "regimen": "Nitrofurantoin 100mg PO BID × 5 days",
-              "notes": "IDSA 2024 preferred for AmpC-E uncomplicated cystitis. Not a beta-lactam — unaffected by AmpC. Ceftriaxone is also acceptable for uncomplicated cystitis (high urinary concentrations overcome AmpC concerns).",
+              "notes": "IDSA preferred for AmpC-E uncomplicated cystitis. Not a beta-lactam — unaffected by AmpC. Ceftriaxone is also acceptable for uncomplicated cystitis (high urinary concentrations overcome AmpC concerns). IDSA 2026 also reviews gepotidacin, pivmecillinam, and oral sulopenem data for AmpC-E cystitis.",
               "monographId": "nitrofurantoin",
               "id": "amr-gn/ampc-e/preferred-uncomplicated-cystitis/nitrofurantoin-1"
             },
             {
               "drug": "tmp-smx",
               "regimen": "TMP-SMX DS 1 tab PO BID × 3 days",
-              "notes": "IDSA 2024 preferred for AmpC-E cystitis if susceptible. Not a beta-lactam substrate.",
+              "notes": "IDSA preferred for AmpC-E cystitis if susceptible. Not a beta-lactam substrate.",
               "monographId": "tmp-smx",
               "id": "amr-gn/ampc-e/preferred-uncomplicated-cystitis/tmp-smx-2"
             }
@@ -257,13 +292,13 @@ export const AMR_GN: DiseaseState = {
             {
               "drug": "ceftriaxone-avoid",
               "regimen": "Ceftriaxone — NOT recommended for invasive E. cloacae, K. aerogenes, C. freundii",
-              "notes": "EVEN IF SUSCEPTIBLE on initial AST. ~20% resistance emergence during therapy. Ceftriaxone is a substrate for AmpC hydrolysis — once ampC is induced/derepressed, ceftriaxone fails. This is the most common AmpC treatment error. Exception: uncomplicated cystitis (high urinary concentrations) or step-down after clear clinical improvement with no ongoing source.",
+              "notes": "EVEN IF SUSCEPTIBLE on initial AST. ~20% resistance emergence during therapy. Ceftriaxone is a substrate for AmpC hydrolysis — once ampC is induced/derepressed, ceftriaxone fails. This is the most common AmpC treatment error. Exceptions: uncomplicated cystitis (high urinary concentrations), and — per IDSA 2026 — completing a ceftriaxone course may be reasonable for NON-SEVERE infection when ceftriaxone was started empirically and the patient has clearly improved with adequate source control.",
               "id": "amr-gn/ampc-e/avoid-for-invasive-ampc-e-infections/ceftriaxone-avoid-1"
             },
             {
               "drug": "pip-tazo-ampc-avoid",
               "regimen": "Piperacillin-tazobactam — NOT recommended for invasive AmpC-E infections",
-              "notes": "Tazobactam is a POOR inhibitor of AmpC enzymes (unlike avibactam/relebactam/vaborbactam). Multiple observational studies show poorer outcomes with pip-tazo vs cefepime or carbapenems for AmpC-E bacteremia. Pilot RCT showed higher microbiological failure with pip-tazo vs meropenem for AmpC-E BSI.",
+              "notes": "Tazobactam is a POOR inhibitor of AmpC enzymes (unlike avibactam/relebactam/vaborbactam). IDSA 2026 added supporting data that pip-tazo may be suboptimal for invasive infections from moderate-risk organisms. Multiple observational studies show poorer outcomes with pip-tazo vs cefepime or carbapenems for AmpC-E bacteremia. Pilot RCT showed higher microbiological failure with pip-tazo vs meropenem for AmpC-E BSI.",
               "id": "amr-gn/ampc-e/avoid-for-invasive-ampc-e-infections/pip-tazo-ampc-avoid-2"
             }
           ]
@@ -271,30 +306,30 @@ export const AMR_GN: DiseaseState = {
       ],
       "organismSpecific": [
         {
-          "organism": "E. cloacae complex, K. aerogenes, C. freundii (MODERATE AmpC risk)",
+          "organism": "E. cloacae complex, K. aerogenes, C. freundii, Hafnia alvei (MODERATE AmpC risk)",
           "preferred": "Cefepime, carbapenems (meropenem/ertapenem/imipenem)",
           "alternative": "TMP-SMX, FQs (if susceptible, for oral step-down)",
-          "notes": "These three organisms: ~20% risk of resistance emergence on ceftriaxone. ALWAYS use cefepime or carbapenem for invasive infections regardless of ceftriaxone susceptibility. Basal AmpC production makes them intrinsically resistant to ampicillin, amoxicillin-clavulanate, amp-sulbactam, and first/second-gen cephalosporins."
+          "notes": "These organisms (Hafnia alvei added in IDSA 2026): ~20% risk of resistance emergence on ceftriaxone. ALWAYS use cefepime or carbapenem for invasive infections regardless of ceftriaxone susceptibility. Basal AmpC production makes them intrinsically resistant to ampicillin, amoxicillin-clavulanate, amp-sulbactam, and first/second-gen cephalosporins."
         },
         {
           "organism": "S. marcescens, M. morganii, Providencia spp. (LOW AmpC risk)",
           "preferred": "Treat per AST results — ceftriaxone acceptable if susceptible",
           "alternative": "Cefepime (if high bacterial burden or limited source control)",
-          "notes": "IDSA 2024: <5% clinically significant ampC induction. Treat according to AST. DO NOT reflexively avoid ceftriaxone for these organisms — the old SPACE mnemonic overestimates their AmpC risk. Exception: for high-inoculum infections (endocarditis, undrained abscess), reasonable to use cefepime over ceftriaxone even for these organisms."
+          "notes": "IDSA 2024/2026: <5% clinically significant ampC induction. Treat according to AST. DO NOT reflexively avoid ceftriaxone for these organisms — the old SPACE mnemonic overestimates their AmpC risk. Exception: for high-inoculum infections (endocarditis, undrained abscess), reasonable to use cefepime over ceftriaxone even for these organisms."
         }
       ],
       "pearls": [
         "CEFEPIME IS THE KEY DRUG FOR AmpC-E: It is both a weak inducer AND resistant to hydrolysis. This dual property makes it uniquely suited for AmpC-E. Carbapenems also work but are broader than necessary. Cefepime = carbapenem-sparing first-line for AmpC-E. This is a high-value stewardship intervention.",
-        "The SPACE/SPICE mnemonics are OUTDATED: These mnemonics lump organisms with very different ampC induction potential into one group. Serratia and Providencia have <5% induction risk — treating them like Enterobacter is stewardship overcorrection. IDSA 2024 simplifies it: MODERATE risk = E. cloacae, K. aerogenes, C. freundii. LOW risk = S. marcescens, M. morganii, Providencia. Treat accordingly.",
+        "The SPACE/SPICE mnemonics are OUTDATED: These mnemonics lump organisms with very different ampC induction potential into one group. Serratia and Providencia have <5% induction risk — treating them like Enterobacter is stewardship overcorrection. IDSA 2026 simplifies it: MODERATE risk = E. cloacae, K. aerogenes, C. freundii (plus Hafnia alvei). LOW risk = S. marcescens, M. morganii, Providencia. Treat accordingly.",
         "Ceftriaxone susceptibility is a TRAP for E. cloacae: The isolate tests susceptible today. You start ceftriaxone. By day 3-5, ampC is induced, resistance emerges, the patient fails. This happens in ~20% of cases — that's 1 in 5 patients. The cost of using cefepime instead is zero additional toxicity and massively reduced risk of treatment failure.",
-        "Cefepime SDD (MIC 4-8) for AmpC-E: IDSA 2024 REMOVED the previous concern about cefepime MICs 4-8 indicating ESBL co-production. Updated data show no reliable correlation between cefepime SDD MICs and ESBL presence in AmpC-E. Cefepime 2g q8h extended infusion is appropriate for cefepime SDD isolates.",
+        "Cefepime SDD (MIC 4-8) for AmpC-E: IDSA 2024 REMOVED the previous concern about cefepime MICs 4-8 indicating ESBL co-production, and IDSA 2026 suggests cefepime when the MIC is susceptible or SDD (≤8 µg/mL). Cefepime 2g q8h extended infusion is appropriate for cefepime SDD isolates.",
         "Pip-tazo is NOT a good AmpC-E agent: Tazobactam is a poor AmpC inhibitor compared to avibactam, relebactam, and vaborbactam. Observational studies consistently show higher failure rates with pip-tazo vs cefepime or carbapenems for AmpC-E BSI. Save pip-tazo for infections where AmpC is not a concern."
       ]
     },
     {
       "id": "cre-kpc",
       "name": "CRE — KPC-Producing Enterobacterales",
-      "definition": "KPC (Klebsiella pneumoniae carbapenemase) is the dominant carbapenemase in the US, accounting for 80-86% of carbapenemase-producing CRE. KPC hydrolyzes all beta-lactams including carbapenems. It is inhibited by avibactam, vaborbactam, and relebactam — making the newer BL-BLI combinations the treatment of choice. The IDSA 2024 guidance slightly favors meropenem-vaborbactam, followed by ceftazidime-avibactam, then imipenem-cilastatin-relebactam, based on clinical outcomes data and resistance emergence risk.",
+      "definition": "KPC (Klebsiella pneumoniae carbapenemase) is the dominant carbapenemase in the US, accounting for 80-86% of carbapenemase-producing CRE. KPC hydrolyzes all beta-lactams including carbapenems. It is inhibited by avibactam, vaborbactam, and relebactam — making the newer BL-BLI combinations the treatment of choice. IDSA 2026 lists ceftazidime-avibactam, imipenem-cilastatin-relebactam, and meropenem-vaborbactam as preferred (agents listed alphabetically, with prioritization discussed in the rationale) and adds comparative data between ceftazidime-avibactam and meropenem-vaborbactam. Many experts favor meropenem-vaborbactam or imipenem-relebactam when on-treatment ceftazidime-avibactam resistance is a concern.",
       "clinicalPresentation": "CRE cause the same syndromes as other Enterobacterales but with dramatically higher mortality (30-50% for BSI). CDC classifies CRE as an URGENT threat. Common presentations: BSI (often from urinary or abdominal source), complicated UTI, hospital-acquired pneumonia, IAI. Most CRE infections are healthcare-associated — suspect in patients with recent hospitalization, ICU stays, prior broad-spectrum antibiotics, or residence in endemic facilities.",
       "diagnostics": "AST identifies carbapenem non-susceptibility. Carbapenemase detection: phenotypic (modified carbapenem inactivation method — mCIM, distinguishes carbapenemase vs non-carbapenemase CRE) and molecular (PCR for blaKPC, blaNDM, blaVIM, blaIMP, blaOXA-48-like). IDSA strongly encourages labs to implement SPECIFIC carbapenemase identification — the choice of preferred agent depends on WHICH carbapenemase is present. Knowing 'CRE' is not enough; knowing 'KPC-producing CRE' drives treatment selection.",
       "rapidDiagnostics": [
@@ -338,7 +373,7 @@ export const AMR_GN: DiseaseState = {
           "label": "KPC confirmed",
           "status": "preferred",
           "detail": "Meropenem-vaborbactam, ceftazidime-avibactam, or imipenem-cilastatin-relebactam are the core definitive options.",
-          "note": "Meropenem-vaborbactam is slightly favored when available and susceptible."
+          "note": "IDSA 2026 lists all three as preferred; meropenem-vaborbactam is often favored when available because on-treatment resistance appears less common than with ceftazidime-avibactam."
         },
         {
           "label": "OXA-48-like instead of KPC",
@@ -348,7 +383,7 @@ export const AMR_GN: DiseaseState = {
         {
           "label": "MBL detected",
           "status": "avoid",
-          "detail": "Exit the KPC pathway and switch to ceftazidime-avibactam plus aztreonam or cefiderocol."
+          "detail": "Exit the KPC pathway and switch to aztreonam-avibactam or cefiderocol (ceftazidime-avibactam plus aztreonam if aztreonam-avibactam is unavailable)."
         },
         {
           "label": "Pyelonephritis or cUTI with oral susceptibility",
@@ -363,21 +398,21 @@ export const AMR_GN: DiseaseState = {
             {
               "drug": "meropenem-vaborbactam",
               "regimen": "Meropenem-vaborbactam 4g IV q8h (extended infusion over 3h)",
-              "notes": "IDSA 2024: slightly favored among the three preferred agents. TANGO II trial: 59% clinical cure vs 26% with BAT for CRE. >95% activity against KPC-producing CRE. Vaborbactam is a potent boronic acid inhibitor of KPCs. Lowest resistance emergence risk of the three preferred agents. 4g = 2g meropenem + 2g vaborbactam per dose.",
+              "notes": "IDSA 2026 preferred (the three preferred agents are listed alphabetically); often favored when available. TANGO II trial: 59% clinical cure vs 26% with BAT for CRE. >95% activity against KPC-producing CRE. Vaborbactam is a potent boronic acid inhibitor of KPCs. Lowest resistance emergence risk of the three preferred agents. 4g = 2g meropenem + 2g vaborbactam per dose.",
               "monographId": "meropenem-vaborbactam",
               "id": "amr-gn/cre-kpc/preferred-kpc-producing-cre-non-urinary-infectio/meropenem-vaborbactam-1"
             },
             {
               "drug": "ceftazidime-avibactam",
               "regimen": "Ceftazidime-avibactam 2.5g IV q8h (infused over 2h)",
-              "notes": "IDSA 2024 preferred. >95% activity against KPC-CRE. Avibactam inhibits KPC, ESBL, AmpC, and OXA-48-like enzymes. Most clinical experience of any novel BL-BLI for CRE. CAUTION: higher resistance emergence risk than mer-vab (KPC mutations in omega loop can cause caz-avi resistance). 2.5g = 2g ceftazidime + 0.5g avibactam.",
+              "notes": "IDSA 2026 preferred. >95% activity against KPC-CRE. Avibactam inhibits KPC, ESBL, AmpC, and OXA-48-like enzymes. Most clinical experience of any novel BL-BLI for CRE. CAUTION: higher resistance emergence risk than mer-vab (KPC mutations in omega loop can cause caz-avi resistance). 2.5g = 2g ceftazidime + 0.5g avibactam.",
               "monographId": "ceftazidime-avibactam",
               "id": "amr-gn/cre-kpc/preferred-kpc-producing-cre-non-urinary-infectio/ceftazidime-avibactam-2"
             },
             {
               "drug": "imipenem-relebactam",
               "regimen": "Imipenem-cilastatin-relebactam 1.25g IV q6h (infused over 30 min)",
-              "notes": "IDSA 2024 preferred. RESTORE-IMI 1: 71% favorable response vs 40% for imipenem + colistin. >95% activity against KPC-CRE. Relebactam inhibits KPC and AmpC. Fewest clinical data of the three preferred agents, hence ranked third. 1.25g = 500mg imipenem + 500mg cilastatin + 250mg relebactam.",
+              "notes": "IDSA 2026 preferred. RESTORE-IMI 1: 71% favorable response vs 40% for imipenem + colistin. >95% activity against KPC-CRE. Relebactam inhibits KPC and AmpC. Fewest clinical data of the three preferred agents. 1.25g = 500mg imipenem + 500mg cilastatin + 250mg relebactam.",
               "id": "amr-gn/cre-kpc/preferred-kpc-producing-cre-non-urinary-infectio/imipenem-relebactam-3"
             }
           ]
@@ -388,7 +423,7 @@ export const AMR_GN: DiseaseState = {
             {
               "drug": "tmp-smx-cre-uti",
               "regimen": "TMP-SMX, ciprofloxacin, or levofloxacin (if susceptible)",
-              "notes": "IDSA 2024: if susceptibility confirmed, non-beta-lactam agents are preferred for CRE UTI to preserve novel BL-BLIs. Minority of CRE will be susceptible to these agents, but always check. Oral agents allow outpatient completion.",
+              "notes": "IDSA 2026: ciprofloxacin, levofloxacin, and TMP-SMX are preferred for CRE cUTI when susceptible, preserving novel BL-BLIs. For CRE cystitis, single-dose aminoglycosides, FQs, nitrofurantoin, or TMP-SMX are preferred; gepotidacin, pivmecillinam (only if KPC is unlikely), oral fosfomycin (E. coli only), and colistin are alternatives. Minority of CRE will be susceptible to these agents, but always check. Oral agents allow outpatient completion.",
               "id": "amr-gn/cre-kpc/preferred-cre-pyelonephritis-complicated-uti/tmp-smx-cre-uti-1"
             },
             {
@@ -405,7 +440,7 @@ export const AMR_GN: DiseaseState = {
             {
               "drug": "cefiderocol-cre",
               "regimen": "Cefiderocol 2g IV q8h (infused over 3h)",
-              "notes": "IDSA 2024 alternative for KPC-CRE. Siderophore cephalosporin — uses bacterial iron transport for cell entry. >95% activity against KPC-CRE. Reserved as alternative to preserve for MBL-CRE and CRAB where fewer options exist. Clinical data for KPC-CRE more limited than the three preferred BL-BLIs.",
+              "notes": "IDSA alternative for KPC-CRE. Siderophore cephalosporin — uses bacterial iron transport for cell entry. >95% activity against KPC-CRE. Reserved as alternative to preserve for MBL-CRE and CRAB where fewer options exist. Clinical data for KPC-CRE more limited than the three preferred BL-BLIs.",
               "id": "amr-gn/cre-kpc/alternative-kpc-cre/cefiderocol-cre-1"
             }
           ]
@@ -414,9 +449,9 @@ export const AMR_GN: DiseaseState = {
       "organismSpecific": [
         {
           "organism": "KPC-producing K. pneumoniae (most common US CRE)",
-          "preferred": "Meropenem-vaborbactam > ceftazidime-avibactam > imipenem-relebactam",
+          "preferred": "Ceftazidime-avibactam, imipenem-relebactam, or meropenem-vaborbactam (IDSA 2026, listed alphabetically)",
           "alternative": "Cefiderocol; tigecycline/eravacycline (non-BSI, non-UTI only)",
-          "notes": "The '>' indicates slight preference based on clinical outcomes and resistance emergence data, not a strict hierarchy. All three are >95% active and any is acceptable. Resistance emergence: caz-avi resistance most reported (KPC omega loop mutations like D179Y). Mer-vab and imi-rele appear more stable. If caz-avi resistance emerges, switch to mer-vab or imi-rele (cross-resistance is not automatic)."
+          "notes": "All three are >95% active and any is acceptable; meropenem-vaborbactam is often favored when available because of a lower reported rate of on-treatment resistance. Resistance emergence: caz-avi resistance most reported (KPC omega loop mutations like D179Y). Mer-vab and imi-rele appear more stable. If caz-avi resistance emerges, switch to mer-vab or imi-rele (cross-resistance is not automatic)."
         },
         {
           "organism": "KPC-producing E. coli (less common)",
@@ -425,8 +460,8 @@ export const AMR_GN: DiseaseState = {
         }
       ],
       "pearls": [
-        "KNOW YOUR CARBAPENEMASE: The single most important piece of information for CRE treatment is WHICH carbapenemase is present. KPC → mer-vab, caz-avi, or imi-rele. NDM/MBL → caz-avi + aztreonam or cefiderocol. OXA-48-like → caz-avi. The treatment is completely different depending on the mechanism. Push your lab to perform molecular or antigen-based carbapenemase identification.",
-        "Meropenem-vaborbactam is slightly favored for KPC: Based on TANGO II trial data (strongest clinical trial), observational studies showing slightly higher cure rates and lower resistance emergence vs caz-avi, and potent boronic acid inhibition of KPC. However, all three preferred agents are >95% active and acceptable. Don't delay therapy waiting for a specific agent — use what's on your formulary.",
+        "KNOW YOUR CARBAPENEMASE: The single most important piece of information for CRE treatment is WHICH carbapenemase is present. KPC → mer-vab, caz-avi, or imi-rele. NDM/MBL → aztreonam-avibactam or cefiderocol (caz-avi + aztreonam if aztreonam-avibactam is unavailable). OXA-48-like → caz-avi. The treatment is completely different depending on the mechanism. Push your lab to perform molecular or antigen-based carbapenemase identification.",
+        "Meropenem-vaborbactam is often favored for KPC: Based on TANGO II trial data, observational studies showing slightly higher cure rates and lower resistance emergence vs caz-avi, and potent boronic acid inhibition of KPC. IDSA 2026 still lists all three agents as preferred — all are >95% active and acceptable. Don't delay therapy waiting for a specific agent — use what's on your formulary.",
         "Caz-avi resistance is the BIGGEST concern: KPC mutations (particularly omega loop mutations like D179Y) can render caz-avi ineffective while potentially RESTORING meropenem activity. This has created the phenomenon of 'caz-avi resistant, meropenem restored' CRE. If caz-avi resistance emerges during therapy: (1) check meropenem MIC (may be restored), (2) switch to mer-vab or imi-rele. This pattern is well-described in the literature.",
         "DO NOT use polymyxin-based regimens for CRE if BL-BLIs are available: The era of polymyxin-based CRE treatment is OVER. Every comparative study (TANGO II, RESTORE-IMI 1, observational) shows BL-BLIs are superior with dramatically lower toxicity. Using colistin/polymyxin B for CRE when caz-avi/mer-vab/imi-rele are available is substandard care.",
         "Extended-infusion meropenem monotherapy for CRE is NO LONGER recommended: Previously, some used high-dose extended-infusion meropenem for CRE with MICs of 8-16. This is obsolete — novel BL-BLIs are superior. Do not attempt to 'push through' carbapenem resistance with high-dose meropenem. Use the right drug for the resistance mechanism."
@@ -451,7 +486,7 @@ export const AMR_GN: DiseaseState = {
               "ceftazidime-avibactam"
             ],
             "sourceIds": [
-              "idsa-2024-amr",
+              "idsa-2026-amr",
               "tango-ii"
             ],
             "confidence": "high"
@@ -464,7 +499,7 @@ export const AMR_GN: DiseaseState = {
                 "imipenem-cilastatin-relebactam"
               ],
               "sourceIds": [
-                "idsa-2024-amr"
+                "idsa-2026-amr"
               ],
               "confidence": "moderate"
             }
@@ -478,13 +513,13 @@ export const AMR_GN: DiseaseState = {
                 "meropenem"
               ],
               "sourceIds": [
-                "idsa-2024-amr"
+                "idsa-2026-amr"
               ],
               "confidence": "high"
             }
           ],
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "tango-ii"
           ],
           "confidence": "high"
@@ -497,7 +532,7 @@ export const AMR_GN: DiseaseState = {
           "defaultDuration": "10-14 days or syndrome-specific longer course",
           "anchorEvent": "First active phenotype-matched therapy after source control",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ],
           "confidence": "moderate"
         }
@@ -518,7 +553,7 @@ export const AMR_GN: DiseaseState = {
             "Reassess infusion execution and line-access feasibility"
           ],
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ],
           "confidence": "moderate"
         }
@@ -527,13 +562,13 @@ export const AMR_GN: DiseaseState = {
     {
       "id": "cre-mbl",
       "name": "CRE — Metallo-β-Lactamase Producers (NDM, VIM, IMP)",
-      "definition": "Metallo-β-lactamases (MBLs) — including NDM, VIM, and IMP — are zinc-dependent carbapenemases that hydrolyze ALL beta-lactams EXCEPT aztreonam. Critically, MBLs are NOT inhibited by avibactam, vaborbactam, or relebactam — meaning caz-avi, mer-vab, and imi-rele used ALONE are ineffective. Treatment requires either: (1) ceftazidime-avibactam PLUS aztreonam (avibactam protects aztreonam from co-produced serine beta-lactamases; aztreonam is intrinsically stable to MBLs), or (2) cefiderocol (siderophore cephalosporin, stable to MBL hydrolysis). MBL prevalence in US CRE is RISING: from 4% to 20% between 2019-2021. NDM is the dominant MBL in the US.",
+      "definition": "Metallo-β-lactamases (MBLs) — including NDM, VIM, and IMP — are zinc-dependent carbapenemases that hydrolyze ALL beta-lactams EXCEPT aztreonam. Critically, MBLs are NOT inhibited by avibactam, vaborbactam, or relebactam — meaning caz-avi, mer-vab, and imi-rele used ALONE are ineffective. IDSA 2026 preferred options: (1) aztreonam-avibactam (fixed-dose Emblaveo, FDA-approved February 2025 — aztreonam is intrinsically stable to MBLs and avibactam protects it from co-produced serine beta-lactamases), or (2) cefiderocol (siderophore cephalosporin, stable to MBL hydrolysis). Ceftazidime-avibactam PLUS aztreonam remains a reasonable alternative, with IDSA 2026 giving a slight preference to the fixed aztreonam-avibactam product. MBL prevalence in US CRE is RISING: from 4% to 20% between 2019-2021. NDM is the dominant MBL in the US.",
       "clinicalPresentation": "Same as other CRE — BSI, UTI, IAI, pneumonia. MBL-producing CRE are often MORE resistant than KPC-CRE because MBL genes are frequently co-located on plasmids carrying additional resistance determinants (aminoglycoside-modifying enzymes, FQ resistance, etc.). The treatment options are severely limited. These are among the hardest-to-treat infections in medicine. ID consultation is mandatory.",
       "diagnostics": "Carbapenemase-specific testing is ESSENTIAL. Phenotypic: EDTA-based tests (EDTA inhibits MBLs by chelating zinc). Molecular: PCR for blaNDM, blaVIM, blaIMP genes. CLSI has endorsed broth disk elution (BDE) method for testing ceftazidime-avibactam/aztreonam combination susceptibility against MBL-producers. Knowing 'MBL' vs 'KPC' vs 'OXA-48' completely changes the treatment algorithm.",
       "rapidDiagnostics": [
         {
           "trigger": "PCR detects NDM, VIM, or IMP",
-          "action": "Stop relying on ceftazidime-avibactam, meropenem-vaborbactam, or imipenem-relebactam alone and move to ceftazidime-avibactam plus aztreonam or cefiderocol.",
+          "action": "Stop relying on ceftazidime-avibactam, meropenem-vaborbactam, or imipenem-relebactam alone and move to aztreonam-avibactam or cefiderocol (ceftazidime-avibactam plus aztreonam if aztreonam-avibactam is unavailable).",
           "rationale": "MBL enzymes are not inhibited by avibactam, vaborbactam, or relebactam when those agents are used as stand-alone combinations."
         },
         {
@@ -570,8 +605,8 @@ export const AMR_GN: DiseaseState = {
         {
           "label": "Confirmed NDM, VIM, or IMP",
           "status": "preferred",
-          "detail": "Ceftazidime-avibactam plus aztreonam or cefiderocol are the main definitive options.",
-          "note": "Many programs prefer the aztreonam strategy first when the combo can be coordinated cleanly."
+          "detail": "Aztreonam-avibactam or cefiderocol are the IDSA 2026 preferred definitive options; ceftazidime-avibactam plus aztreonam is reasonable when the fixed combination is unavailable.",
+          "note": "IDSA 2026 gives aztreonam-avibactam a slight preference over the two-drug ceftazidime-avibactam plus aztreonam workaround."
         },
         {
           "label": "Aztreonam without avibactam protection",
@@ -594,17 +629,23 @@ export const AMR_GN: DiseaseState = {
           "line": "Preferred — MBL-Producing CRE (Non-Urinary Infections)",
           "options": [
             {
+              "drug": "aztreonam-avibactam",
+              "regimen": "Aztreonam-avibactam 2.67g IV loading dose, then 2g IV q6h (each infused over 3h; CrCl >50 mL/min — renally adjust)",
+              "notes": "IDSA 2026 preferred for NDM/MBL-CRE, with a slight preference over ceftazidime-avibactam + aztreonam. Fixed-dose combination (Emblaveo; FDA-approved February 2025 for cIAI with metronidazole in adults with limited or no options). Each 2.67g load = aztreonam 2g + avibactam 0.67g; each 2g maintenance dose = aztreonam 1.5g + avibactam 0.5g. Removes the scheduling and line-compatibility burden of the two-drug workaround. Monitor LFTs and renal function.",
+              "id": "amr-gn/cre-mbl/preferred-mbl-producing-cre-non-urinary-infectio/aztreonam-avibactam-1"
+            },
+            {
               "drug": "caz-avi-aztreonam",
               "regimen": "Ceftazidime-avibactam 2.5g IV q8h + Aztreonam 2g IV q8h (simultaneous administration)",
-              "notes": "IDSA 2024 preferred for MBL-CRE. Rationale: aztreonam is intrinsically stable to MBL hydrolysis, but MBL-producers usually co-produce ESBLs/AmpC that would hydrolyze aztreonam. Avibactam inhibits those co-produced serine beta-lactamases, allowing aztreonam to work. ~90% activity against MBL-producing Enterobacterales. Observational data: 19% mortality vs 44% for other regimens. Administer q8h simultaneously. Monitor LFTs (elevated in ~40% in phase 1 study).",
-              "id": "amr-gn/cre-mbl/preferred-mbl-producing-cre-non-urinary-infectio/caz-avi-aztreonam-1"
+              "notes": "IDSA 2026: reasonable when aztreonam-avibactam is unavailable (slight preference for the fixed combination). Rationale: aztreonam is intrinsically stable to MBL hydrolysis, but MBL-producers usually co-produce ESBLs/AmpC that would hydrolyze aztreonam. Avibactam inhibits those co-produced serine beta-lactamases, allowing aztreonam to work. ~90% activity against MBL-producing Enterobacterales. Observational data: 19% mortality vs 44% for other regimens. Administer q8h simultaneously. Monitor LFTs (elevated in ~40% in phase 1 study).",
+              "id": "amr-gn/cre-mbl/preferred-mbl-producing-cre-non-urinary-infectio/caz-avi-aztreonam-2"
             },
             {
               "drug": "cefiderocol",
               "regimen": "Cefiderocol 2g IV q8h (infused over 3h)",
-              "notes": "IDSA 2024 preferred for MBL-CRE. Siderophore cephalosporin — enters bacteria via iron transporters, bypassing porin-dependent entry. Stable against MBL hydrolysis. ~92% activity against MBL-producing Enterobacterales. Limited clinical trial data specifically for MBL-CRE but clinical trial showed 80% cure vs 0% for BAT in MBL-E infections. Monitor for resistance emergence — described with and without prior cefiderocol exposure.",
+              "notes": "IDSA 2026 preferred for NDM/MBL-CRE (alongside aztreonam-avibactam). Siderophore cephalosporin — enters bacteria via iron transporters, bypassing porin-dependent entry. Stable against MBL hydrolysis. ~92% activity against MBL-producing Enterobacterales. Limited clinical trial data specifically for MBL-CRE but clinical trial showed 80% cure vs 0% for BAT in MBL-E infections. Monitor for resistance emergence — described with and without prior cefiderocol exposure.",
               "monographId": "cefiderocol",
-              "id": "amr-gn/cre-mbl/preferred-mbl-producing-cre-non-urinary-infectio/cefiderocol-2"
+              "id": "amr-gn/cre-mbl/preferred-mbl-producing-cre-non-urinary-infectio/cefiderocol-3"
             }
           ]
         },
@@ -614,7 +655,7 @@ export const AMR_GN: DiseaseState = {
             {
               "drug": "aztreonam-mervab",
               "regimen": "Aztreonam 2g IV q8h + meropenem-vaborbactam or imipenem-relebactam",
-              "notes": "If caz-avi + aztreonam or cefiderocol not possible (allergy, intolerance). Limited clinical data. Rationale: vaborbactam/relebactam inhibit co-produced serine beta-lactamases, allowing aztreonam to function. NOT effective if OXA-type carbapenemases are also present.",
+              "notes": "If aztreonam-avibactam, caz-avi + aztreonam, or cefiderocol are not possible (allergy, intolerance, access). Limited clinical data. Rationale: vaborbactam/relebactam inhibit co-produced serine beta-lactamases, allowing aztreonam to function. NOT effective if OXA-type carbapenemases are also present.",
               "id": "amr-gn/cre-mbl/alternative-mbl-cre/aztreonam-mervab-1"
             },
             {
@@ -629,20 +670,20 @@ export const AMR_GN: DiseaseState = {
       "organismSpecific": [
         {
           "organism": "NDM-producing Enterobacterales",
-          "preferred": "Caz-avi + aztreonam, or cefiderocol",
+          "preferred": "Aztreonam-avibactam or cefiderocol (IDSA 2026); caz-avi + aztreonam if aztreonam-avibactam unavailable",
           "alternative": "Aztreonam + mer-vab or imi-rele; tigecycline/eravacycline (non-BSI/UTI)",
           "notes": "NDM is the most common MBL in US. Rising prevalence is a major concern. Often carried on highly transmissible plasmids with additional resistance genes. Co-resistance to aminoglycosides, FQs, TMP-SMX is common. Extremely limited treatment options — ID consultation mandatory."
         },
         {
           "organism": "VIM/IMP-producing Enterobacterales",
-          "preferred": "Same as NDM: caz-avi + aztreonam, or cefiderocol",
+          "preferred": "Same as NDM: aztreonam-avibactam or cefiderocol (caz-avi + aztreonam if unavailable)",
           "notes": "VIM and IMP are less common MBLs in the US but treatment approach is identical to NDM. Ceftolozane-tazobactam has NO activity against MBL-producers — never use. Pip-tazo, cefepime, carbapenems alone — all ineffective against MBLs."
         }
       ],
       "pearls": [
         "Caz-avi ALONE does NOT work for MBL-CRE: Avibactam does NOT inhibit MBLs (zinc-dependent enzymes are structurally different from serine beta-lactamases). Ceftazidime alone would be hydrolyzed by the MBL. The caz-avi is there to provide avibactam to protect the AZTREONAM from co-produced serine enzymes. Without aztreonam, caz-avi is useless for MBL-CRE. This is a common and dangerous misconception.",
         "MBL prevalence in the US is RISING FAST: CDC data show MBL genes increased from 4% to 20% of carbapenemase-producing CRE between 2019-2021. This has treatment implications: if your institution uses caz-avi as first-line for all CRE, you WILL miss MBL-producers. Know your local epidemiology and always obtain carbapenemase-specific testing.",
-        "Aztreonam-avibactam (Emblaveo) is in development: This fixed combination is the ideal agent for MBL-CRE. Until it's available, we use the workaround of caz-avi + aztreonam. The ceftazidime component is essentially along for the ride — it's the avibactam we need. Administer both drugs q8h simultaneously to ensure avibactam levels are adequate when aztreonam is present.",
+        "Aztreonam-avibactam (Emblaveo) is now FDA-approved (February 2025): IDSA 2026 lists it as preferred for NDM/MBL-CRE with a slight preference over the caz-avi + aztreonam workaround. If the fixed product is not on formulary and you use the workaround, the ceftazidime component is essentially along for the ride — it's the avibactam we need. Administer both drugs q8h simultaneously to ensure avibactam levels are adequate when aztreonam is present.",
         "Cefiderocol is an option but monitor for resistance: ~92% activity against MBL-CRE, but resistance emergence has been described both during therapy and de novo. For critical infections, some experts advocate combination therapy (cefiderocol + another active agent) until the clinical field has more experience with cefiderocol monotherapy for MBL-CRE.",
         "These infections REQUIRE ID consultation: MBL-CRE are among the most dangerous infections a hospitalized patient can develop. The treatment algorithm is complex (carbapenemase identification → agent selection → dosing optimization → monitoring for resistance). Non-ID clinicians should not manage these independently."
       ],
@@ -659,15 +700,15 @@ export const AMR_GN: DiseaseState = {
             ]
           },
           "preferred": {
-            "regimen": "Cefiderocol or ceftazidime-avibactam plus aztreonam",
-            "why": "MBL organisms sit outside the usual KPC playbook, so phenotype-specific therapy is mandatory rather than optional.",
+            "regimen": "Aztreonam-avibactam or cefiderocol (IDSA 2026 preferred); ceftazidime-avibactam plus aztreonam if aztreonam-avibactam is unavailable",
+            "why": "MBL organisms sit outside the usual KPC playbook, so phenotype-specific therapy is mandatory rather than optional. IDSA 2026 slightly prefers fixed-dose aztreonam-avibactam over the two-drug workaround.",
             "linkedMonographIds": [
               "cefiderocol",
               "ceftazidime-avibactam",
               "aztreonam"
             ],
             "sourceIds": [
-              "idsa-2024-amr"
+              "idsa-2026-amr"
             ],
             "confidence": "high"
           },
@@ -679,13 +720,13 @@ export const AMR_GN: DiseaseState = {
                 "meropenem-vaborbactam"
               ],
               "sourceIds": [
-                "idsa-2024-amr"
+                "idsa-2026-amr"
               ],
               "confidence": "high"
             }
           ],
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ],
           "confidence": "high"
         }
@@ -697,7 +738,7 @@ export const AMR_GN: DiseaseState = {
           "defaultDuration": "10-14 days or syndrome-specific longer course",
           "anchorEvent": "First active phenotype-matched therapy after source control",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ],
           "confidence": "moderate"
         }
@@ -718,7 +759,7 @@ export const AMR_GN: DiseaseState = {
             "Audit infusion timing and access constraints before assuming the drug class itself failed"
           ],
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ],
           "confidence": "moderate"
         }
@@ -727,13 +768,13 @@ export const AMR_GN: DiseaseState = {
     {
       "id": "dtr-pa",
       "name": "DTR Pseudomonas aeruginosa",
-      "definition": "Difficult-to-treat resistant (DTR) P. aeruginosa is defined as non-susceptible to ALL of the following: piperacillin-tazobactam, ceftazidime, cefepime, aztreonam, meropenem, imipenem, ciprofloxacin, and levofloxacin. This is the most restrictive definition of resistant Pseudomonas — only novel BL-BLIs and cefiderocol remain active. IDSA 2024 preferred agents: ceftolozane-tazobactam, ceftazidime-avibactam, imipenem-cilastatin-relebactam, or cefiderocol. Important: if the isolate IS susceptible to a traditional agent (e.g., cefepime), use that agent as HIGH-DOSE EXTENDED INFUSION first.",
+      "definition": "Difficult-to-treat resistant (DTR) P. aeruginosa is defined as non-susceptible to ALL of the following: piperacillin-tazobactam, ceftazidime, cefepime, aztreonam, meropenem, imipenem, ciprofloxacin, and levofloxacin. This is the most restrictive definition of resistant Pseudomonas — only novel BL-BLIs and cefiderocol remain active. IDSA 2026: outside the urinary tract, ceftazidime-avibactam, ceftolozane-tazobactam, and imipenem-cilastatin-relebactam are preferred (ceftolozane-tazobactam preferred for pneumonia), with cefiderocol as an alternative; for cUTI, cefiderocol joins the three as preferred. Important: if the isolate IS susceptible to a traditional agent (e.g., cefepime), use that agent as HIGH-DOSE EXTENDED INFUSION first.",
       "clinicalPresentation": "DTR-PA typically occurs in patients with significant healthcare exposure: prolonged ICU stays, chronic ventilator dependence, cystic fibrosis, bronchiectasis, recurrent hospital admissions with multiple antibiotic courses. Common sites: ventilator-associated pneumonia (most common serious DTR-PA infection), bloodstream infections, complicated UTI, wound infections, osteomyelitis. Pseudomonal infections are characterized by biofilm formation, making eradication difficult.",
       "diagnostics": "Standard AST identifies susceptibility pattern. DTR is defined by NON-susceptibility to ALL traditional anti-pseudomonal agents. If the isolate retains susceptibility to ANY traditional agent (cefepime, meropenem, pip-tazo, etc.), administer that agent as high-dose extended infusion rather than jumping to novel BL-BLIs. Susceptibility to ceftolozane-tazobactam, ceftazidime-avibactam, imipenem-relebactam, and cefiderocol should be tested when DTR phenotype is identified.",
       "rapidDiagnostics": [
         {
           "trigger": "Traditional anti-pseudomonal panel is fully non-susceptible but no MBL is detected",
-          "action": "Choose among ceftolozane-tazobactam, ceftazidime-avibactam, imipenem-cilastatin-relebactam, or cefiderocol using local susceptibility, infection site, and prior beta-lactam exposure.",
+          "action": "Choose among ceftolozane-tazobactam, ceftazidime-avibactam, or imipenem-cilastatin-relebactam (ceftolozane-tazobactam for pneumonia) using local susceptibility, infection site, and prior beta-lactam exposure; keep cefiderocol as the alternative outside the urinary tract.",
           "rationale": "The DTR label identifies the reserve-agent bucket, but mechanism and site still determine the best individual drug."
         },
         {
@@ -770,7 +811,7 @@ export const AMR_GN: DiseaseState = {
         {
           "label": "No MBL detected",
           "status": "preferred",
-          "detail": "Ceftolozane-tazobactam, ceftazidime-avibactam, imipenem-cilastatin-relebactam, or cefiderocol are all viable reserve options when susceptible."
+          "detail": "Ceftolozane-tazobactam, ceftazidime-avibactam, or imipenem-cilastatin-relebactam are preferred when susceptible (ceftolozane-tazobactam for pneumonia); cefiderocol is the IDSA 2026 alternative outside the urinary tract."
         },
         {
           "label": "VIM or IMP detected",
@@ -795,7 +836,7 @@ export const AMR_GN: DiseaseState = {
             {
               "drug": "cefepime-dtr-traditional",
               "regimen": "Cefepime 2g IV q8h (extended infusion over 3h) — or whichever traditional agent retains activity",
-              "notes": "IDSA 2024: If isolate is NOT susceptible to carbapenems but IS susceptible to cefepime (or vice versa), use the susceptible traditional agent as high-dose extended infusion. This is NOT truly DTR — it's resistant to some but not all standard agents. Reserve novel BL-BLIs for TRUE DTR (resistant to ALL traditional agents).",
+              "notes": "IDSA: If isolate is NOT susceptible to carbapenems but IS susceptible to cefepime (or vice versa), use the susceptible traditional agent as high-dose extended infusion. This is NOT truly DTR — it's resistant to some but not all standard agents. Reserve novel BL-BLIs for TRUE DTR (resistant to ALL traditional agents).",
               "id": "amr-gn/dtr-pa/first-if-susceptible-to-any-traditional-agent-us/cefepime-dtr-traditional-1"
             }
           ]
@@ -806,26 +847,31 @@ export const AMR_GN: DiseaseState = {
             {
               "drug": "ceftolozane-tazobactam-dtr",
               "regimen": "Ceftolozane-tazobactam 3g IV q8h (infused over 3h) — use HAP/VAP dose for all serious infections",
-              "notes": "IDSA 2024 preferred for DTR-PA. Ceftolozane has intrinsic anti-pseudomonal potency greater than ceftazidime. 3g dose (2g ceftolozane + 1g tazobactam) is the HAP/VAP dose — many experts use this dose for all serious DTR-PA infections. Activity is independent of MBL/KPC status — relies on ceftolozane's stability to Pseudomonal AmpC and efflux resistance.",
+              "notes": "IDSA 2026 preferred for DTR-PA, and the preferred agent for DTR-PA pneumonia based on comparative data favoring it over ceftazidime-avibactam. Ceftolozane has intrinsic anti-pseudomonal potency greater than ceftazidime. 3g dose (2g ceftolozane + 1g tazobactam) is the HAP/VAP dose — many experts use this dose for all serious DTR-PA infections. Activity is independent of MBL/KPC status — relies on ceftolozane's stability to Pseudomonal AmpC and efflux resistance.",
               "id": "amr-gn/dtr-pa/preferred-true-dtr-p-aeruginosa-non-urinary-infe/ceftolozane-tazobactam-dtr-1"
             },
             {
               "drug": "ceftazidime-avibactam-dtr",
               "regimen": "Ceftazidime-avibactam 2.5g IV q8h (infused over 2h)",
-              "notes": "IDSA 2024 preferred. Avibactam inhibits Pseudomonal AmpC and some OXA enzymes. Activity varies by regional resistance mechanisms — some areas show lower DTR-PA susceptibility to caz-avi than to ceftolozane-tazobactam.",
+              "notes": "IDSA 2026 preferred (outside pneumonia, where ceftolozane-tazobactam is favored). Avibactam inhibits Pseudomonal AmpC and some OXA enzymes. Activity varies by regional resistance mechanisms — some areas show lower DTR-PA susceptibility to caz-avi than to ceftolozane-tazobactam.",
               "id": "amr-gn/dtr-pa/preferred-true-dtr-p-aeruginosa-non-urinary-infe/ceftazidime-avibactam-dtr-2"
             },
             {
               "drug": "imipenem-relebactam-dtr",
               "regimen": "Imipenem-cilastatin-relebactam 1.25g IV q6h (infused over 30 min)",
-              "notes": "IDSA 2024 preferred. Relebactam restores imipenem activity against Pseudomonas with AmpC/OXA-mediated resistance. RESTORE-IMI 1 trial supports efficacy. Less data specifically for DTR-PA compared to ceftolozane-tazobactam.",
+              "notes": "IDSA 2026 preferred. Relebactam restores imipenem activity against Pseudomonas with AmpC/OXA-mediated resistance. RESTORE-IMI 1 trial supports efficacy. IDSA 2026 notes treatment-emergent imipenem-relebactam non-susceptibility in ~24% of patients in observational cohorts — a resistance-emergence risk similar to the other agents. Less data specifically for DTR-PA compared to ceftolozane-tazobactam.",
               "id": "amr-gn/dtr-pa/preferred-true-dtr-p-aeruginosa-non-urinary-infe/imipenem-relebactam-dtr-3"
-            },
+            }
+          ]
+        },
+        {
+          "line": "Alternative — True DTR P. aeruginosa (Non-Urinary Infections)",
+          "options": [
             {
               "drug": "cefiderocol-dtr",
               "regimen": "Cefiderocol 2g IV q8h (infused over 3h)",
-              "notes": "IDSA 2024 preferred. Siderophore mechanism bypasses porin loss and efflux — two major Pseudomonal resistance mechanisms. Broadest activity against DTR-PA of any single agent. Some experts prefer to use combination therapy initially, transitioning to monotherapy if clinical improvement occurs.",
-              "id": "amr-gn/dtr-pa/preferred-true-dtr-p-aeruginosa-non-urinary-infe/cefiderocol-dtr-4"
+              "notes": "IDSA 2026 alternative for DTR-PA infections outside the urinary tract (preferred only for cUTI). Siderophore mechanism bypasses porin loss and efflux — two major Pseudomonal resistance mechanisms. Key option when an MBL (VIM/IMP) inactivates ceftolozane-tazobactam and ceftazidime-avibactam. Game Changer trial data on cefiderocol for bloodstream infections were added in 2026.",
+              "id": "amr-gn/dtr-pa/alternative-true-dtr-p-aeruginosa-non-urinary-in/cefiderocol-dtr-1"
             }
           ]
         },
@@ -835,7 +881,7 @@ export const AMR_GN: DiseaseState = {
             {
               "drug": "ceftolozane-taz-uti",
               "regimen": "Ceftolozane-tazobactam 1.5g IV q8h (UTI dose)",
-              "notes": "Standard UTI/cUTI dose (lower than HAP/VAP dose). Any of the four preferred novel agents can be used for DTR-PA UTI. Once-daily tobramycin or amikacin are IDSA 2024 alternatives for DTR-PA UTI (prolonged renal cortex activity, convenient dosing).",
+              "notes": "Standard UTI/cUTI dose (lower than HAP/VAP dose). IDSA 2026 preferred agents for DTR-PA cUTI: cefiderocol, ceftazidime-avibactam, ceftolozane-tazobactam, or imipenem-relebactam (no order of preference). Once-daily tobramycin or amikacin are alternatives for DTR-PA cUTI (prolonged renal cortex activity, convenient dosing); aminoglycoside monotherapy is not suggested outside the urinary tract.",
               "id": "amr-gn/dtr-pa/preferred-dtr-p-aeruginosa-uti/ceftolozane-taz-uti-1"
             }
           ]
@@ -844,29 +890,29 @@ export const AMR_GN: DiseaseState = {
       "organismSpecific": [
         {
           "organism": "DTR P. aeruginosa (all mechanisms)",
-          "preferred": "Ceftolozane-tazobactam, ceftazidime-avibactam, imipenem-relebactam, cefiderocol",
-          "alternative": "Aminoglycosides (UTI only); combination therapy for life-threatening infections",
-          "notes": "If an MBL (VIM, IMP) is identified in DTR-PA: ceftolozane-tazobactam and caz-avi are likely INEFFECTIVE. Use cefiderocol or caz-avi + aztreonam. MBL-producing Pseudomonas is rare but check. Nebulized antibiotics NOT recommended for respiratory DTR-PA infections (IDSA 2024)."
+          "preferred": "Ceftolozane-tazobactam, ceftazidime-avibactam, imipenem-relebactam (ceftolozane-tazobactam for pneumonia); cefiderocol also preferred for cUTI",
+          "alternative": "Cefiderocol (outside the urinary tract); aminoglycosides (UTI only)",
+          "notes": "If an MBL (VIM, IMP) is identified in DTR-PA: ceftolozane-tazobactam and caz-avi are likely INEFFECTIVE — use cefiderocol-centered therapy. MBL-producing Pseudomonas is rare but check; IDSA 2026 added a question on how carbapenemase identification should guide treatment. Nebulized antibiotics: not suggested routinely when an active systemic beta-lactam is available; selective adjunctive use (tobramycin, amikacin, colistimethate) is reasonable when no newer beta-lactam is active and response is suboptimal (IDSA 2026)."
         }
       ],
       "pearls": [
         "NOT ALL 'RESISTANT PSEUDOMONAS' IS DTR: DTR requires non-susceptibility to ALL traditional anti-pseudomonal agents. If the isolate is meropenem-resistant but cefepime-susceptible, use high-dose extended infusion cefepime — this is NOT DTR and does not need a novel BL-BLI. Correctly identifying DTR vs selective resistance preserves novel agents for when they're truly needed.",
         "Ceftolozane-tazobactam dose matters: UTI = 1.5g q8h. Serious non-UTI infections = 3g q8h (the HAP/VAP dose). Many experts now use the 3g dose for ALL serious DTR-PA infections regardless of site. Underdosing ceftolozane-tazobactam for DTR-PA is a common error.",
         "Regional DTR-PA susceptibility patterns vary: In some US regions, ceftolozane-tazobactam retains higher activity against DTR-PA than caz-avi. In others, the reverse is true. This is driven by local resistance mechanisms (AmpC mutations vs MBL vs efflux vs porin loss). Know your institutional antibiogram for novel agents.",
-        "Nebulized antibiotics for DTR-PA pneumonia: IDSA 2024 does NOT recommend nebulized antibiotics (tobramycin, colistin) for DTR-PA respiratory infections. Evidence does not support improved outcomes, and nebulized delivery is associated with bronchospasm, variable drug delivery, and selection for further resistance.",
+        "Nebulized antibiotics for DTR-PA pneumonia: IDSA 2026 softened its position — routine nebulized antibiotics are still not suggested when a susceptible systemic beta-lactam is available, but selective adjunctive use (tobramycin, amikacin, colistimethate) is reasonable when no newer beta-lactam is active and response is suboptimal. Watch for bronchospasm and variable drug delivery.",
         "MBL-producing P. aeruginosa is the hardest scenario: If DTR-PA produces VIM or IMP, both ceftolozane-tazobactam and caz-avi are inactive. Cefiderocol becomes the primary option. This is rare in the US but increasing globally. Always check for MBL if DTR-PA is identified."
       ]
     },
     {
       "id": "crab-steno",
       "name": "CRAB & Stenotrophomonas maltophilia",
-      "definition": "CRAB (carbapenem-resistant Acinetobacter baumannii) carries the highest mortality of any gram-negative AMR phenotype (40-60% crude mortality). IDSA 2024: sulbactam-durlobactam (+ carbapenem backbone) is now the PREFERRED agent. S. maltophilia is an intrinsically resistant, opportunistic glucose non-fermenter found in ICU patients, immunocompromised hosts, and CF patients. Intrinsically resistant to carbapenems, aminoglycosides, and most beta-lactams. Preferred agents: cefiderocol (+ second agent initially), caz-avi + aztreonam, minocycline, TMP-SMX, or levofloxacin (each with a second agent).",
+      "definition": "CRAB (carbapenem-resistant Acinetobacter baumannii) carries the highest mortality of any gram-negative AMR phenotype (40-60% crude mortality). IDSA 2026: sulbactam-durlobactam with imipenem or meropenem is the PREFERRED regimen for invasive CRAB infection; every other regimen is bridge therapy only until it is available (or if resistance precludes it). Recommendations apply to invasive infection, not colonization. S. maltophilia is an intrinsically resistant, opportunistic glucose non-fermenter found in ICU patients, immunocompromised hosts, and CF patients. Intrinsically resistant to carbapenems, aminoglycosides, and most beta-lactams. IDSA 2026: cefiderocol MONOTHERAPY is preferred for invasive S. maltophilia; aztreonam-avibactam (preferably with a second agent; caz-avi + aztreonam if unavailable) and levofloxacin, minocycline, or TMP-SMX as components of combination therapy are alternatives.",
       "clinicalPresentation": "CRAB: predominantly healthcare-associated — ventilator-associated pneumonia (most common), bloodstream infections, wound infections, meningitis (post-neurosurgical). Environmental reservoir (survives on surfaces for weeks). Outbreaks in ICUs. Mortality: 40-60% for BSI. S. maltophilia: hospital-acquired pneumonia (especially ventilated patients), bloodstream infections (often catheter-related), immunocompromised hosts (hematologic malignancy, transplant). KEY for both: distinguish colonization from true infection. Unnecessary treatment drives further resistance.",
       "diagnostics": "CRAB: AST shows resistance to carbapenems + most other agents. Most CRAB produce OXA-type carbapenemases (OXA-23, OXA-24/40, OXA-58). Sulbactam-durlobactam susceptibility testing should be performed. S. maltophilia: intrinsically resistant to carbapenems (L1 metallo-beta-lactamase) and aminoglycosides. CLSI 2024: ceftazidime breakpoints REMOVED for S. maltophilia (do not test). TMP-SMX, minocycline, levofloxacin, and cefiderocol susceptibility should be tested. BDE method available for caz-avi/aztreonam combination testing.",
       "rapidDiagnostics": [
         {
           "trigger": "A. baumannii complex grows with carbapenem resistance",
-          "action": "Request sulbactam-durlobactam susceptibility or confirm local access early; if unavailable, build a high-dose ampicillin-sulbactam combination promptly.",
+          "action": "Request sulbactam-durlobactam susceptibility and confirm local access early; if it is not yet available, use high-dose ampicillin-sulbactam plus a second agent (cefiderocol, minocycline, or polymyxin B) only as a bridge until sulbactam-durlobactam can start.",
           "rationale": "CRAB therapy selection changes materially depending on whether sulbactam-durlobactam can be deployed."
         },
         {
@@ -903,17 +949,17 @@ export const AMR_GN: DiseaseState = {
         {
           "label": "CRAB with sulbactam-durlobactam access",
           "status": "preferred",
-          "detail": "Sulbactam-durlobactam plus a carbapenem backbone is the new first-line pathway."
+          "detail": "Sulbactam-durlobactam plus imipenem or meropenem is the IDSA 2026 preferred regimen for invasive infection."
         },
         {
           "label": "CRAB without sulbactam-durlobactam access",
           "status": "conditional",
-          "detail": "High-dose ampicillin-sulbactam plus at least one second active agent is the fallback structure."
+          "detail": "High-dose ampicillin-sulbactam plus a second agent (cefiderocol, minocycline, or polymyxin B) is a temporary bridge only, not a definitive strategy."
         },
         {
           "label": "Severe Stenotrophomonas infection",
           "status": "preferred",
-          "detail": "Cefiderocol, ceftazidime-avibactam plus aztreonam, TMP-SMX, or minocycline-based combination therapy are the main modern options."
+          "detail": "Cefiderocol monotherapy is preferred (IDSA 2026); aztreonam-avibactam-based or levofloxacin-, minocycline-, or TMP-SMX-containing combinations are alternatives."
         },
         {
           "label": "Stenotrophomonas ceftazidime pathway",
@@ -927,8 +973,8 @@ export const AMR_GN: DiseaseState = {
           "options": [
             {
               "drug": "sulbactam-durlobactam",
-              "regimen": "Sulbactam-durlobactam 1g/0.5g IV q6h + Imipenem-cilastatin 500mg IV q6h (or Meropenem 2g IV q8h)",
-              "notes": "IDSA 2024 preferred for CRAB. ATTACK trial: 28-day mortality 19% vs 32% with colistin. Durlobactam is a diazabicyclooctane BLI that inhibits Acinetobacter OXA carbapenemases + Class A/C enzymes. Sulbactam provides the intrinsic anti-Acinetobacter killing. Carbapenem backbone adds additional activity and covers potential co-pathogens. Brand name: Xacduro.",
+              "regimen": "Sulbactam-durlobactam 1g/1g (sulbactam 1g + durlobactam 1g) IV q6h over 3h (CrCl 45–129 mL/min; renally adjust) + Imipenem-cilastatin 500mg IV q6h (or Meropenem)",
+              "notes": "IDSA 2026 preferred for invasive CRAB, in combination with imipenem or meropenem. ATTACK trial: 28-day mortality 19% vs 32% with colistin. Durlobactam is a diazabicyclooctane BLI that inhibits Acinetobacter OXA carbapenemases + Class A/C enzymes. Sulbactam provides the intrinsic anti-Acinetobacter killing. Carbapenem backbone adds additional activity and covers potential co-pathogens. Brand name: Xacduro.",
               "id": "amr-gn/crab-steno/preferred-crab-infections/sulbactam-durlobactam-1"
             }
           ]
@@ -939,43 +985,54 @@ export const AMR_GN: DiseaseState = {
             {
               "drug": "high-dose-amp-sulb-crab",
               "regimen": "High-dose ampicillin-sulbactam 9g IV q8h (= 27g/day total: 18g ampicillin + 9g sulbactam) + at least 1 additional agent",
-              "notes": "IDSA 2024 alternative (downgraded from preferred in 2023 update). Sulbactam component provides intrinsic Acinetobacter activity. Must be combined with at least one other agent: polymyxin B, minocycline (preferred over tigecycline), or cefiderocol. The 27g/day dosing (9g sulbactam) maximizes the sulbactam PK/PD target.",
+              "notes": "IDSA 2026: temporary BRIDGE therapy only while awaiting sulbactam-durlobactam (downgraded from preferred in 2023, alternative in 2024). Sulbactam component provides intrinsic Acinetobacter activity. Must be combined with another agent: cefiderocol, minocycline (preferred when a tetracycline is used), or polymyxin B. The 27g/day dosing (9g sulbactam) maximizes the sulbactam PK/PD target.",
               "id": "amr-gn/crab-steno/alternative-crab-if-sulbactam-durlobactam-unavai/high-dose-amp-sulb-crab-1"
             },
             {
               "drug": "polymyxin-b-crab",
               "regimen": "Polymyxin B 2.5-3 mg/kg/day IV divided q12h (NOT colistimethate for systemic CRAB)",
-              "notes": "Component of CRAB combination therapy. Polymyxin B preferred over colistimethate (colistin) for systemic infections: more predictable PK, does not require conversion from prodrug, less nephrotoxic. Colistimethate has a role in urinary tract infections (converts to active colistin in urine) and nebulized therapy. Never use polymyxin monotherapy for CRAB — always combine.",
+              "notes": "IDSA 2026: reserve for when resistance precludes sulbactam-durlobactam or as interim therapy while awaiting access. Polymyxin B preferred over colistimethate (colistin) for systemic infections: more predictable PK, does not require conversion from prodrug, less nephrotoxic. Colistimethate has a role in urinary tract infections (converts to active colistin in urine) and nebulized therapy. Never use polymyxin monotherapy for CRAB — always combine.",
               "id": "amr-gn/crab-steno/alternative-crab-if-sulbactam-durlobactam-unavai/polymyxin-b-crab-2"
             }
           ]
         },
         {
-          "line": "Preferred — S. maltophilia Infections (in order of preference)",
+          "line": "Preferred — Invasive S. maltophilia Infections",
           "options": [
             {
               "drug": "cefiderocol-steno",
-              "regimen": "Cefiderocol 2g IV q8h (with a second agent at least initially)",
-              "notes": "IDSA 2024 preferred (listed first). Stable against S. maltophilia's intrinsic L1 MBL and L2 serine BL. Siderophore entry bypasses efflux/porin resistance. Add a second agent initially (minocycline, TMP-SMX, or levofloxacin) until clinical improvement, then consider cefiderocol monotherapy.",
-              "id": "amr-gn/crab-steno/preferred-s-maltophilia-infections-in-order-of-p/cefiderocol-steno-1"
-            },
+              "regimen": "Cefiderocol 2g IV q8h (infused over 3h) as MONOTHERAPY",
+              "notes": "IDSA 2026 preferred for invasive S. maltophilia — as monotherapy (2024 advised adding a second agent). Stable against S. maltophilia's intrinsic L1 MBL and L2 serine BL; siderophore entry bypasses efflux/porin resistance. Support comes mainly from susceptibility and neutropenic animal data with limited clinical outcomes data, and IDSA notes insufficient data that adding a second agent to cefiderocol improves outcomes.",
+              "id": "amr-gn/crab-steno/preferred-invasive-s-maltophilia-infections/cefiderocol-steno-1"
+            }
+          ]
+        },
+        {
+          "line": "Alternative — Invasive S. maltophilia (Combination Therapy)",
+          "options": [
             {
-              "drug": "caz-avi-aztreonam-steno",
-              "regimen": "Ceftazidime-avibactam 2.5g IV q8h + Aztreonam 2g IV q8h",
-              "notes": "IDSA 2024 preferred (listed second). Same rationale as for MBL-CRE: aztreonam stable to L1 MBL, avibactam inhibits L2 serine BL. BDE testing endorsed by CLSI for this combination against S. maltophilia.",
-              "id": "amr-gn/crab-steno/preferred-s-maltophilia-infections-in-order-of-p/caz-avi-aztreonam-steno-2"
+              "drug": "aztreonam-avibactam-steno",
+              "regimen": "Aztreonam-avibactam 2.67g IV load, then 2g IV q6h over 3h (or Ceftazidime-avibactam 2.5g + Aztreonam 2g IV q8h if unavailable) — preferably with a second agent",
+              "notes": "IDSA 2026 alternative, preferably as combination therapy; consider monotherapy only after sustained clinical improvement. Aztreonam is stable to the L1 MBL and avibactam inhibits the L2 serine beta-lactamase. Ceftazidime-avibactam plus aztreonam is a reasonable substitute where aztreonam-avibactam is unavailable; BDE testing is endorsed by CLSI for that combination.",
+              "id": "amr-gn/crab-steno/alternative-invasive-s-maltophilia-combination-t/aztreonam-avibactam-steno-1"
             },
             {
               "drug": "tmp-smx-steno",
-              "regimen": "TMP-SMX 15 mg/kg/day IV divided q6-8h (with a second agent)",
-              "notes": "IDSA 2024 preferred (with second agent). Historically the first-line agent for S. maltophilia. Still effective but rising resistance (10-20% in some centers). IV dosing uses the TMP component for calculation. Combine with minocycline, levofloxacin, or cefiderocol.",
-              "id": "amr-gn/crab-steno/preferred-s-maltophilia-infections-in-order-of-p/tmp-smx-steno-3"
+              "regimen": "TMP-SMX 8–12 mg/kg/day (TMP component) IV/PO divided q8–12h, as part of combination therapy",
+              "notes": "IDSA 2026 alternative, as a component of combination therapy. TMP-SMX is at best bacteriostatic against S. maltophilia, and animal data showed inferior survival vs cefiderocol. Older 15 mg/kg/day regimens are no longer the guidance range. Oral bioavailability is essentially complete; consider TMP-SMX monotherapy only after clear and sustained clinical improvement. Watch hyperkalemia, AKI, marrow suppression, and hypersensitivity.",
+              "id": "amr-gn/crab-steno/alternative-invasive-s-maltophilia-combination-t/tmp-smx-steno-2"
             },
             {
               "drug": "minocycline-steno",
-              "regimen": "Minocycline 200mg IV/PO q12h (with a second agent)",
-              "notes": "IDSA 2024 preferred (with second agent). Minocycline is preferred over tigecycline for S. maltophilia (better activity, fewer GI side effects). Good oral bioavailability for step-down. 70-80% S. maltophilia susceptibility in most centers.",
-              "id": "amr-gn/crab-steno/preferred-s-maltophilia-infections-in-order-of-p/minocycline-steno-4"
+              "regimen": "Minocycline 200mg IV/PO q12h, as part of combination therapy",
+              "notes": "IDSA 2026 alternative, as a component of combination therapy (concerns about reliability as monotherapy for bloodstream infection). IV and oral are interchangeable (~95% bioavailability). Minocycline is preferred over tigecycline for S. maltophilia. Consider minocycline monotherapy only after clear and sustained clinical improvement.",
+              "id": "amr-gn/crab-steno/alternative-invasive-s-maltophilia-combination-t/minocycline-steno-3"
+            },
+            {
+              "drug": "levofloxacin-steno",
+              "regimen": "Levofloxacin 750mg IV/PO daily, as part of combination therapy",
+              "notes": "IDSA 2026 alternative, as a component of combination therapy. Resistance can emerge on therapy, so avoid levofloxacin monotherapy for invasive disease. Studies have not clearly shown better outcomes from levofloxacin-, minocycline-, or TMP-SMX-based combinations, but combinations remain common practice when cefiderocol is not used.",
+              "id": "amr-gn/crab-steno/alternative-invasive-s-maltophilia-combination-t/levofloxacin-steno-4"
             }
           ]
         }
@@ -983,23 +1040,23 @@ export const AMR_GN: DiseaseState = {
       "organismSpecific": [
         {
           "organism": "CRAB (OXA-producing A. baumannii)",
-          "preferred": "Sulbactam-durlobactam + carbapenem",
-          "alternative": "High-dose amp-sulb (27g/day) + polymyxin B or minocycline or cefiderocol",
-          "notes": "CRAB treatment ALWAYS requires combination therapy. Monotherapy failure rates are unacceptable. Sulbactam-durlobactam changed the landscape (ATTACK trial) — if available, it is clearly preferred. If not, high-dose amp-sulb-based combination is the alternative. Tigecycline was removed from IDSA 2024 guidance for CRAB (minocycline preferred). Distinguish colonization from infection — many CRAB-positive cultures represent colonization."
+          "preferred": "Sulbactam-durlobactam + imipenem or meropenem (invasive infection)",
+          "alternative": "Bridge only: high-dose amp-sulb (27g/day) + cefiderocol, minocycline, or polymyxin B; cefiderocol, minocycline, or polymyxin B if resistance precludes sulbactam-durlobactam",
+          "notes": "Sulbactam-durlobactam changed the landscape (ATTACK trial) — IDSA 2026 makes it the priority for invasive CRAB, with all other regimens serving only as bridges until it is available. If sulbactam-durlobactam resistance occurs, options include two non-sulbactam agents or adding sulbactam-durlobactam to cefiderocol. IDSA 2026 also adds an approach for NDM-producing CRAB and removed the rifamycin and extended-infusion carbapenem questions. Minocycline is preferred when a tetracycline is used. Distinguish colonization from infection — many CRAB-positive cultures represent colonization."
         },
         {
           "organism": "S. maltophilia",
-          "preferred": "Cefiderocol (+2nd agent), caz-avi + aztreonam, TMP-SMX (+2nd agent), minocycline (+2nd agent), levofloxacin (+2nd agent)",
-          "alternative": "Combinations of the above",
-          "notes": "S. maltophilia is intrinsically resistant to carbapenems (L1 MBL), aminoglycosides, and most beta-lactams. Ceftazidime breakpoints REMOVED by CLSI 2024 — do not test or use. TMP-SMX was historically first-line but resistance is increasing. Combination therapy preferred for serious infections. Colonization vs infection distinction is critical — S. maltophilia in respiratory cultures often represents colonization in ventilated patients."
+          "preferred": "Cefiderocol monotherapy (IDSA 2026)",
+          "alternative": "Aztreonam-avibactam (preferably + second agent; caz-avi + aztreonam if unavailable); levofloxacin, minocycline, or TMP-SMX as combination components",
+          "notes": "S. maltophilia is intrinsically resistant to carbapenems (L1 MBL), aminoglycosides, and most beta-lactams. Ceftazidime breakpoints REMOVED by CLSI 2024 — do not test or use. TMP-SMX was historically first-line but is only bacteriostatic; IDSA 2026 moved it to a combination alternative. Colonization vs infection distinction is critical — S. maltophilia in respiratory cultures often represents colonization in ventilated patients."
         }
       ],
       "pearls": [
-        "SULBACTAM-DURLOBACTAM CHANGED CRAB TREATMENT: The ATTACK trial showed 28-day mortality of 19% (sulbactam-durlobactam) vs 32% (colistin-based). This is the first agent to demonstrate superiority over polymyxin-based therapy for CRAB. If your formulary carries it, sulbactam-durlobactam + carbapenem is now first-line. High-dose amp-sulb was downgraded to alternative in the 2024 update.",
-        "CRAB = COMBINATION THERAPY ALWAYS: No single agent is adequate for CRAB. Even sulbactam-durlobactam is given with a carbapenem backbone. High-dose amp-sulb is given with at least one additional agent. Polymyxin monotherapy for CRAB is associated with unacceptable failure rates. Every CRAB regimen should have at least 2 active components.",
+        "SULBACTAM-DURLOBACTAM CHANGED CRAB TREATMENT: The ATTACK trial showed 28-day mortality of 19% (sulbactam-durlobactam) vs 32% (colistin-based). This is the first agent to demonstrate superiority over polymyxin-based therapy for CRAB. If your formulary carries it, sulbactam-durlobactam + imipenem or meropenem is first-line. High-dose amp-sulb was downgraded to alternative in 2024 and to bridge-only therapy in 2026. Label dose: sulbactam 1g + durlobactam 1g IV q6h over 3h (CrCl 45–129).",
+        "CRAB regimens are built in pairs: Sulbactam-durlobactam is given with a carbapenem backbone, and bridge regimens pair high-dose amp-sulb with cefiderocol, minocycline, or polymyxin B. Polymyxin monotherapy for CRAB is associated with unacceptable failure rates. IDSA 2026 dropped its general combination-therapy question, so the focus is now getting patients onto sulbactam-durlobactam quickly.",
         "S. maltophilia: ceftazidime is DEAD for this organism. CLSI 2024 removed ceftazidime breakpoints for S. maltophilia. The intrinsic L2 serine beta-lactamase and inducible L1 metallo-beta-lactamase make ceftazidime unreliable. If your lab still reports ceftazidime for S. maltophilia, flag this as outdated.",
         "Colonization vs infection is CRITICAL for CRAB and S. maltophilia: Both organisms are frequently cultured from respiratory specimens (sputum, BAL) in ICU patients without causing true infection. Treating colonization drives further resistance, exposes patients to drug toxicity, and wastes resources. Evaluate: are there clinical signs of infection (new fever, worsening WBC/oxygenation, new infiltrates)? Is there an alternative explanation? ID consultation is strongly recommended before starting CRAB or S. maltophilia-directed therapy.",
-        "Minocycline > tigecycline for CRAB and S. maltophilia: IDSA 2024 favors minocycline over tigecycline. Minocycline has better in vitro activity against both organisms, better GI tolerability, and oral bioavailability for step-down. Tigecycline was REMOVED from S. maltophilia combination therapy recommendations in the 2024 update."
+        "Minocycline > tigecycline for CRAB and S. maltophilia: IDSA favors minocycline over tigecycline when a tetracycline derivative is used. Minocycline has better in vitro activity against both organisms, better GI tolerability, and oral bioavailability for step-down. For S. maltophilia, IDSA 2026 now prefers cefiderocol monotherapy and uses minocycline only as a combination component."
       ]
     }
   ],
@@ -1183,7 +1240,7 @@ export const AMR_GN: DiseaseState = {
           "action": "Recalculate dosing the same shift and confirm the infusion schedule before assuming microbiologic failure.",
           "rationale": "Reserve-agent exposure can erode quickly when renal function or ICU support changes.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "kpc-observational-outcomes"
           ]
         },
@@ -1191,7 +1248,7 @@ export const AMR_GN: DiseaseState = {
           "trigger": "Rapid diagnostic or carbapenemase testing suggests NDM, VIM, or IMP production",
           "action": "Add or continue aztreonam immediately and do not rely on ceftazidime-avibactam alone even if a panel appears favorable.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "aztreonam-avibactam-evidence",
             "clsi-breakpoint-updates"
           ]
@@ -1203,7 +1260,7 @@ export const AMR_GN: DiseaseState = {
           "risk": "Avibactam does not inhibit MBLs, so stand-alone use can leave the regimen functionally inactive.",
           "saferApproach": "Pair with aztreonam or switch to another mechanism-appropriate regimen once the phenotype is clarified.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "aztreonam-avibactam-evidence",
             "clsi-breakpoint-updates"
           ]
@@ -1213,7 +1270,7 @@ export const AMR_GN: DiseaseState = {
           "risk": "KPC and some OXA-48 pathways fit ceftazidime-avibactam, but MBL disease does not; the label alone creates false reassurance.",
           "saferApproach": "Tie continuation to mechanism results, site fit, and a written backup plan if the phenotype changes.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "kpc-observational-outcomes"
           ]
         }
@@ -1224,7 +1281,7 @@ export const AMR_GN: DiseaseState = {
           "detail": "When this drug is being used to protect aztreonam, both agents need synchronized renal adjustment, infusion timing, and handoff instructions.",
           "action": "Build the pair into order sets and MAR language so the partner drug is not delayed or dropped on transfer.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "aztreonam-avibactam-evidence",
             "clsi-breakpoint-updates"
           ]
@@ -1234,7 +1291,7 @@ export const AMR_GN: DiseaseState = {
           "detail": "SNF or OPAT transitions can fail operationally if the receiving program cannot reliably deliver repeated 2-hour infusions and partner therapy.",
           "action": "Verify infusion capability before discharge and keep inpatient therapy if the delivery model is not dependable.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "kpc-observational-outcomes"
           ]
         }
@@ -1245,7 +1302,7 @@ export const AMR_GN: DiseaseState = {
           "reason": "Ceftazidime-avibactam alone is not a reliable definitive regimen for NDM, VIM, or IMP producers.",
           "preferredApproach": "Use the ceftazidime-avibactam plus aztreonam strategy or another mechanism-directed alternative.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "aztreonam-avibactam-evidence"
           ]
         }
@@ -1348,7 +1405,7 @@ export const AMR_GN: DiseaseState = {
         }
       ],
       "pharmacistPearls": [
-        "SLIGHTLY FAVORED FOR KPC-CRE by IDSA 2024: Based on TANGO II trial (strongest clinical trial data for any BL-BLI vs CRE), observational studies showing higher cure rates and lower resistance emergence vs caz-avi, and potent KPC-specific inhibition. The preference is slight — all three preferred agents are acceptable.",
+        "OFTEN FAVORED FOR KPC-CRE: Based on TANGO II trial (strongest clinical trial data for any BL-BLI vs CRE), observational studies showing higher cure rates and lower resistance emergence vs caz-avi, and potent KPC-specific inhibition. IDSA 2026 lists ceftazidime-avibactam, imipenem-relebactam, and meropenem-vaborbactam as preferred (alphabetically) — all three are acceptable.",
         "LOWEST RESISTANCE EMERGENCE of the three preferred KPC agents: Boronic acid scaffold provides high-affinity KPC binding. KPC mutations that escape vaborbactam are less common than those escaping avibactam. Observational data: 0% resistance emergence with mer-vab vs 20% with caz-avi in one comparative study. This matters for prolonged courses.",
         "The VPA interaction applies: Same as meropenem — switch valproate to levetiracetam before starting mer-vab. This is non-negotiable. The vaborbactam component does not change this interaction.",
         "Extended infusion is standard: 3-hour infusion is built into the product labeling. This optimizes meropenem T>MIC, which is critical for CRE with elevated MICs. Do not administer as standard 30-minute infusion.",
@@ -1437,7 +1494,7 @@ export const AMR_GN: DiseaseState = {
           "action": "Rebuild the regimen immediately instead of accepting cUTI-style underexposure in deep-seated disease.",
           "rationale": "This agent depends on full prolonged-infusion exposure for the infections where it adds the most value.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "tango-ii"
           ]
         },
@@ -1445,7 +1502,7 @@ export const AMR_GN: DiseaseState = {
           "trigger": "Carbapenemase testing no longer supports KPC as the dominant mechanism",
           "action": "Stop treating meropenem-vaborbactam as the definitive answer and reselect therapy based on the updated phenotype.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "kpc-observational-outcomes"
           ]
         }
@@ -1456,7 +1513,7 @@ export const AMR_GN: DiseaseState = {
           "risk": "The drug is not a universal CRE solution and mechanism mismatch can leave the patient on a high-confidence but inactive regimen.",
           "saferApproach": "Restrict definitive use to KPC-driven disease or other explicitly supported phenotypes.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "tango-ii",
             "kpc-observational-outcomes"
           ]
@@ -1466,7 +1523,7 @@ export const AMR_GN: DiseaseState = {
           "risk": "Operational convenience can quietly trade away the exposure advantage that made the drug worth choosing.",
           "saferApproach": "Keep the 4 g q8h prolonged-infusion strategy unless renal function truly requires adjustment.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "tango-ii"
           ]
         }
@@ -1477,7 +1534,7 @@ export const AMR_GN: DiseaseState = {
           "detail": "Shortening the infusion undermines PK/PD against KPC isolates with limited exposure margin.",
           "action": "Treat every missed or shortened infusion as a same-day stewardship and pharmacy follow-up issue.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "tango-ii"
           ]
         },
@@ -1486,7 +1543,7 @@ export const AMR_GN: DiseaseState = {
           "detail": "Meropenem-vaborbactam often looks easier on paper than it is in post-acute settings because repeated prolonged infusions stress staffing and line access.",
           "action": "Confirm the receiving program can execute the schedule before discharge rather than hoping it will be improvised later.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "kpc-observational-outcomes"
           ]
         }
@@ -1497,7 +1554,7 @@ export const AMR_GN: DiseaseState = {
           "reason": "Vaborbactam does not solve MBL biology, so apparent carbapenem activity should not be trusted as a stand-alone answer.",
           "preferredApproach": "Move to an MBL-active strategy instead of escalating meropenem-vaborbactam intensity.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         }
       ],
@@ -1581,17 +1638,22 @@ export const AMR_GN: DiseaseState = {
         {
           "label": "MBL-CRE",
           "status": "preferred",
-          "detail": "A frontline option when aztreonam pairing is not practical or not tolerated."
+          "detail": "IDSA 2026 preferred for NDM/MBL-CRE alongside aztreonam-avibactam."
+        },
+        {
+          "label": "Invasive S. maltophilia",
+          "status": "preferred",
+          "detail": "IDSA 2026 preferred as monotherapy for invasive S. maltophilia infection."
         },
         {
           "label": "DTR Pseudomonas with MBL risk",
           "status": "active",
-          "detail": "Often the cleanest single-agent reserve beta-lactam when VIM or IMP is suspected."
+          "detail": "Often the cleanest single-agent reserve beta-lactam when VIM or IMP is suspected; IDSA 2026 alternative outside the urinary tract."
         },
         {
           "label": "CRAB",
           "status": "conditional",
-          "detail": "Use only with combination framing rather than monotherapy."
+          "detail": "IDSA 2026 alternative only when resistance precludes sulbactam-durlobactam or as a bridge; pair with another agent rather than using monotherapy."
         },
         {
           "label": "Gram-positive or anaerobic pathogens",
@@ -1602,7 +1664,7 @@ export const AMR_GN: DiseaseState = {
       "pharmacistPearls": [
         "THE BROADEST SINGLE AGENT IN THE AMR TOOLKIT: Cefiderocol is active against ALL major AMR gram-negative phenotypes — KPC-CRE, MBL-CRE, OXA-48-CRE, DTR-PA, CRAB, S. maltophilia. No other single agent covers all six. This makes it invaluable when carbapenemase type is unknown or for empiric coverage of MDR gram-negatives. However, breadth means it must be preserved — don't use for ESBL-E or routine CRE when narrower BL-BLIs suffice.",
         "AUGMENTED RENAL CLEARANCE (ARC) DOSE INCREASE: Cefiderocol is one of few drugs with UPWARD dose adjustment for ARC (CrCl >120). Young patients, burns, early sepsis, and pregnant women commonly have ARC. Standard dosing in ARC → subtherapeutic levels → treatment failure. Measure CrCl; if >120, increase to 2g q6h. This is a pharmacist-driven intervention.",
-        "CRAB CAUTION: CREDIBLE-CR trial showed numerically higher all-cause mortality with cefiderocol vs BAT in the CRAB subgroup (49% vs 18%). This may reflect imbalanced severity or trial limitations, but it led to the recommendation for COMBINATION therapy when using cefiderocol for CRAB. Cefiderocol monotherapy for CRAB is NOT recommended.",
+        "CRAB CAUTION: CREDIBLE-CR trial showed numerically higher all-cause mortality with cefiderocol vs BAT in the CRAB subgroup (49% vs 18%). This may reflect imbalanced severity or trial limitations, but it led to the recommendation for COMBINATION therapy when using cefiderocol for CRAB. IDSA 2026 reserves cefiderocol as an alternative for invasive CRAB when resistance precludes sulbactam-durlobactam or for bridging. Contrast: for S. maltophilia, IDSA 2026 now prefers cefiderocol MONOTHERAPY.",
         "Siderophore mechanism is elegant but not invulnerable: Bacteria can develop resistance by: (1) mutating TonB-dependent transporters, (2) modifying siderophore receptors, (3) producing MBLs that can partially hydrolyze cefiderocol (NDM-5 variants). Resistance has been reported during therapy. For serious infections, combination therapy at least initially may reduce resistance emergence risk.",
         "3-hour infusion is non-negotiable: Time-dependent killing means T>MIC drives efficacy. The 3h infusion maximizes the percentage of the dosing interval above the MIC. Shorter infusions reduce efficacy. Extended infusion programs should be established for cefiderocol just as for meropenem and pip-tazo."
       ],
@@ -1689,7 +1751,7 @@ export const AMR_GN: DiseaseState = {
           "action": "Reconfirm how the AST was generated and whether the organism-site pair still fits cefiderocol before stacking on salvage agents.",
           "rationale": "Execution failure with cefiderocol often starts with overconfidence in a fragile susceptibility call.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "credible-cr"
           ]
         },
@@ -1697,7 +1759,7 @@ export const AMR_GN: DiseaseState = {
           "trigger": "CRAB infection remains clinically uncontrolled despite in vitro activity",
           "action": "Escalate source-control review and reassess whether adjunctive therapy or an alternative strategy is needed rather than assuming the MIC settled the case.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "credible-cr"
           ]
         }
@@ -1708,7 +1770,7 @@ export const AMR_GN: DiseaseState = {
           "risk": "The mortality signal in CRAB literature makes mechanically correct but clinically thin monotherapy a risky default.",
           "saferApproach": "Use it only with a documented CRAB plan that addresses source control, susceptibility confidence, and whether a partner agent is justified.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "credible-cr"
           ]
         },
@@ -1717,7 +1779,7 @@ export const AMR_GN: DiseaseState = {
           "risk": "Reserve-agent use can outpace the clinical syndrome and create unnecessary complexity without benefit.",
           "saferApproach": "Make the invasive site, organism significance, and fallback options explicit before committing.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "credible-cr"
           ]
         }
@@ -1728,7 +1790,7 @@ export const AMR_GN: DiseaseState = {
           "detail": "The drug is most defensible when the lab method, infection site, and source-control plan are all documented clearly for the next team.",
           "action": "Put the AST method or stewardship interpretation in the note when cefiderocol is continued beyond empiric salvage.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "credible-cr"
           ]
         },
@@ -1737,7 +1799,7 @@ export const AMR_GN: DiseaseState = {
           "detail": "Critically ill patients often receive multiple concurrent prolonged infusions, so cefiderocol can fail operationally even before it fails microbiologically.",
           "action": "Map line access and competing infusions before finalizing q8h delivery plans.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         }
       ],
@@ -1747,7 +1809,7 @@ export const AMR_GN: DiseaseState = {
           "reason": "Cefiderocol can look attractive on the report, but unresolved source burden and CRAB outcome concerns make unsupported monotherapy a weak strategy.",
           "preferredApproach": "Address source control first and document whether a companion or alternative regimen is preferred.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "credible-cr"
           ]
         }

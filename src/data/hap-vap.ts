@@ -21,7 +21,7 @@ const HAP_VAP_BASE: DiseaseState = {
       keyGuidelines: [
         { name: "ATS/IDSA 2016 HAP/VAP Guidelines", detail: "Current definitive US guideline. Eliminated HCAP category. Emphasizes local antibiogram-driven empiric therapy, de-escalation, 7-day treatment courses, and avoiding unnecessary broad-spectrum coverage. Recommends AGAINST routine biomarkers (PCT, CRP, sTREM-1) for VAP diagnosis.", sourceIds: ["ats-idsa-2016-hap-vap"] },
         { name: "ERS/ESICM/ESCMID/ALAT 2017", detail: "European/Latin American guidelines. More emphasis on risk stratification for MDR pathogens and biomarker-guided duration. Endorses PCT-guided de-escalation more strongly than ATS/IDSA.", sourceIds: ["ers-esicm-escmid-alat-2017-hap-vap"] },
-        { name: "Surviving Sepsis Campaign 2021", detail: "Relevant for HAP/VAP with sepsis — 1-hour antibiotic administration, source control, de-escalation within 48-72h of culture results.", sourceIds: ["ssc-2021"] },
+        { name: "Surviving Sepsis Campaign 2026", detail: "Relevant for HAP/VAP with sepsis — 1-hour antibiotic administration, prolonged beta-lactam infusion after a loading dose (strong recommendation), source control, and de-escalation once culture results return.", sourceIds: ["ssc-2026"] },
         { name: "SHEA/IDSA/APIC Practice Recommendation 2022", detail: "VAP prevention bundle: head-of-bed elevation, daily sedation vacation + SBT, oral care with chlorhexidine (note: some institutions moving away from CHG oral care due to mortality signal in meta-analyses), subglottic secretion drainage, stress ulcer prophylaxis, DVT prophylaxis.", sourceIds: ["shea-idsa-apic-2022-vap-prevention"] },
       ],
       landmarkTrials: [
@@ -112,7 +112,7 @@ const HAP_VAP_BASE: DiseaseState = {
           { organism: "MDR Pseudomonas aeruginosa", preferred: "Cefepime, pip-tazo, or meropenem (based on susceptibility) + second agent from different class", alternative: "Ceftolozane-tazobactam, ceftazidime-avibactam, imipenem-relebactam for DTR (difficult-to-treat resistance) Pseudomonas", notes: "Double-cover empirically, then de-escalate to monotherapy once susceptibilities confirm. DTR Pseudomonas (resistant to all standard agents) — consult ID and consider novel BL-BLIs or cefiderocol. Inhaled aminoglycosides: VAPORIZE trial showed NO benefit of adjunctive inhaled amikacin — not recommended routinely." },
           { organism: "ESBL-producing Enterobacterales", preferred: "Meropenem (or ertapenem if non-critical)", alternative: "Ceftazidime-avibactam, meropenem-vaborbactam for carbapenem-resistant isolates", notes: "For HAP-source ESBL bacteremia, carbapenems remain standard per MERINO. Pip-tazo is NOT reliable empirically for ESBL. Once cultures confirm ESBL, de-escalate to ertapenem (narrowest carbapenem) if possible." },
           { organism: "Acinetobacter baumannii", preferred: "Ampicillin-sulbactam (high-dose sulbactam component), meropenem", alternative: "Polymyxin B or colistin (last resort), cefiderocol", notes: "Rising global threat in ICUs. Intrinsically resistant to many agents. Sulbactam has intrinsic activity against Acinetobacter — high-dose sulbactam (9g amp-sulbactam q8h = 3g sulbactam q8h) is a key strategy. Carbapenems are first-line if susceptible. For CRAB (carbapenem-resistant Acinetobacter): polymyxins + high-dose sulbactam ± meropenem (combination therapy, consult ID). Tigecycline achieves poor serum levels — avoid for pneumonia despite in vitro activity." },
-          { organism: "Stenotrophomonas maltophilia", preferred: "TMP-SMX (drug of choice — 15-20 mg/kg/day TMP component divided q6-8h)", alternative: "Levofloxacin, ceftazidime, minocycline/tigecycline", notes: "Intrinsically resistant to carbapenems, aminoglycosides, and most beta-lactams. TMP-SMX is THE drug. Often emerges during prolonged carbapenem therapy — a reason to de-escalate carbapenems as soon as possible. If S. maltophilia appears in cultures of a patient on meropenem, this is not surprising — it's selection pressure." },
+          { organism: "Stenotrophomonas maltophilia", preferred: "Cefiderocol 2g IV q8h monotherapy (IDSA 2026 preferred for invasive infection)", alternative: "Aztreonam-avibactam (preferably with a second agent; caz-avi + aztreonam if unavailable); levofloxacin, minocycline, or TMP-SMX (8–12 mg/kg/day TMP component) as components of combination therapy", notes: "Intrinsically resistant to carbapenems, aminoglycosides, and most beta-lactams. TMP-SMX is no longer the drug of choice — it is bacteriostatic against S. maltophilia and IDSA 2026 lists it only as a combination component. Ceftazidime breakpoints were removed by CLSI — do not use ceftazidime. Minocycline is preferred over tigecycline. Often emerges during prolonged carbapenem therapy — a reason to de-escalate carbapenems as soon as possible. Confirm true pneumonia rather than airway colonization before treating." },
         ],
         pearls: [
           "THE 20% MRSA THRESHOLD: ATS/IDSA 2016 says add empiric MRSA coverage if the unit's MRSA prevalence is >20% or unknown. Many ICUs exceed this threshold. Know YOUR unit's MRSA rate — it should drive your empiric protocol.",
@@ -716,7 +716,7 @@ const HAP_VAP_MONOGRAPH_ENHANCEMENTS: Record<string, Partial<DrugMonograph>> = {
         scenario: "Definitive treatment of serious ESBL infection because the isolate still looks cefepime-susceptible",
         risk: "Borderline susceptibility and inoculum problems can make cefepime a false-reassurance option for invasive ESBL disease.",
         saferApproach: "Use a carbapenem when the phenotype or syndrome supports ESBL-level risk.",
-        sourceIds: ["idsa-2024-amr", "merino"],
+        sourceIds: ["idsa-2026-amr", "merino"],
       },
       {
         scenario: "Standard short infusion in critically ill pneumonia with high MIC pressure",
@@ -1001,12 +1001,12 @@ const HAP_VAP_MONOGRAPH_ENHANCEMENTS: Record<string, Partial<DrugMonograph>> = {
       {
         trigger: "Renal replacement changes, CRRT downtime, or rapid renal recovery occurs",
         action: "Rebuild the meropenem regimen the same day so the patient is not left on yesterday's clearance assumption.",
-        sourceIds: ["ats-idsa-2016-hap-vap", "ssc-2021"],
+        sourceIds: ["ats-idsa-2016-hap-vap", "ssc-2026"],
       },
       {
         trigger: "Breakthrough seizures, encephalopathy, or valproate exposure is present",
         action: "Review neurologic toxicity risk and replace valproate-based plans rather than accepting the interaction.",
-        sourceIds: ["ssc-2021"],
+        sourceIds: ["ssc-2026"],
       },
     ],
     misuseTraps: [
@@ -1014,13 +1014,13 @@ const HAP_VAP_MONOGRAPH_ENHANCEMENTS: Record<string, Partial<DrugMonograph>> = {
         scenario: "Keeping meropenem after cultures show a narrower active option",
         risk: "Carbapenem inertia is one of the most common avoidable stewardship failures in severe infection.",
         saferApproach: "Document the carbapenem exit plan the same day susceptibilities support cefepime, ceftriaxone, ertapenem, TMP-SMX, or a fluoroquinolone.",
-        sourceIds: ["ssc-2021", "idsa-2024-amr"],
+        sourceIds: ["ssc-2026", "idsa-2026-amr"],
       },
       {
         scenario: "Assuming meropenem solves any CRE phenotype",
         risk: "KPC and especially MBL mechanisms can make routine meropenem functionally inactive despite the drug's familiar spectrum.",
         saferApproach: "Use phenotype-specific reserve therapy when carbapenemase production is suspected or confirmed.",
-        sourceIds: ["idsa-2024-amr"],
+        sourceIds: ["idsa-2026-amr"],
       },
     ],
     administrationConstraints: [
@@ -1028,12 +1028,12 @@ const HAP_VAP_MONOGRAPH_ENHANCEMENTS: Record<string, Partial<DrugMonograph>> = {
         title: "Extended infusion is standard for severe non-CNS infection",
         detail: "The drug's execution advantage comes from protecting time above MIC in pneumonia, shock, and resistant gram-negative syndromes.",
         action: "Use standard short infusion only when the site specifically needs high peaks, such as meningitis.",
-        sourceIds: ["ssc-2021", "ats-idsa-2016-hap-vap"],
+        sourceIds: ["ssc-2026", "ats-idsa-2016-hap-vap"],
       },
       {
         title: "Stability and compounding limits affect exposure",
         detail: "Delayed bag replacement or an abandoned extended-infusion workflow effectively turns the patient into a missed-dose PK/PD experiment.",
-        sourceIds: ["ssc-2021"],
+        sourceIds: ["ssc-2026"],
       },
     ],
     siteSpecificAvoidances: [
@@ -1041,7 +1041,7 @@ const HAP_VAP_MONOGRAPH_ENHANCEMENTS: Record<string, Partial<DrugMonograph>> = {
         site: "Meningitis when the routine extended-infusion pneumonia workflow is copied over",
         reason: "CNS therapy needs high-peak meningitis dosing rather than the usual non-CNS extended-infusion default.",
         preferredApproach: "Use the meningitis-specific meropenem regimen and infusion strategy when the site is intracranial.",
-        sourceIds: ["ssc-2021"],
+        sourceIds: ["ssc-2026"],
       },
     ],
   },

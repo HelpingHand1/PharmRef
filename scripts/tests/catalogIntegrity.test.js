@@ -30,8 +30,8 @@ test("catalog derived counts stay stable", () => {
   assert.equal(derived.totalSubcategories, 68);
   assert.equal(derived.allMonographs.length, 43);
   assert.equal(derived.allPathogens.length, 9);
-  assert.equal(derived.allRegimens.length, 411);
-  assert.equal(derived.searchIndex.length, 726);
+  assert.equal(derived.allRegimens.length, 423);
+  assert.equal(derived.searchIndex.length, 738);
   assert.equal(derived.findMonograph("vancomycin")?.monograph.name, "Vancomycin");
   assert.ok((derived.regimenXref.vancomycin?.length ?? 0) > 0);
 });
@@ -165,8 +165,9 @@ test("overview evidence cards resolve canonical sources for representative long-
   const sepsis = DISEASE_STATES.find((disease) => disease.id === "sepsis");
   const boneJoint = DISEASE_STATES.find((disease) => disease.id === "bone-joint");
 
-  assert.deepEqual(resolveOverviewEntrySources(cap.overview.keyGuidelines[0]).map((source) => source.id), ["ats-idsa-2019-cap"]);
-  assert.deepEqual(resolveOverviewEntrySources(sepsis.overview.keyGuidelines[0]).map((source) => source.id), ["ssc-2021"]);
+  assert.deepEqual(resolveOverviewEntrySources(cap.overview.keyGuidelines[0]).map((source) => source.id), ["ats-2025-cap"]);
+  assert.deepEqual(resolveOverviewEntrySources(cap.overview.keyGuidelines[1]).map((source) => source.id), ["ats-idsa-2019-cap"]);
+  assert.deepEqual(resolveOverviewEntrySources(sepsis.overview.keyGuidelines[0]).map((source) => source.id), ["ssc-2026"]);
   assert.deepEqual(resolveOverviewEntrySources(boneJoint.overview.landmarkTrials[0]).map((source) => source.id), ["oviva"]);
 });
 
@@ -196,6 +197,12 @@ test("curated overview sources expose direct locators", () => {
     "gagyor-2015-ibuprofen-fosfomycin",
     "huttner-2018-nitrofurantoin-fosfomycin",
     "ats-idsa-2019-cap",
+    "ats-2025-cap",
+    "ssc-2026",
+    "idsa-2026-amr",
+    "aha-2026-ie",
+    "idsa-escmid-2026-sab",
+    "ecmm-2025-candidiasis",
     "nice-ng138-pneumonia",
     "cap-start",
     "epic-cap-study",

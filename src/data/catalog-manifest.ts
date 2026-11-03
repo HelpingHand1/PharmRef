@@ -13,8 +13,21 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 6,
     "contentMeta": {
       "confidence": "high",
-      "lastReviewed": "2026-04-05",
-      "guidelineVersion": "IDSA 2025 cUTI guidance",
+      "lastReviewed": "2026-11-03",
+      "reviewedBy": "Pharmacist sign-off",
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-11-03",
+          "reviewedBy": "Pharmacist sign-off",
+          "summary": "Aligned pyelonephritis durations with IDSA 2025 cUTI (5–7 days FQ, 7 days non-FQ), added pivmecillinam, gepotidacin, and oral sulopenem for cystitis, added 2026 approvals (cefepime-zidebactam, oral tebipenem) to the reserve tier, and aligned ESBL/CRE notes with IDSA 2026 AMR guidance."
+        },
+        {
+          "reviewedOn": "2026-04-05",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed 2025 cUTI reclassification, shorter-course recommendations, and IV-to-PO bacteremic UTI guidance."
+        }
+      ],
+      "guidelineVersion": "IDSA 2025 cUTI guidance + IDSA 2026 AMR guidance",
       "sources": [
         {
           "id": "idsa-2025-cuti",
@@ -27,16 +40,29 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         {
           "id": "eau-2024-uti",
           "citation": "European Association of Urology UTI guidance, 2024."
-        }
-      ],
-      "reviewHistory": [
+        },
         {
-          "reviewedOn": "2026-04-05",
-          "reviewedBy": "PharmRef editorial review",
-          "summary": "Reviewed 2025 cUTI reclassification, shorter-course recommendations, and IV-to-PO bacteremic UTI guidance."
+          "id": "idsa-2026-amr",
+          "citation": "IDSA guidance on antimicrobial-resistant gram-negative infections, 2026 (ESBL-E and CRE urinary recommendations)."
+        },
+        {
+          "id": "fda-pivmecillinam-label",
+          "citation": "Pivmecillinam (Pivya) prescribing information, 2024."
+        },
+        {
+          "id": "fda-gepotidacin-label",
+          "citation": "Gepotidacin (Blujepa) prescribing information."
+        },
+        {
+          "id": "fda-sulopenem-label",
+          "citation": "FDA approval of sulopenem etzadroxil/probenecid (Orlynvah), 2024."
         }
       ],
-      "reviewedBy": "PharmRef editorial review",
+      "whatChanged": [
+        "Pyelonephritis durations now follow IDSA 2025 cUTI guidance: TMP-SMX 7 days (not 14), fluoroquinolone 5–7 days.",
+        "Added pivmecillinam, gepotidacin, and oral sulopenem for uncomplicated cystitis.",
+        "Added 2026 FDA approvals cefepime-zidebactam and oral tebipenem to the reserve-agent tier."
+      ],
       "reviewScope": "Disease overview review",
       "governance": {
         "owner": "PharmRef editorial review",
@@ -53,9 +79,26 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 5,
     "contentMeta": {
       "confidence": "high",
-      "lastReviewed": "2026-04-05",
-      "guidelineVersion": "ATS/IDSA 2019 CAP guidance",
+      "lastReviewed": "2026-11-03",
+      "reviewedBy": "Pharmacist sign-off",
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-11-03",
+          "reviewedBy": "Pharmacist sign-off",
+          "summary": "Updated to the ATS 2025 CAP guideline: corticosteroids for severe CAP (not non-severe or influenza), 3–5 day courses for non-severe CAP once stable, ≥5 days for severe CAP, empiric antibacterials despite viral co-detection, and lung ultrasound as an imaging alternative."
+        },
+        {
+          "reviewedOn": "2026-04-05",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed outpatient and inpatient CAP regimen selection, short-course data, and severe CAP steroid updates."
+        }
+      ],
+      "guidelineVersion": "ATS 2025 CAP update + ATS/IDSA 2019 CAP guidance",
       "sources": [
+        {
+          "id": "ats-2025-cap",
+          "citation": "Diagnosis and management of community-acquired pneumonia, official ATS clinical practice guideline update, AJRCCM 2025."
+        },
         {
           "id": "ats-idsa-2019-cap",
           "citation": "Adult community-acquired pneumonia guideline from ATS and IDSA, 2019."
@@ -69,18 +112,15 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Three-day versus eight-day amoxicillin strategy after early clinical stability in adult CAP, BMJ 2006."
         }
       ],
-      "reviewHistory": [
-        {
-          "reviewedOn": "2026-04-05",
-          "reviewedBy": "PharmRef editorial review",
-          "summary": "Reviewed outpatient and inpatient CAP regimen selection, STEP short-course data, and severe CAP steroid updates."
-        }
+      "whatChanged": [
+        "Severe CAP now carries a conditional ATS 2025 recommendation for systemic corticosteroids; non-severe CAP is a strong recommendation against.",
+        "Non-severe CAP durations updated to 3–5 days once clinically stable; severe CAP stays at ≥5 days.",
+        "Positive respiratory virus tests no longer remove the need for empiric antibacterials in hospitalized CAP."
       ],
-      "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review",
       "governance": {
         "owner": "PharmRef editorial review",
-        "approvedBodyVersion": "a0e2b5b4"
+        "approvedBodyVersion": "d26c369a"
       }
     }
   },
@@ -93,34 +133,46 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 5,
     "contentMeta": {
       "confidence": "moderate",
-      "lastReviewed": "2026-04-05",
-      "guidelineVersion": "ATS/IDSA 2016 HAP/VAP guidance",
-      "sources": [
-        {
-          "id": "ats-idsa-2016-hap-vap",
-          "citation": "Hospital-acquired and ventilator-associated pneumonia guideline, 2016."
-        },
-        {
-          "id": "idsa-2024-amr",
-          "citation": "Antimicrobial resistance guidance used for resistant gram-negative escalation decisions, 2024."
-        },
-        {
-          "id": "smart-trial",
-          "citation": "Balanced crystalloids versus saline in ICU patients, NEJM 2018."
-        }
-      ],
+      "lastReviewed": "2026-11-03",
+      "reviewedBy": "Pharmacist sign-off",
       "reviewHistory": [
+        {
+          "reviewedOn": "2026-11-03",
+          "reviewedBy": "Pharmacist sign-off",
+          "summary": "Updated sepsis references to SSC 2026, resistant gram-negative references to IDSA 2026, and replaced outdated TMP-SMX-first Stenotrophomonas guidance with IDSA 2026 cefiderocol-monotherapy preference."
+        },
         {
           "reviewedOn": "2026-04-05",
           "reviewedBy": "PharmRef editorial review",
           "summary": "Reviewed HAP/VAP empiric coverage, resistant gram-negative escalation, and ICU stewardship framing."
         }
       ],
-      "reviewedBy": "PharmRef editorial review",
+      "guidelineVersion": "ATS/IDSA 2016 HAP/VAP guidance + IDSA 2026 AMR guidance",
+      "sources": [
+        {
+          "id": "ats-idsa-2016-hap-vap",
+          "citation": "Hospital-acquired and ventilator-associated pneumonia guideline, 2016."
+        },
+        {
+          "id": "idsa-2026-amr",
+          "citation": "Antimicrobial resistance guidance used for resistant gram-negative escalation decisions, 2026."
+        },
+        {
+          "id": "ssc-2026",
+          "citation": "Surviving Sepsis Campaign international guidelines, 2026."
+        },
+        {
+          "id": "smart-trial",
+          "citation": "Balanced crystalloids versus saline in ICU patients, NEJM 2018."
+        }
+      ],
+      "whatChanged": [
+        "Stenotrophomonas: cefiderocol monotherapy is now preferred; TMP-SMX is a combination component, and ceftazidime is no longer listed."
+      ],
       "reviewScope": "Disease overview review",
       "governance": {
         "owner": "PharmRef editorial review",
-        "approvedBodyVersion": "afce7228"
+        "approvedBodyVersion": "f9cbd063"
       }
     }
   },
@@ -133,7 +185,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 3,
     "contentMeta": {
       "confidence": "moderate",
-      "lastReviewed": "2026-04-05",
+      "lastReviewed": "2026-11-03",
+      "reviewedBy": "Pharmacist sign-off",
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-11-03",
+          "reviewedBy": "Pharmacist sign-off",
+          "summary": "Updated necrotizing-infection sepsis reference to SSC 2026 and resistant-organism references to IDSA 2026."
+        },
+        {
+          "reviewedOn": "2026-04-05",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed purulent and nonpurulent SSTI pathways, MRSA coverage boundaries, and oral step-down strategy."
+        }
+      ],
       "guidelineVersion": "IDSA SSTI guidance",
       "sources": [
         {
@@ -141,26 +206,18 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Skin and soft tissue infection guidance from IDSA."
         },
         {
-          "id": "idsa-2024-amr",
-          "citation": "Resistant organism escalation guidance, 2024."
+          "id": "idsa-2026-amr",
+          "citation": "Resistant organism escalation guidance, 2026."
         },
         {
           "id": "oviva",
           "citation": "Oral versus intravenous antibiotics for bone and joint and deep infection pathways, NEJM 2019."
         }
       ],
-      "reviewHistory": [
-        {
-          "reviewedOn": "2026-04-05",
-          "reviewedBy": "PharmRef editorial review",
-          "summary": "Reviewed purulent and nonpurulent SSTI pathways, MRSA coverage boundaries, and oral step-down strategy."
-        }
-      ],
-      "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review",
       "governance": {
         "owner": "PharmRef editorial review",
-        "approvedBodyVersion": "1f543a5e"
+        "approvedBodyVersion": "fb5aec17"
       }
     }
   },
@@ -173,7 +230,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 3,
     "contentMeta": {
       "confidence": "moderate",
-      "lastReviewed": "2026-04-05",
+      "lastReviewed": "2026-11-03",
+      "reviewedBy": "Pharmacist sign-off",
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-11-03",
+          "reviewedBy": "Pharmacist sign-off",
+          "summary": "Aligned ESBL-E intra-abdominal recommendations with IDSA 2026 (pip-tazo not suggested outside the urinary tract; cefepime-enmetazobactam as an alternative)."
+        },
+        {
+          "reviewedOn": "2026-04-05",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed source-control-first IAI management, biliary coverage boundaries, and short-course post-control durations."
+        }
+      ],
       "guidelineVersion": "SIS/IDSA intra-abdominal infection guidance",
       "sources": [
         {
@@ -193,14 +263,6 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Short-course antimicrobial therapy for source-controlled intra-abdominal infection, NEJM 2015."
         }
       ],
-      "reviewHistory": [
-        {
-          "reviewedOn": "2026-04-05",
-          "reviewedBy": "PharmRef editorial review",
-          "summary": "Reviewed source-control-first IAI management, biliary coverage boundaries, and short-course post-control durations."
-        }
-      ],
-      "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review",
       "governance": {
         "owner": "PharmRef editorial review",
@@ -212,17 +274,30 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "id": "amr-gn",
     "name": "AMR Gram-Negative Infections",
     "icon": "🛡️",
-    "category": "Antimicrobial Resistance — IDSA 2024 Guidance (Tamma et al.)",
+    "category": "Antimicrobial Resistance — IDSA 2026 Guidance (Tamma et al.)",
     "subcategoryCount": 6,
     "monographCount": 3,
     "contentMeta": {
       "confidence": "high",
-      "lastReviewed": "2026-04-05",
-      "guidelineVersion": "IDSA 2024 AMR guidance",
+      "lastReviewed": "2026-11-03",
+      "reviewedBy": "Pharmacist sign-off",
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-11-03",
+          "reviewedBy": "Pharmacist sign-off",
+          "summary": "Updated all six phenotype pathways to the IDSA 2026 AMR guidance, including the ceftriaxone MIC ≥4 ESBL proxy, new cystitis agents, aztreonam-avibactam for NDM, ceftolozane-tazobactam for DTR-PA pneumonia, sulbactam-durlobactam priority for CRAB with corrected label dosing, and cefiderocol monotherapy for S. maltophilia."
+        },
+        {
+          "reviewedOn": "2026-04-05",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed IDSA AMR mechanism-based therapy, carbapenem-sparing strategy, and extended-infusion beta-lactam use."
+        }
+      ],
+      "guidelineVersion": "IDSA 2026 AMR guidance",
       "sources": [
         {
-          "id": "idsa-2024-amr",
-          "citation": "Guidance for ESBL-E, CRE, DTR Pseudomonas, and resistant Acinetobacter, 2024."
+          "id": "idsa-2026-amr",
+          "citation": "Guidance for ESBL-E, AmpC-E, CRE, DTR Pseudomonas, CRAB, and S. maltophilia, 2026."
         },
         {
           "id": "merino",
@@ -233,18 +308,15 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Extended-infusion beta-lactam stewardship principles used throughout resistant gram-negative pathways."
         }
       ],
-      "reviewHistory": [
-        {
-          "reviewedOn": "2026-04-05",
-          "reviewedBy": "PharmRef editorial review",
-          "summary": "Reviewed IDSA AMR mechanism-based therapy, carbapenem-sparing strategy, and extended-infusion beta-lactam use."
-        }
+      "whatChanged": [
+        "Rebased on IDSA 2026 AMR guidance (July 2026), superseding the 2024 version.",
+        "Corrected sulbactam-durlobactam dosing to the label dose of 1 g sulbactam + 1 g durlobactam q6h.",
+        "S. maltophilia: cefiderocol monotherapy is now preferred; TMP-SMX dosing updated to 8–12 mg/kg/day as a combination component."
       ],
-      "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review",
       "governance": {
         "owner": "PharmRef editorial review",
-        "approvedBodyVersion": "839cd9b5"
+        "approvedBodyVersion": "e509dd98"
       }
     }
   },
@@ -257,16 +329,37 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 5,
     "contentMeta": {
       "confidence": "high",
-      "lastReviewed": "2026-04-05",
-      "guidelineVersion": "ESC 2023 + AHA 2015 IE guidance",
+      "lastReviewed": "2026-11-03",
+      "reviewedBy": "Pharmacist sign-off",
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-11-03",
+          "reviewedBy": "Pharmacist sign-off",
+          "summary": "Added the AHA 2026 IE scientific statement and IDSA/ESCMID 2026 SAB consensus statements (TTE for all adults, risk-based TEE, 48-hour repeat cultures, 14 days without deep foci), aligned gram-negative bacteremia durations with Yahav and BALANCE, and corrected ESBL alternatives."
+        },
+        {
+          "reviewedOn": "2026-04-05",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed bloodstream infection duration, endocarditis evaluation, and oral or OPAT transition criteria."
+        }
+      ],
+      "guidelineVersion": "AHA 2026 IE statement + ESC 2023 IE guidance + IDSA/ESCMID 2026 SAB consensus",
       "sources": [
         {
+          "id": "aha-2026-ie",
+          "citation": "AHA scientific statement on infective endocarditis diagnosis, antibiotic therapy, and management, Circulation 2026."
+        },
+        {
           "id": "esc-2023-ie",
-          "citation": "Current European infective endocarditis guideline update, 2023."
+          "citation": "European infective endocarditis guideline update, 2023."
+        },
+        {
+          "id": "idsa-escmid-2026-sab",
+          "citation": "IDSA/ESCMID consensus statements on S. aureus bacteremia risk stratification, diagnostics, and duration, 2026."
         },
         {
           "id": "aha-2015-ie",
-          "citation": "Foundational AHA scientific statement for adult infective endocarditis, 2015."
+          "citation": "Prior AHA scientific statement for adult infective endocarditis, 2015."
         },
         {
           "id": "poet",
@@ -277,18 +370,15 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Adjunctive rifampin for Staphylococcus aureus bacteremia, Lancet 2018."
         }
       ],
-      "reviewHistory": [
-        {
-          "reviewedOn": "2026-04-05",
-          "reviewedBy": "PharmRef editorial review",
-          "summary": "Reviewed bloodstream infection duration, endocarditis evaluation, and oral or OPAT transition criteria."
-        }
+      "whatChanged": [
+        "S. aureus bacteremia workup follows IDSA/ESCMID 2026: TTE for all adults, TEE by risk feature, repeat cultures at 48 hours.",
+        "Endocarditis content reflects the AHA 2026 statement (Duke-ISCVID, partial oral therapy with TEE at transition, post-op duration).",
+        "Gram-negative bacteremia durations now default to 7 days for responding patients with source control."
       ],
-      "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review",
       "governance": {
         "owner": "PharmRef editorial review",
-        "approvedBodyVersion": "b8fce25d"
+        "approvedBodyVersion": "5ab7e04a"
       }
     }
   },
@@ -301,7 +391,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 4,
     "contentMeta": {
       "confidence": "high",
-      "lastReviewed": "2026-04-05",
+      "lastReviewed": "2026-11-03",
+      "reviewedBy": "Pharmacist sign-off",
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-11-03",
+          "reviewedBy": "Pharmacist sign-off",
+          "summary": "Flagged bezlotoxumab as discontinued (US January 2025; EU authorization withdrawn October 2026) and redirected recurrence prevention to fidaxomicin and microbiome restoration; corrected the heart-failure warning (not boxed) and the ACG 2021 fidaxomicin statement."
+        },
+        {
+          "reviewedOn": "2026-04-05",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed CDI severity stratification, fidaxomicin preference, and recurrence-prevention escalation."
+        }
+      ],
       "guidelineVersion": "IDSA/SHEA CDI guidance",
       "sources": [
         {
@@ -315,20 +418,19 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
         {
           "id": "fmt-stewardship",
           "citation": "Evidence base for fecal microbiota transplant in multiply recurrent CDI."
-        }
-      ],
-      "reviewHistory": [
+        },
         {
-          "reviewedOn": "2026-04-05",
-          "reviewedBy": "PharmRef editorial review",
-          "summary": "Reviewed CDI severity stratification, fidaxomicin preference, and recurrence-prevention escalation."
+          "id": "ashp-bezlotoxumab-discontinued",
+          "citation": "ASHP drug shortage notice documenting the discontinuation of Zinplava (bezlotoxumab)."
         }
       ],
-      "reviewedBy": "PharmRef editorial review",
+      "whatChanged": [
+        "Bezlotoxumab (Zinplava) is discontinued and no longer recommended; regimens now point to fidaxomicin and microbiota-based therapies."
+      ],
       "reviewScope": "Disease overview review",
       "governance": {
         "owner": "PharmRef editorial review",
-        "approvedBodyVersion": "f1cb706e"
+        "approvedBodyVersion": "6ef09b51"
       }
     }
   },
@@ -420,14 +522,31 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "id": "fungal-infections",
     "name": "Fungal Infections",
     "icon": "🍄",
-    "category": "IDSA 2016 Candidiasis & Aspergillosis Guidelines · Antifungal Stewardship",
+    "category": "ECMM 2025 & IDSA 2016 Candidiasis · IDSA 2016 Aspergillosis · Antifungal Stewardship",
     "subcategoryCount": 4,
     "monographCount": 4,
     "contentMeta": {
       "confidence": "moderate",
-      "lastReviewed": "2026-04-05",
-      "guidelineVersion": "IDSA 2016 candidiasis and aspergillosis guidance",
+      "lastReviewed": "2026-11-03",
+      "reviewedBy": "Pharmacist sign-off",
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-11-03",
+          "reviewedBy": "Pharmacist sign-off",
+          "summary": "Added the ECMM/ISHAM/ASM 2025 global candidiasis guideline and rezafungin, flagged fluconazole-resistant C. parapsilosis, and corrected cryptococcal trial references (ACTA, AMBITION, COAT)."
+        },
+        {
+          "reviewedOn": "2026-04-05",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed candidiasis and aspergillosis first-line agents, salvage roles, and therapeutic monitoring priorities."
+        }
+      ],
+      "guidelineVersion": "ECMM 2025 + IDSA 2016 candidiasis and IDSA 2016 aspergillosis guidance",
       "sources": [
+        {
+          "id": "ecmm-2025-candidiasis",
+          "citation": "Global guideline for the diagnosis and management of candidiasis, ECMM/ISHAM/ASM, Lancet Infect Dis 2025."
+        },
         {
           "id": "idsa-candidiasis",
           "citation": "Clinical practice guideline for candidiasis, IDSA 2016."
@@ -441,18 +560,14 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Isavuconazole versus voriconazole for invasive aspergillosis, Lancet 2016."
         }
       ],
-      "reviewHistory": [
-        {
-          "reviewedOn": "2026-04-05",
-          "reviewedBy": "PharmRef editorial review",
-          "summary": "Reviewed candidiasis and aspergillosis first-line agents, salvage roles, and therapeutic monitoring priorities."
-        }
+      "whatChanged": [
+        "Added the ECMM 2025 global candidiasis guideline and once-weekly rezafungin.",
+        "Corrected the cryptococcal induction trial name (ACTA) and COAT mortality figures."
       ],
-      "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review",
       "governance": {
         "owner": "PharmRef editorial review",
-        "approvedBodyVersion": "d114a7a8"
+        "approvedBodyVersion": "6436f241"
       }
     }
   },
@@ -465,12 +580,25 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 8,
     "contentMeta": {
       "confidence": "emerging",
-      "lastReviewed": "2026-04-05",
-      "guidelineVersion": "IDSA 2022-2024 resistant pathogen guidance",
+      "lastReviewed": "2026-11-03",
+      "reviewedBy": "Pharmacist sign-off",
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-11-03",
+          "reviewedBy": "Pharmacist sign-off",
+          "summary": "Replaced IDSA 2022 references with IDSA 2026, added aztreonam-avibactam for NDM-CRE, corrected aztreonam co-dosing to q8h, and fixed the ceftolozane-tazobactam ESBL activity statement."
+        },
+        {
+          "reviewedOn": "2026-04-05",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed reserve-agent positioning for resistant gram-negatives and stewardship boundaries for novel therapies."
+        }
+      ],
+      "guidelineVersion": "IDSA 2026 resistant pathogen guidance",
       "sources": [
         {
-          "id": "idsa-2024-amr",
-          "citation": "Guidance for CRE, ESBL-E, DTR Pseudomonas, and resistant gram-negatives."
+          "id": "idsa-2026-amr",
+          "citation": "Guidance for CRE, ESBL-E, DTR Pseudomonas, and resistant gram-negatives, 2026."
         },
         {
           "id": "aspect-cuti-ciai",
@@ -485,18 +613,10 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Imipenem-cilastatin-relebactam versus polymyxin-based therapy."
         }
       ],
-      "reviewHistory": [
-        {
-          "reviewedOn": "2026-04-05",
-          "reviewedBy": "PharmRef editorial review",
-          "summary": "Reviewed reserve-agent positioning for resistant gram-negatives and stewardship boundaries for novel therapies."
-        }
-      ],
-      "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review",
       "governance": {
         "owner": "PharmRef editorial review",
-        "approvedBodyVersion": "75ed9261"
+        "approvedBodyVersion": "d14f1f49"
       }
     }
   },
@@ -509,7 +629,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 0,
     "contentMeta": {
       "confidence": "moderate",
-      "lastReviewed": "2026-04-05",
+      "lastReviewed": "2026-11-03",
+      "reviewedBy": "Pharmacist sign-off",
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-11-03",
+          "reviewedBy": "Pharmacist sign-off",
+          "summary": "Updated resistant gram-negative references to IDSA 2026 and noted that quinupristin-dalfopristin is no longer marketed in the US."
+        },
+        {
+          "reviewedOn": "2026-04-05",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed high-risk febrile neutropenia initial coverage, escalation triggers, and outpatient risk stratification."
+        }
+      ],
       "guidelineVersion": "IDSA febrile neutropenia guidance",
       "sources": [
         {
@@ -529,14 +662,6 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "CISNE score used to refine low-risk classification in clinically stable solid-tumor outpatients."
         }
       ],
-      "reviewHistory": [
-        {
-          "reviewedOn": "2026-04-05",
-          "reviewedBy": "PharmRef editorial review",
-          "summary": "Reviewed high-risk febrile neutropenia initial coverage, escalation triggers, and outpatient risk stratification."
-        }
-      ],
-      "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review",
       "governance": {
         "owner": "PharmRef editorial review",
@@ -649,12 +774,25 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "monographCount": 0,
     "contentMeta": {
       "confidence": "high",
-      "lastReviewed": "2026-04-05",
-      "guidelineVersion": "SSC 2021 + Sepsis-3 + BALANCE 2024",
+      "lastReviewed": "2026-11-03",
+      "reviewedBy": "Pharmacist sign-off",
+      "reviewHistory": [
+        {
+          "reviewedOn": "2026-11-03",
+          "reviewedBy": "Pharmacist sign-off",
+          "summary": "Updated to the Surviving Sepsis Campaign 2026 guidelines: possible/probable/definite antimicrobial timing tiers, qSOFA not recommended as a single screening tool, source control ideally within 6 hours, prolonged beta-lactam infusion as a strong recommendation, corticosteroids for adults with septic shock, MAP 60–65 mmHg for adults ≥65, and suggestion against routine empiric antifungals."
+        },
+        {
+          "reviewedOn": "2026-04-05",
+          "reviewedBy": "PharmRef editorial review",
+          "summary": "Reviewed early sepsis antimicrobials, resistant-risk stratification, and shorter-course de-escalation evidence."
+        }
+      ],
+      "guidelineVersion": "SSC 2026 + Sepsis-3 + BALANCE 2024",
       "sources": [
         {
-          "id": "ssc-2021",
-          "citation": "Surviving Sepsis Campaign international guidelines, 2021."
+          "id": "ssc-2026",
+          "citation": "Surviving Sepsis Campaign international guidelines for management of sepsis and septic shock, 2026."
         },
         {
           "id": "sepsis-3",
@@ -665,18 +803,15 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
           "citation": "Seven versus fourteen days for bloodstream infection, 2024."
         }
       ],
-      "reviewHistory": [
-        {
-          "reviewedOn": "2026-04-05",
-          "reviewedBy": "PharmRef editorial review",
-          "summary": "Reviewed early sepsis antimicrobials, resistant-risk stratification, and shorter-course de-escalation evidence."
-        }
+      "whatChanged": [
+        "Rebased on SSC 2026 (March 2026), superseding SSC 2021.",
+        "Corrected qSOFA guidance: it should not be used as a single screening tool.",
+        "Corticosteroids now suggested for adults with septic shock; prolonged beta-lactam infusion is a strong recommendation."
       ],
-      "reviewedBy": "PharmRef editorial review",
       "reviewScope": "Disease overview review",
       "governance": {
         "owner": "PharmRef editorial review",
-        "approvedBodyVersion": "301ffb35"
+        "approvedBodyVersion": "b4338e4b"
       }
     }
   }

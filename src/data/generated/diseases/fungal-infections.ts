@@ -7,11 +7,18 @@ export const FUNGAL_INFECTIONS: DiseaseState = {
   "id": "fungal-infections",
   "name": "Fungal Infections",
   "icon": "🍄",
-  "category": "IDSA 2016 Candidiasis & Aspergillosis Guidelines · Antifungal Stewardship",
+  "category": "ECMM 2025 & IDSA 2016 Candidiasis · IDSA 2016 Aspergillosis · Antifungal Stewardship",
   "overview": {
     "definition": "Invasive fungal infections (IFIs) are life-threatening infections caused by opportunistic fungi, primarily Candida species (candidemia, invasive candidiasis) and Aspergillus species (invasive pulmonary aspergillosis, disseminated aspergillosis). Candidemia is the 4th most common bloodstream infection in US hospitals with crude mortality of 25–40%. Invasive aspergillosis carries mortality >50% in immunocompromised hosts. Early antifungal therapy and source control are critical determinants of outcome.",
     "epidemiology": "Candidemia: Incidence 8–10 per 100,000 hospitalizations. C. albicans remains most common (~50%) but C. glabrata (15–25%), C. parapsilosis (10–15%), C. tropicalis (5–10%), and C. krusei (2–5%) are rising. C. auris is an emerging MDR threat with >90% fluconazole resistance and outbreaks in healthcare facilities. ICU patients account for ~40% of candidemia episodes. Invasive aspergillosis: Primarily affects severely immunocompromised patients — prolonged neutropenia (>10 days), allogeneic HSCT recipients, solid organ transplant recipients on high-dose immunosuppression, and patients receiving ≥0.3 mg/kg/day prednisone equivalent for ≥3 weeks. Incidence 5–25% in high-risk hematologic malignancy patients. A. fumigatus is the dominant species (>90% of invasive disease).",
     "keyGuidelines": [
+      {
+        "name": "ECMM/ISHAM/ASM 2025 Global Guideline for Candidiasis (Cornely et al., Lancet Infect Dis 2025)",
+        "detail": "Newest international candidiasis guideline, updating IDSA 2016 and ESCMID 2012 recommendations. Echinocandins — now including once-weekly rezafungin — are first-line for candidemia and invasive candidiasis except CNS and ocular disease; for ocular involvement, use fluconazole or voriconazole when susceptible. Retains early CVC removal, follow-up blood cultures, ophthalmologic assessment, and step-down to an azole once stable with a susceptible isolate. Emphasizes culture and microscopy-based diagnosis with selective use of molecular assays and biomarkers, and adds dedicated guidance for C. auris and fluconazole-resistant C. parapsilosis.",
+        "sourceIds": [
+          "ecmm-2025-candidiasis"
+        ]
+      },
       {
         "name": "IDSA 2016 Clinical Practice Guideline for the Management of Candidiasis",
         "detail": "Comprehensive guideline covering candidemia, chronic disseminated candidiasis, and organ-specific invasive candidiasis. KEY CHANGES from prior: echinocandins elevated to first-line for candidemia in all patients (previously fluconazole preferred in non-critically ill). Fluconazole de-escalation encouraged once species and susceptibility confirmed. Strong recommendation for ophthalmologic exam in all candidemia patients. CVC removal recommended within 24–48 hours when feasible.",
@@ -80,7 +87,7 @@ export const FUNGAL_INFECTIONS: DiseaseState = {
             {
               "drug": "micafungin",
               "regimen": "Micafungin 100 mg IV once daily",
-              "notes": "IDSA 2016 first-line for candidemia regardless of severity or species. Echinocandins preferred over fluconazole because: (1) broader spectrum covering C. glabrata and C. krusei, (2) fungicidal vs. fungistatic, (3) better outcomes in RCTs (Reboli 2007). Continue until species identification and susceptibility allow de-escalation.",
+              "notes": "IDSA 2016 and ECMM 2025 first-line for candidemia regardless of severity or species (except CNS/ocular disease). Echinocandins preferred over fluconazole because: (1) broader spectrum covering C. glabrata and C. krusei, (2) fungicidal vs. fungistatic, (3) better outcomes in RCTs (Reboli 2007). Continue until species identification and susceptibility allow de-escalation.",
               "monographId": "micafungin",
               "id": "fungal-infections/candidemia/preferred-first-line-empiric/micafungin-1"
             },
@@ -95,6 +102,12 @@ export const FUNGAL_INFECTIONS: DiseaseState = {
               "regimen": "Anidulafungin 200 mg IV load × 1, then 100 mg IV daily",
               "notes": "Third echinocandin option. Best evidence from the Reboli NEJM 2007 trial. No hepatic or renal dose adjustment needed. Non-enzymatic degradation (no CYP metabolism) means fewest drug interactions of the echinocandins. Preferred when drug interactions are a concern.",
               "id": "fungal-infections/candidemia/preferred-first-line-empiric/anidulafungin-3"
+            },
+            {
+              "drug": "rezafungin",
+              "regimen": "Rezafungin 400 mg IV × 1 (week 1), then 200 mg IV once weekly",
+              "notes": "Once-weekly echinocandin (FDA 2023, Rezzayo) for candidemia/invasive candidiasis in adults with limited or no alternative options; non-inferior to daily caspofungin in ReSTORE. ECMM 2025 includes it among first-line echinocandins. Main advantage is OPAT simplicity — avoids daily infusions and a PICC for stable patients who cannot step down to an azole. Not studied for CNS, ocular, endocarditis, or bone infection.",
+              "id": "fungal-infections/candidemia/preferred-first-line-empiric/rezafungin-4"
             }
           ]
         },
@@ -155,9 +168,9 @@ export const FUNGAL_INFECTIONS: DiseaseState = {
         },
         {
           "organism": "C. parapsilosis",
-          "preferred": "Fluconazole 800 mg load, then 400 mg daily",
-          "alternative": "Echinocandin if fluconazole-resistant (rare)",
-          "notes": "UNIQUE among Candida: echinocandins have higher MICs against C. parapsilosis (intrinsic FKS polymorphism). Clinical significance debated — most experts still start echinocandin empirically then de-escalate to fluconazole once species identified. Strong association with CVC biofilm — CVC removal especially important. Also associated with TPN and neonates."
+          "preferred": "Fluconazole 800 mg load, then 400 mg daily (if susceptible)",
+          "alternative": "Echinocandin if fluconazole-resistant",
+          "notes": "Fluconazole-resistant C. parapsilosis is an emerging, outbreak-prone problem highlighted by ECMM 2025 — always confirm susceptibility before stepping down. UNIQUE among Candida: echinocandins have higher MICs against C. parapsilosis (intrinsic FKS polymorphism). Clinical significance debated — most experts still start echinocandin empirically then de-escalate to fluconazole once species identified. Strong association with CVC biofilm — CVC removal especially important. Also associated with TPN and neonates."
         },
         {
           "organism": "C. auris",
@@ -364,7 +377,7 @@ export const FUNGAL_INFECTIONS: DiseaseState = {
             {
               "drug": "amphotericin-b",
               "regimen": "Amphotericin B liposomal 3–4 mg/kg IV daily + Flucytosine 25 mg/kg PO q6h × 2 weeks",
-              "notes": "ACTHUNG trial + AMBITION trial evidence. Amphotericin B + flucytosine is the MOST EFFECTIVE induction regimen, achieving the fastest CSF sterilization (~1 week). Flucytosine is critical — do NOT omit. If flucytosine unavailable, amphotericin B + fluconazole 800 mg daily is an alternative but inferior induction. Monitor flucytosine levels (target peak 30–80 mcg/mL), CBC (myelosuppression), and renal function daily.",
+              "notes": "IDSA 2010 standard induction for well-resourced settings; WHO 2022 now prefers the AMBITION regimen (single 10 mg/kg liposomal amphotericin B dose + 14 days of flucytosine and fluconazole). Amphotericin B + flucytosine is the MOST EFFECTIVE induction backbone, achieving the fastest CSF sterilization. Flucytosine is critical — do NOT omit. If flucytosine unavailable, amphotericin B + fluconazole 800 mg daily is an alternative but inferior induction. Monitor flucytosine levels (target peak 30–80 mcg/mL), CBC (myelosuppression), and renal function daily.",
               "monographId": "amphotericin-b",
               "id": "fungal-infections/cryptococcal-meningitis/preferred-induction-hiv-associated/amphotericin-b-1"
             }
@@ -376,7 +389,7 @@ export const FUNGAL_INFECTIONS: DiseaseState = {
             {
               "drug": "fluconazole",
               "regimen": "Fluconazole 1200 mg PO daily + Flucytosine 25 mg/kg PO q6h × 2 weeks",
-              "notes": "ACTHUNG trial: High-dose fluconazole + flucytosine is the best oral-only induction option. Faster CSF sterilization than fluconazole monotherapy. Important in resource-limited settings without amphotericin B access. Also validated: single high-dose amphotericin B liposomal (10 mg/kg × 1) + flucytosine + fluconazole (AMBITION trial) as simplified induction.",
+              "notes": "ACTA trial (Molloy et al., NEJM 2018): High-dose fluconazole + flucytosine for 2 weeks was non-inferior to amphotericin-based induction and is the best oral-only induction option. Faster CSF sterilization than fluconazole monotherapy. Important in resource-limited settings without amphotericin B access. Also validated: single high-dose amphotericin B liposomal (10 mg/kg × 1) + flucytosine + fluconazole (AMBITION trial) as simplified induction.",
               "monographId": "fluconazole",
               "id": "fungal-infections/cryptococcal-meningitis/alternative-induction-resource-limited/fluconazole-1"
             }
@@ -434,7 +447,7 @@ export const FUNGAL_INFECTIONS: DiseaseState = {
       ],
       "pearls": [
         "THE MOST IMPORTANT INTERVENTION in cryptococcal meningitis is aggressive ICP management with serial LPs. Elevated ICP causes most early deaths. Do NOT rely on mannitol or steroids — they don't work here. Steroids INCREASE mortality (Day et al., NEJM 2014).",
-        "ART timing in HIV-associated cryptococcal meningitis: DO NOT start ART immediately. The COAT trial (Boulware et al., NEJM 2014) showed that early ART (within 1–2 weeks) DOUBLED mortality compared to delayed ART (4–6 weeks). The risk of cryptococcal IRIS is real and lethal.",
+        "ART timing in HIV-associated cryptococcal meningitis: DO NOT start ART immediately. The COAT trial (Boulware et al., NEJM 2014) showed that early ART (within 1–2 weeks) increased 26-week mortality compared with deferred ART at ~5 weeks (45% vs 30%). The risk of cryptococcal IRIS is real and lethal.",
         "Flucytosine is the most commonly omitted drug in cryptococcal meningitis treatment, yet it is the MOST IMPACTFUL addition to amphotericin B. It accelerates CSF sterilization from ~14 days to ~7 days. If your institution doesn't stock it, request it. Dose adjust for renal impairment. Monitor levels if available (peak 30–80 mcg/mL).",
         "Screen-and-treat strategy: In HIV-positive patients newly diagnosed with CD4 <100, check serum CrAg. If positive but asymptomatic, perform LP to rule out subclinical meningitis. If LP negative, pre-emptive fluconazole 800 mg × 2 weeks then 400 mg × 8 weeks prevents progression to meningitis.",
         "The AMBITION trial (Jarvis et al., NEJM 2022) validated a simplified induction: single high-dose liposomal amphotericin B (10 mg/kg × 1 dose) + flucytosine + fluconazole. Non-inferior to standard 7-day amphotericin B + flucytosine. This is a game-changer for resource-limited settings and simplifies logistics enormously."

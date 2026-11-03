@@ -9,14 +9,14 @@ export const SEPSIS: DiseaseState = {
   "icon": "🔴",
   "category": "Critical Care / Infectious Disease",
   "overview": {
-    "definition": "Sepsis-3 (Singer et al., JAMA 2016): Sepsis is life-threatening organ dysfunction caused by a dysregulated host response to infection. Organ dysfunction is defined by a SOFA score increase ≥2 points (associated with in-hospital mortality >10%). Septic shock: vasopressor requirement to maintain MAP ≥65 mmHg AND serum lactate >2 mmol/L despite adequate fluid resuscitation — in-hospital mortality >40%. Quick-SOFA (qSOFA ≥2): altered mentation + RR ≥22 + SBP ≤100 is a rapid bedside screen outside the ICU. The terms 'severe sepsis' and SIRS criteria for sepsis diagnosis have been retired. Key principle: time-to-antibiotics is the primary modifiable determinant of mortality — every hour of delay in antibiotic administration associated with ~7% increase in mortality for septic shock.",
+    "definition": "Sepsis-3 (Singer et al., JAMA 2016): Sepsis is life-threatening organ dysfunction caused by a dysregulated host response to infection. Organ dysfunction is defined by a SOFA score increase ≥2 points (associated with in-hospital mortality >10%). Septic shock: vasopressor requirement to maintain MAP ≥65 mmHg AND serum lactate >2 mmol/L despite adequate fluid resuscitation — in-hospital mortality >40%. Quick-SOFA (qSOFA ≥2: altered mentation, RR ≥22, SBP ≤100) predicts mortality but should NOT be used as a single screening tool — SSC 2021 and 2026 recommend NEWS/NEWS2, MEWS, or SIRS over qSOFA for screening (strong recommendation). SSC 2026 treats sepsis as a clinical diagnosis and grades suspicion as possible, probable, or definite to set antimicrobial timing. The term 'severe sepsis' has been retired. Key principle: time-to-antibiotics is the primary modifiable determinant of mortality — every hour of delay in antibiotic administration associated with ~7% increase in mortality for septic shock.",
     "epidemiology": "Sepsis affects ~1.7 million adults annually in the US with ~270,000 deaths per year — exceeding prostate cancer, breast cancer, and AIDS combined. It is the most expensive condition treated in US hospitals (>$24 billion/year). Worldwide, sepsis causes ~11 million deaths annually (20% of all global deaths). In-hospital mortality: 10–30% for sepsis, 40–60% for septic shock. ICU survivors face Post-Intensive Care Syndrome (PICS): long-term cognitive impairment, physical disability, PTSD, and depression. Source distribution: pulmonary 35–40%, urinary 20–25%, intra-abdominal/biliary 15–20%, skin/soft tissue 10%, primary bacteremia/catheter-related 10%. Gram-positive organisms account for ~50% of bacteremias; gram-negatives ~40%; fungi ~5–10%. MRSA causes ~20% of all S. aureus bacteremia. Gram-negative bacteremia carries disproportionately high immediate mortality — Pseudomonas aeruginosa bacteremia in ICU patients has 30-day mortality of 30–50%.",
     "keyGuidelines": [
       {
-        "name": "Surviving Sepsis Campaign (SSC) 2021 International Guidelines",
-        "detail": "The SSC 2021 is the global standard of care for sepsis/septic shock. Key antimicrobial recommendations: (1) Administer broad-spectrum antibiotics within 1 hour of septic shock or sepsis with organ dysfunction; within 3 hours of sepsis without shock. (2) Obtain blood cultures (≥2 sets) BEFORE antibiotics if possible without delaying >45 minutes. (3) Empiric combination gram-positive (MRSA) coverage for septic shock without clear source. (4) Procalcitonin-guided de-escalation — target PCT decline >80% from peak or PCT <0.5 ng/mL for antibiotic discontinuation. (5) Do NOT use dual gram-negative coverage once organism identified (no synergy benefit for bacteremia, adds toxicity). (6) Source control within 6–12 hours (drainage, debridement, catheter removal). (7) Fluid resuscitation: 30 mL/kg IV balanced crystalloid for MAP <65 or lactate ≥4 mmol/L within 3 hours. (8) Norepinephrine first-line vasopressor (MAP target ≥65 mmHg). (9) Hydrocortisone 200 mg/day IV for vasopressor-refractory septic shock. (10) Balanced crystalloids (LR, Plasma-Lyte) preferred over 0.9% NS.",
+        "name": "Surviving Sepsis Campaign (SSC) 2026 International Guidelines",
+        "detail": "SSC 2026 (Prescott et al., Intensive Care Med / Crit Care Med, March 2026) supersedes SSC 2021: 129 statements, 46 new. Key recommendations: (1) Antimicrobials immediately, ideally within 1 hour, for possible, probable, or definite septic shock AND for probable or definite sepsis without shock (strong). (2) Possible sepsis without shock: time-limited rapid investigation; if concern persists, give antimicrobials within 3 hours of first suspicion (conditional). (3) Blood cultures as soon as possible, ideally before antimicrobials. (4) Screen with NEWS/NEWS2, MEWS, or SIRS rather than qSOFA as a single tool (strong). (5) Empiric MDR or anaerobic coverage only when patient-specific risk is high (conditional). (6) Suggest AGAINST routine empiric antifungal therapy (conditional; case-by-case with strong risk factors). (7) Prolonged beta-lactam infusion after a loading dose is now a STRONG recommendation. (8) Source control early, ideally within 6 hours (conditional). (9) At least 30 mL/kg IV crystalloid in the first 3 hours for hypoperfusion or shock — use adjusted or ideal body weight if BMI >30; balanced crystalloids over 0.9% saline (conditional). (10) Norepinephrine first-line; initial MAP target 65 mmHg (strong), 60–65 mmHg for adults ≥65 years (conditional); add vasopressin as norepinephrine requirements escalate; vasopressors may be started peripherally. (11) Suggest IV corticosteroids for adults with septic shock (conditional) — typically hydrocortisone 200 mg/day. (12) Do not use procalcitonin to decide whether to START antibiotics; PCT plus clinical evaluation may guide stopping. Shorter courses when source control is adequate.",
         "sourceIds": [
-          "ssc-2021"
+          "ssc-2026"
         ]
       },
       {
@@ -27,10 +27,10 @@ export const SEPSIS: DiseaseState = {
         ]
       },
       {
-        "name": "IDSA 2024 AMR Guidance",
-        "detail": "Not a sepsis guideline, but directly relevant when septic patients have resistant-pathogen risk. Provides mechanism-aware treatment direction for ESBL-E, CRE, DTR Pseudomonas, and resistant Acinetobacter, and reinforces culture-driven de-escalation once the organism is defined.",
+        "name": "IDSA 2026 AMR Guidance",
+        "detail": "Not a sepsis guideline, but directly relevant when septic patients have resistant-pathogen risk. Provides mechanism-aware treatment direction for ESBL-E, AmpC-E, CRE, DTR Pseudomonas, CRAB, and S. maltophilia, and reinforces culture-driven de-escalation once the organism is defined. The 2026 update (July 2026) supersedes the 2024 version.",
         "sourceIds": [
-          "idsa-2024-amr"
+          "idsa-2026-amr"
         ]
       },
       {
@@ -60,7 +60,7 @@ export const SEPSIS: DiseaseState = {
       },
       {
         "name": "SMART Trial (Semler et al., NEJM 2018) — Balanced Crystalloids vs. Normal Saline",
-        "detail": "15,802 ICU patients randomized to balanced crystalloids (LR or Plasma-Lyte) vs. 0.9% NS. Primary outcome MAKE-30 (death, new RRT, or persistent creatinine elevation): 14.3% balanced vs. 15.4% NS (OR 0.90, p=0.04). Sepsis patients had greater benefit. Excess NS causes hyperchloremic metabolic acidosis and may worsen renal outcomes. SSC 2021 recommends balanced crystalloids over NS; NS remains acceptable when balanced crystalloids unavailable.",
+        "detail": "15,802 ICU patients randomized to balanced crystalloids (LR or Plasma-Lyte) vs. 0.9% NS. Primary outcome MAKE-30 (death, new RRT, or persistent creatinine elevation): 14.3% balanced vs. 15.4% NS (OR 0.90, p=0.04). Sepsis patients had greater benefit. Excess NS causes hyperchloremic metabolic acidosis and may worsen renal outcomes. SSC 2026 suggests balanced crystalloids over NS for initial resuscitation (0.9% saline preferred with traumatic brain injury).",
         "sourceIds": [
           "smart-trial"
         ]
@@ -74,7 +74,7 @@ export const SEPSIS: DiseaseState = {
       },
       {
         "name": "ADRENAL Trial (Venkatesh et al., NEJM 2018) — Hydrocortisone in Septic Shock",
-        "detail": "3,800 ventilated patients with septic shock randomized to hydrocortisone 200mg/day vs. placebo. 90-day mortality: 27.9% hydrocortisone vs. 28.8% placebo (p=0.50 — no significant difference). BUT: hydrocortisone significantly reduced vasopressor duration, ICU LOS, and time to shock resolution. SSC 2021 still recommends low-dose corticosteroids for vasopressor-refractory septic shock based on physiological rationale and shock-resolution benefit.",
+        "detail": "3,800 ventilated patients with septic shock randomized to hydrocortisone 200mg/day vs. placebo. 90-day mortality: 27.9% hydrocortisone vs. 28.8% placebo (p=0.50 — no significant difference). BUT: hydrocortisone significantly reduced vasopressor duration, ICU LOS, and time to shock resolution. SSC 2026 suggests IV corticosteroids for adults with septic shock (conditional, low certainty) — typically hydrocortisone 200 mg/day (50 mg IV q6h or continuous infusion); the remarks describe starting when norepinephrine or epinephrine is ≥0.25 mcg/kg/min at least 4 hours after vasopressor initiation.",
         "sourceIds": [
           "adrenal"
         ]
@@ -104,10 +104,10 @@ export const SEPSIS: DiseaseState = {
               "regimen": "Ceftriaxone 2g IV q24h ± Azithromycin 500mg IV/PO q24h (if CAP)",
               "notes": "Preferred for urinary, biliary, and community pneumonia sources. Add azithromycin if atypical pneumonia suspected (CAP). Not reliable for ESBL, AmpC, or Pseudomonas. Excellent CNS penetration for meningitis (2g IV q12h for meningitis dosing).",
               "evidence": "A-I",
-              "evidenceSource": "SSC 2021, IDSA CAP 2019",
+              "evidenceSource": "SSC 2026, IDSA CAP 2019",
               "monographId": "ceftriaxone",
               "evidenceSourceIds": [
-                "ssc-2021",
+                "ssc-2026",
                 "ats-idsa-2019-cap"
               ],
               "id": "sepsis/sepsis-community/first-line-empiric-no-mdr-mrsa-risk-factors/ceftriaxone-1"
@@ -115,11 +115,11 @@ export const SEPSIS: DiseaseState = {
             {
               "drug": "piperacillin-tazobactam",
               "regimen": "Piperacillin-Tazobactam 4.5g IV q8h over 4h (extended infusion preferred) OR 3.375g IV q6h",
-              "notes": "Broader empiric coverage including anaerobes, Enterococcus faecalis, and most Pseudomonas. Preferred when abdominal/biliary source suspected or polymicrobial coverage needed. CRITICAL: Do NOT use as definitive therapy for ESBL bacteremia (MERINO trial — 3.3× higher mortality vs. meropenem). Extended 4h infusion optimizes T>MIC target attainment.",
+              "notes": "Broader empiric coverage including anaerobes, Enterococcus faecalis, and most Pseudomonas. Preferred when abdominal/biliary source suspected or polymicrobial coverage needed. CRITICAL: Do NOT use as definitive therapy for ESBL bacteremia (MERINO trial — 3.3× higher mortality vs. meropenem). Extended 4h infusion optimizes T>MIC target attainment; SSC 2026 strongly recommends prolonged beta-lactam infusion after a loading dose.",
               "evidence": "A-I",
-              "evidenceSource": "SSC 2021; MERINO Trial JAMA 2018",
+              "evidenceSource": "SSC 2026; MERINO Trial JAMA 2018",
               "evidenceSourceIds": [
-                "ssc-2021",
+                "ssc-2026",
                 "merino"
               ],
               "id": "sepsis/sepsis-community/first-line-empiric-no-mdr-mrsa-risk-factors/piperacillin-tazobactam-2"
@@ -129,10 +129,10 @@ export const SEPSIS: DiseaseState = {
               "regimen": "Cefepime 2g IV q8h",
               "notes": "Good gram-negative coverage including Pseudomonas aeruginosa. Appropriate when Pseudomonas risk present (structural lung disease, known colonization). No anaerobic coverage — add metronidazole 500mg IV q8h for abdominal source. Monitor for cefepime-induced neurotoxicity (encephalopathy, myoclonus) in renal impairment.",
               "evidence": "A-I",
-              "evidenceSource": "SSC 2021",
+              "evidenceSource": "SSC 2026",
               "monographId": "cefepime",
               "evidenceSourceIds": [
-                "ssc-2021"
+                "ssc-2026"
               ],
               "id": "sepsis/sepsis-community/first-line-empiric-no-mdr-mrsa-risk-factors/cefepime-3"
             }
@@ -146,10 +146,10 @@ export const SEPSIS: DiseaseState = {
               "regimen": "Vancomycin IV — AUC-guided dosing (target AUC/MIC 400–600 per ASHP/IDSA 2020)",
               "notes": "Add empirically when: prior MRSA infection/colonization, HD patient, IVDU, recent hospitalization within 90 days, suspected catheter-related BSI, skin/soft tissue source with MRSA risk, septic shock without clear source. De-escalate at 48–72h if blood cultures negative for MRSA and gram-positive not identified. AUC-guided dosing with pharmacy consult required.",
               "evidence": "A-I",
-              "evidenceSource": "SSC 2021; ASHP/IDSA Vancomycin Guidelines 2020",
+              "evidenceSource": "SSC 2026; ASHP/IDSA Vancomycin Guidelines 2020",
               "monographId": "vancomycin",
               "evidenceSourceIds": [
-                "ssc-2021",
+                "ssc-2026",
                 "ashp-idsa-pids-2020-vancomycin"
               ],
               "id": "sepsis/sepsis-community/add-on-for-mrsa-coverage-when-risk-factors-prese/vancomycin-1"
@@ -174,12 +174,12 @@ export const SEPSIS: DiseaseState = {
             {
               "drug": "micafungin",
               "regimen": "Micafungin 100mg IV q24h OR Caspofungin 70mg IV ×1 then 50mg IV q24h",
-              "notes": "Do NOT add empiric antifungals routinely — SSC 2021 recommends against empiric antifungal for sepsis without specific risk factors. Reserve for: TPN-dependent + broad-spectrum abx ≥5 days + septic shock without source; abdominal surgery with GI perforation + Candida colonization; immunocompromised + persistent fever. Echinocandins are first-line for candidemia per IDSA 2016. Obtain ophthalmology fundoscopic exam if Candida in blood (endophthalmitis changes management).",
+              "notes": "Do NOT add empiric antifungals routinely — SSC 2026 suggests AGAINST empiric antifungal therapy in sepsis and septic shock, allowing case-by-case use only with strong risk factors (immunosuppression, prolonged antibiotics or hospitalization, intra-abdominal source). SSC 2026 also suggests against using Candida biomarkers alone to start or stop empiric antifungals. Typical candidates: TPN-dependent + broad-spectrum abx ≥5 days + septic shock without source; abdominal surgery with GI perforation + Candida colonization; immunocompromised + persistent fever. Echinocandins are first-line for candidemia (IDSA 2016; ECMM 2025). Obtain ophthalmology fundoscopic exam if Candida in blood (endophthalmitis changes management).",
               "evidence": "B-II",
-              "evidenceSource": "SSC 2021; IDSA Candidiasis 2016",
+              "evidenceSource": "SSC 2026; IDSA Candidiasis 2016",
               "monographId": "micafungin",
               "evidenceSourceIds": [
-                "ssc-2021",
+                "ssc-2026",
                 "idsa-candidiasis"
               ],
               "id": "sepsis/sepsis-community/empiric-antifungal-only-if-specific-candida-risk/micafungin-1"
@@ -236,15 +236,15 @@ export const SEPSIS: DiseaseState = {
           "title": "The first culture set should be usable, not symbolic",
           "detail": "Community sepsis still needs blood cultures and source cultures collected around the first dose so the second-day regimen is anchored to real microbiology.",
           "sourceIds": [
-            "ssc-2021"
+            "ssc-2026"
           ]
         },
         {
           "title": "Do not let a vague source label force avoidable carbapenem use",
           "detail": "Community syndromes should stay on community-level empiric therapy unless prior resistant-organism history or clear exposure signals justify escalation.",
           "sourceIds": [
-            "ssc-2021",
-            "idsa-2024-amr"
+            "ssc-2026",
+            "idsa-2026-amr"
           ]
         }
       ],
@@ -259,7 +259,7 @@ export const SEPSIS: DiseaseState = {
             "Escalate only if new resistance signals or source data justify it."
           ],
           "sourceIds": [
-            "ssc-2021"
+            "ssc-2026"
           ]
         },
         {
@@ -272,8 +272,8 @@ export const SEPSIS: DiseaseState = {
             "If cultures stay negative, document whether antibiotics are still treating a real bacterial syndrome."
           ],
           "sourceIds": [
-            "ssc-2021",
-            "idsa-2024-amr"
+            "ssc-2026",
+            "idsa-2026-amr"
           ]
         },
         {
@@ -286,7 +286,7 @@ export const SEPSIS: DiseaseState = {
             "Build IV-to-PO or OPAT plans only after absorption and source control are reliable."
           ],
           "sourceIds": [
-            "ssc-2021",
+            "ssc-2026",
             "balance"
           ]
         }
@@ -297,7 +297,7 @@ export const SEPSIS: DiseaseState = {
           "implication": "Early sepsis can lead teams to overcall skin commensals as the explanation for illness before the real source is defined.",
           "action": "Repeat cultures and keep the syndrome anchored to the bedside source review before broadening around a likely contaminant.",
           "sourceIds": [
-            "ssc-2021"
+            "ssc-2026"
           ]
         },
         {
@@ -305,7 +305,7 @@ export const SEPSIS: DiseaseState = {
           "implication": "Community sepsis often coexists with colonization or incidental bacteriuria that is not driving the shock or organ dysfunction.",
           "action": "Recheck whether the culture matches the source story before escalating to source-specific definitive therapy.",
           "sourceIds": [
-            "ssc-2021"
+            "ssc-2026"
           ]
         }
       ],
@@ -314,7 +314,7 @@ export const SEPSIS: DiseaseState = {
           "event": "Adequate source control",
           "anchor": "If drainage, decompression, or device removal was required, reset the duration clock from that intervention rather than from presentation alone.",
           "sourceIds": [
-            "ssc-2021"
+            "ssc-2026"
           ]
         },
         {
@@ -322,7 +322,7 @@ export const SEPSIS: DiseaseState = {
           "anchor": "For bloodstream syndromes that require documented clearance, count from the first negative culture on active therapy.",
           "rationale": "Not every septic patient needs bloodstream duration rules, but the ones who do need them applied precisely.",
           "sourceIds": [
-            "ssc-2021",
+            "ssc-2026",
             "balance"
           ]
         }
@@ -349,9 +349,9 @@ export const SEPSIS: DiseaseState = {
               "regimen": "Vancomycin IV (AUC-guided) + Piperacillin-Tazobactam 4.5g IV q8h extended infusion",
               "notes": "Standard empiric combination for healthcare-associated sepsis without prior MDR isolates. Covers MRSA (vancomycin) plus gram-negative pathogens including Pseudomonas (pip-tazo). De-escalate vancomycin if MRSA is not identified at 48–72 hours. Switch from pip-tazo to meropenem if ESBL is found in blood cultures (MERINO trial).",
               "evidence": "B-II",
-              "evidenceSource": "SSC 2021; ATS/IDSA 2016 HAP/VAP",
+              "evidenceSource": "SSC 2026; ATS/IDSA 2016 HAP/VAP",
               "evidenceSourceIds": [
-                "ssc-2021",
+                "ssc-2026",
                 "ats-idsa-2016-hap-vap"
               ],
               "id": "sepsis/sepsis-hcap/first-line-empiric-healthcare-associated-sepsis-/vancomycin-piptazo-1"
@@ -361,9 +361,9 @@ export const SEPSIS: DiseaseState = {
               "regimen": "Vancomycin IV (AUC-guided) + Meropenem 2g IV q8h over 3h (extended infusion)",
               "notes": "Preferred over pip-tazo combination when: prior ESBL isolate from patient, recent hospitalization in high-ESBL facility, abdominal source with high inoculum risk, immunocompromised, or local ESBL prevalence >20% in healthcare settings. Extended 3h infusion maximizes T>MIC for higher-MIC organisms (MIC 2–8 mg/L range).",
               "evidence": "A-I",
-              "evidenceSource": "SSC 2021; MERINO Trial",
+              "evidenceSource": "SSC 2026; MERINO Trial",
               "evidenceSourceIds": [
-                "ssc-2021",
+                "ssc-2026",
                 "merino"
               ],
               "id": "sepsis/sepsis-hcap/first-line-empiric-healthcare-associated-sepsis-/vancomycin-meropenem-2"
@@ -375,13 +375,13 @@ export const SEPSIS: DiseaseState = {
           "options": [
             {
               "drug": "ceftazidime-avibactam",
-              "regimen": "Ceftazidime-Avibactam 2.5g IV q8h (for KPC-CRE) ± Aztreonam (for MBL-CRE/NDM)",
-              "notes": "For suspected KPC-producing CRE: ceftazidime-avibactam is first-line. For MBL-producing CRE (NDM, VIM, IMP): ceftazidime-avibactam does NOT cover MBLs — must add aztreonam (see Advanced & Resistant Pathogen Agents section for detailed management). Consult Infectious Diseases immediately. Obtain carbapenem resistance testing (CRE PCR panel, carbapenem MIC). Ceftazidime-avibactam + aztreonam combination covers all CRE classes.",
+              "regimen": "Ceftazidime-Avibactam 2.5g IV q8h (for KPC- or OXA-48-CRE); for MBL-CRE/NDM use aztreonam-avibactam or cefiderocol (caz-avi + aztreonam if unavailable)",
+              "notes": "For suspected KPC-producing CRE: ceftazidime-avibactam, meropenem-vaborbactam, or imipenem-relebactam are preferred (IDSA 2026). OXA-48-like: ceftazidime-avibactam preferred. For MBL-producing CRE (NDM, VIM, IMP): ceftazidime-avibactam alone does NOT cover MBLs — IDSA 2026 lists aztreonam-avibactam (FDA-approved 2025) and cefiderocol as preferred, with a slight preference for aztreonam-avibactam over ceftazidime-avibactam + aztreonam (see Advanced & Resistant Pathogen Agents section). Consult Infectious Diseases immediately. Obtain carbapenemase testing (CRE PCR panel, carbapenem MIC).",
               "evidence": "B-II",
-              "evidenceSource": "IDSA CRE Guidance 2023",
+              "evidenceSource": "IDSA 2026 AMR",
               "monographId": "ceftazidime-avibactam",
               "evidenceSourceIds": [
-                "idsa-2023-cre-guidance"
+                "idsa-2026-amr"
               ],
               "id": "sepsis/sepsis-hcap/suspected-carbapenem-resistant-organism-cro-imme/ceftazidime-avibactam-1"
             }
@@ -393,11 +393,11 @@ export const SEPSIS: DiseaseState = {
             {
               "drug": "micafungin-hcap",
               "regimen": "Micafungin 100mg IV q24h (first-line) OR Caspofungin 70mg IV ×1 then 50mg IV q24h",
-              "notes": "Add empiric antifungal when multiple Candida risk factors are present in healthcare-associated sepsis: TPN dependence, broad-spectrum antibiotics for at least 5 days, septic shock without source, multi-site Candida colonization (at least 2 non-contiguous sites), recent abdominal surgery with GI perforation, or solid organ transplant. Fluconazole is acceptable only for hemodynamically stable patients with no prior azole exposure and low risk for resistant Candida.",
+              "notes": "SSC 2026 suggests against routine empiric antifungals; consider them case-by-case only when multiple Candida risk factors are present in healthcare-associated sepsis: TPN dependence, broad-spectrum antibiotics for at least 5 days, septic shock without source, multi-site Candida colonization (at least 2 non-contiguous sites), recent abdominal surgery with GI perforation, or solid organ transplant. Fluconazole is acceptable only for hemodynamically stable patients with no prior azole exposure and low risk for resistant Candida.",
               "evidence": "B-II",
-              "evidenceSource": "SSC 2021; IDSA Candidiasis Guidelines 2016",
+              "evidenceSource": "SSC 2026; IDSA Candidiasis Guidelines 2016",
               "evidenceSourceIds": [
-                "ssc-2021",
+                "ssc-2026",
                 "idsa-candidiasis"
               ],
               "id": "sepsis/sepsis-hcap/suspected-candida-sepsis-high-risk-patients/micafungin-hcap-1"
@@ -406,7 +406,7 @@ export const SEPSIS: DiseaseState = {
         }
       ],
       "pearls": [
-        "S. aureus bacteremia rule: ALL S. aureus bacteremias require echocardiography (TEE preferred over TTE for endocarditis sensitivity), follow-up blood cultures every 24–48h until clearance documented, ophthalmology consultation (endophthalmitis risk), and minimum 14 days IV antibiotics — even if source seems clear. Metastatic seeding is common.",
+        "S. aureus bacteremia rule (IDSA/ESCMID 2026): ALL adults get TTE; add TEE when TTE is negative but any endocarditis risk feature is present (intracardiac device, predisposing valve disease or prior IE, positive culture ≥48h, embolic events, >1 non-contiguous focus; consider for community-onset SAB or injection drug use). Repeat ≥2 blood culture sets at 48h, then every 24–48h until negative. Minimum 14 days of therapy counted from the first negative blood culture, even if the source seems clear — longer when deep-seated or metastatic foci are found. Metastatic seeding is common.",
         "CLABSI management: Remove the catheter when possible — catheter salvage for S. aureus or Candida bacteremia is associated with treatment failure. For coagulase-negative Staphylococci, catheter salvage may be attempted with antibiotic lock therapy in select patients with limited access.",
         "Vancomycin AUC/MIC monitoring (ASHP/IDSA 2020): Target AUC/MIC 400–600 for MRSA sepsis. Use Bayesian dosing programs (not trough-only). Nephrotoxicity risk correlates with duration and concurrent nephrotoxins. Check baseline SCr and reassess daily in critically ill.",
         "ESBL detection: Routine susceptibility testing may not identify ESBL-producing organisms. If E. coli or Klebsiella bacteremia is present with prior ESBL history, fluoroquinolone exposure, or healthcare contact — empirically escalate to meropenem/ertapenem regardless of in vitro pip-tazo susceptibility.",
@@ -453,15 +453,15 @@ export const SEPSIS: DiseaseState = {
           "title": "Prior microbiology should shape the second dose, not just the first",
           "detail": "Recent ESBL, KPC, MRSA, VRE, or Candida history should be reconciled immediately so empiric breadth is either justified or removed early.",
           "sourceIds": [
-            "ssc-2021",
-            "idsa-2024-amr"
+            "ssc-2026",
+            "idsa-2026-amr"
           ]
         },
         {
           "title": "Device-heavy sepsis needs source cultures that can change therapy",
           "detail": "Line, urine, wound, respiratory, and drain cultures should be sent only when they will meaningfully clarify whether the device or site is the true source.",
           "sourceIds": [
-            "ssc-2021"
+            "ssc-2026"
           ]
         }
       ],
@@ -476,8 +476,8 @@ export const SEPSIS: DiseaseState = {
             "Document what source-control action is planned for devices or collections in the next day."
           ],
           "sourceIds": [
-            "ssc-2021",
-            "idsa-2024-amr"
+            "ssc-2026",
+            "idsa-2026-amr"
           ]
         },
         {
@@ -490,8 +490,8 @@ export const SEPSIS: DiseaseState = {
             "Do not keep empiric antifungals unless invasive candidiasis remains credible."
           ],
           "sourceIds": [
-            "ssc-2021",
-            "idsa-2024-amr",
+            "ssc-2026",
+            "idsa-2026-amr",
             "idsa-candidiasis"
           ]
         },
@@ -505,7 +505,7 @@ export const SEPSIS: DiseaseState = {
             "Build OPAT or PO transition plans only after the hospital-acquired source is stable and controlled."
           ],
           "sourceIds": [
-            "ssc-2021",
+            "ssc-2026",
             "balance"
           ]
         }
@@ -516,8 +516,8 @@ export const SEPSIS: DiseaseState = {
           "implication": "A prior resistant isolate should influence empiric choices, but it does not prove the current source or justify indefinite reserve-agent use.",
           "action": "Use the 24- and 48-hour timeouts to decide whether current cultures and source anatomy still support that organism as the driver.",
           "sourceIds": [
-            "ssc-2021",
-            "idsa-2024-amr"
+            "ssc-2026",
+            "idsa-2026-amr"
           ]
         },
         {
@@ -525,7 +525,7 @@ export const SEPSIS: DiseaseState = {
           "implication": "Healthcare-exposed patients often have positive cultures from colonized sites that can distract from the actual septic focus.",
           "action": "Anchor definitive therapy to the site with the best syndrome fit and the strongest microbiologic evidence.",
           "sourceIds": [
-            "ssc-2021"
+            "ssc-2026"
           ]
         }
       ],
@@ -534,7 +534,7 @@ export const SEPSIS: DiseaseState = {
           "event": "Device removal or source-control procedure completed",
           "anchor": "Count duration from the moment the infected line, drainable collection, or obstructed system is actually controlled.",
           "sourceIds": [
-            "ssc-2021"
+            "ssc-2026"
           ]
         },
         {
@@ -542,7 +542,7 @@ export const SEPSIS: DiseaseState = {
           "anchor": "Use the first negative blood culture on active therapy only when the hospital-acquired syndrome truly behaves like a bacteremic infection.",
           "rationale": "Positive surveillance cultures and colonized devices do not automatically create a bloodstream-duration clock.",
           "sourceIds": [
-            "ssc-2021",
+            "ssc-2026",
             "balance"
           ]
         }
@@ -551,7 +551,7 @@ export const SEPSIS: DiseaseState = {
     {
       "id": "septic-shock",
       "name": "Septic Shock",
-      "definition": "Sepsis-3: Septic shock = sepsis + vasopressor requirement to maintain MAP ≥65 mmHg + serum lactate >2 mmol/L despite adequate fluid resuscitation. In-hospital mortality >40%. Requires immediate, aggressive resuscitation: (1) Blood cultures ×2, (2) broad-spectrum antibiotics within 1 hour, (3) 30 mL/kg IV balanced crystalloid within 3 hours, (4) norepinephrine for MAP <65 mmHg. Source identification and control within 6–12 hours. Empiric antibiotic selection must be maximally broad with de-escalation at 48–72h.",
+      "definition": "Sepsis-3: Septic shock = sepsis + vasopressor requirement to maintain MAP ≥65 mmHg + serum lactate >2 mmol/L despite adequate fluid resuscitation. In-hospital mortality >40%. Requires immediate, aggressive resuscitation: (1) Blood cultures ×2, (2) broad-spectrum antibiotics immediately, ideally within 1 hour, (3) at least 30 mL/kg IV balanced crystalloid within 3 hours (adjusted or ideal body weight if BMI >30) with frequent reassessment, (4) norepinephrine for MAP <65 mmHg (initial target 60–65 mmHg if age ≥65). Source identification and control ideally within 6 hours (SSC 2026). Empiric antibiotic selection must be maximally broad with de-escalation at 48–72h.",
       "clinicalPresentation": "Presenting signs: High fever OR hypothermia (hypothermia is ominous), rigors/shaking chills (especially with bacteremia), profound hypotension (SBP <90 mmHg) unresponsive to 1–2L IV fluid challenge, altered mentation (confusion, agitation, somnolence), mottled skin/delayed capillary refill (peripheral vasoconstriction), oliguria (<0.5 mL/kg/hr), tachycardia >100 bpm, tachypnea >22 breaths/min, elevated lactate (>4 mmol/L = severe shock). SOFA ≥2 with organ dysfunction: elevated creatinine (renal), elevated bilirubin (hepatic), low PaO2/FiO2 (respiratory), elevated INR/bilirubin (hepatic), GCS <15 (neurological), vasopressor requirement (cardiovascular). Distributive shock physiology: high CO/CI, low SVR — warm extremities initially (warm shock) progressing to cold extremities as cardiac function depresses.",
       "diagnostics": "Same as community-acquired sepsis diagnostics + SOFA score calculation at presentation and q12–24h. Bedside POCUS: cardiac (assess LV/RV function, pericardial effusion — sepsis cardiomyopathy), IVC (volume responsiveness assessment), pulmonary (B-lines = pulmonary edema vs. A-lines = hypovolemia). Consider PA catheter or PiCCO hemodynamic monitoring in refractory shock. ScvO2 (central venous O2 saturation) via central line: target >70% — persistently low suggests inadequate resuscitation or high O2 extraction. BIOMARKERS: lactate q2–4h until trending down; PCT at baseline and q48h for de-escalation guidance; BNP/proBNP for cardiac dysfunction assessment.",
       "durationGuidance": {
@@ -566,9 +566,9 @@ export const SEPSIS: DiseaseState = {
             {
               "drug": "vanco-meropenem",
               "regimen": "Vancomycin IV (AUC-guided, 25–30 mg/kg loading dose) + Meropenem 2g IV q8h over 3h ± Micafungin 100mg IV q24h if Candida risk",
-              "notes": "SSC 2021 recommended combination for septic shock of unclear source or healthcare-associated. Covers MRSA (vanco), ESBL (mero), Pseudomonas (mero), anaerobes (mero). Add micafungin if Candida risk factors present (see criteria above). Administer vancomycin loading dose first (25–30 mg/kg IV over 1–2h) to achieve rapid therapeutic levels. De-escalate within 48–72h based on culture data.",
+              "notes": "Representative broad combination for septic shock of unclear source or healthcare-associated shock when MRSA and resistant gram-negative risk are both credible — SSC 2026 ties empiric MDR coverage to patient-specific risk rather than shock alone. Covers MRSA (vanco), ESBL (mero), Pseudomonas (mero), anaerobes (mero). SSC 2026 suggests against routine empiric antifungals; add micafungin only case-by-case when strong Candida risk factors are present (see criteria above). Give meropenem as a prolonged infusion after the first dose (SSC 2026 strong recommendation). Administer vancomycin loading dose first (25–30 mg/kg IV over 1–2h) to achieve rapid therapeutic levels. De-escalate within 48–72h based on culture data.",
               "evidence": "A-I",
-              "evidenceSource": "SSC 2021",
+              "evidenceSource": "SSC 2026",
               "plan": {
                 "regimen": "Vancomycin IV + Meropenem 2g IV q8h over 3h ± Micafungin 100mg IV q24h if Candida risk",
                 "indication": "Septic shock of unclear source",
@@ -607,7 +607,7 @@ export const SEPSIS: DiseaseState = {
                 ]
               },
               "evidenceSourceIds": [
-                "ssc-2021"
+                "ssc-2026"
               ],
               "id": "sepsis/septic-shock/immediate-broad-spectrum-empiric-septic-shock-wi/vanco-meropenem-1"
             }
@@ -618,12 +618,12 @@ export const SEPSIS: DiseaseState = {
           "options": [
             {
               "drug": "norepinephrine",
-              "regimen": "Norepinephrine 0.01–3 mcg/kg/min IV (first-line vasopressor; MAP target ≥65 mmHg)",
-              "notes": "SSC 2021 first-line vasopressor. Add vasopressin 0.03 units/min IV as vasopressor-sparing agent when NE >0.25 mcg/kg/min. Epinephrine as rescue third vasopressor. For refractory vasoplegic shock: hydrocortisone 200mg/day IV continuous infusion (ADRENAL trial: reduces vasopressor duration without clear 90-day mortality benefit). Angiotensin II (Giapreza) as salvage option for catecholamine-refractory shock. Target MAP ≥65 mmHg — higher targets (MAP 80–85) not beneficial except in chronic hypertension (SEPSISPAM trial).",
+              "regimen": "Norepinephrine 0.01–3 mcg/kg/min IV (first-line vasopressor; initial MAP target 65 mmHg, 60–65 mmHg if age ≥65)",
+              "notes": "SSC 2026 first-line vasopressor (strong). May be started through a peripheral IV rather than delaying for central access. Add vasopressin 0.03 units/min IV as norepinephrine requirements escalate (commonly at 0.25–0.5 mcg/kg/min). Epinephrine if MAP remains inadequate despite norepinephrine + vasopressin. Corticosteroids: SSC 2026 suggests IV corticosteroids for adults with septic shock — hydrocortisone 200 mg/day (50 mg IV q6h or continuous infusion), typically started when norepinephrine/epinephrine is ≥0.25 mcg/kg/min at least 4 hours after vasopressor initiation (ADRENAL: faster shock resolution without clear 90-day mortality benefit). Angiotensin II (Giapreza) as salvage option for catecholamine-refractory shock. Initial MAP target 65 mmHg (strong); SSC 2026 suggests 60–65 mmHg for adults ≥65 years. Higher targets (MAP 80–85) are not beneficial except possibly in chronic hypertension (SEPSISPAM trial).",
               "evidence": "A-I",
-              "evidenceSource": "SSC 2021; SEPSISPAM Trial NEJM 2014",
+              "evidenceSource": "SSC 2026; SEPSISPAM Trial NEJM 2014",
               "evidenceSourceIds": [
-                "ssc-2021",
+                "ssc-2026",
                 "sepsispam"
               ],
               "id": "sepsis/septic-shock/vasopressor-and-adjunctive-therapy-non-antimicro/norepinephrine-1"
@@ -632,12 +632,12 @@ export const SEPSIS: DiseaseState = {
         }
       ],
       "pearls": [
-        "Hour-1 bundle: (1) Blood cultures ×2 before antibiotics. (2) Lactate — repeat if >2 mmol/L. (3) Broad-spectrum antibiotics within 1 hour. (4) 30 mL/kg IV balanced crystalloid for MAP <65 or lactate ≥4 mmol/L. (5) Vasopressors for MAP <65 mmHg unresponsive to fluids. EVERY HOUR OF DELAY IN ANTIBIOTICS = higher mortality.",
+        "Hour-1 bundle: (1) Blood cultures ×2 before antibiotics. (2) Lactate — repeat if >2 mmol/L. (3) Broad-spectrum antibiotics within 1 hour (SSC 2026: any shock, and probable/definite sepsis without shock; possible sepsis without shock gets a rapid workup with antibiotics within 3 hours if concern persists). (4) 30 mL/kg IV balanced crystalloid for MAP <65 or lactate ≥4 mmol/L. (5) Vasopressors for MAP <65 mmHg unresponsive to fluids. EVERY HOUR OF DELAY IN ANTIBIOTICS = higher mortality.",
         "Vancomycin in septic shock — loading dose matters: Give 25–30 mg/kg IV over 1–2 hours to rapidly achieve therapeutic concentrations. Standard maintenance dosing without a loading dose takes 12–24h to reach target AUC — unacceptable in septic shock.",
-        "Extended infusion antibiotics for septic shock: PIP-TAZO 4.5g IV over 4h q8h and MEROPENEM 2g IV over 3h q8h dramatically improve PD target attainment (T>MIC). Hemodynamically unstable patients have altered Vd and clearance — extended infusion compensates for pharmacokinetic variability.",
-        "Source control is the antimicrobial adjuvant that works: Drainage of abscess, removal of infected catheter, debridement of necrotic tissue, resection of gangrenous bowel — these interventions reduce bacterial inoculum dramatically and improve antimicrobial efficacy. Source control within 6–12h of septic shock identification.",
+        "Extended infusion antibiotics for septic shock: PIP-TAZO 4.5g IV over 4h q8h and MEROPENEM 2g IV over 3h q8h dramatically improve PD target attainment (T>MIC). Hemodynamically unstable patients have altered Vd and clearance — extended infusion compensates for pharmacokinetic variability. SSC 2026 upgraded prolonged infusion (after a loading dose) to a STRONG recommendation — order sets should default to it.",
+        "Source control is the antimicrobial adjuvant that works: Drainage of abscess, removal of infected catheter, debridement of necrotic tissue, resection of gangrenous bowel — these interventions reduce bacterial inoculum dramatically and improve antimicrobial efficacy. SSC 2026: source control ideally within 6 hours of diagnosis.",
         "Valproic acid interaction with carbapenems: Meropenem, imipenem, ertapenem, and doripenem reduce valproic acid levels by 60–100% within 24–48 hours. A patient with epilepsy on VPA who receives a carbapenem is at high risk for breakthrough seizures. Always check the full medication list before ordering carbapenems — switch VPA to levetiracetam or lacosamide if carbapenem is needed.",
-        "Procalcitonin-guided de-escalation: PCT decline >80% from peak OR absolute PCT <0.5 ng/mL correlates with successful infection control. Use serial PCT to guide antibiotic discontinuation and prevent unnecessarily prolonged courses. PCT is less reliable for specific organisms (Legionella, viral infections, fungal infections — PCT may not rise)."
+        "Procalcitonin-guided de-escalation: PCT decline >80% from peak OR absolute PCT <0.5 ng/mL correlates with successful infection control. Use serial PCT to guide antibiotic discontinuation and prevent unnecessarily prolonged courses. PCT is less reliable for specific organisms (Legionella, viral infections, fungal infections — PCT may not rise). SSC 2026 suggests against using PCT to decide whether to START antibiotics; use it with clinical evaluation to decide when to STOP."
       ],
       "diagnosticWorkup": {
         "status": "ready",
@@ -653,7 +653,7 @@ export const SEPSIS: DiseaseState = {
       },
       "sourceControl": {
         "status": "ready",
-        "summary": "The first day shock question is always: what needs to be drained, removed, debrided, or decompressed in the next 6-12 hours?"
+        "summary": "The first day shock question is always: what needs to be drained, removed, debrided, or decompressed — ideally within 6 hours of diagnosis (SSC 2026)?"
       },
       "deEscalation": {
         "status": "ready",
@@ -680,7 +680,7 @@ export const SEPSIS: DiseaseState = {
           "title": "First-hour cultures should inform the second dose",
           "detail": "Shock does not remove the need for cultures; it compresses the timeline so cultures, lactate, and source framing all need to happen around the first dose.",
           "sourceIds": [
-            "ssc-2021",
+            "ssc-2026",
             "sepsis-3"
           ]
         },
@@ -688,8 +688,8 @@ export const SEPSIS: DiseaseState = {
           "title": "Use resistance signals to fix the right class early",
           "detail": "Prior ESBL, KPC, MBL, MRSA, or DTR Pseudomonas history should change the regimen before the second or third dose, not after a full day of ineffective therapy.",
           "sourceIds": [
-            "ssc-2021",
-            "idsa-2024-amr"
+            "ssc-2026",
+            "idsa-2026-amr"
           ]
         }
       ],
@@ -700,12 +700,12 @@ export const SEPSIS: DiseaseState = {
           "trigger": "Reconcile cultures sent, source-control timeline, vasopressor trajectory, and whether the chosen regimen still matches the most likely source.",
           "actions": [
             "Confirm blood cultures and source cultures are actually pending or resulted.",
-            "Document what source-control step is planned in the next 6-12 hours.",
+            "Document what source-control step is planned, targeting completion within 6 hours of diagnosis when feasible.",
             "Check whether the broad beta-lactam is the right mechanism-aware choice for the current phenotype risk."
           ],
           "sourceIds": [
-            "ssc-2021",
-            "idsa-2024-amr"
+            "ssc-2026",
+            "idsa-2026-amr"
           ]
         },
         {
@@ -718,8 +718,8 @@ export const SEPSIS: DiseaseState = {
             "Narrow to a source-matched definitive regimen the same day microbiology allows it."
           ],
           "sourceIds": [
-            "ssc-2021",
-            "idsa-2024-amr"
+            "ssc-2026",
+            "idsa-2026-amr"
           ]
         },
         {
@@ -732,7 +732,7 @@ export const SEPSIS: DiseaseState = {
             "Build the IV-to-PO or OPAT exit plan only after shock resolves and absorption is reliable."
           ],
           "sourceIds": [
-            "ssc-2021",
+            "ssc-2026",
             "balance"
           ]
         }
@@ -743,8 +743,8 @@ export const SEPSIS: DiseaseState = {
           "implication": "Historical MDRO data should shape empiric choices but does not prove the current septic source.",
           "action": "Keep the regimen tied to bedside source evidence and rapidly evolving cultures rather than colonization alone.",
           "sourceIds": [
-            "ssc-2021",
-            "idsa-2024-amr"
+            "ssc-2026",
+            "idsa-2026-amr"
           ]
         },
         {
@@ -752,7 +752,7 @@ export const SEPSIS: DiseaseState = {
           "implication": "Respiratory or urinary growth can mislead if it is not anchored to the true source of shock.",
           "action": "Re-check the syndrome framing before escalating to a reserve agent simply because a colonizing organism appeared.",
           "sourceIds": [
-            "ssc-2021"
+            "ssc-2026"
           ]
         }
       ],
@@ -761,7 +761,7 @@ export const SEPSIS: DiseaseState = {
           "event": "Source control achieved",
           "anchor": "Once drainage, debridement, decompression, or device removal occurs, use that milestone to reset the duration clock for source-controlled sepsis.",
           "sourceIds": [
-            "ssc-2021"
+            "ssc-2026"
           ]
         },
         {
@@ -769,7 +769,7 @@ export const SEPSIS: DiseaseState = {
           "anchor": "When the syndrome includes bacteremia that requires clearance documentation, count from the first negative culture on an active regimen.",
           "rationale": "Bacteremic sepsis should inherit bloodstream rules only when the underlying syndrome truly requires them.",
           "sourceIds": [
-            "ssc-2021",
+            "ssc-2026",
             "balance"
           ]
         }

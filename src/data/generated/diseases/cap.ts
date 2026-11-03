@@ -13,8 +13,15 @@ export const CAP: DiseaseState = {
     "epidemiology": "Leading infectious cause of death in the US. ~1.5 million adults hospitalized annually. Mortality: outpatient <1%, inpatient 5-15%, ICU 20-50%. Incidence increases dramatically with age >65 and comorbidities.",
     "keyGuidelines": [
       {
+        "name": "ATS 2025 CAP Guideline Update (Jones et al., AJRCCM, July 2025)",
+        "detail": "ATS-only focused update (IDSA did not co-publish) covering imaging, empiric therapy with viral co-detection, duration, and corticosteroids. (1) Lung ultrasound is an acceptable alternative to CXR/CT when trained operators are available (conditional). (2) Give empiric antibacterials to ALL hospitalized adults with CAP and to outpatients with comorbidities even when a respiratory virus test is positive (conditional). (3) Shortened 3–5 day courses for outpatients with comorbidities and non-severe inpatients who reach clinical stability (conditional, low quality); NOT for complications, high disease burden, MDR risk, or pathogens needing longer therapy. Severe CAP: ≥5 days (strong). (4) Systemic corticosteroids for hospitalized adults with SEVERE CAP (conditional, low quality); strongly recommended AGAINST in non-severe CAP; not recommended in confirmed influenza.",
+        "sourceIds": [
+          "ats-2025-cap"
+        ]
+      },
+      {
         "name": "ATS/IDSA 2019 CAP Guidelines",
-        "detail": "Current definitive guideline. Eliminated HCAP category. Emphasizes severity-based treatment, procalcitonin-guided de-escalation, and steroid role in severe CAP. Replaced the 2007 guidelines.",
+        "detail": "Foundation guideline for empiric regimen selection and severity assessment; partially superseded by the ATS 2025 update (corticosteroids, duration, imaging, viral co-detection). Eliminated the HCAP category, emphasized validated MRSA/Pseudomonas risk factors, and replaced the 2007 guidelines. Its corticosteroid advice (not routinely recommended in severe CAP) has been replaced by the ATS 2025 conditional recommendation for severe CAP.",
         "sourceIds": [
           "ats-idsa-2019-cap"
         ]
@@ -34,10 +41,10 @@ export const CAP: DiseaseState = {
         ]
       },
       {
-        "name": "Surviving Sepsis Campaign 2021",
-        "detail": "Relevant for severe CAP with sepsis — 1-hour bundle, lactate-guided resuscitation, vasopressor selection.",
+        "name": "Surviving Sepsis Campaign 2026",
+        "detail": "Relevant for severe CAP with sepsis — antimicrobials within 1 hour, lactate-guided resuscitation, vasopressor selection, and corticosteroids for septic shock.",
         "sourceIds": [
-          "ssc-2021"
+          "ssc-2026"
         ]
       }
     ],
@@ -79,7 +86,7 @@ export const CAP: DiseaseState = {
       },
       {
         "name": "CAPE COD Trial (2023, NEJM)",
-        "detail": "Hydrocortisone 200mg/day × 4 days then tapered for severe CAP. Significantly reduced 28-day mortality (6.2% vs. 11.9%). Practice-changing for severe/ICU CAP. NNT = 18.",
+        "detail": "Hydrocortisone 200mg/day for 4 or 7 days (based on clinical improvement), then tapered to a total of 8 or 14 days, in ICU patients with severe CAP. Significantly reduced 28-day mortality (6.2% vs. 11.9%; NNT ≈ 18). Excluded influenza and septic shock at enrollment. Principal driver of the ATS 2025 severe-CAP steroid recommendation; ESCAPe and REMAP-CAP did not show a mortality benefit, so patient selection matters.",
         "sourceIds": [
           "cape-cod"
         ]
@@ -93,11 +100,11 @@ export const CAP: DiseaseState = {
       "name": "Outpatient CAP — No Comorbidities",
       "definition": "CAP in a previously healthy outpatient with no significant comorbidities, no recent antibiotic use (past 90 days), and no risk factors for drug-resistant pathogens. These patients can be safely treated at home with oral monotherapy.",
       "clinicalPresentation": "Cough (productive or dry), fever, pleuritic chest pain, dyspnea, tachypnea. Physical exam: focal crackles/rales, dullness to percussion, bronchial breath sounds, egophony. Mild cases may have subtle findings.",
-      "diagnostics": "Chest X-ray is recommended to confirm diagnosis (ATS/IDSA). Sputum culture and blood cultures NOT recommended for outpatients. No procalcitonin needed. Assessment with CURB-65 or PSI/PORT score to confirm outpatient appropriateness (CURB-65 score 0-1, PSI class I-II).",
+      "diagnostics": "Chest X-ray is recommended to confirm diagnosis (ATS/IDSA); lung ultrasound is an acceptable alternative when trained point-of-care operators are available (ATS 2025). Sputum culture and blood cultures NOT recommended for outpatients. No procalcitonin needed. Assessment with CURB-65 or PSI/PORT score to confirm outpatient appropriateness (CURB-65 score 0-1, PSI class I-II).",
       "durationGuidance": {
         "standard": "5 days",
         "severe": "7–10 days (ICU/bacteremic)",
-        "stewardshipNote": "IDSA/ATS 2019: 5-day course non-inferior for uncomplicated CAP. Reassess at day 5 using clinical stability criteria."
+        "stewardshipNote": "ATS/IDSA 2019: at least 5 days and until clinically stable. ATS 2025 formally endorses 3–5 day courses for outpatients with comorbidities and non-severe inpatients who reach stability; healthy outpatients who stabilize quickly rarely need more than 5 days."
       },
       "empiricTherapy": [
         {
@@ -106,7 +113,7 @@ export const CAP: DiseaseState = {
             {
               "drug": "amoxicillin",
               "regimen": "Amoxicillin 1g PO TID × 5 days",
-              "notes": "ATS/IDSA 2019 first-line. HIGH-DOSE (1g, not 500mg) targets intermediate-resistant S. pneumoniae. Excellent safety profile. STEP trial supports even 3-day courses if rapid clinical improvement.",
+              "notes": "ATS/IDSA 2019 first-line. HIGH-DOSE (1g, not 500mg) targets intermediate-resistant S. pneumoniae. Excellent safety profile. Short-course data (El Moussaoui 2006 3-day amoxicillin trial; ATS 2025 duration update) support stopping as early as day 3 when clinical stability is reached quickly.",
               "evidence": "A-I",
               "evidenceSource": "IDSA/ATS 2019",
               "monographId": "amoxicillin",
@@ -178,7 +185,7 @@ export const CAP: DiseaseState = {
         "Amoxicillin 1g TID — the dose matters. Standard 500mg TID does NOT achieve adequate PK/PD targets for intermediately resistant S. pneumoniae. Always use the high dose.",
         "Doxycycline is the underappreciated gem for outpatient CAP: covers typicals + atypicals, no QT prolongation, no macrolide resistance selection, and it's cheap. Many ID physicians now prefer it over azithromycin.",
         "The Z-pack (azithromycin) is massively overprescribed. With ~30-40% macrolide resistance in S. pneumoniae, it's becoming unreliable as monotherapy. If you use it, make sure local resistance data supports it.",
-        "Duration: ATS/IDSA recommends minimum 5 days, with the caveat that the patient should be clinically stable for 48-72h before stopping. The STEP trial validates even shorter (3-day) courses for patients who stabilize rapidly.",
+        "Duration: ATS/IDSA 2019 recommends at least 5 days and until clinically stable. The ATS 2025 update conditionally endorses 3–5 days for outpatients with comorbidities and non-severe inpatients once they reach clinical stability (afebrile, HR <100, RR <24, SpO2 ≥90% on room air, SBP ≥90, normal mentation); severe CAP still gets ≥5 days.",
         "CURB-65 score: Confusion, Uremia (BUN >19), Respiratory rate ≥30, Blood pressure (SBP <90 or DBP ≤60), Age ≥65. Score 0-1 = outpatient. 2 = consider admission. ≥3 = inpatient. Simple, bedside, no labs needed (CRB-65 drops the U).",
         "Always ask about influenza exposure and symptoms during flu season. If influenza CAP is suspected, add oseltamivir regardless of presentation timing — late treatment still reduces complications in severe cases."
       ],
@@ -224,11 +231,11 @@ export const CAP: DiseaseState = {
       "name": "Outpatient CAP — With Comorbidities",
       "definition": "CAP in outpatients with significant comorbidities (COPD, diabetes, chronic heart/liver/renal disease, alcoholism, malignancy, asplenia) OR recent antibiotic use within 90 days. These patients need broader empiric coverage.",
       "clinicalPresentation": "Same as above, but comorbidities may blunt typical presentation. Elderly/diabetic patients may present without fever. COPD patients may be difficult to distinguish from AECOPD. Heart failure patients may mimic pneumonia with pulmonary edema.",
-      "diagnostics": "Chest X-ray recommended. Consider procalcitonin to help differentiate bacterial CAP from viral/AECOPD (PCT >0.25 supports bacterial). Sputum culture not routinely needed for outpatients. Calculate CURB-65/PSI to confirm outpatient safety.",
+      "diagnostics": "Chest X-ray recommended (lung ultrasound acceptable with trained operators per ATS 2025). Consider procalcitonin to help differentiate bacterial CAP from viral/AECOPD (PCT >0.25 supports bacterial). A positive respiratory virus test does NOT remove the need for empiric antibacterials in outpatients with comorbidities (ATS 2025, conditional). Sputum culture not routinely needed for outpatients. Calculate CURB-65/PSI to confirm outpatient safety.",
       "durationGuidance": {
-        "standard": "5 days",
+        "standard": "3–5 days once clinically stable (ATS 2025)",
         "severe": "7–10 days (ICU/bacteremic)",
-        "stewardshipNote": "IDSA/ATS 2019: 5-day course non-inferior for uncomplicated CAP. Reassess at day 5 using clinical stability criteria."
+        "stewardshipNote": "ATS 2025: shortened 3–5 day course conditionally recommended for outpatients with comorbidities who reach clinical stability — strengthened when the patient is at high risk of antibiotic harm and inflammatory markers have resolved. Not for complications, MDR risk, or pathogens needing longer therapy."
       },
       "empiricTherapy": [
         {
@@ -345,7 +352,7 @@ export const CAP: DiseaseState = {
       },
       "durationAnchor": {
         "status": "ready",
-        "summary": "Count from the first active dose and use clinical stability, not complete cough resolution, to stop therapy."
+        "summary": "Count from the first active dose and use clinical stability, not complete cough resolution, to stop therapy — 3–5 days total is supported once stable (ATS 2025)."
       }
     },
     {
@@ -353,11 +360,11 @@ export const CAP: DiseaseState = {
       "name": "Inpatient CAP (Non-ICU)",
       "definition": "CAP requiring hospital admission but NOT ICU-level care. CURB-65 ≥2 or PSI class III-IV. Patients who are hypoxic, tachypneic, confused, or have significant comorbidity exacerbation warranting admission.",
       "clinicalPresentation": "Moderate-severe symptoms: high fever, productive cough, dyspnea, tachypnea (RR ≥22-30), hypoxia (SpO2 <94% on room air), dehydration, confusion (especially elderly). May have multilobar infiltrates on CXR.",
-      "diagnostics": "Chest X-ray (REQUIRED). Blood cultures × 2 BEFORE antibiotics (ATS/IDSA recommends for inpatients). Sputum culture (if quality specimen obtainable). Procalcitonin (baseline — helps guide de-escalation). Legionella urinary antigen and pneumococcal urinary antigen if severity warrants. Consider respiratory viral panel (especially flu season). Lactate if sepsis suspected.",
+      "diagnostics": "Chest X-ray (REQUIRED). Blood cultures × 2 BEFORE antibiotics (ATS/IDSA recommends for inpatients). Sputum culture (if quality specimen obtainable). Procalcitonin (baseline — helps guide de-escalation). Legionella urinary antigen and pneumococcal urinary antigen if severity warrants. Consider respiratory viral panel (especially flu season) — a positive viral result does NOT remove the need for empiric antibacterials in hospitalized CAP (ATS 2025, conditional). Lactate if sepsis suspected.",
       "durationGuidance": {
-        "standard": "5 days",
+        "standard": "3–5 days once clinically stable (ATS 2025, non-severe)",
         "severe": "7–10 days (ICU/bacteremic)",
-        "stewardshipNote": "IDSA/ATS 2019: 5-day course non-inferior for uncomplicated CAP. Reassess at day 5 using clinical stability criteria."
+        "stewardshipNote": "ATS 2025: shortened 3–5 day course conditionally recommended for non-severe inpatients who reach clinical stability. Not for complications (empyema, abscess), high disease burden, MDR risk, or pathogens needing longer therapy (e.g., S. aureus bacteremia, Pseudomonas). Systemic corticosteroids are strongly recommended AGAINST in non-severe CAP."
       },
       "empiricTherapy": [
         {
@@ -501,7 +508,7 @@ export const CAP: DiseaseState = {
       },
       "durationAnchor": {
         "status": "ready",
-        "summary": "Count from the first active regimen once CAP is established; five total days is often enough when the patient reaches clinical stability."
+        "summary": "Count from the first active regimen once CAP is established; 3–5 total days is enough for most non-severe inpatients once clinical stability is reached (ATS 2025)."
       }
     },
     {
@@ -511,9 +518,9 @@ export const CAP: DiseaseState = {
       "clinicalPresentation": "Respiratory failure, septic shock, multilobar/bilateral infiltrates, rapidly progressive disease. May present with ARDS. High mortality — 20-50% depending on severity and organism.",
       "diagnostics": "Full workup: blood cultures × 2, sputum culture (intubated: BAL or mini-BAL preferred), Legionella urinary antigen, pneumococcal urinary antigen, respiratory viral panel (including COVID-19), procalcitonin, lactate, CBC with differential, CMP, ABG. Consider CT chest if CXR unclear or complications suspected (empyema, abscess, PE). Consider bronchoscopy if not improving.",
       "durationGuidance": {
-        "standard": "5 days",
+        "standard": "≥5 days once clinically stable (ATS 2025, strong)",
         "severe": "7–10 days (ICU/bacteremic)",
-        "stewardshipNote": "IDSA/ATS 2019: 5-day course non-inferior for uncomplicated CAP. Reassess at day 5 using clinical stability criteria."
+        "stewardshipNote": "ATS 2025: severe CAP that reaches clinical stability should receive at least 5 days (strong recommendation) — the 3–5 day short-course recommendation does NOT apply. Extend for bacteremia, complications, or pathogens needing longer therapy."
       },
       "empiricTherapy": [
         {
@@ -823,8 +830,14 @@ export const CAP: DiseaseState = {
           "options": [
             {
               "drug": "corticosteroids",
-              "regimen": "Hydrocortisone 200mg IV daily (50mg q6h) × 4-7 days, then taper",
-              "notes": "CAPE COD Trial (2023): Hydrocortisone reduced 28-day mortality in severe CAP (6.2% vs 11.9%, NNT=18). Practice-changing. ATS/IDSA 2019 conditionally recommends for refractory septic shock. Now extending to all severe CAP based on CAPE COD. Avoid in influenza pneumonia (worsens outcomes) and suspected fungal infection.",
+              "regimen": "Hydrocortisone 200mg/day IV (continuous infusion in CAPE COD; 50mg q6h common) for 4 or 7 days based on clinical improvement, then taper to a total of 8 or 14 days",
+              "notes": "ATS 2025 conditionally recommends systemic corticosteroids for hospitalized adults with SEVERE CAP (low-quality evidence); the case is strongest when started within 24h of meeting severe-CAP criteria, with ICU admission, respiratory failure, a short symptom-to-presentation interval, or elevated inflammatory markers. ATS 2025 strongly recommends AGAINST steroids in non-severe CAP. Not recommended in confirmed influenza pneumonia; avoid with suspected fungal infection. Evidence: CAPE COD (2023) reduced 28-day mortality (6.2% vs 11.9%), while ESCAPe and REMAP-CAP did not show benefit. Septic shock from CAP also qualifies under SSC 2026.",
+              "evidence": "B-I",
+              "evidenceSource": "ATS 2025; CAPE COD",
+              "evidenceSourceIds": [
+                "ats-2025-cap",
+                "cape-cod"
+              ],
               "id": "cap/cap-icu/adjunctive-therapy/corticosteroids-1"
             },
             {
@@ -863,7 +876,7 @@ export const CAP: DiseaseState = {
         }
       ],
       "pearls": [
-        "CAPE COD trial is practice-changing: Hydrocortisone for severe CAP reduced 28-day mortality with NNT of 18. This is being rapidly adopted. KEY EXCEPTION: Do NOT give steroids for influenza pneumonia — steroids worsen outcomes in influenza (increased mortality, superinfections).",
+        "Steroids in CAP are now severity-gated (ATS 2025): conditionally recommended for SEVERE CAP (driven largely by CAPE COD, NNT ≈ 18), strongly recommended AGAINST in non-severe CAP. KEY EXCEPTION: Do NOT give steroids for confirmed influenza pneumonia — observational data link them to higher mortality and superinfection.",
         "PVL-MRSA pneumonia: Think about this when you see a previously healthy young person with rapidly necrotizing pneumonia, especially post-influenza. Toxin suppression is the key — use linezolid or clindamycin (ribosomal inhibitors), not just vancomycin. Some experts add clindamycin to vancomycin specifically for toxin suppression.",
         "Extended infusion beta-lactams in ICU: This is mandatory stewardship at this severity level. Pip-tazo over 4h, cefepime over 3-4h, meropenem over 3h. Monte Carlo simulations show dramatically improved PTA (probability of target attainment). Push for this as a pharmacy protocol.",
         "Day 1 matters: In septic shock, every hour of delayed appropriate antibiotics increases mortality by ~7.6% (Kumar et al., 2006). Ensure antibiotics are administered within 1 hour of recognition. This is a pharmacist operational responsibility — have them available, mixed, and ready.",
@@ -946,10 +959,11 @@ export const CAP: DiseaseState = {
           "actions": [
             "Stop vancomycin or linezolid when MRSA is no longer supported.",
             "Collapse to standard severe-CAP therapy if Pseudomonas risk is not confirmed.",
-            "Document whether steroids and atypical coverage still fit the active syndrome."
+            "Document whether steroids and atypical coverage still fit the active syndrome (ATS 2025: steroids for severe CAP only; not for confirmed influenza)."
           ],
           "sourceIds": [
             "ats-idsa-2019-cap",
+            "ats-2025-cap",
             "cape-cod"
           ]
         },
@@ -958,12 +972,13 @@ export const CAP: DiseaseState = {
           "title": "Definitive CAP duration and step-down lock",
           "trigger": "Once shock or high oxygen support is improving, move from ICU framing to pathogen- and source-specific treatment duration.",
           "actions": [
-            "Use the shortest effective CAP course once clinical stability is reached.",
+            "Use the shortest effective CAP course once clinical stability is reached — at least 5 days for severe CAP (ATS 2025).",
             "Extend only for bacteremia, empyema, abscess, or another documented complication.",
             "Build PO step-down only after absorption and oxygen trajectory are reliable."
           ],
           "sourceIds": [
             "ats-idsa-2019-cap",
+            "ats-2025-cap",
             "el-moussaoui-2006-short-course-cap"
           ]
         }
@@ -989,9 +1004,10 @@ export const CAP: DiseaseState = {
       "durationAnchors": [
         {
           "event": "Clinical stability after severe CAP",
-          "anchor": "Count from the first active regimen, but stop once the patient reaches sustained clinical stability and the minimum severe-CAP duration is met.",
+          "anchor": "Count from the first active regimen, but stop once the patient reaches sustained clinical stability and the minimum severe-CAP duration (≥5 days, ATS 2025) is met.",
           "sourceIds": [
             "ats-idsa-2019-cap",
+            "ats-2025-cap",
             "el-moussaoui-2006-short-course-cap"
           ]
         },
@@ -1072,7 +1088,7 @@ export const CAP: DiseaseState = {
       "durationGuidance": {
         "standard": "5 days",
         "severe": "7–10 days (ICU/bacteremic)",
-        "stewardshipNote": "IDSA/ATS 2019: 5-day course non-inferior for uncomplicated CAP. Reassess at day 5 using clinical stability criteria."
+        "stewardshipNote": "Follows CAP duration rules: ATS 2025 allows 3–5 days for non-severe disease once clinically stable, ≥5 days for severe CAP. Lung abscess or empyema needs longer, source-directed therapy."
       },
       "empiricTherapy": [
         {

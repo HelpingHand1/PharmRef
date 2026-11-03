@@ -569,8 +569,8 @@ export const IAI: DiseaseState = {
         {
           "organism": "ESBL-producing Enterobacterales",
           "preferred": "Meropenem, ertapenem (non-Pseudomonal)",
-          "alternative": "Pip-tazo (controversial — MERINO trial showed inferiority for bacteremia)",
-          "notes": "ESBL prevalence in healthcare-associated IAI: 15-30%. MERINO trial caution: pip-tazo was inferior to meropenem for ESBL bacteremia. For serious ESBL IAI, carbapenems remain preferred. Ertapenem appropriate for non-critical, non-Pseudomonal ESBL IAI."
+          "alternative": "Cefepime-enmetazobactam (IDSA 2026 alternative outside the urinary tract); pip-tazo is NOT suggested for ESBL-E IAI (IDSA 2026)",
+          "notes": "ESBL prevalence in healthcare-associated IAI: 15-30%. MERINO trial caution: pip-tazo was inferior to meropenem for ESBL bacteremia, and IDSA 2026 does not suggest pip-tazo for ESBL-E infections outside the urinary tract. For serious ESBL IAI, carbapenems remain preferred. Ertapenem appropriate for non-critical, non-Pseudomonal ESBL IAI."
         },
         {
           "organism": "Pseudomonas aeruginosa",

@@ -13,10 +13,10 @@ export const ADVANCED_AGENTS: DiseaseState = {
     "epidemiology": "MDR Gram-negative infections cause >700,000 deaths annually worldwide. ESKAPE pathogens (Enterococcus, Staph aureus, Klebsiella, Acinetobacter, Pseudomonas, Enterobacter) drive increasing resistance. Novel beta-lactam/BLI combinations have transformed treatment options for CRE and MDR Pseudomonas since 2014. Polymyxin use declining due to nephrotoxicity but remains critical for pan-resistant Acinetobacter.",
     "keyGuidelines": [
       {
-        "name": "IDSA 2022 Guidance on Resistant Gram-Negative Infections",
-        "detail": "First IDSA guidance document specifically addressing CRE, ESBL-E, difficult-to-treat Pseudomonas, and carbapenem-resistant Acinetobacter baumannii. Defines preferred and alternative regimens for each resistance phenotype.",
+        "name": "IDSA 2026 Guidance on Resistant Gram-Negative Infections",
+        "detail": "Current IDSA living guidance (July 2026; supersedes the 2022 and 2024 versions) covering ESBL-E, AmpC-E, CRE, DTR Pseudomonas, CRAB, and S. maltophilia. Defines preferred and alternative regimens for each resistance phenotype — including aztreonam-avibactam for NDM-CRE, sulbactam-durlobactam for CRAB, and cefiderocol monotherapy for S. maltophilia. See the AMR Gram-Negative topic for phenotype-level detail.",
         "sourceIds": [
-          "idsa-2022-amr"
+          "idsa-2026-amr"
         ]
       },
       {
@@ -85,12 +85,12 @@ export const ADVANCED_AGENTS: DiseaseState = {
       "rapidDiagnostics": [
         {
           "trigger": "Carbapenemase testing identifies KPC",
-          "action": "Prioritize ceftazidime-avibactam or meropenem-vaborbactam and de-escalate away from polymyxin-based salvage if it was started empirically.",
+          "action": "Prioritize ceftazidime-avibactam, meropenem-vaborbactam, or imipenem-cilastatin-relebactam and de-escalate away from polymyxin-based salvage if it was started empirically.",
           "rationale": "Mechanism-specific therapy consistently outperforms older toxicity-heavy fallback regimens."
         },
         {
           "trigger": "Carbapenemase testing identifies NDM, VIM, or IMP",
-          "action": "Do not continue any stand-alone beta-lactam/BLI product; move to ceftazidime-avibactam plus aztreonam or cefiderocol.",
+          "action": "Do not continue any stand-alone beta-lactam/BLI product; move to aztreonam-avibactam or cefiderocol (ceftazidime-avibactam plus aztreonam if aztreonam-avibactam is unavailable).",
           "rationale": "MBL-producing CRE is the main place where a paired regimen changes whether aztreonam is viable."
         }
       ],
@@ -103,7 +103,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
         {
           "marker": "Ceftazidime-avibactam coverage gap",
           "interpretation": "A susceptible ceftazidime-avibactam result is compatible with KPC or OXA-48, but not with stand-alone MBL activity.",
-          "action": "If an MBL is present, pair aztreonam or abandon the drug for a different anchor."
+          "action": "If an MBL is present, switch to aztreonam-avibactam or cefiderocol, or pair ceftazidime-avibactam with aztreonam if the fixed combination is unavailable."
         }
       ],
       "intrinsicResistance": [
@@ -122,7 +122,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
         {
           "label": "KPC-CRE",
           "status": "preferred",
-          "detail": "Ceftazidime-avibactam or meropenem-vaborbactam are the primary anchors; imipenem-cilastatin-relebactam is another option when susceptible."
+          "detail": "Ceftazidime-avibactam, meropenem-vaborbactam, and imipenem-cilastatin-relebactam are all IDSA 2026 preferred anchors when susceptible."
         },
         {
           "label": "OXA-48-like CRE",
@@ -132,7 +132,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
         {
           "label": "NDM, VIM, or IMP",
           "status": "conditional",
-          "detail": "Use ceftazidime-avibactam plus aztreonam or cefiderocol rather than any stand-alone BL/BLI product."
+          "detail": "Use aztreonam-avibactam or cefiderocol (IDSA 2026 preferred), or ceftazidime-avibactam plus aztreonam, rather than any stand-alone BL/BLI product."
         },
         {
           "label": "Colistin monotherapy",
@@ -143,7 +143,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
       "durationGuidance": {
         "standard": "7–14 days (source and severity dependent)",
         "severe": "14 days (bacteremia) — repeat blood cultures at 48h",
-        "stewardshipNote": "IDSA 2022: Use targeted regimens based on carbapenemase type. KPC — ceftazidime-avibactam or meropenem-vaborbactam preferred. NDM — aztreonam-avibactam (investigational), ceftazidime-avibactam + aztreonam. Combination therapy only when synergy demonstrated."
+        "stewardshipNote": "IDSA 2026: Use targeted regimens based on carbapenemase type. KPC — ceftazidime-avibactam, imipenem-relebactam, or meropenem-vaborbactam preferred. NDM/MBL — aztreonam-avibactam (FDA-approved 2025) or cefiderocol preferred, with ceftazidime-avibactam + aztreonam reasonable when the fixed combination is unavailable. OXA-48-like — ceftazidime-avibactam. Routine combination therapy is not needed when a novel agent is active."
       },
       "empiricTherapy": [
         {
@@ -152,24 +152,24 @@ export const ADVANCED_AGENTS: DiseaseState = {
             {
               "drug": "ceftazidime-avibactam",
               "regimen": "Ceftazidime-Avibactam 2.5g IV q8h (adjust for renal function)",
-              "notes": "Preferred for KPC-CRE and OXA-48. Does NOT cover NDM. Check local susceptibility.",
+              "notes": "IDSA 2026 preferred for KPC-CRE and the preferred agent for OXA-48-like CRE. Does NOT cover NDM or other MBLs when used alone. Check local susceptibility.",
               "evidence": "A-II",
-              "evidenceSource": "IDSA 2022",
+              "evidenceSource": "IDSA 2026 AMR",
               "monographId": "ceftazidime-avibactam",
               "evidenceSourceIds": [
-                "idsa-2022-amr"
+                "idsa-2026-amr"
               ],
               "id": "advanced-agents/cre-management/kpc-producing-cre/ceftazidime-avibactam-1"
             },
             {
               "drug": "meropenem-vaborbactam",
               "regimen": "Meropenem-Vaborbactam 4g IV q8h (infuse over 3h)",
-              "notes": "Alternative for KPC-CRE. Does NOT cover NDM, OXA-48, or Acinetobacter.",
+              "notes": "IDSA 2026 preferred for KPC-CRE (often favored because on-treatment resistance appears less common than with ceftazidime-avibactam). Does NOT cover NDM, OXA-48, or Acinetobacter.",
               "evidence": "A-II",
-              "evidenceSource": "IDSA 2022",
+              "evidenceSource": "IDSA 2026 AMR",
               "monographId": "meropenem-vaborbactam",
               "evidenceSourceIds": [
-                "idsa-2022-amr"
+                "idsa-2026-amr"
               ],
               "id": "advanced-agents/cre-management/kpc-producing-cre/meropenem-vaborbactam-2"
             }
@@ -179,16 +179,27 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "line": "NDM-producing CRE",
           "options": [
             {
-              "drug": "ceftazidime-avibactam",
-              "regimen": "Ceftazidime-Avibactam 2.5g IV q8h + Aztreonam 2g IV q6h (extended infusion)",
-              "notes": "Combination required — CAZ-AVI restores aztreonam activity against MBL-producers. Ceftazidime-avibactam protects aztreonam from hydrolysis. ID consult mandatory.",
+              "drug": "aztreonam-avibactam",
+              "regimen": "Aztreonam-Avibactam 2.67g IV loading dose, then 2g IV q6h (each over 3h; CrCl >50 — renally adjust)",
+              "notes": "IDSA 2026 preferred for NDM/MBL-CRE (with cefiderocol), slightly favored over ceftazidime-avibactam + aztreonam. Fixed-dose Emblaveo, FDA-approved February 2025. Aztreonam evades MBL hydrolysis while avibactam blocks co-produced serine beta-lactamases. ID consult mandatory.",
               "evidence": "B-II",
-              "evidenceSource": "IDSA 2022",
+              "evidenceSource": "IDSA 2026 AMR",
+              "evidenceSourceIds": [
+                "idsa-2026-amr"
+              ],
+              "id": "advanced-agents/cre-management/ndm-producing-cre/aztreonam-avibactam-1"
+            },
+            {
+              "drug": "ceftazidime-avibactam",
+              "regimen": "Ceftazidime-Avibactam 2.5g IV q8h + Aztreonam 2g IV q8h, administered simultaneously (each over 3h)",
+              "notes": "Reasonable when aztreonam-avibactam is unavailable. Combination required — avibactam protects aztreonam from co-produced serine beta-lactamases while aztreonam evades the MBL. Never use ceftazidime-avibactam alone for MBL producers. ID consult mandatory.",
+              "evidence": "B-II",
+              "evidenceSource": "IDSA 2026 AMR",
               "monographId": "ceftazidime-avibactam",
               "evidenceSourceIds": [
-                "idsa-2022-amr"
+                "idsa-2026-amr"
               ],
-              "id": "advanced-agents/cre-management/ndm-producing-cre/ceftazidime-avibactam-1"
+              "id": "advanced-agents/cre-management/ndm-producing-cre/ceftazidime-avibactam-2"
             }
           ]
         },
@@ -200,10 +211,10 @@ export const ADVANCED_AGENTS: DiseaseState = {
               "regimen": "Colistin (CMS) — load 9 MU IV, then 4.5 MU IV q12h (CrCl-adjusted), always in combination",
               "notes": "Use only when all other options exhausted. Nephrotoxicity in 30-50%. Never monotherapy. Combination with meropenem, rifampin, or fosfomycin based on MIC data.",
               "evidence": "C-III",
-              "evidenceSource": "IDSA 2022",
+              "evidenceSource": "IDSA 2026 AMR",
               "monographId": "colistin",
               "evidenceSourceIds": [
-                "idsa-2022-amr"
+                "idsa-2026-amr"
               ],
               "id": "advanced-agents/cre-management/salvage-pan-resistant/colistin-1"
             }
@@ -214,7 +225,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "Never use ceftazidime-avibactam monotherapy for NDM-producers — avibactam does NOT inhibit metallo-beta-lactamases. This is a potentially fatal prescribing error.",
         "MIC testing is mandatory before treating CRE — zone diameter breakpoints are unreliable. Use broth microdilution.",
         "Consult ID and clinical pharmacy for all CRE infections — outcomes are significantly better with specialist involvement.",
-        "Check the IDSA 2022 AMR guidance table — treatment choice depends on which carbapenemase is present."
+        "Check the IDSA 2026 AMR guidance — treatment choice depends on which carbapenemase is present."
       ]
     },
     {
@@ -292,25 +303,25 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "options": [
             {
               "drug": "ceftolozane-tazobactam",
-              "regimen": "Ceftolozane-Tazobactam 3g IV q8h (HAP/VAP: 1.5g q8h for cUTI/IAI) — standard infusion 1h",
-              "notes": "Excellent anti-pseudomonal activity. Stable against most Pseudomonas resistance mechanisms except MBL.",
+              "regimen": "Ceftolozane-Tazobactam 3g IV q8h for HAP/VAP and serious DTR-PA (1.5g q8h for cUTI/cIAI); label infusion 1h, IDSA dosing table uses 3h extended infusion",
+              "notes": "IDSA 2026 preferred for DTR-PA and the preferred agent for DTR-PA pneumonia. Excellent anti-pseudomonal activity. Stable against most Pseudomonas resistance mechanisms except MBL.",
               "evidence": "A-II",
-              "evidenceSource": "IDSA 2022",
+              "evidenceSource": "IDSA 2026 AMR",
               "monographId": "ceftolozane-tazobactam",
               "evidenceSourceIds": [
-                "idsa-2022-amr"
+                "idsa-2026-amr"
               ],
               "id": "advanced-agents/mdr-pseudomonas/preferred-dtr-pa/ceftolozane-tazobactam-1"
             },
             {
               "drug": "imipenem-cilastatin-relebactam",
               "regimen": "Imipenem-Cilastatin-Relebactam 1.25g IV q6h (infuse over 30 min)",
-              "notes": "Active against KPC and AmpC producers. Restores imipenem activity. RESTORE-IMI trials support use.",
+              "notes": "IDSA 2026 preferred for DTR-PA. Active against KPC and AmpC producers. Restores imipenem activity. RESTORE-IMI trials support use. Treatment-emergent non-susceptibility (~24% in observational cohorts) is a real risk — repeat susceptibilities on failure.",
               "evidence": "A-II",
-              "evidenceSource": "IDSA 2022",
+              "evidenceSource": "IDSA 2026 AMR",
               "monographId": "imipenem-cilastatin-relebactam",
               "evidenceSourceIds": [
-                "idsa-2022-amr"
+                "idsa-2026-amr"
               ],
               "id": "advanced-agents/mdr-pseudomonas/preferred-dtr-pa/imipenem-cilastatin-relebactam-2"
             }
@@ -318,7 +329,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
         }
       ],
       "pearls": [
-        "Ceftolozane-tazobactam is NOT active against ESBL-producing Enterobacteriaceae or KPC-CRE.",
+        "Ceftolozane-tazobactam is active against many ESBL-producing Enterobacterales but should be RESERVED for DTR-PA; it is NOT active against KPC- or MBL-producing CRE.",
         "Imipenem-cilastatin-relebactam does NOT cover NDM-producers or Acinetobacter.",
         "For CF patients with chronic Pseudomonas, susceptibility testing with agar dilution may give more reliable results than automated systems.",
         "Always obtain ID consultation for DTR-PA infections — mortality is significantly higher without appropriate therapy."
@@ -648,7 +659,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "action": "Make sure the ceftazidime-avibactam partner is active and scheduled correctly rather than assuming aztreonam monotherapy has become adequate.",
           "rationale": "The main preventable failure mode is treating the MBL label with aztreonam alone.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "aztreonam-avibactam-evidence",
             "clsi-breakpoint-updates"
           ]
@@ -657,7 +668,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "trigger": "Allergy clarification suggests broader beta-lactams are actually usable",
           "action": "Reassess the need for aztreonam the same day and de-escalate if a better-supported beta-lactam can be used safely.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         }
       ],
@@ -667,7 +678,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "risk": "Co-produced serine beta-lactamases can still inactivate aztreonam and create a false sense of definitive coverage.",
           "saferApproach": "Pair with ceftazidime-avibactam or use another mechanism-directed regimen when MBL biology is present.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "aztreonam-avibactam-evidence",
             "clsi-breakpoint-updates"
           ]
@@ -677,7 +688,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "risk": "The shared side chain can make the allergy workaround unsafe as well as ineffective.",
           "saferApproach": "Review the exact allergy history and use supervised testing or an alternative plan when ceftazidime reactivity is plausible.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         }
       ],
@@ -687,7 +698,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "detail": "The combination fails operationally when one agent is timed, adjusted, or handed off independently of the other.",
           "action": "Link the two drugs in the medication plan and verify combination-testing interpretation in the stewardship note.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "aztreonam-avibactam-evidence",
             "clsi-breakpoint-updates"
           ]
@@ -697,7 +708,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "detail": "Aztreonam does not solve anaerobic or gram-positive needs in polymicrobial syndromes even when the gram-negative target is clear.",
           "action": "Write the companion-coverage plan explicitly at initiation and reassessment.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         }
       ],
@@ -707,7 +718,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "reason": "Aztreonam leaves important anaerobic and gram-positive gaps that can be missed when allergy concerns dominate the plan.",
           "preferredApproach": "Add the needed companion agents or use a broader regimen once allergy clarification allows it.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         }
       ],
@@ -910,7 +921,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "action": "Correct the dose and infusion strategy the same day rather than accepting lower-exposure carryover from non-pneumonia workflows.",
           "rationale": "The main preventable failure mode is underdelivering the lung-focused regimen when resistant Pseudomonas is the target.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "aspect-np"
           ]
         },
@@ -918,7 +929,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "trigger": "Rapid diagnostics or phenotyping suggests MBL or non-Pseudomonas carbapenemase biology",
           "action": "Reassess immediately because ceftolozane-tazobactam is not meant to rescue mechanism mismatches.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "aspect-np"
           ]
         }
@@ -929,7 +940,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "risk": "That burns a valuable Pseudomonas-focused reserve option without solving the actual resistance mechanism problem better.",
           "saferApproach": "Save it for resistant Pseudomonas or other explicitly supported phenotypes where it offers a clear advantage.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         },
         {
@@ -949,7 +960,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "action": "Hard-wire the pneumonia build into order sets for HAP/VAP and severe DTR Pseudomonas pathways.",
           "sourceIds": [
             "aspect-np",
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         },
         {
@@ -957,7 +968,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "detail": "Reserve-agent q8h infusion plans can fail after discharge if the receiving program cannot match the intended infusion model.",
           "action": "Confirm the exact post-acute preparation workflow before promising OPAT or SNF continuation.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "aspect-cuti-ciai"
           ]
         }
@@ -969,7 +980,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "preferredApproach": "Use the 3 g q8h extended-infusion pneumonia regimen or choose another active agent.",
           "sourceIds": [
             "aspect-np",
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         }
       ],
@@ -1167,7 +1178,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "action": "Reassess dosing and drug choice immediately instead of treating the neurotoxicity signal as nonspecific ICU delirium.",
           "rationale": "Imipenem exposure and CNS vulnerability can become the dominant execution risk quickly.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "restore-imi-1"
           ]
         },
@@ -1175,7 +1186,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "trigger": "Updated microbiology suggests MBL or another relebactam-mismatched phenotype",
           "action": "Stop treating the regimen as definitive and switch to a mechanism-appropriate option.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "restore-imi-1"
           ]
         }
@@ -1186,7 +1197,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "risk": "This turns a targeted reserve drug into broad emotional escalation and can miss the actual resistant phenotype.",
           "saferApproach": "Use it only when the organism, site, and susceptibility pattern fit relebactam's role.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "restore-imi-1"
           ]
         },
@@ -1195,7 +1206,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "risk": "Operationally convenient continuation can precipitate breakthrough seizures or force abrupt therapy changes.",
           "saferApproach": "Coordinate antiepileptic substitution and neurologic monitoring before prolonged therapy.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "restore-imi-1"
           ]
         }
@@ -1206,7 +1217,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "detail": "Missed or delayed doses erode exposure quickly, especially in ICU patients with changing clearance.",
           "action": "Treat schedule drift as a pharmacy-nursing workflow issue to fix, not a minor delay to tolerate.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "restore-imi-1"
           ]
         },
@@ -1215,7 +1226,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "detail": "This regimen is operationally fragile when neurologic risk, renal instability, and q6h delivery all travel with the patient.",
           "action": "Document seizure history, renal plan, and why a q6h reserve regimen remains necessary before transfer.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         }
       ],
@@ -1225,7 +1236,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "reason": "Relebactam does not overcome MBL-mediated resistance, so apparent carbapenem escalation does not fix the biology.",
           "preferredApproach": "Switch to an MBL-active regimen instead of intensifying imipenem-cilastatin-relebactam.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         }
       ],
@@ -1371,7 +1382,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "action": "Recalculate dosing and reassess whether colistin is still necessary instead of simply stretching intervals and hoping toxicity stabilizes.",
           "rationale": "Nephrotoxicity is the dominant operational failure mode and can evolve before the microbiology plan changes.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "credible-cr"
           ]
         },
@@ -1379,7 +1390,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "trigger": "New paresthesias, weakness, apnea risk, or escalating neuromuscular blocker exposure",
           "action": "Treat neurotoxicity as a reason to stop or replace colistin, not just a side effect to monitor passively.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         }
       ],
@@ -1389,7 +1400,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "risk": "The toxicity burden is rarely justified once a safer active alternative exists.",
           "saferApproach": "Use colistin only when better tolerated mechanism-appropriate options are truly unavailable or inactive.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "attack",
             "credible-cr"
           ]
@@ -1399,7 +1410,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "risk": "Unit confusion and underloading can produce both early failure and preventable toxicity.",
           "saferApproach": "Use a protocolized loading strategy with explicit unit language at every order and transfer step.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         }
       ],
@@ -1409,7 +1420,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "detail": "Confusion between colistimethate sodium and colistin-base activity remains a serious medication-safety risk.",
           "action": "Spell out units, formulation, and maintenance strategy in the order and transfer documentation.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ]
         },
         {
@@ -1417,7 +1428,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "detail": "Because toxicity accumulates quickly, teams should know what result or clinical milestone would let them stop it.",
           "action": "Document the stop trigger at initiation and revisit it with each culture update.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "credible-cr"
           ]
         }
@@ -1428,7 +1439,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "reason": "Colistin's narrow therapeutic window and inferior tolerability make it a poor definitive anchor once another active option is available.",
           "preferredApproach": "Move to the mechanism-directed beta-lactam or sulbactam-based regimen as soon as susceptibilities allow.",
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "attack",
             "credible-cr"
           ]
@@ -1455,7 +1466,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "weightBasis": "Use the local CMS/CBA convention consistently",
           "whenToConsult": "Mandatory pharmacist review every time.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ],
           "confidence": "high"
         },
@@ -1464,7 +1475,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
           "doseStrategy": "Renal replacement does not eliminate nephrotoxicity risk and makes unit confusion easier, not harder.",
           "whenToConsult": "Mandatory pharmacist or PK review every time.",
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ],
           "confidence": "high"
         }
@@ -1485,7 +1496,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
             "Confirm CBA versus CMS units before the order reaches the bedside."
           ],
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ],
           "confidence": "high"
         },
@@ -1503,7 +1514,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
             "Do not wait for severe AKI or neuromuscular toxicity before re-evaluating the regimen."
           ],
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ],
           "confidence": "high"
         }
@@ -1515,7 +1526,7 @@ export const ADVANCED_AGENTS: DiseaseState = {
         "monitoringBurden": "high",
         "comparatorSummary": "Toxicity-heavy salvage therapy where dose-unit safety and daily renal review are part of the drug, not optional extras.",
         "sourceIds": [
-          "idsa-2024-amr"
+          "idsa-2026-amr"
         ],
         "confidence": "high"
       }

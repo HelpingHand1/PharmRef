@@ -172,7 +172,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
       {
         title: "Rapid ESBL signal outranks an initially broad cephalosporin plan",
         detail: "Once ESBL is on the table, ceftriaxone and most routine beta-lactams stop being reliable definitive therapy for invasive infection.",
-        sourceIds: ["idsa-2024-amr", "merino"],
+        sourceIds: ["idsa-2026-amr", "merino"],
       },
     ],
     contaminationPitfalls: [
@@ -180,26 +180,26 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
         scenario: "ESBL phenotype in a culture without true infection syndrome",
         implication: "Colonization and prior-history flags should influence empiric coverage but should not trigger prolonged reserve therapy in the absence of infection.",
         action: "Match the phenotype to the current syndrome and source before locking a carbapenem course.",
-        sourceIds: ["idsa-2024-amr"],
+        sourceIds: ["idsa-2026-amr"],
       },
     ],
     resistanceMechanisms: [
       {
         title: "CTX-M and other ESBL enzymes hydrolyze third-generation cephalosporins",
         detail: "That is why ceftriaxone-nonsusceptibility matters so much in invasive Enterobacterales infection and why carbapenems remain the benchmark.",
-        sourceIds: ["idsa-2024-amr", "merino"],
+        sourceIds: ["idsa-2026-amr", "merino"],
       },
     ],
     breakpointCaveats: [
       {
         title: "Piperacillin-tazobactam is not the serious ESBL default",
         detail: "Reported susceptibility does not outweigh MERINO-level outcome concerns in serious bloodstream ESBL infection.",
-        sourceIds: ["merino", "idsa-2024-amr"],
+        sourceIds: ["merino", "idsa-2026-amr"],
       },
       {
         title: "Oral urinary options stay syndrome-limited",
         detail: "Nitrofurantoin and fosfomycin susceptibility does not make them acceptable for pyelonephritis, bacteremia, or septic obstruction.",
-        sourceIds: ["idsa-2025-cuti", "idsa-2024-amr"],
+        sourceIds: ["idsa-2025-cuti", "idsa-2026-amr"],
       },
     ],
     preferredTherapyBySite: [
@@ -210,7 +210,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
         avoid: ["Ceftriaxone", "Piperacillin-tazobactam as definitive serious ESBL therapy"],
         rationale: "Carbapenems remain the most reliable serious-infection ESBL therapy while the source is controlled and bacteremia clears.",
         linkedMonographIds: ["meropenem", "ertapenem"],
-        sourceIds: ["idsa-2024-amr", "merino"],
+        sourceIds: ["idsa-2026-amr", "merino"],
       },
       {
         site: "Complicated UTI / oral step-down",
@@ -218,7 +218,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
         alternatives: ["Ertapenem when no good oral exit exists"],
         rationale: "Oral step-down is an execution opportunity only when the agent has true systemic and urinary exposure.",
         linkedMonographIds: ["tmp-smx", "ciprofloxacin", "levofloxacin", "ertapenem"],
-        sourceIds: ["idsa-2025-cuti", "idsa-2024-amr", "oral-stepdown-bacteremia"],
+        sourceIds: ["idsa-2025-cuti", "idsa-2026-amr", "oral-stepdown-bacteremia"],
       },
     ],
     breakpointRules: [
@@ -228,7 +228,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
         interpretation: ["intermediate", "resistant", "sdd"],
         detail: "Do not keep leaning on ceftriaxone for invasive disease while waiting for the next day's finalized panel.",
         linkedMonographIds: ["ceftriaxone", "meropenem"],
-        sourceIds: ["idsa-2024-amr", "merino"],
+        sourceIds: ["idsa-2026-amr", "merino"],
       },
       {
         title: "Lower-tract-only agents stay lower-tract-only",
@@ -236,7 +236,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
         site: ["bloodstream", "kidney", "systemic", "pyelonephritis"],
         detail: "A susceptible nitrofurantoin or fosfomycin report is false reassurance for pyelonephritis or bacteremia.",
         linkedMonographIds: ["nitrofurantoin", "fosfomycin"],
-        sourceIds: ["idsa-2025-cuti", "idsa-2024-amr"],
+        sourceIds: ["idsa-2025-cuti", "idsa-2026-amr"],
       },
     ],
     linkedMonographIds: ["meropenem", "ertapenem", "tmp-smx", "ciprofloxacin", "levofloxacin", "ceftriaxone"],
@@ -256,7 +256,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
       {
         title: "Rapid KPC signal should trigger same-shift reserve-agent alignment",
         detail: "KPC confirmation is actionable before the final panel: move to a KPC-active agent rather than staying on a failing routine carbapenem or cephalosporin plan.",
-        sourceIds: ["idsa-2024-amr", "tango-ii", "kpc-observational-outcomes"],
+        sourceIds: ["idsa-2026-amr", "tango-ii", "kpc-observational-outcomes"],
       },
     ],
     contaminationPitfalls: [],
@@ -264,14 +264,14 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
       {
         title: "KPC is a serine carbapenemase",
         detail: "That is why meropenem-vaborbactam, ceftazidime-avibactam, and imipenem-cilastatin-relebactam can still be rational options when the phenotype fits.",
-        sourceIds: ["idsa-2024-amr", "tango-ii", "restore-imi-1"],
+        sourceIds: ["idsa-2026-amr", "tango-ii", "restore-imi-1"],
       },
     ],
     breakpointCaveats: [
       {
         title: "A 'carbapenem susceptible' edge case does not erase the phenotype",
         detail: "When carbapenemase testing confirms KPC, use the KPC-active strategy rather than pretending a borderline traditional beta-lactam result restores routine therapy.",
-        sourceIds: ["idsa-2024-amr", "kpc-observational-outcomes"],
+        sourceIds: ["idsa-2026-amr", "kpc-observational-outcomes"],
       },
     ],
     preferredTherapyBySite: [
@@ -282,7 +282,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
         avoid: ["Routine cefepime, pip-tazo, or ceftriaxone continuation"],
         rationale: "The core decision is picking a serine-carbapenemase-active reserve beta-lactam and then protecting it with correct dosing and infusion strategy.",
         linkedMonographIds: ["meropenem-vaborbactam", "ceftazidime-avibactam", "imipenem-cilastatin-relebactam"],
-        sourceIds: ["idsa-2024-amr", "tango-ii", "restore-imi-1", "kpc-observational-outcomes"],
+        sourceIds: ["idsa-2026-amr", "tango-ii", "restore-imi-1", "kpc-observational-outcomes"],
       },
     ],
     breakpointRules: [
@@ -292,7 +292,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
         rapidDiagnostic: ["kpc"],
         detail: "A rapid KPC result should move you toward meropenem-vaborbactam or another KPC-active reserve agent while the rest of the panel catches up.",
         linkedMonographIds: ["meropenem-vaborbactam", "ceftazidime-avibactam"],
-        sourceIds: ["idsa-2024-amr", "tango-ii"],
+        sourceIds: ["idsa-2026-amr", "tango-ii"],
       },
     ],
     linkedMonographIds: ["meropenem-vaborbactam", "ceftazidime-avibactam", "imipenem-cilastatin-relebactam"],
@@ -305,13 +305,13 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
     id: "mbl-cre",
     name: "MBL-producing CRE",
     phenotype: "NDM / VIM / IMP metallo-beta-lactamase phenotype",
-    summary: "MBL-CRE is a false-reassurance phenotype: several 'advanced' beta-lactams fail here unless the strategy deliberately accounts for aztreonam protection or uses cefiderocol.",
+    summary: "MBL-CRE is a false-reassurance phenotype: several 'advanced' beta-lactams fail here unless the strategy uses aztreonam-avibactam, cefiderocol, or deliberate aztreonam protection with ceftazidime-avibactam.",
     likelySyndromes: ["MBL-CRE bacteremia", "Septic urinary-source CRE", "Resistant nosocomial pneumonia"],
     rapidDiagnosticInterpretation: [
       {
         title: "Rapid MBL signal changes the class logic immediately",
-        detail: "Once an MBL is on the board, ceftazidime-avibactam alone is not a rescue plan; the strategy must shift to cefiderocol or deliberate aztreonam pairing.",
-        sourceIds: ["idsa-2024-amr", "aztreonam-avibactam-evidence"],
+        detail: "Once an MBL is on the board, ceftazidime-avibactam alone is not a rescue plan; the strategy must shift to aztreonam-avibactam or cefiderocol (IDSA 2026 preferred), or deliberate aztreonam pairing when the fixed combination is unavailable.",
+        sourceIds: ["idsa-2026-amr", "aztreonam-avibactam-evidence"],
       },
     ],
     contaminationPitfalls: [],
@@ -319,24 +319,24 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
       {
         title: "Metallo-beta-lactamases hydrolyze nearly all beta-lactams except aztreonam",
         detail: "The practical problem is that co-produced serine beta-lactamases usually still destroy aztreonam unless avibactam protection is supplied.",
-        sourceIds: ["idsa-2024-amr", "aztreonam-avibactam-evidence"],
+        sourceIds: ["idsa-2026-amr", "aztreonam-avibactam-evidence"],
       },
     ],
     breakpointCaveats: [
       {
         title: "Ceftazidime-avibactam alone is not an MBL regimen",
         detail: "Avibactam does not inhibit NDM, VIM, or IMP by itself, so ceftazidime-avibactam monotherapy is false reassurance when MBL is the mechanism.",
-        sourceIds: ["idsa-2024-amr", "aztreonam-avibactam-evidence"],
+        sourceIds: ["idsa-2026-amr", "aztreonam-avibactam-evidence"],
       },
     ],
     preferredTherapyBySite: [
       {
         site: "MBL bloodstream, lung, or severe urinary infection",
-        preferred: "Ceftazidime-avibactam plus aztreonam or cefiderocol",
+        preferred: "Aztreonam-avibactam or cefiderocol (IDSA 2026); ceftazidime-avibactam plus aztreonam if aztreonam-avibactam is unavailable",
         avoid: ["Ceftazidime-avibactam monotherapy", "Meropenem-vaborbactam for true MBL phenotype"],
-        rationale: "This is the classic mechanism-over-brand-name problem: pick the regimen that actually neutralizes the enzyme pattern.",
+        rationale: "This is the classic mechanism-over-brand-name problem: pick the regimen that actually neutralizes the enzyme pattern. IDSA 2026 gives the fixed aztreonam-avibactam product a slight preference over the two-drug workaround.",
         linkedMonographIds: ["ceftazidime-avibactam", "aztreonam", "cefiderocol", "meropenem-vaborbactam"],
-        sourceIds: ["idsa-2024-amr", "aztreonam-avibactam-evidence", "credible-cr"],
+        sourceIds: ["idsa-2026-amr", "aztreonam-avibactam-evidence", "credible-cr"],
       },
     ],
     breakpointRules: [
@@ -346,7 +346,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
         rapidDiagnostic: ["mbl"],
         detail: "Do not keep ceftazidime-avibactam alone when the carbapenemase is an MBL.",
         linkedMonographIds: ["ceftazidime-avibactam", "aztreonam", "cefiderocol"],
-        sourceIds: ["idsa-2024-amr", "aztreonam-avibactam-evidence"],
+        sourceIds: ["idsa-2026-amr", "aztreonam-avibactam-evidence"],
       },
     ],
     linkedMonographIds: ["ceftazidime-avibactam", "aztreonam", "cefiderocol", "meropenem-vaborbactam"],
@@ -365,7 +365,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
       {
         title: "DTR Pseudomonas signal should redirect therapy before final AST",
         detail: "A rapid difficult-to-treat Pseudomonas signal is a cue to review prior beta-lactam exposure, site, and which novel anti-pseudomonal agent still matches the mechanism best.",
-        sourceIds: ["idsa-2024-amr", "aspect-np", "restore-imi-1"],
+        sourceIds: ["idsa-2026-amr", "aspect-np", "restore-imi-1"],
       },
     ],
     contaminationPitfalls: [
@@ -373,31 +373,31 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
         scenario: "Respiratory isolation without compatible syndrome",
         implication: "Pseudomonas from chronic airways can represent colonization rather than active pneumonia.",
         action: "Re-anchor treatment to imaging, oxygenation trend, and true respiratory infection phenotype before keeping maximal antipseudomonal therapy.",
-        sourceIds: ["ats-idsa-2016-hap-vap", "idsa-2024-amr"],
+        sourceIds: ["ats-idsa-2016-hap-vap", "idsa-2026-amr"],
       },
     ],
     resistanceMechanisms: [
       {
         title: "Efflux, porin loss, and AmpC all shape the drug fit",
         detail: "That is why the best agent is often mechanism-specific rather than simply the most familiar anti-pseudomonal beta-lactam.",
-        sourceIds: ["idsa-2024-amr"],
+        sourceIds: ["idsa-2026-amr"],
       },
     ],
     breakpointCaveats: [
       {
         title: "Susceptibility only matters if full exposure is delivered",
         detail: "In severe pneumonia or shock, underdosed short-infusion cefepime or meropenem can fail a technically susceptible isolate.",
-        sourceIds: ["idsa-2024-amr", "pkpd-stewardship"],
+        sourceIds: ["idsa-2026-amr", "pkpd-stewardship"],
       },
     ],
     preferredTherapyBySite: [
       {
         site: "Pneumonia or invasive DTR Pseudomonas infection",
-        preferred: "Ceftolozane-tazobactam, ceftazidime-avibactam, imipenem-cilastatin-relebactam, or cefiderocol based on mechanism and prior exposure",
-        alternatives: ["A traditional agent only if high-dose extended-infusion susceptibility remains dependable"],
+        preferred: "Ceftolozane-tazobactam, ceftazidime-avibactam, or imipenem-cilastatin-relebactam based on mechanism and prior exposure (ceftolozane-tazobactam preferred for pneumonia per IDSA 2026)",
+        alternatives: ["Cefiderocol (IDSA 2026 alternative outside the urinary tract; anchor when VIM/IMP is present)", "A traditional agent only if high-dose extended-infusion susceptibility remains dependable"],
         rationale: "The right novel agent depends on which resistance mechanism is actually present and whether MBL risk changes the field.",
         linkedMonographIds: ["ceftolozane-tazobactam", "ceftazidime-avibactam", "imipenem-cilastatin-relebactam", "cefiderocol", "cefepime", "meropenem"],
-        sourceIds: ["idsa-2024-amr", "aspect-np", "restore-imi-1", "credible-cr"],
+        sourceIds: ["idsa-2026-amr", "aspect-np", "restore-imi-1", "credible-cr"],
       },
     ],
     breakpointRules: [
@@ -407,7 +407,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
         interpretation: ["susceptible", "sdd"],
         detail: "Before defaulting to a reserve drug, verify whether a high-dose extended-infusion traditional anti-pseudomonal agent still covers the isolate and site.",
         linkedMonographIds: ["cefepime", "meropenem", "ceftolozane-tazobactam"],
-        sourceIds: ["idsa-2024-amr", "pkpd-stewardship"],
+        sourceIds: ["idsa-2026-amr", "pkpd-stewardship"],
       },
       {
         title: "MBL risk changes the novel beta-lactam choice",
@@ -415,7 +415,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
         rapidDiagnostic: ["mbl"],
         detail: "If the phenotype suggests an MBL-producing Pseudomonas, do not assume your usual novel beta-lactam still works.",
         linkedMonographIds: ["cefiderocol", "ceftolozane-tazobactam", "ceftazidime-avibactam"],
-        sourceIds: ["idsa-2024-amr", "credible-cr"],
+        sourceIds: ["idsa-2026-amr", "credible-cr"],
       },
     ],
     linkedMonographIds: ["ceftolozane-tazobactam", "ceftazidime-avibactam", "imipenem-cilastatin-relebactam", "cefiderocol", "cefepime", "meropenem"],
@@ -434,7 +434,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
       {
         title: "Routine antipseudomonal therapy is not a CRAB plan",
         detail: "When the isolate phenotype points to CRAB, step out of standard cefepime/pip-tazo logic and move into a CRAB-specific pathway.",
-        sourceIds: ["idsa-2024-amr", "attack", "credible-cr"],
+        sourceIds: ["idsa-2026-amr", "attack", "credible-cr"],
       },
     ],
     contaminationPitfalls: [
@@ -442,31 +442,31 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
         scenario: "Respiratory Acinetobacter in chronically colonized ICU patients",
         implication: "The organism can colonize the airway, but when the patient truly has VAP or bacteremia, routine bundles underperform badly.",
         action: "Use the syndrome plus phenotype together; do not treat colonization, but do not mistake true CRAB VAP for routine nosocomial pneumonia.",
-        sourceIds: ["idsa-2024-amr", "ats-idsa-2016-hap-vap"],
+        sourceIds: ["idsa-2026-amr", "ats-idsa-2016-hap-vap"],
       },
     ],
     resistanceMechanisms: [
       {
         title: "OXA carbapenemases and multidrug resistance drive the phenotype",
         detail: "That is why sulbactam-durlobactam changed practice and why cefiderocol monotherapy remains a caution story, not a reflex answer.",
-        sourceIds: ["idsa-2024-amr", "attack", "credible-cr"],
+        sourceIds: ["idsa-2026-amr", "attack", "credible-cr"],
       },
     ],
     breakpointCaveats: [
       {
         title: "Cefiderocol activity is not monotherapy permission in CRAB",
         detail: "The CRAB subgroup signal in CREDIBLE-CR is why many teams still frame cefiderocol as part of a combination strategy rather than a casual standalone default.",
-        sourceIds: ["credible-cr", "idsa-2024-amr"],
+        sourceIds: ["credible-cr", "idsa-2026-amr"],
       },
     ],
     preferredTherapyBySite: [
       {
         site: "Serious CRAB infection",
-        preferred: "Sulbactam-durlobactam-based therapy when available",
-        alternatives: ["Cefiderocol in carefully framed salvage or alternative pathways"],
-        rationale: "CRAB therapy is driven by phenotype-specific activity and should not be managed like ordinary ICU gram-negative pneumonia.",
+        preferred: "Sulbactam-durlobactam plus imipenem or meropenem (IDSA 2026 priority for invasive CRAB)",
+        alternatives: ["Bridge only until sulbactam-durlobactam is available: high-dose ampicillin-sulbactam plus cefiderocol, minocycline, or polymyxin B", "Cefiderocol, minocycline, or polymyxin B when resistance precludes sulbactam-durlobactam"],
+        rationale: "CRAB therapy is driven by phenotype-specific activity and should not be managed like ordinary ICU gram-negative pneumonia. IDSA 2026 treats every non-sulbactam-durlobactam regimen as bridge or resistance-driven salvage therapy.",
         linkedMonographIds: ["cefiderocol"],
-        sourceIds: ["idsa-2024-amr", "attack", "credible-cr"],
+        sourceIds: ["idsa-2026-amr", "attack", "credible-cr"],
       },
     ],
     breakpointRules: [
@@ -476,7 +476,7 @@ export const PATHOGEN_REFERENCES: PathogenReference[] = [
         interpretation: ["susceptible", "unknown"],
         detail: "Do not keep cycling cefepime or pip-tazo because the patient started there; once CRAB is the working phenotype, the routine HAP scaffold is no longer definitive therapy.",
         linkedMonographIds: ["cefepime", "pip-tazo", "cefiderocol"],
-        sourceIds: ["idsa-2024-amr", "attack"],
+        sourceIds: ["idsa-2026-amr", "attack"],
       },
     ],
     linkedMonographIds: ["cefiderocol"],

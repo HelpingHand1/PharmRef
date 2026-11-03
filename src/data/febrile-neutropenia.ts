@@ -347,7 +347,7 @@ const FEBRILE_NEUTROPENIA_BASE: DiseaseState = {
         {
           organism: "Enterococcus faecium (VRE) Bacteremia",
           preferred: "Daptomycin 6–10 mg/kg IV daily ± ampicillin (if ampicillin-susceptible, rare for E. faecium). Linezolid 600mg IV/PO BID (bacteriostatic — less preferred for bacteremia).",
-          alternative: "For selected stable patients with VRE UTI source: nitrofurantoin or fosfomycin (non-bacteremic only). Quinupristin-dalfopristin (Q/D) for E. faecium only (NOT E. faecalis) — significant myalgia, hepatotoxicity; rarely used.",
+          alternative: "For selected stable patients with VRE UTI source: nitrofurantoin or fosfomycin (non-bacteremic only). Quinupristin-dalfopristin (Synercid) is no longer marketed in the US (off-market since ~2022), so it is not a practical option.",
           notes: "VRE bacteremia mortality in neutropenic patients is 25–40%. Source identification and control is critical (GI/rectal reservoir, perianal abscess, compromised GI mucosa). High-dose daptomycin (8–10 mg/kg) recommended for VRE bacteremia. If daptomycin MIC is rising (≥4 mcg/mL): consider daptomycin + ampicillin combination (paradoxically, ampicillin increases VRE susceptibility to daptomycin even in ampicillin-resistant strains by disrupting cell wall synthesis and enhancing daptomycin membrane binding). Linezolid is bacteriostatic — myelosuppression risk with prolonged use in already cytopenics patients; reserve for salvage or oral step-down."
         },
         {
@@ -559,7 +559,7 @@ const FEBRILE_NEUTROPENIA_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcateg
       {
         title: "Persistent fever is not the same thing as resistant bacteria",
         detail: "At 24-48 hours, ongoing fever should trigger source review, mucositis assessment, and fungal risk review rather than automatic antibacterial stacking.",
-        sourceIds: ["nccn-fever-neutropenia", "idsa-2024-amr"],
+        sourceIds: ["nccn-fever-neutropenia", "idsa-2026-amr"],
       },
     ],
     reassessmentCheckpoints: [
@@ -572,7 +572,7 @@ const FEBRILE_NEUTROPENIA_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcateg
           "Document whether typhlitis, line infection, pneumonia, or perirectal disease is emerging.",
           "Check if prior fluoroquinolone prophylaxis or resistant-organism history changes the backbone agent.",
         ],
-        sourceIds: ["nccn-fever-neutropenia", "idsa-2024-amr"],
+        sourceIds: ["nccn-fever-neutropenia", "idsa-2026-amr"],
       },
       {
         window: "48h",
@@ -583,7 +583,7 @@ const FEBRILE_NEUTROPENIA_WORKFLOW_ENHANCEMENTS: Record<string, Partial<Subcateg
           "Keep carbapenem-level therapy only when prior or current microbiology truly requires it.",
           "Escalate the fungal workup instead of adding more antibacterial layers when fever persists without a bacterial target.",
         ],
-        sourceIds: ["nccn-fever-neutropenia", "idsa-2024-amr"],
+        sourceIds: ["nccn-fever-neutropenia", "idsa-2026-amr"],
       },
       {
         window: "definitive",

@@ -34,10 +34,10 @@ export const SSTI: DiseaseState = {
         ]
       },
       {
-        "name": "Surviving Sepsis Campaign 2021",
-        "detail": "Relevant for necrotizing fasciitis with sepsis — 1-hour antibiotic bundle, aggressive resuscitation, emergent surgical source control.",
+        "name": "Surviving Sepsis Campaign 2026",
+        "detail": "Relevant for necrotizing fasciitis with sepsis — antimicrobials within 1 hour, aggressive resuscitation, and emergent surgical source control (ideally within 6 hours per SSC 2026).",
         "sourceIds": [
-          "ssc-2021"
+          "ssc-2026"
         ]
       }
     ],

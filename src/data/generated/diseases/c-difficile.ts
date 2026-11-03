@@ -14,14 +14,15 @@ export const CDI: DiseaseState = {
     "keyGuidelines": [
       {
         "name": "IDSA/SHEA 2021 Focused Update",
-        "detail": "THE definitive CDI guideline. Major change from 2017: fidaxomicin is now PREFERRED over oral vancomycin for initial and recurrent CDI episodes (conditional recommendation). This was a significant shift driven by the EXTEND trial showing lower recurrence with fidaxomicin. Also formalized bezlotoxumab for recurrence prevention and updated FMT recommendations.",
+        "detail": "THE definitive CDI guideline. Major change from 2017: fidaxomicin is now PREFERRED over oral vancomycin for initial and recurrent CDI episodes (conditional recommendation). This was a significant shift driven by the EXTEND trial showing lower recurrence with fidaxomicin. It also suggested bezlotoxumab for recurrence prevention — but bezlotoxumab was discontinued by Merck in the US in January 2025 and is no longer available, so that recommendation no longer applies in practice. Updated FMT recommendations.",
         "sourceIds": [
-          "idsa-shea-2021-cdi"
+          "idsa-shea-2021-cdi",
+          "ashp-bezlotoxumab-discontinued"
         ]
       },
       {
         "name": "ACG 2021 CDI Guidelines",
-        "detail": "American College of Gastroenterology guidelines. Largely concordant with IDSA/SHEA but provides additional detail on diagnosis (two-step testing algorithm), fulminant disease management, and FMT. Stronger recommendation for fidaxomicin as first-line.",
+        "detail": "American College of Gastroenterology guidelines. Largely concordant with IDSA/SHEA but provides additional detail on diagnosis (two-step testing algorithm), fulminant disease management, and FMT. Unlike IDSA/SHEA 2021, ACG recommends either oral vancomycin or fidaxomicin for an initial non-severe episode without preferring fidaxomicin.",
         "sourceIds": [
           "acg-2021-cdi"
         ]
@@ -51,9 +52,10 @@ export const CDI: DiseaseState = {
       },
       {
         "name": "MODIFY I/II Trials (Wilcox et al., NEJM 2017)",
-        "detail": "RCTs establishing bezlotoxumab for CDI recurrence prevention. Bezlotoxumab (anti-toxin B monoclonal antibody) given as single IV infusion during CDI antibiotic treatment reduced recurrence from 27% to 17% (MODIFY I) and 26% to 16% (MODIFY II). NNT ~8-10. FDA-approved for CDI recurrence prevention in high-risk patients. Important: bezlotoxumab PREVENTS recurrence — it does not TREAT active CDI. Must be given alongside CDI antibiotics.",
+        "detail": "RCTs establishing bezlotoxumab for CDI recurrence prevention. Bezlotoxumab (anti-toxin B monoclonal antibody) given as single IV infusion during CDI antibiotic treatment reduced recurrence from 27% to 17% (MODIFY I) and 26% to 16% (MODIFY II). NNT ~8-10. Historical context only: Merck discontinued bezlotoxumab in the US in January 2025 and the EU marketing authorization was withdrawn in October 2026 (commercial reasons), so it is no longer an available recurrence-prevention option.",
         "sourceIds": [
-          "modify-trials"
+          "modify-trials",
+          "ashp-bezlotoxumab-discontinued"
         ]
       },
       {
@@ -185,8 +187,8 @@ export const CDI: DiseaseState = {
           "options": [
             {
               "drug": "bezlotoxumab",
-              "regimen": "Bezlotoxumab 10 mg/kg IV × 1 dose (during CDI antibiotic treatment)",
-              "notes": "Consider bezlotoxumab for severe CDI patients at high recurrence risk: age ≥65, immunocompromised, prior CDI episode, severe CDI (this category), NAP1/027 strain. The MODIFY trials showed ~10% absolute reduction in recurrence. NNT ~8-10. Given as a single infusion during the CDI treatment course. Does NOT treat active CDI — it prevents recurrence by neutralizing toxin B. Cost: ~$4,500 per infusion. CAUTION: heart failure exacerbation reported in patients with underlying CHF — use with caution in decompensated HF.",
+              "regimen": "DISCONTINUED — Bezlotoxumab (Zinplava) is no longer available (US discontinuation January 2025)",
+              "notes": "Do not order. Bezlotoxumab was previously suggested for severe CDI at high recurrence risk, but Merck discontinued it in the US in January 2025 and the EU authorization was withdrawn in October 2026. For high-recurrence-risk patients, use fidaxomicin for the treatment course when feasible and plan microbiome restoration (fecal microbiota spores [Vowst] or fecal microbiota, live-jslm [Rebyota]) after a recurrence.",
               "monographId": "bezlotoxumab",
               "id": "c-difficile/initial-severe/adjunctive-recurrence-prevention-in-severe-cdi/bezlotoxumab-1"
             }
@@ -317,8 +319,8 @@ export const CDI: DiseaseState = {
           "options": [
             {
               "drug": "bezlotoxumab",
-              "regimen": "Bezlotoxumab 10 mg/kg IV × 1 dose (during CDI antibiotic treatment)",
-              "notes": "Strongly consider for first recurrence — the MODIFY trials enrolled patients with recurrent CDI and showed benefit. Give as single infusion during the CDI treatment course. Particularly indicated if: age ≥65, immunocompromised, severe CDI, CDI while on concurrent antibiotics, NAP1/027 strain. NNT ~8-10. Cost ~$4,500 but may be cost-effective if it prevents hospitalization for subsequent recurrence.",
+              "regimen": "DISCONTINUED — Bezlotoxumab (Zinplava) is no longer available (US discontinuation January 2025)",
+              "notes": "Do not order. Bezlotoxumab was previously suggested at first recurrence based on the MODIFY trials, but it has been discontinued. For a first recurrence, use fidaxomicin (standard or extended-pulsed) or a vancomycin taper-and-pulse, and consider a microbiota-based therapy (Vowst or Rebyota) after the antibiotic course for patients at high risk of further recurrence.",
               "monographId": "bezlotoxumab",
               "id": "c-difficile/first-recurrence/adjunctive-recurrence-prevention/bezlotoxumab-1"
             }
@@ -327,7 +329,7 @@ export const CDI: DiseaseState = {
       ],
       "organismSpecific": [],
       "pearls": [
-        "THE FIRST RECURRENCE IS THE MOST IMPORTANT TREATMENT DECISION IN CDI: Get it right, and you break the recurrence cycle. Get it wrong (e.g., another standard vancomycin course), and recurrence risk escalates to 40-65% for subsequent episodes. Use fidaxomicin, add bezlotoxumab if risk factors, and plan for microbiome restoration.",
+        "THE FIRST RECURRENCE IS THE MOST IMPORTANT TREATMENT DECISION IN CDI: Get it right, and you break the recurrence cycle. Get it wrong (e.g., another standard vancomycin course), and recurrence risk escalates to 40-65% for subsequent episodes. Use fidaxomicin and plan for microbiome restoration (bezlotoxumab is no longer available).",
         "FIDAXOMICIN FOR RECURRENCE — THE COST-EFFECTIVENESS ARGUMENT: Fidaxomicin costs ~$3,000-5,000/course. A CDI recurrence requiring hospitalization costs $15,000-50,000+. If fidaxomicin reduces recurrence by 50%, it is COST-EFFECTIVE for high-risk patients. Frame the cost discussion this way when advocating for formulary access.",
         "VANCOMYCIN TAPER-AND-PULSE REQUIRES PATIENT EDUCATION: The tapering schedule is confusing for patients. Write out the exact schedule with dates on the prescription. Call the patient mid-taper to ensure adherence. A pharmacist phone call can prevent a recurrence.",
         "CONCOMITANT ANTIBIOTICS DRIVE RECURRENCE: If the patient is on systemic antibiotics for another infection during CDI treatment, recurrence risk approximately DOUBLES. Narrow the concurrent antibiotics as aggressively as possible. Choose low C. diff risk agents (doxycycline, TMP-SMX) over high-risk agents (fluoroquinolones, clindamycin, broad-spectrum cephalosporins)."
@@ -396,8 +398,8 @@ export const CDI: DiseaseState = {
           "options": [
             {
               "drug": "bezlotoxumab",
-              "regimen": "Bezlotoxumab 10 mg/kg IV × 1 (during CDI antibiotic treatment, before FMT)",
-              "notes": "Can be used in combination with FMT for multiply recurrent CDI. Give during the antibiotic treatment phase (before FMT). Neutralizes toxin B to reduce recurrence risk while microbiome restoration occurs. Cost-effective in multiply recurrent patients given the high per-episode hospitalization cost.",
+              "regimen": "DISCONTINUED — Bezlotoxumab (Zinplava) is no longer available (US discontinuation January 2025)",
+              "notes": "Do not order. Bezlotoxumab was previously paired with FMT for multiply recurrent CDI, but it has been discontinued. Rely on suppressive antibiotic therapy followed by microbiome restoration (FMT, Vowst, or Rebyota) for multiply recurrent CDI.",
               "monographId": "bezlotoxumab",
               "id": "c-difficile/multiple-recurrences/adjunctive-for-multiple-recurrences/bezlotoxumab-1"
             }
@@ -436,8 +438,8 @@ export const CDI: DiseaseState = {
           "options": [
             {
               "drug": "immunocompromised-cdi",
-              "regimen": "Fidaxomicin (preferred) + bezlotoxumab (strongly consider) + close monitoring for severity progression",
-              "notes": "Immunocompromised patients (solid organ transplant, hematologic malignancy, chemotherapy, chronic steroids) have higher CDI incidence, severity, recurrence, and mortality. Low threshold for bezlotoxumab (MODIFY trials showed significant benefit in this subgroup). Close monitoring — immunosuppressed patients may not mount typical WBC response, so traditional severity markers may be unreliable. FMT: historically cautious in severely immunocompromised (theoretical risk of donor-derived bacteremia through disrupted mucosa), but safety data is accumulating. Consult ID and GI.",
+              "regimen": "Fidaxomicin (preferred) + close monitoring for severity progression",
+              "notes": "Immunocompromised patients (solid organ transplant, hematologic malignancy, chemotherapy, chronic steroids) have higher CDI incidence, severity, recurrence, and mortality. Bezlotoxumab was previously favored in this subgroup but has been discontinued (US, January 2025), so recurrence prevention now rests on fidaxomicin and microbiome restoration. Close monitoring — immunosuppressed patients may not mount typical WBC response, so traditional severity markers may be unreliable. FMT: historically cautious in severely immunocompromised (theoretical risk of donor-derived bacteremia through disrupted mucosa), but safety data is accumulating. Consult ID and GI.",
               "id": "c-difficile/special-populations/cdi-in-immunocompromised-patients/immunocompromised-cdi-1"
             }
           ]
@@ -718,7 +720,7 @@ export const CDI: DiseaseState = {
     {
       "id": "bezlotoxumab",
       "name": "Bezlotoxumab",
-      "brandNames": "Zinplava",
+      "brandNames": "Zinplava (DISCONTINUED — US January 2025; EU authorization withdrawn October 2026)",
       "drugClass": "Human monoclonal antibody (anti-toxin B)",
       "mechanismOfAction": "Binds and neutralizes C. difficile toxin B, the primary virulence factor mediating colonic epithelial damage. Does NOT have direct antibacterial activity — it does NOT kill C. diff organisms. Mechanism of action is PREVENTION of recurrence, not treatment of active disease. By neutralizing toxin B, bezlotoxumab reduces mucosal damage during any subsequent C. diff re-exposure, giving the host microbiome time to recover colonization resistance. Must be used IN CONJUNCTION with CDI-directed antibiotic therapy — it is not a standalone treatment.",
       "spectrum": "Not applicable — bezlotoxumab is not an antibiotic. It is a toxin-neutralizing antibody. Effective only against C. difficile toxin B. Does not have direct antimicrobial activity against any organism.",
@@ -730,7 +732,7 @@ export const CDI: DiseaseState = {
       "hepaticAdjustment": "No dose adjustment — not hepatically metabolized in the traditional sense. Monoclonal antibody cleared by reticuloendothelial system.",
       "adverseEffects": {
         "common": "Infusion reactions (10% — nausea, fatigue, fever, headache, dizziness), nausea, diarrhea (ironic but usually mild and self-limited)",
-        "serious": "Heart failure exacerbation (MODIFY trials reported higher rates of heart failure events in bezlotoxumab-treated patients with underlying CHF — 12.7% vs 4.8%). FDA boxed warning for heart failure. Use with caution in decompensated HF.",
+        "serious": "Heart failure exacerbation (MODIFY trials reported higher rates of heart failure events in bezlotoxumab-treated patients with underlying CHF — 12.7% vs 4.8%). Labeled warning (not a boxed warning). Use with caution in decompensated HF.",
         "rare": "Serious infusion reactions, anaphylaxis (very rare)"
       },
       "drugInteractions": [
@@ -740,17 +742,18 @@ export const CDI: DiseaseState = {
       "monitoring": "Monitor for infusion reactions during and 1 hour after administration. In patients with heart failure: monitor volume status, weight, and symptoms of HF exacerbation. No drug levels available. Efficacy monitoring: assess for CDI recurrence at 4, 8, and 12 weeks post-treatment.",
       "pregnancyLactation": "No adequate human data. Animal studies (monoclonal antibodies cross placenta) — theoretical fetal exposure. Use only if clearly needed. Unknown if excreted in breast milk.",
       "pharmacistPearls": [
+        "NO LONGER AVAILABLE: Merck discontinued Zinplava in the US in January 2025 (sole supplier), and the EU marketing authorization was withdrawn in October 2026 for commercial reasons. This monograph is retained for historical reference and for interpreting older records — use fidaxomicin plus microbiome restoration (Vowst, Rebyota, or FMT) for recurrence prevention instead.",
         "PREVENTION, NOT TREATMENT: Bezlotoxumab does not treat active CDI. It prevents recurrence by neutralizing toxin B. Always use with CDI antibiotics. If a patient is acutely symptomatic, they need vancomycin or fidaxomicin — bezlotoxumab alone will not resolve the episode.",
         "TARGET THE RIGHT PATIENTS: Not every CDI patient needs bezlotoxumab (NNT ~8-10). Highest value in: age ≥65, immunocompromised, recurrent CDI (any prior episode), severe CDI, CDI while on concurrent antibiotics, NAP1/027 strain. For a young, healthy patient with a first mild episode, the benefit is marginal and cost is high.",
-        "HEART FAILURE CAUTION: The MODIFY trials flagged higher HF events in patients with underlying CHF. This is an FDA boxed warning. For CDI patients with active decompensated HF, the risk-benefit calculation is less favorable. In compensated HF, most experts still use bezlotoxumab with close monitoring — the CDI recurrence risk may outweigh the HF risk.",
+        "HEART FAILURE CAUTION: The MODIFY trials flagged higher HF events in patients with underlying CHF. This is a labeled warning (not a boxed warning). For CDI patients with active decompensated HF, the risk-benefit calculation is less favorable. In compensated HF, most experts still use bezlotoxumab with close monitoring — the CDI recurrence risk may outweigh the HF risk.",
         "TIMING MATTERS: Give bezlotoxumab DURING CDI antibiotic treatment, not after completion. The half-life is ~19 days, so a single dose provides weeks of toxin neutralization through the highest-risk period for recurrence. If a patient has already completed CDI antibiotics, bezlotoxumab can still be given, but timing during treatment is preferred.",
         "COST-EFFECTIVENESS IN RECURRENT CDI: At ~$4,500 per infusion, bezlotoxumab is expensive for a single dose. But for patients at high recurrence risk, preventing even ONE CDI hospitalization ($15,000-50,000+) makes it cost-effective. The strongest cost-effectiveness data is in patients with ≥1 prior CDI recurrence."
       ],
       "dosingByIndication": [
         {
-          "label": "Adjunctive recurrence prevention during CDI treatment",
-          "regimen": "10 mg/kg IV x 1 dose during active CDI antibiotic therapy",
-          "notes": "Use as a recurrence-prevention adjunct, not as treatment for the current infection by itself."
+          "label": "Adjunctive recurrence prevention during CDI treatment (historical — product discontinued)",
+          "regimen": "10 mg/kg IV x 1 dose during active CDI antibiotic therapy — no longer available (US discontinuation January 2025)",
+          "notes": "Historical labeled regimen only. The product is no longer marketed; use fidaxomicin and microbiome restoration for recurrence prevention."
         }
       ],
       "renalReplacement": [

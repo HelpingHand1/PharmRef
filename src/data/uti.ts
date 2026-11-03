@@ -64,6 +64,14 @@ const UTI_BASE: DiseaseState = {
           ],
         },
         {
+          line: "Newer Oral Agents (FDA-Approved 2024–2025)",
+          options: [
+            { drug: "pivmecillinam", regimen: "Pivmecillinam 185mg PO TID × 3–7 days", notes: "FDA-approved April 2024 (Pivya) for uUTI in women ≥18 caused by E. coli, P. mirabilis, or S. saprophyticus; a first-line agent in European guidance for decades and listed as a first-line option where available in IDSA/ESCMID 2011. Retains activity against many ESBL-producing E. coli (IDSA 2026 AMR preferred for ESBL-E cystitis). Pivalate prodrug — avoid in carnitine deficiency and avoid prolonged or repeated courses. Take with or without food." },
+            { drug: "gepotidacin", regimen: "Gepotidacin 1,500mg PO BID × 5 days (take after a meal)", notes: "FDA-approved March 2025 (Blujepa) for uUTI in females ≥12 years (≥40 kg). First-in-class triazaacenaphthylene topoisomerase inhibitor with a binding site distinct from fluoroquinolones; non-inferior to nitrofurantoin in EAGLE-2/3. IDSA 2026 AMR preferred for ESBL-E cystitis. GI effects (diarrhea, nausea) are common; review the label for QTc and CYP3A4 interaction cautions. Best reserved for resistant organisms or when first-line agents are unsuitable." },
+            { drug: "sulopenem", regimen: "Sulopenem etzadroxil/probenecid 500mg/500mg PO BID × 5 days (with food)", notes: "FDA-approved October 2024 (Orlynvah) ONLY for uUTI in adult women with limited or no alternative oral antibacterial options — not for cUTI or pyelonephritis. Oral penem (carbapenem class): reserve to protect carbapenem activity. Probenecid raises levels of other renally secreted drugs (e.g., methotrexate, some beta-lactams)." },
+          ],
+        },
+        {
           line: "AVOID for Uncomplicated Cystitis",
           options: [
             { drug: "fluoroquinolones", regimen: "Ciprofloxacin, Levofloxacin", notes: "FDA boxed warning — reserve for infections with no other options. Massive collateral ecological damage. Risk of tendinopathy, aortic dissection, QT prolongation, CNS effects, peripheral neuropathy. IDSA explicitly recommends AGAINST for uncomplicated cystitis." },
@@ -71,7 +79,7 @@ const UTI_BASE: DiseaseState = {
         },
       ],
       organismSpecific: [
-        { organism: "E. coli (75-95%)", preferred: "Per empiric guidelines above — nitrofurantoin, TMP-SMX (if susceptible), fosfomycin", alternative: "Cephalexin, cefpodoxime, amox-clav", notes: "Dominant pathogen. Rising resistance to TMP-SMX (15-25% in US) and fluoroquinolones (10-20%). Always check local antibiogram." },
+        { organism: "E. coli (75-95%)", preferred: "Per empiric guidelines above — nitrofurantoin, TMP-SMX (if susceptible), fosfomycin", alternative: "Pivmecillinam, gepotidacin; cephalexin, cefpodoxime, amox-clav", notes: "Dominant pathogen. Rising resistance to TMP-SMX (15-25% in US) and fluoroquinolones (10-20%). Always check local antibiogram." },
         { organism: "Klebsiella pneumoniae (5-10%)", preferred: "TMP-SMX (if susceptible), cephalexin, cefpodoxime", alternative: "Amox-clav, fluoroquinolone", notes: "Intrinsically resistant to ampicillin. Watch for ESBL producers. Nitrofurantoin has borderline activity — generally avoid." },
         { organism: "Staphylococcus saprophyticus (5-10%)", preferred: "Nitrofurantoin, TMP-SMX, cephalexin", alternative: "Amox-clav", notes: "Second most common cause in young sexually active women. Typically very susceptible. Nitrite test often NEGATIVE (doesn't reduce nitrates)." },
         { organism: "Proteus mirabilis (3-5%)", preferred: "TMP-SMX (if susceptible), amox-clav, cephalosporins", alternative: "Fluoroquinolone", notes: "Intrinsically resistant to nitrofurantoin. Urease producer — associated with struvite stones. Alkaline urine is a clue." },
@@ -91,7 +99,7 @@ const UTI_BASE: DiseaseState = {
       name: "Complicated UTI",
       definition: "Per IDSA 2025 reclassification: UTI with localized symptoms AND systemic signs (fever ≥38°C, hemodynamic instability, or signs of sepsis) suggesting infection beyond the bladder. Also includes UTI with indwelling urinary catheter. IMPORTANT: The 2025 guidelines shift classification from anatomy-based (old: structural abnormalities, male sex) to symptom-based (new: presence of systemic signs at point-of-care). Pyelonephritis with fever is now classified as cUTI. Male UTI with fever is cUTI. Male UTI without systemic signs may be treated as uncomplicated.",
       clinicalPresentation: "Fever ≥38°C, flank pain, CVA tenderness, rigors, hemodynamic instability, altered mental status — any systemic sign suggesting infection beyond the bladder. The 2025 classification emphasizes point-of-care assessment: vital signs and catheter status are the primary drivers, NOT anatomical workup.",
-      diagnostics: "Urine culture is REQUIRED (pre-treatment). Blood cultures if systemic signs or sepsis suspected. Assess severity: is the patient septic? Use Sepsis-3 criteria (SOFA ≥2), qSOFA, or SIRS as screening tools. CBC, BMP, lactate if sepsis concern. Imaging (CT/US) if obstruction, abscess, or failure to improve at 48-72h.",
+      diagnostics: "Urine culture is REQUIRED (pre-treatment). Blood cultures if systemic signs or sepsis suspected. Assess severity: is the patient septic? Screen with NEWS/NEWS2, MEWS, or SIRS rather than qSOFA alone (SSC 2026), and confirm organ dysfunction with Sepsis-3 criteria (SOFA ≥2). CBC, BMP, lactate if sepsis concern. Imaging (CT/US) if obstruction, abscess, or failure to improve at 48-72h.",
       empiricTherapy: [
         {
           line: "IDSA 2025 Four-Step Approach",
@@ -119,7 +127,7 @@ const UTI_BASE: DiseaseState = {
         {
           line: "Newer Agents (Reserve — NOT First-Line per IDSA 2025)",
           options: [
-            { drug: "newer-agents", regimen: "Ceftazidime-avibactam, Meropenem-vaborbactam, Ceftolozane-tazobactam, Cefiderocol, Plazomicin", notes: "IDSA 2025 explicitly recommends AGAINST using novel BL-BLI agents and cefiderocol as empiric first-line, even in sepsis. Reserve for definitive therapy of MDR/XDR organisms (CRE, MBL-producers, DTR Pseudomonas). This is a major stewardship statement — protect these agents." },
+            { drug: "newer-agents", regimen: "Ceftazidime-avibactam, Meropenem-vaborbactam, Imipenem-relebactam, Ceftolozane-tazobactam, Cefiderocol, Plazomicin, Cefepime-enmetazobactam, Aztreonam-avibactam, Cefepime-zidebactam, oral Tebipenem", notes: "IDSA 2025 explicitly recommends AGAINST using novel BL-BLI agents and cefiderocol as empiric first-line, even in sepsis. Reserve for definitive therapy of MDR/XDR organisms (CRE, MBL-producers, DTR Pseudomonas) — see the AMR Gram-Negative topic for phenotype-specific choices. Approved in 2026, after IDSA 2026 AMR was finalized: cefepime-zidebactam (Zaynich, IV; FDA May 2026 for cUTI including pyelonephritis; label 3g [cefepime 2g + zidebactam 1g] IV q8h over 1h for 7–10 days when eGFR ≥60, renally adjusted) and tebipenem pivoxil (Utebzi, the first ORAL carbapenem; FDA June 2026 for cUTI including pyelonephritis in adults with limited or no oral alternatives; label 600mg PO q6h when eGFR ≥60, reduced for lower eGFR). Treat oral tebipenem as a carbapenem: reserve it for confirmed resistant organisms with no other oral option, not as routine ESBL step-down." },
           ],
         },
         {
@@ -138,10 +146,10 @@ const UTI_BASE: DiseaseState = {
         },
       ],
       organismSpecific: [
-        { organism: "ESBL-producing Enterobacterales", preferred: "Carbapenems (ertapenem 1g IV daily for non-Pseudomonal; meropenem if Pseudomonas risk)", alternative: "IDSA 2025 lists novel BL-BLIs for definitive therapy of confirmed ESBL. Pip-tazo controversial per MERINO trial for bacteremia but IDSA 2025 does not exclude it for UTI-source if susceptible.", notes: "MERINO Trial (2018, JAMA): Pip-tazo inferior to meropenem for ESBL E. coli/Kleb bacteremia. For ESBL cUTI without bacteremia, pip-tazo may suffice if MIC ≤16. Nitrofurantoin or fosfomycin may work for ESBL cystitis (uncomplicated). IDSA 2025 Step 2: prior urine culture showing ESBL = avoid cephalosporins/pip-tazo empirically → go to carbapenem." },
+        { organism: "ESBL-producing Enterobacterales", preferred: "TMP-SMX, ciprofloxacin, or levofloxacin when susceptible (IDSA 2026 AMR preferred for ESBL-E cUTI); carbapenems (ertapenem 1g IV daily, or meropenem if critically ill) when those are not options", alternative: "IV fosfomycin, once-daily aminoglycosides, or piperacillin-tazobactam (IDSA 2026 AMR alternatives for ESBL-E cUTI). Reserve novel BL-BLIs for CRE.", notes: "MERINO Trial (2018, JAMA): Pip-tazo inferior to meropenem for ESBL E. coli/Kleb bacteremia — IDSA 2026 accepts pip-tazo only as an alternative for ESBL-E cUTI, not for invasive disease outside the urinary tract. Avoid cefepime for ESBL-E cUTI. ESBL cystitis: nitrofurantoin, TMP-SMX, gepotidacin, pivmecillinam, oral sulopenem, or a single aminoglycoside dose are preferred; oral fosfomycin for E. coli. IDSA 2025 cUTI Step 2: prior urine culture showing ESBL = avoid cephalosporins empirically → choose a carbapenem (or an active oral agent if not septic)." },
         { organism: "Pseudomonas aeruginosa", preferred: "Cefepime, pip-tazo, meropenem (IV); Ciprofloxacin (only reliable oral anti-pseudomonal)", alternative: "Ceftazidime, tobramycin", notes: "Culture-guided therapy essential. IDSA 2025 Step 2: if prior urine culture grew Pseudomonas, select agent with known activity. Cipro is the only oral option with reliable Pseudomonal activity — critical for step-down." },
         { organism: "Enterococcus faecium (VRE)", preferred: "Linezolid 600mg PO/IV BID, Nitrofurantoin (if cystitis only)", alternative: "Fosfomycin (limited data), Daptomycin (poor urinary excretion — unreliable for UTI)", notes: "Confirm true infection vs colonization. Many VRE UTIs are ASB. Linezolid achieves urinary concentrations. IDSA 2025 does not specifically address VRE UTI in the cUTI guideline — expert opinion applies." },
-        { organism: "CRE (Carbapenem-Resistant Enterobacterales)", preferred: "Ceftazidime-avibactam (KPC), Meropenem-vaborbactam (KPC), Cefiderocol (MBL/broad)", alternative: "Plazomicin, Imipenem-relebactam", notes: "IDSA 2025 explicitly reserves these novel agents for DEFINITIVE therapy of confirmed resistant organisms. Do NOT use empirically unless prior cultures confirm CRE. Know your mechanism: KPC → ceftaz-avi or mer-vab. MBL (NDM, VIM) → cefiderocol or aztreonam + ceftaz-avi." },
+        { organism: "CRE (Carbapenem-Resistant Enterobacterales)", preferred: "Ciprofloxacin, levofloxacin, or TMP-SMX when susceptible (IDSA 2026 AMR preferred for CRE cUTI); otherwise mechanism-directed: KPC → ceftazidime-avibactam, meropenem-vaborbactam, or imipenem-relebactam; MBL → aztreonam-avibactam or cefiderocol", alternative: "Once-daily aminoglycoside (plazomicin or amikacin); ceftazidime-avibactam + aztreonam for MBL if aztreonam-avibactam unavailable", notes: "IDSA 2025 explicitly reserves novel agents for DEFINITIVE therapy of confirmed resistant organisms. Do NOT use empirically unless prior cultures confirm CRE. Know your mechanism: KPC → ceftaz-avi, mer-vab, or imi-rel. OXA-48-like → ceftaz-avi. MBL (NDM, VIM, IMP) → aztreonam-avibactam or cefiderocol (IDSA 2026)." },
       ],
       pearls: [
         "IDSA 2025 RECLASSIFICATION: The biggest conceptual change — complicated vs uncomplicated UTI is now based on SYMPTOMS (systemic signs like fever, hemodynamic instability), NOT anatomy. A male with cystitis symptoms only and no fever may be treated as uncomplicated. This is a paradigm shift from the old 'male UTI = always complicated' teaching.",
@@ -162,17 +170,17 @@ const UTI_BASE: DiseaseState = {
       clinicalPresentation: "Fever (>38°C), flank pain, costovertebral angle (CVA) tenderness, with or without lower urinary tract symptoms. Nausea, vomiting common. May present with sepsis. Per IDSA 2025: the presence of fever makes this a complicated UTI by new classification.",
       diagnostics: "Urine culture REQUIRED. Blood cultures recommended (bacteremia present in 15-30% of cases). CBC, BMP (assess renal function). CT abdomen/pelvis if: no improvement at 48-72h, suspected obstruction, or abscess concern.",
       durationGuidance: {
-        standard: "7 days (fluoroquinolone IV→PO)",
-        severe: "14 days (complex/bacteremic)",
+        standard: "5–7 days (fluoroquinolone) or 7 days (non-fluoroquinolone) — IDSA 2025",
+        severe: "7 days even with gram-negative bacteremia if improving; longer for abscess, obstruction, or suspected prostatitis",
         opatNote: "IV→PO switch appropriate once afebrile ≥24h and tolerating oral intake",
-        stewardshipNote: "IDSA 2011 recommends ciprofloxacin 500mg BID × 7d or TMP-SMX × 14d",
+        stewardshipNote: "IDSA 2025 cUTI guidance (which includes acute pyelonephritis) supersedes the 2011 durations: 5–7 days of a fluoroquinolone or 7 days of a non-fluoroquinolone agent rather than 10–14 days. The old 14-day TMP-SMX course is no longer the standard.",
       },
       empiricTherapy: [
         {
           line: "Outpatient (Uncomplicated, Tolerating PO, Not Septic)",
           options: [
-            { drug: "ciprofloxacin", regimen: "Ciprofloxacin 500mg PO BID × 7 days", notes: "IDSA first-line for outpatient pyelo IF local FQ resistance <10%. 7-day course is established.", evidence: "A-I", evidenceSource: "IDSA 2011" },
-            { drug: "tmp-smx", regimen: "TMP-SMX DS PO BID × 14 days", notes: "Alternative if FQ cannot be used. Requires 14 days (longer than FQ). IDSA recommends a one-time IV dose of ceftriaxone 1g or aminoglycoside with initiation if using TMP-SMX empirically (pending cultures).", evidence: "B-II", evidenceSource: "IDSA 2011" },
+            { drug: "ciprofloxacin", regimen: "Ciprofloxacin 500mg PO BID × 5–7 days", notes: "First-line for outpatient pyelo IF local FQ resistance <10% and no FQ exposure in the past 12 months (IDSA 2025 Step 2). IDSA 2025: 5–7 days of a fluoroquinolone.", evidence: "A-I", evidenceSource: "IDSA 2011; IDSA 2025 cUTI" },
+            { drug: "tmp-smx", regimen: "TMP-SMX DS PO BID × 7 days", notes: "Alternative if FQ cannot be used and the isolate is susceptible. IDSA 2025 suggests 7 days for non-fluoroquinolone agents (replacing the 2011 14-day course). If starting TMP-SMX empirically before susceptibilities, give a one-time IV dose of ceftriaxone 1g or an aminoglycoside (IDSA 2011).", evidence: "B-II", evidenceSource: "IDSA 2011; IDSA 2025 cUTI" },
             { drug: "ceftriaxone-oral-step", regimen: "Ceftriaxone 1g IV/IM × 1 dose THEN oral step-down (cefpodoxime, TMP-SMX, or FQ per susceptibility)", notes: "Excellent strategy for ED-treat-and-release. The single IV dose provides immediate high tissue levels while you await culture results for definitive oral selection.", evidence: "B-II", evidenceSource: "IDSA 2011" },
           ],
         },
@@ -192,7 +200,7 @@ const UTI_BASE: DiseaseState = {
         },
       ],
       organismSpecific: [
-        { organism: "E. coli (>80%)", preferred: "Fluoroquinolone (outpatient) or ceftriaxone (inpatient)", alternative: "TMP-SMX if susceptible (14-day course)", notes: "Dominant pathogen. Bacteremia common. ESBL E. coli pyelo rising — always check prior cultures." },
+        { organism: "E. coli (>80%)", preferred: "Fluoroquinolone (outpatient) or ceftriaxone (inpatient)", alternative: "TMP-SMX if susceptible (7-day course per IDSA 2025)", notes: "Dominant pathogen. Bacteremia common. ESBL E. coli pyelo rising — always check prior cultures." },
         { organism: "Proteus, Klebsiella, Enterobacter", preferred: "Ceftriaxone, fluoroquinolone", alternative: "Pip-tazo, carbapenems for resistant isolates", notes: "Proteus + stones = think struvite/staghorn calculus. Enterobacter: avoid ceftriaxone (AmpC induction risk) — use cefepime instead." },
       ],
       pearls: [
@@ -285,9 +293,9 @@ const UTI_BASE: DiseaseState = {
       brandNames: "Bactrim, Bactrim DS, Septra, Sulfatrim",
       drugClass: "Folate pathway inhibitor (dihydrofolate reductase inhibitor + dihydropteroate synthase inhibitor)",
       mechanismOfAction: "Sequential blockade of folate synthesis. Trimethoprim inhibits dihydrofolate reductase (DHFR); sulfamethoxazole inhibits dihydropteroate synthase (DHPS). Synergistic bactericidal effect due to dual pathway inhibition.",
-      spectrum: "Broad: E. coli, Proteus, Klebsiella (variable), S. saprophyticus, MRSA (PO option!), Stenotrophomonas maltophilia (drug of choice), PJP, Nocardia, Listeria, Toxoplasma. GAPS: Pseudomonas, Enterococci, Anaerobes, Group A & B Strep.",
+      spectrum: "Broad: E. coli, Proteus, Klebsiella (variable), S. saprophyticus, MRSA (PO option!), Stenotrophomonas maltophilia (combination component only — IDSA 2026 prefers cefiderocol), PJP, Nocardia, Listeria, Toxoplasma. GAPS: Pseudomonas, Enterococci, Anaerobes, Group A & B Strep.",
       dosing: {
-        standard: "1 DS tab (160/800mg) PO BID × 3 days (cystitis), 7-14 days (complicated UTI/pyelo)",
+        standard: "1 DS tab (160/800mg) PO BID × 3 days (cystitis), 7 days (complicated UTI/pyelonephritis per IDSA 2025; longer for prostatitis)",
         uti: "DS PO BID × 3 days for uncomplicated cystitis",
         prostatitis: "DS PO BID × 4-6 weeks (excellent prostatic penetration)",
         mrsa: "1-2 DS PO BID (skin/soft tissue)",
@@ -364,8 +372,8 @@ const UTI_BASE: DiseaseState = {
       spectrum: "Excellent gram-negative: E. coli, Klebsiella, Proteus, Pseudomonas aeruginosa (most reliable oral anti-pseudomonal agent), Salmonella, Shigella, H. influenzae. Moderate: some atypicals (Legionella, Mycoplasma). GAPS: Poor gram-positive (especially Streptococcus pneumoniae — never use for CAP), MRSA, Anaerobes.",
       dosing: {
         uncomplicated_uti: "250mg PO BID × 3 days or Cipro XR 500mg daily × 3 days (but should be AVOIDED for uncomplicated cystitis per IDSA/FDA)",
-        complicated_uti: "500mg PO BID × 7-14 days",
-        pyelonephritis: "500mg PO BID × 7 days",
+        complicated_uti: "500mg PO BID × 5-7 days (IDSA 2025; longer for prostatitis)",
+        pyelonephritis: "500mg PO BID × 5-7 days (IDSA 2025)",
         iv: "400mg IV q12h (equivalent to 500mg PO — excellent bioavailability makes IV rarely necessary if GI tract functional)",
         pseudomonal: "750mg PO BID or 400mg IV q8h for serious Pseudomonal infections",
       },

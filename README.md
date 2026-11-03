@@ -7,11 +7,26 @@ PharmRef is a TypeScript + React + Vite clinical pharmacy reference app. It orga
 - 16 clinical topics
 - 68 care pathways
 - 43 unique drug monographs
+- 9 pathogen reference pages
 - React 18 + Vite 7 + TypeScript 5
 - PWA build via `vite-plugin-pwa`
-- Static topic-content modules under `src/data/*.ts`
-- Structured topic-level review metadata and source tracking
+- Authored topic content under `src/data/*.ts`, compiled into generated runtime modules under `src/data/generated/`
+- Structured review metadata, source registry, and content-approval fingerprints
 - Build-time content validation via `npm run validate:content`
+
+### Content currency
+
+The catalog was last fully reviewed on April 5, 2026. On November 3, 2026, the topics below were updated to newer guidance and signed off by a pharmacist (see [Content pipeline](docs/content-pipeline.md)):
+
+| Topic | Now based on |
+| --- | --- |
+| Sepsis & Septic Shock | Surviving Sepsis Campaign 2026 |
+| Community-Acquired Pneumonia | ATS 2025 CAP guideline update (with ATS/IDSA 2019) |
+| AMR Gram-Negative Infections, Advanced Agents | IDSA 2026 AMR guidance |
+| Bacteremia & Endocarditis | AHA 2026 IE scientific statement, IDSA/ESCMID 2026 SAB consensus, ESC 2023 |
+| Urinary Tract Infections | IDSA 2025 cUTI + 2024–2026 FDA approvals (pivmecillinam, gepotidacin, sulopenem, cefepime-zidebactam, tebipenem) |
+| Fungal Infections | ECMM/ISHAM/ASM 2025 global candidiasis guideline (with IDSA 2016) |
+| C. difficile Infection | IDSA/SHEA 2021; bezlotoxumab flagged as discontinued |
 
 ### Included clinical topics
 
@@ -26,7 +41,7 @@ PharmRef is a TypeScript + React + Vite clinical pharmacy reference app. It orga
 9. Bone & Joint Infections
 10. CNS Infections
 11. Fungal Infections
-12. Advanced Agents (Ceftazidime-Avibactam, Ceftolozane-Tazobactam, Imipenem-Cilastatin-Relebactam, Meropenem-Vaborbactam, Cefiderocol)
+12. Advanced Agents (resistant gram-negative, antifungal, and reserve agents)
 13. Febrile Neutropenia
 14. Diabetic Foot Infections
 15. Type 2 Diabetes Mellitus
@@ -34,144 +49,80 @@ PharmRef is a TypeScript + React + Vite clinical pharmacy reference app. It orga
 
 ## What the app does
 
-- Hash-based navigation for bookmarkable topic, pathway, monograph, compare, and audit views
-- Scored, ranked full-text search with relevance tiers (exact name → starts-with → contains → class/brand → spectrum/MOA → pearls → notes), filter tabs by content type, show-more/less per section, and match highlighting
-- Drug class browser on the home screen — 14 named class groups + Other, with a filter pill row
-- Organism search cards show topic › pathway breadcrumb and a preferred-treatment preview line
-- Share button (🔗) on every monograph and subcategory hero — copies the current URL to clipboard
-- Bookmark button (🔖) on monographs and clinical topics, persisted in localStorage
-- Compare view for side-by-side drug monographs
-- Patient context panel (weight, sex, age) with inline CrCl, IBW, and AdjBW calculations
-- Six clinical calculators: CrCl (Cockcroft-Gault), IBW/AdjBW, CURB-65, PORT/PSI, Vancomycin AUC, Aminoglycoside dosing
-- Allergy profile with inline allergy/interaction warnings across all therapy views
+- Hash-based navigation for bookmarkable topic, pathway, monograph, pathogen, compare, breakpoint, calculator, and audit views
+- Scored, ranked full-text search with relevance tiers, shorthand aliases (e.g. `CAP`, `CAUTI`, `SAB`, `CRE`), filter tabs by content type, and match highlighting
+- Command palette for fast keyboard navigation
+- Drug class browser and recent-views strip on the home screen
+- Pathogen reference pages with rapid-diagnostic interpretation, resistance mechanisms, and breakpoint caveats
+- Breakpoint workspace that turns susceptibility results into therapy findings and cautions
+- Patient context panel (weight, height, sex, age, SCr, dialysis, pregnancy) with inline CrCl, IBW, and AdjBW, plus patient-aware regimen warnings and transition-readiness guidance
+- 11 clinical calculators: CrCl (Cockcroft-Gault), IBW/AdjBW/BSA, CURB-65, PORT/PSI, vancomycin AUC estimator, aminoglycoside (Hartford) dosing, extended-infusion beta-lactam, daptomycin mg/kg, TMP-SMX TMP-based dosing, colistin unit conversion, azole TDM support
+- Allergy profile with inline allergy and interaction warnings across therapy views
+- Evidence and freshness badges, source pills with direct links, and trust-surface banners for stale or disputed content
+- Institution antibiogram cards when institution profile data is available
+- Compare view for side-by-side drug monographs, bookmarks, and share links
 - Data audit screen for content completeness and cross-reference gaps
-- Reading mode, three themes (dark / light / OLED), toast feedback, copy buttons, and back-to-top
-- Recent-views strip on the home screen for faster return navigation
-- Cross-topic monograph badges when the same drug appears in multiple clinical topics
-- ESC key closes allergy and patient modals
-- Responsive layout and print-friendly styles
+- Reading mode, three themes (dark / light / OLED), print-friendly styles, and offline use as an installed PWA
 
 ## Project structure
 
 ```text
 .
 ├── src/
-│   ├── App.tsx
-│   ├── index.tsx
-│   ├── types.ts
-│   ├── components/
-│   │   ├── AllergyModal.tsx
-│   │   ├── AllergyWarning.tsx
-│   │   ├── AuditView.tsx
-│   │   ├── CompareView.tsx
-│   │   ├── CopyBtn.tsx
-│   │   ├── CrossRefBadges.tsx
-│   │   ├── DisclaimerModal.tsx
-│   │   ├── EmpiricTierView.tsx
-│   │   ├── ExpandCollapseBar.tsx
-│   │   ├── Layout.tsx
-│   │   ├── PatientModal.tsx
-│   │   ├── Section.tsx
-│   │   ├── Toast.tsx
-│   │   └── index.ts
-│   ├── data/
-│   │   ├── index.ts
-│   │   ├── metadata.ts              ← review metadata + source tracking
-│   │   ├── derived.ts               ← search index, lookup maps, class grouping
-│   │   ├── advanced-agents.ts
-│   │   ├── amr-gram-negative.ts
-│   │   ├── bacteremia-endocarditis.ts
-│   │   ├── bone-joint.ts
-│   │   ├── c-difficile.ts
-│   │   ├── cap.ts
-│   │   ├── cns-infections.ts
-│   │   ├── diabetic-foot.ts
-│   │   ├── febrile-neutropenia.ts
-│   │   ├── fungal-infections.ts
-│   │   ├── hap-vap.ts
-│   │   ├── iai.ts
-│   │   ├── sepsis.ts
-│   │   ├── ssti.ts
-│   │   └── uti.ts
-│   ├── hooks/
-│   │   ├── useNavigation.ts
-│   │   ├── usePersistedState.ts
-│   │   └── useSearch.ts
-│   ├── pages/
-│   │   ├── CalculatorsPage.tsx
-│   │   ├── DiseaseOverviewPage.tsx
-│   │   ├── HomePage.tsx
-│   │   ├── MonographPage.tsx
-│   │   ├── SearchResultsPage.tsx
-│   │   └── SubcategoryPage.tsx
-│   └── styles/
-│       └── constants.ts             ← makeStyles(), theme tokens, NAV_STATES
-├── scripts/
-│   └── validate-content.ts          ← build-time content validation
-├── tsconfig.validation.json         ← compile-only config for validation script
-├── vite.config.js
-├── tsconfig.json
-└── package.json
+│   ├── App.tsx, index.tsx, types.ts, version.ts
+│   ├── components/          ← UI building blocks (modals, evidence pills, warnings, palette, …)
+│   ├── pages/               ← Home, disease overview, pathway, monograph, pathogen, breakpoints, calculators, search
+│   ├── hooks/               ← navigation, search, bookmarks, recent views, patient context
+│   ├── utils/               ← calculators, decision support, susceptibility workspace, persistence
+│   ├── styles/constants.ts  ← makeStyles(), theme tokens
+│   └── data/
+│       ├── <topic>.ts       ← authored clinical content (one module per topic)
+│       ├── editorial/content-meta.ts  ← review metadata source of truth
+│       ├── source-registry.ts         ← canonical citations (PMID / DOI / URL)
+│       ├── content-approvals.ts       ← generated approval fingerprints
+│       ├── catalog-manifest.ts        ← generated home-screen catalog
+│       └── generated/       ← generated runtime disease modules and regimen catalog
+├── scripts/                 ← generation, validation, approval, release verification
+│   └── tests/               ← node:test regression suite
+├── docs/                    ← content pipeline, ship checklists, use-at-work guide
+└── .github/workflows/deploy-pages.yml
 ```
 
 ## Commands
 
 ```bash
-npm run dev          # local dev server (also accessible on LAN for phone testing)
-npm run build        # production build
-npm run preview      # serve production build
-npm run typecheck    # tsc --noEmit
-npm run validate:content
+npm run dev               # local dev server (also accessible on LAN for phone testing)
+npm run typecheck         # tsc --noEmit
+npm run test:regression   # regenerate content and run the regression suite
+npm run validate:content  # metadata, schema, provenance, and approval checks
+npm run approve:content   # refresh approval fingerprints after clinical review
+npm run build             # generate catalog, validate content, production build
+npm run release:check     # full release gate
+npm run preview           # serve the production build
 ```
+
+## Editing clinical content
+
+See [docs/content-pipeline.md](docs/content-pipeline.md) for the full workflow. In short:
+
+1. Edit topic content in `src/data/<topic>.ts` and review metadata in `src/data/editorial/content-meta.ts`.
+2. Cite sources by ID; every ID must exist in `src/data/source-registry.ts` with a PMID, DOI, or direct URL.
+3. Review the clinical changes, then run `npm run approve:content` to record the approved body versions.
+4. Run `npm run test:regression` and `npm run release:check` before shipping.
+
+Do not hand-edit generated files (`src/data/generated/`, `generated-content-meta.ts`, `catalog-manifest.ts`, `content-approvals.ts`).
 
 ## Adding a new clinical topic
 
-1. Create `src/data/<topic>.ts` exporting one `DiseaseState` (the internal type name is still `DiseaseState` for now; annotate `: DiseaseState` explicitly to catch schema errors early).
-2. Import it in `src/data/index.ts` and add it to `DISEASE_STATES`.
-3. Run `npm run typecheck` and `npm run build`.
-
-### Content expectations
-
-Each clinical topic module is expected to include:
-
-- Overview definition, epidemiology, risk factors
-- Key guidelines and landmark trials
-- Care pathways (`subcategories`) with diagnostics and clinical presentation where relevant
-- Empiric therapy tiers (`empiricTherapy`) with `line` / `options[].regimen` structure
-- Organism-specific therapy (`organismSpecific`) where applicable
-- Pharmacist pearls
-- Drug monographs at the top-level `drugMonographs` array (not nested inside pathways)
-
-### Data schema notes
-
-- `empiricTherapy[].line` — tier label (e.g. "First-line")
-- `empiricTherapy[].options[].regimen` — regimen string
-- `spectrum`, `renalAdjustment`, `monitoring`, `pregnancyLactation` — all plain strings
-- `drugInteractions`, `pharmacistPearls` — string arrays
-- `drugMonographs: []` is valid when a disease has no standalone monographs
-
-## Scaling notes
-
-What is already in place:
-
-- Centralized schema in `src/types.ts`
-- Data modules isolated by clinical topic
-- Precomputed lookup/search structures in `src/data/derived.ts`
-- Relevance-scored search engine in `src/hooks/useSearch.ts`
-- Separate Vite build chunks for app code (`vendor`) and disease data (`disease-data`)
-
-Likely next steps when the catalog grows further:
-
-1. Split topic metadata from full topic content so the home screen loads without eagerly pulling every monograph.
-2. Move search indexing into a background worker or prebuilt JSON index if search latency becomes noticeable.
-3. Introduce content validation scripts for duplicate IDs, missing required sections, and cross-link integrity outside the UI audit screen.
-4. Consider route-level or topic-level lazy loading if the data chunk exceeds ~1.5 MB gzipped.
-5. Expand review metadata from topic-level inheritance to pathway- and monograph-specific provenance where it materially changes recommendations.
+1. Create `src/data/<topic>.ts` exporting one `DiseaseState` (annotate `: DiseaseState` to catch schema errors early).
+2. Register it in `scripts/disease-module-config.js` so a generated module is produced, then import the generated module in `src/data/index.ts` and add a lazy loader in `src/data/catalog-loader.ts`.
+3. Add disease and priority-pathway metadata in `src/data/editorial/content-meta.ts`.
+4. Run `npm run approve:content`, then `npm run test:regression` (catalog count assertions in `scripts/tests/catalogIntegrity.test.js` will need updating).
 
 ## Verification
 
 ```bash
-npm run typecheck   # zero errors expected
-npm run validate:content
-npm run build       # clean build, disease-data chunk ~870 KB raw / ~284 KB gzip
+npm run release:check   # typecheck, regression tests, validation, build, release verification
 ```
+
+Expected: `Content validation: 16 diseases, 0 error(s), 0 warning(s)` and a clean build with per-topic lazy-loaded chunks.

@@ -13,22 +13,36 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
     "epidemiology": "S. aureus bacteremia (SAB) is the most clinically significant bloodstream infection in developed countries — incidence 20-50 per 100,000 person-years, 30-day mortality 20-30%. IE incidence is 3-10 per 100,000 person-years and rising, driven by healthcare-associated infections, injection drug use (IDU), and prosthetic valves. IDU-associated right-sided IE has surged with the opioid epidemic. Mortality for IE remains 15-30% despite modern therapy. Enterococcal bacteremia is the second most common healthcare-associated BSI and often signals an intra-abdominal or urinary source.",
     "keyGuidelines": [
       {
+        "name": "AHA 2026 IE Scientific Statement (DeSimone et al., Circulation, September 2026)",
+        "detail": "First AHA endocarditis update in 11 years; supersedes the 2015 statement. Endorses the 2023 Duke-ISCVID criteria and TEE as first-line imaging; keeps IV therapy as the preferred initial phase; supports partial oral therapy (POET-based regimens) for selected stable patients, with TEE at the time of transition for left-sided IE; consensus for ceftriaxone monotherapy for viridans group streptococcal or S. gallolyticus IE with intermediate penicillin resistance, and ceftriaxone plus 2 weeks of gentamicin for fully penicillin-resistant isolates; after valve surgery before therapy is complete, give a 4–6 week course with at least 14 days postoperatively. Emphasizes the endocarditis team and an expanded pharmacist/OPAT role.",
+        "sourceIds": [
+          "aha-2026-ie"
+        ]
+      },
+      {
         "name": "ESC 2023 IE Guidelines",
-        "detail": "Current major international update. Incorporates the 2023 Duke-ISCVID diagnostic framework, stronger multimodality imaging recommendations, earlier endocarditis-team involvement, and a more explicit surgical-referral pathway for high-risk disease.",
+        "detail": "Major international update. Incorporates the 2023 Duke-ISCVID diagnostic framework, stronger multimodality imaging recommendations, earlier endocarditis-team involvement, and a more explicit surgical-referral pathway for high-risk disease.",
         "sourceIds": [
           "esc-2023-ie"
         ]
       },
       {
+        "name": "IDSA/ESCMID 2026 SAB Consensus Statements (Part 1)",
+        "detail": "September 2026 consensus on risk stratification, diagnostic evaluation, and duration (agent selection for MSSA/MRSA deferred to future documents). Adults: routine TTE for all; TEE when TTE is negative but any increased-risk feature is present (intracardiac device, predisposing valve condition or prior IE, positive blood culture ≥48h after the first, embolic events, >1 non-contiguous focus; consider for community-onset SAB or injection drug use). Repeat ≥2 blood culture sets at 48h, then every 24–48h until negative. Whole-body imaging (e.g., FDG-PET/CT) or targeted imaging for increased-risk patients with no identified focus. Duration: 14 days from the first negative culture for low-risk AND increased-risk adults without deep-seated foci; longer, focus-guided courses for deep or metastatic infection.",
+        "sourceIds": [
+          "idsa-escmid-2026-sab"
+        ]
+      },
+      {
         "name": "AHA 2015 IE Guideline",
-        "detail": "Foundation document for IE management. Defines modified Duke criteria, empiric and pathogen-directed regimens, surgical indications, and follow-up. Remains the most comprehensive single reference for IE.",
+        "detail": "Superseded by the AHA 2026 statement, but still the source of many pathogen-directed regimen tables in common use. Defined modified Duke criteria, empiric and pathogen-directed regimens, surgical indications, and follow-up.",
         "sourceIds": [
           "aha-2015-ie"
         ]
       },
       {
         "name": "SAB Bundle Literature",
-        "detail": "The modern Staphylococcus aureus bacteremia bundle is a synthesized practice framework rather than a single guideline: repeat cultures to document clearance, echocardiography when risk is meaningful, early source control, ID involvement, and duration tied to complicated vs uncomplicated disease.",
+        "detail": "The modern Staphylococcus aureus bacteremia bundle — repeat cultures to document clearance, echocardiography, early source control, ID involvement, and risk-based duration — now formalized for diagnostics and duration by the IDSA/ESCMID 2026 consensus statements.",
         "sourceIds": [
           "fowler-2003-complicated-sab",
           "sullenberger-2005-tee-sab",
@@ -36,10 +50,10 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         ]
       },
       {
-        "name": "IDSA 2024 AMR Guidance v4.0",
-        "detail": "Relevant for MRSA bacteremia treatment (vancomycin AUC-guided dosing, daptomycin as alternative), VRE bacteremia (daptomycin ± ampicillin synergy), and resistant gram-negative bacteremia.",
+        "name": "IDSA 2026 AMR Guidance",
+        "detail": "Relevant for resistant GRAM-NEGATIVE bacteremia (ESBL-E, AmpC-E, CRE, DTR P. aeruginosa, CRAB, S. maltophilia). It does not address MRSA or VRE — use the ASHP/IDSA/PIDS 2020 vancomycin consensus for AUC-guided dosing.",
         "sourceIds": [
-          "idsa-2024-amr"
+          "idsa-2026-amr"
         ]
       }
     ],
@@ -95,12 +109,12 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
       "name": "S. aureus Bacteremia — Workup & Risk Stratification",
       "definition": "S. aureus bacteremia (SAB) is NEVER a contaminant. Every positive blood culture with S. aureus demands a full workup regardless of clinical appearance. The SAB bundle — follow-up cultures, echocardiography, ID consult, source control, and appropriate therapy — is the standard of care and reduces mortality by 40-50% when fully implemented.",
       "clinicalPresentation": "SAB presentations range from indolent line infection to fulminant septic shock with multi-organ failure. Fever is present in >90% but may be absent in immunosuppressed or elderly patients. Key: look for METASTATIC FOCI — back pain (vertebral osteomyelitis/epidural abscess in 10-15% of SAB), new heart murmur (endocarditis), joint pain/swelling (septic arthritis), focal neurologic deficits (septic emboli, meningitis), splinter hemorrhages, Janeway lesions, Osler nodes. The absence of focal findings does NOT exclude complicated infection — occult endocarditis is found in 10-25% of SAB patients when TEE is performed.",
-      "diagnostics": "MANDATORY SAB WORKUP: (1) Blood cultures — at least 2 sets (4 bottles) from 2 separate sites before antibiotics. Follow-up cultures q24-48h until DOCUMENTED CLEARANCE (date of first negative culture = day 1 of therapy). (2) Echocardiography — TTE for all SAB patients. TEE if any of: prosthetic valve, intracardiac device, high clinical suspicion, positive TTE needing better characterization, persistent bacteremia >72h, no identified source, IDU, or prior IE. TEE sensitivity for native valve IE: 90-95% (vs TTE 50-60%). (3) Source identification — line removal if CLABSI, drain collections, image suspected metastatic foci. MRI spine if back pain. (4) ID consultation — associated with 50% relative mortality reduction in observational studies. (5) Labs: CBC, CMP, inflammatory markers (CRP, ESR, procalcitonin) for trending.",
+      "diagnostics": "MANDATORY SAB WORKUP (IDSA/ESCMID 2026): (1) Blood cultures — at least 2 sets (4 bottles) from 2 separate sites before antibiotics. Follow-up: at least 2 sets at 48h after the first positive culture, then 1–2 sets every 24–48h until DOCUMENTED CLEARANCE (date of first negative culture = day 1 of therapy). (2) Echocardiography — TTE for ALL adults with SAB. TEE when TTE is negative but any increased-risk feature is present: intracardiac device, predisposing valve condition (including prior IE), positive blood culture ≥48h after the first, embolic events, or >1 non-contiguous focus; consider TEE for community-onset SAB or injection drug use. TEE may be unnecessary with a good-quality negative TTE and none of these features. Whole-body imaging (e.g., FDG-PET/CT) or targeted imaging for increased-risk patients with no identified focus. TEE sensitivity for native valve IE: 90-95% (vs TTE 50-60%). (3) Source identification — line removal if CLABSI, drain collections, image suspected metastatic foci. MRI spine if back pain. (4) ID consultation — associated with 50% relative mortality reduction in observational studies. (5) Labs: CBC, CMP, inflammatory markers (CRP, ESR, procalcitonin) for trending.",
       "durationGuidance": {
         "standard": "14 days from first negative blood culture (uncomplicated MSSA/MRSA)",
         "severe": "28–42 days (complicated/endocarditis)",
         "opatNote": "OPAT appropriate for uncomplicated Staph aureus bacteremia after initial IV stabilization × 14d",
-        "stewardshipNote": "AHA 2015 IE guidance plus SAB bundle literature: repeat blood cultures at 48–72h and obtain echocardiography for Staph aureus bacteremia."
+        "stewardshipNote": "IDSA/ESCMID 2026: repeat blood cultures at 48h, TTE for all adults, risk-based TEE, and 14 days from the first negative culture for low- and increased-risk SAB without deep-seated foci."
       },
       "empiricTherapy": [
         {
@@ -285,7 +299,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
             {
               "drug": "daptomycin",
               "regimen": "Daptomycin 8-10 mg/kg IV once daily",
-              "notes": "Preferred alternative to vancomycin for MRSA bacteremia when: vancomycin MIC ≥2, vancomycin intolerance/nephrotoxicity, persistent bacteremia on vancomycin >3-5 days. Dose at ≥8 mg/kg for bacteremia (6 mg/kg is the IE/bacteremia approved dose but many experts go higher). Monitor CPK weekly. If daptomycin MIC ≥2-4, consider ceftaroline or salvage regimens.",
+              "notes": "Preferred alternative to vancomycin for MRSA bacteremia when: vancomycin MIC ≥2, vancomycin intolerance/nephrotoxicity, persistent bacteremia on vancomycin >3-5 days. Dose at ≥8 mg/kg for bacteremia (6 mg/kg is the IE/bacteremia approved dose but many experts go higher). Monitor CPK weekly. If daptomycin MIC ≥2-4, consider ceftaroline or salvage regimens. Ceftobiprole (FDA-approved 2024 for SAB including right-sided IE; non-inferior to daptomycin in ERADICATE) is another option in selected patients.",
               "plan": {
                 "regimen": "Daptomycin 8-10 mg/kg IV once daily",
                 "indication": "MRSA bacteremia",
@@ -317,14 +331,14 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "options": [
             {
               "drug": "uncomplicated-sab",
-              "regimen": "14 days IV therapy from first negative blood culture",
-              "notes": "ALL of the following must be met for uncomplicated SAB: (1) Follow-up blood cultures negative within 72h, (2) No endocarditis on TTE/TEE, (3) No prosthetic valves or intracardiac devices, (4) No metastatic infection (no osteomyelitis, septic arthritis, epidural abscess, septic emboli), (5) Removable source identified AND removed (e.g., line-related with line pulled). If ANY criterion is NOT met → complicated SAB.",
+              "regimen": "14 days from first negative blood culture (no deep-seated or metastatic focus)",
+              "notes": "IDSA/ESCMID 2026 replaces the strict 'uncomplicated' checklist with low- vs increased-risk stratification: 14 days is suggested for LOW-risk adults without deep-seated foci (rather than shorter or longer courses) and also for INCREASED-risk adults when symptoms resolve and a tailored evaluation finds no focus. Increased-risk features: community-onset SAB, positive culture ≥48h after the first, intracardiac device, predisposing valve disease, injection drug use, endovascular graft, SAB in the prior 90 days, focal signs, embolic events, >1 non-contiguous focus, or unknown focus. Consider longer courses with prolonged bacteremia or an incomplete evaluation. Remove removable sources (lines).",
               "id": "bacteremia-endocarditis/sab-workup/complicated-vs-uncomplicated-sab-duration-decisi/uncomplicated-sab-1"
             },
             {
               "drug": "complicated-sab",
               "regimen": "4-6 weeks IV therapy from first negative blood culture",
-              "notes": "Complicated SAB = endocarditis, metastatic infection, persistent bacteremia >72h, no removable source, prosthetic material, or failure to meet all uncomplicated criteria. Duration: 4 weeks for native valve IE, 6 weeks for prosthetic valve IE. Some metastatic foci (e.g., vertebral osteomyelitis) may warrant even longer therapy. ORAL STEP-DOWN: consider per POET trial criteria for selected patients after ≥10 days IV + clinical stability.",
+              "notes": "Complicated SAB = endocarditis, deep-seated or metastatic infection, retained infected device or endovascular graft, or persistent bacteremia; IDSA/ESCMID 2026 calls for longer, focus-guided courses in these settings. Duration: 4 weeks for native valve IE, 6 weeks for prosthetic valve IE. Some metastatic foci (e.g., vertebral osteomyelitis) may warrant even longer therapy. ORAL STEP-DOWN: consider per POET trial criteria for selected patients after ≥10 days IV + clinical stability.",
               "id": "bacteremia-endocarditis/sab-workup/complicated-vs-uncomplicated-sab-duration-decisi/complicated-sab-2"
             }
           ]
@@ -404,15 +418,15 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "title": "Treat every S. aureus blood isolate as clinically meaningful",
           "detail": "The diagnostic error to avoid is calling SAB a contaminant and never launching repeat cultures, source review, and echo planning.",
           "sourceIds": [
-            "aha-2015-ie",
+            "idsa-escmid-2026-sab",
             "sab-bundle-literature"
           ]
         },
         {
           "title": "Follow-up cultures are part of diagnosis, not just monitoring",
-          "detail": "Culture clearance timing determines uncomplicated versus complicated SAB and therefore changes duration, echo urgency, and source-control pressure.",
+          "detail": "Culture clearance timing drives risk stratification (a positive culture ≥48h after the first is an increased-risk feature per IDSA/ESCMID 2026) and therefore changes duration, TEE need, and source-control pressure.",
           "sourceIds": [
-            "aha-2015-ie",
+            "idsa-escmid-2026-sab",
             "sab-bundle-literature"
           ]
         }
@@ -425,10 +439,10 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "actions": [
             "If rapid diagnostics show MSSA, leave vancomycin the same day for cefazolin or nafcillin.",
             "Remove or plan removal of any suspected infected intravascular source.",
-            "Document whether TTE or TEE is required based on risk."
+            "Order TTE for every adult, and document whether risk features call for TEE (IDSA/ESCMID 2026)."
           ],
           "sourceIds": [
-            "aha-2015-ie",
+            "idsa-escmid-2026-sab",
             "sab-bundle-literature"
           ]
         },
@@ -442,7 +456,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
             "Search for spine, joint, hardware, and other metastatic foci if fevers or cultures persist."
           ],
           "sourceIds": [
-            "aha-2015-ie",
+            "idsa-escmid-2026-sab",
             "sab-bundle-literature"
           ]
         },
@@ -452,11 +466,11 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "trigger": "Once bloodstream clearance and source complexity are defined, lock the uncomplicated versus complicated pathway and treatment duration.",
           "actions": [
             "Count from the first negative follow-up culture on an active regimen.",
-            "Use 14 days only when all uncomplicated criteria are truly met.",
+            "Use 14 days only when the evaluation finds no deep-seated or metastatic focus (low- or increased-risk SAB per IDSA/ESCMID 2026).",
             "Keep IV therapy as the default unless a carefully selected oral-step-down framework is explicitly satisfied."
           ],
           "sourceIds": [
-            "aha-2015-ie",
+            "idsa-escmid-2026-sab",
             "sab-bundle-literature",
             "poet"
           ]
@@ -468,7 +482,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "implication": "This should still be treated as real bloodstream infection until the entire clinical picture proves otherwise.",
           "action": "Do not downgrade the workup because only one bottle is positive.",
           "sourceIds": [
-            "aha-2015-ie",
+            "idsa-escmid-2026-sab",
             "sab-bundle-literature"
           ]
         },
@@ -487,7 +501,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "anchor": "This is day 1 for uncomplicated and complicated SAB duration counting.",
           "rationale": "Duration anchored to the admission day or first empiric dose will misclassify persistent bacteremia.",
           "sourceIds": [
-            "aha-2015-ie",
+            "idsa-escmid-2026-sab",
             "sab-bundle-literature"
           ]
         },
@@ -495,7 +509,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "event": "Control of removable intravascular source",
           "anchor": "Line removal or other source-control action should happen early, but the clock still follows documented bloodstream clearance on active therapy.",
           "sourceIds": [
-            "aha-2015-ie",
+            "idsa-escmid-2026-sab",
             "sab-bundle-literature"
           ]
         }
@@ -892,7 +906,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
       "name": "Native Valve Infective Endocarditis",
       "definition": "Infection of a native (non-prosthetic) heart valve, most commonly mitral and aortic. Diagnosis rests on the modified Duke criteria integrating clinical, microbiologic, echocardiographic, and pathologic findings. Management requires prolonged bactericidal antibiotic therapy (4-6 weeks) and surgical evaluation for all patients.",
       "clinicalPresentation": "Classic triad: fever + new murmur + embolic phenomena — but the full triad is present in <50% at presentation. Fever is the most common finding (>90%). New or changing heart murmur (85%). Embolic events (20-50%): stroke, pulmonary emboli (right-sided), splenic infarcts, renal infarcts, mycotic aneurysms. Peripheral stigmata (less common in modern era): Janeway lesions (painless erythematous lesions on palms/soles — septic emboli), Osler nodes (painful nodules on finger/toe pads — immune complex), splinter hemorrhages (linear hemorrhages in nail beds), Roth spots (retinal hemorrhages with white center). Right-sided IE (tricuspid): presents with septic pulmonary emboli — cough, pleuritic chest pain, bilateral nodular infiltrates on CXR. Think right-sided IE in IDU with bilateral pulmonary nodules.",
-      "diagnostics": "MODIFIED DUKE CRITERIA (2023 update): MAJOR CRITERIA: (1) Blood cultures — 2 separate cultures with typical IE organism (S. aureus, viridans Streptococci, S. gallolyticus, HACEK, community-acquired Enterococcus without primary focus), OR persistently positive cultures (≥2 drawn >12h apart, or all of 3 or majority of ≥4 separate cultures with first and last >1h apart), OR single positive for Coxiella burnetii or IgG >1:800. (2) Imaging — echocardiography showing vegetation, abscess, pseudoaneurysm, intracardiac fistula, valvular perforation/aneurysm, or new partial dehiscence of prosthetic valve; OR abnormal FDG-PET/CT activity at prosthetic valve; OR paravalvular lesions on cardiac CT. MINOR CRITERIA: (1) Predisposing heart condition or IDU, (2) Fever ≥38°C, (3) Vascular phenomena (arterial emboli, septic pulmonary infarcts, mycotic aneurysm, intracranial hemorrhage, conjunctival hemorrhages, Janeway lesions), (4) Immunologic phenomena (glomerulonephritis, Osler nodes, Roth spots, positive RF), (5) Microbiologic evidence not meeting major criterion. DEFINITE IE: 2 major, or 1 major + 3 minor, or 5 minor. POSSIBLE IE: 1 major + 1 minor, or 3 minor.",
+      "diagnostics": "2023 DUKE-ISCVID CRITERIA (endorsed by ESC 2023 and AHA 2026; TEE is first-line imaging per AHA 2026): MAJOR CRITERIA: (1) Blood cultures — 2 separate cultures with typical IE organism (S. aureus, viridans Streptococci, S. gallolyticus, HACEK, community-acquired Enterococcus without primary focus), OR persistently positive cultures (≥2 drawn >12h apart, or all of 3 or majority of ≥4 separate cultures with first and last >1h apart), OR single positive for Coxiella burnetii or IgG >1:800. (2) Imaging — echocardiography showing vegetation, abscess, pseudoaneurysm, intracardiac fistula, valvular perforation/aneurysm, or new partial dehiscence of prosthetic valve; OR abnormal FDG-PET/CT activity at prosthetic valve; OR paravalvular lesions on cardiac CT. MINOR CRITERIA: (1) Predisposing heart condition or IDU, (2) Fever ≥38°C, (3) Vascular phenomena (arterial emboli, septic pulmonary infarcts, mycotic aneurysm, intracranial hemorrhage, conjunctival hemorrhages, Janeway lesions), (4) Immunologic phenomena (glomerulonephritis, Osler nodes, Roth spots, positive RF), (5) Microbiologic evidence not meeting major criterion. DEFINITE IE: 2 major, or 1 major + 3 minor, or 5 minor. POSSIBLE IE: 1 major + 1 minor, or 3 minor.",
       "durationGuidance": {
         "standard": "4–6 weeks (native valve)",
         "severe": "6 weeks (prosthetic valve/complicated)",
@@ -1009,7 +1023,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
             {
               "drug": "surgery-indications",
               "regimen": "Early surgical consultation for ALL left-sided IE",
-              "notes": "CLASS I (STRONG) indications for surgery: (1) Heart failure due to valve dysfunction (most common surgical indication), (2) Valve dehiscence/perforation/fistula, (3) Perivalvular abscess/pseudoaneurysm, (4) Persistent bacteremia >5-7 days despite appropriate therapy and source control, (5) Recurrent emboli despite appropriate antibiotics (especially with persistent vegetations >10mm), (6) Fungal IE (almost always requires surgery). CLASS IIa indications: large mobile vegetations >10mm (particularly with prior embolic event), early IE caused by highly virulent organisms (S. aureus, fungi) with valve destruction. Timing: emergency (within 24h) for refractory pulmonary edema or cardiogenic shock; urgent (within days) for uncontrolled infection or high embolic risk; elective (within 1-2 weeks) for progressive valve dysfunction.",
+              "notes": "CLASS I (STRONG) indications for surgery: (1) Heart failure due to valve dysfunction (most common surgical indication), (2) Valve dehiscence/perforation/fistula, (3) Perivalvular abscess/pseudoaneurysm, (4) Persistent bacteremia >5-7 days despite appropriate therapy and source control, (5) Recurrent emboli despite appropriate antibiotics (especially with persistent vegetations >10mm), (6) Fungal IE (almost always requires surgery). CLASS IIa indications: large mobile vegetations >10mm (particularly with prior embolic event), early IE caused by highly virulent organisms (S. aureus, fungi) with valve destruction. Timing: emergency (within 24h) for refractory pulmonary edema or cardiogenic shock; urgent (within days) for uncontrolled infection or high embolic risk; elective (within 1-2 weeks) for progressive valve dysfunction. Post-op antibiotics (AHA 2026): if surgery occurs before the course is complete, give a total 4–6 week course with at least 14 days after surgery.",
               "id": "bacteremia-endocarditis/native-valve-ie/surgical-indications-refer-to-ct-surgery/surgery-indications-1"
             }
           ]
@@ -1020,7 +1034,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "organism": "Viridans group Streptococci (S. mutans, S. mitis, S. sanguinis, etc.)",
           "preferred": "Penicillin G or ceftriaxone × 4 weeks (or 2-week short course with gentamicin)",
           "alternative": "Vancomycin 15mg/kg IV q12h × 4 weeks if beta-lactam allergy",
-          "notes": "Most common cause of subacute native valve IE. Almost always penicillin-susceptible. Poor dentition is the classic risk factor. Subacute presentation: weeks of low-grade fever, malaise, weight loss. Blood cultures are almost always positive (>95%). Prognosis is GOOD with appropriate therapy — mortality <5% for uncomplicated viridans streptococcal IE."
+          "notes": "AHA 2026: for isolates with INTERMEDIATE penicillin resistance, ceftriaxone monotherapy is reasonable (consensus); for fully penicillin-RESISTANT isolates, add gentamicin to ceftriaxone for the first 2 weeks. Most common cause of subacute native valve IE. Usually penicillin-susceptible. Poor dentition is the classic risk factor. Subacute presentation: weeks of low-grade fever, malaise, weight loss. Blood cultures are almost always positive (>95%). Prognosis is GOOD with appropriate therapy — mortality <5% for uncomplicated viridans streptococcal IE."
         },
         {
           "organism": "S. gallolyticus (formerly S. bovis biotype I)",
@@ -1044,7 +1058,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
       "pearls": [
         "DUKE CRITERIA ARE A FRAMEWORK, NOT A CHECKLIST: Clinical judgment supersedes strict Duke criteria application. A patient with SAB, a vegetation on TEE, and septic emboli has endocarditis regardless of whether they technically meet 'definite' criteria. Conversely, 'possible IE' should be treated as IE until proven otherwise in high-risk patients.",
         "S. GALLOLYTICUS = COLONOSCOPY. ALWAYS. No exceptions. 25-80% association with colorectal neoplasia. Failure to scope is a missed cancer diagnosis.",
-        "ORAL STEP-DOWN (POET TRIAL): After ≥10 days of IV therapy + clinical stability (afebrile, CRP decreasing, no signs of complications), selected patients with left-sided IE can switch to high-dose oral therapy. Key exclusions: prosthetic valve IE <1 year, aortic root abscess, large vegetations, severe valve dysfunction. Oral regimens must be HIGH-DOSE (e.g., amoxicillin 1g q6h, not standard doses). This is not permission to send everyone home on oral amoxicillin at day 10.",
+        "ORAL STEP-DOWN (POET TRIAL): After ≥10 days of IV therapy + clinical stability (afebrile, CRP decreasing, no signs of complications), selected patients with left-sided IE can switch to high-dose oral therapy. Key exclusions: prosthetic valve IE <1 year, aortic root abscess, large vegetations, severe valve dysfunction. Oral regimens must be HIGH-DOSE (e.g., amoxicillin 1g q6h, not standard doses). AHA 2026 supports partial oral therapy for selected patients, lists POET-based oral continuation regimens, and supports a TEE at the time of transition for left-sided IE; evidence remains limited for VRE faecium and prosthetic-valve staphylococcal IE. This is not permission to send everyone home on oral amoxicillin at day 10.",
         "RIGHT-SIDED IE IN IDU: Tricuspid valve IE (predominantly S. aureus) in IDU can often be treated for 2 weeks (if MSSA, no metastatic infection, and vegetation <2cm) — this is a well-established shorter duration. Right-sided IE generally has better prognosis than left-sided. However, the opioid epidemic has complicated this — patients often leave AMA, relapse, and present with recurrent IE.",
         "CULTURE-NEGATIVE ENDOCARDITIS: ~10% of IE cases have negative blood cultures. Causes: prior antibiotics (most common — always try to get cultures BEFORE antibiotics), fastidious organisms (HACEK, Bartonella, Coxiella burnetii, Tropheryma whipplei, Brucella), non-bacterial thrombotic endocarditis (marantic endocarditis in malignancy or antiphospholipid syndrome). Serologies for Bartonella and Coxiella should be sent in all culture-negative IE. 16S rRNA PCR on explanted valve tissue is definitive."
       ],
@@ -1315,8 +1329,8 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
           "options": [
             {
               "drug": "duration-gn-uti",
-              "regimen": "Urinary source: 7-14 days (shorter for uncomplicated, longer for complicated)",
-              "notes": "IDSA 2025 cUTI guideline supports 7 days for most complicated UTI with bacteremia, with IV-to-PO switch when clinically improving and susceptibilities allow. Fluoroquinolones and TMP-SMX have excellent oral bioavailability and can be used for step-down.",
+              "regimen": "Urinary source: 7 days for most patients who are improving",
+              "notes": "IDSA 2025 cUTI guideline suggests 7 days total even for cUTI with gram-negative bacteremia, with IV-to-PO switch when clinically improving and susceptibilities allow. Fluoroquinolones and TMP-SMX have excellent oral bioavailability and can be used for step-down. Extend for undrained obstruction or abscess, prostatitis, or slow response.",
               "id": "bacteremia-endocarditis/gram-negative-bacteremia/directed-therapy-duration-by-source/duration-gn-uti-1"
             },
             {
@@ -1327,8 +1341,8 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
             },
             {
               "drug": "duration-gn-unknown",
-              "regimen": "Unknown/other source: 7-14 days based on clinical response",
-              "notes": "Without clear source, treat for 10-14 days. If source is identified and controlled, shorter courses may be appropriate. Pseudomonas bacteremia: generally 14 days due to higher relapse risk. CRE bacteremia: 14 days with close follow-up.",
+              "regimen": "Other sources: 7 days for most patients with source control and clinical response; individualize longer courses",
+              "notes": "RCTs (Yahav 2019 for gram-negative bacteremia; BALANCE 2024 for bloodstream infection broadly, excluding S. aureus) found 7 days non-inferior to 14 days in patients who were clinically improving with source control. Extend for undrained foci, endovascular infection, severe immunosuppression (e.g., neutropenia), or persistent bacteremia. Pseudomonas and CRE bacteremia have traditionally received 14 days; short-course data in these subgroups are more limited, so individualize.",
               "id": "bacteremia-endocarditis/gram-negative-bacteremia/directed-therapy-duration-by-source/duration-gn-unknown-3"
             }
           ]
@@ -1343,15 +1357,15 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
         },
         {
           "organism": "ESBL-producing Enterobacterales",
-          "preferred": "Meropenem (per MERINO trial)",
-          "alternative": "TMP-SMX IV/PO if susceptible (emerging data supporting non-carbapenem options for urinary source), ceftazidime-avibactam",
-          "notes": "MERINO trial: pip-tazo INFERIOR to meropenem for ESBL bacteremia — do NOT use pip-tazo even if in vitro susceptible. Meropenem is standard. For non-severe infections with susceptible urinary source, some data supports TMP-SMX or ciprofloxacin for step-down."
+          "preferred": "Meropenem (per MERINO trial); ertapenem for stable patients with normal albumin",
+          "alternative": "Oral TMP-SMX or FQ step-down when susceptible and improving; cefepime-enmetazobactam (IDSA 2026 alternative outside the urinary tract)",
+          "notes": "MERINO trial: pip-tazo INFERIOR to meropenem for ESBL bacteremia — do NOT use pip-tazo for invasive ESBL disease even if in vitro susceptible (IDSA 2026 allows it only as an alternative for ESBL-E cUTI). Reserve ceftazidime-avibactam and other novel BL-BLIs for CRE. For susceptible urinary-source bacteremia, TMP-SMX or ciprofloxacin step-down is well supported."
         },
         {
           "organism": "Pseudomonas aeruginosa",
           "preferred": "Cefepime 2g IV q8h or pip-tazo 4.5g IV q6h or meropenem (based on susceptibilities)",
           "alternative": "Ceftazidime, aztreonam (if beta-lactam allergic), ceftolozane-tazobactam (for MDR strains)",
-          "notes": "Always check susceptibilities — Pseudomonas resistance is highly variable. Double coverage (two active anti-pseudomonal agents) is NOT routinely recommended for bacteremia — a single susceptible agent is sufficient for definitive therapy. Pseudomonas bacteremia carries higher mortality and 14-day treatment is standard."
+          "notes": "Always check susceptibilities — Pseudomonas resistance is highly variable. Double coverage (two active anti-pseudomonal agents) is NOT routinely recommended for bacteremia — a single susceptible agent is sufficient for definitive therapy. Pseudomonas bacteremia carries higher mortality; 14 days has been traditional, but observational data support shorter courses (about 7–11 days) when the source is controlled and the patient responds."
         }
       ],
       "pearls": [
@@ -1484,7 +1498,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
                 "cefepime"
               ],
               "sourceIds": [
-                "idsa-2024-amr",
+                "idsa-2026-amr",
                 "merino-2"
               ],
               "confidence": "moderate"
@@ -1518,7 +1532,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "meropenem"
             ],
             "sourceIds": [
-              "idsa-2024-amr",
+              "idsa-2026-amr",
               "merino"
             ],
             "confidence": "high"
@@ -1531,7 +1545,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
                 "ertapenem"
               ],
               "sourceIds": [
-                "idsa-2024-amr"
+                "idsa-2026-amr"
               ],
               "confidence": "moderate"
             }
@@ -1545,7 +1559,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               ],
               "sourceIds": [
                 "merino",
-                "idsa-2024-amr"
+                "idsa-2026-amr"
               ],
               "confidence": "high"
             }
@@ -1554,7 +1568,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
             "Move to oral completion only when a truly high-bioavailability susceptible option exists"
           ],
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "merino"
           ],
           "confidence": "high"
@@ -1580,12 +1594,12 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
               "cefiderocol"
             ],
             "sourceIds": [
-              "idsa-2024-amr"
+              "idsa-2026-amr"
             ],
             "confidence": "high"
           },
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ],
           "confidence": "high"
         }
@@ -1682,7 +1696,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
             "Slow clinical response"
           ],
           "sourceIds": [
-            "idsa-2024-amr"
+            "idsa-2026-amr"
           ],
           "confidence": "moderate"
         }
@@ -1699,7 +1713,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
             "Treat ceftriaxone nonsusceptibility as a mechanism clue, not just a lab oddity"
           ],
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "idsa-2025-cuti"
           ],
           "confidence": "high"
@@ -1720,7 +1734,7 @@ export const BACTEREMIA_ENDOCARDITIS: DiseaseState = {
             "Do not keep an apparently broad but actually inactive regimen just because the patient received it first"
           ],
           "sourceIds": [
-            "idsa-2024-amr",
+            "idsa-2026-amr",
             "idsa-2025-cuti"
           ],
           "confidence": "high"

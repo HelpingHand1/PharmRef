@@ -17,10 +17,10 @@ const ADVANCED_AGENTS_BASE: DiseaseState = {
       "MDR Gram-negative infections cause >700,000 deaths annually worldwide. ESKAPE pathogens (Enterococcus, Staph aureus, Klebsiella, Acinetobacter, Pseudomonas, Enterobacter) drive increasing resistance. Novel beta-lactam/BLI combinations have transformed treatment options for CRE and MDR Pseudomonas since 2014. Polymyxin use declining due to nephrotoxicity but remains critical for pan-resistant Acinetobacter.",
     keyGuidelines: [
       {
-        name: "IDSA 2022 Guidance on Resistant Gram-Negative Infections",
+        name: "IDSA 2026 Guidance on Resistant Gram-Negative Infections",
         detail:
-          "First IDSA guidance document specifically addressing CRE, ESBL-E, difficult-to-treat Pseudomonas, and carbapenem-resistant Acinetobacter baumannii. Defines preferred and alternative regimens for each resistance phenotype.",
-        sourceIds: ["idsa-2022-amr"],
+          "Current IDSA living guidance (July 2026; supersedes the 2022 and 2024 versions) covering ESBL-E, AmpC-E, CRE, DTR Pseudomonas, CRAB, and S. maltophilia. Defines preferred and alternative regimens for each resistance phenotype — including aztreonam-avibactam for NDM-CRE, sulbactam-durlobactam for CRAB, and cefiderocol monotherapy for S. maltophilia. See the AMR Gram-Negative topic for phenotype-level detail.",
+        sourceIds: ["idsa-2026-amr"],
       },
       {
         name: "ASHP/IDSA/SIDP 2020 Vancomycin Monitoring Consensus",
@@ -83,12 +83,12 @@ const ADVANCED_AGENTS_BASE: DiseaseState = {
       rapidDiagnostics: [
         {
           trigger: "Carbapenemase testing identifies KPC",
-          action: "Prioritize ceftazidime-avibactam or meropenem-vaborbactam and de-escalate away from polymyxin-based salvage if it was started empirically.",
+          action: "Prioritize ceftazidime-avibactam, meropenem-vaborbactam, or imipenem-cilastatin-relebactam and de-escalate away from polymyxin-based salvage if it was started empirically.",
           rationale: "Mechanism-specific therapy consistently outperforms older toxicity-heavy fallback regimens.",
         },
         {
           trigger: "Carbapenemase testing identifies NDM, VIM, or IMP",
-          action: "Do not continue any stand-alone beta-lactam/BLI product; move to ceftazidime-avibactam plus aztreonam or cefiderocol.",
+          action: "Do not continue any stand-alone beta-lactam/BLI product; move to aztreonam-avibactam or cefiderocol (ceftazidime-avibactam plus aztreonam if aztreonam-avibactam is unavailable).",
           rationale: "MBL-producing CRE is the main place where a paired regimen changes whether aztreonam is viable.",
         },
       ],
@@ -101,7 +101,7 @@ const ADVANCED_AGENTS_BASE: DiseaseState = {
         {
           marker: "Ceftazidime-avibactam coverage gap",
           interpretation: "A susceptible ceftazidime-avibactam result is compatible with KPC or OXA-48, but not with stand-alone MBL activity.",
-          action: "If an MBL is present, pair aztreonam or abandon the drug for a different anchor.",
+          action: "If an MBL is present, switch to aztreonam-avibactam or cefiderocol, or pair ceftazidime-avibactam with aztreonam if the fixed combination is unavailable.",
         },
       ],
       intrinsicResistance: [
@@ -120,7 +120,7 @@ const ADVANCED_AGENTS_BASE: DiseaseState = {
         {
           label: "KPC-CRE",
           status: "preferred",
-          detail: "Ceftazidime-avibactam or meropenem-vaborbactam are the primary anchors; imipenem-cilastatin-relebactam is another option when susceptible.",
+          detail: "Ceftazidime-avibactam, meropenem-vaborbactam, and imipenem-cilastatin-relebactam are all IDSA 2026 preferred anchors when susceptible.",
         },
         {
           label: "OXA-48-like CRE",
@@ -130,7 +130,7 @@ const ADVANCED_AGENTS_BASE: DiseaseState = {
         {
           label: "NDM, VIM, or IMP",
           status: "conditional",
-          detail: "Use ceftazidime-avibactam plus aztreonam or cefiderocol rather than any stand-alone BL/BLI product.",
+          detail: "Use aztreonam-avibactam or cefiderocol (IDSA 2026 preferred), or ceftazidime-avibactam plus aztreonam, rather than any stand-alone BL/BLI product.",
         },
         {
           label: "Colistin monotherapy",
@@ -142,7 +142,7 @@ const ADVANCED_AGENTS_BASE: DiseaseState = {
         standard: "7–14 days (source and severity dependent)",
         severe: "14 days (bacteremia) — repeat blood cultures at 48h",
         stewardshipNote:
-          "IDSA 2022: Use targeted regimens based on carbapenemase type. KPC — ceftazidime-avibactam or meropenem-vaborbactam preferred. NDM — aztreonam-avibactam (investigational), ceftazidime-avibactam + aztreonam. Combination therapy only when synergy demonstrated.",
+          "IDSA 2026: Use targeted regimens based on carbapenemase type. KPC — ceftazidime-avibactam, imipenem-relebactam, or meropenem-vaborbactam preferred. NDM/MBL — aztreonam-avibactam (FDA-approved 2025) or cefiderocol preferred, with ceftazidime-avibactam + aztreonam reasonable when the fixed combination is unavailable. OXA-48-like — ceftazidime-avibactam. Routine combination therapy is not needed when a novel agent is active.",
       },
       empiricTherapy: [
         {
@@ -151,16 +151,16 @@ const ADVANCED_AGENTS_BASE: DiseaseState = {
             {
               drug: "ceftazidime-avibactam",
               regimen: "Ceftazidime-Avibactam 2.5g IV q8h (adjust for renal function)",
-              notes: "Preferred for KPC-CRE and OXA-48. Does NOT cover NDM. Check local susceptibility.",
+              notes: "IDSA 2026 preferred for KPC-CRE and the preferred agent for OXA-48-like CRE. Does NOT cover NDM or other MBLs when used alone. Check local susceptibility.",
               evidence: "A-II",
-              evidenceSource: "IDSA 2022",
+              evidenceSource: "IDSA 2026 AMR",
             },
             {
               drug: "meropenem-vaborbactam",
               regimen: "Meropenem-Vaborbactam 4g IV q8h (infuse over 3h)",
-              notes: "Alternative for KPC-CRE. Does NOT cover NDM, OXA-48, or Acinetobacter.",
+              notes: "IDSA 2026 preferred for KPC-CRE (often favored because on-treatment resistance appears less common than with ceftazidime-avibactam). Does NOT cover NDM, OXA-48, or Acinetobacter.",
               evidence: "A-II",
-              evidenceSource: "IDSA 2022",
+              evidenceSource: "IDSA 2026 AMR",
             },
           ],
         },
@@ -168,12 +168,20 @@ const ADVANCED_AGENTS_BASE: DiseaseState = {
           line: "NDM-producing CRE",
           options: [
             {
-              drug: "ceftazidime-avibactam",
-              regimen: "Ceftazidime-Avibactam 2.5g IV q8h + Aztreonam 2g IV q6h (extended infusion)",
+              drug: "aztreonam-avibactam",
+              regimen: "Aztreonam-Avibactam 2.67g IV loading dose, then 2g IV q6h (each over 3h; CrCl >50 — renally adjust)",
               notes:
-                "Combination required — CAZ-AVI restores aztreonam activity against MBL-producers. Ceftazidime-avibactam protects aztreonam from hydrolysis. ID consult mandatory.",
+                "IDSA 2026 preferred for NDM/MBL-CRE (with cefiderocol), slightly favored over ceftazidime-avibactam + aztreonam. Fixed-dose Emblaveo, FDA-approved February 2025. Aztreonam evades MBL hydrolysis while avibactam blocks co-produced serine beta-lactamases. ID consult mandatory.",
               evidence: "B-II",
-              evidenceSource: "IDSA 2022",
+              evidenceSource: "IDSA 2026 AMR",
+            },
+            {
+              drug: "ceftazidime-avibactam",
+              regimen: "Ceftazidime-Avibactam 2.5g IV q8h + Aztreonam 2g IV q8h, administered simultaneously (each over 3h)",
+              notes:
+                "Reasonable when aztreonam-avibactam is unavailable. Combination required — avibactam protects aztreonam from co-produced serine beta-lactamases while aztreonam evades the MBL. Never use ceftazidime-avibactam alone for MBL producers. ID consult mandatory.",
+              evidence: "B-II",
+              evidenceSource: "IDSA 2026 AMR",
             },
           ],
         },
@@ -186,7 +194,7 @@ const ADVANCED_AGENTS_BASE: DiseaseState = {
               notes:
                 "Use only when all other options exhausted. Nephrotoxicity in 30-50%. Never monotherapy. Combination with meropenem, rifampin, or fosfomycin based on MIC data.",
               evidence: "C-III",
-              evidenceSource: "IDSA 2022",
+              evidenceSource: "IDSA 2026 AMR",
             },
           ],
         },
@@ -195,7 +203,7 @@ const ADVANCED_AGENTS_BASE: DiseaseState = {
         "Never use ceftazidime-avibactam monotherapy for NDM-producers — avibactam does NOT inhibit metallo-beta-lactamases. This is a potentially fatal prescribing error.",
         "MIC testing is mandatory before treating CRE — zone diameter breakpoints are unreliable. Use broth microdilution.",
         "Consult ID and clinical pharmacy for all CRE infections — outcomes are significantly better with specialist involvement.",
-        "Check the IDSA 2022 AMR guidance table — treatment choice depends on which carbapenemase is present.",
+        "Check the IDSA 2026 AMR guidance — treatment choice depends on which carbapenemase is present.",
       ],
     },
     {
@@ -276,23 +284,23 @@ const ADVANCED_AGENTS_BASE: DiseaseState = {
           options: [
             {
               drug: "ceftolozane-tazobactam",
-              regimen: "Ceftolozane-Tazobactam 3g IV q8h (HAP/VAP: 1.5g q8h for cUTI/IAI) — standard infusion 1h",
-              notes: "Excellent anti-pseudomonal activity. Stable against most Pseudomonas resistance mechanisms except MBL.",
+              regimen: "Ceftolozane-Tazobactam 3g IV q8h for HAP/VAP and serious DTR-PA (1.5g q8h for cUTI/cIAI); label infusion 1h, IDSA dosing table uses 3h extended infusion",
+              notes: "IDSA 2026 preferred for DTR-PA and the preferred agent for DTR-PA pneumonia. Excellent anti-pseudomonal activity. Stable against most Pseudomonas resistance mechanisms except MBL.",
               evidence: "A-II",
-              evidenceSource: "IDSA 2022",
+              evidenceSource: "IDSA 2026 AMR",
             },
             {
               drug: "imipenem-cilastatin-relebactam",
               regimen: "Imipenem-Cilastatin-Relebactam 1.25g IV q6h (infuse over 30 min)",
-              notes: "Active against KPC and AmpC producers. Restores imipenem activity. RESTORE-IMI trials support use.",
+              notes: "IDSA 2026 preferred for DTR-PA. Active against KPC and AmpC producers. Restores imipenem activity. RESTORE-IMI trials support use. Treatment-emergent non-susceptibility (~24% in observational cohorts) is a real risk — repeat susceptibilities on failure.",
               evidence: "A-II",
-              evidenceSource: "IDSA 2022",
+              evidenceSource: "IDSA 2026 AMR",
             },
           ],
         },
       ],
       pearls: [
-        "Ceftolozane-tazobactam is NOT active against ESBL-producing Enterobacteriaceae or KPC-CRE.",
+        "Ceftolozane-tazobactam is active against many ESBL-producing Enterobacterales but should be RESERVED for DTR-PA; it is NOT active against KPC- or MBL-producing CRE.",
         "Imipenem-cilastatin-relebactam does NOT cover NDM-producers or Acinetobacter.",
         "For CF patients with chronic Pseudomonas, susceptibility testing with agar dilution may give more reliable results than automated systems.",
         "Always obtain ID consultation for DTR-PA infections — mortality is significantly higher without appropriate therapy.",

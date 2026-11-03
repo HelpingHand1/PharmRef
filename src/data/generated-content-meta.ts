@@ -6,8 +6,22 @@ import type { ContentMetaSeed } from "./editorial/content-meta";
 export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   "uti": {
     "confidence": "high",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "IDSA 2025 cUTI guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Aligned pyelonephritis durations with IDSA 2025 cUTI (5–7 days FQ, 7 days non-FQ), added pivmecillinam, gepotidacin, and oral sulopenem for cystitis, added 2026 approvals (cefepime-zidebactam, oral tebipenem) to the reserve tier, and aligned ESBL/CRE notes with IDSA 2026 AMR guidance."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed 2025 cUTI reclassification, shorter-course recommendations, and IV-to-PO bacteremic UTI guidance."
+      }
+    ],
+    "guidelineVersion": "IDSA 2025 cUTI guidance + IDSA 2026 AMR guidance",
     "sources": [
       {
         "id": "idsa-2025-cuti",
@@ -20,21 +34,53 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "eau-2024-uti",
         "citation": "European Association of Urology UTI guidance, 2024."
+      },
+      {
+        "id": "idsa-2026-amr",
+        "citation": "IDSA guidance on antimicrobial-resistant gram-negative infections, 2026 (ESBL-E and CRE urinary recommendations)."
+      },
+      {
+        "id": "fda-pivmecillinam-label",
+        "citation": "Pivmecillinam (Pivya) prescribing information, 2024."
+      },
+      {
+        "id": "fda-gepotidacin-label",
+        "citation": "Gepotidacin (Blujepa) prescribing information."
+      },
+      {
+        "id": "fda-sulopenem-label",
+        "citation": "FDA approval of sulopenem etzadroxil/probenecid (Orlynvah), 2024."
       }
     ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed 2025 cUTI reclassification, shorter-course recommendations, and IV-to-PO bacteremic UTI guidance."
-      }
+    "whatChanged": [
+      "Pyelonephritis durations now follow IDSA 2025 cUTI guidance: TMP-SMX 7 days (not 14), fluoroquinolone 5–7 days.",
+      "Added pivmecillinam, gepotidacin, and oral sulopenem for uncomplicated cystitis.",
+      "Added 2026 FDA approvals cefepime-zidebactam and oral tebipenem to the reserve-agent tier."
     ]
   },
   "cap": {
     "confidence": "high",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "ATS/IDSA 2019 CAP guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated to the ATS 2025 CAP guideline: corticosteroids for severe CAP (not non-severe or influenza), 3–5 day courses for non-severe CAP once stable, ≥5 days for severe CAP, empiric antibacterials despite viral co-detection, and lung ultrasound as an imaging alternative."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed outpatient and inpatient CAP regimen selection, short-course data, and severe CAP steroid updates."
+      }
+    ],
+    "guidelineVersion": "ATS 2025 CAP update + ATS/IDSA 2019 CAP guidance",
     "sources": [
+      {
+        "id": "ats-2025-cap",
+        "citation": "Diagnosis and management of community-acquired pneumonia, official ATS clinical practice guideline update, AJRCCM 2025."
+      },
       {
         "id": "ats-idsa-2019-cap",
         "citation": "Adult community-acquired pneumonia guideline from ATS and IDSA, 2019."
@@ -48,43 +94,69 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Three-day versus eight-day amoxicillin strategy after early clinical stability in adult CAP, BMJ 2006."
       }
     ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed outpatient and inpatient CAP regimen selection, STEP short-course data, and severe CAP steroid updates."
-      }
+    "whatChanged": [
+      "Severe CAP now carries a conditional ATS 2025 recommendation for systemic corticosteroids; non-severe CAP is a strong recommendation against.",
+      "Non-severe CAP durations updated to 3–5 days once clinically stable; severe CAP stays at ≥5 days.",
+      "Positive respiratory virus tests no longer remove the need for empiric antibacterials in hospitalized CAP."
     ]
   },
   "hap-vap": {
     "confidence": "moderate",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "ATS/IDSA 2016 HAP/VAP guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated sepsis references to SSC 2026, resistant gram-negative references to IDSA 2026, and replaced outdated TMP-SMX-first Stenotrophomonas guidance with IDSA 2026 cefiderocol-monotherapy preference."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed HAP/VAP empiric coverage, resistant gram-negative escalation, and ICU stewardship framing."
+      }
+    ],
+    "guidelineVersion": "ATS/IDSA 2016 HAP/VAP guidance + IDSA 2026 AMR guidance",
     "sources": [
       {
         "id": "ats-idsa-2016-hap-vap",
         "citation": "Hospital-acquired and ventilator-associated pneumonia guideline, 2016."
       },
       {
-        "id": "idsa-2024-amr",
-        "citation": "Antimicrobial resistance guidance used for resistant gram-negative escalation decisions, 2024."
+        "id": "idsa-2026-amr",
+        "citation": "Antimicrobial resistance guidance used for resistant gram-negative escalation decisions, 2026."
+      },
+      {
+        "id": "ssc-2026",
+        "citation": "Surviving Sepsis Campaign international guidelines, 2026."
       },
       {
         "id": "smart-trial",
         "citation": "Balanced crystalloids versus saline in ICU patients, NEJM 2018."
       }
     ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed HAP/VAP empiric coverage, resistant gram-negative escalation, and ICU stewardship framing."
-      }
+    "whatChanged": [
+      "Stenotrophomonas: cefiderocol monotherapy is now preferred; TMP-SMX is a combination component, and ceftazidime is no longer listed."
     ]
   },
   "ssti": {
     "confidence": "moderate",
-    "lastReviewed": "2026-04-05",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated necrotizing-infection sepsis reference to SSC 2026 and resistant-organism references to IDSA 2026."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed purulent and nonpurulent SSTI pathways, MRSA coverage boundaries, and oral step-down strategy."
+      }
+    ],
     "guidelineVersion": "IDSA SSTI guidance",
     "sources": [
       {
@@ -92,25 +164,32 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Skin and soft tissue infection guidance from IDSA."
       },
       {
-        "id": "idsa-2024-amr",
-        "citation": "Resistant organism escalation guidance, 2024."
+        "id": "idsa-2026-amr",
+        "citation": "Resistant organism escalation guidance, 2026."
       },
       {
         "id": "oviva",
         "citation": "Oral versus intravenous antibiotics for bone and joint and deep infection pathways, NEJM 2019."
       }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed purulent and nonpurulent SSTI pathways, MRSA coverage boundaries, and oral step-down strategy."
-      }
     ]
   },
   "iai": {
     "confidence": "moderate",
-    "lastReviewed": "2026-04-05",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Aligned ESBL-E intra-abdominal recommendations with IDSA 2026 (pip-tazo not suggested outside the urinary tract; cefepime-enmetazobactam as an alternative)."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed source-control-first IAI management, biliary coverage boundaries, and short-course post-control durations."
+      }
+    ],
     "guidelineVersion": "SIS/IDSA intra-abdominal infection guidance",
     "sources": [
       {
@@ -129,23 +208,30 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "stop-it",
         "citation": "Short-course antimicrobial therapy for source-controlled intra-abdominal infection, NEJM 2015."
       }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed source-control-first IAI management, biliary coverage boundaries, and short-course post-control durations."
-      }
     ]
   },
   "amr-gn": {
     "confidence": "high",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "IDSA 2024 AMR guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated all six phenotype pathways to the IDSA 2026 AMR guidance, including the ceftriaxone MIC ≥4 ESBL proxy, new cystitis agents, aztreonam-avibactam for NDM, ceftolozane-tazobactam for DTR-PA pneumonia, sulbactam-durlobactam priority for CRAB with corrected label dosing, and cefiderocol monotherapy for S. maltophilia."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed IDSA AMR mechanism-based therapy, carbapenem-sparing strategy, and extended-infusion beta-lactam use."
+      }
+    ],
+    "guidelineVersion": "IDSA 2026 AMR guidance",
     "sources": [
       {
-        "id": "idsa-2024-amr",
-        "citation": "Guidance for ESBL-E, CRE, DTR Pseudomonas, and resistant Acinetobacter, 2024."
+        "id": "idsa-2026-amr",
+        "citation": "Guidance for ESBL-E, AmpC-E, CRE, DTR Pseudomonas, CRAB, and S. maltophilia, 2026."
       },
       {
         "id": "merino",
@@ -156,26 +242,46 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Extended-infusion beta-lactam stewardship principles used throughout resistant gram-negative pathways."
       }
     ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed IDSA AMR mechanism-based therapy, carbapenem-sparing strategy, and extended-infusion beta-lactam use."
-      }
+    "whatChanged": [
+      "Rebased on IDSA 2026 AMR guidance (July 2026), superseding the 2024 version.",
+      "Corrected sulbactam-durlobactam dosing to the label dose of 1 g sulbactam + 1 g durlobactam q6h.",
+      "S. maltophilia: cefiderocol monotherapy is now preferred; TMP-SMX dosing updated to 8–12 mg/kg/day as a combination component."
     ]
   },
   "bacteremia-endocarditis": {
     "confidence": "high",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "ESC 2023 + AHA 2015 IE guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Added the AHA 2026 IE scientific statement and IDSA/ESCMID 2026 SAB consensus statements (TTE for all adults, risk-based TEE, 48-hour repeat cultures, 14 days without deep foci), aligned gram-negative bacteremia durations with Yahav and BALANCE, and corrected ESBL alternatives."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed bloodstream infection duration, endocarditis evaluation, and oral or OPAT transition criteria."
+      }
+    ],
+    "guidelineVersion": "AHA 2026 IE statement + ESC 2023 IE guidance + IDSA/ESCMID 2026 SAB consensus",
     "sources": [
       {
+        "id": "aha-2026-ie",
+        "citation": "AHA scientific statement on infective endocarditis diagnosis, antibiotic therapy, and management, Circulation 2026."
+      },
+      {
         "id": "esc-2023-ie",
-        "citation": "Current European infective endocarditis guideline update, 2023."
+        "citation": "European infective endocarditis guideline update, 2023."
+      },
+      {
+        "id": "idsa-escmid-2026-sab",
+        "citation": "IDSA/ESCMID consensus statements on S. aureus bacteremia risk stratification, diagnostics, and duration, 2026."
       },
       {
         "id": "aha-2015-ie",
-        "citation": "Foundational AHA scientific statement for adult infective endocarditis, 2015."
+        "citation": "Prior AHA scientific statement for adult infective endocarditis, 2015."
       },
       {
         "id": "poet",
@@ -186,17 +292,29 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Adjunctive rifampin for Staphylococcus aureus bacteremia, Lancet 2018."
       }
     ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed bloodstream infection duration, endocarditis evaluation, and oral or OPAT transition criteria."
-      }
+    "whatChanged": [
+      "S. aureus bacteremia workup follows IDSA/ESCMID 2026: TTE for all adults, TEE by risk feature, repeat cultures at 48 hours.",
+      "Endocarditis content reflects the AHA 2026 statement (Duke-ISCVID, partial oral therapy with TEE at transition, post-op duration).",
+      "Gram-negative bacteremia durations now default to 7 days for responding patients with source control."
     ]
   },
   "c-difficile": {
     "confidence": "high",
-    "lastReviewed": "2026-04-05",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Flagged bezlotoxumab as discontinued (US January 2025; EU authorization withdrawn October 2026) and redirected recurrence prevention to fidaxomicin and microbiome restoration; corrected the heart-failure warning (not boxed) and the ACG 2021 fidaxomicin statement."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed CDI severity stratification, fidaxomicin preference, and recurrence-prevention escalation."
+      }
+    ],
     "guidelineVersion": "IDSA/SHEA CDI guidance",
     "sources": [
       {
@@ -210,14 +328,14 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "fmt-stewardship",
         "citation": "Evidence base for fecal microbiota transplant in multiply recurrent CDI."
+      },
+      {
+        "id": "ashp-bezlotoxumab-discontinued",
+        "citation": "ASHP drug shortage notice documenting the discontinuation of Zinplava (bezlotoxumab)."
       }
     ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed CDI severity stratification, fidaxomicin preference, and recurrence-prevention escalation."
-      }
+    "whatChanged": [
+      "Bezlotoxumab (Zinplava) is discontinued and no longer recommended; regimens now point to fidaxomicin and microbiota-based therapies."
     ]
   },
   "bone-joint": {
@@ -278,9 +396,27 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "fungal-infections": {
     "confidence": "moderate",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "IDSA 2016 candidiasis and aspergillosis guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Added the ECMM/ISHAM/ASM 2025 global candidiasis guideline and rezafungin, flagged fluconazole-resistant C. parapsilosis, and corrected cryptococcal trial references (ACTA, AMBITION, COAT)."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed candidiasis and aspergillosis first-line agents, salvage roles, and therapeutic monitoring priorities."
+      }
+    ],
+    "guidelineVersion": "ECMM 2025 + IDSA 2016 candidiasis and IDSA 2016 aspergillosis guidance",
     "sources": [
+      {
+        "id": "ecmm-2025-candidiasis",
+        "citation": "Global guideline for the diagnosis and management of candidiasis, ECMM/ISHAM/ASM, Lancet Infect Dis 2025."
+      },
       {
         "id": "idsa-candidiasis",
         "citation": "Clinical practice guideline for candidiasis, IDSA 2016."
@@ -294,22 +430,33 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Isavuconazole versus voriconazole for invasive aspergillosis, Lancet 2016."
       }
     ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed candidiasis and aspergillosis first-line agents, salvage roles, and therapeutic monitoring priorities."
-      }
+    "whatChanged": [
+      "Added the ECMM 2025 global candidiasis guideline and once-weekly rezafungin.",
+      "Corrected the cryptococcal induction trial name (ACTA) and COAT mortality figures."
     ]
   },
   "advanced-agents": {
     "confidence": "emerging",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "IDSA 2022-2024 resistant pathogen guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Replaced IDSA 2022 references with IDSA 2026, added aztreonam-avibactam for NDM-CRE, corrected aztreonam co-dosing to q8h, and fixed the ceftolozane-tazobactam ESBL activity statement."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed reserve-agent positioning for resistant gram-negatives and stewardship boundaries for novel therapies."
+      }
+    ],
+    "guidelineVersion": "IDSA 2026 resistant pathogen guidance",
     "sources": [
       {
-        "id": "idsa-2024-amr",
-        "citation": "Guidance for CRE, ESBL-E, DTR Pseudomonas, and resistant gram-negatives."
+        "id": "idsa-2026-amr",
+        "citation": "Guidance for CRE, ESBL-E, DTR Pseudomonas, and resistant gram-negatives, 2026."
       },
       {
         "id": "aspect-cuti-ciai",
@@ -323,18 +470,25 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "restore-imi",
         "citation": "Imipenem-cilastatin-relebactam versus polymyxin-based therapy."
       }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed reserve-agent positioning for resistant gram-negatives and stewardship boundaries for novel therapies."
-      }
     ]
   },
   "febrile-neutropenia": {
     "confidence": "moderate",
-    "lastReviewed": "2026-04-05",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated resistant gram-negative references to IDSA 2026 and noted that quinupristin-dalfopristin is no longer marketed in the US."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed high-risk febrile neutropenia initial coverage, escalation triggers, and outpatient risk stratification."
+      }
+    ],
     "guidelineVersion": "IDSA febrile neutropenia guidance",
     "sources": [
       {
@@ -352,13 +506,6 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "cisne-score",
         "citation": "CISNE score used to refine low-risk classification in clinically stable solid-tumor outpatients."
-      }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed high-risk febrile neutropenia initial coverage, escalation triggers, and outpatient risk stratification."
       }
     ]
   },
@@ -390,12 +537,26 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "sepsis": {
     "confidence": "high",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "SSC 2021 + Sepsis-3 + BALANCE 2024",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated to the Surviving Sepsis Campaign 2026 guidelines: possible/probable/definite antimicrobial timing tiers, qSOFA not recommended as a single screening tool, source control ideally within 6 hours, prolonged beta-lactam infusion as a strong recommendation, corticosteroids for adults with septic shock, MAP 60–65 mmHg for adults ≥65, and suggestion against routine empiric antifungals."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed early sepsis antimicrobials, resistant-risk stratification, and shorter-course de-escalation evidence."
+      }
+    ],
+    "guidelineVersion": "SSC 2026 + Sepsis-3 + BALANCE 2024",
     "sources": [
       {
-        "id": "ssc-2021",
-        "citation": "Surviving Sepsis Campaign international guidelines, 2021."
+        "id": "ssc-2026",
+        "citation": "Surviving Sepsis Campaign international guidelines for management of sepsis and septic shock, 2026."
       },
       {
         "id": "sepsis-3",
@@ -406,12 +567,10 @@ export const DISEASE_CONTENT_META: Record<string, ContentMetaSeed> = {
         "citation": "Seven versus fourteen days for bloodstream infection, 2024."
       }
     ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed early sepsis antimicrobials, resistant-risk stratification, and shorter-course de-escalation evidence."
-      }
+    "whatChanged": [
+      "Rebased on SSC 2026 (March 2026), superseding SSC 2021.",
+      "Corrected qSOFA guidance: it should not be used as a single screening tool.",
+      "Corticosteroids now suggested for adults with septic shock; prolonged beta-lactam infusion is a strong recommendation."
     ]
   },
   "t2dm": {
@@ -647,12 +806,30 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "amr-gn/esbl-e": {
     "confidence": "high",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "IDSA 2024 ESBL-E guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated to IDSA 2026: ceftriaxone MIC ≥4 ESBL proxy, gepotidacin/pivmecillinam/sulopenem/single-dose aminoglycosides for cystitis, pip-tazo as a cUTI-only alternative, and cefepime-enmetazobactam outside the urinary tract."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed ESBL empiric boundaries, carbapenem preference, and oral step-down cautions."
+      }
+    ],
+    "guidelineVersion": "IDSA 2026 ESBL-E guidance",
+    "whatChanged": [
+      "ESBL presumption threshold changed to ceftriaxone MIC ≥4 µg/mL (IDSA 2026).",
+      "Added gepotidacin, pivmecillinam, oral sulopenem, and single-dose aminoglycosides as preferred cystitis options."
+    ],
     "sources": [
       {
-        "id": "idsa-2024-amr",
-        "citation": "Guidance for ESBL-producing Enterobacterales, including preferred carbapenem use and oral step-down cautions, 2024."
+        "id": "idsa-2026-amr",
+        "citation": "Guidance for ESBL-producing Enterobacterales, including preferred carbapenem use and oral step-down cautions, 2026."
       },
       {
         "id": "merino",
@@ -662,23 +839,30 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "pkpd-stewardship",
         "citation": "Extended-infusion beta-lactam principles applied to ESBL-E severe infection management."
       }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed ESBL empiric boundaries, carbapenem preference, and oral step-down cautions."
-      }
     ]
   },
   "amr-gn/cre-kpc": {
     "confidence": "high",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "IDSA 2024 KPC-CRE guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated to IDSA 2026: three preferred KPC agents listed without ranking, CRE urinary options aligned, and MBL exit path points to aztreonam-avibactam or cefiderocol."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed KPC-CRE preferred BL/BLI therapy and definitive selection criteria."
+      }
+    ],
+    "guidelineVersion": "IDSA 2026 KPC-CRE guidance",
     "sources": [
       {
-        "id": "idsa-2024-amr",
-        "citation": "Preferred beta-lactam/beta-lactamase inhibitor strategy for KPC-producing CRE, 2024."
+        "id": "idsa-2026-amr",
+        "citation": "Preferred beta-lactam/beta-lactamase inhibitor strategy for KPC-producing CRE, 2026."
       },
       {
         "id": "tango-ii",
@@ -697,7 +881,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "section": "Preferred therapy sequencing",
         "confidence": "high",
-        "rationale": "IDSA 2024 and comparative KPC data consistently support novel beta-lactam/BLI therapy over polymyxin-era regimens."
+        "rationale": "IDSA 2026 and comparative KPC data consistently support novel beta-lactam/BLI therapy over polymyxin-era regimens."
       },
       {
         "section": "Resistance emergence comparisons",
@@ -708,27 +892,34 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineDisagreements": [
       {
         "topic": "First-choice KPC agent when all are susceptible",
-        "guidanceA": "IDSA 2024 slightly favors meropenem-vaborbactam over ceftazidime-avibactam and imipenem-cilastatin-relebactam.",
+        "guidanceA": "IDSA 2026 lists ceftazidime-avibactam, imipenem-cilastatin-relebactam, and meropenem-vaborbactam as preferred (alphabetically), discussing comparative resistance-emergence data in the rationale.",
         "guidanceB": "Many institutions operationally treat the three agents as near-equivalent and default to whichever reaches the patient fastest.",
         "pharmacistTakeaway": "Do not delay active therapy over a ranking nuance; start an active KPC agent promptly, then refine once logistics and prior exposure are reviewed."
-      }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed KPC-CRE preferred BL/BLI therapy and definitive selection criteria."
       }
     ]
   },
   "amr-gn/cre-mbl": {
     "confidence": "moderate",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "IDSA 2024 MBL-CRE guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated to IDSA 2026: aztreonam-avibactam (FDA-approved 2025) and cefiderocol are preferred for NDM/MBL-CRE, with ceftazidime-avibactam plus aztreonam as the workaround when the fixed product is unavailable."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed MBL-CRE salvage strategy, aztreonam combination use, and cefiderocol role."
+      }
+    ],
+    "guidelineVersion": "IDSA 2026 MBL-CRE guidance",
     "sources": [
       {
-        "id": "idsa-2024-amr",
-        "citation": "Aztreonam plus avibactam-based strategy and cefiderocol considerations for MBL producers, 2024."
+        "id": "idsa-2026-amr",
+        "citation": "Aztreonam-avibactam, cefiderocol, and ceftazidime-avibactam plus aztreonam strategies for MBL producers, 2026."
       },
       {
         "id": "falcone-2021-caz-avi-aztreonam",
@@ -740,14 +931,15 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       }
     ],
     "whatChanged": [
+      "Added fixed-dose aztreonam-avibactam as an IDSA 2026 preferred option with label dosing.",
       "Added rapid-diagnostic actions for MBL confirmation and combo-testing workflow.",
       "Added explicit warning that aztreonam monotherapy remains unreliable despite apparent in vitro activity."
     ],
     "sectionConfidence": [
       {
-        "section": "Ceftazidime-avibactam plus aztreonam strategy",
+        "section": "Aztreonam-avibactam and ceftazidime-avibactam plus aztreonam strategy",
         "confidence": "moderate",
-        "rationale": "Supported by strong mechanistic logic and growing observational data, but still lacks large randomized trials."
+        "rationale": "Supported by strong mechanistic logic, registration data for the fixed combination, and observational data for the two-drug workaround, but still lacks large phenotype-specific randomized trials."
       },
       {
         "section": "Cefiderocol fallback or bridge role",
@@ -758,27 +950,34 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineDisagreements": [
       {
         "topic": "Preferred first-line option for serious MBL-CRE",
-        "guidanceA": "IDSA 2024 lists ceftazidime-avibactam plus aztreonam and cefiderocol as preferred options.",
-        "guidanceB": "Many stewardship programs operationally favor ceftazidime-avibactam plus aztreonam first when synchronized co-administration is feasible.",
-        "pharmacistTakeaway": "Use the combo-first approach when your lab and infusion workflow can support it; cefiderocol remains an important alternative when they cannot."
-      }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed MBL-CRE salvage strategy, aztreonam combination use, and cefiderocol role."
+        "guidanceA": "IDSA 2026 lists aztreonam-avibactam and cefiderocol as preferred, with a slight preference for aztreonam-avibactam over ceftazidime-avibactam plus aztreonam.",
+        "guidanceB": "Programs without aztreonam-avibactam on formulary continue to use synchronized ceftazidime-avibactam plus aztreonam as their aztreonam-based strategy.",
+        "pharmacistTakeaway": "Prefer the fixed aztreonam-avibactam product when available; otherwise run the two-drug workaround with synchronized dosing, and keep cefiderocol as the other preferred option."
       }
     ]
   },
   "amr-gn/dtr-pa": {
     "confidence": "moderate",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "IDSA 2024 DTR Pseudomonas guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated to IDSA 2026: ceftolozane-tazobactam preferred for DTR-PA pneumonia, cefiderocol moved to an alternative outside the urinary tract, imipenem-relebactam resistance-emergence data added, and nebulized-antibiotic stance softened."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed DTR Pseudomonas susceptibility-based escalation and newer beta-lactam positioning."
+      }
+    ],
+    "guidelineVersion": "IDSA 2026 DTR Pseudomonas guidance",
     "sources": [
       {
-        "id": "idsa-2024-amr",
-        "citation": "Preferred newer beta-lactams and susceptibility-based escalation framework for DTR Pseudomonas, 2024."
+        "id": "idsa-2026-amr",
+        "citation": "Preferred newer beta-lactams and susceptibility-based escalation framework for DTR Pseudomonas, 2026."
       },
       {
         "id": "aspect-np",
@@ -790,6 +989,7 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       }
     ],
     "whatChanged": [
+      "Ceftolozane-tazobactam is now the preferred agent for DTR-PA pneumonia; cefiderocol is an alternative outside the urinary tract (IDSA 2026).",
       "Added rapid-diagnostic actions separating MBL-positive DTR Pseudomonas from the broader reserve-beta-lactam group.",
       "Added dose-interpretation callouts clarifying when the pneumonia exposure should be used."
     ],
@@ -808,27 +1008,34 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineDisagreements": [
       {
         "topic": "Ceftolozane-tazobactam versus ceftazidime-avibactam as the default reserve beta-lactam",
-        "guidanceA": "IDSA 2024 treats several newer agents as acceptable depending on susceptibility and mechanism.",
+        "guidanceA": "IDSA 2026 treats ceftazidime-avibactam, ceftolozane-tazobactam, and imipenem-relebactam as preferred outside the urinary tract, but favors ceftolozane-tazobactam for pneumonia.",
         "guidanceB": "Many hospitals still promote one as a local first-look agent based on their novel-antibiogram data.",
         "pharmacistTakeaway": "Trust local susceptibility data over generic brand familiarity when both drugs are active."
-      }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed DTR Pseudomonas susceptibility-based escalation and newer beta-lactam positioning."
       }
     ]
   },
   "amr-gn/crab-steno": {
     "confidence": "emerging",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "IDSA 2024 CRAB/Stenotrophomonas guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated to IDSA 2026: sulbactam-durlobactam plus imipenem or meropenem is the priority for invasive CRAB (all else bridge-only) with corrected label dosing, and cefiderocol monotherapy is now preferred for invasive S. maltophilia."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed CRAB and Stenotrophomonas combination strategies and limited-agent stewardship."
+      }
+    ],
+    "guidelineVersion": "IDSA 2026 CRAB/Stenotrophomonas guidance",
     "sources": [
       {
-        "id": "idsa-2024-amr",
-        "citation": "Guidance for CRAB and Stenotrophomonas with emphasis on combination therapy and selective use of newer agents, 2024."
+        "id": "idsa-2026-amr",
+        "citation": "Guidance for invasive CRAB and S. maltophilia infection, including sulbactam-durlobactam priority and cefiderocol monotherapy preference, 2026."
       },
       {
         "id": "attack",
@@ -840,8 +1047,9 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       }
     ],
     "whatChanged": [
-      "Added explicit breakpoint warnings for Stenotrophomonas ceftazidime reporting and CRAB susceptibility workflow.",
-      "Added intrinsic-resistance callouts clarifying why carbapenems should come off once Stenotrophomonas is the target."
+      "Corrected sulbactam-durlobactam dosing to 1 g sulbactam + 1 g durlobactam IV q6h over 3 hours (label dose).",
+      "S. maltophilia: cefiderocol monotherapy is preferred; aztreonam-avibactam, levofloxacin, minocycline, and TMP-SMX are combination alternatives.",
+      "Added explicit breakpoint warnings for Stenotrophomonas ceftazidime reporting and CRAB susceptibility workflow."
     ],
     "sectionConfidence": [
       {
@@ -850,35 +1058,42 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "rationale": "The signal is strong and practice-changing, but the evidence base is still much smaller than for common syndromes."
       },
       {
-        "section": "Combination framing for severe Stenotrophomonas infection",
+        "section": "Cefiderocol monotherapy for invasive Stenotrophomonas infection",
         "confidence": "emerging",
-        "rationale": "Most recommendations are mechanistic and observational rather than trial-driven."
+        "rationale": "IDSA 2026 bases this mainly on susceptibility and neutropenic animal data, with limited clinical outcome data."
       }
     ],
     "guidelineDisagreements": [
       {
         "topic": "How aggressively to combine cefiderocol in CRAB",
-        "guidanceA": "IDSA 2024 discourages cefiderocol monotherapy and favors combination framing for CRAB.",
+        "guidanceA": "IDSA 2026 reserves cefiderocol for invasive CRAB when resistance precludes sulbactam-durlobactam or as bridge therapy, and the CREDIBLE-CR signal keeps it out of monotherapy framing.",
         "guidanceB": "Some clinicians still individualize toward monotherapy late in therapy if cultures clear and no second active agent remains.",
         "pharmacistTakeaway": "Start with combination thinking for CRAB and only simplify with specialist review after clear clinical improvement."
-      }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed CRAB and Stenotrophomonas combination strategies and limited-agent stewardship."
       }
     ]
   },
   "advanced-agents/cre-management": {
     "confidence": "moderate",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "Advanced CRE agent review 2024",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated CRE agent selection to IDSA 2026, added aztreonam-avibactam for NDM-CRE, and corrected aztreonam co-dosing with ceftazidime-avibactam to q8h."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed mechanism-specific CRE agent selection across KPC, OXA, and MBL phenotypes."
+      }
+    ],
+    "guidelineVersion": "Advanced CRE agent review (IDSA 2026)",
     "sources": [
       {
-        "id": "idsa-2024-amr",
-        "citation": "Agent selection across KPC, OXA, and MBL resistance mechanisms."
+        "id": "idsa-2026-amr",
+        "citation": "Agent selection across KPC, OXA, and MBL resistance mechanisms, 2026."
       },
       {
         "id": "tango-ii",
@@ -904,23 +1119,30 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "confidence": "moderate",
         "rationale": "Evidence remains limited and often center-specific after first-line options are exhausted."
       }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed mechanism-specific CRE agent selection across KPC, OXA, and MBL phenotypes."
-      }
     ]
   },
   "advanced-agents/mdr-pseudomonas": {
     "confidence": "moderate",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "Advanced DTR Pseudomonas agent review 2024",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated DTR Pseudomonas agent positioning to IDSA 2026 and corrected the ceftolozane-tazobactam ESBL activity statement."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed advanced agent positioning for MDR Pseudomonas and susceptibility-guided de-escalation."
+      }
+    ],
+    "guidelineVersion": "Advanced DTR Pseudomonas agent review (IDSA 2026)",
     "sources": [
       {
-        "id": "idsa-2024-amr",
-        "citation": "Mechanism-aware DTR Pseudomonas escalation strategy."
+        "id": "idsa-2026-amr",
+        "citation": "Mechanism-aware DTR Pseudomonas escalation strategy, 2026."
       },
       {
         "id": "aspect-np",
@@ -945,13 +1167,6 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "section": "Polymyxin fallback role",
         "confidence": "high",
         "rationale": "There is broad agreement that toxicity and poorer outcomes push polymyxins into late salvage status."
-      }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed advanced agent positioning for MDR Pseudomonas and susceptibility-guided de-escalation."
       }
     ]
   },
@@ -1013,9 +1228,31 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "bacteremia-endocarditis/sab-workup": {
     "confidence": "high",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "SAB workup and IE-screening review",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated to IDSA/ESCMID 2026 SAB consensus statements: TTE for all adults, risk-feature-based TEE, ≥2 repeat culture sets at 48 hours, whole-body imaging for unknown focus, and 14 days for low- and increased-risk SAB without deep-seated foci; added ceftobiprole."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed S. aureus bacteremia bundle elements, repeat-culture timing, and echocardiography triggers."
+      }
+    ],
+    "guidelineVersion": "IDSA/ESCMID 2026 SAB consensus statements",
+    "whatChanged": [
+      "Replaced the uncomplicated/complicated checklist with IDSA/ESCMID 2026 low- vs increased-risk stratification.",
+      "TEE criteria now follow the 2026 risk features, including a positive blood culture ≥48 hours after the first."
+    ],
     "sources": [
+      {
+        "id": "idsa-escmid-2026-sab",
+        "citation": "Risk stratification, diagnostic evaluation, and duration of therapy for S. aureus bacteremia, IDSA/ESCMID 2026."
+      },
       {
         "id": "aha-2015-ie",
         "citation": "Imaging, blood culture clearance, and infective endocarditis workup standards relevant to S. aureus bacteremia."
@@ -1028,20 +1265,31 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "holland-2014-sab-review",
         "citation": "Diagnostic workup, complication screening, and management standards for S. aureus bacteremia."
       }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed S. aureus bacteremia bundle elements, repeat-culture timing, and echocardiography triggers."
-      }
     ]
   },
   "bacteremia-endocarditis/native-valve-ie": {
     "confidence": "high",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "ESC 2023 / AHA 2015 native-valve IE guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Added AHA 2026 statement positions: Duke-ISCVID endorsement, TEE as first-line imaging, partial oral therapy with TEE at transition, streptococcal penicillin-intermediate/resistant regimens, and post-operative duration."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed native-valve endocarditis diagnostic criteria, surgical triggers, and oral step-down boundaries."
+      }
+    ],
+    "guidelineVersion": "AHA 2026 / ESC 2023 native-valve IE guidance",
     "sources": [
+      {
+        "id": "aha-2026-ie",
+        "citation": "AHA 2026 scientific statement on infective endocarditis diagnosis, antibiotic therapy, and management."
+      },
       {
         "id": "esc-2023-ie",
         "citation": "Current diagnostic and treatment recommendations for native-valve infective endocarditis."
@@ -1053,13 +1301,6 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "kang-2012-early-surgery",
         "citation": "Randomized data supporting early surgery in selected left-sided infective endocarditis."
-      }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed native-valve endocarditis diagnostic criteria, surgical triggers, and oral step-down boundaries."
       }
     ]
   },
@@ -1091,7 +1332,21 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "bacteremia-endocarditis/gram-negative-bacteremia": {
     "confidence": "high",
-    "lastReviewed": "2026-04-05",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Aligned duration options with Yahav 2019, BALANCE 2024, and IDSA 2025 cUTI (7 days for responding patients with source control), softened the 14-day Pseudomonas default, and removed ceftazidime-avibactam as an ESBL alternative."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed uncomplicated gram-negative bacteremia duration evidence and IV-to-PO transition criteria."
+      }
+    ],
     "guidelineVersion": "Modern uncomplicated GNB duration review",
     "sources": [
       {
@@ -1105,13 +1360,6 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "oral-stepdown-bacteremia",
         "citation": "IV-to-oral transition and source-specific duration literature for uncomplicated gram-negative bacteremia."
-      }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed uncomplicated gram-negative bacteremia duration evidence and IV-to-PO transition criteria."
       }
     ]
   },
@@ -1143,12 +1391,26 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
   },
   "sepsis/sepsis-community": {
     "confidence": "high",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "SSC 2021 + community sepsis stewardship review",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated community sepsis framing to SSC 2026 timing tiers, prolonged beta-lactam infusion, and the suggestion against routine empiric antifungals."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed community-onset sepsis empiric framing and early narrowing after source clarification."
+      }
+    ],
+    "guidelineVersion": "SSC 2026 + community sepsis stewardship review",
     "sources": [
       {
-        "id": "ssc-2021",
-        "citation": "Early sepsis recognition, antibiotics, and hemodynamic management."
+        "id": "ssc-2026",
+        "citation": "Early sepsis recognition, antibiotics, and hemodynamic management, 2026."
       },
       {
         "id": "balance",
@@ -1158,49 +1420,63 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
         "id": "clovers",
         "citation": "Fluid strategy data after initial sepsis resuscitation, NEJM 2023."
       }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed community-onset sepsis empiric framing and early narrowing after source clarification."
-      }
     ]
   },
   "sepsis/sepsis-hcap": {
     "confidence": "moderate",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "SSC 2021 + AMR risk-informed sepsis stewardship",
-    "sources": [
-      {
-        "id": "ssc-2021",
-        "citation": "Core septic shock bundle and timing recommendations."
-      },
-      {
-        "id": "idsa-2024-amr",
-        "citation": "Mechanism-aware resistant-pathogen treatment guidance relevant to healthcare-associated sepsis."
-      },
-      {
-        "id": "cdc-amr-threats-2019",
-        "citation": "US resistant-pathogen epidemiology supporting healthcare-associated resistant-gram-negative risk assessment."
-      }
-    ],
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
     "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated to SSC 2026 and IDSA 2026 AMR guidance, including aztreonam-avibactam for suspected MBL-CRE, risk-based empiric MDR coverage, and IDSA/ESCMID 2026 SAB workup."
+      },
       {
         "reviewedOn": "2026-04-05",
         "reviewedBy": "PharmRef editorial review",
         "summary": "Reviewed healthcare-exposure resistance risk, broader empiric coverage boundaries, and de-escalation triggers."
       }
+    ],
+    "guidelineVersion": "SSC 2026 + AMR risk-informed sepsis stewardship",
+    "sources": [
+      {
+        "id": "ssc-2026",
+        "citation": "Core sepsis timing, empiric coverage, and de-escalation recommendations, 2026."
+      },
+      {
+        "id": "idsa-2026-amr",
+        "citation": "Mechanism-aware resistant-pathogen treatment guidance relevant to healthcare-associated sepsis, 2026."
+      },
+      {
+        "id": "cdc-amr-threats-2019",
+        "citation": "US resistant-pathogen epidemiology supporting healthcare-associated resistant-gram-negative risk assessment."
+      }
     ]
   },
   "sepsis/septic-shock": {
     "confidence": "high",
-    "lastReviewed": "2026-04-05",
-    "guidelineVersion": "SSC 2021 septic shock guidance",
+    "lastReviewed": "2026-11-03",
+    "reviewedBy": "Pharmacist sign-off",
+    "owner": "PharmRef editorial review",
+    "reviewHistory": [
+      {
+        "reviewedOn": "2026-11-03",
+        "reviewedBy": "Pharmacist sign-off",
+        "summary": "Updated to SSC 2026: corticosteroids suggested for adults with septic shock, MAP 60–65 mmHg for adults ≥65, peripheral vasopressor initiation, source control ideally within 6 hours, and prolonged beta-lactam infusion as a strong recommendation."
+      },
+      {
+        "reviewedOn": "2026-04-05",
+        "reviewedBy": "PharmRef editorial review",
+        "summary": "Reviewed septic shock antimicrobial timing, hemodynamic support references, and post-control de-escalation."
+      }
+    ],
+    "guidelineVersion": "SSC 2026 septic shock guidance",
     "sources": [
       {
-        "id": "ssc-2021",
-        "citation": "Septic shock bundles, vasopressor targets, and early antimicrobial recommendations."
+        "id": "ssc-2026",
+        "citation": "Septic shock vasopressor targets, corticosteroids, and early antimicrobial recommendations, 2026."
       },
       {
         "id": "clovers",
@@ -1209,13 +1485,6 @@ export const SUBCATEGORY_CONTENT_META: Record<string, ContentMetaSeed> = {
       {
         "id": "balance",
         "citation": "Shorter-course bloodstream infection data informing de-escalation once source control is achieved, 2024."
-      }
-    ],
-    "reviewHistory": [
-      {
-        "reviewedOn": "2026-04-05",
-        "reviewedBy": "PharmRef editorial review",
-        "summary": "Reviewed septic shock antimicrobial timing, hemodynamic support references, and post-control de-escalation."
       }
     ]
   }
@@ -1228,7 +1497,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "KPC-CRE and resistant Enterobacterales data",
     "sources": [
       {
-        "id": "idsa-2024-amr",
+        "id": "idsa-2026-amr",
         "citation": "Preferred use for KPC-producing CRE and other select resistant gram-negative infections."
       },
       {
@@ -1278,7 +1547,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "KPC-CRE beta-lactam/BLI data",
     "sources": [
       {
-        "id": "idsa-2024-amr",
+        "id": "idsa-2026-amr",
         "citation": "Preferred KPC-producing CRE therapy when susceptible."
       },
       {
@@ -1320,7 +1589,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "Cefiderocol resistant gram-negative evidence review",
     "sources": [
       {
-        "id": "idsa-2024-amr",
+        "id": "idsa-2026-amr",
         "citation": "Selective use in MBL producers and salvage scenarios."
       },
       {
@@ -1370,7 +1639,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "Aztreonam MBL-pairing and allergy-use review",
     "sources": [
       {
-        "id": "idsa-2024-amr",
+        "id": "idsa-2026-amr",
         "citation": "Mechanism-aware aztreonam pairing for MBL-producing gram-negative infection."
       },
       {
@@ -1412,7 +1681,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "DTR Pseudomonas targeted beta-lactam data",
     "sources": [
       {
-        "id": "idsa-2024-amr",
+        "id": "idsa-2026-amr",
         "citation": "Preferred use for difficult-to-treat Pseudomonas when susceptible."
       },
       {
@@ -1454,7 +1723,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "Relebactam resistant Pseudomonas and CRE data",
     "sources": [
       {
-        "id": "idsa-2024-amr",
+        "id": "idsa-2026-amr",
         "citation": "Mechanism-based use in select KPC and DTR Pseudomonas isolates."
       },
       {
@@ -1496,7 +1765,7 @@ export const MONOGRAPH_CONTENT_META: Record<string, ContentMetaSeed> = {
     "guidelineVersion": "Colistin salvage-use evidence review",
     "sources": [
       {
-        "id": "idsa-2024-amr",
+        "id": "idsa-2026-amr",
         "citation": "Reserve role due to nephrotoxicity and inferior outcomes when newer agents are available."
       },
       {

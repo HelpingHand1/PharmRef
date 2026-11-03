@@ -31,6 +31,18 @@ const SOURCE_LIST: EvidenceSource[] = [
     pmid: "21292654",
     searchQuery: "IDSA ESCMID 2011 uncomplicated cystitis pyelonephritis guideline",
   }),
+  source("fda-pivmecillinam-label", "consensus", "Pivmecillinam (Pivya) FDA label", {
+    aliases: ["FDA label (Pivya)"],
+    url: "https://www.accessdata.fda.gov/drugsatfda_docs/label/2024/216483s000lbl.pdf",
+  }),
+  source("fda-sulopenem-label", "consensus", "Sulopenem etzadroxil/probenecid (Orlynvah) FDA approval", {
+    aliases: ["FDA label (Orlynvah)"],
+    url: "https://www.fda.gov/drugs/news-events-human-drugs/fda-approves-new-treatment-uncomplicated-urinary-tract-infections-adult-women-who-have-limited-or-no",
+  }),
+  source("fda-gepotidacin-label", "consensus", "Gepotidacin (Blujepa) prescribing information", {
+    aliases: ["FDA label (Blujepa)"],
+    url: "https://gskpro.com/content/dam/global/hcpportal/en_US/Prescribing_Information/Blujepa/pdf/BLUJEPA-PI-MG.PDF",
+  }),
   source("eau-2024-uti", "guideline", "EAU 2024", {
     url: "https://uroweb.org/guidelines/urological-infections/chapter/the-guideline",
     searchQuery: "EAU 2024 urinary tract infection guideline",
@@ -40,6 +52,11 @@ const SOURCE_LIST: EvidenceSource[] = [
     pmid: "31573350",
     doi: "10.1164/rccm.201908-1581ST",
     searchQuery: "ATS IDSA 2019 community acquired pneumonia guideline",
+  }),
+  source("ats-2025-cap", "guideline", "ATS 2025 CAP", {
+    aliases: ["ATS 2025", "ATS 2025 CAP Guideline", "ATS 2025 CAP Guideline Update (Jones et al., AJRCCM 2025)"],
+    doi: "10.1164/rccm.202507-1692ST",
+    searchQuery: "Jones 2025 American Thoracic Society diagnosis management community-acquired pneumonia guideline",
   }),
   source("cape-cod", "trial", "CAPE COD", {
     aliases: ["CAPE COD Trial (2023, NEJM)"],
@@ -63,8 +80,14 @@ const SOURCE_LIST: EvidenceSource[] = [
     searchQuery: "ATS IDSA 2016 hospital acquired ventilator associated pneumonia guideline",
   }),
   source("idsa-2024-amr", "guideline", "IDSA 2024 AMR guidance", {
-    aliases: ["IDSA 2024 AMR", "IDSA 2024 AMR guidance", "IDSA AMR guidance", "IDSA 2024 AMR Guidance v4.0 (Tamma et al., CID 2024)"],
+    aliases: ["IDSA 2024 AMR", "IDSA 2024 AMR guidance", "IDSA 2024 AMR Guidance v4.0 (Tamma et al., CID 2024)"],
+    doi: "10.1093/cid/ciae403",
+  }),
+  source("idsa-2026-amr", "guideline", "IDSA 2026 AMR guidance", {
+    aliases: ["IDSA 2026 AMR", "IDSA AMR guidance", "IDSA 2026 AMR Guidance (Tamma et al., CID 2026)"],
     url: "https://www.idsociety.org/practice-guideline/amr-guidance/",
+    doi: "10.1093/cid/ciag481",
+    pmid: "42570093",
   }),
   source("pkpd-stewardship", "consensus", "PK/PD stewardship", {
     pmid: "27731492",
@@ -183,6 +206,11 @@ const SOURCE_LIST: EvidenceSource[] = [
     pmid: "26679628",
     doi: "10.1093/cid/civ933",
     searchQuery: "IDSA candidiasis guideline 2016",
+  }),
+  source("ecmm-2025-candidiasis", "guideline", "ECMM/ISHAM/ASM 2025 Global Candidiasis Guideline", {
+    aliases: ["ECMM 2025", "ECMM 2025 Candidiasis Guideline"],
+    doi: "10.1016/S1473-3099(24)00749-7",
+    searchQuery: "Global guideline for the diagnosis and management of candidiasis ECMM ISHAM ASM 2025 Lancet Infect Dis",
   }),
   source("idsa-aspergillosis", "guideline", "IDSA aspergillosis", {
     aliases: ["IDSA 2016 Practice Guidelines for Diagnosis and Management of Aspergillosis"],
@@ -425,6 +453,16 @@ const SOURCE_LIST: EvidenceSource[] = [
       "Surviving Sepsis Campaign 2021 International Guidelines",
     ],
     url: "https://www.sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-guidelines-2021",
+  }),
+  source("ssc-2026", "guideline", "SSC 2026", {
+    aliases: [
+      "Surviving Sepsis Campaign 2026",
+      "Surviving Sepsis Campaign (SSC) 2026 International Guidelines",
+      "Surviving Sepsis Campaign 2026 International Guidelines",
+    ],
+    pmid: "41870560",
+    doi: "10.1007/s00134-026-08361-1",
+    searchQuery: "Prescott Surviving Sepsis Campaign international guidelines management sepsis septic shock 2026",
   }),
   source("balance", "trial", "BALANCE", {
     aliases: ["BALANCE Trial 2024 — 7 vs. 14 Days for Non-Endocarditis Bacteremia"],
@@ -809,6 +847,10 @@ const SOURCE_LIST: EvidenceSource[] = [
     doi: "10.1093/cid/cix1085",
     searchQuery: "IDSA SHEA 2017 Clostridioides difficile guideline",
   }),
+  source("ashp-bezlotoxumab-discontinued", "consensus", "ASHP drug shortage notice — Zinplava (bezlotoxumab) discontinued", {
+    aliases: ["Bezlotoxumab discontinuation notice"],
+    url: "https://www.ashp.org/Drug-Shortages/Current-Shortages/Drug-Shortage-Detail.aspx?id=1130",
+  }),
   source("aga-2024-fmt", "guideline", "AGA 2024 Fecal Microbiota-Based Therapies Guideline", {
     aliases: ["AGA 2022 Fecal Microbiota Transplantation Guideline"],
     pmid: "38395525",
@@ -1064,6 +1106,17 @@ const SOURCE_LIST: EvidenceSource[] = [
   source("aha-2015-ie", "guideline", "AHA 2015 IE Guideline", {
     pmid: "26373316",
     searchQuery: "AHA 2015 infective endocarditis guideline",
+  }),
+  source("aha-2026-ie", "guideline", "AHA 2026 IE Scientific Statement", {
+    aliases: ["AHA 2026 IE", "AHA 2026 IE Statement"],
+    pmid: "42708190",
+    doi: "10.1161/CIR.0000000000001466",
+    searchQuery: "DeSimone 2026 infective endocarditis diagnosis antibiotic therapy management AHA scientific statement",
+  }),
+  source("idsa-escmid-2026-sab", "guideline", "IDSA/ESCMID 2026 SAB Consensus Statements", {
+    aliases: ["IDSA/ESCMID 2026 SAB", "IDSA/ESCMID 2026 SAB Guideline"],
+    url: "https://www.idsociety.org/practice-guideline/staphylococcus-aureus-bacteremia/",
+    searchQuery: "IDSA ESCMID 2026 consensus statements Staphylococcus aureus bacteremia risk stratification",
   }),
   source("esc-2023-ie", "guideline", "ESC 2023 IE Guidelines", {
     pmid: "37622656",
