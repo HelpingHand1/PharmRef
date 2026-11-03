@@ -2,7 +2,7 @@
 
 PharmRef is a TypeScript + React + Vite clinical pharmacy reference app. It organizes topic-level guidance, care pathways, pathogen references, and drug monographs into a single PWA-style interface optimized for point-of-care browsing.
 
-## Current state (v2.5.0)
+## Current state (v2.6.0)
 
 - 16 clinical topics
 - 68 care pathways
@@ -50,13 +50,13 @@ The catalog was last fully reviewed on April 5, 2026. On November 3, 2026, the t
 ## What the app does
 
 - Hash-based navigation for bookmarkable topic, pathway, monograph, pathogen, compare, breakpoint, calculator, and audit views
-- Scored, ranked full-text search with relevance tiers, shorthand aliases (e.g. `CAP`, `CAUTI`, `SAB`, `CRE`), filter tabs by content type, and match highlighting
+- Scored, ranked full-text search with relevance tiers, shorthand aliases (e.g. `CAP`, `CAUTI`, `SAB`, `CRE`), filter tabs by content type, match highlighting, and "Did you mean" suggestions for misspellings
 - Command palette for fast keyboard navigation
 - Drug class browser and recent-views strip on the home screen
 - Pathogen reference pages with rapid-diagnostic interpretation, resistance mechanisms, and breakpoint caveats
 - Breakpoint workspace that turns susceptibility results into therapy findings and cautions
 - Patient context panel (weight, height, sex, age, SCr, dialysis, pregnancy) with inline CrCl, IBW, and AdjBW, plus patient-aware regimen warnings and transition-readiness guidance
-- 11 clinical calculators: CrCl (Cockcroft-Gault), IBW/AdjBW/BSA, CURB-65, PORT/PSI, vancomycin AUC estimator, aminoglycoside (Hartford) dosing, extended-infusion beta-lactam, daptomycin mg/kg, TMP-SMX TMP-based dosing, colistin unit conversion, azole TDM support
+- 13 clinical calculators: CrCl (Cockcroft-Gault), IBW/AdjBW/BSA, CURB-65, PORT/PSI, vancomycin AUC estimator, aminoglycoside (Hartford) dosing, extended-infusion beta-lactam, daptomycin mg/kg, TMP-SMX TMP-based dosing, colistin unit conversion, azole TDM support, PEN-FAST penicillin allergy risk, antibiotic course day counter
 - Allergy profile with inline allergy and interaction warnings across therapy views
 - Evidence and freshness badges, source pills with direct links, and trust-surface banners for stale or disputed content
 - Institution antibiogram cards when institution profile data is available

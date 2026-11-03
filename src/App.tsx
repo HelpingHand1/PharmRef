@@ -134,7 +134,7 @@ export default function PharmRef() {
     return promise;
   }, []);
 
-  const { deferredQuery, isSearchActive, searchResults } = useSearch(searchQuery, catalogDerived?.searchIndex ?? null);
+  const { deferredQuery, isSearchActive, searchResults, searchSuggestion } = useSearch(searchQuery, catalogDerived?.searchIndex ?? null);
   const { openRecent, recentViews } = useRecentViews(
     navState,
     selectedDisease,
@@ -568,6 +568,8 @@ export default function PharmRef() {
             results={searchResults}
             navigateTo={navigateTo}
             onClearSearch={() => setSearchQuery("")}
+            suggestion={searchSuggestion}
+            onSelectSuggestion={setSearchQuery}
             S={S}
           />
         ) : (

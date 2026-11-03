@@ -65,11 +65,26 @@ test("CURB-65 and PSI calculators classify risk as expected", () => {
   );
 });
 
-test("vancomycin and Hartford aminoglycoside estimators stay stable", () => {
+test("vancomycin estimator uses weight-normalized CrCl and targets AUC 400-600", () => {
+  // CL = (0.695 × 60/80 + 0.05) × 80 × 0.06 = 2.74 L/h; t½ 14.2 h → q12h; 750 mg q12h → AUC ≈ 547
   assert.deepEqual(
     calculators.estimateVancomycinRegimen(60, 80, 1),
-    { dose: 4500, interval: "q6h", auc: "440–560" },
+    { dose: 750, interval: "q12h", dailyDose: 1500, auc: 547, halfLife: 14.2, warnings: [] },
   );
+  const lowCrcl = calculators.estimateVancomycinRegimen(10, 70, 1);
+  assert.equal(lowCrcl.interval, "q48h");
+  assert.ok(lowCrcl.auc >= 400 && lowCrcl.auc <= 600);
+  assert.match(lowCrcl.warnings[0], /level-guided dosing/);
+  assert.match(calculators.estimateVancomycinRegimen(60, 80, 2).warnings[0], /alternative agent/);
+
+  for (const [crcl, weight] of [[20, 50], [45, 60], [75, 90], [120, 75], [150, 130]]) {
+    const estimate = calculators.estimateVancomycinRegimen(crcl, weight, 1);
+    assert.ok(estimate.auc >= 400 && estimate.auc <= 600, `AUC out of range for CrCl ${crcl}, ${weight} kg`);
+    assert.ok(estimate.dailyDose <= 4000, `Implausible daily dose for CrCl ${crcl}, ${weight} kg`);
+  }
+});
+
+test("Hartford aminoglycoside estimator stays stable", () => {
   assert.deepEqual(
     calculators.calculateHartfordAminoglycoside(45, 80),
     {
@@ -89,6 +104,37 @@ test("extended-infusion beta-lactam helper escalates for ARC", () => {
       rationale: "ARC or CrCl >=120 mL/min increases the risk of underexposure; preserve full prolonged-infusion exposure.",
     },
   );
+});
+
+test("PEN-FAST scores items and flags SCAR regardless of score", () => {
+  const none = { recentReaction: false, anaphylaxisOrAngioedema: false, severeCutaneousReaction: false, treatmentRequired: false };
+  assert.equal(calculators.calculatePenFast(none).risk, "Very low");
+  assert.equal(calculators.calculatePenFast({ ...none, treatmentRequired: true }).score, 1);
+  assert.equal(calculators.calculatePenFast({ ...none, recentReaction: true, treatmentRequired: true }).risk, "Moderate");
+
+  const anaphylaxisAndScar = calculators.calculatePenFast({ ...none, anaphylaxisOrAngioedema: true, severeCutaneousReaction: true });
+  assert.equal(anaphylaxisAndScar.score, 2, "A/S is a single 2-point item");
+
+  const remoteScar = calculators.calculatePenFast({ ...none, severeCutaneousReaction: true });
+  assert.equal(remoteScar.score, 2);
+  assert.equal(remoteScar.avoidChallenge, true);
+  assert.match(remoteScar.recommendation, /do not challenge/);
+
+  const high = calculators.calculatePenFast({ recentReaction: true, anaphylaxisOrAngioedema: true, severeCutaneousReaction: false, treatmentRequired: true });
+  assert.deepEqual([high.score, high.risk, high.positiveTestRate, high.avoidChallenge], [5, "High", "~50%", true]);
+});
+
+test("antibiotic course counts the start date as day 1", () => {
+  assert.deepEqual(
+    calculators.calculateAntibioticCourse("2026-11-01", 7, "2026-11-03"),
+    { finalDay: "2026-11-07", dayOfTherapy: 3, daysRemaining: 4, status: "active" },
+  );
+  assert.equal(calculators.calculateAntibioticCourse("2026-11-28", 7, "2026-12-01").finalDay, "2026-12-04");
+  assert.equal(calculators.calculateAntibioticCourse("2026-11-01", 7, "2026-11-07").daysRemaining, 0);
+  assert.equal(calculators.calculateAntibioticCourse("2026-11-01", 7, "2026-11-08").status, "complete");
+  assert.equal(calculators.calculateAntibioticCourse("2026-11-05", 14, "2026-11-03").status, "upcoming");
+  assert.equal(calculators.calculateAntibioticCourse("2026-11-01", 0, "2026-11-03"), null);
+  assert.equal(calculators.calculateAntibioticCourse("11/01/2026", 7, "2026-11-03"), null);
 });
 
 test("daptomycin, TMP-SMX, colistin, and azole helpers stay stable", () => {

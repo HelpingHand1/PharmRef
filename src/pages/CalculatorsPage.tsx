@@ -2,17 +2,35 @@ import { useCallback, useState } from "react";
 import type { PatientContext, Styles, ThemeKey } from "../types";
 import {
   assessAzoleTrough,
+  calculateAntibioticCourse,
   calculateCurb65,
   calculateDaptomycinDose,
   calculateHartfordAminoglycoside,
+  calculatePenFast,
   calculatePsiClass,
   calculateTmpSmxDose,
   calculateWeightMetrics,
   convertColistinDose,
   estimateExtendedInfusionBetaLactam,
   estimateVancomycinRegimen,
+  type PenFastInput,
   type PsiInput,
+  type VancomycinEstimate,
 } from "../utils/clinicalCalculators";
+
+const COURSE_QUICK_PICKS = [5, 7, 10, 14, 28, 42];
+const COURSE_ANCHORS = ["First dose of active therapy", "First negative blood culture", "Source control"];
+
+function localIsoDate(date = new Date()) {
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+function formatIsoDate(iso: string) {
+  return new Date(`${iso}T00:00:00Z`).toLocaleDateString(undefined, {
+    weekday: "short", month: "short", day: "numeric", year: "numeric", timeZone: "UTC",
+  });
+}
 
 interface CalculatorsPageProps {
   S: Styles;
@@ -141,7 +159,7 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
   const [vancCrcl, setVancCrcl] = useState(globalCrcl !== null ? String(globalCrcl) : "");
   const [vancWeight, setVancWeight] = useState(patient.weight ? String(patient.weight) : "");
   const [vancMic, setVancMic] = useState("1");
-  const [vancResult, setVancResult] = useState<{ dose: number; interval: string; auc: string } | null>(null);
+  const [vancResult, setVancResult] = useState<VancomycinEstimate | null>(null);
 
   function calcVanc() {
     const result = estimateVancomycinRegimen(Number(vancCrcl), Number(vancWeight), Number(vancMic));
@@ -217,6 +235,22 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
     if (!result) return;
     setAzoleResult(result);
   }
+
+  // ── PEN-FAST ────────────────────────────────────────────────
+  const [penFast, setPenFast] = useState<PenFastInput>({ recentReaction: false, anaphylaxisOrAngioedema: false, severeCutaneousReaction: false, treatmentRequired: false });
+  const penFastResult = calculatePenFast(penFast);
+  const penFastColor = penFastResult.avoidChallenge ? (penFastResult.score >= 4 || penFast.severeCutaneousReaction ? "#f87171" : "#fbbf24") : "#34d399";
+
+  // ── Antibiotic course ───────────────────────────────────────
+  const todayIso = localIsoDate();
+  const [courseStart, setCourseStart] = useState(todayIso);
+  const [courseDays, setCourseDays] = useState("7");
+  const [courseAnchor, setCourseAnchor] = useState(COURSE_ANCHORS[0]);
+  const course = calculateAntibioticCourse(courseStart, Number(courseDays), todayIso);
+  const courseHeadline = !course ? "" : course.status === "active" ? `Day ${course.dayOfTherapy} of ${courseDays}` : course.status === "upcoming" ? "Not started" : "Complete";
+  const courseSummary = course
+    ? `${courseHeadline}; day 1 = ${courseAnchor.toLowerCase()} (${formatIsoDate(courseStart)}); final day ${formatIsoDate(course.finalDay)}`
+    : "";
 
   function CalcBtn({ onClick }: { onClick: () => void }) {
     return (
@@ -397,17 +431,24 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
           {vancResult && (
             <>
               <div style={resultBox("#818cf8")}>
-                <ResultBadge value={`${vancResult.dose} mg`} label={`Total daily dose`} color="#818cf8" onCopy={makeCopy(`${vancResult.dose} mg`, "Vanc dose")} />
+                <ResultBadge value={`${vancResult.dose} mg`} label="Per dose" color="#818cf8" onCopy={makeCopy(`${vancResult.dose} mg IV ${vancResult.interval}`, "Vanc regimen")} />
                 <ResultBadge value={vancResult.interval} label="Interval" color="#818cf8" onCopy={makeCopy(vancResult.interval, "Vanc interval")} />
-                <div style={{ fontSize: "12px", color: mutedColor }}>Est. AUC: {vancResult.auc} mg·h/L</div>
+                <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.6 }}>
+                  {vancResult.dailyDose} mg/day · est. AUC₂₄ ≈ {vancResult.auc} mg·h/L · t½ ≈ {vancResult.halfLife} h
+                </div>
               </div>
+              {vancResult.warnings.map((warning) => (
+                <div key={warning} style={{ fontSize: "11px", background: isDark ? "rgba(251,191,36,0.1)" : "#fef3c7", border: "1px solid #f59e0b40", borderRadius: "8px", padding: "8px 12px", color: isDark ? "#fcd34d" : "#92400e", lineHeight: 1.5 }}>
+                  ⚠ {warning}
+                </div>
+              ))}
               <div style={{ fontSize: "11px", background: isDark ? "rgba(239,68,68,0.1)" : "#fee2e2", border: "1px solid #ef444430", borderRadius: "8px", padding: "8px 12px", color: isDark ? "#fca5a5" : "#991b1b", lineHeight: 1.5 }}>
                 ⚠ This is a population-based initial dose estimate only. Bayesian pharmacokinetic modeling or formal PK consult is strongly recommended. Individual PK variability is significant.
               </div>
             </>
           )}
           <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
-            Per ASHP/IDSA/SIDP 2020 guidelines. For MRSA bacteremia/endocarditis — AUC-guided monitoring preferred over trough-only monitoring.
+            Maintenance estimate from population PK (clearance from weight-normalized CrCl, Vd 0.7 L/kg), aiming for AUC₂₄ ≈ 500. No loading dose is included. Per ASHP/IDSA/SIDP 2020 guidelines. For MRSA bacteremia/endocarditis — AUC-guided monitoring preferred over trough-only monitoring.
           </div>
         </div>
 
@@ -590,6 +631,79 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
           )}
           <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
             Pair troughs with formulation review, food/acid-suppression effects, interaction management, and liver/QT monitoring when relevant.
+          </div>
+        </div>
+
+        {/* ── PEN-FAST ── */}
+        <div style={cardStyle("#ec4899")}>
+          <div>
+            <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>🩹 PEN-FAST</div>
+            <div style={{ fontSize: "12px", color: mutedColor }}>Penicillin allergy risk · Trubiano 2020</div>
+          </div>
+          <div style={{ display: "grid", gap: "8px" }}>
+            {([
+              ["recentReaction", "Reaction 5 years ago or less, or unknown (+2)"],
+              ["anaphylaxisOrAngioedema", "Anaphylaxis or angioedema (+2)"],
+              ["severeCutaneousReaction", "Severe cutaneous reaction: SJS/TEN, DRESS, AGEP (+2)"],
+              ["treatmentRequired", "Treatment required for reaction, or unknown (+1)"],
+            ] as [keyof PenFastInput, string][]).map(([key, label]) => (
+              <label key={key} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
+                <input type="checkbox" checked={penFast[key]} onChange={(e) => setPenFast((p) => ({ ...p, [key]: e.target.checked }))} />
+                {label}
+              </label>
+            ))}
+          </div>
+          <div style={resultBox(penFastColor)}>
+            <ResultBadge value={String(penFastResult.score)} label="Score / 5" color={penFastColor} onCopy={makeCopy(`PEN-FAST ${penFastResult.score}/5`, "PEN-FAST")} />
+            <div>
+              <div style={{ fontSize: "12px", fontWeight: 700, color: penFastColor }}>
+                {penFastResult.risk} risk · {penFastResult.positiveTestRate} positive allergy test
+              </div>
+              <div style={{ fontSize: "11px", color: mutedColor, marginTop: "4px", lineHeight: 1.5 }}>{penFastResult.recommendation}</div>
+            </div>
+          </div>
+          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+            For penicillin allergy labels only. Anaphylaxis/angioedema and SCAR share one 2-point item. Score from a history taken directly from the patient, not the chart alone.
+          </div>
+        </div>
+
+        {/* ── Antibiotic course ── */}
+        <div style={cardStyle("#0ea5e9")}>
+          <div>
+            <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>📅 Antibiotic Course</div>
+            <div style={{ fontSize: "12px", color: mutedColor }}>Day of therapy and final day</div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+            <div style={fieldWrap}><label style={labelStyle}>Day 1 date</label><input type="date" style={inputStyle} value={courseStart} onChange={(e) => setCourseStart(e.target.value)} /></div>
+            <div style={fieldWrap}><label style={labelStyle}>Duration (days)</label><input type="number" min={1} max={365} style={inputStyle} value={courseDays} onChange={(e) => setCourseDays(e.target.value)} placeholder="7" /></div>
+            <div style={{ ...fieldWrap, gridColumn: "1 / -1" }}>
+              <label style={labelStyle}>Day 1 is</label>
+              <select style={selectStyle} value={courseAnchor} onChange={(e) => setCourseAnchor(e.target.value)}>
+                {COURSE_ANCHORS.map((anchor) => <option key={anchor} value={anchor}>{anchor}</option>)}
+              </select>
+            </div>
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+            {COURSE_QUICK_PICKS.map((days) => (
+              <button
+                key={days}
+                type="button"
+                onClick={() => setCourseDays(String(days))}
+                aria-pressed={courseDays === String(days)}
+                style={{ background: courseDays === String(days) ? (isDark ? "#7dd3fc" : "#0f766e") : "none", color: courseDays === String(days) ? (isDark ? "#082f49" : "#ecfeff") : textColor, border: `1px solid ${border}`, borderRadius: "999px", padding: "4px 12px", fontSize: "12px", fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}
+              >
+                {days}d
+              </button>
+            ))}
+          </div>
+          {course && (
+            <div style={resultBox("#0ea5e9")}>
+              <ResultBadge value={courseHeadline} label={course.status === "active" ? `${course.daysRemaining} day${course.daysRemaining === 1 ? "" : "s"} left after today` : course.status === "upcoming" ? `Starts ${formatIsoDate(courseStart)}` : "Course finished"} color="#0ea5e9" onCopy={makeCopy(courseSummary, "Course")} />
+              <ResultBadge value={formatIsoDate(course.finalDay)} label="Final day of therapy" color="#0284c7" onCopy={makeCopy(courseSummary, "Course")} />
+            </div>
+          )}
+          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+            Day 1 is the anchor date. Use the anchor your pathway specifies; for example, S. aureus bacteremia durations count from the first negative blood culture.
           </div>
         </div>
 

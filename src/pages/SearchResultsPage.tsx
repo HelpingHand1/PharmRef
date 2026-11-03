@@ -115,10 +115,12 @@ interface SearchResultsPageProps {
   results: SearchResult;
   navigateTo: NavigateTo;
   onClearSearch: () => void;
+  suggestion?: string | null;
+  onSelectSuggestion?: (query: string) => void;
   S: Styles;
 }
 
-export default function SearchResultsPage({ query, results, navigateTo, onClearSearch, S }: SearchResultsPageProps) {
+export default function SearchResultsPage({ query, results, navigateTo, onClearSearch, suggestion, onSelectSuggestion, S }: SearchResultsPageProps) {
   const [activeTab, setActiveTab] = useState<TabLabel>("All");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
@@ -484,6 +486,19 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
         <div style={{ ...S.card, cursor: "default", textAlign: "center", padding: "40px 24px" }}>
           <div style={{ fontSize: "28px", marginBottom: "10px" }}>⌕</div>
           <p style={{ color: S.monographValue.color, margin: 0 }}>No results found. Try a different search term.</p>
+          {suggestion && onSelectSuggestion && (
+            <p style={{ color: S.monographValue.color, margin: "12px 0 0" }}>
+              Did you mean{" "}
+              <button
+                type="button"
+                onClick={() => onSelectSuggestion(suggestion)}
+                style={{ ...pillActive, cursor: "pointer", fontSize: "14px", fontWeight: 700 }}
+              >
+                {suggestion}
+              </button>
+              ?
+            </p>
+          )}
         </div>
       )}
     </>

@@ -9,34 +9,29 @@ interface WhatsNewProps {
 
 const FEATURES = [
   {
-    icon: "🩺",
-    title: "Sepsis — SSC 2026",
-    detail: "Antibiotics ideally within 1 hour for shock and for probable or definite sepsis, source control ideally within 6 hours, an initial MAP target of 60–65 mmHg at age 65+, and qSOFA no longer used alone for screening.",
-  },
-  {
-    icon: "🫁",
-    title: "Pneumonia — ATS 2025",
-    detail: "Corticosteroids for severe CAP only (not non-severe CAP or influenza), and 3–5 day courses for non-severe CAP once clinically stable.",
-  },
-  {
-    icon: "🧫",
-    title: "Resistant Gram-Negatives — IDSA 2026",
-    detail: "Aztreonam-avibactam for MBL producers, ceftolozane-tazobactam for DTR P. aeruginosa pneumonia, sulbactam-durlobactam for CRAB, cefiderocol for S. maltophilia, and ESBL presumption at a ceftriaxone MIC ≥4.",
-  },
-  {
-    icon: "🫀",
-    title: "Bacteremia & Endocarditis",
-    detail: "Updated to the AHA 2026 endocarditis statement and IDSA/ESCMID 2026 S. aureus bacteremia guidance (TTE for all adults, TEE by risk features). Uncomplicated gram-negative bacteremia now defaults to 7 days.",
-  },
-  {
-    icon: "💊",
-    title: "New Agents",
-    detail: "Added pivmecillinam, gepotidacin, sulopenem, oral tebipenem, cefepime-zidebactam, cefepime-enmetazobactam, aztreonam-avibactam, and rezafungin with label dosing.",
-  },
-  {
     icon: "⚠️",
-    title: "Corrections",
-    detail: "Sulbactam-durlobactam is now 1 g/1 g IV q6h, bezlotoxumab is marked discontinued, TMP-SMX for pyelonephritis is 7 days, and TMP-SMX is no longer called the drug of choice for S. maltophilia.",
+    title: "Vancomycin Estimator Fixed",
+    detail: "The estimator treated CrCl as mL/min/kg and suggested about 4.5 g/day for nearly every patient. It now gives a per-dose regimen aimed at AUC ≈ 500, with warnings for CrCl <30, weight ≥120 kg, and MIC ≥2.",
+  },
+  {
+    icon: "🩹",
+    title: "PEN-FAST",
+    detail: "Penicillin allergy risk score with direct oral challenge guidance. A severe cutaneous reaction history is always flagged for allergy referral.",
+  },
+  {
+    icon: "📅",
+    title: "Antibiotic Course",
+    detail: "Enter day 1 and a duration to see today's day of therapy and the final day, then copy the summary for your note.",
+  },
+  {
+    icon: "🔎",
+    title: "Typo-Tolerant Search",
+    detail: "Misspellings like “zosin” or “cefipime” now offer a “Did you mean” suggestion instead of an empty page.",
+  },
+  {
+    icon: "🩺",
+    title: "Guideline Updates (2.5.0)",
+    detail: "SSC 2026 sepsis, ATS 2025 CAP, IDSA 2026 resistant gram-negatives, AHA/IDSA 2026 bacteremia and endocarditis, new agents, and several dosing corrections.",
   },
 ];
 
@@ -121,7 +116,7 @@ export default function WhatsNewModal({ S }: WhatsNewProps) {
             PharmRef {APP_VERSION}
           </h2>
           <p style={{ fontSize: "13px", color: S.meta.textMuted, margin: "0 0 20px", lineHeight: 1.6 }}>
-            This update brings clinical content in line with guidelines published through 2026 and corrects several dosing and factual errors.
+            This update fixes the vancomycin estimator and adds new bedside tools.
           </p>
         </div>
 

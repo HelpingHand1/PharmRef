@@ -47,7 +47,32 @@ export interface PsiResult {
 export interface VancomycinEstimate {
   dose: number;
   interval: string;
-  auc: string;
+  dailyDose: number;
+  auc: number;
+  halfLife: number;
+  warnings: string[];
+}
+
+export interface PenFastInput {
+  recentReaction: boolean;
+  anaphylaxisOrAngioedema: boolean;
+  severeCutaneousReaction: boolean;
+  treatmentRequired: boolean;
+}
+
+export interface PenFastResult {
+  score: number;
+  risk: "Very low" | "Low" | "Moderate" | "High";
+  positiveTestRate: string;
+  recommendation: string;
+  avoidChallenge: boolean;
+}
+
+export interface AntibioticCourse {
+  finalDay: string;
+  dayOfTherapy: number | null;
+  daysRemaining: number;
+  status: "upcoming" | "active" | "complete";
 }
 
 export interface HartfordEstimate {
@@ -174,19 +199,83 @@ export function calculatePsiClass(input: PsiInput): PsiResult {
   return { score, cls: 5, mortality: "29.2%", setting: "Inpatient / ICU" };
 }
 
+const VANCOMYCIN_TARGET_AUC = 500;
+
 export function estimateVancomycinRegimen(crcl: number, weightKg: number, mic: number): VancomycinEstimate | null {
   if (!crcl || !weightKg || !mic || crcl <= 0 || weightKg <= 0 || mic <= 0) return null;
+  // Population PK: CL (mL/min/kg) = 0.695 × CrCl (mL/min/kg) + 0.05, converted to L/h; Vd 0.7 L/kg.
+  const clearance = (0.695 * (crcl / weightKg) + 0.05) * weightKg * 0.06;
   const vd = 0.7 * weightKg;
-  const clVanc = (0.695 * crcl + 0.05) * 0.06 * weightKg;
-  const tdd = Math.round((500 * clVanc) / 250) * 250;
-  const halflife = (vd * 0.693) / clVanc;
-  const interval = halflife < 6 ? "q6h" : halflife < 9 ? "q8h" : halflife < 14 ? "q12h" : halflife < 20 ? "q24h" : "q48h";
-  const aucEstimate = `${Math.round(500 - 60)}–${Math.round(500 + 60)}`;
+  const halfLife = (0.693 * vd) / clearance;
+  const intervalHours = halfLife < 8 ? 8 : halfLife < 16 ? 12 : halfLife < 32 ? 24 : 48;
+  const dosesPerDay = 24 / intervalHours;
+  const aucFor = (doseMg: number) => (doseMg * dosesPerDay) / clearance;
+
+  // Round to 250 mg, then nudge back inside AUC 400–600 if rounding pushed it out.
+  let dose = Math.max(250, Math.round((VANCOMYCIN_TARGET_AUC * clearance) / dosesPerDay / 250) * 250);
+  if (aucFor(dose) < 400) dose += 250;
+  else if (aucFor(dose) > 600 && dose > 250) dose -= 250;
+
+  const warnings: string[] = [];
+  if (crcl < 30) {
+    warnings.push("CrCl <30 mL/min: population estimates are unreliable here. Use level-guided dosing or a PK consult.");
+  }
+  if (weightKg >= 120) {
+    warnings.push("Weight ≥120 kg: population clearance and Vd estimates are less reliable in obesity. Confirm with levels.");
+  }
+  if (mic >= 2) {
+    warnings.push("MIC ≥2 mg/L: the AUC/MIC target is unlikely to be reached safely. ASHP/IDSA 2020 recommends an alternative agent.");
+  }
+
   return {
-    dose: Math.max(500, Math.min(tdd, 4500)),
-    interval,
-    auc: aucEstimate,
+    dose,
+    interval: `q${intervalHours}h`,
+    dailyDose: Math.round(dose * dosesPerDay),
+    auc: Math.round(aucFor(dose)),
+    halfLife: roundToTenth(halfLife),
+    warnings,
   };
+}
+
+export function calculatePenFast(input: PenFastInput): PenFastResult {
+  const score =
+    (input.recentReaction ? 2 : 0) +
+    (input.anaphylaxisOrAngioedema || input.severeCutaneousReaction ? 2 : 0) +
+    (input.treatmentRequired ? 1 : 0);
+  const band = score === 0
+    ? { risk: "Very low" as const, positiveTestRate: "<1%" }
+    : score <= 2
+      ? { risk: "Low" as const, positiveTestRate: "~5%" }
+      : score === 3
+        ? { risk: "Moderate" as const, positiveTestRate: "~20%" }
+        : { risk: "High" as const, positiveTestRate: "~50%" };
+  const recommendation = input.severeCutaneousReaction
+    ? "Severe cutaneous reaction history: do not challenge. Refer to allergy regardless of score."
+    : score < 3
+      ? "Score <3: candidate for a monitored direct oral challenge per local protocol."
+      : "Score ≥3: refer for allergy evaluation, including penicillin skin testing, before re-exposure.";
+  return { score, ...band, recommendation, avoidChallenge: input.severeCutaneousReaction || score >= 3 };
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+function parseIsoDate(value: string): number | null {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+  const time = Date.parse(`${value}T00:00:00Z`);
+  return Number.isNaN(time) ? null : time;
+}
+
+export function calculateAntibioticCourse(startDate: string, durationDays: number, today: string): AntibioticCourse | null {
+  const start = parseIsoDate(startDate);
+  const now = parseIsoDate(today);
+  if (start === null || now === null || !Number.isInteger(durationDays) || durationDays < 1 || durationDays > 365) return null;
+
+  // Day 1 is the start date, so the final day is start + (duration − 1).
+  const finalDay = new Date(start + (durationDays - 1) * DAY_MS).toISOString().slice(0, 10);
+  const dayNumber = Math.round((now - start) / DAY_MS) + 1;
+  if (dayNumber < 1) return { finalDay, dayOfTherapy: null, daysRemaining: durationDays, status: "upcoming" };
+  if (dayNumber > durationDays) return { finalDay, dayOfTherapy: null, daysRemaining: 0, status: "complete" };
+  return { finalDay, dayOfTherapy: dayNumber, daysRemaining: durationDays - dayNumber, status: "active" };
 }
 
 export function calculateHartfordAminoglycoside(crcl: number, weightKg: number): HartfordEstimate | null {
