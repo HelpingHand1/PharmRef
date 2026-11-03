@@ -6,6 +6,7 @@ const validationRoot = path.resolve(__dirname, "../../.tmp/validation/src");
 const { DISEASE_STATES } = require(path.join(validationRoot, "data/index.js"));
 const { buildCatalogDerived } = require(path.join(validationRoot, "data/derived.js"));
 const { buildMonographCompareSnapshot } = require(path.join(validationRoot, "data/compare.js"));
+const { DEMO_INSTITUTION_PROFILE } = require(path.join(validationRoot, "data/institution-profile.js"));
 
 const derived = buildCatalogDerived(DISEASE_STATES);
 
@@ -17,7 +18,7 @@ function lookupMonograph(drugId) {
 
 test("compare snapshots surface trust, local policy, and regimen footprint for stewardship backbones", () => {
   const meropenem = lookupMonograph("meropenem");
-  const snapshot = buildMonographCompareSnapshot(meropenem, derived.regimenXref.meropenem ?? []);
+  const snapshot = buildMonographCompareSnapshot(meropenem, derived.regimenXref.meropenem ?? [], DEMO_INSTITUTION_PROFILE);
 
   assert.match(snapshot.trustSummary, /confidence|reviewed/i);
   assert.ok(snapshot.regimenCount > 0, "Expected meropenem to appear in structured regimen cross-references");
@@ -27,7 +28,7 @@ test("compare snapshots surface trust, local policy, and regimen footprint for s
 
 test("compare snapshots expose rapid diagnostics and local antibiogram overlays for reserve agents", () => {
   const cefiderocol = lookupMonograph("cefiderocol");
-  const snapshot = buildMonographCompareSnapshot(cefiderocol, derived.regimenXref.cefiderocol ?? []);
+  const snapshot = buildMonographCompareSnapshot(cefiderocol, derived.regimenXref.cefiderocol ?? [], DEMO_INSTITUTION_PROFILE);
 
   assert.match(snapshot.rapidDiagnosticSummary, /NDM|MBL|CRAB/i);
   assert.match(snapshot.localAntibiogramSummary, /reserve-agent dashboard|restricted-use|susceptibility/i);

@@ -94,14 +94,10 @@ test("search finds OXA-48 avibactam coverage guidance", () => {
   );
 });
 
-test("search indexes local antibiogram overlays for reserve agents", () => {
-  const results = searchCatalog("retained susceptibility ceftolozane pseudomonas", derived.searchIndex);
-  assert.ok(results, "Expected search results for local antibiogram query");
-  assert.ok(
-    results.subcategories.some((subcategory) => subcategory.parentDisease.id === "advanced-agents" && subcategory.id === "mdr-pseudomonas") ||
-      results.drugs.some((drug) => drug.id === "ceftolozane-tazobactam"),
-    "Expected local antibiogram overlay to make MDR Pseudomonas or ceftolozane-tazobactam searchable",
-  );
+test("search does not index the fictional demo institution", () => {
+  const results = searchCatalog("Demo Health", derived.searchIndex);
+  const total = results ? Object.values(results).reduce((sum, list) => sum + list.length, 0) : 0;
+  assert.equal(total, 0, "Demo institution text should not be searchable when no real profile is configured");
 });
 
 test("search finds severe CAP rapid-diagnostic stewardship guidance", () => {

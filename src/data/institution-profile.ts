@@ -8,7 +8,9 @@ import type {
   InstitutionProfile,
 } from "../types";
 
-export const INSTITUTION_PROFILE: InstitutionProfile | null = {
+// Fictional profile for tests and development only. Its policies and antibiogram percentages are
+// invented, so it must never be the live profile below.
+export const DEMO_INSTITUTION_PROFILE: InstitutionProfile = {
   id: "pharmref-demo-health",
   name: "PharmRef Demo Health",
   lastUpdated: "2026-03-15",
@@ -235,6 +237,10 @@ export const INSTITUTION_PROFILE: InstitutionProfile | null = {
     },
   ],
 };
+
+// The live institution profile. Leave null until real local data (formulary policy, antibiogram) is
+// entered; while null, no local policy, antibiogram, or option re-ranking appears anywhere in the app.
+export const INSTITUTION_PROFILE: InstitutionProfile | null = null;
 
 export interface InstitutionOptionOverlay {
   preferred: boolean;
