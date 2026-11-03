@@ -20,26 +20,26 @@ function coverageBadge(status: CoverageMatrixRow["status"]) {
       return {
         background: "rgba(52,211,153,0.12)",
         borderColor: "rgba(52,211,153,0.28)",
-        color: "#059669",
+        color: "var(--pr-success, #059669)",
       };
     case "active":
       return {
         background: "rgba(56,189,248,0.12)",
         borderColor: "rgba(56,189,248,0.28)",
-        color: "#0284c7",
+        color: "var(--pr-info, #0284c7)",
       };
     case "conditional":
       return {
         background: "rgba(251,191,36,0.14)",
         borderColor: "rgba(251,191,36,0.3)",
-        color: "#d97706",
+        color: "var(--pr-warning, #d97706)",
       };
     case "inactive":
     case "avoid":
       return {
         background: "rgba(248,113,113,0.12)",
         borderColor: "rgba(248,113,113,0.28)",
-        color: "#dc2626",
+        color: "var(--pr-danger, #dc2626)",
       };
   }
 }
@@ -65,7 +65,7 @@ export default function MicrobiologyCards({
     <div style={{ display: "grid", gap: "10px" }}>
       {rapidDiagnostics?.length ? (
         <div style={sectionCardStyle(S)}>
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#0284c7", marginBottom: "10px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--pr-info, #0284c7)", marginBottom: "10px" }}>
             Rapid Diagnostics
           </div>
           <div style={{ display: "grid", gap: "10px" }}>
@@ -82,7 +82,7 @@ export default function MicrobiologyCards({
 
       {breakpointNotes?.length ? (
         <div style={sectionCardStyle(S)}>
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#a855f7", marginBottom: "10px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--pr-tag-purple, #a855f7)", marginBottom: "10px" }}>
             Breakpoint / MIC Notes
           </div>
           <div style={{ display: "grid", gap: "10px" }}>
@@ -99,7 +99,7 @@ export default function MicrobiologyCards({
 
       {intrinsicResistance?.length ? (
         <div style={sectionCardStyle(S)}>
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#dc2626", marginBottom: "10px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--pr-danger, #dc2626)", marginBottom: "10px" }}>
             Intrinsic Resistance
           </div>
           <div style={{ display: "grid", gap: "10px" }}>
@@ -116,7 +116,7 @@ export default function MicrobiologyCards({
 
       {coverageMatrix?.length ? (
         <div style={sectionCardStyle(S)}>
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#059669", marginBottom: "10px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--pr-success, #059669)", marginBottom: "10px" }}>
             Coverage Matrix
           </div>
           <div style={{ display: "grid", gap: "10px" }}>

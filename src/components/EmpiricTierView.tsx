@@ -17,10 +17,10 @@ import { getPatientFitSortRank, getRegimenPatientFit } from "../utils/patientFit
 import { hasAnyPatientSignals } from "../utils/regimenGuidance";
 
 const FIT_BADGE_STYLES = {
-  preferred: { bg: "rgba(52,211,153,0.12)", border: "rgba(52,211,153,0.28)", color: "#059669" },
-  caution: { bg: "rgba(245,158,11,0.12)", border: "rgba(245,158,11,0.28)", color: "#d97706" },
-  avoid: { bg: "rgba(239,68,68,0.12)", border: "rgba(239,68,68,0.28)", color: "#dc2626" },
-  needs_data: { bg: "rgba(56,189,248,0.12)", border: "rgba(56,189,248,0.28)", color: "#0284c7" },
+  preferred: { bg: "rgba(52,211,153,0.12)", border: "rgba(52,211,153,0.28)", color: "var(--pr-success, #059669)" },
+  caution: { bg: "rgba(245,158,11,0.12)", border: "rgba(245,158,11,0.28)", color: "var(--pr-warning, #d97706)" },
+  avoid: { bg: "rgba(239,68,68,0.12)", border: "rgba(239,68,68,0.28)", color: "var(--pr-danger, #dc2626)" },
+  needs_data: { bg: "rgba(56,189,248,0.12)", border: "rgba(56,189,248,0.28)", color: "var(--pr-info, #0284c7)" },
   unavailable: { bg: "rgba(148,163,184,0.12)", border: "rgba(148,163,184,0.24)", color: "#64748b" },
 } as const;
 
@@ -118,13 +118,13 @@ const EmpiricTierView = memo(function EmpiricTierView({
               {opt.evidence && (
                 <span
                   style={{
-                    fontSize: "10px",
+                    fontSize: "11px",
                     fontWeight: 800,
                     letterSpacing: "0.06em",
                     padding: "2px 7px",
                     borderRadius: "6px",
                     background: opt.evidence.startsWith("A") ? "rgba(52,211,153,0.15)" : opt.evidence.startsWith("B") ? "rgba(251,191,36,0.15)" : "rgba(148,163,184,0.15)",
-                    color: opt.evidence.startsWith("A") ? "#059669" : opt.evidence.startsWith("B") ? "#d97706" : "#64748b",
+                    color: opt.evidence.startsWith("A") ? "var(--pr-success, #059669)" : opt.evidence.startsWith("B") ? "var(--pr-warning, #d97706)" : "#64748b",
                     border: `1px solid ${opt.evidence.startsWith("A") ? "rgba(52,211,153,0.3)" : opt.evidence.startsWith("B") ? "rgba(251,191,36,0.3)" : "rgba(148,163,184,0.25)"}`,
                   }}
                   title={opt.evidenceSource ? `Evidence: ${opt.evidenceSource}` : `Evidence grade: ${opt.evidence}`}
@@ -154,12 +154,12 @@ const EmpiricTierView = memo(function EmpiricTierView({
                 </span>
               )}
               {showsInfectiousDetail && localOverlay?.preferred && (
-                <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0, background: "rgba(52,211,153,0.12)", borderColor: "rgba(52,211,153,0.28)", color: "#059669" }}>
+                <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0, background: "rgba(52,211,153,0.12)", borderColor: "rgba(52,211,153,0.28)", color: "var(--pr-success, #059669)" }}>
                   Local preferred
                 </span>
               )}
               {showsInfectiousDetail && localOverlay?.restricted && (
-                <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0, background: "rgba(239,68,68,0.12)", borderColor: "rgba(239,68,68,0.28)", color: "#dc2626" }}>
+                <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0, background: "rgba(239,68,68,0.12)", borderColor: "rgba(239,68,68,0.28)", color: "var(--pr-danger, #dc2626)" }}>
                   Restricted
                 </span>
               )}
@@ -221,7 +221,7 @@ const EmpiricTierView = memo(function EmpiricTierView({
                   border: "1px solid rgba(5,150,105,0.18)",
                 }}
               >
-                <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#059669", marginBottom: "6px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--pr-success, #059669)", marginBottom: "6px" }}>
                   Local susceptibility overlay
                 </div>
                 <InstitutionAntibiogramCards entries={localAntibiogram} compact S={S} />
@@ -237,7 +237,7 @@ const EmpiricTierView = memo(function EmpiricTierView({
                   border: `1px solid ${localOverlay.preferred ? "rgba(52,211,153,0.24)" : "rgba(239,68,68,0.24)"}`,
                 }}
               >
-                <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: localOverlay.preferred ? "#059669" : "#dc2626", marginBottom: "6px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: localOverlay.preferred ? "var(--pr-success, #059669)" : "var(--pr-danger, #dc2626)", marginBottom: "6px" }}>
                   {localOverlay.preferred ? "Local stewardship preference" : "Local restriction"}
                 </div>
                 <div style={{ fontSize: "12px", color: S.monographValue?.color || "#cbd5e1", lineHeight: 1.6 }}>{localOverlay.detail}</div>

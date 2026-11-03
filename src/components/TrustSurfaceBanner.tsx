@@ -15,7 +15,7 @@ function pillStyle(S: Styles, tone: "fresh" | "info" | "warn") {
       marginBottom: 0,
       background: "rgba(52,211,153,0.12)",
       borderColor: "rgba(52,211,153,0.28)",
-      color: "#059669",
+      color: "var(--pr-success, #059669)",
     };
   }
 
@@ -27,7 +27,7 @@ function pillStyle(S: Styles, tone: "fresh" | "info" | "warn") {
       marginBottom: 0,
       background: "rgba(245,158,11,0.12)",
       borderColor: "rgba(245,158,11,0.28)",
-      color: "#d97706",
+      color: "var(--pr-warning, #d97706)",
     };
   }
 
@@ -38,7 +38,7 @@ function pillStyle(S: Styles, tone: "fresh" | "info" | "warn") {
     marginBottom: 0,
     background: "rgba(56,189,248,0.12)",
     borderColor: "rgba(56,189,248,0.28)",
-    color: "#0284c7",
+    color: "var(--pr-info, #0284c7)",
   };
 }
 
@@ -61,7 +61,7 @@ export default function TrustSurfaceBanner({ meta, S }: TrustSurfaceBannerProps)
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-        <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent }}>
+        <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent }}>
           Editorial Trust Signals
         </div>
         <span style={pillStyle(S, summary.confidenceTone)}>{summary.confidenceLabel}</span>

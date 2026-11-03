@@ -163,7 +163,7 @@ export default function DiseaseOverviewPage({
                 key={`${guideline.name}-${index}`}
                 style={{ ...S.quickFactCard, padding: "16px 18px" }}
               >
-                <div style={{ fontWeight: 700, fontSize: "14px", color: "#34d399" }}>{guideline.name}</div>
+                <div style={{ fontWeight: 700, fontSize: "14px", color: "var(--pr-tag-green, #34d399)" }}>{guideline.name}</div>
                 <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "8px", lineHeight: 1.65 }}>{guideline.detail}</div>
                 {sources.length > 0 && (
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
@@ -212,7 +212,7 @@ export default function DiseaseOverviewPage({
                 key={`${trial.name}-${index}`}
                 style={{ ...S.quickFactCard, padding: "16px 18px" }}
               >
-                <div style={{ fontWeight: 700, fontSize: "14px", color: "#fbbf24" }}>{trial.name}</div>
+                <div style={{ fontWeight: 700, fontSize: "14px", color: "var(--pr-tag-yellow, #fbbf24)" }}>{trial.name}</div>
                 <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "8px", lineHeight: 1.65 }}>{trial.detail}</div>
                 {sources.length > 0 && (
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>

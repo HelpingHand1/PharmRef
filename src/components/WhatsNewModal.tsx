@@ -99,7 +99,7 @@ export default function WhatsNewModal({ S }: WhatsNewProps) {
             >
               ✦
             </span>
-            <span style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: S.meta.accent }}>
+            <span style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: S.meta.accent }}>
               What's New
             </span>
           </div>

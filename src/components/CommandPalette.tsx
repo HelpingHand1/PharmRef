@@ -282,7 +282,7 @@ export default function CommandPalette({
             />
             <kbd
               style={{
-                fontSize: "10px",
+                fontSize: "11px",
                 fontFamily: "inherit",
                 padding: "2px 6px",
                 borderRadius: "5px",
@@ -370,7 +370,7 @@ export default function CommandPalette({
                 </div>
                 <span
                   style={{
-                    fontSize: "10px",
+                    fontSize: "11px",
                     color: S.meta.textMuted,
                     whiteSpace: "nowrap",
                     flexShrink: 0,
@@ -388,7 +388,7 @@ export default function CommandPalette({
             padding: "8px 20px",
             display: "flex",
             gap: "16px",
-            fontSize: "11px",
+            fontSize: "12px",
             color: S.meta.textMuted,
           }}
         >

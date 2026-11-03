@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { AllergyRecord, DiseaseState, ThemeKey } from "./types";
 import { usePatientContext } from "./hooks/usePatientContext";
 import { useBookmarks } from "./hooks/useBookmarks";
@@ -155,7 +155,8 @@ export default function PharmRef() {
     catalogDerivedRef.current = catalogDerived;
   }, [catalogDerived]);
 
-  useEffect(() => {
+  // Layout effect: theme CSS variables (including text ink colors) must be set before paint.
+  useLayoutEffect(() => {
     applyThemeVars(theme);
   }, [theme]);
 

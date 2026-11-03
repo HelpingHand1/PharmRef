@@ -18,31 +18,31 @@ const STATUS_STYLES: Record<
   ready: {
     bg: "rgba(52,211,153,0.10)",
     border: "#059669",
-    text: "#059669",
+    text: "var(--pr-success, #059669)",
     label: "Ready",
   },
   caution: {
     bg: "rgba(245,158,11,0.10)",
     border: "#d97706",
-    text: "#d97706",
+    text: "var(--pr-warning, #d97706)",
     label: "Caution",
   },
   not_ready: {
     bg: "rgba(239,68,68,0.10)",
     border: "#dc2626",
-    text: "#dc2626",
+    text: "var(--pr-danger, #dc2626)",
     label: "Not ready",
   },
   needs_data: {
     bg: "rgba(56,189,248,0.10)",
     border: "#0284c7",
-    text: "#0284c7",
+    text: "var(--pr-info, #0284c7)",
     label: "Needs data",
   },
   not_applicable: {
     bg: "rgba(148,163,184,0.10)",
     border: "#64748b",
-    text: "#64748b",
+    text: "var(--pr-neutral, #64748b)",
     label: "N/A",
   },
 };
@@ -67,7 +67,7 @@ export default function TransitionReadinessPanel({
         boxShadow: S.meta.shadowSm,
       }}
     >
-      <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#059669", marginBottom: "8px" }}>
+      <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--pr-success, #059669)", marginBottom: "8px" }}>
         {title}
       </div>
       {subtitle ? (
@@ -112,7 +112,7 @@ export default function TransitionReadinessPanel({
                 {item.detail}
               </div>
               {item.cues.length > 0 ? (
-                <div style={{ fontSize: "11px", color: S.meta.textHeading, marginTop: "8px", lineHeight: 1.55 }}>
+                <div style={{ fontSize: "12px", color: S.meta.textHeading, marginTop: "8px", lineHeight: 1.55 }}>
                   Key cues: {item.cues.join(" · ")}
                 </div>
               ) : null}

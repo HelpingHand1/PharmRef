@@ -64,7 +64,7 @@ const RegimenCrossRefs = memo(function RegimenCrossRefs({
                   style={{
                     ...S.tag,
                     background: sameDisease ? "rgba(52,211,153,0.12)" : S.meta.accentSurface,
-                    color: sameDisease ? "#059669" : S.meta.accent,
+                    color: sameDisease ? "var(--pr-success, #059669)" : S.meta.accent,
                     border: `1px solid ${sameDisease ? "rgba(52,211,153,0.28)" : S.meta.border}`,
                   }}
                 >

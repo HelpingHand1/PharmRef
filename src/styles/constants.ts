@@ -95,7 +95,7 @@ export const THEMES = {
     borderAccent: "#c6d3dc",
     text: "#172033",
     textSecondary: "#475569",
-    textMuted: "#66758c",
+    textMuted: "#5b6a80",
     textHeading: "#0f172a",
     accent: "#0f766e",
     accentHover: "#115e59",
@@ -116,6 +116,37 @@ export const THEMES = {
     codeBg: "#f8fafc",
   },
 };
+
+// Status and tag ink colors. The bright set reads on dark surfaces; light mode swaps in
+// darker shades so small text clears WCAG AA (4.5:1). Applied as CSS variables, so inline
+// styles can use `var(--pr-success, #059669)` and switch instantly with the theme.
+const BRIGHT_INK = {
+  success: "#34d399", warning: "#fbbf24", danger: "#f87171", info: "#38bdf8", neutral: "#94a3b8",
+  "tag-green": "#34d399", "tag-yellow": "#fbbf24", "tag-red": "#f87171", "tag-blue": "#60a5fa",
+  "tag-purple": "#c084fc", "tag-cyan": "#22d3ee", "tag-pink": "#f472b6", "tag-emerald": "#5eead4",
+};
+const LIGHT_INK: typeof BRIGHT_INK = {
+  success: "#047857", warning: "#b45309", danger: "#b91c1c", info: "#0369a1", neutral: "#475569",
+  "tag-green": "#047857", "tag-yellow": "#a16207", "tag-red": "#b91c1c", "tag-blue": "#1d4ed8",
+  "tag-purple": "#7e22ce", "tag-cyan": "#0e7490", "tag-pink": "#be185d", "tag-emerald": "#0f766e",
+};
+
+const ACCENT_INK_TOKENS: Record<string, keyof typeof BRIGHT_INK> = {
+  "#34d399": "tag-green", "#10b981": "tag-green", "#059669": "success",
+  "#fbbf24": "tag-yellow", "#f59e0b": "warning", "#d97706": "warning",
+  "#f87171": "tag-red", "#ef4444": "danger", "#dc2626": "danger",
+  "#38bdf8": "info", "#0ea5e9": "info", "#0284c7": "info", "#60a5fa": "tag-blue",
+  "#a78bfa": "tag-purple", "#c084fc": "tag-purple", "#22d3ee": "tag-cyan", "#06b6d4": "tag-cyan",
+  "#f472b6": "tag-pink", "#ec4899": "tag-pink", "#5eead4": "tag-emerald", "#14b8a6": "tag-emerald",
+  "#94a3b8": "neutral", "#64748b": "neutral",
+};
+
+// For accent colors that come from data and are reused as text: theme-aware ink when known.
+export function inkFor(accent: string | undefined): string | undefined {
+  if (!accent) return accent;
+  const token = ACCENT_INK_TOKENS[accent.toLowerCase()];
+  return token ? `var(--pr-${token}, ${accent})` : accent;
+}
 
 // Inject global styles (print, scrollbar, focus, animations, responsive)
 const GLOBAL_STYLE_ID = "pharmref-globals";
@@ -267,40 +298,90 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
       }
     }
 
+    /* Keyboard-only affordances are noise on touch screens */
+    @media (hover: none) and (pointer: coarse) {
+      .cmdk-btn { display: none !important; }
+    }
+
     /* Mobile responsive */
     @media (max-width: 640px) {
+      /* Two-row header: logo + tools, then search; breadcrumbs drop away once scrolled */
       .app-header {
-        padding: 14px 12px 12px !important;
+        padding: 10px 12px !important;
       }
 
       .header-row {
         display: grid !important;
-        grid-template-columns: 1fr !important;
-        align-items: stretch !important;
-        gap: 10px !important;
+        grid-template-columns: auto 1fr !important;
+        grid-template-areas: "logo tools" "search search" !important;
+        align-items: center !important;
+        gap: 8px 10px !important;
+        margin-bottom: 8px !important;
       }
 
-      .header-row > button:first-child,
-      .search-wrap,
-      .header-toolbar {
-        width: 100% !important;
-        max-width: none !important;
+      .header-row > button:first-child {
+        grid-area: logo;
+        font-size: 19px !important;
+      }
+
+      .logo-pill,
+      .badge-unit {
+        display: none !important;
       }
 
       .search-wrap {
+        grid-area: search;
+        width: 100% !important;
+        max-width: none !important;
         min-width: 0 !important;
       }
 
+      .search-input {
+        padding-top: 11px !important;
+        padding-bottom: 11px !important;
+      }
+
       .header-toolbar {
-        justify-content: stretch !important;
+        grid-area: tools;
+        justify-content: flex-end !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
       }
 
       .header-toolbar > button {
-        flex: 1 1 0 !important;
+        min-width: 40px;
+        height: 40px;
+        padding: 8px !important;
+      }
+
+      .app-header.is-scrolled .header-row {
+        margin-bottom: 0 !important;
+      }
+
+      .app-header.is-scrolled .breadcrumbs-row {
+        display: none !important;
       }
 
       .breadcrumbs-row {
         gap: 6px !important;
+      }
+
+      /* Phone home: tools as chips, topics up front; desktop keeps the hero and cards */
+      .home-hero,
+      .home-actions {
+        display: none !important;
+      }
+
+      .home-tool-chips {
+        display: flex !important;
+      }
+
+      .home-recent-list > :nth-child(n+4) {
+        display: none !important;
+      }
+
+      .page-hero .quick-facts-grid {
+        display: none !important;
       }
 
       .app-main {
@@ -383,7 +464,7 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
       }
 
       .monograph-pills > button {
-        font-size: 11px !important;
+        font-size: 12px !important;
         padding: 7px 11px !important;
       }
 
@@ -480,7 +561,7 @@ export function makeStyles(theme: "dark" | "light" | "oled"): any {
       userSelect: "none",
     },
     logoPill: {
-      fontSize: "10px", fontWeight: 700, background: t.accent, color: theme === "dark" ? "#082f49" : "#ecfeff",
+      fontSize: "11px", fontWeight: 700, background: t.accent, color: theme === "dark" ? "#082f49" : "#ecfeff",
       padding: "4px 10px", borderRadius: "9999px", letterSpacing: "0.08em",
     },
     searchWrap: { position: "relative", flex: 1, maxWidth: "620px", minWidth: "180px" },
@@ -500,7 +581,7 @@ export function makeStyles(theme: "dark" | "light" | "oled"): any {
     },
     kbdHint: {
       position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)",
-      color: t.textMuted, fontSize: "11px", fontFamily: "'JetBrains Mono', monospace",
+      color: t.textMuted, fontSize: "12px", fontFamily: "'JetBrains Mono', monospace",
       border: `1px solid ${t.border}`, borderRadius: "8px", padding: "3px 7px",
       pointerEvents: "none", lineHeight: 1, background: t.bgSection,
     },
@@ -521,7 +602,7 @@ export function makeStyles(theme: "dark" | "light" | "oled"): any {
       padding: "18px 20px", background: t.bgSection, border: `1px solid ${t.border}`,
       borderTop: "none", borderRadius: "0 0 16px 16px", marginBottom: "12px",
     },
-    tag: { display: "inline-block", padding: "5px 11px", borderRadius: "9999px", fontSize: "11px", fontWeight: 700, letterSpacing: "0.05em" },
+    tag: { display: "inline-block", padding: "5px 11px", borderRadius: "9999px", fontSize: "12px", fontWeight: 700, letterSpacing: "0.05em" },
     drugLink: {
       color: t.accent, cursor: "pointer", textDecoration: "none",
       borderBottom: `1px solid ${t.accent}55`, background: "none", borderTop: "none", borderLeft: "none", borderRight: "none", font: "inherit", padding: 0,
@@ -530,7 +611,7 @@ export function makeStyles(theme: "dark" | "light" | "oled"): any {
       background: t.bgPearl, border: `1px solid ${t.borderPearl}`, borderRadius: "14px",
       padding: "14px 16px", marginBottom: "10px", fontSize: "14px", lineHeight: 1.7, color: t.textSecondary,
     },
-    monographLabel: { fontSize: "11px", fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: t.textMuted, marginBottom: "8px" },
+    monographLabel: { fontSize: "12px", fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: t.textMuted, marginBottom: "8px" },
     monographValue: { fontSize: "15px", lineHeight: 1.72, color: t.textSecondary },
     interactionItem: {
       padding: "12px 14px", background: t.bgCard, borderLeft: "4px solid #f59e0b",
@@ -547,7 +628,7 @@ export function makeStyles(theme: "dark" | "light" | "oled"): any {
       borderBottom: `1px solid ${t.border}`,
     },
     detailKey: {
-      fontSize: "11px",
+      fontSize: "12px",
       fontWeight: 800,
       letterSpacing: "0.12em",
       textTransform: "uppercase",
@@ -597,7 +678,7 @@ export function makeStyles(theme: "dark" | "light" | "oled"): any {
       boxShadow: t.shadowMd,
     },
     crossRefPill: {
-      display: "inline-block", fontSize: "11px", fontWeight: 700, padding: "5px 10px",
+      display: "inline-block", fontSize: "12px", fontWeight: 700, padding: "5px 10px",
       borderRadius: "9999px", background: t.bgCard, color: t.textSecondary,
       border: `1px solid ${t.border}`, cursor: "pointer", marginRight: "4px", marginBottom: "4px",
       transition: "all 0.15s ease",
@@ -614,7 +695,7 @@ export function makeStyles(theme: "dark" | "light" | "oled"): any {
     // --- NEW: Copy button ---
     copyBtn: {
       background: t.codeBg, border: `1px solid ${t.border}`, borderRadius: "10px",
-      color: t.textMuted, fontSize: "11px", padding: "4px 8px", cursor: "pointer",
+      color: t.textMuted, fontSize: "12px", padding: "4px 8px", cursor: "pointer",
       fontFamily: "'JetBrains Mono', monospace", lineHeight: 1.4, flexShrink: 0,
     },
     // --- NEW: Theme toggle ---
@@ -638,7 +719,7 @@ export function makeStyles(theme: "dark" | "light" | "oled"): any {
       lineHeight: 1.65, color: t.textSecondary, boxShadow: t.shadowSm,
     },
     compareLabelRow: {
-      padding: "8px 14px", background: t.bgSection, fontSize: "11px",
+      padding: "8px 14px", background: t.bgSection, fontSize: "12px",
       fontWeight: 700, letterSpacing: "0.5px", textTransform: "uppercase",
       color: t.textMuted, gridColumn: "1 / -1",
     },
@@ -646,7 +727,7 @@ export function makeStyles(theme: "dark" | "light" | "oled"): any {
     allergyBadge: {
       display: "inline-flex", alignItems: "center", gap: "4px",
       background: "#7f1d1d18", border: "1px solid #f8717140", borderRadius: "9999px",
-      padding: "5px 10px", fontSize: "11px", fontWeight: 700, color: "#f87171",
+      padding: "5px 10px", fontSize: "12px", fontWeight: 700, color: "var(--pr-tag-red, #f87171)",
       letterSpacing: "0.04em", flexWrap: "wrap",
     },
     // --- NEW: Header toolbar ---
@@ -666,7 +747,7 @@ export function makeStyles(theme: "dark" | "light" | "oled"): any {
     // --- v2.1: PK/PD driver chip ---
     pkpdChip: {
       display: "inline-flex", alignItems: "center", gap: "6px",
-      padding: "5px 12px", borderRadius: "9999px", fontSize: "11px", fontWeight: 800,
+      padding: "5px 12px", borderRadius: "9999px", fontSize: "12px", fontWeight: 800,
       letterSpacing: "0.05em", marginBottom: "14px",
     },
     // --- v2.1: IV→PO callout ---
@@ -712,14 +793,14 @@ export function makeStyles(theme: "dark" | "light" | "oled"): any {
 }
 
 export const TAG_COLORS = {
-  green: { background: "#10b98118", color: "#34d399", border: "1px solid #10b98135" },
-  yellow: { background: "#f59e0b18", color: "#fbbf24", border: "1px solid #f59e0b35" },
-  red: { background: "#ef444418", color: "#f87171", border: "1px solid #ef444435" },
-  blue: { background: "#3b82f618", color: "#60a5fa", border: "1px solid #3b82f635" },
-  purple: { background: "#8b5cf618", color: "#c084fc", border: "1px solid #8b5cf635" },
-  cyan: { background: "#06b6d418", color: "#22d3ee", border: "1px solid #06b6d435" },
-  pink: { background: "#ec489918", color: "#f472b6", border: "1px solid #ec489935" },
-  emerald: { background: "#14b8a618", color: "#5eead4", border: "1px solid #14b8a635" },
+  green: { background: "#10b98118", color: "var(--pr-tag-green, #34d399)", border: "1px solid #10b98135" },
+  yellow: { background: "#f59e0b18", color: "var(--pr-tag-yellow, #fbbf24)", border: "1px solid #f59e0b35" },
+  red: { background: "#ef444418", color: "var(--pr-tag-red, #f87171)", border: "1px solid #ef444435" },
+  blue: { background: "#3b82f618", color: "var(--pr-tag-blue, #60a5fa)", border: "1px solid #3b82f635" },
+  purple: { background: "#8b5cf618", color: "var(--pr-tag-purple, #c084fc)", border: "1px solid #8b5cf635" },
+  cyan: { background: "#06b6d418", color: "var(--pr-tag-cyan, #22d3ee)", border: "1px solid #06b6d435" },
+  pink: { background: "#ec489918", color: "var(--pr-tag-pink, #f472b6)", border: "1px solid #ec489935" },
+  emerald: { background: "#14b8a618", color: "var(--pr-tag-emerald, #5eead4)", border: "1px solid #14b8a635" },
 };
 
 export const getLineStyle = (lineName: string) => {
@@ -769,8 +850,8 @@ export const aeCard = (color: string) => ({
   border: `1px solid ${color}30`, borderRadius: "16px",
 });
 export const aeLabel = (color: string) => ({
-  fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em",
-  textTransform: "uppercase", color, marginBottom: "6px",
+  fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em",
+  textTransform: "uppercase", color: inkFor(color), marginBottom: "6px",
 });
 
 // ============================================================
@@ -789,5 +870,7 @@ export function applyThemeVars(themeName: "dark" | "light" | "oled") {
   root.style.setProperty("--pr-section-hover", t.sectionHdrHover);
   root.style.setProperty("--pr-top-btn-hover", t.topBtnHoverBg);
   root.style.setProperty("--pr-card-hover-shadow", t.shadowLg);
+  const ink = themeName === "light" ? LIGHT_INK : BRIGHT_INK;
+  Object.entries(ink).forEach(([name, value]) => root.style.setProperty(`--pr-${name}`, value));
   document.body.style.background = t.bg;
 }

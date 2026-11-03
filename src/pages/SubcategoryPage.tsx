@@ -15,7 +15,7 @@ import {
   getInstitutionPathwayNotes,
 } from "../data/institution-profile";
 import { hasMicrobiologyContent } from "../data/microbiology";
-import { NAV_STATES } from "../styles/constants";
+import { NAV_STATES, inkFor } from "../styles/constants";
 import { getSubcategoryContentKey, resolveContentMeta } from "../data/metadata";
 import {
   getPathwayWorkflowGroupTitles,
@@ -57,15 +57,15 @@ import type {
 } from "../types";
 
 const DECISION_STATE_STYLES = {
-  matched: { color: "#059669", border: "rgba(5,150,105,0.28)", background: "rgba(5,150,105,0.10)", label: "Matched" },
-  needs_context: { color: "#d97706", border: "rgba(217,119,6,0.28)", background: "rgba(217,119,6,0.10)", label: "Needs context" },
+  matched: { color: "var(--pr-success, #059669)", border: "rgba(5,150,105,0.28)", background: "rgba(5,150,105,0.10)", label: "Matched" },
+  needs_context: { color: "var(--pr-warning, #d97706)", border: "rgba(217,119,6,0.28)", background: "rgba(217,119,6,0.10)", label: "Needs context" },
   not_applicable: { color: "#64748b", border: "rgba(100,116,139,0.28)", background: "rgba(100,116,139,0.10)", label: "Not applicable" },
 } as const;
 
 const CONFIDENCE_STYLES = {
-  high: { color: "#0284c7", border: "rgba(2,132,199,0.28)", background: "rgba(2,132,199,0.10)" },
+  high: { color: "var(--pr-info, #0284c7)", border: "rgba(2,132,199,0.28)", background: "rgba(2,132,199,0.10)" },
   moderate: { color: "#7c3aed", border: "rgba(124,58,237,0.28)", background: "rgba(124,58,237,0.10)" },
-  emerging: { color: "#b45309", border: "rgba(180,83,9,0.28)", background: "rgba(180,83,9,0.10)" },
+  emerging: { color: "var(--pr-warning, #b45309)", border: "rgba(180,83,9,0.28)", background: "rgba(180,83,9,0.10)" },
 } as const;
 
 function renderWorkflowCards(
@@ -85,7 +85,7 @@ function renderWorkflowCards(
     >
       <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
         <span style={{ fontSize: "18px" }}>{entry.icon}</span>
-        <div style={{ fontWeight: 700, fontSize: "14px", color: entry.accentColor }}>{entry.label}</div>
+        <div style={{ fontWeight: 700, fontSize: "14px", color: inkFor(entry.accentColor) }}>{entry.label}</div>
         {entry.block?.status === "not_applicable" && (
           <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0 }}>
             Not applicable
@@ -134,9 +134,9 @@ function renderEvidenceCards(entries: EvidenceStatement[], S: Styles) {
 }
 
 const REASSESSMENT_STYLES = {
-  critical: { border: "#ef4444", text: "#dc2626", bg: "rgba(239,68,68,0.10)", label: "Critical" },
-  warn: { border: "#f59e0b", text: "#d97706", bg: "rgba(245,158,11,0.10)", label: "Caution" },
-  info: { border: "#38bdf8", text: "#0284c7", bg: "rgba(56,189,248,0.10)", label: "Info" },
+  critical: { border: "#ef4444", text: "var(--pr-danger, #dc2626)", bg: "rgba(239,68,68,0.10)", label: "Critical" },
+  warn: { border: "#f59e0b", text: "var(--pr-warning, #d97706)", bg: "rgba(245,158,11,0.10)", label: "Caution" },
+  info: { border: "#38bdf8", text: "var(--pr-info, #0284c7)", bg: "rgba(56,189,248,0.10)", label: "Info" },
 } as const;
 
 function collectOptionInteractionActions(
@@ -377,11 +377,164 @@ export default function SubcategoryPage({
         S={S}
       />
 
-      <ContentMetaCard
-        inheritedFrom={inherited ? disease.name : undefined}
-        meta={pageMeta}
+      {surfaceShowsInfectiousDetail && hasPatientContext && patientFitOptions.length > 0 && (
+        <div
+          style={{
+            background: S.card.background,
+            border: `1px solid ${S.card.borderColor}`,
+            borderLeft: "4px solid #34d399",
+            borderRadius: "14px",
+            padding: "14px 18px",
+            marginBottom: "18px",
+            display: "grid",
+            gap: "8px",
+          }}
+        >
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--pr-success, #059669)" }}>
+            Patient Fit Snapshot
+          </div>
+          {topPreferredFits.length > 0 ? (
+            <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>
+              <strong style={{ color: "var(--pr-success, #059669)" }}>Best fit now:</strong> {summarizeLabels(topPreferredFits)}
+            </div>
+          ) : null}
+          {topCautionFits.length > 0 ? (
+            <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.6 }}>
+              <strong style={{ color: "var(--pr-warning, #d97706)" }}>Use with caution:</strong> {summarizeLabels(topCautionFits)}
+            </div>
+          ) : null}
+          {topNeedsDataFits.length > 0 ? (
+            <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.6 }}>
+              <strong style={{ color: "var(--pr-info, #0284c7)" }}>Needs more data:</strong> {summarizeLabels(topNeedsDataFits)}
+            </div>
+          ) : null}
+          {topAvoidFits.length > 0 ? (
+            <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.6 }}>
+              <strong style={{ color: "var(--pr-danger, #dc2626)" }}>Avoid for this patient:</strong> {summarizeLabels(topAvoidFits)}
+            </div>
+          ) : null}
+        </div>
+      )}
+
+      <Section
+        id="empiric"
+        title={getTreatmentSectionTitle(subcategory, disease)}
+        icon="💊"
+        accentColor="#34d399"
+        expandedSections={expandedSections}
+        toggleSection={toggleSection}
+        readingMode={readingMode}
         S={S}
-      />
+        defaultOpen
+      >
+        {treatmentTiers.map((tier, index) => (
+          <EmpiricTierView
+            key={`${tier.line}-${index}`}
+            diseaseId={disease.id}
+            subcategoryId={subcategory.id}
+            surfaceMode={disease.surfaceMode}
+            tier={tier}
+            S={S}
+            navigateTo={navigateTo}
+            findMonograph={findMonograph}
+            copiedId={copiedId}
+            onCopy={onCopy}
+            allergies={allergies}
+            patient={patient}
+            crcl={crcl}
+          />
+        ))}
+      </Section>
+
+      {subcategory.durationGuidance && (
+        <div
+          style={{
+            background: S.card.background,
+            border: `1px solid ${S.card.borderColor}`,
+            borderLeft: "4px solid #38bdf8",
+            borderRadius: "14px",
+            padding: "14px 18px",
+            marginBottom: "18px",
+            display: "grid",
+            gap: "10px",
+          }}
+        >
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "var(--pr-info, #38bdf8)" }}>
+            ⏱ Treatment Duration Guidance
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap" as const, gap: "14px" }}>
+            <div>
+              <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, color: S.monographValue.color, marginBottom: "2px" }}>Standard</div>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading, lineHeight: 1.5 }}>{subcategory.durationGuidance.standard}</div>
+            </div>
+            {subcategory.durationGuidance.severe && (
+              <div>
+                <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, color: "var(--pr-tag-red, #f87171)", marginBottom: "2px" }}>Severe / Complicated</div>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--pr-tag-red, #f87171)", lineHeight: 1.5 }}>{subcategory.durationGuidance.severe}</div>
+              </div>
+            )}
+          </div>
+          {subcategory.durationGuidance.opatNote && (
+            <div style={{ fontSize: "12px", color: "var(--pr-info, #0284c7)", fontWeight: 600 }}>
+              🏠 OPAT: {subcategory.durationGuidance.opatNote}
+            </div>
+          )}
+          {subcategory.durationGuidance.stewardshipNote && (
+            <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.5 }}>
+              📋 {subcategory.durationGuidance.stewardshipNote}
+            </div>
+          )}
+        </div>
+      )}
+
+      {hasOrganisms && (
+        <Section
+          id="organism"
+          title="Organism-Specific Therapy"
+          icon="🦠"
+          accentColor="#f59e0b"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          {subcategory.organismSpecific?.map((organism, index) => (
+            <div
+              key={`${organism.organism}-${index}`}
+              style={{
+                padding: "16px",
+                background: S.card.background,
+                borderRadius: "16px",
+                border: `1px solid ${S.card.borderColor}`,
+                marginBottom: index < (subcategory.organismSpecific?.length ?? 0) - 1 ? "10px" : 0,
+                boxShadow: S.meta.shadowSm,
+              }}
+            >
+              <div style={{ fontWeight: 700, fontSize: "15px", color: "var(--pr-warning, #f59e0b)", marginBottom: "10px" }}>{organism.organism}</div>
+              <div style={S.detailList}>
+                {organism.preferred && (
+                  <div className="detail-row" style={S.detailRow}>
+                    <div className="detail-key" style={S.detailKey}>Preferred</div>
+                    <div className="detail-value" style={{ ...S.detailValue, color: "var(--pr-tag-green, #34d399)" }}>{organism.preferred}</div>
+                  </div>
+                )}
+                {organism.alternative && (
+                  <div className="detail-row" style={S.detailRow}>
+                    <div className="detail-key" style={S.detailKey}>Alternative</div>
+                    <div className="detail-value" style={{ ...S.detailValue, color: "var(--pr-tag-yellow, #fbbf24)" }}>{organism.alternative}</div>
+                  </div>
+                )}
+                {organism.notes && (
+                  <div className="detail-row" style={{ ...S.detailRow, borderBottom: "none", paddingBottom: 0 }}>
+                    <div className="detail-key" style={S.detailKey}>Notes</div>
+                    <div className="detail-value" style={S.detailValue}>{organism.notes}</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </Section>
+      )}
 
       <div
         style={{
@@ -421,45 +574,6 @@ export default function SubcategoryPage({
         </button>
       </div>
 
-      {surfaceShowsInfectiousDetail && hasPatientContext && patientFitOptions.length > 0 && (
-        <div
-          style={{
-            background: S.card.background,
-            border: `1px solid ${S.card.borderColor}`,
-            borderLeft: "4px solid #34d399",
-            borderRadius: "14px",
-            padding: "14px 18px",
-            marginBottom: "18px",
-            display: "grid",
-            gap: "8px",
-          }}
-        >
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#059669" }}>
-            Patient Fit Snapshot
-          </div>
-          {topPreferredFits.length > 0 ? (
-            <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>
-              <strong style={{ color: "#059669" }}>Best fit now:</strong> {summarizeLabels(topPreferredFits)}
-            </div>
-          ) : null}
-          {topCautionFits.length > 0 ? (
-            <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.6 }}>
-              <strong style={{ color: "#d97706" }}>Use with caution:</strong> {summarizeLabels(topCautionFits)}
-            </div>
-          ) : null}
-          {topNeedsDataFits.length > 0 ? (
-            <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.6 }}>
-              <strong style={{ color: "#0284c7" }}>Needs more data:</strong> {summarizeLabels(topNeedsDataFits)}
-            </div>
-          ) : null}
-          {topAvoidFits.length > 0 ? (
-            <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.6 }}>
-              <strong style={{ color: "#dc2626" }}>Avoid for this patient:</strong> {summarizeLabels(topAvoidFits)}
-            </div>
-          ) : null}
-        </div>
-      )}
-
       {surfaceShowsInfectiousDetail && hasPatientContext && patientReassessmentFocus.length > 0 && (
         <div
           style={{
@@ -473,7 +587,7 @@ export default function SubcategoryPage({
             gap: "10px",
           }}
         >
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#d97706" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--pr-warning, #d97706)" }}>
             Patient Reassessment Focus
           </div>
           {patientReassessmentFocus.map((item) => {
@@ -489,7 +603,7 @@ export default function SubcategoryPage({
                   padding: "10px 12px",
                 }}
               >
-                <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: palette.text }}>
+                <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: palette.text }}>
                   {palette.label}
                 </div>
                 <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading, marginTop: "4px" }}>{item.title}</div>
@@ -531,7 +645,7 @@ export default function SubcategoryPage({
             gap: "10px",
           }}
         >
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#0284c7" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--pr-info, #0284c7)" }}>
             🏥 Local Stewardship Lens · {INSTITUTION_PROFILE.name}
           </div>
           {pathwayNotes.map((note) => (
@@ -556,51 +670,10 @@ export default function SubcategoryPage({
             gap: "10px",
           }}
         >
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#059669" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--pr-success, #059669)" }}>
             📈 Local antibiogram overlay · {INSTITUTION_PROFILE.name}
           </div>
           <InstitutionAntibiogramCards entries={pathwayAntibiogram} S={S} />
-        </div>
-      )}
-
-      {subcategory.durationGuidance && (
-        <div
-          style={{
-            background: S.card.background,
-            border: `1px solid ${S.card.borderColor}`,
-            borderLeft: "4px solid #38bdf8",
-            borderRadius: "14px",
-            padding: "14px 18px",
-            marginBottom: "18px",
-            display: "grid",
-            gap: "10px",
-          }}
-        >
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "#38bdf8" }}>
-            ⏱ Treatment Duration Guidance
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap" as const, gap: "14px" }}>
-            <div>
-              <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, color: S.monographValue.color, marginBottom: "2px" }}>Standard</div>
-              <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading, fontFamily: "'JetBrains Mono', monospace" }}>{subcategory.durationGuidance.standard}</div>
-            </div>
-            {subcategory.durationGuidance.severe && (
-              <div>
-                <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, color: "#f87171", marginBottom: "2px" }}>Severe / Complicated</div>
-                <div style={{ fontSize: "14px", fontWeight: 700, color: "#f87171", fontFamily: "'JetBrains Mono', monospace" }}>{subcategory.durationGuidance.severe}</div>
-              </div>
-            )}
-          </div>
-          {subcategory.durationGuidance.opatNote && (
-            <div style={{ fontSize: "12px", color: "#0284c7", fontWeight: 600 }}>
-              🏠 OPAT: {subcategory.durationGuidance.opatNote}
-            </div>
-          )}
-          {subcategory.durationGuidance.stewardshipNote && (
-            <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.5 }}>
-              📋 {subcategory.durationGuidance.stewardshipNote}
-            </div>
-          )}
         </div>
       )}
 
@@ -802,7 +875,7 @@ export default function SubcategoryPage({
                   boxShadow: S.meta.shadowSm,
                 }}
               >
-                <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#059669", marginBottom: "8px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--pr-success, #059669)", marginBottom: "8px" }}>
                   {entry.event}
                 </div>
                 <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>{entry.anchor}</div>
@@ -885,7 +958,7 @@ export default function SubcategoryPage({
                   </div>
 
                   <div style={{ border: "1px solid rgba(5,150,105,0.18)", background: "rgba(5,150,105,0.06)", borderRadius: "14px", padding: "12px 14px" }}>
-                    <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#059669", marginBottom: "6px" }}>
+                    <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--pr-success, #059669)", marginBottom: "6px" }}>
                       Preferred
                     </div>
                     <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading }}>{entry.preferred.regimen}</div>
@@ -912,13 +985,13 @@ export default function SubcategoryPage({
                   </div>
 
                   {[
-                    { label: "Acceptable", color: "#0284c7", entries: entry.acceptable ?? [] },
-                    { label: "Rescue", color: "#d97706", entries: entry.rescue ?? [] },
-                    { label: "Avoid", color: "#dc2626", entries: entry.avoid ?? [] },
+                    { label: "Acceptable", color: "var(--pr-info, #0284c7)", entries: entry.acceptable ?? [] },
+                    { label: "Rescue", color: "var(--pr-warning, #d97706)", entries: entry.rescue ?? [] },
+                    { label: "Avoid", color: "var(--pr-danger, #dc2626)", entries: entry.avoid ?? [] },
                   ].map((group) =>
                     group.entries.length ? (
                       <div key={`${entry.id}-${group.label}`} style={{ display: "grid", gap: "8px" }}>
-                        <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: group.color }}>
+                        <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: group.color }}>
                           {group.label}
                         </div>
                         {group.entries.map((branch, branchIndex) => (
@@ -953,7 +1026,7 @@ export default function SubcategoryPage({
                   {match.matchedCriteria.length > 0 || match.blockedCriteria.length > 0 ? (
                     <div style={{ display: "grid", gap: "6px" }}>
                       {match.matchedCriteria.length > 0 ? (
-                        <div style={{ fontSize: "12px", color: "#059669", lineHeight: 1.55 }}>
+                        <div style={{ fontSize: "12px", color: "var(--pr-success, #059669)", lineHeight: 1.55 }}>
                           Matches: {match.matchedCriteria.join(" · ")}
                         </div>
                       ) : null}
@@ -967,7 +1040,7 @@ export default function SubcategoryPage({
 
                   {entry.monitoringFocus?.length ? (
                     <div>
-                      <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#0284c7", marginBottom: "6px" }}>
+                      <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--pr-info, #0284c7)", marginBottom: "6px" }}>
                         Monitoring focus
                       </div>
                       <ul style={{ margin: 0, paddingLeft: "18px", color: S.monographValue.color, lineHeight: 1.7 }}>
@@ -1071,7 +1144,7 @@ export default function SubcategoryPage({
                       <strong>Penetration fit:</strong> {entry.penetration}
                     </div>
                     {entry.evidenceStrength ? (
-                      <div style={{ fontSize: "12px", color: "#0284c7", lineHeight: 1.55 }}>
+                      <div style={{ fontSize: "12px", color: "var(--pr-info, #0284c7)", lineHeight: 1.55 }}>
                         <strong>Evidence:</strong> {entry.evidenceStrength}
                       </div>
                     ) : null}
@@ -1088,7 +1161,7 @@ export default function SubcategoryPage({
                       </div>
                     ) : null}
                     {match.matchedCriteria.length > 0 ? (
-                      <div style={{ fontSize: "12px", color: "#059669", lineHeight: 1.55 }}>
+                      <div style={{ fontSize: "12px", color: "var(--pr-success, #059669)", lineHeight: 1.55 }}>
                         Matches: {match.matchedCriteria.join(" · ")}
                       </div>
                     ) : null}
@@ -1149,7 +1222,7 @@ export default function SubcategoryPage({
                     <div>
                       <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{entry.label}</div>
                       <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
-                        Default duration: <strong style={{ color: "#38bdf8" }}>{entry.defaultDuration}</strong>
+                        Default duration: <strong style={{ color: "var(--pr-info, #38bdf8)" }}>{entry.defaultDuration}</strong>
                       </div>
                     </div>
                     {confidenceStyle ? (
@@ -1177,7 +1250,7 @@ export default function SubcategoryPage({
                     </div>
                   ) : null}
                   {entry.exceptions?.length ? (
-                    <div style={{ fontSize: "12px", color: "#dc2626", lineHeight: 1.55 }}>
+                    <div style={{ fontSize: "12px", color: "var(--pr-danger, #dc2626)", lineHeight: 1.55 }}>
                       Exceptions: {entry.exceptions.join(" · ")}
                     </div>
                   ) : null}
@@ -1329,85 +1402,6 @@ export default function SubcategoryPage({
         </Section>
       )}
 
-      <Section
-        id="empiric"
-        title={getTreatmentSectionTitle(subcategory, disease)}
-        icon="💊"
-        accentColor="#34d399"
-        expandedSections={expandedSections}
-        toggleSection={toggleSection}
-        readingMode={readingMode}
-        S={S}
-        defaultOpen
-      >
-        {treatmentTiers.map((tier, index) => (
-          <EmpiricTierView
-            key={`${tier.line}-${index}`}
-            diseaseId={disease.id}
-            subcategoryId={subcategory.id}
-            surfaceMode={disease.surfaceMode}
-            tier={tier}
-            S={S}
-            navigateTo={navigateTo}
-            findMonograph={findMonograph}
-            copiedId={copiedId}
-            onCopy={onCopy}
-            allergies={allergies}
-            patient={patient}
-            crcl={crcl}
-          />
-        ))}
-      </Section>
-
-      {hasOrganisms && (
-        <Section
-          id="organism"
-          title="Organism-Specific Therapy"
-          icon="🦠"
-          accentColor="#f59e0b"
-          expandedSections={expandedSections}
-          toggleSection={toggleSection}
-          readingMode={readingMode}
-          S={S}
-        >
-          {subcategory.organismSpecific?.map((organism, index) => (
-            <div
-              key={`${organism.organism}-${index}`}
-              style={{
-                padding: "16px",
-                background: S.card.background,
-                borderRadius: "16px",
-                border: `1px solid ${S.card.borderColor}`,
-                marginBottom: index < (subcategory.organismSpecific?.length ?? 0) - 1 ? "10px" : 0,
-                boxShadow: S.meta.shadowSm,
-              }}
-            >
-              <div style={{ fontWeight: 700, fontSize: "15px", color: "#f59e0b", marginBottom: "10px" }}>{organism.organism}</div>
-              <div style={S.detailList}>
-                {organism.preferred && (
-                  <div className="detail-row" style={S.detailRow}>
-                    <div className="detail-key" style={S.detailKey}>Preferred</div>
-                    <div className="detail-value" style={{ ...S.detailValue, color: "#34d399" }}>{organism.preferred}</div>
-                  </div>
-                )}
-                {organism.alternative && (
-                  <div className="detail-row" style={S.detailRow}>
-                    <div className="detail-key" style={S.detailKey}>Alternative</div>
-                    <div className="detail-value" style={{ ...S.detailValue, color: "#fbbf24" }}>{organism.alternative}</div>
-                  </div>
-                )}
-                {organism.notes && (
-                  <div className="detail-row" style={{ ...S.detailRow, borderBottom: "none", paddingBottom: 0 }}>
-                    <div className="detail-key" style={S.detailKey}>Notes</div>
-                    <div className="detail-value" style={S.detailValue}>{organism.notes}</div>
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-        </Section>
-      )}
-
       {subcategory.pearls && subcategory.pearls.length > 0 && (
         <Section
           id="pearls"
@@ -1426,6 +1420,12 @@ export default function SubcategoryPage({
           ))}
         </Section>
       )}
+      <ContentMetaCard
+        inheritedFrom={inherited ? disease.name : undefined}
+        meta={pageMeta}
+        S={S}
+      />
+
     </>
   );
 }

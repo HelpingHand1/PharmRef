@@ -53,7 +53,7 @@ function badgeStyle(S: Styles, tone: "fresh" | "info" | "warn"): React.CSSProper
       marginBottom: 0,
       background: "rgba(52,211,153,0.12)",
       borderColor: "rgba(52,211,153,0.28)",
-      color: "#059669",
+      color: "var(--pr-success, #059669)",
     };
   }
 
@@ -65,7 +65,7 @@ function badgeStyle(S: Styles, tone: "fresh" | "info" | "warn"): React.CSSProper
       marginBottom: 0,
       background: "rgba(56,189,248,0.12)",
       borderColor: "rgba(56,189,248,0.28)",
-      color: "#0284c7",
+      color: "var(--pr-info, #0284c7)",
     };
   }
 
@@ -76,7 +76,7 @@ function badgeStyle(S: Styles, tone: "fresh" | "info" | "warn"): React.CSSProper
     marginBottom: 0,
     background: "rgba(245,158,11,0.12)",
     borderColor: "rgba(245,158,11,0.28)",
-    color: "#d97706",
+    color: "var(--pr-warning, #d97706)",
   };
 }
 
@@ -154,7 +154,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
                 navigateTo(NAV_STATES.MONOGRAPH, { disease: drug.parentDisease, monograph: drug });
               }}
             >
-              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>💊 Drug Monograph</div>
+              <div style={{ fontSize: "12px", color: S.monographLabel.color, marginBottom: "6px" }}>💊 Drug Monograph</div>
               <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{hl(drug.name)}</div>
               <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>
                 {drug.brandNames} · {drug.drugClass}
@@ -187,7 +187,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
               navigateTo(NAV_STATES.PATHOGEN, { pathogenId: pathogen.id });
             }}
           >
-            <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🧬 Pathogen reference</div>
+            <div style={{ fontSize: "12px", color: S.monographLabel.color, marginBottom: "6px" }}>🧬 Pathogen reference</div>
             <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{hl(pathogen.name)}</div>
             <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{pathogen.phenotype}</div>
             <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "10px", lineHeight: 1.55 }}>{preview.primary}</div>
@@ -227,7 +227,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
                 });
               }}
             >
-              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🦠 Organism</div>
+              <div style={{ fontSize: "12px", color: S.monographLabel.color, marginBottom: "6px" }}>🦠 Organism</div>
               <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{hl(organism.organism)}</div>
               <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "4px", lineHeight: 1.55 }}>
                 {organism.parentDisease.name}
@@ -279,7 +279,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
                 });
               }}
             >
-              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>
+              <div style={{ fontSize: "12px", color: S.monographLabel.color, marginBottom: "6px" }}>
                 🧪 {regimen.parentDisease.surfaceMode === "general-pharmacy" ? "Treatment Approach" : "Empiric Regimen"}
               </div>
               <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading, lineHeight: 1.45 }}>{hl(regimen.regimen)}</div>
@@ -344,7 +344,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
                 navigateTo(NAV_STATES.SUBCATEGORY, { disease: subcategory.parentDisease, subcategory });
               }}
             >
-              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>
+              <div style={{ fontSize: "12px", color: S.monographLabel.color, marginBottom: "6px" }}>
                 📋{" "}
                 {subcategory.matchType === "name"
                   ? "Matched in pathway title"
@@ -392,7 +392,7 @@ export default function SearchResultsPage({ query, results, navigateTo, onClearS
                 navigateTo(NAV_STATES.DISEASE_OVERVIEW, { disease });
               }}
             >
-              <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>🔬 Clinical Topic</div>
+              <div style={{ fontSize: "12px", color: S.monographLabel.color, marginBottom: "6px" }}>🔬 Clinical Topic</div>
               <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>
                 {disease.icon} {hl(disease.name)}
               </div>

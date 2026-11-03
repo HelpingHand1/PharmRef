@@ -40,13 +40,13 @@ export default function AuditView({ diseaseStates, S }: AuditViewProps) {
         <span style={{ padding: "4px 12px", borderRadius: "9999px", fontSize: "12px", fontWeight: 600, background: "#ef444420", color: "#ef4444", border: "1px solid #ef444440" }}>
           Errors: {errors.length}
         </span>
-        <span style={{ padding: "4px 12px", borderRadius: "9999px", fontSize: "12px", fontWeight: 600, background: "#fbbf2420", color: "#fbbf24", border: "1px solid #fbbf2440" }}>
+        <span style={{ padding: "4px 12px", borderRadius: "9999px", fontSize: "12px", fontWeight: 600, background: "#fbbf2420", color: "var(--pr-tag-yellow, #fbbf24)", border: "1px solid #fbbf2440" }}>
           Warnings: {warnings.length}
         </span>
-        <span style={{ padding: "4px 12px", borderRadius: "9999px", fontSize: "12px", fontWeight: 600, background: "#60a5fa20", color: "#60a5fa", border: "1px solid #60a5fa40" }}>
+        <span style={{ padding: "4px 12px", borderRadius: "9999px", fontSize: "12px", fontWeight: 600, background: "#60a5fa20", color: "var(--pr-tag-blue, #60a5fa)", border: "1px solid #60a5fa40" }}>
           Info: {infos.length}
         </span>
-        <span style={{ padding: "4px 12px", borderRadius: "9999px", fontSize: "12px", fontWeight: 600, background: "#f59e0b20", color: "#f59e0b", border: "1px solid #f59e0b40" }}>
+        <span style={{ padding: "4px 12px", borderRadius: "9999px", fontSize: "12px", fontWeight: 600, background: "#f59e0b20", color: "var(--pr-warning, #f59e0b)", border: "1px solid #f59e0b40" }}>
           Review Watchlist: {summary.nonFreshPriorityCount}
         </span>
         <span style={{ padding: "4px 12px", borderRadius: "9999px", fontSize: "12px", fontWeight: 600, background: "#8b5cf620", color: "#8b5cf6", border: "1px solid #8b5cf640" }}>
@@ -58,7 +58,7 @@ export default function AuditView({ diseaseStates, S }: AuditViewProps) {
         <div className="quick-facts-grid" style={{ ...S.quickFactsGrid, marginTop: 0 }}>
           {summary.pathwayCoverage.map((metric) => (
             <div key={`pathway-${metric.label}`} style={coverageCardStyle}>
-              <div style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.06em", color: toneColor[metric.tone], fontWeight: 700 }}>
+              <div style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.06em", color: toneColor[metric.tone], fontWeight: 700 }}>
                 Pathway
               </div>
               <div style={{ fontSize: "15px", fontWeight: 700, color: S.meta.textHeading, marginTop: "6px" }}>{metric.label}</div>
@@ -69,7 +69,7 @@ export default function AuditView({ diseaseStates, S }: AuditViewProps) {
           ))}
           {summary.monographCoverage.map((metric) => (
             <div key={`monograph-${metric.label}`} style={coverageCardStyle}>
-              <div style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.06em", color: toneColor[metric.tone], fontWeight: 700 }}>
+              <div style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.06em", color: toneColor[metric.tone], fontWeight: 700 }}>
                 Monograph
               </div>
               <div style={{ fontSize: "15px", fontWeight: 700, color: S.meta.textHeading, marginTop: "6px" }}>{metric.label}</div>
@@ -83,7 +83,7 @@ export default function AuditView({ diseaseStates, S }: AuditViewProps) {
       <section style={{ marginBottom: "18px" }}>
         <div style={sectionHeadingStyle}>Priority Review Watchlist</div>
         {summary.agingPriorityContent.length === 0 ? (
-          <div style={{ ...S.card, cursor: "default", padding: "18px 20px", color: "#34d399", fontWeight: 700 }}>
+          <div style={{ ...S.card, cursor: "default", padding: "18px 20px", color: "var(--pr-tag-green, #34d399)", fontWeight: 700 }}>
             All priority decision-support content is inside its current freshness window.
           </div>
         ) : (
@@ -100,11 +100,11 @@ export default function AuditView({ diseaseStates, S }: AuditViewProps) {
               }}
             >
               <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", alignItems: "center" }}>
-                <span style={{ fontSize: "11px", fontWeight: 700, color: toneColor[item.freshnessTone], textTransform: "uppercase" }}>
+                <span style={{ fontSize: "12px", fontWeight: 700, color: toneColor[item.freshnessTone], textTransform: "uppercase" }}>
                   {item.kind}
                 </span>
                 <span style={{ fontWeight: 700, color: S.meta.text }}>{item.label}</span>
-                <span style={{ fontSize: "11px", color: S.monographValue.color }}>{item.disease}</span>
+                <span style={{ fontSize: "12px", color: S.monographValue.color }}>{item.disease}</span>
               </div>
               <div style={{ fontSize: "12px", marginTop: "6px", color: S.monographValue.color }}>
                 {item.freshnessLabel} · {item.confidenceLabel} · Owner: {item.reviewOwner}
@@ -114,7 +114,7 @@ export default function AuditView({ diseaseStates, S }: AuditViewProps) {
                   Recent section changes tracked: {item.recentChangesCount}
                 </div>
               )}
-              <div style={{ fontSize: "11px", marginTop: "6px", color: S.monographValue.color }}>{item.scope}</div>
+              <div style={{ fontSize: "12px", marginTop: "6px", color: S.monographValue.color }}>{item.scope}</div>
             </div>
           ))
         )}
@@ -139,20 +139,20 @@ export default function AuditView({ diseaseStates, S }: AuditViewProps) {
               }}
             >
               <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", alignItems: "center" }}>
-                <span style={{ fontSize: "11px", fontWeight: 700, color: "#8b5cf6", textTransform: "uppercase" }}>{item.kind}</span>
+                <span style={{ fontSize: "12px", fontWeight: 700, color: "#8b5cf6", textTransform: "uppercase" }}>{item.kind}</span>
                 <span style={{ fontWeight: 700, color: S.meta.text }}>{item.label}</span>
-                <span style={{ fontSize: "11px", color: S.monographValue.color }}>{item.disease}</span>
+                <span style={{ fontSize: "12px", color: S.monographValue.color }}>{item.disease}</span>
               </div>
               <div style={{ fontSize: "12px", marginTop: "6px", color: S.monographValue.color }}>
                 {item.disagreementCount} disagreement{item.disagreementCount === 1 ? "" : "s"} · {item.confidenceLabel}
               </div>
-              <div style={{ fontSize: "11px", marginTop: "6px", color: S.monographValue.color }}>{item.scope}</div>
+              <div style={{ fontSize: "12px", marginTop: "6px", color: S.monographValue.color }}>{item.scope}</div>
             </div>
           ))
         )}
       </section>
       {issues.length === 0 ? (
-        <div style={{ ...S.card, cursor: "default", textAlign: "center", padding: "40px", color: "#34d399", fontSize: "16px", fontWeight: 700 }}>✓ All checks passed</div>
+        <div style={{ ...S.card, cursor: "default", textAlign: "center", padding: "40px", color: "var(--pr-tag-green, #34d399)", fontSize: "16px", fontWeight: 700 }}>✓ All checks passed</div>
       ) : (
         issues.map((issue, index) => (
           <div
@@ -166,12 +166,12 @@ export default function AuditView({ diseaseStates, S }: AuditViewProps) {
               border: `1px solid ${severityColor[issue.severity]}20`,
             }}
           >
-            <span style={{ fontSize: "11px", fontWeight: 700, color: severityColor[issue.severity], textTransform: "uppercase", marginRight: "8px" }}>
+            <span style={{ fontSize: "12px", fontWeight: 700, color: severityColor[issue.severity], textTransform: "uppercase", marginRight: "8px" }}>
               {issue.severity}
             </span>
             <span style={{ fontWeight: 700, color: S.meta.text }}>{issue.disease}</span>
             <div style={{ fontSize: "13px", marginTop: "4px", color: S.monographValue.color }}>{issue.message}</div>
-            <div style={{ fontSize: "11px", marginTop: "6px", color: S.monographValue.color }}>{issue.scope}</div>
+            <div style={{ fontSize: "12px", marginTop: "6px", color: S.monographValue.color }}>{issue.scope}</div>
           </div>
         ))
       )}

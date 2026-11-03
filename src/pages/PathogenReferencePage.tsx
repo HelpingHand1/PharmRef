@@ -213,7 +213,7 @@ export default function PathogenReferencePage({
                   boxShadow: S.meta.shadowSm,
                 }}
               >
-                <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#059669", marginBottom: "8px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--pr-success, #059669)", marginBottom: "8px" }}>
                   {entry.site}
                 </div>
                 <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>
@@ -225,7 +225,7 @@ export default function PathogenReferencePage({
                   </div>
                 ) : null}
                 {entry.avoid?.length ? (
-                  <div style={{ fontSize: "12px", color: "#dc2626", marginTop: "6px", lineHeight: 1.55 }}>
+                  <div style={{ fontSize: "12px", color: "var(--pr-danger, #dc2626)", marginTop: "6px", lineHeight: 1.55 }}>
                     Avoid false reassurance from: {entry.avoid.join(" | ")}
                   </div>
                 ) : null}

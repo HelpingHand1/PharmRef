@@ -100,9 +100,9 @@ export default function HomePage({
     },
     {
       title: "Calculators",
-      detail: "CrCl, IBW/AdjBW, CURB-65, PORT/PSI, Vancomycin AUC, and aminoglycoside dosing.",
+      detail: "CrCl, weight metrics, CURB-65, PSI, vancomycin AUC, aminoglycosides, PEN-FAST, antibiotic course, and more.",
       icon: "🧮",
-      meta: "6 clinical tools",
+      meta: "13 clinical tools",
       onClick: () => navigateTo(NAV_STATES.CALCULATORS),
     },
     {
@@ -116,14 +116,9 @@ export default function HomePage({
           breakpointPreset: buildPathogenBreakpointPreset(pathogens[0]),
         }),
     },
-    {
-      title: "Data Audit",
-      detail: "Check missing fields and broken content links before the dataset grows further.",
-      icon: "🔍",
-      meta: "Content integrity",
-      onClick: () => navigateTo("audit"),
-    },
   ];
+
+  const sectionHeading = { ...S.monographLabel, margin: 0, fontSize: "13px" };
 
   return (
     <>
@@ -193,6 +188,19 @@ export default function HomePage({
         </div>
       </section>
 
+      <nav className="home-tool-chips" aria-label="Tools" style={{ display: "none", flexWrap: "wrap", gap: "8px", marginBottom: "20px" }}>
+        {quickActions.map((action) => (
+          <button
+            key={action.title}
+            type="button"
+            onClick={action.onClick}
+            style={{ ...S.crossRefPill, marginRight: 0, marginBottom: 0, fontSize: "13px", padding: "10px 14px", fontFamily: "inherit", color: S.meta.textHeading }}
+          >
+            {action.icon} {action.title === "Breakpoint Workspace" ? "Breakpoints" : action.title === "Allergy Profile" ? `Allergies${allergyCount > 0 ? ` (${allergyCount})` : ""}` : action.title}
+          </button>
+        ))}
+      </nav>
+
       <div className="home-actions" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "12px", marginBottom: "28px" }}>
         {quickActions.map((action) => (
           <button
@@ -237,10 +245,10 @@ export default function HomePage({
       {recentViews.length > 0 && (
         <>
           <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginBottom: "10px", flexWrap: "wrap" }}>
-            <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "12px" }}>Recent Views</div>
+            <h2 style={sectionHeading}>Recent Views</h2>
             <div style={{ fontSize: "12px", color: S.monographValue.color }}>Resume the last pages you were using.</div>
           </div>
-          <div className="home-recent-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "10px", marginBottom: "28px" }}>
+          <div className="home-recent-grid home-recent-list" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "10px", marginBottom: "28px" }}>
             {recentViews.map((recent) => (
               <button
                 key={`${recent.type}-${recent.label}`}
@@ -249,7 +257,7 @@ export default function HomePage({
                 style={{ ...S.card, marginBottom: 0, textAlign: "left", padding: "16px 18px" }}
                 onClick={() => onOpenRecent(recent)}
               >
-                <div style={{ fontSize: "11px", color: S.monographLabel.color, marginBottom: "6px" }}>
+                <div style={{ fontSize: "12px", color: S.monographLabel.color, marginBottom: "6px" }}>
                   {recent.icon} {recent.type === "disease" ? "TOPIC" : recent.type === "subcategory" ? "PATHWAY" : recent.type.toUpperCase()}
                 </div>
                 <div style={{ fontSize: "15px", fontWeight: 700, color: S.meta.textHeading }}>{recent.label}</div>
@@ -260,28 +268,10 @@ export default function HomePage({
         </>
       )}
 
-      {bookmarks.length === 0 && (
-        <div
-          style={{
-            ...S.card,
-            cursor: "default",
-            padding: "20px 22px",
-            marginBottom: "28px",
-            textAlign: "center",
-            borderStyle: "dashed",
-          }}
-        >
-          <div style={{ fontSize: "22px", marginBottom: "8px", opacity: 0.5 }}>🔖</div>
-          <p style={{ color: S.monographValue.color, margin: 0, fontSize: "13px", lineHeight: 1.6 }}>
-            No bookmarks yet — tap the bookmark icon on any monograph to save it here for quick access.
-          </p>
-        </div>
-      )}
-
       {bookmarks.length > 0 && (
         <>
           <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginBottom: "10px", flexWrap: "wrap" }}>
-            <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "12px" }}>🔖 Bookmarks</div>
+            <h2 style={sectionHeading}>🔖 Bookmarks</h2>
             <div style={{ fontSize: "12px", color: S.monographValue.color }}>{bookmarks.length} saved item{bookmarks.length === 1 ? "" : "s"}</div>
           </div>
           <div className="home-recent-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "10px", marginBottom: "28px" }}>
@@ -301,11 +291,11 @@ export default function HomePage({
                     onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { diseaseId: found.parentDiseaseId, monographId: found.id })}
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                      <div style={{ fontSize: "11px", color: S.meta.accent, fontWeight: 700 }}>💊 MONOGRAPH</div>
-                      <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "#fbbf24", fontSize: "14px", padding: "0 0 0 8px" }} onClick={(e) => { e.stopPropagation(); toggleBookmark(id); }} title="Remove bookmark">🔖</button>
+                      <div style={{ fontSize: "12px", color: S.meta.accent, fontWeight: 700 }}>💊 MONOGRAPH</div>
+                      <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "var(--pr-tag-yellow, #fbbf24)", fontSize: "14px", padding: "0 0 0 8px" }} onClick={(e) => { e.stopPropagation(); toggleBookmark(id); }} title="Remove bookmark">🔖</button>
                     </div>
                     <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{found.name}</div>
-                    <div style={{ fontSize: "11px", color: S.monographValue.color }}>{found.parentDiseaseName}</div>
+                    <div style={{ fontSize: "12px", color: S.monographValue.color }}>{found.parentDiseaseName}</div>
                   </button>
                 );
               }
@@ -321,11 +311,11 @@ export default function HomePage({
                     onClick={() => navigateTo(NAV_STATES.DISEASE_OVERVIEW, { diseaseId: disease.id })}
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                      <div style={{ fontSize: "11px", color: S.meta.accent, fontWeight: 700 }}>{disease.icon} TOPIC</div>
-                      <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "#fbbf24", fontSize: "14px", padding: "0 0 0 8px" }} onClick={(e) => { e.stopPropagation(); toggleBookmark(id); }} title="Remove bookmark">🔖</button>
+                      <div style={{ fontSize: "12px", color: S.meta.accent, fontWeight: 700 }}>{disease.icon} TOPIC</div>
+                      <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "var(--pr-tag-yellow, #fbbf24)", fontSize: "14px", padding: "0 0 0 8px" }} onClick={(e) => { e.stopPropagation(); toggleBookmark(id); }} title="Remove bookmark">🔖</button>
                     </div>
                     <div style={{ fontSize: "14px", fontWeight: 700, color: S.meta.textHeading }}>{disease.name}</div>
-                    <div style={{ fontSize: "11px", color: S.monographValue.color }}>{disease.subcategoryCount} pathways</div>
+                    <div style={{ fontSize: "12px", color: S.monographValue.color }}>{disease.subcategoryCount} pathways</div>
                   </button>
                 );
               }
@@ -336,7 +326,7 @@ export default function HomePage({
       )}
 
       <div className="section-meta-row" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginBottom: "14px", flexWrap: "wrap" }}>
-        <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>{getCatalogCollectionLabel()}</div>
+        <h2 style={sectionHeading}>{getCatalogCollectionLabel()}</h2>
         <div style={{ fontSize: "12px", color: S.monographValue.color }}>Browse by topic first, then drill into care pathways, treatment approaches, and drug detail.</div>
       </div>
       <div className="home-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "10px" }}>
@@ -400,8 +390,27 @@ export default function HomePage({
         ))}
       </div>
 
+      {bookmarks.length === 0 && (
+        <div
+          style={{
+            ...S.card,
+            cursor: "default",
+            padding: "20px 22px",
+            marginTop: "28px",
+            marginBottom: 0,
+            textAlign: "center",
+            borderStyle: "dashed",
+          }}
+        >
+          <div style={{ fontSize: "22px", marginBottom: "8px", opacity: 0.5 }}>🔖</div>
+          <p style={{ color: S.monographValue.color, margin: 0, fontSize: "13px", lineHeight: 1.6 }}>
+            No bookmarks yet — tap the bookmark icon on any monograph to save it here for quick access.
+          </p>
+        </div>
+      )}
+
       <div className="section-meta-row" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginTop: "30px", marginBottom: "14px", flexWrap: "wrap" }}>
-        <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>Pathogen References</div>
+        <h2 style={sectionHeading}>Pathogen References</h2>
         <div style={{ fontSize: "12px", color: S.monographValue.color }}>Jump from phenotype and rapid diagnostics to the right monograph and syndrome context.</div>
       </div>
       <div className="home-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "10px" }}>
@@ -413,7 +422,7 @@ export default function HomePage({
             style={{ ...S.card, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "8px", marginBottom: 0, padding: "18px 20px", textAlign: "left" }}
             onClick={() => navigateTo(NAV_STATES.PATHOGEN, { pathogenId: pathogen.id })}
           >
-            <div style={{ fontSize: "11px", color: S.meta.accent, fontWeight: 700 }}>🧬 PATHOGEN</div>
+            <div style={{ fontSize: "12px", color: S.meta.accent, fontWeight: 700 }}>🧬 PATHOGEN</div>
             <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{pathogen.name}</div>
             <div style={{ fontSize: "12px", color: S.monographValue.color, lineHeight: 1.55 }}>{pathogen.phenotype}</div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "4px" }}>
@@ -428,7 +437,7 @@ export default function HomePage({
       </div>
 
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginTop: "30px", marginBottom: "14px", flexWrap: "wrap" }}>
-        <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>All Drug Monographs ({allMonographs.length})</div>
+        <h2 style={sectionHeading}>All Drug Monographs ({allMonographs.length})</h2>
       </div>
 
       <div style={{ display: "flex", flexWrap: "wrap", marginBottom: "16px" }}>
@@ -455,7 +464,7 @@ export default function HomePage({
         <>
           {CLASS_GROUPS.filter((g) => (monographsByClass[g.label] ?? []).length > 0).map((g) => (
             <div key={g.label} style={{ marginBottom: "20px" }}>
-              <div style={{ ...S.monographLabel, fontSize: "11px", marginBottom: "8px" }}>{g.label}</div>
+              <div style={{ ...S.monographLabel, fontSize: "12px", marginBottom: "8px" }}>{g.label}</div>
               <div className="monograph-pills" style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                 {monographsByClass[g.label].map(drugPill)}
               </div>
@@ -463,6 +472,12 @@ export default function HomePage({
           ))}
         </>
       )}
+
+      <div style={{ marginTop: "28px", textAlign: "center" }}>
+        <button type="button" style={{ ...S.breadcrumbLink, fontSize: "12px" }} onClick={() => navigateTo("audit")}>
+          🔍 Data audit (content integrity)
+        </button>
+      </div>
     </>
   );
 }

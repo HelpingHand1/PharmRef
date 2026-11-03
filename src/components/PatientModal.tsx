@@ -60,7 +60,7 @@ export default function PatientModal({
   const border = isDark ? "#263449" : "#d7dfd4";
   const inputBg = isDark ? "rgba(15, 23, 42, 0.84)" : "#fffefd";
   const textColor = isDark ? "#e5eef8" : "#172033";
-  const mutedColor = isDark ? "#8ea1bb" : "#66758c";
+  const mutedColor = isDark ? "#8ea1bb" : "#5b6a80";
   const headingColor = isDark ? "#f1f5f9" : "#0f172a";
   const accentColor = isDark ? "#7dd3fc" : "#0f766e";
 
@@ -104,7 +104,7 @@ export default function PatientModal({
   const selectStyle: React.CSSProperties = { ...inputStyle };
 
   const labelStyle: React.CSSProperties = {
-    fontSize: "11px",
+    fontSize: "12px",
     fontWeight: 800,
     letterSpacing: "0.1em",
     textTransform: "uppercase",
@@ -226,7 +226,7 @@ export default function PatientModal({
             background: isDark ? "rgba(15, 23, 42, 0.72)" : "rgba(248, 250, 247, 0.92)",
           }}
         >
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: accentColor, marginBottom: "10px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: accentColor, marginBottom: "10px" }}>
             Bedside Execution Flags
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
@@ -304,7 +304,7 @@ export default function PatientModal({
             background: isDark ? "rgba(12, 31, 41, 0.64)" : "rgba(240, 249, 255, 0.76)",
           }}
         >
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: isDark ? "#67e8f9" : "#0f766e", marginBottom: "10px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: isDark ? "#67e8f9" : "#0f766e", marginBottom: "10px" }}>
             Host Risk and Timeline
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "8px" }}>
@@ -425,7 +425,7 @@ export default function PatientModal({
             background: isDark ? "rgba(24, 24, 52, 0.52)" : "rgba(245, 247, 255, 0.82)",
           }}
         >
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: isDark ? "#c4b5fd" : "#4338ca", marginBottom: "10px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: isDark ? "#c4b5fd" : "#4338ca", marginBottom: "10px" }}>
             Decision-Support Signals
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
@@ -511,7 +511,7 @@ export default function PatientModal({
             background: isDark ? "rgba(41, 28, 17, 0.42)" : "rgba(255, 247, 237, 0.76)",
           }}
         >
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: isDark ? "#fbbf24" : "#b45309", marginBottom: "10px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: isDark ? "var(--pr-tag-yellow, #fbbf24)" : "#b45309", marginBottom: "10px" }}>
             Stewardship Risk Flags
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
@@ -669,7 +669,7 @@ export default function PatientModal({
             background: isDark ? "rgba(13, 29, 49, 0.68)" : "rgba(239, 246, 255, 0.72)",
           }}
         >
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: isDark ? "#60a5fa" : "#1d4ed8", marginBottom: "10px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: isDark ? "var(--pr-tag-blue, #60a5fa)" : "#1d4ed8", marginBottom: "10px" }}>
             Active Medication Profile
           </div>
           <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.55, marginBottom: "10px" }}>
@@ -691,28 +691,28 @@ export default function PatientModal({
         {/* Live results panel */}
         {(crcl !== null || ibw !== null) && (
           <div style={{ background: isDark ? "rgba(6,182,212,0.07)" : "rgba(6,182,212,0.05)", border: "1px solid rgba(6,182,212,0.28)", borderRadius: "14px", padding: "14px 16px", marginBottom: "16px" }}>
-            <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "#06b6d4", marginBottom: "10px" }}>
+            <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "#06b6d4", marginBottom: "10px" }}>
               Derived Values
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: "10px" }}>
               {crcl !== null && (
                 <div>
                   <div style={{ fontSize: "22px", fontWeight: 800, color, letterSpacing: "-0.04em" }}>{crcl}</div>
-                  <div style={{ fontSize: "11px", color: mutedColor }}>CrCl mL/min</div>
-                  <div style={{ fontSize: "11px", color, fontWeight: 700, marginTop: "2px" }}>{crclLabel(crcl)}</div>
+                  <div style={{ fontSize: "12px", color: mutedColor }}>CrCl mL/min</div>
+                  <div style={{ fontSize: "12px", color, fontWeight: 700, marginTop: "2px" }}>{crclLabel(crcl)}</div>
                 </div>
               )}
               {ibw !== null && (
                 <div>
                   <div style={{ fontSize: "22px", fontWeight: 800, color: accentColor, letterSpacing: "-0.04em" }}>{ibw}</div>
-                  <div style={{ fontSize: "11px", color: mutedColor }}>IBW (kg)</div>
+                  <div style={{ fontSize: "12px", color: mutedColor }}>IBW (kg)</div>
                 </div>
               )}
               {adjbw !== null && (
                 <div>
                   <div style={{ fontSize: "22px", fontWeight: 800, color: accentColor, letterSpacing: "-0.04em" }}>{adjbw}</div>
-                  <div style={{ fontSize: "11px", color: mutedColor }}>AdjBW (kg)</div>
-                  <div style={{ fontSize: "11px", color: mutedColor, marginTop: "2px" }}>Use for obese dosing</div>
+                  <div style={{ fontSize: "12px", color: mutedColor }}>AdjBW (kg)</div>
+                  <div style={{ fontSize: "12px", color: mutedColor, marginTop: "2px" }}>Use for obese dosing</div>
                 </div>
               )}
             </div>

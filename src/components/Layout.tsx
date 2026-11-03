@@ -110,10 +110,10 @@ export default function Layout({
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet"
       />
-      <header style={S.header} className="app-header">
+      <header style={S.header} className={showTopBtn ? "app-header is-scrolled" : "app-header"}>
         <div style={S.headerTop} className="header-row">
           <button type="button" style={{ ...S.logo, background: "none", border: "none", fontFamily: "inherit" }} onClick={onHome}>
-            <span>⚕</span> PharmRef <span style={S.logoPill}>Rx</span>
+            <span>⚕</span> PharmRef <span className="logo-pill" style={S.logoPill}>Rx</span>
           </button>
           <div style={{ ...S.searchWrap, ...(compact ? { maxWidth: "320px" } : {}) }} className="search-wrap">
             <span style={S.searchIcon}>⌕</span>
@@ -136,7 +136,8 @@ export default function Layout({
           <div style={S.headerToolbar} className="header-toolbar">
             <button
               type="button"
-              style={{ ...S.themeToggle, gap: "4px", paddingLeft: "8px", paddingRight: "8px", fontSize: "11px" }}
+              className="cmdk-btn"
+              style={{ ...S.themeToggle, gap: "4px", paddingLeft: "8px", paddingRight: "8px", fontSize: "12px" }}
               onClick={onOpenCommandPalette}
               title="Command palette (⌘K)"
               aria-label="Open command palette"
@@ -153,7 +154,7 @@ export default function Layout({
             >
               ⚠
               {allergyCount > 0 && (
-                <span style={{ background: "#ef4444", color: "#fff", borderRadius: "9999px", fontSize: "10px", fontWeight: 800, padding: "1px 5px", lineHeight: 1.4, minWidth: "16px", textAlign: "center" }}>
+                <span style={{ background: "#ef4444", color: "#fff", borderRadius: "9999px", fontSize: "11px", fontWeight: 800, padding: "1px 5px", lineHeight: 1.4, minWidth: "16px", textAlign: "center" }}>
                   {allergyCount}
                 </span>
               )}
@@ -172,14 +173,14 @@ export default function Layout({
                     background: crcl !== null ? crclColor : "#38bdf8",
                     color: "#000",
                     borderRadius: "9999px",
-                    fontSize: "10px",
+                    fontSize: "11px",
                     fontWeight: 800,
                     padding: "1px 6px",
                     lineHeight: 1.4,
                     whiteSpace: "nowrap",
                   }}
                 >
-                  {crcl !== null ? `${crcl} mL/min` : "Active"}
+                  {crcl !== null ? <>{crcl}<span className="badge-unit"> mL/min</span></> : "Active"}
                 </span>
               )}
             </button>
@@ -226,7 +227,7 @@ export default function Layout({
           borderTop: `1px solid ${S.meta.border}`,
           padding: "14px 20px",
           textAlign: "center",
-          fontSize: "11px",
+          fontSize: "12px",
           color: S.meta.textMuted,
           letterSpacing: "0.02em",
           lineHeight: 1.6,

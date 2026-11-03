@@ -31,7 +31,7 @@ export default function AllergyModal({
   const inputBg = dark ? "rgba(15, 23, 42, 0.84)" : "#fffefd";
   const text = dark ? "#e5eef8" : "#172033";
   const heading = dark ? "#f1f5f9" : "#0f172a";
-  const muted = dark ? "#8ea1bb" : "#66758c";
+  const muted = dark ? "#8ea1bb" : "#5b6a80";
   const accent = dark ? "#7dd3fc" : "#0f766e";
 
   return (
@@ -141,9 +141,9 @@ export default function AllergyModal({
                 key={a.name}
                 style={{
                   display: "inline-flex", alignItems: "center", gap: "4px",
-                  padding: "6px 12px", borderRadius: "9999px", fontSize: "11px", fontWeight: 700,
+                  padding: "6px 12px", borderRadius: "9999px", fontSize: "12px", fontWeight: 700,
                   background: a.severity === "anaphylaxis" ? "#7f1d1d40" : dark ? "#92400e24" : "#fff7db",
-                  color: a.severity === "anaphylaxis" ? "#f87171" : "#fbbf24",
+                  color: a.severity === "anaphylaxis" ? "var(--pr-tag-red, #f87171)" : "var(--pr-tag-yellow, #fbbf24)",
                   border: `1px solid ${a.severity === "anaphylaxis" ? "#f8717140" : "#fbbf2440"}`,
                 }}
               >

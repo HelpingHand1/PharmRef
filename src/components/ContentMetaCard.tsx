@@ -18,12 +18,12 @@ interface ContentMetaCardProps {
 
 function pillToneStyles(tone: "fresh" | "info" | "warn") {
   if (tone === "fresh") {
-    return { background: "rgba(52,211,153,0.12)", borderColor: "rgba(52,211,153,0.28)", color: "#059669" };
+    return { background: "rgba(52,211,153,0.12)", borderColor: "rgba(52,211,153,0.28)", color: "var(--pr-success, #059669)" };
   }
   if (tone === "info") {
-    return { background: "rgba(56,189,248,0.12)", borderColor: "rgba(56,189,248,0.28)", color: "#0284c7" };
+    return { background: "rgba(56,189,248,0.12)", borderColor: "rgba(56,189,248,0.28)", color: "var(--pr-info, #0284c7)" };
   }
-  return { background: "rgba(245,158,11,0.12)", borderColor: "rgba(245,158,11,0.28)", color: "#d97706" };
+  return { background: "rgba(245,158,11,0.12)", borderColor: "rgba(245,158,11,0.28)", color: "var(--pr-warning, #d97706)" };
 }
 
 export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaCardProps) {
@@ -148,7 +148,7 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
 
       {whatChanged.length > 0 && (
         <div style={{ marginBottom: "10px" }}>
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent, marginBottom: "6px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent, marginBottom: "6px" }}>
             What changed
           </div>
           <div style={{ display: "grid", gap: "4px" }}>
@@ -163,7 +163,7 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
 
       {sectionConfidence.length > 0 && (
         <div style={{ marginBottom: "10px" }}>
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent, marginBottom: "8px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent, marginBottom: "8px" }}>
             Section confidence
           </div>
           <div style={{ display: "grid", gap: "8px" }}>
@@ -213,7 +213,7 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
                     background: S.meta.accentSurface,
                   }}
                 >
-                  <div style={{ fontSize: "11px", fontWeight: 800, color: S.meta.accent, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                  <div style={{ fontSize: "12px", fontWeight: 800, color: S.meta.accent, letterSpacing: "0.08em", textTransform: "uppercase" }}>
                     {source.kind}
                   </div>
                   <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading, marginTop: "4px" }}>{source.label}</div>
@@ -262,7 +262,7 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
         </div>
         {guidelineDisagreements.length > 0 && (
           <div style={{ marginTop: "12px" }}>
-            <div style={{ fontSize: "11px", fontWeight: 800, color: S.meta.accent, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "8px" }}>
+            <div style={{ fontSize: "12px", fontWeight: 800, color: S.meta.accent, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "8px" }}>
               Guideline disagreements
             </div>
             <div style={{ display: "grid", gap: "8px" }}>
@@ -293,7 +293,7 @@ export default function ContentMetaCard({ inheritedFrom, meta, S }: ContentMetaC
         )}
         {meta.reviewHistory.length > 0 && (
           <div style={{ marginTop: "12px" }}>
-            <div style={{ fontSize: "11px", fontWeight: 800, color: S.meta.accent, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "8px" }}>
+            <div style={{ fontSize: "12px", fontWeight: 800, color: S.meta.accent, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "8px" }}>
               Review history
             </div>
             <div style={{ display: "grid", gap: "8px" }}>

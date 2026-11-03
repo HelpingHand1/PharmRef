@@ -36,9 +36,9 @@ import type {
 } from "../types";
 
 const CONFIDENCE_STYLES: Record<ContentConfidence, { color: string; border: string; background: string }> = {
-  high: { color: "#0284c7", border: "rgba(2,132,199,0.28)", background: "rgba(2,132,199,0.10)" },
+  high: { color: "var(--pr-info, #0284c7)", border: "rgba(2,132,199,0.28)", background: "rgba(2,132,199,0.10)" },
   moderate: { color: "#7c3aed", border: "rgba(124,58,237,0.28)", background: "rgba(124,58,237,0.10)" },
-  emerging: { color: "#b45309", border: "rgba(180,83,9,0.28)", background: "rgba(180,83,9,0.10)" },
+  emerging: { color: "var(--pr-warning, #b45309)", border: "rgba(180,83,9,0.28)", background: "rgba(180,83,9,0.10)" },
 };
 
 interface MonographPageProps {
@@ -81,7 +81,7 @@ function renderStructuredItems(
         boxShadow: S.meta.shadowSm,
       }}
     >
-      <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent, marginBottom: "8px" }}>
+      <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent, marginBottom: "8px" }}>
         {item.label}
       </div>
       <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>{item.detail}</div>
@@ -105,7 +105,7 @@ function renderEvidenceStructuredItems(
         boxShadow: S.meta.shadowSm,
       }}
     >
-      <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent, marginBottom: "8px" }}>
+      <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent, marginBottom: "8px" }}>
         {item.label}
       </div>
       <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>{item.detail}</div>
@@ -247,7 +247,7 @@ export default function MonographPage({
               : "transparent",
             border: `1px solid ${bookmarked ? "rgba(251,191,36,0.45)" : S.meta.border}`,
             borderRadius: "8px",
-            color: bookmarked ? "#d97706" : S.meta.textSecondary,
+            color: bookmarked ? "var(--pr-warning, #d97706)" : S.meta.textSecondary,
             fontSize: "16px",
             cursor: "pointer",
             padding: "5px 9px",
@@ -295,10 +295,10 @@ export default function MonographPage({
                   style={{
                     ...S.tag,
                     background: isDark ? "rgba(251,191,36,0.1)" : "rgba(251,191,36,0.12)",
-                    color: "#d97706",
+                    color: "var(--pr-warning, #d97706)",
                     border: "1px solid rgba(251,191,36,0.3)",
                     fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: "11px",
+                    fontSize: "12px",
                   }}
                   title="PK/PD driver — the pharmacokinetic parameter most predictive of efficacy"
                 >
@@ -310,9 +310,9 @@ export default function MonographPage({
                   style={{
                     ...S.tag,
                     background: isDark ? "rgba(52,211,153,0.1)" : "rgba(52,211,153,0.1)",
-                    color: "#059669",
+                    color: "var(--pr-success, #059669)",
                     border: "1px solid rgba(52,211,153,0.28)",
-                    fontSize: "11px",
+                    fontSize: "12px",
                   }}
                   title="IV to PO switch criteria available"
                 >
@@ -324,9 +324,9 @@ export default function MonographPage({
                   style={{
                     ...S.tag,
                     background: isDark ? "rgba(56,189,248,0.1)" : "rgba(56,189,248,0.1)",
-                    color: "#0284c7",
+                    color: "var(--pr-info, #0284c7)",
                     border: "1px solid rgba(56,189,248,0.28)",
-                    fontSize: "11px",
+                    fontSize: "12px",
                   }}
                   title="OPAT eligibility information available"
                 >
@@ -338,9 +338,9 @@ export default function MonographPage({
                   style={{
                     ...S.tag,
                     background: isDark ? "rgba(2,132,199,0.12)" : "rgba(2,132,199,0.10)",
-                    color: "#0284c7",
+                    color: "var(--pr-info, #0284c7)",
                     border: "1px solid rgba(2,132,199,0.24)",
-                    fontSize: "11px",
+                    fontSize: "12px",
                   }}
                 >
                   🧬 {relatedPathogens.length} phenotype ref{relatedPathogens.length === 1 ? "" : "s"}
@@ -409,7 +409,7 @@ export default function MonographPage({
             boxShadow: S.meta.shadowSm,
           }}
         >
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#0284c7", marginBottom: "8px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--pr-info, #0284c7)", marginBottom: "8px" }}>
             🏥 Local formulary lens · {INSTITUTION_PROFILE.name}
           </div>
           {institutionDrugPolicy.restriction ? (
@@ -450,7 +450,7 @@ export default function MonographPage({
             boxShadow: S.meta.shadowSm,
           }}
         >
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#059669", marginBottom: "8px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--pr-success, #059669)", marginBottom: "8px" }}>
             📈 Local antibiogram overlay · {INSTITUTION_PROFILE.name}
           </div>
           <InstitutionAntibiogramCards entries={institutionDrugAntibiogram} S={S} />
@@ -513,7 +513,7 @@ export default function MonographPage({
               border: `1px solid ${S.meta.border}`,
               borderRadius: "9999px",
               color: S.meta.accent,
-              fontSize: "11px",
+              fontSize: "12px",
               fontWeight: 700,
               padding: "5px 11px",
               cursor: "pointer",
@@ -556,7 +556,7 @@ export default function MonographPage({
         </div>
         {patientWeightActive && (
           <div style={{ background: isDark ? "rgba(167,139,250,0.08)" : "rgba(167,139,250,0.07)", border: "1px solid rgba(167,139,250,0.28)", borderRadius: "10px", padding: "10px 14px", marginBottom: "12px", display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "center" }}>
-            <span style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: "#a78bfa" }}>Patient Weights</span>
+            <span style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: "#a78bfa" }}>Patient Weights</span>
             {ibw !== null && <span style={{ fontSize: "12px", color: isDark ? "#e5eef8" : "#172033" }}>IBW <strong>{ibw} kg</strong></span>}
             {adjbw !== null && <span style={{ fontSize: "12px", color: isDark ? "#e5eef8" : "#172033" }}>AdjBW <strong>{adjbw} kg</strong></span>}
             <span style={{ fontSize: "12px", color: isDark ? "#e5eef8" : "#172033" }}>Actual <strong>{patient.weight} kg</strong></span>
@@ -606,7 +606,7 @@ export default function MonographPage({
         </div>
         {crclActive && (
           <div style={{ background: isDark ? "rgba(15,23,42,0.6)" : "rgba(255,253,249,0.9)", border: `1px solid ${crclColor}50`, borderLeft: `3px solid ${crclColor}`, borderRadius: "10px", padding: "10px 14px", marginBottom: "12px", display: "flex", flexWrap: "wrap", gap: "14px", alignItems: "center" }}>
-            <span style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: "#f59e0b" }}>Patient Renal Function</span>
+            <span style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: "var(--pr-warning, #f59e0b)" }}>Patient Renal Function</span>
             <span style={{ fontSize: "13px", fontWeight: 700, color: crclColor }}>CrCl {crcl} mL/min</span>
             <span style={{ fontSize: "12px", color: crclColor, fontWeight: 600 }}>{crclLabel}</span>
             {patient.dialysis && patient.dialysis !== "none" && (
@@ -803,7 +803,7 @@ export default function MonographPage({
                     </div>
                   ) : null}
                   {entry.actionThresholds?.length ? (
-                    <div style={{ fontSize: "12px", color: "#dc2626", lineHeight: 1.55 }}>
+                    <div style={{ fontSize: "12px", color: "var(--pr-danger, #dc2626)", lineHeight: 1.55 }}>
                       <strong>Action thresholds:</strong> {entry.actionThresholds.join(" · ")}
                     </div>
                   ) : null}
@@ -1074,19 +1074,19 @@ export default function MonographPage({
                 marginBottom: "12px",
               }}
             >
-              <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: "#059669", marginBottom: "8px" }}>
+              <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: "var(--pr-success, #059669)", marginBottom: "8px" }}>
                 💊 IV → PO Switch Criteria
               </div>
               {monograph.ivToPoSwitch.switchCriteria && (
                 <p style={{ fontSize: "13px", color: isDark ? "#e5eef8" : "#172033", margin: "0 0 8px", lineHeight: 1.6 }}>{monograph.ivToPoSwitch.switchCriteria}</p>
               )}
               {monograph.ivToPoSwitch.poBioavailability && (
-                <div style={{ fontSize: "12px", color: isDark ? "#8ea1bb" : "#66758c" }}>
-                  Oral bioavailability: <strong style={{ color: "#059669" }}>{monograph.ivToPoSwitch.poBioavailability}</strong>
+                <div style={{ fontSize: "12px", color: isDark ? "#8ea1bb" : "#5b6a80" }}>
+                  Oral bioavailability: <strong style={{ color: "var(--pr-success, #059669)" }}>{monograph.ivToPoSwitch.poBioavailability}</strong>
                 </div>
               )}
               {monograph.ivToPoSwitch.note && (
-                <p style={{ fontSize: "12px", color: isDark ? "#8ea1bb" : "#66758c", margin: "8px 0 0", lineHeight: 1.6 }}>{monograph.ivToPoSwitch.note}</p>
+                <p style={{ fontSize: "12px", color: isDark ? "#8ea1bb" : "#5b6a80", margin: "8px 0 0", lineHeight: 1.6 }}>{monograph.ivToPoSwitch.note}</p>
               )}
             </div>
           )}
@@ -1099,7 +1099,7 @@ export default function MonographPage({
                 padding: "14px 16px",
               }}
             >
-              <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: "#0284c7", marginBottom: "8px" }}>
+              <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: "var(--pr-info, #0284c7)", marginBottom: "8px" }}>
                 🏠 OPAT Eligibility
               </div>
               <div style={{ display: "flex", gap: "10px", alignItems: "center", marginBottom: "8px" }}>
@@ -1109,7 +1109,7 @@ export default function MonographPage({
                     fontWeight: 700,
                     padding: "3px 10px",
                     borderRadius: "9999px",
-                    background: monograph.opatEligibility.eligible === "yes" ? "#059669" : monograph.opatEligibility.eligible === "conditional" ? "#d97706" : "#dc2626",
+                    background: monograph.opatEligibility.eligible === "yes" ? "#047857" : monograph.opatEligibility.eligible === "conditional" ? "#b45309" : "#b91c1c",
                     color: "#fff",
                   }}
                 >
@@ -1131,7 +1131,7 @@ export default function MonographPage({
                 )}
               </div>
               {monograph.opatEligibility.considerations && monograph.opatEligibility.considerations.map((c, i) => (
-                <div key={i} style={{ fontSize: "12px", color: isDark ? "#8ea1bb" : "#66758c", lineHeight: 1.6, marginBottom: "4px", marginTop: "6px" }}>• {c}</div>
+                <div key={i} style={{ fontSize: "12px", color: isDark ? "#8ea1bb" : "#5b6a80", lineHeight: 1.6, marginBottom: "4px", marginTop: "6px" }}>• {c}</div>
               ))}
             </div>
           )}

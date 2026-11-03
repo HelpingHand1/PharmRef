@@ -14,9 +14,9 @@ interface RegimenPatientWarningsProps {
 }
 
 const SEVERITY_STYLES = {
-  critical: { border: "#ef4444", text: "#dc2626", bg: "rgba(239,68,68,0.10)", label: "Critical" },
-  warn: { border: "#f59e0b", text: "#d97706", bg: "rgba(245,158,11,0.10)", label: "Caution" },
-  info: { border: "#38bdf8", text: "#0284c7", bg: "rgba(56,189,248,0.10)", label: "Info" },
+  critical: { border: "#ef4444", text: "var(--pr-danger, #dc2626)", bg: "rgba(239,68,68,0.10)", label: "Critical" },
+  warn: { border: "#f59e0b", text: "var(--pr-warning, #d97706)", bg: "rgba(245,158,11,0.10)", label: "Caution" },
+  info: { border: "#38bdf8", text: "var(--pr-info, #0284c7)", bg: "rgba(56,189,248,0.10)", label: "Info" },
 } as const;
 
 export default function RegimenPatientWarnings({
@@ -50,7 +50,7 @@ export default function RegimenPatientWarnings({
               padding: "10px 12px",
             }}
           >
-            <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: palette.text }}>
+            <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: palette.text }}>
               {palette.label}
             </div>
             <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading, marginTop: "4px" }}>{warning.title}</div>

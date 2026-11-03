@@ -11,7 +11,7 @@ function badgeStyle(status: InstitutionAntibiogramEntry["status"]) {
     return {
       background: "rgba(52,211,153,0.12)",
       borderColor: "rgba(52,211,153,0.28)",
-      color: "#059669",
+      color: "var(--pr-success, #059669)",
       label: "Local preferred",
     };
   }
@@ -19,7 +19,7 @@ function badgeStyle(status: InstitutionAntibiogramEntry["status"]) {
   return {
     background: "rgba(251,191,36,0.14)",
     borderColor: "rgba(251,191,36,0.3)",
-    color: "#d97706",
+    color: "var(--pr-warning, #d97706)",
     label: "Use with caution",
   };
 }
@@ -73,7 +73,7 @@ export default function InstitutionAntibiogramCards({
                 {entry.note}
               </div>
             ) : null}
-            <div style={{ fontSize: "11px", color: S.meta.textMuted, marginTop: "6px", lineHeight: 1.45 }}>
+            <div style={{ fontSize: "12px", color: S.meta.textMuted, marginTop: "6px", lineHeight: 1.45 }}>
               Source: {entry.source}
             </div>
           </div>

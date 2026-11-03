@@ -21,6 +21,14 @@ import {
 const COURSE_QUICK_PICKS = [5, 7, 10, 14, 28, 42];
 const COURSE_ANCHORS = ["First dose of active therapy", "First negative blood culture", "Source control"];
 
+// Result accents are tuned for dark cards; on light cards these darker shades keep result text above 4.5:1.
+const LIGHT_RESULT_INK: Record<string, string> = {
+  "#34d399": "#047857", "#10b981": "#047857", "#fbbf24": "#b45309", "#f87171": "#b91c1c",
+  "#a78bfa": "#6d28d9", "#c4b5fd": "#6d28d9", "#8b5cf6": "#6d28d9", "#818cf8": "#4338ca",
+  "#06b6d4": "#0e7490", "#14b8a6": "#0f766e", "#f97316": "#c2410c", "#ea580c": "#c2410c",
+  "#0ea5e9": "#0369a1", "#0284c7": "#0369a1",
+};
+
 function localIsoDate(date = new Date()) {
   const pad = (value: number) => String(value).padStart(2, "0");
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
@@ -53,17 +61,18 @@ function ResultBadge({ value, label, color, onCopy }: { value: string; label: st
       onKeyDown={onCopy ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onCopy(); } } : undefined}
     >
       <div style={{ fontSize: "22px", fontWeight: 800, color, letterSpacing: "-0.04em" }}>{value}</div>
-      <div style={{ fontSize: "11px", color, fontWeight: 600, letterSpacing: "0.04em" }}>{label}</div>
+      <div style={{ fontSize: "12px", color, fontWeight: 600, letterSpacing: "0.04em" }}>{label}</div>
     </div>
   );
 }
 
 export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw: globalIbw, adjbw: globalAdjbw, showToast }: CalculatorsPageProps) {
   const isDark = theme !== "light";
+  const tone = (color: string) => (isDark ? color : LIGHT_RESULT_INK[color] ?? color);
   const cardBg = isDark ? "rgba(8,12,22,0.8)" : "rgba(255,255,255,0.95)";
   const border = isDark ? "#263449" : "#d7dfd4";
   const textColor = isDark ? "#e5eef8" : "#172033";
-  const mutedColor = isDark ? "#8ea1bb" : "#66758c";
+  const mutedColor = isDark ? "#8ea1bb" : "#5b6a80";
   const headingColor = isDark ? "#f1f5f9" : "#0f172a";
   const inputBg = isDark ? "rgba(15,23,42,0.84)" : "#fffefd";
 
@@ -74,7 +83,7 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
   };
   const selectStyle: React.CSSProperties = { ...inputStyle };
   const labelStyle: React.CSSProperties = {
-    fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em",
+    fontSize: "12px", fontWeight: 800, letterSpacing: "0.1em",
     textTransform: "uppercase", color: mutedColor, marginBottom: "4px", display: "block",
   };
   const fieldWrap: React.CSSProperties = { display: "grid", gap: "3px" };
@@ -288,11 +297,11 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
           <CalcBtn onClick={calcCrcl} />
           {crclResult !== null && (
             <div style={resultBox(crclColor)}>
-              <ResultBadge value={`${crclResult}`} label="mL/min" color={crclColor} onCopy={makeCopy(`${crclResult}`, "CrCl")} />
-              <div style={{ fontSize: "12px", color: crclColor, fontWeight: 600 }}>{crclTier}</div>
+              <ResultBadge value={`${crclResult}`} label="mL/min" color={tone(crclColor)} onCopy={makeCopy(`${crclResult}`, "CrCl")} />
+              <div style={{ fontSize: "12px", color: tone(crclColor), fontWeight: 600 }}>{crclTier}</div>
             </div>
           )}
-          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>
             Use actual body weight unless obese (AdjBW &gt; ABW significantly). Note: Cystatin C or eGFR may be more accurate in elderly/cachexia.
           </div>
         </div>
@@ -311,12 +320,12 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
           <CalcBtn onClick={calcWeights} />
           {wResult && (
             <div style={resultBox("#a78bfa")}>
-              <ResultBadge value={`${wResult.ibw}`} label="IBW (kg)" color="#a78bfa" onCopy={makeCopy(`${wResult.ibw}`, "IBW")} />
-              {wResult.adjbw !== null && <ResultBadge value={`${wResult.adjbw}`} label="AdjBW (kg)" color="#c4b5fd" onCopy={makeCopy(`${wResult.adjbw}`, "AdjBW")} />}
-              <ResultBadge value={`${wResult.bsa}`} label="BSA (m²)" color="#8b5cf6" onCopy={makeCopy(`${wResult.bsa}`, "BSA")} />
+              <ResultBadge value={`${wResult.ibw}`} label="IBW (kg)" color={tone("#a78bfa")} onCopy={makeCopy(`${wResult.ibw}`, "IBW")} />
+              {wResult.adjbw !== null && <ResultBadge value={`${wResult.adjbw}`} label="AdjBW (kg)" color={tone("#c4b5fd")} onCopy={makeCopy(`${wResult.adjbw}`, "AdjBW")} />}
+              <ResultBadge value={`${wResult.bsa}`} label="BSA (m²)" color={tone("#8b5cf6")} onCopy={makeCopy(`${wResult.bsa}`, "BSA")} />
             </div>
           )}
-          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>
             AdjBW shown when actual &gt; 1.3× IBW (obesity). Use IBW for aminoglycosides; AdjBW for vancomycin in obese; actual for renally-adjusted drugs.
           </div>
         </div>
@@ -342,13 +351,13 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
             ))}
           </div>
           <div style={resultBox(curbColor)}>
-            <ResultBadge value={String(curbScore)} label="Score / 5" color={curbColor} onCopy={makeCopy(String(curbScore), "CURB-65")} />
+            <ResultBadge value={String(curbScore)} label="Score / 5" color={tone(curbColor)} onCopy={makeCopy(String(curbScore), "CURB-65")} />
             <div>
-              <div style={{ fontSize: "12px", fontWeight: 700, color: curbColor }}>{curbRisk}</div>
-              <div style={{ fontSize: "11px", color: mutedColor, marginTop: "4px", lineHeight: 1.5 }}>{curbManagement}</div>
+              <div style={{ fontSize: "12px", fontWeight: 700, color: tone(curbColor) }}>{curbRisk}</div>
+              <div style={{ fontSize: "12px", color: mutedColor, marginTop: "4px", lineHeight: 1.5 }}>{curbManagement}</div>
             </div>
           </div>
-          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>
             CURB-65 is preferred when labs are unavailable. Use PORT/PSI when full labs are available for more nuanced risk stratification.
           </div>
         </div>
@@ -364,7 +373,7 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
             <div style={fieldWrap}><label style={labelStyle}>Sex</label><select style={selectStyle} value={psi.sex} onChange={(e) => psiField("sex", e.target.value)}><option value="">Select…</option><option value="male">Male</option><option value="female">Female (−10 pts)</option></select></div>
           </div>
           <div style={{ display: "grid", gap: "7px" }}>
-            <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: mutedColor }}>Comorbidities</div>
+            <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: mutedColor }}>Comorbidities</div>
             {([
               ["nursingHome", "Nursing home resident (+10)"],
               ["neoplasm", "Active neoplasm (+30)"],
@@ -378,7 +387,7 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
                 {label}
               </label>
             ))}
-            <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: mutedColor, marginTop: "6px" }}>Exam Findings</div>
+            <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: mutedColor, marginTop: "6px" }}>Exam Findings</div>
             {([
               ["confusion", "Altered mental status (+20)"],
               ["rr30", "RR ≥30 (+20)"],
@@ -391,7 +400,7 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
                 {label}
               </label>
             ))}
-            <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: mutedColor, marginTop: "6px" }}>Labs</div>
+            <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: mutedColor, marginTop: "6px" }}>Labs</div>
             {([
               ["ph735", "Arterial pH <7.35 (+30)"],
               ["bun30", "BUN ≥30 mg/dL (+20)"],
@@ -408,10 +417,10 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
             ))}
           </div>
           <div style={resultBox(psiColor)}>
-            <ResultBadge value={`Class ${psiResult.cls}`} label={`Mortality: ${psiResult.mortality}`} color={psiColor} onCopy={makeCopy(`Class ${psiResult.cls}`, "PSI")} />
-            <div style={{ fontSize: "12px", color: psiColor, fontWeight: 600 }}>{psiResult.setting}</div>
+            <ResultBadge value={`Class ${psiResult.cls}`} label={`Mortality: ${psiResult.mortality}`} color={tone(psiColor)} onCopy={makeCopy(`Class ${psiResult.cls}`, "PSI")} />
+            <div style={{ fontSize: "12px", color: tone(psiColor), fontWeight: 600 }}>{psiResult.setting}</div>
           </div>
-          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>
             Full PSI requires labs. Use CURB-65 at triage when labs unavailable. Note: PSI may under-score immunocompromised patients.
           </div>
         </div>
@@ -431,23 +440,23 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
           {vancResult && (
             <>
               <div style={resultBox("#818cf8")}>
-                <ResultBadge value={`${vancResult.dose} mg`} label="Per dose" color="#818cf8" onCopy={makeCopy(`${vancResult.dose} mg IV ${vancResult.interval}`, "Vanc regimen")} />
-                <ResultBadge value={vancResult.interval} label="Interval" color="#818cf8" onCopy={makeCopy(vancResult.interval, "Vanc interval")} />
+                <ResultBadge value={`${vancResult.dose} mg`} label="Per dose" color={tone("#818cf8")} onCopy={makeCopy(`${vancResult.dose} mg IV ${vancResult.interval}`, "Vanc regimen")} />
+                <ResultBadge value={vancResult.interval} label="Interval" color={tone("#818cf8")} onCopy={makeCopy(vancResult.interval, "Vanc interval")} />
                 <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.6 }}>
                   {vancResult.dailyDose} mg/day · est. AUC₂₄ ≈ {vancResult.auc} mg·h/L · t½ ≈ {vancResult.halfLife} h
                 </div>
               </div>
               {vancResult.warnings.map((warning) => (
-                <div key={warning} style={{ fontSize: "11px", background: isDark ? "rgba(251,191,36,0.1)" : "#fef3c7", border: "1px solid #f59e0b40", borderRadius: "8px", padding: "8px 12px", color: isDark ? "#fcd34d" : "#92400e", lineHeight: 1.5 }}>
+                <div key={warning} style={{ fontSize: "12px", background: isDark ? "rgba(251,191,36,0.1)" : "#fef3c7", border: "1px solid #f59e0b40", borderRadius: "8px", padding: "8px 12px", color: isDark ? "#fcd34d" : "#92400e", lineHeight: 1.5 }}>
                   ⚠ {warning}
                 </div>
               ))}
-              <div style={{ fontSize: "11px", background: isDark ? "rgba(239,68,68,0.1)" : "#fee2e2", border: "1px solid #ef444430", borderRadius: "8px", padding: "8px 12px", color: isDark ? "#fca5a5" : "#991b1b", lineHeight: 1.5 }}>
+              <div style={{ fontSize: "12px", background: isDark ? "rgba(239,68,68,0.1)" : "#fee2e2", border: "1px solid #ef444430", borderRadius: "8px", padding: "8px 12px", color: isDark ? "#fca5a5" : "#991b1b", lineHeight: 1.5 }}>
                 ⚠ This is a population-based initial dose estimate only. Bayesian pharmacokinetic modeling or formal PK consult is strongly recommended. Individual PK variability is significant.
               </div>
             </>
           )}
-          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>
             Maintenance estimate from population PK (clearance from weight-normalized CrCl, Vd 0.7 L/kg), aiming for AUC₂₄ ≈ 500. No loading dose is included. Per ASHP/IDSA/SIDP 2020 guidelines. For MRSA bacteremia/endocarditis — AUC-guided monitoring preferred over trough-only monitoring.
           </div>
         </div>
@@ -466,12 +475,12 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
           <CalcBtn onClick={calcAg} />
           {agResult && (
             <div style={resultBox("#f87171")}>
-              <ResultBadge value={`${agResult.dose} mg`} label="7 mg/kg dose" color="#f87171" onCopy={makeCopy(`${agResult.dose} mg`, "AG dose")} />
-              <ResultBadge value={agResult.interval} label="Interval" color="#f87171" onCopy={makeCopy(agResult.interval, "AG interval")} />
-              <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>{agResult.monitoring}</div>
+              <ResultBadge value={`${agResult.dose} mg`} label="7 mg/kg dose" color={tone("#f87171")} onCopy={makeCopy(`${agResult.dose} mg`, "AG dose")} />
+              <ResultBadge value={agResult.interval} label="Interval" color={tone("#f87171")} onCopy={makeCopy(agResult.interval, "AG interval")} />
+              <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>{agResult.monitoring}</div>
             </div>
           )}
-          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>
             Use IBW for dosing weight if obese. Traditional q8h dosing (1–2 mg/kg) with troughs preferred for endocarditis synergy, pregnancy, burns. Extended interval not appropriate for CrCl &lt;20 or dialysis.
           </div>
         </div>
@@ -503,11 +512,11 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
           <CalcBtn onClick={calcBetaLactam} />
           {betaResult && (
             <div style={resultBox("#06b6d4")}>
-              <ResultBadge value={betaResult.regimen} label="Suggested regimen" color="#06b6d4" onCopy={makeCopy(betaResult.regimen, "Beta-lactam regimen")} />
-              <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.55 }}>{betaResult.rationale}</div>
+              <ResultBadge value={betaResult.regimen} label="Suggested regimen" color={tone("#06b6d4")} onCopy={makeCopy(betaResult.regimen, "Beta-lactam regimen")} />
+              <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.55 }}>{betaResult.rationale}</div>
             </div>
           )}
-          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>
             Serious infection and higher MIC organisms usually belong at the aggressive end of the range. Rebuild the regimen when renal function or CRRT status changes.
           </div>
         </div>
@@ -533,10 +542,10 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
           <CalcBtn onClick={calcDapto} />
           {daptoResult && (
             <div style={resultBox("#10b981")}>
-              <ResultBadge value={`${daptoResult.totalDoseMg} mg`} label={`${daptoResult.mgPerKg} mg/kg`} color="#10b981" onCopy={makeCopy(`${daptoResult.totalDoseMg} mg`, "Daptomycin")} />
+              <ResultBadge value={`${daptoResult.totalDoseMg} mg`} label={`${daptoResult.mgPerKg} mg/kg`} color={tone("#10b981")} onCopy={makeCopy(`${daptoResult.totalDoseMg} mg`, "Daptomycin")} />
             </div>
           )}
-          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>
             Useful for bloodstream, endovascular, and salvage MRSA/VRE plans. This is a starting math check only; confirm syndrome-specific targets and CK monitoring.
           </div>
         </div>
@@ -562,12 +571,12 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
           <CalcBtn onClick={calcTmpSmx} />
           {tmpResult && (
             <div style={resultBox("#14b8a6")}>
-              <ResultBadge value={`${tmpResult.totalTmpMgPerDay} mg`} label="TMP / day" color="#14b8a6" onCopy={makeCopy(`${tmpResult.totalTmpMgPerDay} mg`, "TMP/day")} />
-              <ResultBadge value={`${tmpResult.tmpMgPerDose} mg`} label="TMP / dose" color="#14b8a6" onCopy={makeCopy(`${tmpResult.tmpMgPerDose} mg`, "TMP/dose")} />
-              <ResultBadge value={`${tmpResult.dsTabsPerDose}`} label="DS tabs / dose" color="#0f766e" onCopy={makeCopy(`${tmpResult.dsTabsPerDose}`, "DS tabs")} />
+              <ResultBadge value={`${tmpResult.totalTmpMgPerDay} mg`} label="TMP / day" color={tone("#14b8a6")} onCopy={makeCopy(`${tmpResult.totalTmpMgPerDay} mg`, "TMP/day")} />
+              <ResultBadge value={`${tmpResult.tmpMgPerDose} mg`} label="TMP / dose" color={tone("#14b8a6")} onCopy={makeCopy(`${tmpResult.tmpMgPerDose} mg`, "TMP/dose")} />
+              <ResultBadge value={`${tmpResult.dsTabsPerDose}`} label="DS tabs / dose" color={tone("#0f766e")} onCopy={makeCopy(`${tmpResult.dsTabsPerDose}`, "DS tabs")} />
             </div>
           )}
-          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>
             One double-strength tablet contains 160 mg TMP. Check potassium, creatinine, CBC, and pregnancy considerations before finalizing the regimen.
           </div>
         </div>
@@ -592,12 +601,12 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
           <CalcBtn onClick={calcColistin} />
           {colistinResult && (
             <div style={resultBox("#f97316")}>
-              <ResultBadge value={`${colistinResult.millionIU}`} label="Million IU" color="#f97316" onCopy={makeCopy(`${colistinResult.millionIU}`, "Million IU")} />
-              <ResultBadge value={`${colistinResult.cmsMg} mg`} label="CMS" color="#f97316" onCopy={makeCopy(`${colistinResult.cmsMg} mg`, "CMS")} />
-              <ResultBadge value={`${colistinResult.cbaMg} mg`} label="CBA" color="#ea580c" onCopy={makeCopy(`${colistinResult.cbaMg} mg`, "CBA")} />
+              <ResultBadge value={`${colistinResult.millionIU}`} label="Million IU" color={tone("#f97316")} onCopy={makeCopy(`${colistinResult.millionIU}`, "Million IU")} />
+              <ResultBadge value={`${colistinResult.cmsMg} mg`} label="CMS" color={tone("#f97316")} onCopy={makeCopy(`${colistinResult.cmsMg} mg`, "CMS")} />
+              <ResultBadge value={`${colistinResult.cbaMg} mg`} label="CBA" color={tone("#ea580c")} onCopy={makeCopy(`${colistinResult.cbaMg} mg`, "CBA")} />
             </div>
           )}
-          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>
             Approximate conversion: 1 million IU ≈ 80 mg CMS ≈ 33 mg colistin base activity. Always confirm the local ordering convention before verifying a dose.
           </div>
         </div>
@@ -622,14 +631,14 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
           <CalcBtn onClick={calcAzole} />
           {azoleResult && (
             <div style={resultBox("#8b5cf6")}>
-              <ResultBadge value={azoleResult.goal} label="Target" color="#8b5cf6" onCopy={makeCopy(azoleResult.goal, "Azole target")} />
+              <ResultBadge value={azoleResult.goal} label="Target" color={tone("#8b5cf6")} onCopy={makeCopy(azoleResult.goal, "Azole target")} />
               <div>
-                <div style={{ fontSize: "12px", fontWeight: 700, color: "#8b5cf6" }}>{azoleResult.interpretation}</div>
-                <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5, marginTop: "4px" }}>{azoleResult.action}</div>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: tone("#8b5cf6") }}>{azoleResult.interpretation}</div>
+                <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5, marginTop: "4px" }}>{azoleResult.action}</div>
               </div>
             </div>
           )}
-          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>
             Pair troughs with formulation review, food/acid-suppression effects, interaction management, and liver/QT monitoring when relevant.
           </div>
         </div>
@@ -654,15 +663,15 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
             ))}
           </div>
           <div style={resultBox(penFastColor)}>
-            <ResultBadge value={String(penFastResult.score)} label="Score / 5" color={penFastColor} onCopy={makeCopy(`PEN-FAST ${penFastResult.score}/5`, "PEN-FAST")} />
+            <ResultBadge value={String(penFastResult.score)} label="Score / 5" color={tone(penFastColor)} onCopy={makeCopy(`PEN-FAST ${penFastResult.score}/5`, "PEN-FAST")} />
             <div>
-              <div style={{ fontSize: "12px", fontWeight: 700, color: penFastColor }}>
+              <div style={{ fontSize: "12px", fontWeight: 700, color: tone(penFastColor) }}>
                 {penFastResult.risk} risk · {penFastResult.positiveTestRate} positive allergy test
               </div>
-              <div style={{ fontSize: "11px", color: mutedColor, marginTop: "4px", lineHeight: 1.5 }}>{penFastResult.recommendation}</div>
+              <div style={{ fontSize: "12px", color: mutedColor, marginTop: "4px", lineHeight: 1.5 }}>{penFastResult.recommendation}</div>
             </div>
           </div>
-          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>
             For penicillin allergy labels only. Anaphylaxis/angioedema and SCAR share one 2-point item. Score from a history taken directly from the patient, not the chart alone.
           </div>
         </div>
@@ -698,11 +707,11 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
           </div>
           {course && (
             <div style={resultBox("#0ea5e9")}>
-              <ResultBadge value={courseHeadline} label={course.status === "active" ? `${course.daysRemaining} day${course.daysRemaining === 1 ? "" : "s"} left after today` : course.status === "upcoming" ? `Starts ${formatIsoDate(courseStart)}` : "Course finished"} color="#0ea5e9" onCopy={makeCopy(courseSummary, "Course")} />
-              <ResultBadge value={formatIsoDate(course.finalDay)} label="Final day of therapy" color="#0284c7" onCopy={makeCopy(courseSummary, "Course")} />
+              <ResultBadge value={courseHeadline} label={course.status === "active" ? `${course.daysRemaining} day${course.daysRemaining === 1 ? "" : "s"} left after today` : course.status === "upcoming" ? `Starts ${formatIsoDate(courseStart)}` : "Course finished"} color={tone("#0ea5e9")} onCopy={makeCopy(courseSummary, "Course")} />
+              <ResultBadge value={formatIsoDate(course.finalDay)} label="Final day of therapy" color={tone("#0284c7")} onCopy={makeCopy(courseSummary, "Course")} />
             </div>
           )}
-          <div style={{ fontSize: "11px", color: mutedColor, lineHeight: 1.5 }}>
+          <div style={{ fontSize: "12px", color: mutedColor, lineHeight: 1.5 }}>
             Day 1 is the anchor date. Use the anchor your pathway specifies; for example, S. aureus bacteremia durations count from the first negative blood culture.
           </div>
         </div>
@@ -710,7 +719,7 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
       </div>
 
       <div style={{ marginTop: "24px", padding: "12px 16px", border: `1px solid ${border}`, borderRadius: "10px", background: isDark ? "rgba(15,23,42,0.4)" : "rgba(255,253,249,0.7)" }}>
-        <p style={{ fontSize: "11px", color: mutedColor, margin: 0, lineHeight: 1.7 }}>
+        <p style={{ fontSize: "12px", color: mutedColor, margin: 0, lineHeight: 1.7 }}>
           <strong style={{ color: textColor }}>Clinical Disclaimer:</strong> All calculators are decision-support tools only. Results must be verified against current clinical guidelines and individualized for each patient. Consult clinical pharmacy and pharmacokinetics services for complex dosing decisions, especially for renally/hepatically impaired patients, pregnancy, pediatrics, and critically ill populations.
         </p>
       </div>

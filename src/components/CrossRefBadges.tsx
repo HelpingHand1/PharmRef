@@ -17,7 +17,7 @@ const CrossRefBadges = memo(function CrossRefBadges({
   if (others.length === 0) return null;
   return (
     <div className="xref-row" style={{ marginTop: "8px" }}>
-      <span style={{ fontSize: "11px", color: S.monographLabel?.color || "#64748b", marginRight: "6px" }}>Also in:</span>
+      <span style={{ fontSize: "12px", color: S.monographLabel?.color || "#64748b", marginRight: "6px" }}>Also in:</span>
       {others.map((ds) => (
         <span key={ds.id} className="xref-pill" style={S.crossRefPill} onClick={() => {
           showToast(`Viewing ${currentDrugName || "drug"} in ${ds.name}`, ds.icon);

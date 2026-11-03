@@ -90,7 +90,7 @@ function badgeStyles(
       marginBottom: 0,
       background: "rgba(52,211,153,0.12)",
       borderColor: "rgba(52,211,153,0.28)",
-      color: "#059669",
+      color: "var(--pr-success, #059669)",
     };
   }
 
@@ -102,7 +102,7 @@ function badgeStyles(
       marginBottom: 0,
       background: "rgba(245,158,11,0.12)",
       borderColor: "rgba(245,158,11,0.28)",
-      color: "#d97706",
+      color: "var(--pr-warning, #d97706)",
     };
   }
 
@@ -114,7 +114,7 @@ function badgeStyles(
       marginBottom: 0,
       background: "rgba(239,68,68,0.12)",
       borderColor: "rgba(239,68,68,0.28)",
-      color: "#dc2626",
+      color: "var(--pr-danger, #dc2626)",
     };
   }
 
@@ -126,7 +126,7 @@ function badgeStyles(
       marginBottom: 0,
       background: "rgba(56,189,248,0.12)",
       borderColor: "rgba(56,189,248,0.28)",
-      color: "#0284c7",
+      color: "var(--pr-info, #0284c7)",
     };
   }
 
@@ -194,10 +194,10 @@ export default function CompareView({
                   });
                 }}
               >
-                <div style={{ fontSize: "14px", fontWeight: 700, color: isSelected ? S.meta?.accent || "#38bdf8" : S.meta?.textHeading || S.monographValue?.color || "#e2e8f0" }}>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: isSelected ? S.meta?.accent || "var(--pr-info, #38bdf8)" : S.meta?.textHeading || S.monographValue?.color || "#e2e8f0" }}>
                   {isSelected ? "✓ " : ""}{dm.name}
                 </div>
-                <div style={{ fontSize: "11px", color: S.monographLabel?.color || "#64748b", marginTop: "4px" }}>{dm.drugClass}</div>
+                <div style={{ fontSize: "12px", color: S.monographLabel?.color || "#64748b", marginTop: "4px" }}>{dm.drugClass}</div>
               </div>
             );
           })}
@@ -205,7 +205,7 @@ export default function CompareView({
         {compareItems.length === 2 && (
           <div style={{ textAlign: "center", marginTop: "16px", animation: "toast-in 0.3s ease forwards" }}>
             <div
-              style={{ display: "inline-block", padding: "10px 24px", background: S.meta?.accentSurfaceStrong || "#0ea5e920", color: S.meta?.accent || "#38bdf8", border: `1px solid ${S.meta?.accent || "#0ea5e9"}`, borderRadius: "9999px", fontWeight: 700, fontSize: "14px" }}
+              style={{ display: "inline-block", padding: "10px 24px", background: S.meta?.accentSurfaceStrong || "#0ea5e920", color: S.meta?.accent || "var(--pr-info, #38bdf8)", border: `1px solid ${S.meta?.accent || "#0ea5e9"}`, borderRadius: "9999px", fontWeight: 700, fontSize: "14px" }}
             >
               Generating Comparison...
             </div>
@@ -417,7 +417,7 @@ export default function CompareView({
         <div style={S.compareCell}>
           {dm1.dosing && Object.entries(dm1.dosing).map(([k, v]) => (
             <div key={k} style={{ marginBottom: "6px" }}>
-              <span style={{ fontSize: "11px", fontWeight: 600, color: "#a78bfa", textTransform: "capitalize" }}>{k.replace(/_/g, " ")}: </span>
+              <span style={{ fontSize: "12px", fontWeight: 600, color: "#a78bfa", textTransform: "capitalize" }}>{k.replace(/_/g, " ")}: </span>
               <span style={{ fontSize: "12px", fontFamily: "'JetBrains Mono', monospace" }}>{v}</span>
             </div>
           ))}
@@ -425,7 +425,7 @@ export default function CompareView({
             <div style={{ marginTop: "10px" }}>
               {dm1.dosingByIndication.map((entry) => (
                 <div key={entry.label} style={{ marginBottom: "6px" }}>
-                  <span style={{ fontSize: "11px", fontWeight: 600, color: "#38bdf8" }}>{entry.label}: </span>
+                  <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--pr-info, #38bdf8)" }}>{entry.label}: </span>
                   <span style={{ fontSize: "12px" }}>{entry.regimen}</span>
                 </div>
               ))}
@@ -435,7 +435,7 @@ export default function CompareView({
         <div style={S.compareCell}>
           {dm2.dosing && Object.entries(dm2.dosing).map(([k, v]) => (
             <div key={k} style={{ marginBottom: "6px" }}>
-              <span style={{ fontSize: "11px", fontWeight: 600, color: "#a78bfa", textTransform: "capitalize" }}>{k.replace(/_/g, " ")}: </span>
+              <span style={{ fontSize: "12px", fontWeight: 600, color: "#a78bfa", textTransform: "capitalize" }}>{k.replace(/_/g, " ")}: </span>
               <span style={{ fontSize: "12px", fontFamily: "'JetBrains Mono', monospace" }}>{v}</span>
             </div>
           ))}
@@ -443,7 +443,7 @@ export default function CompareView({
             <div style={{ marginTop: "10px" }}>
               {dm2.dosingByIndication.map((entry) => (
                 <div key={entry.label} style={{ marginBottom: "6px" }}>
-                  <span style={{ fontSize: "11px", fontWeight: 600, color: "#38bdf8" }}>{entry.label}: </span>
+                  <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--pr-info, #38bdf8)" }}>{entry.label}: </span>
                   <span style={{ fontSize: "12px" }}>{entry.regimen}</span>
                 </div>
               ))}

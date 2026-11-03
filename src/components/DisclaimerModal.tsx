@@ -24,7 +24,7 @@ export default function DisclaimerModal({ S }: DisclaimerModalProps) {
         boxShadow: "0 28px 70px rgba(15, 23, 42, 0.18)",
       }}>
         <div style={{ fontSize: "30px", marginBottom: "14px" }} aria-hidden="true">⚠️</div>
-        <h2 id="disclaimer-modal-title" style={{ color: "#fbbf24", fontSize: "20px", marginBottom: "12px", letterSpacing: "-0.03em" }}>
+        <h2 id="disclaimer-modal-title" style={{ color: "var(--pr-tag-yellow, #fbbf24)", fontSize: "20px", marginBottom: "12px", letterSpacing: "-0.03em" }}>
           Clinical Disclaimer
         </h2>
         <p style={{ color: S.monographValue?.color || "#cbd5e1", lineHeight: 1.7, marginBottom: "22px", fontSize: "14px" }}>

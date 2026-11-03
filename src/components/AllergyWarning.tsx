@@ -216,7 +216,7 @@ const AllergyWarning = memo(function AllergyWarning({ drugId, allergies, S }: Al
     >
       <span style={{ flexShrink: 0 }}>{icon} {label}: {match.allergy}</span>
       {match.note && (
-        <span style={{ fontWeight: 400, opacity: 0.85, fontSize: "11px" }}>— {match.note}</span>
+        <span style={{ fontWeight: 400, opacity: 0.85, fontSize: "12px" }}>— {match.note}</span>
       )}
     </div>
   );

@@ -11,7 +11,7 @@ import {
   SUSCEPTIBILITY_COMBINATION_OPTIONS,
 } from "../utils/normalizeSusceptibilityObservation";
 import { buildSusceptibilityWorkspaceResult } from "../utils/susceptibilityWorkspace";
-import { NAV_STATES } from "../styles/constants";
+import { NAV_STATES, inkFor } from "../styles/constants";
 import type {
   BreakpointRapidDiagnostic,
   BreakpointWorkspacePreset,
@@ -390,7 +390,7 @@ export default function BreakpointWorkspacePage({
 
       <div style={{ display: "grid", gridTemplateColumns: "minmax(280px, 340px) minmax(0, 1fr)", gap: "16px" }}>
         <section style={{ ...S.card, padding: "18px 20px", marginBottom: 0 }}>
-          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent, marginBottom: "12px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: S.meta.accent, marginBottom: "12px" }}>
             Input
           </div>
           <div style={{ display: "grid", gap: "12px" }}>
@@ -865,7 +865,7 @@ export default function BreakpointWorkspacePage({
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
                       <div style={{ fontSize: "13px", fontWeight: 700, color: S.meta.textHeading }}>{finding.title}</div>
-                      <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0, color: OUTCOME_COLORS[finding.outcome], borderColor: `${OUTCOME_COLORS[finding.outcome]}55` }}>
+                      <span style={{ ...S.crossRefPill, cursor: "default", marginRight: 0, marginBottom: 0, color: inkFor(OUTCOME_COLORS[finding.outcome]), borderColor: `${OUTCOME_COLORS[finding.outcome]}55` }}>
                         {finding.outcome}
                       </span>
                     </div>
@@ -898,7 +898,7 @@ export default function BreakpointWorkspacePage({
                 <div style={{ display: "grid", gap: "10px" }}>
                   {result.matchedTherapy.map((therapy) => (
                     <div key={`${therapy.site}-${therapy.preferred}`} style={{ ...S.quickFactCard, padding: "14px 16px" }}>
-                      <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#059669", marginBottom: "8px" }}>
+                      <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--pr-success, #059669)", marginBottom: "8px" }}>
                         {therapy.site}
                       </div>
                       <div style={{ fontSize: "13px", color: S.meta.textHeading, lineHeight: 1.6 }}>
@@ -910,7 +910,7 @@ export default function BreakpointWorkspacePage({
                         </div>
                       ) : null}
                       {therapy.avoid?.length ? (
-                        <div style={{ fontSize: "12px", color: "#dc2626", marginTop: "6px", lineHeight: 1.55 }}>
+                        <div style={{ fontSize: "12px", color: "var(--pr-danger, #dc2626)", marginTop: "6px", lineHeight: 1.55 }}>
                           False reassurance traps: {therapy.avoid.join(" | ")}
                         </div>
                       ) : null}
@@ -939,7 +939,7 @@ export default function BreakpointWorkspacePage({
                               cursor: "default",
                               marginRight: 0,
                               marginBottom: 0,
-                              color: match.state === "matched" ? "#059669" : "#d97706",
+                              color: match.state === "matched" ? "var(--pr-success, #059669)" : "var(--pr-warning, #d97706)",
                               borderColor: match.state === "matched" ? "rgba(5,150,105,0.28)" : "rgba(217,119,6,0.28)",
                               background: match.state === "matched" ? "rgba(5,150,105,0.10)" : "rgba(217,119,6,0.10)",
                             }}
@@ -954,7 +954,7 @@ export default function BreakpointWorkspacePage({
                           {match.item.preferred.why}
                         </div>
                         {match.matchedCriteria.length ? (
-                          <div style={{ fontSize: "12px", color: "#059669", marginTop: "8px", lineHeight: 1.55 }}>
+                          <div style={{ fontSize: "12px", color: "var(--pr-success, #059669)", marginTop: "8px", lineHeight: 1.55 }}>
                             Matches: {match.matchedCriteria.join(" · ")}
                           </div>
                         ) : null}
