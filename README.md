@@ -2,7 +2,7 @@
 
 PharmRef is a TypeScript + React + Vite clinical pharmacy reference app. It organizes topic-level guidance, care pathways, pathogen references, and drug monographs into a single PWA-style interface optimized for point-of-care browsing.
 
-## Current state (v2.4.0)
+## Current state (v2.5.0)
 
 - 16 clinical topics
 - 68 care pathways

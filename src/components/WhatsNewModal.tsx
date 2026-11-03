@@ -9,34 +9,34 @@ interface WhatsNewProps {
 
 const FEATURES = [
   {
-    icon: "⌘",
-    title: "Command Palette",
-    detail: "Press Cmd+K (or Ctrl+K) to jump to any topic, drug, pathogen, or tool instantly. Arrow keys to navigate, Enter to open.",
+    icon: "🩺",
+    title: "Sepsis — SSC 2026",
+    detail: "Antibiotics ideally within 1 hour for shock and for probable or definite sepsis, source control ideally within 6 hours, an initial MAP target of 60–65 mmHg at age 65+, and qSOFA no longer used alone for screening.",
   },
   {
-    icon: "♿",
-    title: "Accessibility Overhaul",
-    detail: "All collapsible sections now support keyboard navigation and screen readers with proper ARIA roles. Modals trap focus correctly and restore it on close.",
+    icon: "🫁",
+    title: "Pneumonia — ATS 2025",
+    detail: "Corticosteroids for severe CAP only (not non-severe CAP or influenza), and 3–5 day courses for non-severe CAP once clinically stable.",
   },
   {
-    icon: "📋",
-    title: "Page Titles",
-    detail: "The browser tab now shows the current page context — disease name, monograph, or tool — making it easier to find PharmRef among open tabs.",
+    icon: "🧫",
+    title: "Resistant Gram-Negatives — IDSA 2026",
+    detail: "Aztreonam-avibactam for MBL producers, ceftolozane-tazobactam for DTR P. aeruginosa pneumonia, sulbactam-durlobactam for CRAB, cefiderocol for S. maltophilia, and ESBL presumption at a ceftriaxone MIC ≥4.",
   },
   {
-    icon: "🔔",
-    title: "Improved Notifications",
-    detail: "Toast notifications are now announced to screen readers and provide better feedback for actions like copy, bookmark, and allergy changes.",
+    icon: "🫀",
+    title: "Bacteremia & Endocarditis",
+    detail: "Updated to the AHA 2026 endocarditis statement and IDSA/ESCMID 2026 S. aureus bacteremia guidance (TTE for all adults, TEE by risk features). Uncomplicated gram-negative bacteremia now defaults to 7 days.",
   },
   {
-    icon: "🧮",
-    title: "Calculator Copy",
-    detail: "Tap any calculated result — CrCl, IBW, AdjBW, or AUC — to copy the value to your clipboard for quick documentation.",
+    icon: "💊",
+    title: "New Agents",
+    detail: "Added pivmecillinam, gepotidacin, sulopenem, oral tebipenem, cefepime-zidebactam, cefepime-enmetazobactam, aztreonam-avibactam, and rezafungin with label dosing.",
   },
   {
-    icon: "✨",
-    title: "Visual Polish",
-    detail: "Smoother page transitions, improved search result cards, and refined animation timing across the interface.",
+    icon: "⚠️",
+    title: "Corrections",
+    detail: "Sulbactam-durlobactam is now 1 g/1 g IV q6h, bezlotoxumab is marked discontinued, TMP-SMX for pyelonephritis is 7 days, and TMP-SMX is no longer called the drug of choice for S. maltophilia.",
   },
 ];
 
@@ -121,7 +121,7 @@ export default function WhatsNewModal({ S }: WhatsNewProps) {
             PharmRef {APP_VERSION}
           </h2>
           <p style={{ fontSize: "13px", color: S.meta.textMuted, margin: "0 0 20px", lineHeight: 1.6 }}>
-            This update focuses on keyboard efficiency, accessibility, and clinical workflow polish.
+            This update brings clinical content in line with guidelines published through 2026 and corrects several dosing and factual errors.
           </p>
         </div>
 
