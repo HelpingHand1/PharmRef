@@ -4,7 +4,13 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    # Packages that must move together get their own group (first match wins),
+    # so a major upgrade arrives as one installable PR.
     groups:
+      react:
+        patterns: ["react", "react-dom", "@types/react", "@types/react-dom"]
+      vite:
+        patterns: ["vite", "@vitejs/*", "vite-plugin-pwa"]
       npm-minor-and-patch:
         update-types: ["minor", "patch"]
 
