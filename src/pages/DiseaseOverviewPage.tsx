@@ -1,5 +1,5 @@
 import type { CatalogDerived } from "../data/derived";
-import type { DiseaseState, NavigateTo, Styles } from "../types";
+import type { DiseaseState, NavigateTo, OverviewEvidenceEntry, Styles } from "../types";
 import { getSourceLookupHref } from "../data/source-registry";
 import { resolveOverviewEntrySources } from "../data/overview-evidence";
 import { getCatalogCollectionLabel, getPathwayCollectionLabel, getTopicOverviewLabel, showsInfectiousDetail } from "../data/topic-surface";
@@ -7,6 +7,48 @@ import { NAV_STATES } from "../styles/constants";
 import Section from "../components/Section";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
 import ContentMetaCard from "../components/ContentMetaCard";
+
+// Guideline / trial card. The title itself opens the primary source: a bold colored title
+// that does nothing on tap reads as a broken link. Extra pills only when there are several sources.
+function OverviewEvidenceCard({ entry, accent, S }: { entry: OverviewEvidenceEntry; accent: string; S: Styles }) {
+  const sources = resolveOverviewEntrySources(entry);
+  const primary = sources.length > 0 ? getSourceLookupHref(sources[0], entry.name) : null;
+  const titleStyle = { fontWeight: 700, fontSize: "14px", color: accent };
+
+  return (
+    <div style={{ ...S.quickFactCard, padding: "16px 18px" }}>
+      {primary ? (
+        <a
+          href={primary.href}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`${entry.name} (opens ${primary.direct ? "source" : "a PubMed search"} in a new tab)`}
+          style={{ ...titleStyle, display: "block", textDecoration: "underline", textUnderlineOffset: "3px", textDecorationThickness: "1px" }}
+        >
+          {entry.name} <span aria-hidden="true">↗</span>
+        </a>
+      ) : (
+        <div style={titleStyle}>{entry.name}</div>
+      )}
+      <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "8px", lineHeight: 1.65 }}>{entry.detail}</div>
+      {sources.length > 1 && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
+          {sources.map((source) => (
+            <a
+              key={source.id}
+              href={getSourceLookupHref(source, entry.name).href}
+              target="_blank"
+              rel="noreferrer"
+              style={{ ...S.crossRefPill, marginRight: 0, marginBottom: 0, textDecoration: "none" }}
+            >
+              {source.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 interface DiseaseOverviewPageProps {
   catalogDerived: CatalogDerived | null;
@@ -156,41 +198,9 @@ export default function DiseaseOverviewPage({
         S={S}
       >
         <div className="results-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "10px" }}>
-          {overview.keyGuidelines.map((guideline, index) => {
-            const sources = resolveOverviewEntrySources(guideline);
-            return (
-              <div
-                key={`${guideline.name}-${index}`}
-                style={{ ...S.quickFactCard, padding: "16px 18px" }}
-              >
-                <div style={{ fontWeight: 700, fontSize: "14px", color: "var(--pr-tag-green, #34d399)" }}>{guideline.name}</div>
-                <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "8px", lineHeight: 1.65 }}>{guideline.detail}</div>
-                {sources.length > 0 && (
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
-                    {sources.map((source) => {
-                      const lookup = getSourceLookupHref(source, guideline.name);
-                      return (
-                        <a
-                          key={source.id}
-                          href={lookup.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          style={{
-                            ...S.crossRefPill,
-                            marginRight: 0,
-                            marginBottom: 0,
-                            textDecoration: "none",
-                          }}
-                        >
-                          {source.label}
-                        </a>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {overview.keyGuidelines.map((guideline, index) => (
+            <OverviewEvidenceCard key={`${guideline.name}-${index}`} entry={guideline} accent="var(--pr-tag-green, #34d399)" S={S} />
+          ))}
         </div>
       </Section>
 
@@ -205,41 +215,9 @@ export default function DiseaseOverviewPage({
         S={S}
       >
         <div className="results-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "10px" }}>
-          {overview.landmarkTrials.map((trial, index) => {
-            const sources = resolveOverviewEntrySources(trial);
-            return (
-              <div
-                key={`${trial.name}-${index}`}
-                style={{ ...S.quickFactCard, padding: "16px 18px" }}
-              >
-                <div style={{ fontWeight: 700, fontSize: "14px", color: "var(--pr-tag-yellow, #fbbf24)" }}>{trial.name}</div>
-                <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "8px", lineHeight: 1.65 }}>{trial.detail}</div>
-                {sources.length > 0 && (
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
-                    {sources.map((source) => {
-                      const lookup = getSourceLookupHref(source, trial.name);
-                      return (
-                        <a
-                          key={source.id}
-                          href={lookup.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          style={{
-                            ...S.crossRefPill,
-                            marginRight: 0,
-                            marginBottom: 0,
-                            textDecoration: "none",
-                          }}
-                        >
-                          {source.label}
-                        </a>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {overview.landmarkTrials.map((trial, index) => (
+            <OverviewEvidenceCard key={`${trial.name}-${index}`} entry={trial} accent="var(--pr-tag-yellow, #fbbf24)" S={S} />
+          ))}
         </div>
       </Section>
 

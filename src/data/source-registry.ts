@@ -55,6 +55,7 @@ const SOURCE_LIST: EvidenceSource[] = [
   }),
   source("ats-2025-cap", "guideline", "ATS 2025 CAP", {
     aliases: ["ATS 2025", "ATS 2025 CAP Guideline", "ATS 2025 CAP Guideline Update (Jones et al., AJRCCM 2025)"],
+    pmid: "40679934",
     doi: "10.1164/rccm.202507-1692ST",
     searchQuery: "Jones 2025 American Thoracic Society diagnosis management community-acquired pneumonia guideline",
   }),
@@ -81,6 +82,7 @@ const SOURCE_LIST: EvidenceSource[] = [
   }),
   source("idsa-2024-amr", "guideline", "IDSA 2024 AMR guidance", {
     aliases: ["IDSA 2024 AMR", "IDSA 2024 AMR guidance", "IDSA 2024 AMR Guidance v4.0 (Tamma et al., CID 2024)"],
+    pmid: "39108079",
     doi: "10.1093/cid/ciae403",
   }),
   source("idsa-2026-amr", "guideline", "IDSA 2026 AMR guidance", {
@@ -143,6 +145,7 @@ const SOURCE_LIST: EvidenceSource[] = [
   }),
   source("poet", "trial", "POET", {
     aliases: ["POET Trial (Iversen et al., NEJM 2019)"],
+    pmid: "30152252",
     doi: "10.1056/NEJMoa1808312",
     searchQuery: "POET partial oral treatment endocarditis NEJM 2019",
   }),
@@ -209,6 +212,7 @@ const SOURCE_LIST: EvidenceSource[] = [
   }),
   source("ecmm-2025-candidiasis", "guideline", "ECMM/ISHAM/ASM 2025 Global Candidiasis Guideline", {
     aliases: ["ECMM 2025", "ECMM 2025 Candidiasis Guideline"],
+    pmid: "39956121",
     doi: "10.1016/S1473-3099(24)00749-7",
     searchQuery: "Global guideline for the diagnosis and management of candidiasis ECMM ISHAM ASM 2025 Lancet Infect Dis",
   }),
