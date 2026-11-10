@@ -110,6 +110,7 @@ export default function PathogenReferencePage({
 
       <Section
         id="rapid-dx"
+        shortTitle="Rapid Dx"
         title="Rapid Diagnostic Interpretation"
         icon="⚡"
         accentColor="#38bdf8"
@@ -128,6 +129,7 @@ export default function PathogenReferencePage({
 
       <Section
         id="contamination"
+        shortTitle="Pitfalls"
         title="Contamination / Colonization Pitfalls"
         icon="🧪"
         accentColor="#f59e0b"
@@ -157,6 +159,7 @@ export default function PathogenReferencePage({
 
       <Section
         id="mechanisms"
+        shortTitle="Mechanisms"
         title="Resistance Mechanisms"
         icon="🧬"
         accentColor="#a855f7"
@@ -174,6 +177,7 @@ export default function PathogenReferencePage({
 
       <Section
         id="breakpoints"
+        shortTitle="Breakpoints"
         title="Breakpoint Caveats"
         icon="📈"
         accentColor="#ef4444"
@@ -191,6 +195,7 @@ export default function PathogenReferencePage({
 
       <Section
         id="therapy"
+        shortTitle="Therapy"
         title="Preferred Therapy By Site"
         icon="💊"
         accentColor="#34d399"
@@ -268,6 +273,7 @@ export default function PathogenReferencePage({
       {linkedDecisionSupport.length > 0 ? (
         <Section
           id="pathway-decision-support"
+          shortTitle="Decision support"
           title="Linked Pathway Decision Support"
           icon="🎯"
           accentColor="#059669"
@@ -320,6 +326,7 @@ export default function PathogenReferencePage({
 
       <Section
         id="related"
+        shortTitle="Pathways"
         title="Related Pathways"
         icon="🧭"
         accentColor="#0284c7"

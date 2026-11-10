@@ -575,6 +575,8 @@ export interface DiseaseCatalogSummary {
   category: string;
   subcategoryCount: number;
   monographCount: number;
+  /** Pathway names, so the home screen can label them before the topic loads. */
+  pathways: Array<{ id: string; name: string }>;
   contentMeta?: ContentMeta;
 }
 
@@ -867,7 +869,12 @@ export type NavigateToData = {
   breakpointPreset?: BreakpointWorkspacePreset | null;
 };
 
-export type NavigateTo = (state: NavStateKey, data?: NavigateToData) => void;
+export type NavigateOptions = {
+  /** Swap the current history entry instead of adding one (redirects). */
+  replace?: boolean;
+};
+
+export type NavigateTo = (state: NavStateKey, data?: NavigateToData, options?: NavigateOptions) => void;
 
 export type ThemeKey = "dark" | "light" | "oled";
 
@@ -885,6 +892,8 @@ export interface SectionProps {
   expandedSections: Record<string, boolean>;
   toggleSection: (id: string) => void;
   readingMode: boolean;
+  /** Shorter label for the jump rail. */
+  shortTitle?: string;
   S: Styles;
 }
 
@@ -953,6 +962,8 @@ export interface CrossRefBadgesProps {
 export interface RegimenCrossRefsProps {
   currentDiseaseId?: string;
   currentDrugName: string;
+  /** Render only the list, for use inside a Section. */
+  embedded?: boolean;
   navigateTo: NavigateTo;
   regimenXref: Record<string, RegimenReference[]>;
   showToast: (message: string, icon?: string) => void;

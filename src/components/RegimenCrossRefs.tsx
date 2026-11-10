@@ -6,6 +6,7 @@ import RegimenEvidencePills from "./RegimenEvidencePills";
 const RegimenCrossRefs = memo(function RegimenCrossRefs({
   currentDiseaseId,
   currentDrugName,
+  embedded = false,
   navigateTo,
   regimenXref,
   showToast,
@@ -15,15 +16,7 @@ const RegimenCrossRefs = memo(function RegimenCrossRefs({
   const refs = regimenXref[drugId];
   if (!refs?.length) return null;
 
-  return (
-    <section style={{ ...S.card, cursor: "default", padding: "18px 20px", marginBottom: "18px" }}>
-      <div style={{ ...S.monographLabel, color: S.meta.accent, marginBottom: "8px" }}>Regimen Cross-References</div>
-      <h2 style={{ fontSize: "20px", lineHeight: 1.15, margin: 0, color: S.meta.textHeading }}>
-        Used in {refs.length} empiric regimen{refs.length === 1 ? "" : "s"}
-      </h2>
-      <p style={{ color: S.monographValue.color, fontSize: "13px", marginTop: "8px", marginBottom: "14px", lineHeight: 1.6 }}>
-        These entries are generated from the structured empiric regimen catalog and link back to the source pathway.
-      </p>
+  const list = (
       <div style={{ display: "grid", gap: "10px" }}>
         {refs.map((ref) => {
           const sameDisease = ref.diseaseId === currentDiseaseId;
@@ -87,6 +80,30 @@ const RegimenCrossRefs = memo(function RegimenCrossRefs({
           );
         })}
       </div>
+  );
+
+  // Inside a collapsible section the heading and card frame are already there.
+  if (embedded) {
+    return (
+      <>
+        <p style={{ color: S.monographValue.color, fontSize: "13px", marginTop: 0, marginBottom: "14px", lineHeight: 1.6 }}>
+          Generated from the structured empiric regimen catalog. Each entry opens its source pathway.
+        </p>
+        {list}
+      </>
+    );
+  }
+
+  return (
+    <section style={{ ...S.card, cursor: "default", padding: "18px 20px", marginBottom: "18px" }}>
+      <div style={{ ...S.monographLabel, color: S.meta.accent, marginBottom: "8px" }}>Regimen Cross-References</div>
+      <h2 style={{ fontSize: "20px", lineHeight: 1.15, margin: 0, color: S.meta.textHeading }}>
+        Used in {refs.length} empiric regimen{refs.length === 1 ? "" : "s"}
+      </h2>
+      <p style={{ color: S.monographValue.color, fontSize: "13px", marginTop: "8px", marginBottom: "14px", lineHeight: 1.6 }}>
+        These entries are generated from the structured empiric regimen catalog and link back to the source pathway.
+      </p>
+      {list}
     </section>
   );
 });

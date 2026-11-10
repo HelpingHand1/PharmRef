@@ -11,9 +11,11 @@ const Section = memo(function Section({
   expandedSections,
   toggleSection,
   readingMode,
+  shortTitle,
   S,
 }: SectionProps) {
   const isOpen = readingMode || (expandedSections[id] ?? defaultOpen ?? false);
+  const borderColor = S.meta?.border;
   const contentId = `section-content-${id}`;
   const headerId = `section-header-${id}`;
 
@@ -29,7 +31,7 @@ const Section = memo(function Section({
   );
 
   return (
-    <div style={{ marginBottom: "8px" }} id={`section-${id}`}>
+    <div style={{ marginBottom: "8px" }} id={`section-${id}`} data-section-id={id} data-section-title={title} data-section-short={shortTitle}>
       {/* A real heading (h2 > button pattern) so screen readers can jump between sections */}
       <h2 style={{ margin: 0, fontSize: "inherit", fontWeight: "inherit" }}>
         <span
@@ -41,9 +43,19 @@ const Section = memo(function Section({
           aria-controls={readingMode ? undefined : contentId}
           style={{
             ...S.sectionHeader,
-            ...(isOpen ? { borderBottom: "none", borderRadius: "16px 16px 0 0" } : {}),
-            borderLeftColor: accentColor || S.sectionHeader.borderLeftColor || S.sectionHeader.borderColor,
+            // Longhand borders only: the open state and the accent edge change single
+            // sides, which React cannot reconcile against a `border` shorthand.
+            border: undefined,
+            borderStyle: "solid",
+            borderTopWidth: "1px",
+            borderRightWidth: "1px",
+            borderBottomWidth: isOpen ? 0 : "1px",
             borderLeftWidth: accentColor ? "3px" : "1px",
+            borderTopColor: borderColor,
+            borderRightColor: borderColor,
+            borderBottomColor: borderColor,
+            borderLeftColor: accentColor || borderColor,
+            borderRadius: isOpen ? "16px 16px 0 0" : S.sectionHeader.borderRadius,
           }}
           onClick={() => toggleSection(id)}
           onKeyDown={handleKeyDown}
@@ -61,7 +73,7 @@ const Section = memo(function Section({
                   justifyContent: "center",
                   fontSize: "16px",
                   background: S.meta?.accentSurface || "transparent",
-                  border: `1px solid ${S.meta?.border || S.sectionHeader.borderColor}`,
+                  border: `1px solid ${borderColor}`,
                 }}
               >
                 {icon}

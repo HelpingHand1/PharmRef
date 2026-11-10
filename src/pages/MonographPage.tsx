@@ -154,6 +154,7 @@ export default function MonographPage({
   const institutionDrugAntibiogram = getInstitutionDrugAntibiogram(monograph.id, INSTITUTION_PROFILE);
   const hasMicrobiology = hasMicrobiologyContent(monograph);
   const relatedPathogens = catalogDerived?.findPathogensForMonograph(monograph.id) ?? [];
+  const regimenRefCount = regimenXref[monograph.id]?.length ?? 0;
   const transitionReadiness = getMonographTransitionReadiness(monograph, patient);
   const penetrationEntries =
     monograph.penetration ??
@@ -219,14 +220,16 @@ export default function MonographPage({
           style={{
             position: "absolute",
             top: "14px",
-            right: "58px",
+            right: "62px",
             background: "transparent",
             border: `1px solid ${S.meta.border}`,
             borderRadius: "8px",
             color: S.meta.textMuted,
             fontSize: "16px",
             cursor: "pointer",
-            padding: "5px 9px",
+            width: "40px",
+            height: "40px",
+            padding: 0,
             lineHeight: 1,
             transition: "background 0.15s, border-color 0.15s, color 0.15s",
           }}
@@ -246,11 +249,13 @@ export default function MonographPage({
               ? isDark ? "rgba(251,191,36,0.15)" : "rgba(251,191,36,0.12)"
               : "transparent",
             border: `1px solid ${bookmarked ? "rgba(251,191,36,0.45)" : S.meta.border}`,
-            borderRadius: "8px",
+            borderRadius: "12px",
             color: bookmarked ? "var(--pr-warning, #d97706)" : S.meta.textSecondary,
             fontSize: "16px",
             cursor: "pointer",
-            padding: "5px 9px",
+            width: "40px",
+            height: "40px",
+            padding: 0,
             lineHeight: 1,
             transition: "background 0.15s, border-color 0.15s, color 0.15s",
           }}
@@ -276,7 +281,7 @@ export default function MonographPage({
             💊
           </div>
           <div className="page-hero-copy" style={{ minWidth: 0, flex: 1 }}>
-            <div style={{ ...S.monographLabel, color: S.meta.accent, marginBottom: "8px" }}>{disease.name}</div>
+            <div style={{ ...S.monographLabel, color: S.meta.accent, marginBottom: "8px", paddingRight: "100px" }}>{disease.name}</div>
             <h1 style={{ fontSize: "30px", lineHeight: 1.08, letterSpacing: "-0.04em", margin: 0, color: S.meta.textHeading }}>{monograph.name}</h1>
             <div style={{ fontSize: "14px", color: S.monographValue.color, marginTop: "8px", lineHeight: 1.6 }}>{monograph.brandNames}</div>
             <div style={{ marginTop: "12px", display: "flex", flexWrap: "wrap", gap: "8px" }}>
@@ -374,11 +379,6 @@ export default function MonographPage({
         meta={pageMeta}
         S={S}
       />
-      <ContentMetaCard
-        inheritedFrom={inherited ? disease.name : undefined}
-        meta={pageMeta}
-        S={S}
-      />
       <MonographPatientGuidance
         adjbw={adjbw}
         crcl={crcl}
@@ -456,96 +456,9 @@ export default function MonographPage({
           <InstitutionAntibiogramCards entries={institutionDrugAntibiogram} S={S} />
         </section>
       )}
-      <RegimenCrossRefs
-        currentDiseaseId={disease.id}
-        currentDrugName={monograph.name}
-        drugId={monograph.id}
-        navigateTo={navigateTo}
-        regimenXref={regimenXref}
-        showToast={showToast}
-        S={S}
-      />
       <ExpandCollapseBar S={S} onExpand={onExpandAll} onCollapse={onCollapseAll} />
 
-      <div
-        className="no-print"
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "6px",
-          marginBottom: "16px",
-        }}
-      >
-        {[
-          { id: "moa", label: "Mechanism" },
-          { id: "spectrum", label: "Spectrum" },
-          { id: "dosing", label: "Dosing" },
-          ...(monograph.dosingByIndication?.length ? [{ id: "dosing-by-indication", label: "Indication Dosing" }] : []),
-          { id: "renal", label: "Renal" },
-          ...(monograph.renalReplacement?.length ? [{ id: "rrt", label: "HD / CRRT" }] : []),
-          { id: "hepatic", label: "Hepatic" },
-          ...(monograph.specialPopulations?.length ? [{ id: "special-pop", label: "Special Pops" }] : []),
-          ...(monograph.specialPopulationMatrix?.length ? [{ id: "special-pop-matrix", label: "Decision Matrix" }] : []),
-          { id: "ae", label: "Adverse Effects" },
-          { id: "interactions", label: "Interactions" },
-          { id: "monitoring", label: "Monitoring" },
-          ...(monograph.monitoringActions?.length ? [{ id: "monitoring-actions", label: "Action Thresholds" }] : []),
-          ...(monograph.monitoringSchedule?.length ? [{ id: "monitoring-schedule", label: "Schedule" }] : []),
-          ...(monograph.therapeuticDrugMonitoring ? [{ id: "tdm", label: "TDM" }] : []),
-          { id: "pregnancy", label: "Pregnancy" },
-          ...(monograph.administration ? [{ id: "administration", label: "Administration" }] : []),
-          ...(monograph.executionBurden ? [{ id: "execution-burden", label: "Execution Lens" }] : []),
-          ...(monograph.administrationConstraints?.length ? [{ id: "administration-constraints", label: "Admin Constraints" }] : []),
-          ...(hasMicrobiology ? [{ id: "microbiology", label: "Microbiology" }] : []),
-          ...(monograph.misuseTraps?.length ? [{ id: "misuse-traps", label: "Misuse Traps" }] : []),
-          ...(penetrationEntries.length ? [{ id: "penetration", label: "Penetration" }] : []),
-          ...(monograph.siteSpecificAvoidances?.length ? [{ id: "site-avoidances", label: "Site Avoidance" }] : []),
-          ...(monograph.interactionActions?.length ? [{ id: "interaction-actions", label: "Actionable DDI" }] : []),
-          ...(monograph.stewardshipUseCases?.length ? [{ id: "stewardship", label: "Stewardship" }] : []),
-          { id: "pharm-pearls", label: "Pearls" },
-          ...(monograph.ivToPoSwitch || monograph.opatEligibility ? [{ id: "opat-ipo", label: "IV→PO / OPAT" }] : []),
-        ].map(({ id, label }) => (
-          <button
-            key={id}
-            type="button"
-            style={{
-              background: S.meta.accentSurface,
-              border: `1px solid ${S.meta.border}`,
-              borderRadius: "9999px",
-              color: S.meta.accent,
-              fontSize: "12px",
-              fontWeight: 700,
-              padding: "5px 11px",
-              cursor: "pointer",
-              fontFamily: "inherit",
-              transition: "background 0.15s, border-color 0.15s",
-            }}
-            onClick={() => {
-              const el = document.getElementById(`section-${id}`);
-              if (el) {
-                toggleSection(id);
-                setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
-              }
-            }}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-
-      <Section id="moa" title="Mechanism of Action" icon="⚙" accentColor="#38bdf8" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S} defaultOpen>
-        <div style={S.proseCallout}>
-          <p style={{ ...S.monographValue, margin: 0 }}>{monograph.mechanismOfAction}</p>
-        </div>
-      </Section>
-
-      <Section id="spectrum" title="Spectrum of Activity" icon="🎯" accentColor="#34d399" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
-        <div style={S.proseCallout}>
-          <p style={{ ...S.monographValue, margin: 0 }}>{monograph.spectrum}</p>
-        </div>
-      </Section>
-
-      <Section id="dosing" title="Dosing" icon="📐" accentColor="#a78bfa" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+      <Section id="dosing" shortTitle="Dosing" title="Dosing" icon="📐" accentColor="#a78bfa" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S} defaultOpen>
         <div className="no-print" style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", marginBottom: "12px" }}>
           <button type="button" style={{ ...S.expandAllBtn, marginRight: 0 }} onClick={() => navigateTo(NAV_STATES.CALCULATORS)}>
             Open calculators
@@ -579,7 +492,7 @@ export default function MonographPage({
       </Section>
 
       {monograph.dosingByIndication?.length ? (
-        <Section id="dosing-by-indication" title="Indication-Specific Dosing" icon="🎯" accentColor="#8b5cf6" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="dosing-by-indication" shortTitle="By indication" title="Indication-Specific Dosing" icon="🎯" accentColor="#8b5cf6" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {renderStructuredItems(
               monograph.dosingByIndication.map((entry) => ({
@@ -593,7 +506,7 @@ export default function MonographPage({
         </Section>
       ) : null}
 
-      <Section id="renal" title="Renal Dose Adjustment" icon="🫘" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+      <Section id="renal" shortTitle="Renal" title="Renal Dose Adjustment" icon="🫘" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
         <div className="no-print" style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", marginBottom: "12px" }}>
           <button type="button" style={{ ...S.expandAllBtn, marginRight: 0 }} onClick={() => navigateTo(NAV_STATES.CALCULATORS)}>
             Open calculators
@@ -620,7 +533,7 @@ export default function MonographPage({
       </Section>
 
       {monograph.renalReplacement?.length ? (
-        <Section id="rrt" title="HD / PD / CRRT" icon="🩺" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="rrt" shortTitle="Dialysis" title="HD / PD / CRRT" icon="🩺" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {renderStructuredItems(
               monograph.renalReplacement.map((entry) => ({
@@ -633,14 +546,14 @@ export default function MonographPage({
         </Section>
       ) : null}
 
-      <Section id="hepatic" title="Hepatic Dose Adjustment" icon="🫁" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+      <Section id="hepatic" shortTitle="Hepatic" title="Hepatic Dose Adjustment" icon="🫁" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
         <div style={S.proseCallout}>
           <p style={{ ...S.monographValue, margin: 0 }}>{monograph.hepaticAdjustment}</p>
         </div>
       </Section>
 
       {monograph.specialPopulations?.length ? (
-        <Section id="special-pop" title="Special Populations" icon="👥" accentColor="#38bdf8" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="special-pop" shortTitle="Populations" title="Special Populations" icon="👥" accentColor="#38bdf8" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {renderStructuredItems(
               monograph.specialPopulations.map((entry) => ({
@@ -654,7 +567,7 @@ export default function MonographPage({
       ) : null}
 
       {monograph.specialPopulationMatrix?.length ? (
-        <Section id="special-pop-matrix" title="Special Population Dosing Matrix" icon="🧮" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="special-pop-matrix" shortTitle="Decision matrix" title="Special Population Dosing Matrix" icon="🧮" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {monograph.specialPopulationMatrix.map((entry, index) => {
               const confidenceStyle = entry.confidence ? CONFIDENCE_STYLES[entry.confidence] : null;
@@ -695,7 +608,19 @@ export default function MonographPage({
         </Section>
       ) : null}
 
-      <Section id="ae" title="Adverse Effects" icon="⚠" accentColor="#ef4444" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+      <Section id="spectrum" shortTitle="Spectrum" title="Spectrum of Activity" icon="🎯" accentColor="#34d399" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <div style={S.proseCallout}>
+          <p style={{ ...S.monographValue, margin: 0 }}>{monograph.spectrum}</p>
+        </div>
+      </Section>
+
+      <Section id="moa" shortTitle="Mechanism" title="Mechanism of Action" icon="⚙" accentColor="#38bdf8" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <div style={S.proseCallout}>
+          <p style={{ ...S.monographValue, margin: 0 }}>{monograph.mechanismOfAction}</p>
+        </div>
+      </Section>
+
+      <Section id="ae" shortTitle="Adverse effects" title="Adverse Effects" icon="⚠" accentColor="#ef4444" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
         {monograph.adverseEffects && (
           <div style={S.aeGrid}>
             <div style={aeCard("#fbbf24")}>
@@ -728,7 +653,7 @@ export default function MonographPage({
         )}
       </Section>
 
-      <Section id="interactions" title="Drug Interactions" icon="🔗" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+      <Section id="interactions" shortTitle="Interactions" title="Drug Interactions" icon="🔗" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
         {monograph.drugInteractions && monograph.drugInteractions.length > 0 ? (
           monograph.drugInteractions.map((interaction, index) => (
             <div key={`${index}-${interaction.slice(0, 20)}`} style={S.interactionItem}>
@@ -742,14 +667,14 @@ export default function MonographPage({
         )}
       </Section>
 
-      <Section id="monitoring" title="Monitoring Parameters" icon="📊" accentColor="#38bdf8" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+      <Section id="monitoring" shortTitle="Monitoring" title="Monitoring Parameters" icon="📊" accentColor="#38bdf8" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
         <div style={S.proseCallout}>
           <p style={{ ...S.monographValue, margin: 0 }}>{monograph.monitoring}</p>
         </div>
       </Section>
 
       {monograph.monitoringActions?.length ? (
-        <Section id="monitoring-actions" title="Monitoring Action Thresholds" icon="🚨" accentColor="#ef4444" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="monitoring-actions" shortTitle="Thresholds" title="Monitoring Action Thresholds" icon="🚨" accentColor="#ef4444" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {renderEvidenceStructuredItems(
               monograph.monitoringActions.map((entry) => ({
@@ -765,7 +690,7 @@ export default function MonographPage({
       ) : null}
 
       {monograph.monitoringSchedule?.length ? (
-        <Section id="monitoring-schedule" title="Monitoring Schedule" icon="🗓" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="monitoring-schedule" shortTitle="Schedule" title="Monitoring Schedule" icon="🗓" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {monograph.monitoringSchedule.map((entry) => {
               const confidenceStyle = entry.confidence ? CONFIDENCE_STYLES[entry.confidence] : null;
@@ -816,7 +741,7 @@ export default function MonographPage({
       ) : null}
 
       {monograph.therapeuticDrugMonitoring ? (
-        <Section id="tdm" title="Therapeutic Drug Monitoring" icon="📈" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="tdm" shortTitle="TDM" title="Therapeutic Drug Monitoring" icon="📈" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {renderStructuredItems(
               [
@@ -833,14 +758,14 @@ export default function MonographPage({
         </Section>
       ) : null}
 
-      <Section id="pregnancy" title="Pregnancy & Lactation" icon="🤰" accentColor="#ec4899" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+      <Section id="pregnancy" shortTitle="Pregnancy" title="Pregnancy & Lactation" icon="🤰" accentColor="#ec4899" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
         <div style={S.proseCallout}>
           <p style={{ ...S.monographValue, margin: 0 }}>{monograph.pregnancyLactation}</p>
         </div>
       </Section>
 
       {monograph.administration ? (
-        <Section id="administration" title="Administration" icon="💉" accentColor="#34d399" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="administration" shortTitle="Administration" title="Administration" icon="💉" accentColor="#34d399" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {renderStructuredItems(
               [
@@ -857,7 +782,7 @@ export default function MonographPage({
       ) : null}
 
       {monograph.executionBurden ? (
-        <Section id="execution-burden" title="Execution Burden Profile" icon="🏠" accentColor="#059669" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="execution-burden" shortTitle="Burden" title="Execution Burden Profile" icon="🏠" accentColor="#059669" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ ...S.quickFactCard, padding: "16px" }}>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "10px" }}>
               {[
@@ -902,7 +827,7 @@ export default function MonographPage({
       ) : null}
 
       {monograph.administrationConstraints?.length ? (
-        <Section id="administration-constraints" title="Administration Constraints" icon="⏳" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="administration-constraints" shortTitle="Constraints" title="Administration Constraints" icon="⏳" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {renderEvidenceStructuredItems(
               monograph.administrationConstraints.map((entry) => ({
@@ -918,7 +843,7 @@ export default function MonographPage({
       ) : null}
 
       {hasMicrobiology ? (
-        <Section id="microbiology" title="Microbiology Intelligence" icon="🧫" accentColor="#a855f7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="microbiology" shortTitle="Microbiology" title="Microbiology Intelligence" icon="🧫" accentColor="#a855f7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <MicrobiologyCards
             rapidDiagnostics={monograph.rapidDiagnostics}
             breakpointNotes={monograph.breakpointNotes}
@@ -930,7 +855,7 @@ export default function MonographPage({
       ) : null}
 
       {relatedPathogens.length ? (
-        <Section id="pathogen-links" title="Related Pathogen References" icon="🧬" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="pathogen-links" shortTitle="Pathogens" title="Related Pathogen References" icon="🧬" accentColor="#0284c7" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {relatedPathogens.map((pathogen) => (
               <div
@@ -980,7 +905,7 @@ export default function MonographPage({
       ) : null}
 
       {monograph.misuseTraps?.length ? (
-        <Section id="misuse-traps" title="Misuse Traps" icon="🛑" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="misuse-traps" shortTitle="Misuse traps" title="Misuse Traps" icon="🛑" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {renderEvidenceStructuredItems(
               monograph.misuseTraps.map((entry) => ({
@@ -996,7 +921,7 @@ export default function MonographPage({
       ) : null}
 
       {penetrationEntries.length ? (
-        <Section id="penetration" title="Tissue Penetration" icon="🧬" accentColor="#a78bfa" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="penetration" shortTitle="Penetration" title="Tissue Penetration" icon="🧬" accentColor="#a78bfa" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {renderStructuredItems(
               penetrationEntries.map((entry) => ({
@@ -1010,7 +935,7 @@ export default function MonographPage({
       ) : null}
 
       {monograph.siteSpecificAvoidances?.length ? (
-        <Section id="site-avoidances" title="Site-Specific Avoidances" icon="📍" accentColor="#dc2626" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="site-avoidances" shortTitle="Site avoidance" title="Site-Specific Avoidances" icon="📍" accentColor="#dc2626" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {renderEvidenceStructuredItems(
               monograph.siteSpecificAvoidances.map((entry) => ({
@@ -1026,7 +951,7 @@ export default function MonographPage({
       ) : null}
 
       {monograph.interactionActions?.length ? (
-        <Section id="interaction-actions" title="Actionable Interaction Management" icon="🔗" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="interaction-actions" shortTitle="Managing DDIs" title="Actionable Interaction Management" icon="🔗" accentColor="#f59e0b" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {renderStructuredItems(
               monograph.interactionActions.map((entry) => ({
@@ -1040,7 +965,7 @@ export default function MonographPage({
       ) : null}
 
       {monograph.stewardshipUseCases?.length ? (
-        <Section id="stewardship" title="Stewardship Use Cases" icon="🧭" accentColor="#34d399" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+        <Section id="stewardship" shortTitle="Stewardship" title="Stewardship Use Cases" icon="🧭" accentColor="#34d399" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
           <div style={{ display: "grid", gap: "10px" }}>
             {renderStructuredItems(
               monograph.stewardshipUseCases.map((entry) => ({
@@ -1054,7 +979,7 @@ export default function MonographPage({
         </Section>
       ) : null}
 
-      <Section id="pharm-pearls" title="Pharmacist Pearls" icon="💡" accentColor="#fbbf24" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
+      <Section id="pharm-pearls" shortTitle="Pearls" title="Pharmacist Pearls" icon="💡" accentColor="#fbbf24" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S}>
         {monograph.pharmacistPearls?.map((pearl, index) => (
           <div key={`${index}-${pearl.slice(0, 20)}`} style={S.pearlBox}>
             💡 {pearl}
@@ -1063,7 +988,7 @@ export default function MonographPage({
       </Section>
 
       {(monograph.ivToPoSwitch || monograph.opatEligibility) && (
-        <Section id="opat-ipo" title="IV→PO Switch & OPAT Eligibility" icon="🏠" accentColor="#34d399" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S} defaultOpen>
+        <Section id="opat-ipo" shortTitle="IV→PO / OPAT" title="IV→PO Switch & OPAT Eligibility" icon="🏠" accentColor="#34d399" expandedSections={expandedSections} toggleSection={toggleSection} readingMode={readingMode} S={S} defaultOpen>
           {monograph.ivToPoSwitch && (
             <div
               style={{
@@ -1137,6 +1062,37 @@ export default function MonographPage({
           )}
         </Section>
       )}
+
+      {regimenRefCount > 0 && (
+        <Section
+          id="regimen-xrefs"
+          shortTitle="Regimens"
+          title={`Used in ${regimenRefCount} empiric regimen${regimenRefCount === 1 ? "" : "s"}`}
+          icon="🧭"
+          accentColor="#0284c7"
+          expandedSections={expandedSections}
+          toggleSection={toggleSection}
+          readingMode={readingMode}
+          S={S}
+        >
+          <RegimenCrossRefs
+            currentDiseaseId={disease.id}
+            currentDrugName={monograph.name}
+            drugId={monograph.id}
+            embedded
+            navigateTo={navigateTo}
+            regimenXref={regimenXref}
+            showToast={showToast}
+            S={S}
+          />
+        </Section>
+      )}
+
+      <ContentMetaCard
+        inheritedFrom={inherited ? disease.name : undefined}
+        meta={pageMeta}
+        S={S}
+      />
     </>
   );
 }

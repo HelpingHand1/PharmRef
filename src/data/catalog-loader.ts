@@ -32,10 +32,12 @@ export function loadDisease(diseaseId: string): Promise<DiseaseState | null> {
   }
 
   if (!diseaseCache.has(diseaseId)) {
-    diseaseCache.set(
-      diseaseId,
-      loader().then((disease) => attachDiseaseMetadata(disease)),
-    );
+    const pending = loader().then((disease) => attachDiseaseMetadata(disease));
+    // A failed fetch must not be cached, or the topic could never be retried.
+    pending.catch(() => {
+      if (diseaseCache.get(diseaseId) === pending) diseaseCache.delete(diseaseId);
+    });
+    diseaseCache.set(diseaseId, pending);
   }
 
   return diseaseCache.get(diseaseId)!;
@@ -48,10 +50,14 @@ export async function loadAllDiseases(): Promise<DiseaseState[]> {
 
 export function loadRegimenCatalog(): Promise<RegimenCatalogData> {
   if (!regimenCatalogPromise) {
-    regimenCatalogPromise = import("./generated/regimen-catalog").then((module) => ({
+    const pending = import("./generated/regimen-catalog").then((module) => ({
       regimens: module.REGIMEN_CATALOG,
       xrefByMonographId: module.REGIMEN_XREF_BY_MONOGRAPH_ID,
     }));
+    pending.catch(() => {
+      if (regimenCatalogPromise === pending) regimenCatalogPromise = null;
+    });
+    regimenCatalogPromise = pending;
   }
 
   return regimenCatalogPromise;

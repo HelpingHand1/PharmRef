@@ -9,29 +9,34 @@ interface WhatsNewProps {
 
 const FEATURES = [
   {
-    icon: "⚠️",
-    title: "Vancomycin Estimator Fixed",
-    detail: "The estimator treated CrCl as mL/min/kg and suggested about 4.5 g/day for nearly every patient. It now gives a per-dose regimen aimed at AUC ≈ 500, with warnings for CrCl <30, weight ≥120 kg, and MIC ≥2.",
+    icon: "↩️",
+    title: "Back Works Like an App",
+    detail: "The back gesture steps through the pages you visited and returns you to the same spot with the same sections open. It closes search or an open dialog before it leaves the page.",
   },
   {
-    icon: "🩹",
-    title: "PEN-FAST",
-    detail: "Penicillin allergy risk score with direct oral challenge guidance. A severe cutaneous reaction history is always flagged for allergy referral.",
+    icon: "🧭",
+    title: "Jump to Any Section",
+    detail: "Long pages get a strip of section links under the search bar. Tap Renal, Interactions, or a calculator name to go straight there.",
   },
   {
-    icon: "📅",
-    title: "Antibiotic Course",
-    detail: "Enter day 1 and a duration to see today's day of therapy and the final day, then copy the summary for your note.",
+    icon: "📐",
+    title: "Dosing First",
+    detail: "Monographs open on Dosing, with regimen cross-references moved to their own section. Topic pages list their care pathways first.",
   },
   {
-    icon: "🔎",
-    title: "Typo-Tolerant Search",
-    detail: "Misspellings like “zosin” or “cefipime” now offer a “Did you mean” suggestion instead of an empty page.",
+    icon: "📱",
+    title: "Tab Bar on Phones",
+    detail: "Home, Calculators, Patient, and Allergies sit within thumb reach. Theme, reading view, compare, and the breakpoint workspace are under More.",
   },
   {
-    icon: "🩺",
-    title: "Guideline Updates (2.5.0)",
-    detail: "SSC 2026 sepsis, ATS 2025 CAP, IDSA 2026 resistant gram-negatives, AHA/IDSA 2026 bacteremia and endocarditis, new agents, and several dosing corrections.",
+    icon: "🔖",
+    title: "Bookmark Pathways and Topics",
+    detail: "Bookmarks are no longer limited to monographs. Saved pages are pinned to the top of the home screen.",
+  },
+  {
+    icon: "📶",
+    title: "Steadier Offline",
+    detail: "A new version now waits until you choose to update, so it never reloads mid-shift. Fonts are cached for offline use, and a page that fails to load offers a retry.",
   },
 ];
 
@@ -116,7 +121,7 @@ export default function WhatsNewModal({ S }: WhatsNewProps) {
             PharmRef {APP_VERSION}
           </h2>
           <p style={{ fontSize: "13px", color: S.meta.textMuted, margin: "0 0 20px", lineHeight: 1.6 }}>
-            This update fixes the vancomycin estimator and adds new bedside tools.
+            A navigation and layout update for faster bedside lookups. Clinical content is unchanged.
           </p>
         </div>
 
