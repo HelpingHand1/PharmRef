@@ -48,6 +48,10 @@ export const THEMES = {
     shadowLg: "0 22px 60px rgba(2, 8, 23, 0.44)",
     overlay: "rgba(2, 8, 23, 0.58)",
     codeBg: "rgba(15, 23, 42, 0.72)",
+    navSurface: "rgba(11, 18, 34, 0.94)",
+    sheetSurface: "#111c31",
+    onAccent: "#082f49",
+    chrome: "#0b1322",
   },
   oled: {
     name: "oled",
@@ -81,6 +85,10 @@ export const THEMES = {
     shadowLg: "0 22px 60px rgba(0, 0, 0, 0.7)",
     overlay: "rgba(0, 0, 0, 0.72)",
     codeBg: "rgba(5, 5, 5, 0.96)",
+    navSurface: "rgba(0, 0, 0, 0.96)",
+    sheetSurface: "#0b0b0b",
+    onAccent: "#082f49",
+    chrome: "#000000",
   },
   light: {
     name: "light",
@@ -114,6 +122,10 @@ export const THEMES = {
     shadowLg: "0 28px 64px rgba(15, 23, 42, 0.12)",
     overlay: "rgba(15, 23, 42, 0.42)",
     codeBg: "#f8fafc",
+    navSurface: "rgba(255, 253, 249, 0.94)",
+    sheetSurface: "#fffdf9",
+    onAccent: "#ffffff",
+    chrome: "#fbfaf5",
   },
 };
 
@@ -247,6 +259,96 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
     /* Route transition */
     .app-main { animation: pr-fade-in 0.2s ease-out; }
 
+    /* Base resets */
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    body { margin: 0; overscroll-behavior-y: none; }
+    button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    input[type="search"]::-webkit-search-cancel-button,
+    input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
+
+    /* Skip link: first tab stop, only visible when focused */
+    .skip-link {
+      position: fixed; top: 8px; left: 8px; z-index: 600;
+      padding: 10px 14px; border-radius: 12px;
+      background: var(--pr-accent, #0f766e); color: #fff; font-weight: 700; font-size: 14px;
+      text-decoration: none; transform: translateY(-200%);
+    }
+    .skip-link:focus { transform: translateY(0); }
+    #main-content:focus { outline: none; }
+
+    /* Logo */
+    .logo-mark { display: inline-flex; align-items: center; justify-content: center; }
+
+    /* Section jump rail (lives in the sticky header) */
+    .section-rail { margin: 10px -20px -6px; }
+    .section-rail-track {
+      display: flex; gap: 6px; overflow-x: auto; padding: 2px 20px;
+      scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
+      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 18px, #000 calc(100% - 28px), transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0, #000 18px, #000 calc(100% - 28px), transparent 100%);
+    }
+    .section-rail-track::-webkit-scrollbar { display: none; }
+    .section-rail-chip {
+      flex: 0 0 auto; font: inherit; font-size: 12px; font-weight: 700; white-space: nowrap;
+      padding: 6px 12px; min-height: 32px; border-radius: 9999px; border: 1px solid; cursor: pointer;
+      transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+    .section-rail-chip:hover { border-color: var(--pr-accent, #0ea5e9) !important; color: var(--pr-accent, #0ea5e9) !important; }
+    [data-section-id], .home-anchor { scroll-margin-top: calc(var(--pr-header-h, 120px) + 12px); }
+    .bookmark-card:hover { transform: none !important; }
+
+    .pathway-card-detail {
+      display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+    }
+
+    /* Phone tab bar: hidden until the phone breakpoint */
+    .bottom-nav { display: none; }
+
+    /* Bottom sheet */
+    .sheet-overlay {
+      position: fixed; inset: 0; z-index: 320; display: flex; align-items: flex-end; justify-content: center;
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    }
+    .sheet-panel {
+      width: 100%; max-width: 520px; max-height: 88vh; overflow-y: auto; box-sizing: border-box;
+      border: 1px solid; border-bottom: none; border-radius: 24px 24px 0 0;
+      padding: 10px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+      box-shadow: 0 -18px 60px rgba(2, 8, 23, 0.28);
+      animation: sheet-in 0.22s ease-out;
+    }
+    @keyframes sheet-in { from { transform: translateY(28px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .sheet-grabber { width: 40px; height: 4px; border-radius: 9999px; margin: 0 auto 12px; }
+    .sheet-row {
+      display: flex; align-items: center; gap: 12px; width: 100%; box-sizing: border-box;
+      padding: 10px 12px; min-height: 58px; border-radius: 16px; border: 1px solid;
+      background: transparent; font: inherit; cursor: pointer;
+    }
+    .sheet-row-icon {
+      width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .sheet-close {
+      width: 38px; height: 38px; border-radius: 12px; border: 1px solid; background: transparent;
+      display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+    }
+    .sheet-segment { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; border-radius: 14px; border: 1px solid; }
+    .sheet-segment > button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 9px 6px; min-height: 40px; border-radius: 10px; border: none;
+      font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+    }
+    .sheet-toggle {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; box-sizing: border-box;
+      margin-top: 8px; padding: 12px; border-radius: 16px; border: 1px solid; background: transparent;
+      font: inherit; cursor: pointer;
+    }
+    .sheet-switch { width: 42px; height: 24px; border-radius: 9999px; position: relative; flex-shrink: 0; transition: background 0.15s ease; }
+    .sheet-switch > span {
+      position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%;
+      background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); transition: transform 0.15s ease;
+    }
+    .sheet-switch.is-on > span { transform: translateX(18px); }
+
     /* Reduced motion accessibility */
     @media (prefers-reduced-motion: reduce) {
       .section-content-anim { transition: none !important; }
@@ -258,13 +360,15 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
       .pr-spinner { animation: none !important; border-top-color: var(--pr-accent, #0ea5e9); opacity: 0.5; }
       .pr-fade-in { animation: none !important; }
       .app-main { animation: none !important; }
+      .sheet-panel { animation: none !important; }
+      .sheet-switch, .sheet-switch > span, .section-rail-chip { transition: none !important; }
       * { scroll-behavior: auto !important; }
     }
 
     /* Print styles */
     @media print {
       body { background: #fff !important; color: #111 !important; }
-      .no-print, .top-btn, button[title="Back to top"], header { display: none !important; }
+      .no-print, .top-btn, button[title="Back to top"], header, .bottom-nav, .skip-link { display: none !important; }
       .pr-card, [class*="section"] { border: 1px solid #ccc !important; background: #fff !important; color: #111 !important; }
       .section-content-anim { max-height: none !important; opacity: 1 !important; overflow: visible !important; }
       * { color: #111 !important; background: transparent !important; }
@@ -310,27 +414,44 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
         padding: 10px 12px !important;
       }
 
+      /* One-row header: home mark + search. Tools live in the tab bar at the bottom. */
       .header-row {
         display: grid !important;
         grid-template-columns: auto 1fr !important;
-        grid-template-areas: "logo tools" "search search" !important;
         align-items: center !important;
-        gap: 8px 10px !important;
-        margin-bottom: 8px !important;
+        gap: 10px !important;
+        margin-bottom: 0 !important;
       }
 
-      .header-row > button:first-child {
-        grid-area: logo;
-        font-size: 19px !important;
+      /* The header keeps one height on phones, so jump targets and restored scroll
+         positions land exactly. The page's own back button gives the way up. */
+      .breadcrumbs-row {
+        display: none !important;
       }
 
+      .logo-btn {
+        padding: 0 !important;
+      }
+
+      .logo-mark {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        font-size: 22px;
+        background: var(--pr-accent-soft, #0f766e18);
+        border: 1px solid var(--pr-border, #d7dfd4);
+        color: var(--pr-accent, #0f766e);
+      }
+
+      .logo-text,
       .logo-pill,
-      .badge-unit {
+      .badge-unit,
+      .kbd-hint,
+      .header-toolbar {
         display: none !important;
       }
 
       .search-wrap {
-        grid-area: search;
         width: 100% !important;
         max-width: none !important;
         min-width: 0 !important;
@@ -341,29 +462,99 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
         padding-bottom: 11px !important;
       }
 
-      .header-toolbar {
-        grid-area: tools;
-        justify-content: flex-end !important;
-        flex-wrap: wrap !important;
-        gap: 6px !important;
+      /* iOS zooms the page when a focused field's text is under 16px */
+      input,
+      select,
+      textarea {
+        font-size: 16px !important;
       }
 
-      .header-toolbar > button {
-        min-width: 40px;
-        height: 40px;
-        padding: 8px !important;
+      .section-rail {
+        margin: 8px -12px -2px;
       }
 
-      .app-header.is-scrolled .header-row {
-        margin-bottom: 0 !important;
+      .section-rail-track {
+        padding: 2px 12px;
       }
 
-      .app-header.is-scrolled .breadcrumbs-row {
-        display: none !important;
+      .section-rail-chip {
+        min-height: 34px;
+        padding: 7px 13px;
       }
 
-      .breadcrumbs-row {
-        gap: 6px !important;
+      /* Tab bar */
+      .bottom-nav {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 120;
+        padding: 5px 6px calc(5px + env(safe-area-inset-bottom, 0px));
+        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px);
+      }
+
+      .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        min-height: 50px;
+        padding: 4px 2px;
+        background: none;
+        border: none;
+        border-radius: 14px;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .bottom-nav-item:active {
+        background: var(--pr-accent-soft, #0f766e18);
+      }
+
+      .bottom-nav-icon {
+        position: relative;
+        display: inline-flex;
+      }
+
+      .bottom-nav-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0;
+        line-height: 1.1;
+      }
+
+      .bottom-nav-badge {
+        position: absolute;
+        top: -6px;
+        left: 13px;
+        min-width: 17px;
+        height: 17px;
+        box-sizing: border-box;
+        padding: 0 4px;
+        border-radius: 9999px;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 800;
+        line-height: 17px;
+        text-align: center;
+        box-shadow: 0 0 0 2px var(--pr-nav-bg, #fff);
+      }
+
+      .app-footer {
+        padding-bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important;
+      }
+
+      .top-btn {
+        right: 14px !important;
+        bottom: calc(74px + env(safe-area-inset-bottom, 0px)) !important;
+      }
+
+      .update-banner {
+        padding: 0 12px !important;
       }
 
       /* Phone home: tools as chips, topics up front; desktop keeps the hero and cards */
@@ -376,7 +567,31 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
         display: flex !important;
       }
 
-      .home-recent-list > :nth-child(n+4) {
+      /* Recents become a swipeable strip, so all of them fit above the topic list */
+      .home-recent-list {
+        display: flex !important;
+        overflow-x: auto;
+        gap: 10px !important;
+        margin: 0 -12px 20px !important;
+        padding: 2px 12px 8px;
+        scroll-snap-type: x proximity;
+        scroll-padding-left: 12px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+      }
+
+      .home-recent-list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .home-recent-list > * {
+        flex: 0 0 68%;
+        max-width: 250px;
+        scroll-snap-align: start;
+      }
+
+      .section-hint {
         display: none !important;
       }
 
@@ -385,7 +600,7 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
       }
 
       .app-main {
-        padding: 18px 12px 80px !important;
+        padding: 16px 12px 40px !important;
       }
 
       .home-hero,
@@ -459,6 +674,14 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
         display: none !important;
       }
 
+      .pathway-card-detail {
+        -webkit-line-clamp: 2;
+      }
+
+      .results-grid.drug-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+
       .monograph-pills {
         gap: 6px !important;
       }
@@ -480,7 +703,7 @@ if (typeof document !== "undefined" && !document.getElementById(GLOBAL_STYLE_ID)
       .pr-toast {
         left: 12px !important;
         right: 12px !important;
-        bottom: 16px !important;
+        bottom: calc(74px + env(safe-area-inset-bottom, 0px)) !important;
         max-width: none !important;
       }
 
@@ -532,6 +755,11 @@ export function makeStyles(theme: "dark" | "light" | "oled"): any {
       codeBg: t.codeBg,
       shadowSm: t.shadowSm,
       shadowMd: t.shadowMd,
+      textSecondary: t.textSecondary,
+      overlay: t.overlay,
+      navSurface: t.navSurface,
+      sheetSurface: t.sheetSurface,
+      onAccent: t.onAccent,
     },
     app: {
       minHeight: "100vh",
@@ -568,11 +796,12 @@ export function makeStyles(theme: "dark" | "light" | "oled"): any {
     searchBox: {
       width: "100%", padding: "13px 46px 13px 44px", background: t.bgInput,
       border: `1px solid ${t.border}`, borderRadius: "14px", color: t.text,
-      fontSize: "15px", outline: "none", boxSizing: "border-box",
+      fontSize: "16px", outline: "none", boxSizing: "border-box", fontFamily: "inherit",
+      WebkitAppearance: "none", appearance: "none",
       transition: "border-color 0.15s, box-shadow 0.15s",
       boxShadow: theme === "dark" ? "inset 0 1px 0 rgba(255,255,255,0.03)" : "inset 0 1px 0 rgba(255,255,255,0.9)",
     },
-    searchIcon: { position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", color: t.textMuted, fontSize: "15px", pointerEvents: "none" },
+    searchIcon: { position: "absolute", left: "15px", top: "50%", transform: "translateY(-50%)", color: t.textMuted, fontSize: "15px", pointerEvents: "none", display: "flex" },
     clearBtn: {
       position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)",
       background: t.accentSurface, border: "none", color: t.textMuted, fontSize: "16px",
@@ -870,7 +1099,13 @@ export function applyThemeVars(themeName: "dark" | "light" | "oled") {
   root.style.setProperty("--pr-section-hover", t.sectionHdrHover);
   root.style.setProperty("--pr-top-btn-hover", t.topBtnHoverBg);
   root.style.setProperty("--pr-card-hover-shadow", t.shadowLg);
+  root.style.setProperty("--pr-border", t.border);
+  root.style.setProperty("--pr-nav-bg", t.chrome);
+  root.style.setProperty("--pr-text-muted", t.textMuted);
+  root.style.colorScheme = themeName === "light" ? "light" : "dark";
   const ink = themeName === "light" ? LIGHT_INK : BRIGHT_INK;
   Object.entries(ink).forEach(([name, value]) => root.style.setProperty(`--pr-${name}`, value));
   document.body.style.background = t.bg;
+  // Match the phone's status bar and the installed app's title bar to the theme.
+  document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => meta.setAttribute("content", t.chrome));
 }

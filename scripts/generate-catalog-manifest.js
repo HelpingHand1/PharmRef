@@ -17,6 +17,7 @@ const diseaseCatalog = DISEASE_STATES.map((disease) => ({
   category: disease.category,
   subcategoryCount: disease.subcategories.length,
   monographCount: disease.drugMonographs.length,
+  pathways: disease.subcategories.map((subcategory) => ({ id: subcategory.id, name: subcategory.name })),
   contentMeta: disease.contentMeta ?? undefined,
 }));
 

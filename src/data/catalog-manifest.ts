@@ -11,6 +11,24 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Infectious Disease",
     "subcategoryCount": 4,
     "monographCount": 6,
+    "pathways": [
+      {
+        "id": "uncomplicated-cystitis",
+        "name": "Uncomplicated Cystitis"
+      },
+      {
+        "id": "complicated-uti",
+        "name": "Complicated UTI"
+      },
+      {
+        "id": "pyelonephritis",
+        "name": "Acute Pyelonephritis"
+      },
+      {
+        "id": "cauti",
+        "name": "Catheter-Associated UTI (CAUTI)"
+      }
+    ],
     "contentMeta": {
       "confidence": "high",
       "lastReviewed": "2026-11-03",
@@ -77,6 +95,28 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Infectious Disease",
     "subcategoryCount": 5,
     "monographCount": 5,
+    "pathways": [
+      {
+        "id": "cap-outpatient-healthy",
+        "name": "Outpatient CAP — No Comorbidities"
+      },
+      {
+        "id": "cap-outpatient-comorbid",
+        "name": "Outpatient CAP — With Comorbidities"
+      },
+      {
+        "id": "cap-inpatient",
+        "name": "Inpatient CAP (Non-ICU)"
+      },
+      {
+        "id": "cap-icu",
+        "name": "Severe CAP / ICU Admission"
+      },
+      {
+        "id": "aspiration-pneumonia",
+        "name": "Aspiration Pneumonia"
+      }
+    ],
     "contentMeta": {
       "confidence": "high",
       "lastReviewed": "2026-11-03",
@@ -131,6 +171,24 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Infectious Disease",
     "subcategoryCount": 4,
     "monographCount": 5,
+    "pathways": [
+      {
+        "id": "hap-no-mdr",
+        "name": "HAP — No MDR Risk Factors, Not High Mortality Risk"
+      },
+      {
+        "id": "hap-mdr-risk",
+        "name": "HAP — MDR Risk Factors OR High Mortality Risk"
+      },
+      {
+        "id": "vap",
+        "name": "Ventilator-Associated Pneumonia (VAP)"
+      },
+      {
+        "id": "vap-prevention",
+        "name": "VAP Prevention Bundle & Stewardship"
+      }
+    ],
     "contentMeta": {
       "confidence": "moderate",
       "lastReviewed": "2026-11-03",
@@ -183,6 +241,24 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Infectious Disease",
     "subcategoryCount": 4,
     "monographCount": 3,
+    "pathways": [
+      {
+        "id": "nonpurulent-ssti",
+        "name": "Non-Purulent SSTI (Cellulitis & Erysipelas)"
+      },
+      {
+        "id": "purulent-ssti",
+        "name": "Purulent SSTI (Abscess, Furuncle, Carbuncle)"
+      },
+      {
+        "id": "necrotizing-ssti",
+        "name": "Necrotizing Soft Tissue Infections (NSTI / Necrotizing Fasciitis)"
+      },
+      {
+        "id": "diabetic-foot",
+        "name": "Diabetic Foot Infections (DFI)"
+      }
+    ],
     "contentMeta": {
       "confidence": "moderate",
       "lastReviewed": "2026-11-03",
@@ -228,6 +304,24 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Infectious Disease",
     "subcategoryCount": 4,
     "monographCount": 3,
+    "pathways": [
+      {
+        "id": "ca-iai-uncomplicated",
+        "name": "Uncomplicated IAI (Appendicitis, Cholecystitis)"
+      },
+      {
+        "id": "ca-iai-complicated",
+        "name": "Community-Acquired Complicated IAI (cIAI)"
+      },
+      {
+        "id": "ha-iai",
+        "name": "Healthcare-Associated & Post-Operative IAI"
+      },
+      {
+        "id": "biliary-iai",
+        "name": "Biliary Infections (Cholangitis & Complicated Cholecystitis)"
+      }
+    ],
     "contentMeta": {
       "confidence": "moderate",
       "lastReviewed": "2026-11-03",
@@ -277,6 +371,32 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Antimicrobial Resistance — IDSA 2026 Guidance (Tamma et al.)",
     "subcategoryCount": 6,
     "monographCount": 3,
+    "pathways": [
+      {
+        "id": "esbl-e",
+        "name": "ESBL-Producing Enterobacterales (ESBL-E)"
+      },
+      {
+        "id": "ampc-e",
+        "name": "AmpC β-Lactamase-Producing Enterobacterales (AmpC-E)"
+      },
+      {
+        "id": "cre-kpc",
+        "name": "CRE — KPC-Producing Enterobacterales"
+      },
+      {
+        "id": "cre-mbl",
+        "name": "CRE — Metallo-β-Lactamase Producers (NDM, VIM, IMP)"
+      },
+      {
+        "id": "dtr-pa",
+        "name": "DTR Pseudomonas aeruginosa"
+      },
+      {
+        "id": "crab-steno",
+        "name": "CRAB & Stenotrophomonas maltophilia"
+      }
+    ],
     "contentMeta": {
       "confidence": "high",
       "lastReviewed": "2026-11-03",
@@ -327,6 +447,28 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Infectious Disease — AHA/ESC Guidance",
     "subcategoryCount": 5,
     "monographCount": 5,
+    "pathways": [
+      {
+        "id": "sab-workup",
+        "name": "S. aureus Bacteremia — Workup & Risk Stratification"
+      },
+      {
+        "id": "native-valve-ie",
+        "name": "Native Valve Infective Endocarditis"
+      },
+      {
+        "id": "prosthetic-valve-ie",
+        "name": "Prosthetic Valve Endocarditis"
+      },
+      {
+        "id": "gram-negative-bacteremia",
+        "name": "Gram-Negative Bacteremia"
+      },
+      {
+        "id": "opat-considerations",
+        "name": "OPAT — Outpatient Parenteral Antibiotic Therapy"
+      }
+    ],
     "contentMeta": {
       "confidence": "high",
       "lastReviewed": "2026-11-03",
@@ -389,6 +531,32 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Infectious Disease — IDSA/SHEA 2021 + ACG 2021",
     "subcategoryCount": 6,
     "monographCount": 4,
+    "pathways": [
+      {
+        "id": "initial-non-severe",
+        "name": "Initial Episode — Non-Severe CDI"
+      },
+      {
+        "id": "initial-severe",
+        "name": "Initial Episode — Severe CDI"
+      },
+      {
+        "id": "fulminant",
+        "name": "Fulminant CDI (Previously 'Severe, Complicated')"
+      },
+      {
+        "id": "first-recurrence",
+        "name": "First Recurrence"
+      },
+      {
+        "id": "multiple-recurrences",
+        "name": "Multiple Recurrences (≥2nd Recurrence)"
+      },
+      {
+        "id": "special-populations",
+        "name": "CDI in Special Populations"
+      }
+    ],
     "contentMeta": {
       "confidence": "high",
       "lastReviewed": "2026-11-03",
@@ -441,6 +609,24 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Infectious Disease — IDSA 2015 + OVIVA 2019",
     "subcategoryCount": 4,
     "monographCount": 2,
+    "pathways": [
+      {
+        "id": "vertebral-osteomyelitis",
+        "name": "Vertebral Osteomyelitis (Native Spine)"
+      },
+      {
+        "id": "septic-arthritis",
+        "name": "Septic Arthritis (Native Joint)"
+      },
+      {
+        "id": "prosthetic-joint-infection",
+        "name": "Prosthetic Joint Infection (PJI)"
+      },
+      {
+        "id": "diabetic-foot-osteo",
+        "name": "Diabetic Foot Osteomyelitis"
+      }
+    ],
     "contentMeta": {
       "confidence": "moderate",
       "lastReviewed": "2026-04-05",
@@ -481,6 +667,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Infectious Disease — IDSA 2004/2017 + ESCMID 2016",
     "subcategoryCount": 3,
     "monographCount": 2,
+    "pathways": [
+      {
+        "id": "community-bacterial-meningitis",
+        "name": "Community-Acquired Bacterial Meningitis"
+      },
+      {
+        "id": "healthcare-cns",
+        "name": "Healthcare-Associated Meningitis/Ventriculitis"
+      },
+      {
+        "id": "brain-abscess",
+        "name": "Brain Abscess"
+      }
+    ],
     "contentMeta": {
       "confidence": "moderate",
       "lastReviewed": "2026-04-05",
@@ -525,6 +725,24 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "ECMM 2025 & IDSA 2016 Candidiasis · IDSA 2016 Aspergillosis · Antifungal Stewardship",
     "subcategoryCount": 4,
     "monographCount": 4,
+    "pathways": [
+      {
+        "id": "candidemia",
+        "name": "Candidemia & Invasive Candidiasis"
+      },
+      {
+        "id": "invasive-aspergillosis",
+        "name": "Invasive Pulmonary Aspergillosis"
+      },
+      {
+        "id": "antifungal-stewardship",
+        "name": "Antifungal Stewardship & De-escalation"
+      },
+      {
+        "id": "cryptococcal-meningitis",
+        "name": "Cryptococcal Meningitis"
+      }
+    ],
     "contentMeta": {
       "confidence": "moderate",
       "lastReviewed": "2026-11-03",
@@ -578,6 +796,16 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Infectious Disease",
     "subcategoryCount": 2,
     "monographCount": 8,
+    "pathways": [
+      {
+        "id": "cre-management",
+        "name": "Carbapenem-Resistant Enterobacteriaceae (CRE)"
+      },
+      {
+        "id": "mdr-pseudomonas",
+        "name": "Difficult-to-Treat Pseudomonas aeruginosa (DTR-PA)"
+      }
+    ],
     "contentMeta": {
       "confidence": "emerging",
       "lastReviewed": "2026-11-03",
@@ -627,6 +855,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Infectious Disease",
     "subcategoryCount": 3,
     "monographCount": 0,
+    "pathways": [
+      {
+        "id": "low-risk-fn",
+        "name": "Low-Risk Febrile Neutropenia"
+      },
+      {
+        "id": "high-risk-fn",
+        "name": "High-Risk Febrile Neutropenia"
+      },
+      {
+        "id": "fn-with-fungal-risk",
+        "name": "Febrile Neutropenia — Persistent / Fungal Risk"
+      }
+    ],
     "contentMeta": {
       "confidence": "moderate",
       "lastReviewed": "2026-11-03",
@@ -676,6 +918,24 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Infectious Disease",
     "subcategoryCount": 4,
     "monographCount": 0,
+    "pathways": [
+      {
+        "id": "mild-dfi",
+        "name": "Mild Diabetic Foot Infection"
+      },
+      {
+        "id": "moderate-dfi",
+        "name": "Moderate Diabetic Foot Infection"
+      },
+      {
+        "id": "severe-dfi",
+        "name": "Severe Diabetic Foot Infection"
+      },
+      {
+        "id": "dfi-osteomyelitis",
+        "name": "Diabetic Foot Osteomyelitis"
+      }
+    ],
     "contentMeta": {
       "confidence": "moderate",
       "lastReviewed": "2026-04-05",
@@ -716,6 +976,36 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Endocrinology",
     "subcategoryCount": 7,
     "monographCount": 0,
+    "pathways": [
+      {
+        "id": "diagnosis-and-glycemic-targets",
+        "name": "Diagnosis and Glycemic Targets"
+      },
+      {
+        "id": "lifestyle-and-first-line-therapy",
+        "name": "Lifestyle and First-Line Therapy"
+      },
+      {
+        "id": "cardiorenal-weight-guided-therapy",
+        "name": "Cardiorenal and Weight-Guided Therapy"
+      },
+      {
+        "id": "treatment-intensification-and-injectables",
+        "name": "Treatment Intensification and Injectables"
+      },
+      {
+        "id": "hospital-management-non-icu",
+        "name": "Hospital Management (Non-ICU)"
+      },
+      {
+        "id": "sick-day-and-perioperative-management",
+        "name": "Sick-Day and Perioperative Management"
+      },
+      {
+        "id": "discharge-and-follow-up",
+        "name": "Discharge and Follow-up"
+      }
+    ],
     "contentMeta": {
       "confidence": "high",
       "lastReviewed": "2026-04-05",
@@ -772,6 +1062,20 @@ export const DISEASE_CATALOG: DiseaseCatalogSummary[] = [
     "category": "Critical Care / Infectious Disease",
     "subcategoryCount": 3,
     "monographCount": 0,
+    "pathways": [
+      {
+        "id": "sepsis-community",
+        "name": "Community-Acquired Sepsis"
+      },
+      {
+        "id": "sepsis-hcap",
+        "name": "Healthcare-Associated Sepsis"
+      },
+      {
+        "id": "septic-shock",
+        "name": "Septic Shock"
+      }
+    ],
     "contentMeta": {
       "confidence": "high",
       "lastReviewed": "2026-11-03",

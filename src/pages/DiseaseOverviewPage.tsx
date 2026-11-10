@@ -3,6 +3,7 @@ import type { DiseaseState, NavigateTo, OverviewEvidenceEntry, Styles } from "..
 import { getSourceLookupHref } from "../data/source-registry";
 import { resolveOverviewEntrySources } from "../data/overview-evidence";
 import { getCatalogCollectionLabel, getPathwayCollectionLabel, getTopicOverviewLabel, showsInfectiousDetail } from "../data/topic-surface";
+import { topicBookmarkId } from "../hooks/useBookmarks";
 import { NAV_STATES } from "../styles/constants";
 import Section from "../components/Section";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
@@ -54,12 +55,14 @@ interface DiseaseOverviewPageProps {
   catalogDerived: CatalogDerived | null;
   disease: DiseaseState;
   expandedSections: Record<string, boolean>;
+  isBookmarked: (id: string) => boolean;
   navigateTo: NavigateTo;
   onCollapseAll: () => void;
   onExpandAll: () => void;
   readingMode: boolean;
   S: Styles;
   theme: import("../types").ThemeKey;
+  toggleBookmark: (id: string) => void;
   toggleSection: (id: string) => void;
 }
 
@@ -67,15 +70,19 @@ export default function DiseaseOverviewPage({
   catalogDerived,
   disease,
   expandedSections,
+  isBookmarked,
   navigateTo,
   onCollapseAll,
   onExpandAll,
   readingMode,
   S,
   theme,
+  toggleBookmark,
   toggleSection,
 }: DiseaseOverviewPageProps) {
   const overview = disease.overview;
+  const bookmarkId = topicBookmarkId(disease.id);
+  const bookmarked = isBookmarked(bookmarkId);
   const relatedPathogens = catalogDerived?.findPathogensForDisease(disease.id) ?? [];
   const showsPathogenReferences = showsInfectiousDetail(disease) && relatedPathogens.length > 0;
   const summaryFacts = [
@@ -98,12 +105,38 @@ export default function DiseaseOverviewPage({
           cursor: "default",
           padding: "22px 24px",
           marginBottom: "22px",
+          position: "relative",
           background:
             theme === "dark"
               ? "linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(15, 23, 42, 0.82) 68%, rgba(14, 165, 233, 0.14) 100%)"
               : "linear-gradient(135deg, rgba(255, 253, 249, 0.98) 0%, rgba(248, 250, 247, 0.96) 68%, rgba(224, 242, 254, 0.62) 100%)",
         }}
       >
+        <button
+          type="button"
+          className="no-print"
+          title={bookmarked ? "Remove bookmark" : "Bookmark this topic"}
+          aria-label={bookmarked ? "Remove bookmark" : "Bookmark this topic"}
+          aria-pressed={bookmarked}
+          onClick={() => toggleBookmark(bookmarkId)}
+          style={{
+            position: "absolute",
+            top: "14px",
+            right: "14px",
+            background: bookmarked ? "rgba(251,191,36,0.14)" : "transparent",
+            border: `1px solid ${bookmarked ? "rgba(251,191,36,0.45)" : S.meta.border}`,
+            borderRadius: "12px",
+            color: bookmarked ? "var(--pr-warning, #d97706)" : S.meta.textMuted,
+            fontSize: "16px",
+            cursor: "pointer",
+            width: "40px",
+            height: "40px",
+            padding: 0,
+            lineHeight: 1,
+          }}
+        >
+          🔖
+        </button>
         <div className="page-hero-body" style={{ display: "flex", alignItems: "flex-start", gap: "16px", flexWrap: "wrap" }}>
           <div
             className="page-hero-icon"
@@ -123,7 +156,7 @@ export default function DiseaseOverviewPage({
             {disease.icon}
           </div>
           <div className="page-hero-copy" style={{ flex: 1, minWidth: "220px" }}>
-            <div style={{ ...S.monographLabel, color: S.meta.accent, marginBottom: "8px" }}>{getTopicOverviewLabel()}</div>
+            <div style={{ ...S.monographLabel, color: S.meta.accent, marginBottom: "8px", paddingRight: "52px" }}>{getTopicOverviewLabel()}</div>
             <h1 style={{ fontSize: "30px", lineHeight: 1.08, letterSpacing: "-0.04em", margin: 0, color: S.meta.textHeading }}>
               {disease.name}
             </h1>
@@ -155,12 +188,85 @@ export default function DiseaseOverviewPage({
         </div>
       </section>
 
-      <ContentMetaCard meta={disease.contentMeta ?? null} S={S} />
+      {/* Pathways come first: on a phone this is what the topic page is opened for. */}
+      <div
+        data-section-id="pathways"
+        data-section-title={getPathwayCollectionLabel()}
+        data-section-short="Pathways"
+        style={{ marginBottom: "26px" }}
+      >
+        <div className="section-meta-row" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginBottom: "12px", flexWrap: "wrap" }}>
+          <h2 style={{ ...S.monographLabel, margin: 0, fontSize: "13px" }}>{getPathwayCollectionLabel()}</h2>
+          <div style={{ fontSize: "12px", color: S.monographValue.color }}>Assessment priorities, treatment approach, and follow-up decisions.</div>
+        </div>
+        <div style={{ display: "grid", gap: "10px" }}>
+          {disease.subcategories.map((subcategory) => (
+            <button
+              key={subcategory.id}
+              type="button"
+              className="pr-card disease-card"
+              style={{ ...S.card, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 18px", marginBottom: 0, textAlign: "left", width: "100%", fontFamily: "inherit" }}
+              onClick={() => navigateTo(NAV_STATES.SUBCATEGORY, { disease, subcategory })}
+            >
+              <span style={{ minWidth: 0, display: "block" }}>
+                <span style={{ display: "block", fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{subcategory.name}</span>
+                <span className="pathway-card-detail" style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.6 }}>
+                  {subcategory.definition}
+                </span>
+              </span>
+              <span
+                aria-hidden="true"
+                style={{
+                  color: S.meta.accent,
+                  fontSize: "20px",
+                  marginLeft: "12px",
+                  width: "34px",
+                  height: "34px",
+                  borderRadius: "12px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: S.meta.accentSurface,
+                  flexShrink: 0,
+                }}
+              >
+                ›
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {disease.drugMonographs.length > 0 && (
+        <div data-section-id="drugs" data-section-title="Drug Monographs" data-section-short="Drugs" style={{ marginBottom: "26px" }}>
+          <div className="section-meta-row" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginBottom: "12px", flexWrap: "wrap" }}>
+            <h2 style={{ ...S.monographLabel, margin: 0, fontSize: "13px" }}>
+              Drug Monographs ({disease.drugMonographs.length})
+            </h2>
+            <div style={{ fontSize: "12px", color: S.monographValue.color }}>Dosing, safety, and monitoring for each agent.</div>
+          </div>
+          <div className="results-grid drug-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "10px" }}>
+            {disease.drugMonographs.map((drug) => (
+              <button
+                key={drug.id}
+                type="button"
+                className="pr-card result-card"
+                style={{ ...S.card, marginBottom: 0, padding: "14px 16px", textAlign: "left", fontFamily: "inherit" }}
+                onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { disease, monograph: drug })}
+              >
+                <span style={{ display: "block", fontSize: "15px", fontWeight: 700, color: S.meta.accent }}>{drug.name}</span>
+                <span style={{ display: "block", fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{drug.drugClass}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       <ExpandCollapseBar S={S} onExpand={onExpandAll} onCollapse={onCollapseAll} />
 
       <Section
         id="overview"
+        shortTitle="Overview"
         title="Overview & Epidemiology"
         icon="📖"
         accentColor="#38bdf8"
@@ -189,6 +295,7 @@ export default function DiseaseOverviewPage({
 
       <Section
         id="guidelines"
+        shortTitle="Guidelines"
         title="Key Guidelines"
         icon="📋"
         accentColor="#34d399"
@@ -206,6 +313,7 @@ export default function DiseaseOverviewPage({
 
       <Section
         id="trials"
+        shortTitle="Trials"
         title="Landmark Trials"
         icon="🧪"
         accentColor="#fbbf24"
@@ -224,6 +332,7 @@ export default function DiseaseOverviewPage({
       {showsPathogenReferences && (
         <Section
           id="pathogens"
+          shortTitle="Pathogens"
           title="Related Pathogen References"
           icon="🧬"
           accentColor="#0284c7"
@@ -254,66 +363,7 @@ export default function DiseaseOverviewPage({
         </Section>
       )}
 
-      <div className="section-meta-row" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginTop: "30px", marginBottom: "12px", flexWrap: "wrap" }}>
-        <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>{getPathwayCollectionLabel()}</div>
-        <div style={{ fontSize: "12px", color: S.monographValue.color }}>Open a pathway to review assessment priorities, treatment approach, and follow-up decisions.</div>
-      </div>
-      {disease.subcategories.map((subcategory) => (
-        <div
-          key={subcategory.id}
-          className="pr-card disease-card"
-          style={{ ...S.card, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 20px" }}
-          onClick={() => navigateTo(NAV_STATES.SUBCATEGORY, { disease, subcategory })}
-        >
-          <div style={{ minWidth: 0 }}>
-            <div style={{ fontSize: "16px", fontWeight: 700, color: S.meta.textHeading }}>{subcategory.name}</div>
-            <div style={{ fontSize: "13px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.6 }}>
-              {subcategory.definition}
-            </div>
-          </div>
-          <span
-            style={{
-              color: S.meta.accent,
-              fontSize: "20px",
-              marginLeft: "12px",
-              width: "34px",
-              height: "34px",
-              borderRadius: "12px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background: S.meta.accentSurface,
-              flexShrink: 0,
-            }}
-          >
-            ›
-          </span>
-        </div>
-      ))}
-
-      {disease.drugMonographs.length > 0 && (
-        <>
-          <div className="section-meta-row" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "12px", marginTop: "30px", marginBottom: "12px", flexWrap: "wrap" }}>
-            <div style={{ ...S.monographLabel, marginBottom: 0, fontSize: "13px" }}>
-              Drug Monographs ({disease.drugMonographs.length})
-            </div>
-            <div style={{ fontSize: "12px", color: S.monographValue.color }}>Direct access to detailed drug-level safety, dosing, and monitoring guidance.</div>
-          </div>
-          <div className="results-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "10px" }}>
-            {disease.drugMonographs.map((drug) => (
-              <div
-                key={drug.id}
-                className="pr-card result-card"
-                style={{ ...S.card, marginBottom: 0, padding: "16px 18px" }}
-                onClick={() => navigateTo(NAV_STATES.MONOGRAPH, { disease, monograph: drug })}
-              >
-                <div style={{ fontSize: "15px", fontWeight: 700, color: S.meta.accent }}>{drug.name}</div>
-                <div style={{ fontSize: "12px", color: S.monographValue.color, marginTop: "6px", lineHeight: 1.55 }}>{drug.drugClass}</div>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
+      <ContentMetaCard meta={disease.contentMeta ?? null} S={S} />
     </>
   );
 }

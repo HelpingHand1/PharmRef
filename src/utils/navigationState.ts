@@ -283,3 +283,59 @@ export function resolveBreakpointPreset(
 ) {
   return normalizeBreakpointPreset(data.breakpointPreset ?? null);
 }
+
+function resolveId(
+  explicitId: string | null | undefined,
+  item: { id: string } | null | undefined,
+  fallback: string | null,
+): string | null {
+  if (explicitId !== undefined) return explicitId;
+  if (item !== undefined) return item?.id ?? null;
+  return fallback;
+}
+
+/** The route a navigateTo() call lands on, given where the app currently is. */
+export function resolveNextRoute(
+  current: NavigationHashState,
+  nav: NavStateKey,
+  data: NavigateToData = {},
+): NavigationHashState {
+  const blank: NavigationHashState = {
+    nav,
+    diseaseId: null,
+    subcategoryId: null,
+    monographId: null,
+    pathogenId: null,
+    breakpointPreset: null,
+  };
+
+  if (nav === "home" || nav === "compare" || nav === "audit" || nav === "calculators") {
+    return blank;
+  }
+
+  if (nav === "pathogen" || nav === "breakpoints") {
+    return {
+      ...blank,
+      pathogenId: resolveId(data.pathogenId, data.pathogen, current.pathogenId),
+      breakpointPreset: nav === "breakpoints" ? resolveBreakpointPreset(data) : null,
+    };
+  }
+
+  return {
+    ...blank,
+    diseaseId: resolveId(data.diseaseId, data.disease, current.diseaseId),
+    subcategoryId: nav === "subcategory" ? resolveId(data.subcategoryId, data.subcategory, current.subcategoryId) : null,
+    monographId: nav === "monograph" ? resolveId(data.monographId, data.monograph, current.monographId) : null,
+  };
+}
+
+export function routeToHash(route: NavigationHashState): string {
+  return stateToHash(
+    route.nav,
+    route.diseaseId,
+    route.subcategoryId,
+    route.monographId,
+    route.pathogenId,
+    route.breakpointPreset,
+  );
+}

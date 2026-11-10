@@ -2,21 +2,38 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0ea5e9" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#fbfaf5" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="PharmRef" />
-    <meta name="description" content="Pharmacist Clinical Reference Application for antimicrobial decision support." />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="description" content="Pharmacist clinical reference: care pathways, drug monographs, pathogen references, and bedside calculators." />
     <meta name="author" content="PharmRef" />
     <meta property="og:title" content="PharmRef" />
-    <meta property="og:description" content="Pharmacist Clinical Reference Application for antimicrobial decision support." />
+    <meta property="og:description" content="Pharmacist clinical reference: care pathways, drug monographs, pathogen references, and bedside calculators." />
     <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="pharmref-icon.svg" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
     <title>PharmRef</title>
+    <style>
+      /* Paint the right background before the app loads, so there is no white flash. */
+      html { background: #f3f5f1; }
+      @media (prefers-color-scheme: dark) { html { background: #0f172a; } }
+      body { margin: 0; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>PharmRef needs JavaScript to run.</noscript>
     <script type="module" src="/src/index.tsx"></script>
   </body>
 </html>

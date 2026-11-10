@@ -2,13 +2,13 @@
 
 PharmRef is a TypeScript + React + Vite clinical pharmacy reference app. It organizes topic-level guidance, care pathways, pathogen references, and drug monographs into a single PWA-style interface optimized for point-of-care browsing.
 
-## Current state (v2.6.0)
+## Current state (v3.0.0)
 
 - 16 clinical topics
 - 68 care pathways
 - 43 unique drug monographs
 - 9 pathogen reference pages
-- React 18 + Vite 7 + TypeScript 5
+- React 19 + Vite 8 + TypeScript 7
 - PWA build via `vite-plugin-pwa`
 - Authored topic content under `src/data/*.ts`, compiled into generated runtime modules under `src/data/generated/`
 - Structured review metadata, source registry, and content-approval fingerprints
@@ -50,6 +50,10 @@ The catalog was last fully reviewed on April 5, 2026. On November 3, 2026, the t
 ## What the app does
 
 - Hash-based navigation for bookmarkable topic, pathway, monograph, pathogen, compare, breakpoint, calculator, and audit views
+- Real browser history: back and forward step through visited pages and restore scroll position and open sections; back closes search results or an open dialog before leaving the page
+- Phone layout with a bottom tab bar (Home, Calculators, Patient, Allergies, More) and a one-row search header
+- Jump-to-section strip in the sticky header on long pages (monographs, pathways, pathogen references, calculators)
+- Dosing-first monographs and pathways-first topic pages
 - Scored, ranked full-text search with relevance tiers, shorthand aliases (e.g. `CAP`, `CAUTI`, `SAB`, `CRE`), filter tabs by content type, match highlighting, and "Did you mean" suggestions for misspellings
 - Command palette for fast keyboard navigation
 - Drug class browser and recent-views strip on the home screen
@@ -60,9 +64,10 @@ The catalog was last fully reviewed on April 5, 2026. On November 3, 2026, the t
 - Allergy profile with inline allergy and interaction warnings across therapy views
 - Evidence and freshness badges, source pills with direct links, and trust-surface banners for stale or disputed content
 - Institution antibiogram cards when institution profile data is available
-- Compare view for side-by-side drug monographs, bookmarks, and share links
+- Compare view for side-by-side drug monographs, share links, and bookmarks for topics, pathways, and monographs
 - Data audit screen for content completeness and cross-reference gaps
 - Reading mode, three themes (dark / light / OLED), print-friendly styles, and offline use as an installed PWA
+- Update prompt: a new deploy waits until the user accepts it, so the app never reloads mid-session; content that fails to load offers a retry
 
 ## Project structure
 
@@ -70,10 +75,10 @@ The catalog was last fully reviewed on April 5, 2026. On November 3, 2026, the t
 .
 ├── src/
 │   ├── App.tsx, index.tsx, types.ts, version.ts
-│   ├── components/          ← UI building blocks (modals, evidence pills, warnings, palette, …)
+│   ├── components/          ← UI building blocks (modals, evidence pills, warnings, palette, tab bar, section rail, …)
 │   ├── pages/               ← Home, disease overview, pathway, monograph, pathogen, breakpoints, calculators, search
-│   ├── hooks/               ← navigation, search, bookmarks, recent views, patient context
-│   ├── utils/               ← calculators, decision support, susceptibility workspace, persistence
+│   ├── hooks/               ← navigation, back-dismiss, search, bookmarks, recent views, patient context
+│   ├── utils/               ← calculators, decision support, susceptibility workspace, persistence, app history, service worker
 │   ├── styles/constants.ts  ← makeStyles(), theme tokens
 │   └── data/
 │       ├── <topic>.ts       ← authored clinical content (one module per topic)
@@ -126,3 +131,9 @@ npm run release:check   # typecheck, regression tests, validation, build, releas
 ```
 
 Expected: `Content validation: 16 diseases, 0 error(s), 0 warning(s)` and a clean build with per-topic lazy-loaded chunks.
+
+## Navigation and history
+
+All history writes go through `src/utils/appHistory.ts` (stack logic, covered by `scripts/tests/appHistory.test.js`) and its browser binding in `src/utils/browserHistory.ts`. Pages call `navigateTo()`; dismissible layers (dialogs, sheets, search) call `useBackDismiss()` so the back action closes them first. Do not call `history.pushState` or `replaceState` directly.
+
+Sections describe themselves to the jump strip: `Section` sets `data-section-id` and `data-section-title`, and any other block can opt in with the same attributes. "Expand all" and the strip both read the page, so there is no list of section ids to keep in sync.

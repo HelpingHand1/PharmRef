@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { pathwayBookmarkId } from "../hooks/useBookmarks";
 import type { CatalogDerived } from "../data/derived";
 import ExpandCollapseBar from "../components/ExpandCollapseBar";
 import InstitutionAntibiogramCards from "../components/InstitutionAntibiogramCards";
@@ -154,6 +155,7 @@ interface SubcategoryPageProps {
   disease: DiseaseState;
   expandedSections: Record<string, boolean>;
   findMonograph: (drugId: string) => MonographLookupResult | null;
+  isBookmarked: (id: string) => boolean;
   navigateTo: NavigateTo;
   onCollapseAll: () => void;
   onCopy: (text: string, id: string) => void;
@@ -164,6 +166,7 @@ interface SubcategoryPageProps {
   S: Styles;
   showToast: (message: string, icon?: string) => void;
   subcategory: Subcategory;
+  toggleBookmark: (id: string) => void;
   toggleSection: (id: string) => void;
 }
 
@@ -174,6 +177,7 @@ export default function SubcategoryPage({
   disease,
   expandedSections,
   findMonograph,
+  isBookmarked,
   navigateTo,
   onCollapseAll,
   onCopy,
@@ -184,8 +188,11 @@ export default function SubcategoryPage({
   S,
   showToast,
   subcategory,
+  toggleBookmark,
   toggleSection,
 }: SubcategoryPageProps) {
+  const bookmarkId = pathwayBookmarkId(disease.id, subcategory.id);
+  const bookmarked = isBookmarked(bookmarkId);
   const { meta: pageMeta, inherited } = resolveContentMeta(subcategory, disease, {
     contentKey: getSubcategoryContentKey(disease.id, subcategory.id),
   });
@@ -306,19 +313,48 @@ export default function SubcategoryPage({
         <button
           type="button"
           className="no-print"
-          title="Copy link to this section"
-          onClick={handleShare}
+          title={bookmarked ? "Remove bookmark" : "Bookmark this pathway"}
+          aria-label={bookmarked ? "Remove bookmark" : "Bookmark this pathway"}
+          aria-pressed={bookmarked}
+          onClick={() => toggleBookmark(bookmarkId)}
           style={{
             position: "absolute",
             top: "14px",
             right: "14px",
+            background: bookmarked ? "rgba(251,191,36,0.14)" : "transparent",
+            border: `1px solid ${bookmarked ? "rgba(251,191,36,0.45)" : S.meta.border}`,
+            borderRadius: "12px",
+            color: bookmarked ? "var(--pr-warning, #d97706)" : S.meta.textMuted,
+            fontSize: "16px",
+            cursor: "pointer",
+            width: "40px",
+            height: "40px",
+            padding: 0,
+            lineHeight: 1,
+            transition: "background 0.15s, border-color 0.15s, color 0.15s",
+          }}
+        >
+          🔖
+        </button>
+        <button
+          type="button"
+          className="no-print"
+          title="Copy link to this section"
+          aria-label="Copy link to this pathway"
+          onClick={handleShare}
+          style={{
+            position: "absolute",
+            top: "14px",
+            right: "62px",
             background: "transparent",
             border: `1px solid ${S.meta.border}`,
             borderRadius: "8px",
             color: S.meta.textMuted,
             fontSize: "16px",
             cursor: "pointer",
-            padding: "5px 9px",
+            width: "40px",
+            height: "40px",
+            padding: 0,
             lineHeight: 1,
             transition: "background 0.15s, border-color 0.15s, color 0.15s",
           }}
@@ -326,7 +362,7 @@ export default function SubcategoryPage({
           🔗
         </button>
         <div className="page-hero-copy">
-          <div style={{ ...S.monographLabel, color: S.meta.accent, marginBottom: "8px" }}>{disease.name}</div>
+          <div style={{ ...S.monographLabel, color: S.meta.accent, marginBottom: "8px", paddingRight: "100px" }}>{disease.name}</div>
           <h1 style={{ fontSize: "28px", lineHeight: 1.08, letterSpacing: "-0.04em", margin: 0, color: S.meta.textHeading }}>{subcategory.name}</h1>
           <div style={{ color: S.monographValue.color, fontSize: "14px", lineHeight: 1.7, marginTop: "12px" }}>{subcategory.definition}</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "16px" }}>
@@ -418,6 +454,7 @@ export default function SubcategoryPage({
 
       <Section
         id="empiric"
+        shortTitle="Therapy"
         title={getTreatmentSectionTitle(subcategory, disease)}
         icon="💊"
         accentColor="#34d399"
@@ -448,6 +485,8 @@ export default function SubcategoryPage({
 
       {subcategory.durationGuidance && (
         <div
+          data-section-id="duration"
+          data-section-title="Duration"
           style={{
             background: S.card.background,
             border: `1px solid ${S.card.borderColor}`,
@@ -490,6 +529,7 @@ export default function SubcategoryPage({
       {hasOrganisms && (
         <Section
           id="organism"
+          shortTitle="By organism"
           title="Organism-Specific Therapy"
           icon="🦠"
           accentColor="#f59e0b"
@@ -682,6 +722,7 @@ export default function SubcategoryPage({
       {subcategory.clinicalPresentation && !subcategory.clinicalPresentation.startsWith("N/A") && (
         <Section
           id="presentation"
+          shortTitle="Presentation"
           title="Clinical Presentation"
           icon="🩺"
           accentColor="#38bdf8"
@@ -699,6 +740,7 @@ export default function SubcategoryPage({
       {subcategory.diagnostics && !subcategory.diagnostics.startsWith("N/A") && (
         <Section
           id="diagnostics"
+          shortTitle="Diagnostics"
           title="Diagnostics"
           icon="🔎"
           accentColor="#a78bfa"
@@ -716,6 +758,7 @@ export default function SubcategoryPage({
       {diagnosticWorkflow.length > 0 && (
         <Section
           id="workflow-diagnostics"
+          shortTitle="Workup"
           title={workflowGroupTitles["workflow-diagnostics"]}
           icon="🧪"
           accentColor="#38bdf8"
@@ -731,6 +774,7 @@ export default function SubcategoryPage({
       {(subcategory.diagnosticStewardship?.length ?? 0) > 0 && (
         <Section
           id="diagnostic-stewardship"
+          shortTitle="Dx stewardship"
           title="Diagnostic Stewardship"
           icon="🧭"
           accentColor="#0284c7"
@@ -748,6 +792,7 @@ export default function SubcategoryPage({
       {reassessmentWorkflow.length > 0 && (
         <Section
           id="workflow-reassessment"
+          shortTitle="Reassess"
           title={workflowGroupTitles["workflow-reassessment"]}
           icon="🔄"
           accentColor="#f59e0b"
@@ -763,6 +808,7 @@ export default function SubcategoryPage({
       {(subcategory.reassessmentCheckpoints?.length ?? 0) > 0 && (
         <Section
           id="reassessment-timeline"
+          shortTitle="Timeline"
           title="Structured Reassessment Timeline"
           icon="⏱"
           accentColor="#f59e0b"
@@ -807,6 +853,7 @@ export default function SubcategoryPage({
       {transitionWorkflow.length > 0 && (
         <Section
           id="workflow-transition"
+          shortTitle="Transition"
           title={workflowGroupTitles["workflow-transition"]}
           icon="💊"
           accentColor="#34d399"
@@ -822,6 +869,7 @@ export default function SubcategoryPage({
       {(subcategory.contaminationPitfalls?.length ?? 0) > 0 && (
         <Section
           id="contamination-pitfalls"
+          shortTitle="Pitfalls"
           title="Contamination / Colonization Pitfalls"
           icon="🧪"
           accentColor="#ef4444"
@@ -855,6 +903,7 @@ export default function SubcategoryPage({
       {(subcategory.durationAnchors?.length ?? 0) > 0 && (
         <Section
           id="duration-anchors"
+          shortTitle="Duration anchors"
           title="Duration Anchors"
           icon="📅"
           accentColor="#34d399"
@@ -890,6 +939,7 @@ export default function SubcategoryPage({
       {(subcategory.definitiveTherapy?.length ?? 0) > 0 && (
         <Section
           id="definitive-therapy"
+          shortTitle="Definitive"
           title="Definitive Therapy Engine"
           icon="🎯"
           accentColor="#059669"
@@ -1072,6 +1122,7 @@ export default function SubcategoryPage({
       {(subcategory.oralStepDown?.length ?? 0) > 0 && (
         <Section
           id="oral-stepdown"
+          shortTitle="Oral step-down"
           title="Oral Step-Down Engine"
           icon="💊"
           accentColor="#0284c7"
@@ -1205,6 +1256,7 @@ export default function SubcategoryPage({
       {(subcategory.durationRules?.length ?? 0) > 0 && (
         <Section
           id="duration-engine"
+          shortTitle="Duration rules"
           title="Structured Duration Rules"
           icon="⏱"
           accentColor="#38bdf8"
@@ -1265,6 +1317,7 @@ export default function SubcategoryPage({
       {(subcategory.failureEscalationPath?.length ?? 0) > 0 && (
         <Section
           id="failure-path"
+          shortTitle="If failing"
           title="Treatment Failure / Escalation Path"
           icon="📈"
           accentColor="#ef4444"
@@ -1325,6 +1378,7 @@ export default function SubcategoryPage({
       {surfaceShowsInfectiousDetail && hasMicrobiology && (
         <Section
           id="microbiology"
+          shortTitle="Microbiology"
           title="Microbiology Intelligence"
           icon="🧫"
           accentColor="#a855f7"
@@ -1346,6 +1400,7 @@ export default function SubcategoryPage({
       {surfaceShowsInfectiousDetail && relatedPathogens.length > 0 && (
         <Section
           id="pathogen-links"
+          shortTitle="Pathogens"
           title="Related Pathogen References"
           icon="🧬"
           accentColor="#0284c7"
@@ -1405,6 +1460,7 @@ export default function SubcategoryPage({
       {subcategory.pearls && subcategory.pearls.length > 0 && (
         <Section
           id="pearls"
+          shortTitle="Pearls"
           title="Pharmacist Pearls & Clinical Tips"
           icon="💡"
           accentColor="#fbbf24"

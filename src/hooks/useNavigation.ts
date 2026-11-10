@@ -1,7 +1,9 @@
 import { startTransition, useCallback, useEffect, useRef, useState } from "react";
 import { NAV_STATES } from "../styles/constants";
-import type { BreakpointWorkspacePreset, NavigateTo, NavigateToData, NavStateKey } from "../types";
-import { hashToState, resolveBreakpointPreset, stateToHash } from "../utils/navigationState";
+import type { NavigateTo } from "../types";
+import type { EntrySnapshot } from "../utils/appHistory";
+import { getAppHistory } from "../utils/browserHistory";
+import { hashToState, resolveNextRoute, routeToHash, type NavigationHashState } from "../utils/navigationState";
 
 const PAGE_TITLES: Record<string, string> = {
   [NAV_STATES.HOME]: "PharmRef",
@@ -11,43 +13,109 @@ const PAGE_TITLES: Record<string, string> = {
   audit: "Content Audit — PharmRef",
 };
 
-function resolveId(
-  explicitId: string | null | undefined,
-  item: { id: string } | null | undefined,
-  fallback: string | null,
-): string | null {
-  if (explicitId !== undefined) return explicitId;
-  if (item !== undefined) return item?.id ?? null;
-  return fallback;
+export interface EntryChange {
+  /** Sections to show expanded. */
+  open: Record<string, boolean>;
+  /** Search query to restore; null leaves the search box alone. */
+  q: string | null;
+  /** True when the entry came from back/forward rather than a fresh visit. */
+  restored: boolean;
 }
 
-export function useNavigation() {
-  const [navState, setNavState] = useState<NavStateKey>(NAV_STATES.HOME);
-  const [selectedDiseaseId, setSelectedDiseaseId] = useState<string | null>(null);
-  const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<string | null>(null);
-  const [selectedMonographId, setSelectedMonographId] = useState<string | null>(null);
-  const [selectedPathogenId, setSelectedPathogenId] = useState<string | null>(null);
-  const [selectedBreakpointPreset, setSelectedBreakpointPreset] = useState<BreakpointWorkspacePreset | null>(null);
-  const isHashNavigation = useRef(false);
+interface NavigationOptions {
+  /** What to remember about the page being left. */
+  captureEntry: () => EntrySnapshot;
+  /** Called whenever the visible history entry changes. */
+  onEntryChange: (change: EntryChange) => void;
+}
+
+// Restoring scroll has to wait for the page being returned to: it may still be
+// rendering, or its content may be loading. Once the page is tall enough the
+// offset is applied, then re-checked for a few ticks in case late layout (fonts,
+// the sticky header) moved things. Any user input cancels it.
+const SCROLL_RESTORE_MAX_FRAMES = 90;
+const SCROLL_SETTLE_FRAMES = 12;
+let cancelScrollRestore: (() => void) | null = null;
+
+function restoreScroll(targetY: number) {
+  cancelScrollRestore?.();
+
+  if (targetY <= 0) {
+    window.scrollTo({ top: 0, behavior: "auto" });
+    return;
+  }
+
+  let waited = 0;
+  let settled = 0;
+  let handle = 0;
+  const stop = () => {
+    window.clearTimeout(handle);
+    window.removeEventListener("wheel", stop);
+    window.removeEventListener("touchstart", stop);
+    window.removeEventListener("keydown", stop);
+    cancelScrollRestore = null;
+  };
+
+  const attempt = () => {
+    const reachable = document.documentElement.scrollHeight - window.innerHeight;
+    const ready = reachable >= targetY - 2;
+
+    if (!ready && waited < SCROLL_RESTORE_MAX_FRAMES) {
+      waited += 1;
+      handle = window.setTimeout(attempt, 16);
+      return;
+    }
+
+    const top = Math.max(0, Math.min(targetY, reachable));
+    if (Math.abs(window.scrollY - top) > 1) {
+      window.scrollTo({ top, behavior: "auto" });
+    }
+
+    settled += 1;
+    if (!ready || settled > SCROLL_SETTLE_FRAMES) {
+      stop();
+      return;
+    }
+    handle = window.setTimeout(attempt, 16);
+  };
+
+  window.addEventListener("wheel", stop, { passive: true });
+  window.addEventListener("touchstart", stop, { passive: true });
+  window.addEventListener("keydown", stop);
+  cancelScrollRestore = stop;
+  handle = window.setTimeout(attempt, 16);
+}
+
+export function useNavigation({ captureEntry, onEntryChange }: NavigationOptions) {
+  const [route, setRoute] = useState<NavigationHashState>(() => hashToState(window.location.hash || "#/"));
+  const routeRef = useRef(route);
+  const captureRef = useRef(captureEntry);
+  const changeRef = useRef(onEntryChange);
 
   useEffect(() => {
-    const applyHash = () => {
-      isHashNavigation.current = true;
-      const next = hashToState(window.location.hash || "#/");
-      setNavState(next.nav);
-      setSelectedDiseaseId(next.diseaseId);
-      setSelectedSubcategoryId(next.subcategoryId);
-      setSelectedMonographId(next.monographId);
-      setSelectedPathogenId(next.pathogenId);
-      setSelectedBreakpointPreset(next.breakpointPreset);
-      window.scrollTo({ top: 0, behavior: "auto" });
-    };
+    captureRef.current = captureEntry;
+    changeRef.current = onEntryChange;
+  }, [captureEntry, onEntryChange]);
 
-    applyHash();
-    window.addEventListener("hashchange", applyHash);
+  useEffect(() => {
+    // The app restores scroll itself, once the returning page has rendered.
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
 
-    return () => window.removeEventListener("hashchange", applyHash);
+    return getAppHistory().start({
+      capture: () => captureRef.current(),
+      onRouteChange: (change) => {
+        const next = hashToState(change.hash);
+        routeRef.current = next;
+        setRoute(next);
+        changeRef.current({ open: change.open, q: change.q, restored: true });
+        restoreScroll(change.y);
+      },
+    });
   }, []);
+
+  const navState = route.nav;
 
   const updatePageTitle = useCallback((entityName?: string | null) => {
     if (entityName) {
@@ -61,87 +129,24 @@ export function useNavigation() {
     updatePageTitle();
   }, [updatePageTitle]);
 
-  useEffect(() => {
-    if (isHashNavigation.current) {
-      isHashNavigation.current = false;
-      return;
-    }
-
-    const nextHash = stateToHash(
-      navState,
-      selectedDiseaseId,
-      selectedSubcategoryId,
-      selectedMonographId,
-      selectedPathogenId,
-      selectedBreakpointPreset,
-    );
-    if (window.location.hash !== nextHash) {
-      window.history.replaceState(null, "", nextHash);
-    }
-  }, [
-    navState,
-    selectedBreakpointPreset,
-    selectedDiseaseId,
-    selectedSubcategoryId,
-    selectedMonographId,
-    selectedPathogenId,
-  ]);
-
-  const navigateTo = useCallback<NavigateTo>(
-    (state: NavStateKey, data: NavigateToData = {}) => {
-      startTransition(() => {
-        setNavState(state);
-
-        if (state === NAV_STATES.HOME || state === NAV_STATES.COMPARE || state === "audit" || state === NAV_STATES.CALCULATORS) {
-          setSelectedDiseaseId(null);
-          setSelectedSubcategoryId(null);
-          setSelectedMonographId(null);
-          setSelectedPathogenId(null);
-          setSelectedBreakpointPreset(null);
-          window.scrollTo({ top: 0, behavior: "auto" });
-          return;
-        }
-
-        if (state === NAV_STATES.PATHOGEN || state === NAV_STATES.BREAKPOINTS) {
-          const nextPathogenId = resolveId(data.pathogenId, data.pathogen, selectedPathogenId);
-          setSelectedDiseaseId(null);
-          setSelectedSubcategoryId(null);
-          setSelectedMonographId(null);
-          setSelectedPathogenId(nextPathogenId);
-          setSelectedBreakpointPreset(state === NAV_STATES.BREAKPOINTS ? resolveBreakpointPreset(data) : null);
-          window.scrollTo({ top: 0, behavior: "auto" });
-          return;
-        }
-
-        const nextDiseaseId = resolveId(data.diseaseId, data.disease, selectedDiseaseId);
-        const nextSubcategoryId =
-          state === NAV_STATES.SUBCATEGORY
-            ? resolveId(data.subcategoryId, data.subcategory, selectedSubcategoryId)
-            : null;
-        const nextMonographId =
-          state === NAV_STATES.MONOGRAPH
-            ? resolveId(data.monographId, data.monograph, selectedMonographId)
-            : null;
-
-        setSelectedDiseaseId(nextDiseaseId);
-        setSelectedSubcategoryId(nextSubcategoryId);
-        setSelectedMonographId(nextMonographId);
-        setSelectedPathogenId(null);
-        setSelectedBreakpointPreset(null);
-        window.scrollTo({ top: 0, behavior: "auto" });
-      });
-    },
-    [selectedDiseaseId, selectedMonographId, selectedPathogenId, selectedSubcategoryId],
-  );
+  const navigateTo = useCallback<NavigateTo>((state, data = {}, options = {}) => {
+    const next = resolveNextRoute(routeRef.current, state, data);
+    getAppHistory().navigate(routeToHash(next), options);
+    routeRef.current = next;
+    cancelScrollRestore?.();
+    startTransition(() => setRoute(next));
+    changeRef.current({ open: {}, q: null, restored: false });
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
 
   return {
     navState,
     navigateTo,
-    selectedDiseaseId,
-    selectedMonographId,
-    selectedBreakpointPreset,
-    selectedPathogenId,
-    selectedSubcategoryId,
+    selectedDiseaseId: route.diseaseId,
+    selectedMonographId: route.monographId,
+    selectedBreakpointPreset: route.breakpointPreset,
+    selectedPathogenId: route.pathogenId,
+    selectedSubcategoryId: route.subcategoryId,
     updatePageTitle,
   };
 }

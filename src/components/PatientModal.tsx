@@ -177,7 +177,7 @@ export default function PatientModal({
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" }}>
           <div style={fieldWrap}>
             <label style={labelStyle}>Age (years)</label>
-            <input type="number" min="1" max="120" style={inputStyle} value={patient.age ?? ""} onChange={(e) => field("age", e.target.value)} placeholder="e.g. 65" />
+            <input type="number" inputMode="decimal" min="1" max="120" style={inputStyle} value={patient.age ?? ""} onChange={(e) => field("age", e.target.value)} placeholder="e.g. 65" />
           </div>
           <div style={fieldWrap}>
             <label style={labelStyle}>Sex</label>
@@ -189,15 +189,15 @@ export default function PatientModal({
           </div>
           <div style={fieldWrap}>
             <label style={labelStyle}>Weight (kg)</label>
-            <input type="number" min="1" max="500" step="0.1" style={inputStyle} value={patient.weight ?? ""} onChange={(e) => field("weight", e.target.value)} placeholder="e.g. 70" />
+            <input type="number" inputMode="decimal" min="1" max="500" step="0.1" style={inputStyle} value={patient.weight ?? ""} onChange={(e) => field("weight", e.target.value)} placeholder="e.g. 70" />
           </div>
           <div style={fieldWrap}>
             <label style={labelStyle}>Height (cm) <span style={{ fontWeight: 400 }}>— optional</span></label>
-            <input type="number" min="60" max="250" style={inputStyle} value={patient.height ?? ""} onChange={(e) => field("height", e.target.value)} placeholder="e.g. 170" />
+            <input type="number" inputMode="decimal" min="60" max="250" style={inputStyle} value={patient.height ?? ""} onChange={(e) => field("height", e.target.value)} placeholder="e.g. 170" />
           </div>
           <div style={fieldWrap}>
             <label style={labelStyle}>SCr (mg/dL)</label>
-            <input type="number" min="0.1" max="30" step="0.01" style={inputStyle} value={patient.scr ?? ""} onChange={(e) => field("scr", e.target.value)} placeholder="e.g. 1.2" />
+            <input type="number" inputMode="decimal" min="0.1" max="30" step="0.01" style={inputStyle} value={patient.scr ?? ""} onChange={(e) => field("scr", e.target.value)} placeholder="e.g. 1.2" />
           </div>
           <div style={fieldWrap}>
             <label style={labelStyle}>Dialysis</label>
@@ -469,35 +469,35 @@ export default function PatientModal({
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "12px", marginTop: "12px" }}>
             <div style={fieldWrap}>
               <label style={labelStyle}>Platelets</label>
-              <input type="number" min="0" step="1" style={inputStyle} value={patient.labs?.platelets ?? ""} onChange={(e) => labField("platelets", e.target.value)} placeholder="K/uL" />
+              <input type="number" inputMode="decimal" min="0" step="1" style={inputStyle} value={patient.labs?.platelets ?? ""} onChange={(e) => labField("platelets", e.target.value)} placeholder="K/uL" />
             </div>
             <div style={fieldWrap}>
               <label style={labelStyle}>CK</label>
-              <input type="number" min="0" step="1" style={inputStyle} value={patient.labs?.ck ?? ""} onChange={(e) => labField("ck", e.target.value)} placeholder="U/L" />
+              <input type="number" inputMode="decimal" min="0" step="1" style={inputStyle} value={patient.labs?.ck ?? ""} onChange={(e) => labField("ck", e.target.value)} placeholder="U/L" />
             </div>
             <div style={fieldWrap}>
               <label style={labelStyle}>AST</label>
-              <input type="number" min="0" step="1" style={inputStyle} value={patient.labs?.ast ?? ""} onChange={(e) => labField("ast", e.target.value)} placeholder="U/L" />
+              <input type="number" inputMode="decimal" min="0" step="1" style={inputStyle} value={patient.labs?.ast ?? ""} onChange={(e) => labField("ast", e.target.value)} placeholder="U/L" />
             </div>
             <div style={fieldWrap}>
               <label style={labelStyle}>ALT</label>
-              <input type="number" min="0" step="1" style={inputStyle} value={patient.labs?.alt ?? ""} onChange={(e) => labField("alt", e.target.value)} placeholder="U/L" />
+              <input type="number" inputMode="decimal" min="0" step="1" style={inputStyle} value={patient.labs?.alt ?? ""} onChange={(e) => labField("alt", e.target.value)} placeholder="U/L" />
             </div>
             <div style={fieldWrap}>
               <label style={labelStyle}>Bilirubin</label>
-              <input type="number" min="0" step="0.1" style={inputStyle} value={patient.labs?.bilirubin ?? ""} onChange={(e) => labField("bilirubin", e.target.value)} placeholder="mg/dL" />
+              <input type="number" inputMode="decimal" min="0" step="0.1" style={inputStyle} value={patient.labs?.bilirubin ?? ""} onChange={(e) => labField("bilirubin", e.target.value)} placeholder="mg/dL" />
             </div>
             <div style={fieldWrap}>
               <label style={labelStyle}>ANC</label>
-              <input type="number" min="0" step="0.1" style={inputStyle} value={patient.labs?.anc ?? ""} onChange={(e) => labField("anc", e.target.value)} placeholder="K/uL" />
+              <input type="number" inputMode="decimal" min="0" step="0.1" style={inputStyle} value={patient.labs?.anc ?? ""} onChange={(e) => labField("anc", e.target.value)} placeholder="K/uL" />
             </div>
             <div style={fieldWrap}>
               <label style={labelStyle}>Lactate</label>
-              <input type="number" min="0" step="0.1" style={inputStyle} value={patient.labs?.lactate ?? ""} onChange={(e) => labField("lactate", e.target.value)} placeholder="mmol/L" />
+              <input type="number" inputMode="decimal" min="0" step="0.1" style={inputStyle} value={patient.labs?.lactate ?? ""} onChange={(e) => labField("lactate", e.target.value)} placeholder="mmol/L" />
             </div>
             <div style={fieldWrap}>
               <label style={labelStyle}>QTc</label>
-              <input type="number" min="0" step="1" style={inputStyle} value={patient.labs?.qtc ?? ""} onChange={(e) => labField("qtc", e.target.value)} placeholder="ms" />
+              <input type="number" inputMode="decimal" min="0" step="1" style={inputStyle} value={patient.labs?.qtc ?? ""} onChange={(e) => labField("qtc", e.target.value)} placeholder="ms" />
             </div>
           </div>
         </div>

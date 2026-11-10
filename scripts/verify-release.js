@@ -57,6 +57,9 @@ const contentApprovals = fs.readFileSync(contentApprovalsPath, "utf8");
 const generatedContentMeta = fs.readFileSync(generatedContentMetaPath, "utf8");
 const generatedRegimenCatalog = fs.readFileSync(generatedRegimenCatalogPath, "utf8");
 
+const serviceWorker = fs.readFileSync(swPath, "utf8");
+const webmanifest = JSON.parse(fs.readFileSync(webmanifestPath, "utf8"));
+
 const indexChunk = assetFiles.find((file) => /^index-.*\.js$/.test(file));
 const vendorChunk = assetFiles.find((file) => /^vendor-.*\.js$/.test(file));
 const generatedDiseaseChunks = GENERATED_DISEASE_MODULES.map((moduleConfig) => {
@@ -79,6 +82,11 @@ generatedDiseaseChunks.forEach(({ displayName, chunkFile }) => {
 if (regimenCatalogChunk) {
   expect(!indexHtml.includes(regimenCatalogChunk), "dist/index.html should not preload the lazy regimen catalog chunk.");
 }
+expect(serviceWorker.includes("SKIP_WAITING"), "service worker should wait for the in-app update prompt instead of activating on its own.");
+expect(serviceWorker.includes("google-fonts-webfonts"), "service worker is missing the offline font cache.");
+expect(Array.isArray(webmanifest.shortcuts) && webmanifest.shortcuts.length > 0, "web manifest is missing app shortcuts.");
+expect(webmanifest.start_url && webmanifest.scope, "web manifest is missing start_url or scope.");
+expect(catalogManifest.includes('"pathways"'), "catalog manifest is missing pathway names for the home screen.");
 expect(catalogManifest.includes('"confidence"'), "catalog manifest is missing confidence metadata.");
 expect(catalogManifest.includes('"reviewedBy"'), "catalog manifest is missing reviewer attribution metadata.");
 expect(catalogManifest.includes('"reviewScope"'), "catalog manifest is missing review scope metadata.");
@@ -101,6 +109,7 @@ if (regimenCatalogChunk) {
 }
 console.log(`- lazy disease chunks: ${generatedDiseaseChunks.map(({ chunkFile }) => chunkFile).join(", ")}`);
 console.log("- PWA artifacts present");
+console.log("- service worker waits for the update prompt and caches fonts");
 console.log("- install icons present");
 console.log("- catalog manifest contains confidence metadata");
 console.log("- catalog manifest contains reviewer attribution metadata");

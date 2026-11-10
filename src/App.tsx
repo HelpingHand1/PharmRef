@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { AllergyRecord, DiseaseState, ThemeKey } from "./types";
 import { usePatientContext } from "./hooks/usePatientContext";
+import { useBackDismiss } from "./hooks/useBackDismiss";
 import { useBookmarks } from "./hooks/useBookmarks";
 import { AuditView, CompareView, ExpandCollapseBar, Layout } from "./components";
-import { useNavigation } from "./hooks/useNavigation";
+import { useNavigation, type EntryChange } from "./hooks/useNavigation";
 import { useRecentViews } from "./hooks/useRecentViews";
 import { useSearch } from "./hooks/useSearch";
 import { NAV_STATES, applyThemeVars, makeStyles } from "./styles/constants";
@@ -13,6 +14,7 @@ import { DISEASE_CATALOG, DISEASE_SUMMARY_BY_ID, MONOGRAPH_CATALOG, MONOGRAPH_SU
 import { loadAllDiseases, loadDisease, loadRegimenCatalog } from "./data/catalog-loader";
 import { buildCatalogDerived, type CatalogDerived } from "./data/derived";
 import { PATHOGEN_REFERENCE_BY_ID, PATHOGEN_REFERENCES } from "./data/pathogen-references";
+import type { EntrySnapshot } from "./utils/appHistory";
 import { hasAnyPatientSignals } from "./utils/regimenGuidance";
 import BreakpointWorkspacePage from "./pages/BreakpointWorkspacePage";
 import DiseaseOverviewPage from "./pages/DiseaseOverviewPage";
@@ -39,6 +41,30 @@ async function copyToClipboard(text: string): Promise<boolean> {
   }
 }
 
+// Shown when a content file could not be fetched: usually a dropped connection
+// before the app finished caching, or a deploy that replaced the file.
+function LoadFailure({ S, what, onRetry }: { S: ReturnType<typeof makeStyles>; what: string; onRetry: () => void }) {
+  return (
+    <div
+      role="alert"
+      style={{ ...S.card, cursor: "default", maxWidth: "460px", margin: "40px auto", padding: "24px", textAlign: "center" }}
+    >
+      <h1 style={{ margin: 0, fontSize: "19px", color: S.meta.textHeading, letterSpacing: "-0.02em" }}>Couldn't load {what}</h1>
+      <p style={{ ...S.monographValue, fontSize: "14px", margin: "10px 0 18px" }}>
+        Check your connection and try again. If PharmRef was updated while this tab was open, reloading picks up the new version.
+      </p>
+      <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap" }}>
+        <button type="button" style={{ ...S.expandAllBtn, marginRight: 0, padding: "10px 18px", fontWeight: 700, background: S.meta.accent, color: S.meta.onAccent, borderColor: S.meta.accent }} onClick={onRetry}>
+          Try again
+        </button>
+        <button type="button" style={{ ...S.expandAllBtn, marginRight: 0, padding: "10px 18px", fontWeight: 700 }} onClick={() => window.location.reload()}>
+          Reload app
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function PharmRef() {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
@@ -55,6 +81,9 @@ export default function PharmRef() {
   const [allergySeverity, setAllergySeverity] = useState("mild");
   const [compareItems, setCompareItems] = usePersistedState<string[]>("compareItems", []);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [loadAttempt, setLoadAttempt] = useState(0);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [loadedDiseases, setLoadedDiseases] = useState<Record<string, DiseaseState>>({});
   const [catalogDerived, setCatalogDerived] = useState<CatalogDerived | null>(null);
@@ -66,6 +95,19 @@ export default function PharmRef() {
   const catalogDerivedRef = useRef<CatalogDerived | null>(null);
   const catalogPromiseRef = useRef<Promise<CatalogDerived> | null>(null);
 
+  // What the history entry for the current page should remember when it is left.
+  const searchOpen = searchQuery.trim().length >= 2;
+  const entrySnapshotRef = useRef<EntrySnapshot>({ open: {}, q: "" });
+  useEffect(() => {
+    entrySnapshotRef.current = { open: expandedSections, q: searchOpen ? searchQuery : "" };
+  }, [expandedSections, searchOpen, searchQuery]);
+  const captureEntry = useCallback(() => entrySnapshotRef.current, []);
+  const handleEntryChange = useCallback((change: EntryChange) => {
+    setExpandedSections(change.open);
+    setLoadError(null);
+    if (change.q !== null) setSearchQuery(change.q);
+  }, []);
+
   const {
     navState,
     navigateTo,
@@ -75,7 +117,21 @@ export default function PharmRef() {
     selectedPathogenId,
     selectedSubcategoryId,
     updatePageTitle,
-  } = useNavigation();
+  } = useNavigation({ captureEntry, onEntryChange: handleEntryChange });
+
+  // Back closes the top layer before it leaves the page.
+  const clearSearch = useCallback(() => setSearchQuery(""), []);
+  useBackDismiss(searchOpen, clearSearch);
+  useBackDismiss(showPatientModal, useCallback(() => setShowPatientModal(false), []));
+  useBackDismiss(showAllergyModal, useCallback(() => setShowAllergyModal(false), []));
+  useBackDismiss(commandPaletteOpen, useCallback(() => setCommandPaletteOpen(false), []));
+  useBackDismiss(moreOpen, useCallback(() => setMoreOpen(false), []));
+
+  // Search results replace the page, so they start at the top rather than
+  // wherever the page underneath happened to be scrolled.
+  useEffect(() => {
+    if (searchOpen) window.scrollTo({ top: 0, behavior: "auto" });
+  }, [searchOpen]);
   const selectedDiseaseSummary = selectedDiseaseId ? DISEASE_SUMMARY_BY_ID[selectedDiseaseId] ?? null : null;
   const selectedDisease = selectedDiseaseId ? loadedDiseases[selectedDiseaseId] ?? null : null;
   const selectedPathogen = selectedPathogenId ? PATHOGEN_REFERENCE_BY_ID[selectedPathogenId] ?? null : null;
@@ -175,10 +231,6 @@ export default function PharmRef() {
   }, [setTheme]);
 
   useEffect(() => {
-    setExpandedSections({});
-  }, [navState, selectedDiseaseId, selectedSubcategoryId, selectedMonographId, selectedPathogenId]);
-
-  useEffect(() => {
     const handleShortcut = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === "k") {
         event.preventDefault();
@@ -236,34 +288,54 @@ export default function PharmRef() {
 
     if (!routeNeedsDisease || !selectedDiseaseId) return;
 
+    // Old or hand-typed links should land somewhere sensible without adding a history entry.
+    const redirect = { replace: true } as const;
+    const canonicalMonographParent =
+      navState === NAV_STATES.MONOGRAPH && selectedMonographId
+        ? MONOGRAPH_SUMMARY_BY_ID[selectedMonographId]?.parentDiseaseId ?? null
+        : null;
+
     let cancelled = false;
-    void ensureDiseaseLoaded(selectedDiseaseId).then((disease) => {
-      if (cancelled) return;
+    void ensureDiseaseLoaded(selectedDiseaseId)
+      .then((disease) => {
+        if (cancelled) return;
 
-      if (!disease) {
-        navigateTo(NAV_STATES.HOME);
-        return;
-      }
-
-      if (navState === NAV_STATES.SUBCATEGORY && selectedSubcategoryId) {
-        const exists = disease.subcategories.some((subcategory) => subcategory.id === selectedSubcategoryId);
-        if (!exists) {
-          navigateTo(NAV_STATES.DISEASE_OVERVIEW, { diseaseId: disease.id });
+        if (!disease) {
+          // A monograph link that names the wrong topic still knows which drug it wants.
+          if (canonicalMonographParent && selectedMonographId) {
+            navigateTo(NAV_STATES.MONOGRAPH, { diseaseId: canonicalMonographParent, monographId: selectedMonographId }, redirect);
+          } else {
+            navigateTo(NAV_STATES.HOME, {}, redirect);
+          }
+          return;
         }
-      }
 
-      if (navState === NAV_STATES.MONOGRAPH && selectedMonographId) {
-        const exists = disease.drugMonographs.some((monograph) => monograph.id === selectedMonographId);
-        if (!exists) {
-          navigateTo(NAV_STATES.DISEASE_OVERVIEW, { diseaseId: disease.id });
+        if (navState === NAV_STATES.SUBCATEGORY && selectedSubcategoryId) {
+          const exists = disease.subcategories.some((subcategory) => subcategory.id === selectedSubcategoryId);
+          if (!exists) {
+            navigateTo(NAV_STATES.DISEASE_OVERVIEW, { diseaseId: disease.id }, redirect);
+          }
         }
-      }
-    });
+
+        if (navState === NAV_STATES.MONOGRAPH && selectedMonographId) {
+          const exists = disease.drugMonographs.some((monograph) => monograph.id === selectedMonographId);
+          if (!exists) {
+            if (canonicalMonographParent && canonicalMonographParent !== disease.id) {
+              navigateTo(NAV_STATES.MONOGRAPH, { diseaseId: canonicalMonographParent, monographId: selectedMonographId }, redirect);
+            } else {
+              navigateTo(NAV_STATES.DISEASE_OVERVIEW, { diseaseId: disease.id }, redirect);
+            }
+          }
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setLoadError(selectedDiseaseId);
+      });
 
     return () => {
       cancelled = true;
     };
-  }, [ensureDiseaseLoaded, navState, navigateTo, selectedDiseaseId, selectedMonographId, selectedSubcategoryId]);
+  }, [ensureDiseaseLoaded, loadAttempt, navState, navigateTo, selectedDiseaseId, selectedMonographId, selectedSubcategoryId]);
 
   useEffect(() => {
     if (selectedMonograph) updatePageTitle(selectedMonograph.name);
@@ -286,8 +358,10 @@ export default function PharmRef() {
       navState === "audit";
 
     if (!shouldLoadFullCatalog) return;
-    void ensureCatalogDerived();
-  }, [ensureCatalogDerived, isSearchActive, navState]);
+    ensureCatalogDerived().catch(() => {
+      // catalogStatus carries the failure; the affected views offer a retry.
+    });
+  }, [ensureCatalogDerived, isSearchActive, loadAttempt, navState]);
 
   const showToast = useCallback((message: string, icon = "ℹ") => {
     if (toastTimerRef.current) {
@@ -301,84 +375,45 @@ export default function PharmRef() {
     }, 2200);
   }, []);
 
-  const currentSectionIds = useMemo(() => {
-    if (navState === NAV_STATES.DISEASE_OVERVIEW) return ["overview", "guidelines", "trials", "pathogens"];
-    if (navState === NAV_STATES.SUBCATEGORY) {
-      return [
-        "presentation",
-        "diagnostics",
-        "workflow-diagnostics",
-        "diagnostic-stewardship",
-        "workflow-reassessment",
-        "reassessment-timeline",
-        "workflow-transition",
-        "contamination-pitfalls",
-        "duration-anchors",
-        "microbiology",
-        "pathogen-links",
-        "empiric",
-        "organism",
-        "pearls",
-      ];
-    }
-    if (navState === NAV_STATES.MONOGRAPH) {
-      return [
-        "moa",
-        "spectrum",
-        "dosing",
-        "dosing-by-indication",
-        "renal",
-        "rrt",
-        "hepatic",
-        "special-pop",
-        "ae",
-        "interactions",
-        "monitoring",
-        "monitoring-actions",
-        "tdm",
-        "pregnancy",
-        "administration",
-        "administration-constraints",
-        "microbiology",
-        "pathogen-links",
-        "misuse-traps",
-        "penetration",
-        "site-avoidances",
-        "interaction-actions",
-        "stewardship",
-        "pharm-pearls",
-        "opat-ipo",
-      ];
-    }
-    if (navState === NAV_STATES.PATHOGEN) {
-      return ["rapid-dx", "contamination", "mechanisms", "breakpoints", "therapy", "related"];
-    }
-    return [];
-  }, [navState]);
+  // Sections describe themselves in the DOM (see Section), so "expand all" always
+  // covers exactly what the page rendered.
+  const readSectionIds = useCallback(
+    () =>
+      Array.from(document.querySelectorAll<HTMLElement>("main [data-section-id]"))
+        .map((element) => element.dataset.sectionId)
+        .filter((id): id is string => Boolean(id)),
+    [],
+  );
 
   const toggleSection = useCallback((id: string) => {
     setExpandedSections((current) => ({ ...current, [id]: !current[id] }));
   }, []);
 
-  const expandAll = useCallback(() => {
-    setExpandedSections((current) => {
-      const next = { ...current };
-      currentSectionIds.forEach((id) => {
-        next[id] = true;
+  const setAllSections = useCallback(
+    (open: boolean) => {
+      const ids = readSectionIds();
+      setExpandedSections((current) => {
+        const next = { ...current };
+        ids.forEach((id) => {
+          next[id] = open;
+        });
+        return next;
       });
-      return next;
-    });
-  }, [currentSectionIds]);
+    },
+    [readSectionIds],
+  );
+  const expandAll = useCallback(() => setAllSections(true), [setAllSections]);
+  const collapseAll = useCallback(() => setAllSections(false), [setAllSections]);
 
-  const collapseAll = useCallback(() => {
-    setExpandedSections((current) => {
-      const next = { ...current };
-      currentSectionIds.forEach((id) => {
-        next[id] = false;
-      });
-      return next;
-    });
-  }, [currentSectionIds]);
+  const openSection = useCallback((id: string) => {
+    setExpandedSections((current) => (current[id] ? current : { ...current, [id]: true }));
+  }, []);
+
+  const retryLoad = useCallback(() => {
+    setLoadError(null);
+    setCatalogStatus("idle");
+    setLoadAttempt((attempt) => attempt + 1);
+  }, []);
 
   const renderExpandCollapseBar = useCallback(
     () => <ExpandCollapseBar S={S} onExpand={expandAll} onCollapse={collapseAll} />,
@@ -519,6 +554,20 @@ export default function PharmRef() {
     navigateTo(NAV_STATES.HOME);
   }, [navigateTo]);
 
+  const startCompare = useCallback(() => {
+    setCompareItems([]);
+    navigateTo(NAV_STATES.COMPARE);
+  }, [navigateTo, setCompareItems]);
+
+  // Identifies the page for anything that should reset when the page changes.
+  const routeKey = [
+    isSearchActive ? `search:${deferredQuery}` : navState,
+    selectedDiseaseId,
+    selectedSubcategoryId,
+    selectedMonographId,
+    selectedPathogenId,
+  ].join("|");
+
   const layoutProps = {
     S,
     allergies,
@@ -526,16 +575,24 @@ export default function PharmRef() {
     allergySeverity,
     breadcrumbs,
     commandPaletteOpen,
+    moreOpen,
     navigateTo,
     navState,
     onAddAllergy: addAllergy,
     onCloseAllergyModal: () => setShowAllergyModal(false),
     onCloseCommandPalette: () => setCommandPaletteOpen(false),
+    onCloseMore: () => setMoreOpen(false),
     onClearWorkData: clearWorkData,
     onHome: handleHome,
     onOpenAllergyModal: () => setShowAllergyModal(true),
     onOpenCommandPalette: () => setCommandPaletteOpen(true),
+    onOpenMore: () => setMoreOpen(true),
     onOpenPatientModal: () => setShowPatientModal(true),
+    onOpenSection: openSection,
+    onSetTheme: setTheme,
+    onStartCompare: startCompare,
+    routeKey,
+    searchActive: isSearchActive,
     showPatientModal,
     onClosePatientModal: () => setShowPatientModal(false),
     patient,
@@ -573,9 +630,11 @@ export default function PharmRef() {
             onSelectSuggestion={setSearchQuery}
             S={S}
           />
+        ) : catalogStatus === "error" ? (
+          <LoadFailure S={S} what="the search index" onRetry={retryLoad} />
         ) : (
           <div style={{ color: S.monographValue.color, textAlign: "center", padding: "60px 0", display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
-            {catalogStatus === "error" ? "Search catalog unavailable." : <><span className="pr-spinner" />Loading search index…</>}
+            <span className="pr-spinner" />Loading search index…
           </div>
         )}
       </Layout>
@@ -595,10 +654,7 @@ export default function PharmRef() {
           onOpenAllergyModal={() => setShowAllergyModal(true)}
           onOpenPatientModal={() => setShowPatientModal(true)}
           onOpenRecent={openRecent}
-          onStartCompare={() => {
-            setCompareItems([]);
-            navigateTo(NAV_STATES.COMPARE);
-          }}
+          onStartCompare={startCompare}
           pathogens={PATHOGEN_REFERENCES}
           recentViews={recentViews}
           S={S}
@@ -641,9 +697,11 @@ export default function PharmRef() {
         </button>
         {catalogDerived ? (
           <AuditView diseaseStates={auditDiseases} S={S} />
+        ) : catalogStatus === "error" ? (
+          <LoadFailure S={S} what="the content catalog" onRetry={retryLoad} />
         ) : (
           <div style={{ color: S.monographValue.color, textAlign: "center", padding: "60px 0", display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
-            {catalogStatus === "error" ? "Catalog unavailable." : <><span className="pr-spinner" />Loading content audit…</>}
+            <span className="pr-spinner" />Loading content audit…
           </div>
         )}
       </Layout>
@@ -689,12 +747,14 @@ export default function PharmRef() {
           catalogDerived={catalogDerived}
           disease={selectedDisease}
           expandedSections={expandedSections}
+          isBookmarked={isBookmarked}
           navigateTo={navigateTo}
           onCollapseAll={collapseAll}
           onExpandAll={expandAll}
           readingMode={readingMode}
           S={S}
           theme={theme}
+          toggleBookmark={toggleBookmark}
           toggleSection={toggleSection}
         />
       </Layout>
@@ -712,6 +772,7 @@ export default function PharmRef() {
           disease={selectedDisease}
           expandedSections={expandedSections}
           findMonograph={findMonograph}
+          isBookmarked={isBookmarked}
           navigateTo={navigateTo}
           onCollapseAll={collapseAll}
           onCopy={handleCopy}
@@ -721,6 +782,7 @@ export default function PharmRef() {
           S={S}
           showToast={showToast}
           subcategory={selectedSubcategory}
+          toggleBookmark={toggleBookmark}
           toggleSection={toggleSection}
         />
       </Layout>
@@ -776,9 +838,17 @@ export default function PharmRef() {
     );
   }
 
+  if (loadError) {
+    return (
+      <Layout {...layoutProps}>
+        <LoadFailure S={S} what={selectedDiseaseSummary?.name ?? "this page"} onRetry={retryLoad} />
+      </Layout>
+    );
+  }
+
   return (
     <Layout {...layoutProps}>
-      <div style={{ color: S.monographValue.color, textAlign: "center", padding: "60px 0", display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
+      <div style={{ color: S.monographValue.color, textAlign: "center", padding: "60px 0", display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }} role="status">
         <span className="pr-spinner" />
         {selectedDiseaseSummary ? `Loading ${selectedDiseaseSummary.name}…` : "Loading…"}
       </div>

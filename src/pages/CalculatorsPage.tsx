@@ -283,16 +283,16 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
 
         {/* ── CrCl ── */}
-        <div style={cardStyle("#38bdf8")}>
+        <div data-section-id="calc-crcl" data-section-title="CrCl" style={cardStyle("#38bdf8")}>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>💊 Creatinine Clearance</div>
             <div style={{ fontSize: "12px", color: mutedColor }}>Cockcroft-Gault Equation</div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-            <div style={fieldWrap}><label style={labelStyle}>Age (yrs)</label><input type="number" style={inputStyle} value={crclAge} onChange={(e) => setCrclAge(e.target.value)} placeholder="65" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>Age (yrs)</label><input type="number" inputMode="decimal" style={inputStyle} value={crclAge} onChange={(e) => setCrclAge(e.target.value)} placeholder="65" /></div>
             <div style={fieldWrap}><label style={labelStyle}>Sex</label><select style={selectStyle} value={crclSex} onChange={(e) => setCrclSex(e.target.value as "" | "male" | "female")}><option value="">Select…</option><option value="male">Male</option><option value="female">Female</option></select></div>
-            <div style={fieldWrap}><label style={labelStyle}>Weight (kg)</label><input type="number" style={inputStyle} value={crclWeight} onChange={(e) => setCrclWeight(e.target.value)} placeholder="70" /></div>
-            <div style={fieldWrap}><label style={labelStyle}>SCr (mg/dL)</label><input type="number" step="0.01" style={inputStyle} value={crclScr} onChange={(e) => setCrclScr(e.target.value)} placeholder="1.2" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>Weight (kg)</label><input type="number" inputMode="decimal" style={inputStyle} value={crclWeight} onChange={(e) => setCrclWeight(e.target.value)} placeholder="70" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>SCr (mg/dL)</label><input type="number" inputMode="decimal" step="0.01" style={inputStyle} value={crclScr} onChange={(e) => setCrclScr(e.target.value)} placeholder="1.2" /></div>
           </div>
           <CalcBtn onClick={calcCrcl} />
           {crclResult !== null && (
@@ -307,15 +307,15 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
         </div>
 
         {/* ── IBW / AdjBW / BSA ── */}
-        <div style={cardStyle("#a78bfa")}>
+        <div data-section-id="calc-weights" data-section-title="IBW / BSA" style={cardStyle("#a78bfa")}>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>⚖️ IBW / AdjBW / BSA</div>
             <div style={{ fontSize: "12px", color: mutedColor }}>Devine Formula · Mosteller BSA</div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
             <div style={fieldWrap}><label style={labelStyle}>Sex</label><select style={selectStyle} value={wSex} onChange={(e) => setWSex(e.target.value as "" | "male" | "female")}><option value="">Select…</option><option value="male">Male</option><option value="female">Female</option></select></div>
-            <div style={fieldWrap}><label style={labelStyle}>Height (cm)</label><input type="number" style={inputStyle} value={wHeight} onChange={(e) => setWHeight(e.target.value)} placeholder="170" /></div>
-            <div style={fieldWrap}><label style={labelStyle}>Actual Weight (kg)</label><input type="number" style={inputStyle} value={wWeight} onChange={(e) => setWWeight(e.target.value)} placeholder="85" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>Height (cm)</label><input type="number" inputMode="decimal" style={inputStyle} value={wHeight} onChange={(e) => setWHeight(e.target.value)} placeholder="170" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>Actual Weight (kg)</label><input type="number" inputMode="decimal" style={inputStyle} value={wWeight} onChange={(e) => setWWeight(e.target.value)} placeholder="85" /></div>
           </div>
           <CalcBtn onClick={calcWeights} />
           {wResult && (
@@ -331,7 +331,7 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
         </div>
 
         {/* ── CURB-65 ── */}
-        <div style={cardStyle("#34d399")}>
+        <div data-section-id="calc-curb65" data-section-title="CURB-65" style={cardStyle("#34d399")}>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>🫁 CURB-65</div>
             <div style={{ fontSize: "12px", color: mutedColor }}>CAP Severity Score · 30-Day Mortality</div>
@@ -363,13 +363,13 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
         </div>
 
         {/* ── PORT/PSI ── */}
-        <div style={cardStyle("#f59e0b")}>
+        <div data-section-id="calc-psi" data-section-title="PSI" style={cardStyle("#f59e0b")}>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>🏥 PORT / PSI</div>
             <div style={{ fontSize: "12px", color: mutedColor }}>Pneumonia Severity Index · Risk Class I–V</div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "4px" }}>
-            <div style={fieldWrap}><label style={labelStyle}>Age (yrs)</label><input type="number" style={inputStyle} value={psi.age} onChange={(e) => psiField("age", e.target.value)} placeholder="65" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>Age (yrs)</label><input type="number" inputMode="decimal" style={inputStyle} value={psi.age} onChange={(e) => psiField("age", e.target.value)} placeholder="65" /></div>
             <div style={fieldWrap}><label style={labelStyle}>Sex</label><select style={selectStyle} value={psi.sex} onChange={(e) => psiField("sex", e.target.value)}><option value="">Select…</option><option value="male">Male</option><option value="female">Female (−10 pts)</option></select></div>
           </div>
           <div style={{ display: "grid", gap: "7px" }}>
@@ -426,14 +426,14 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
         </div>
 
         {/* ── Vancomycin AUC ── */}
-        <div style={cardStyle("#818cf8")}>
+        <div data-section-id="calc-vancomycin" data-section-title="Vancomycin" style={cardStyle("#818cf8")}>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>💉 Vancomycin AUC Estimator</div>
             <div style={{ fontSize: "12px", color: mutedColor }}>ASHP/IDSA 2020 · Target AUC/MIC 400–600</div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-            <div style={fieldWrap}><label style={labelStyle}>CrCl (mL/min)</label><input type="number" style={inputStyle} value={vancCrcl} onChange={(e) => setVancCrcl(e.target.value)} placeholder="60" /></div>
-            <div style={fieldWrap}><label style={labelStyle}>Weight (kg)</label><input type="number" style={inputStyle} value={vancWeight} onChange={(e) => setVancWeight(e.target.value)} placeholder="70" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>CrCl (mL/min)</label><input type="number" inputMode="decimal" style={inputStyle} value={vancCrcl} onChange={(e) => setVancCrcl(e.target.value)} placeholder="60" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>Weight (kg)</label><input type="number" inputMode="decimal" style={inputStyle} value={vancWeight} onChange={(e) => setVancWeight(e.target.value)} placeholder="70" /></div>
             <div style={fieldWrap}><label style={labelStyle}>MIC (mg/L)</label><select style={selectStyle} value={vancMic} onChange={(e) => setVancMic(e.target.value)}><option value="0.5">0.5</option><option value="1">1.0 (most common)</option><option value="2">2.0</option></select></div>
           </div>
           <CalcBtn onClick={calcVanc} />
@@ -462,15 +462,15 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
         </div>
 
         {/* ── Aminoglycoside ── */}
-        <div style={cardStyle("#f87171")}>
+        <div data-section-id="calc-aminoglycoside" data-section-title="Aminoglycoside" style={cardStyle("#f87171")}>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>🔬 Aminoglycoside Dosing</div>
             <div style={{ fontSize: "12px", color: mutedColor }}>Hartford Nomogram · Extended Interval</div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
             <div style={fieldWrap}><label style={labelStyle}>Drug</label><select style={selectStyle} value={agDrug} onChange={(e) => setAgDrug(e.target.value as "gentamicin" | "tobramycin")}><option value="gentamicin">Gentamicin</option><option value="tobramycin">Tobramycin</option></select></div>
-            <div style={fieldWrap}><label style={labelStyle}>CrCl (mL/min)</label><input type="number" style={inputStyle} value={agCrcl} onChange={(e) => setAgCrcl(e.target.value)} placeholder="60" /></div>
-            <div style={fieldWrap}><label style={labelStyle}>Weight (kg)</label><input type="number" style={inputStyle} value={agWeight} onChange={(e) => setAgWeight(e.target.value)} placeholder="70" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>CrCl (mL/min)</label><input type="number" inputMode="decimal" style={inputStyle} value={agCrcl} onChange={(e) => setAgCrcl(e.target.value)} placeholder="60" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>Weight (kg)</label><input type="number" inputMode="decimal" style={inputStyle} value={agWeight} onChange={(e) => setAgWeight(e.target.value)} placeholder="70" /></div>
           </div>
           <CalcBtn onClick={calcAg} />
           {agResult && (
@@ -486,7 +486,7 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
         </div>
 
         {/* ── Extended-infusion beta-lactams ── */}
-        <div style={cardStyle("#06b6d4")}>
+        <div data-section-id="calc-beta-lactam" data-section-title="Ext. infusion" style={cardStyle("#06b6d4")}>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>⏳ Extended-Infusion Beta-Lactam</div>
             <div style={{ fontSize: "12px", color: mutedColor }}>ARC / prolonged-infusion exposure support</div>
@@ -502,7 +502,7 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
             </div>
             <div style={fieldWrap}>
               <label style={labelStyle}>CrCl (mL/min)</label>
-              <input type="number" style={inputStyle} value={betaCrcl} onChange={(e) => setBetaCrcl(e.target.value)} placeholder="120" />
+              <input type="number" inputMode="decimal" style={inputStyle} value={betaCrcl} onChange={(e) => setBetaCrcl(e.target.value)} placeholder="120" />
             </div>
           </div>
           <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: textColor, cursor: "pointer" }}>
@@ -522,13 +522,13 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
         </div>
 
         {/* ── Daptomycin ── */}
-        <div style={cardStyle("#10b981")}>
+        <div data-section-id="calc-daptomycin" data-section-title="Daptomycin" style={cardStyle("#10b981")}>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>🦠 Daptomycin mg/kg</div>
             <div style={{ fontSize: "12px", color: mutedColor }}>Actual-body-weight bedside calculation</div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-            <div style={fieldWrap}><label style={labelStyle}>Weight (kg)</label><input type="number" style={inputStyle} value={daptoWeight} onChange={(e) => setDaptoWeight(e.target.value)} placeholder="80" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>Weight (kg)</label><input type="number" inputMode="decimal" style={inputStyle} value={daptoWeight} onChange={(e) => setDaptoWeight(e.target.value)} placeholder="80" /></div>
             <div style={fieldWrap}>
               <label style={labelStyle}>Target mg/kg</label>
               <select style={selectStyle} value={daptoMgKg} onChange={(e) => setDaptoMgKg(e.target.value)}>
@@ -551,14 +551,14 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
         </div>
 
         {/* ── TMP-SMX ── */}
-        <div style={cardStyle("#14b8a6")}>
+        <div data-section-id="calc-tmp-smx" data-section-title="TMP-SMX" style={cardStyle("#14b8a6")}>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>💊 TMP-SMX TMP-Based Dosing</div>
             <div style={{ fontSize: "12px", color: mutedColor }}>Dose by TMP component, not by total tablet weight</div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-            <div style={fieldWrap}><label style={labelStyle}>Weight (kg)</label><input type="number" style={inputStyle} value={tmpWeight} onChange={(e) => setTmpWeight(e.target.value)} placeholder="70" /></div>
-            <div style={fieldWrap}><label style={labelStyle}>TMP mg/kg/day</label><input type="number" style={inputStyle} value={tmpTarget} onChange={(e) => setTmpTarget(e.target.value)} placeholder="10" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>Weight (kg)</label><input type="number" inputMode="decimal" style={inputStyle} value={tmpWeight} onChange={(e) => setTmpWeight(e.target.value)} placeholder="70" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>TMP mg/kg/day</label><input type="number" inputMode="decimal" style={inputStyle} value={tmpTarget} onChange={(e) => setTmpTarget(e.target.value)} placeholder="10" /></div>
             <div style={fieldWrap}>
               <label style={labelStyle}>Doses / day</label>
               <select style={selectStyle} value={tmpDosesPerDay} onChange={(e) => setTmpDosesPerDay(e.target.value)}>
@@ -582,13 +582,13 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
         </div>
 
         {/* ── Colistin ── */}
-        <div style={cardStyle("#f97316")}>
+        <div data-section-id="calc-colistin" data-section-title="Colistin" style={cardStyle("#f97316")}>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>🧪 Colistin Unit Conversion</div>
             <div style={{ fontSize: "12px", color: mutedColor }}>CMS vs CBA safety check</div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-            <div style={fieldWrap}><label style={labelStyle}>Value</label><input type="number" style={inputStyle} value={colistinValue} onChange={(e) => setColistinValue(e.target.value)} placeholder="1" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>Value</label><input type="number" inputMode="decimal" style={inputStyle} value={colistinValue} onChange={(e) => setColistinValue(e.target.value)} placeholder="1" /></div>
             <div style={fieldWrap}>
               <label style={labelStyle}>Entered as</label>
               <select style={selectStyle} value={colistinUnit} onChange={(e) => setColistinUnit(e.target.value as "million_iu" | "cms_mg" | "cba_mg")}>
@@ -612,7 +612,7 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
         </div>
 
         {/* ── Azole TDM ── */}
-        <div style={cardStyle("#8b5cf6")}>
+        <div data-section-id="calc-azole" data-section-title="Azole TDM" style={cardStyle("#8b5cf6")}>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>🍄 Azole TDM Support</div>
             <div style={{ fontSize: "12px", color: mutedColor }}>Voriconazole and posaconazole trough interpretation</div>
@@ -626,7 +626,7 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
                 <option value="posaconazole-treatment">Posaconazole treatment</option>
               </select>
             </div>
-            <div style={fieldWrap}><label style={labelStyle}>Trough (mcg/mL)</label><input type="number" step="0.1" style={inputStyle} value={azoleTrough} onChange={(e) => setAzoleTrough(e.target.value)} placeholder="2.5" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>Trough (mcg/mL)</label><input type="number" inputMode="decimal" step="0.1" style={inputStyle} value={azoleTrough} onChange={(e) => setAzoleTrough(e.target.value)} placeholder="2.5" /></div>
           </div>
           <CalcBtn onClick={calcAzole} />
           {azoleResult && (
@@ -644,7 +644,7 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
         </div>
 
         {/* ── PEN-FAST ── */}
-        <div style={cardStyle("#ec4899")}>
+        <div data-section-id="calc-pen-fast" data-section-title="PEN-FAST" style={cardStyle("#ec4899")}>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>🩹 PEN-FAST</div>
             <div style={{ fontSize: "12px", color: mutedColor }}>Penicillin allergy risk · Trubiano 2020</div>
@@ -677,14 +677,14 @@ export default function CalculatorsPage({ theme, patient, crcl: globalCrcl, ibw:
         </div>
 
         {/* ── Antibiotic course ── */}
-        <div style={cardStyle("#0ea5e9")}>
+        <div data-section-id="calc-course" data-section-title="Course" style={cardStyle("#0ea5e9")}>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 800, color: headingColor, marginBottom: "2px" }}>📅 Antibiotic Course</div>
             <div style={{ fontSize: "12px", color: mutedColor }}>Day of therapy and final day</div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
             <div style={fieldWrap}><label style={labelStyle}>Day 1 date</label><input type="date" style={inputStyle} value={courseStart} onChange={(e) => setCourseStart(e.target.value)} /></div>
-            <div style={fieldWrap}><label style={labelStyle}>Duration (days)</label><input type="number" min={1} max={365} style={inputStyle} value={courseDays} onChange={(e) => setCourseDays(e.target.value)} placeholder="7" /></div>
+            <div style={fieldWrap}><label style={labelStyle}>Duration (days)</label><input type="number" inputMode="decimal" min={1} max={365} style={inputStyle} value={courseDays} onChange={(e) => setCourseDays(e.target.value)} placeholder="7" /></div>
             <div style={{ ...fieldWrap, gridColumn: "1 / -1" }}>
               <label style={labelStyle}>Day 1 is</label>
               <select style={selectStyle} value={courseAnchor} onChange={(e) => setCourseAnchor(e.target.value)}>
